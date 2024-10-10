@@ -53,8 +53,17 @@ end)
 --設置物品直角邊框
 LibEvent:attachTrigger("SET_ITEM_ANGULARBORDER", function(self, frame, quality, itemIDOrLink)
     if (quality) then
-        local r, g, b = GetItemQualityColor(quality)
-        if (quality <= 1) then
+        -- Default to common quality if the quality is invalid
+        local validQuality = quality or 1  -- Common quality
+            
+        -- Check if the quality is within the expected range
+        if type(validQuality) ~= "number" or validQuality < 0 or validQuality > 7 then
+            validQuality = 1  -- Default to common quality
+        end
+        MerInsClaEra.Core.DebugPrintf('test')
+        MerInsClaEra.Core.DebugPrintf(quality)
+        local r, g, b, qualityString= C_Item.GetItemQualityColor(validQuality)
+        if (validQuality <= 1) then
             r = r - 0.3
             g = g - 0.3
             b = b - 0.3
