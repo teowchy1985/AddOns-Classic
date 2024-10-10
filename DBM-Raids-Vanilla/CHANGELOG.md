@@ -1,12 +1,18 @@
 # DBM - Vanilla and Season of Discovery
 
-## [r749](https://github.com/DeadlyBossMods/DBM-Vanilla/tree/r749) (2024-10-05)
-[Full Changelog](https://github.com/DeadlyBossMods/DBM-Vanilla/compare/r748...r749) [Previous Releases](https://github.com/DeadlyBossMods/DBM-Vanilla/releases)
+## [r750](https://github.com/DeadlyBossMods/DBM-Vanilla/tree/r750) (2024-10-08)
+[Full Changelog](https://github.com/DeadlyBossMods/DBM-Vanilla/compare/r749...r750) [Previous Releases](https://github.com/DeadlyBossMods/DBM-Vanilla/releases)
 
-- ZG/Thekal: Hide boss health frame correctly after fight ends  
-- Tests: Re-order tests in the UI in reverse release order  
-- ZG: Update Hakkar hard mode for SoD  
-- ZG: Add boss health frame for Thekal  
-- ZG: Add warnings for Gri'lek Edge of Madness boss  
-- ZG: Make Jin'do warning for ghost phase more clear  
-- BWL Trash: Make vulnerability detection more reliably  
+- Update localization.es.lua  
+- Update localization.mx.lua  
+- Update localization.br.lua  
+- Update localization.fr.lua  
+- BWL/SoD Trials: Adjust bomb timers for this week's fixes  
+    Looks like the bombs are no longer exactly synchronized, show two timers if necessary  
+- Ebonroc and Flamegor: Only show Stop timer on pull if Black is enabled  
+- BWL/SoD Trials: Stop bomb timer loop after you kill Nefarian  
+- Nefarian: Play "attacktotem" sound on Shaman class call  
+- BWL/Trash: Work-around some nameplate bug, current vulnerability should now show up on the nameplate  
+- Chromaggus: Work-around a nameplate bug, current vulnerability should now show up on the nameplate  
+- BWL/Nefarian: Fix phase 1 adds announce being too spammy  
+- ZG/Thekal: Hide health frame on phase 2  
