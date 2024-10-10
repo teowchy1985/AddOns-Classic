@@ -223,7 +223,12 @@ local function ResetFramePosition()
     MerInspectDB.position = {"TOPLEFT", "CharacterFrame", "TOPRIGHT", 0, 0, 0}
 end
 
-InterfaceOptions_AddCategory(frame)
+if InterfaceOptions_AddCategory then
+    InterfaceOptions_AddCategory(frame)
+else
+    local category, layout = _G.Settings.RegisterCanvasLayoutCategory(frame, frame.name)
+    _G.Settings.RegisterAddOnCategory(category)
+end
 SLASH_MerInspect1 = "/merinspect"
 SLASH_MerInspect2 = "/mi"
 function SlashCmdList.MerInspect(msg, editbox)

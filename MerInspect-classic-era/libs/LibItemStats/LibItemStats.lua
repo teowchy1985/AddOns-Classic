@@ -196,7 +196,7 @@ function lib:GetUnitBuffStats(unit, stats)
     if (type(stats) ~= "table") then stats = {} end
     local text
 	local i = 1
-	while UnitBuff(unit, i) do
+	while C_UnitAuras.GetBuffDataByIndex(unit, i) do
 		tooltip:SetOwner(UIParent, "ANCHOR_NONE")
 		tooltip:ClearLines()
 		tooltip:SetUnitBuff(unit, i)
