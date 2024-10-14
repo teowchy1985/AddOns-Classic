@@ -1778,6 +1778,16 @@ local function UpdateBarStatus(self,isTitle)
 	 	end
 	end
 
+	if parent.optionAnimation and parent.optionStyleAnimation == 3 then
+		if isActive and not self.anim.osa3 then
+			self.anim:SetScript("OnLoop",BarAnimation_Reverse)
+			self.anim.osa3 = true
+		elseif not isActive and self.anim.osa3 then
+			self.anim:SetScript("OnLoop",BarAnimation)
+			self.anim.osa3 = false
+		end
+	end
+
 	local doStandartColors = true
 	if parent.optionSmoothAnimation and not self.afterAnimFix then
 		doStandartColors = false
@@ -4985,6 +4995,7 @@ do
 		bit = bit,
 		print = print,
 		abs = abs,
+		floor = floor,
 		C_Timer = C_Timer,
 		C_UnitAuras = C_UnitAuras,
 		GetAuraDataByIndex = C_UnitAuras.GetAuraDataByIndex,
@@ -5211,6 +5222,7 @@ do
 			}
 			shiftingpower = {}
 			timeskip = {}
+			BlessingfromBeyond = {}
 
 			return function (timestamp,event,hideCaster,sourceGUID,sourceName,sourceFlags,sourceFlags2,destGUID,destName,destFlags,destFlags2,spellID,spellName,school,auraType)
 				if not sourceName then
@@ -5418,6 +5430,36 @@ do
 						end
 					end, total_len)
 					timeskip[sourceName].t_end = GetTime() + len
+				elseif (spellID == 462661) and destName then	--Blessing from Beyond
+					if BlessingfromBeyond[destName] then
+						BlessingfromBeyond[destName]:Cancel()
+					end
+					local total_len = 20
+					local changePerTick = 0.5
+					--for i=1,60 do
+					--	local auraData = C_UnitAuras.GetAuraDataByIndex(destName,i,"HARMFUL")
+					--	if not auraData then
+					--		break
+					--	elseif auraData.spellId == 462661 then
+					--		changePerTick = (auraData.points and auraData.points[2] or 50)/100
+					--		total_len = floor(auraData.expirationTime - GetTime() + 0.5)
+					--		break
+					--	end
+					--end
+					BlessingfromBeyond[destName] = C_Timer.NewTicker(1,function()
+						local line, updateReq
+						for j=1,#_C do
+							line = _C[j]
+							if line.fullName == destName then
+								line:ReduceCD(changePerTick,true)
+								updateReq = true
+							end
+						end
+						if updateReq then
+							UpdateAllData()
+						end
+					end, total_len)
+					BlessingfromBeyond[destName].t_end = GetTime() + total_len
 				end
 
 				$$$1
@@ -5562,6 +5604,13 @@ do
 							unitSpellData:SetDur(0,true)
 
 							forceUpdateAllData = true
+						end
+					end
+				elseif (spellID == 462661) then	--Blessing from Beyond
+					if BlessingfromBeyond[destName] then
+						local now = GetTime()
+						if abs(now - BlessingfromBeyond[destName].t_end) > 0.2 then
+							BlessingfromBeyond[destName]:Cancel()
 						end
 					end
 				end
@@ -8790,8 +8839,8 @@ function module.options:Load()
 	end)
 
 	self.optColSet.textStyleAnimation = ELib:Text(self.optColSet.col6scroll,L.cd2OtherSetStyleAnimation..":",11):Size(200,20):Point(10,-105)
-	self.optColSet.dropDownStyleAnimation = ELib:DropDown(self.optColSet.col6scroll,205,2):Size(220):Point(180,-105)
-	self.optColSet.dropDownStyleAnimation.Styles = {L.cd2OtherSetStyleAnimation1,L.cd2OtherSetStyleAnimation2}
+	self.optColSet.dropDownStyleAnimation = ELib:DropDown(self.optColSet.col6scroll,205,3):Size(220):Point(180,-105)
+	self.optColSet.dropDownStyleAnimation.Styles = {L.cd2OtherSetStyleAnimation1,L.cd2OtherSetStyleAnimation2,L.cd2OtherSetStyleAnimation3}
 	for i=1,#self.optColSet.dropDownStyleAnimation.Styles do
 		self.optColSet.dropDownStyleAnimation.List[i] = {
 			text = self.optColSet.dropDownStyleAnimation.Styles[i],
@@ -12476,7 +12525,7 @@ module.db.AllSpells = {
 		isTalent=true,durationDiff={205727,"*1.4",207321,5},cdDiff={205727,-20},stopDurWithAuraFade=48707},
 	{51052,	"DEATHKNIGHT,RAID",3,--Зона антимагии
 		{51052,120,8},
-		isTalent=true,durationDiff={337764,{2,2.2,2.4,2.6,2.8,3,3.2,3.4,3.6,3.8,4,4.2,4.4,4.6,4.8}}},
+		isTalent=true,durationDiff={337764,{2,2.2,2.4,2.6,2.8,3,3.2,3.4,3.6,3.8,4,4.2,4.4,4.6,4.8}},cdDiff={374383,-30}},
 	{275699,"DEATHKNIGHT,DPS",3,--Апокалипсис
 		nil,nil,nil,{275699,45,15},
 		isTalent=true,cdDiff={288848,-15,296320,"*0.80",338553,-1},reduceCdAfterCast={{47541,276837},-1}},
@@ -14350,7 +14399,7 @@ module.db.AllSpells = {
 		nil,nil,nil,{360827,30,0},
 		isTalent=true,cdDiff={412713,"*0.9"}},
 	{406732,"EVOKER",2,--Spatial Paradox
-		nil,nil,nil,{406732,180,10},
+		{406732,180,10},
 		isTalent=true,cdDiff={412713,"*0.9"}},
 	{409311,"EVOKER",3,--Prescience
 		nil,nil,nil,{409311,12,0},
@@ -15022,7 +15071,6 @@ if ExRT.isCata then
 		{1038,	"PALADIN",	1,	{1038,	120,	10}},	--Salv
 		{6940,	"PALADIN",	1,	{6940,	120,	12}},	--Sac
 		{62124,	"PALADIN",	1,	{62124,	8,	0}},	--Taunt
-		{64205,	"PALADIN",	1,	{64205,	120,	10}},	--Divine Sacrifice
 		{31821,	"PALADIN",	1,	{31821,	120,	6}},	--Aura Mastery
 		{54428,	"PALADIN",	1,	{54428,	120,	9}},	--Divine Plea
 		{70940, "PALADIN", 	1, 	{70940, 180, 	6}}, 	--Divine Guardian

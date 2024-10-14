@@ -1,6 +1,16 @@
 local GlobalAddonName, ExRT = ...
 
 ExRT.Options.Changelog = [=[
+v.4950
+* Reminder: added "boss timeline" feature with simplified setup and quick exchange to/from notes 
+* Raid Cooldowns: added option for animation style "Starts Full for active and empty for cd"
+
+v.4930
+* Reminder: added triggers test tab
+* Saving log: fixed Grim Batol logging
+* Raid Check: added support for more weapon buffs
+* Fixes
+
 v.4920
 * Raid Check: TWW updates
 

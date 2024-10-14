@@ -22,6 +22,7 @@ All functions:
 	:Shown(bool)		-> SetShown(bool)
 	:OnEnter(func)		-> SetScript("OnEnter",func)
 	:OnLeave(func)		-> SetScript("OnLeave",func)
+	:OnUpdate(func)		-> SetScript("OnUpdate",func)
 
 -> ELib:Border(parent,size,colorR,colorG,colorB,colorA,outside,layerCounter)
 -> ELib:Button(parent,text,template)
@@ -164,7 +165,7 @@ CheckButton	ExRTRadioButtonModernTemplate
 local GlobalAddonName, ExRT = ...
 local isExRT = GlobalAddonName == "MRT"
 
-local libVersion = 45
+local libVersion = 46
 
 if type(ELib)=='table' and type(ELib.V)=='number' and ELib.V > libVersion then return end
 
@@ -256,6 +257,10 @@ do
 		self:SetScript("OnLeave",func)
 		return self
 	end
+	local function Widget_OnUpdate(self,func)
+		self:SetScript("OnUpdate",func)
+		return self
+	end
 	function Mod(self,...)
 		self.Point = Widget_SetPoint
 		self.Size = Widget_SetSize
@@ -267,6 +272,7 @@ do
 		self.Shown = Widget_Shown
 		self.OnEnter = Widget_OnEnter
 		self.OnLeave = Widget_OnLeave
+		self.OnUpdate = Widget_OnUpdate
 
 		for i=1,select("#", ...) do
 			if i % 2 == 1 then
@@ -2501,6 +2507,21 @@ do
 		return self
 	end
 
+	local function Widget_ChangeTabPos(self,list)
+		local prev
+		for i=1,#self.tabs do
+			local button = self.tabs[ list[i] ].button
+			button:ClearAllPoints()
+			if not prev then
+				button:SetPoint("TOPLEFT", 10, 24)
+			else
+				button:SetPoint("LEFT", prev, "RIGHT", 0, 0)				
+			end
+			prev = button
+		end
+		return self
+	end
+
 	function ELib:Tabs(parent,template,...)
 		template = template == 0 and "ExRTTabButtonTransparentTemplate" or template or "ExRTTabButtonTemplate"
 
@@ -2548,6 +2569,7 @@ do
 		self.selected = 1
 		self.UpdateTabs = TabFrameUpdateTabs
 		self.SelectTab = TabFrameSelectTab
+		self.ChangeTabPos = Widget_ChangeTabPos
 
 		Mod(self,
 			'SetTo',Widget_SetTo
