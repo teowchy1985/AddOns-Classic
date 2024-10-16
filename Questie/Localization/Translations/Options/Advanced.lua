@@ -454,7 +454,7 @@ local advancedOptionsLocales = {
         ["esMX"] = "Habilita las ventanas de sugerencias de errores para todas las versiones del juego, generalmente utilizadas para informes de errores en SoD.",
         ["enUS"] = true,
         ["zhCN"] = false,
-        ["zhTW"] = "為所有遊戲版本啟用，通常用於探索賽季中的報告錯誤的錯誤提示視窗。",
+        ["zhTW"] = "為所有遊戲版本啟用，通常用於探索賽季中回報錯誤的錯誤提示視窗。",
         ["esES"] = "Habilita las ventanas de sugerencias de errores para todas las versiones del juego, generalmente utilizadas para informes de errores en SoD.",
         ["frFR"] = "Active les fenêtres d'indices de bugs pour toutes les versions du jeu, généralement utilisées pour les rapports de bugs dans SoD.",
     },
