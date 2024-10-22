@@ -696,27 +696,33 @@ function NIT:loadSpecificOptions()
 			order = 16,
 			get = "getLootReminderReal",
 			set = "setLootReminderReal",
-			width = 1.5,
+		};
+		NIT.options.args["skipRealMsgIfCapped"] = {
+			type = "toggle",
+			name = L["skipRealMsgIfCappedTitle"],
+			desc = L["skipRealMsgIfCappedDesc"],
+			order = 17,
+			get = "getSkipRealMsgIfCapped",
+			set = "setSkipRealMsgIfCapped",
 		};
 		NIT.options.args["lootReminderSize"] = {
 			type = "range",
 			name = L["lootReminderSizeTitle"],
 			desc = L["lootReminderSizeDesc"],
-			order = 17,
+			order = 18,
 			get = "getLootReminderSize",
 			set = "setLootReminderSize",
 			min = 10,
-			max = 100,
+			max = 150,
 			softMin = 10,
-			softMax = 100,
+			softMax = 150,
 			step = 1,
-			width = 1,
 		};
 		NIT.options.args["lootReminderX"] = {
 			type = "range",
 			name = L["lootReminderXTitle"],
 			desc = L["lootReminderXDesc"],
-			order = 18,
+			order = 19,
 			get = "getLootReminderX",
 			set = "setLootReminderX",
 			min = -1000,
@@ -730,7 +736,7 @@ function NIT:loadSpecificOptions()
 			type = "range",
 			name = L["lootReminderYTitle"],
 			desc = L["lootReminderYDesc"],
-			order = 19,
+			order = 20,
 			get = "getLootReminderY",
 			set = "setLootReminderY",
 			min = -1000,
@@ -852,6 +858,7 @@ NIT.optionDefaults = {
 		lootReminderMinimap = true,
 		wipeUpgradeData = true,
 		argentDawnTrinketReminder = true,
+		skipRealMsgIfCapped = false,
 	},
 };
 
@@ -1614,6 +1621,15 @@ end
 
 function NIT:getLootReminderReal(info)
 	return self.db.global.lootReminderReal;
+end
+
+--Loot reminder Tarnished Undermine Real skip if capped.
+function NIT:setSkipRealMsgIfCapped(info, value)
+	self.db.global.skipRealMsgIfCapped = value;
+end
+
+function NIT:getSkipRealMsgIfCapped(info)
+	return self.db.global.skipRealMsgIfCapped;
 end
 
 --Loot reminder text size.

@@ -2299,12 +2299,37 @@ if (NIT.isCata) then
 	dailyQuests[25157] = {name = "The Latest Fashion!", sharedCooldown = L["Cata Jewelcrafting Daily"]};
 end
 
+local monthlyQuests = {};
+if (NIT.isClassic) then
+	monthlyQuests[85882] = {name = L["End of the Dark Horde"]}; --Rend monthly in SoD alliance.
+	monthlyQuests[85883] = {name = L["For The Horde!"]}; --Rend monthly in SoD horde.
+	monthlyQuests[85659] = {name = L["Celebrating Good Times"]}; --Ony monthly in SoD alliance.
+	monthlyQuests[85658] = {name = L["For All To See"]}; --Ony monthly in SoD horde.
+	monthlyQuests[85660] = {name = L["The Heart of Hakkar"]}; --Zan monthly in SoD.
+end
+
 --Cache all quest names.
 for k, v in pairs(weeklyQuests) do
 	GetQuestInfo(k);
 end
 for k, v in pairs(dailyQuests) do
 	GetQuestInfo(k);
+end
+for k, v in pairs(monthlyQuests) do
+	GetQuestInfo(k);
+end
+
+function NIT:getMonthlyReset()
+	local serverTime = C_DateAndTime.GetServerTimeLocal();
+	local currentMonth = tonumber(date("!%m", serverTime));
+	local currentYear = tonumber(date("!%Y", serverTime));
+	local month = currentMonth == 12 and 1 or currentMonth + 1;
+	local year = currentMonth == 12 and currentYear + 1 or currentYear;
+	local timeTable = {year = year, month = month, day = 1, hour = 0, min = 0, sec = 0};
+	local resetTime = time(timeTable);
+	--Needs testing to see exactly when they made monthly reset time.
+	--print(month, year, resetTime)
+	return resetTime;
 end
 
 function NIT:recordQuests()
@@ -2342,6 +2367,26 @@ function NIT:recordQuests()
 			end
 		end
 	end
+	--if (not NIT.data.myChars[char].questsMonthly) then
+		NIT.data.myChars[char].questsMonthly = {}; --Wipe and re-record each time for now until we test exactly when monthly reset happens.
+	--end
+	--[[local currentDay = date("!%d", C_DateAndTime.GetServerTimeLocal());
+	if (currentDay ~= "01") then
+		--Don't record on first day of the month until we text exactly when monthly reset is.
+		--This is so we don't re-save the quest as completed on the first day of the month if it hasn't reset yet.
+		--Reset time could be on daily reset on first of the month, could be with the first weekly reset of the month, could be on monthly tickover server time?
+		local resetTimeMonthly = NIT:getMonthlyReset();
+		for k, v in pairs(monthlyQuests) do
+			if (IsQuestFlaggedCompleted(k)) then
+				local questName = v.name;
+				local localizedName = GetQuestInfo(k);
+				if (localizedName and localizedName ~= "") then
+					questName = localizedName;
+				end
+				NIT.data.myChars[char].questsMonthly[questName] = resetTime;
+			end
+		end
+	end]]
 	--Record cata 7 per week dungeon quests.
 	if (NIT.isCata) then
 		--Always reset the data so new remaining can overwrite old.
@@ -2742,6 +2787,7 @@ end)
 
 --Weekly and daily data.
 function NIT:resetWeeklyAndDailyData()
+	--local serverTime = C_DateAndTime.GetServerTimeLocal();
 	for realm, realmData in pairs(NIT.db.global) do
 		if (type(realmData) == "table" and realmData ~= "minimapIcon" and realmData ~= "data") then
 			if (realmData.myChars) then
@@ -2765,6 +2811,13 @@ function NIT:resetWeeklyAndDailyData()
 						for k, v in pairs(charData.questsDaily) do
 							if (v < GetServerTime()) then
 								NIT.db.global[realm].myChars[char].questsDaily[k] = nil;
+							end
+						end
+					end
+					if (charData.questsMonthly) then
+						for k, v in pairs(charData.questsMonthly) do
+							if (v < GetServerTime()) then
+								NIT.db.global[realm].myChars[char].questsMonthly[k] = nil;
 							end
 						end
 					end
@@ -3611,7 +3664,7 @@ end
 SLASH_NRCGHECMD1 = '/ghetto';
 function SlashCmdList.NRCGHECMD(msg, editBox)
 	if (IsInInstance() and not IsInGroup()) then
-		InviteUnit("1");
+		InviteUnit("111"); --Not sure if intentionally changed to not accept a single char? Can remove if needed.
 		C_Timer.After(1,function()
 			LeaveParty();
 		end)

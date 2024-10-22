@@ -3763,10 +3763,10 @@ function NIT:createAltsFrameLootReminderButton()
 		--Loot reminder button.
 		NIT.altsLootReminderButton = CreateFrame("Button", "NITAltsLootReminderButton", NITAltsFrame.EditBox, "UIPanelButtonTemplate");
 		--NIT.altsLootReminderButton:SetPoint("CENTER", -60, -14);
-		NIT.altsLootReminderButton:SetPoint("CENTER", 0, -31);
-		NIT.altsLootReminderButton:SetWidth(170);
+		NIT.altsLootReminderButton:SetPoint("CENTER", 0, -32);
+		NIT.altsLootReminderButton:SetWidth(190);
 		NIT.altsLootReminderButton:SetHeight(18);
-		NIT.altsLootReminderButton:SetText(L["Loot Reminder List"]);
+		NIT.altsLootReminderButton:SetText(L["Daily Tarnished Reals Status"]);
 		NIT.altsLootReminderButton:SetNormalFontObject("GameFontNormalSmall");
 		NIT.altsLootReminderButton:SetScript("OnClick", function(self, arg)
 			NIT:loadLootReminderListFrame();
@@ -4660,6 +4660,21 @@ function NIT:recalcAltsLineFramesTooltip(obj)
 				for k, v in NIT:pairsByKeys(data.dungWeeklies) do
 					if (v > GetServerTime()) then
 						questString = questString .. "\n  " .. k;
+						foundQuests = true;
+					end
+				end
+				if (foundQuests) then
+					text = text .. header .. questString;
+				end
+			end
+			
+			if (data.questsMonthly and next(data.questsMonthly)) then
+				local header = "\n\n|cFFFFFF00" .. L["monthlyQuests"] .. "|r";
+				local foundQuests;
+				local questString = "";
+				for k, v in NIT:pairsByKeys(data.questsMonthly) do
+					if (v > GetServerTime()) then
+						questString = questString .. "\n  " .. color1 .. k .. "|r " .. color2 .. "completed.|r";
 						foundQuests = true;
 					end
 				end
