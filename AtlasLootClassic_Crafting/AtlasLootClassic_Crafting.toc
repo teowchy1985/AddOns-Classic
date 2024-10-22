@@ -1,6 +1,6 @@
 ## Interface: 30403, 40400
 ## Author: Snowflame0
-## Version: v4.1.0 Fix
+## Version: v4.1.4
 ## Dependencies: AtlasLootClassic
 ## LoadOnDemand: 1
 
@@ -40,7 +40,7 @@
 Locales\Locales.xml
 
 private.lua
-data-classic.lua
+data.lua
 data-tbc.lua
 data-wrath.lua
 data-cata.lua

@@ -241,7 +241,6 @@ local function PopulateListBiS(db, dest)
             end
         else
             -- Outfitter not (yet) loaded, add callback to populate database again once Outfitter was loaded
-            -- TODO: Find a better way to access outfitter data when ready
             if not PluginOutfitterLoading then
                 PluginOutfitterLoading = true
             end
@@ -257,7 +256,7 @@ local function PopulateListBiS(db, dest)
         for itemId in pairs(listData) do
             if type(itemId) == "number" then
                 local itemName, itemLink, itemRarity, itemLevel, itemMinLevel, itemType,
-                    itemSubType, itemStackCount, itemEquipLoc = GetItemInfo(itemId)
+                itemSubType, itemStackCount, itemEquipLoc = GetItemInfo(itemId)
                 local itemData = { itemId, itemLink, itemLevel, 0, itemType, itemSubType }
                 destList.byId[itemId] = itemData
                 if itemEquipLoc and itemLevel then
@@ -296,7 +295,7 @@ local function PopulateListBiS(db, dest)
                 if destList.bestInSlot[itemEquipLoc] then
                     local bestId, bestLink, bestLevel, secondBestLevel, bestType, bestSubType = unpack(destList.bestInSlot[itemEquipLoc])
                     local itemName, itemLink, itemRarity, itemLevel, itemMinLevel, itemType,
-                        itemSubType, itemStackCount, itemEquipLoc = GetItemInfo(itemId)
+                    itemSubType, itemStackCount, itemEquipLoc = GetItemInfo(itemId)
                     if (bestLevel > itemLevel) and not mainItems[itemId] then
                         destList.obsolete[itemId] = true
                     end

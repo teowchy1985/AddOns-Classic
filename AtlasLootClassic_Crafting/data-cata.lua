@@ -39,7 +39,7 @@ local QUEST_EXTRA_ITTYPE = data:AddExtraItemTableType("Quest")
 local PRICE_EXTRA_ITTYPE = data:AddExtraItemTableType("Price")
 
 local PROF_CONTENT = data:AddContentType(ALIL["Professions"], ATLASLOOT_PRIMPROFESSION_COLOR)
-local PROF_GATH_CONTENT = data:AddContentType(AL["Gathering Professions"], ATLASLOOT_PRIMPROFESSION_COLOR)
+local PROF_GATH_CONTENT = data:AddContentType(ALIL["Gathering Professions"], ATLASLOOT_PRIMPROFESSION_COLOR)
 local PROF_SEC_CONTENT = data:AddContentType(AL["Secondary Professions"], ATLASLOOT_SECPROFESSION_COLOR)
 local PROF_CLASS_CONTENT = data:AddContentType(AL["Class Professions"], ATLASLOOT_CLASSPROFESSION_COLOR)
 
@@ -154,9 +154,10 @@ data["BlacksmithingCata"] = {
             name = AL["Weapons"].." - "..ALIL["Daggers"],
             [NORMAL_DIFF] = {
                 { 1, 99652 }, -- Brainsplinter
-                { 2, 76449 }, -- Elementium Spellblade
-                { 3, 76453 }, -- Elementium Shank
-                { 4, 76434 }, -- Cold Forged Shank
+                { 2, 99653 }, -- Masterwork Elementium Spellblade
+                { 3, 76449 }, -- Elementium Spellblade
+                { 4, 76453 }, -- Elementium Shank
+                { 5, 76434 }, -- Cold Forged Shank
             }
         },
         { -- Axes
@@ -399,7 +400,7 @@ data["EnchantingCata"] = {
             }
         },
         {
-            name = AL["Off-Hand/Shield"].." - "..AL["Enhancements"],
+            name = ALIL["Off-Hand/Shield"].." - "..AL["Enhancements"],
             [NORMAL_DIFF] = {
                 { 1, 74235 }, -- Enchant Off-Hand - Superior Intellect
                 { 16, 74226 }, -- Enchant Shield - Mastery
@@ -1163,7 +1164,7 @@ data["JewelcraftingCata"] = {
                 { 18, 73223 }, -- Delicate Carnelian
                 { 19, 73224 }, -- Flashing Carnelian
                 { 20, 73226 }, -- Precise Carnelian
-                -- Epic (move to top after P2)
+                -- Epic (move to top after P4)
                 { 7, 101799 }, -- Bold Queen's Garnet
                 { 8, 101797 }, -- Brilliant Queen's Garnet
                 { 9, 101795 }, -- Delicate Queen's Garnet
@@ -1974,7 +1975,7 @@ data["CookingCata"] = {
     CorrespondingFields = private.COOKING_LINK,
     items = {
         {
-            name = AL["Feast"],
+            name = ALIL["Feast"],
             [NORMAL_DIFF] = {
                 { 1, 88036 }, -- Seafood Magnifique Feast
                 { 2, 88011 }, -- Broiled Dragon Feast

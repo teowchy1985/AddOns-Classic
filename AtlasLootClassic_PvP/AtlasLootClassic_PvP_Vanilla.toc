@@ -40,4 +40,4 @@
 Locales\Locales.xml
 
 private.lua
-data.lua
+SoD\data.lua

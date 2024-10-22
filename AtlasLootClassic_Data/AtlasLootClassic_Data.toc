@@ -1,6 +1,6 @@
 ## Interface: 30403, 40400
 ## Author: Snowflame0
-## Version: v4.1.0
+## Version: v4.1.4
 ## Dependencies: AtlasLootClassic
 ## LoadOnDemand: 1
 
@@ -39,7 +39,7 @@ core.lua
 
 locales.lua
 items.lua
-source-classic.lua
+source.lua
 source-tbc.lua
 source-wrath.lua
 source-cata.lua
