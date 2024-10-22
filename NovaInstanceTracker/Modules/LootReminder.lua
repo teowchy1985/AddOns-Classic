@@ -241,12 +241,12 @@ if (not NIT.isSOD) then
 end
 
 local dungeons = {
-	[289] = "Scholomance",
-	[329] = "Stratholme",
-	[429] = "Dire Maul",
-	[230] = "Blackrock Depths",
-	[229] = "Blackrock Spire",
-	[2784] = "Demonfall Canyon",
+	[289] = {name = "Scholomance"},
+	[329] = {name = "Stratholme"},
+	[429] = {name = "Dire Maul"},
+	[230] = {name = "Blackrock Depths"},
+	[229] = {name = "Blackrock Spire"},
+	[2784] = {name = "Demonfall Canyon"},
 };
 
 --Some bosses are missing encounter_end event in classic we need a db of all the bosses.
@@ -270,7 +270,7 @@ local turBosses = {
 	[10435] = {name = "Magistrate Barthilas", instanceID = 329, order = 11},
 	--[11121] = {name = "Black Guard Swordsmith", instanceID = 329, order = 13}, --Doesn't drop.
 	[10439] = {name = "Ramstein the Gorger", instanceID = 329, order = 16},
-	[10440] = {name = "Baron Rivendare", instanceID = 329, order = 17},
+	[10440] = {name = "Baron Rivendare", instanceID = 329, order = 17, reals = 2},
 	--[11120] = {name = "Crimson Hammersmith", instanceID = 329, order = 99}, --Needs testing (spawnable mob unlikely to drop).
 	--[10812] = {name = "Grand Crusader Dathrohan", instanceID = 329, order = 99}, --Becomes Balnazzar halfway through the fight.
 	--[10558] = {name = "Hearthsinger Forresten", instanceID = 329, order = 99}, --Needs testing.
@@ -302,7 +302,7 @@ local turBosses = {
 	[9502] = {name = "Phalanx", instanceID = 230, order = 7},
 	[9156] = {name = "Ambassador Flamelash", instanceID = 230, order = 8},
 	[9938] = {name = "Magmus", instanceID = 230, order = 9},
-	[9019] = {name = "Emperor Dagran Thaurissan", instanceID = 230, order = 10},
+	[9019] = {name = "Emperor Dagran Thaurissan", instanceID = 230, order = 10, reals = 2},
 	
 	--Dire Maul (1-9 east, 10-19 west, 20+ north).
 	[-102] = {header = true, title = "East", instanceID = 429, order = 0},
@@ -325,15 +325,16 @@ local turBosses = {
 	--[14323] = {name = "Guard Slip'kik", instanceID = 429, order = 24}, --Some north bosses don't drop, probably for tribute run reasons.
 	--[14325] = {name = "Captain Kromcrush", instanceID = 429, order = 25}, --Some north bosses don't drop, probably for tribute run reasons.
 	--[14324] = {name = "Cho'Rush the Observer", instanceID = 429, order = 26}, --The add during the last boss fight, no drop?
-	[11501] = {name = "King Gordok", instanceID = 429, order = 27},
+	[11501] = {name = "King Gordok", instanceID = 429, order = 27, reals = 3},
 	
 	--Demonfall Canyon.
 	[226923] = {name = "Grimroot", instanceID = 2784, order = 1},
 	[228022] = {name = "The Destructor's Wraith", instanceID = 2784, order = 2},
 	[226922] = {name = "Zilbagob", instanceID = 2784, order = 3},
-	[227140] = {name = "Pyranis", instanceID = 2784, order = 4},
-	[227019] = {name = "Diathorus the Seeker", instanceID = 2784, order = 5},
-	[227028] = {name = "Hellscream's Phantom", instanceID = 2784, order = 6},
+	[232632] = {name = "Azgaloth", instanceID = 2784, order = 4, reals = 3},
+	[227140] = {name = "Pyranis", instanceID = 2784, order = 5},
+	[227019] = {name = "Diathorus the Seeker", instanceID = 2784, order = 6},
+	[227028] = {name = "Hellscream's Phantom", instanceID = 2784, order = 7},
 	
 	--Blackrock Spire (1-9 lower, 10+ upper).
 	[-105] = {header = true, title = "Upper", instanceID = 229, order = 0},
@@ -354,7 +355,7 @@ local turBosses = {
 	--[9736] = {name = "Quartermaster Zigris", instanceID = 229, order = 16}, --Needs testing.
 	[10220] = {name = "Halycon", instanceID = 229, order = 17},
 	[10268] = {name = "Gizrul the Slavener", instanceID = 229, order = 18},
-	[9568] = {name = "Overlord Wyrmthalak", instanceID = 229, order = 19},
+	[9568] = {name = "Overlord Wyrmthalak", instanceID = 229, order = 19, reals = 3},
 };
 
 --Bosses with a lockout like the world bosses and ony, no need to track coins just send a loot reminder when they die.
@@ -363,6 +364,24 @@ local turBossesNoRecord = {
 	[230302] = {name = "Lord Kazzak", instanceID = 2789},
 	[10184] = {name = "Onyxia", instanceID = 249},
 };
+
+local function getTotalDailyReals()
+	local reals = 0;
+	for k, v in pairs(turBosses) do
+		reals = reals + (v.reals or 1);
+	end
+	return reals;
+end
+
+local function getTotalRealsPerDungeon(instanceID)
+	local reals = 0;
+	for k, v in pairs(turBosses) do
+		if (v.instanceID == instanceID) then
+			reals = reals + (v.reals or 1);
+		end
+	end
+	return reals;
+end
 
 --[[local function isTurLockoutInstance()
 	local instanceID = NIT.currentInstanceID;
@@ -397,6 +416,17 @@ local function getLootedStatus(npcID, itemID)
 		--Killed but not looted.
 		return false, true;
 	end
+end
+
+local function getTotalLootedToday()
+	local count = 0;
+	for k, v in pairs(turBosses) do
+		local looted = getLootedStatus(k, 226404);
+		if (looted) then
+			count = count + (v.reals or 1);
+		end
+	end
+	return count;
 end
 
 function NIT:getLootReminderMinimapString()
@@ -437,21 +467,25 @@ function NIT:getLootReminderMinimapString()
 					lootedString = "|cFF00FF00(" .. L["Looted"] .. ")|r";
 					lootedCount = lootedCount + 1;
 				else
-					lootedString = "|cFFFF0000(" .. L["Not Looted"] .. ")|r";
+					lootedString = "|cFFFF0000(" .. L["Not Killed"] .. ")|r";
+				end
+				local extraInfoString = "";
+				if (v.reals) then
+					extraInfoString = " |cFF9CD6DE(x|cFF00FF00" .. v.reals .. "|r)|r"
 				end
 				if (count == 1) then
-					text = text .. "|cFFFFAE42".. v.name .. "|r  " .. lootedString;
+					text = text .. "|cFFFFAE42".. v.name .. extraInfoString .. "|r  " .. lootedString;
 				else
-					text = text .. "\n|cFFFFAE42" .. v.name .. "|r  " .. lootedString;
+					text = text .. "\n|cFFFFAE42" .. v.name .. extraInfoString .. "|r  " .. lootedString;
 				end
 			end
 		end
 		local bossCount, headerCount = getBossCount(NIT.currentInstanceID);
 		local lootedString
 		if (lootedCount >= bossCount) then
-			lootedString = "|cFF00FF00" .. lootedCount .. "/" .. bossCount .. "|r";
+			lootedString = "|cFF00FF00" .. lootedCount .. "/" .. bossCount .. " " .. L["Bosses Looted"] .. "|r";
 		else
-			lootedString = "|cFF9CD6DE " .. lootedCount .. "/" .. bossCount .. "|r";
+			lootedString = "|cFF9CD6DE " .. lootedCount .. "/" .. bossCount .. " " .. L["Bosses Looted"] .. "|r";
 		end
 		local header = "|cFFFFFF00" .. L["Tarnished Undermine Real"] .. "|r - " .. lootedString .. "\n";
 		if (text ~= "") then
@@ -560,6 +594,15 @@ end
 	--lastLootNpcID = nil;
 --end
 
+local function skipRealMsgIfCapped()
+	if (NIT.db.global.skipRealMsgIfCapped) then
+		local itemCount = C_Item.GetItemCount(226404);
+		if (itemCount and itemCount == 150) then
+			return true;
+		end
+	end
+end
+
 local function combatLogEventUnfiltered(...)
 	local timestamp, subEvent, hideCaster, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, 
 			destName, destFlags, destRaidFlags, _, spellName = CombatLogGetCurrentEventInfo();
@@ -570,7 +613,9 @@ local function combatLogEventUnfiltered(...)
 		if (turBosses[npcID]) then
 			if (dungeons[instanceID] and (not NIT.data.myChars[UnitName("player")].bossKills[npcID]
 					or NIT.data.myChars[UnitName("player")].bossKills[npcID].resetTime < GetServerTime())) then
-				addMsg(L["Loot the Tarnished Undermine Real"] .. "!", 10);
+				if (not skipRealMsgIfCapped()) then
+					addMsg(L["Loot the Tarnished Undermine Real"] .. "!", 10);
+				end
 				local resetTime = GetServerTime() + C_DateAndTime.GetSecondsUntilDailyReset();
 				if (not NIT.data.myChars[UnitName("player")].bossKills[npcID]) then
 					NIT.data.myChars[UnitName("player")].bossKills[npcID] = {};
@@ -580,7 +625,9 @@ local function combatLogEventUnfiltered(...)
 				lastBossTime = GetServerTime();
 			end
 		elseif (turBossesNoRecord[npcID] and turBossesNoRecord[npcID].instanceID == NIT.currentInstanceID) then
-			addMsg(L["Loot the Tarnished Undermine Real"] .. "!", 10);
+			if (not skipRealMsgIfCapped()) then
+				addMsg(L["Loot the Tarnished Undermine Real"] .. "!", 10);
+			end
 		end
 	end
 end
@@ -637,7 +684,7 @@ function NIT:loadLootReminderListFrame()
 		frame:EnableMouse(true);
 		frame:SetUserPlaced(false);
 		frame:SetPoint("CENTER", UIParent, 0, 100);
-		frame:SetSize(500, 670);
+		frame:SetSize(650, 650);
 		frame:SetFrameStrata("HIGH");
 		frame:SetFrameLevel(140);
 		frame:SetScript("OnMouseDown", function(self, button)
@@ -684,14 +731,17 @@ function NIT:loadLootReminderListFrame()
 		--Set all fonts in the module using the frame.
 		--Header string.
 		frame.scrollChild.fs = frame.scrollChild:CreateFontString("NITLootReminderListFrameFS", "ARTWORK");
-		frame.scrollChild.fs:SetPoint("TOP", 0, -0);
+		frame.scrollChild.fs:SetPoint("TOP", 0, -5);
 		--The main display string.
 		frame.scrollChild.fs2 = frame.scrollChild:CreateFontString("NITLootReminderListFrameFS2", "ARTWORK");
-		frame.scrollChild.fs2:SetPoint("TOPLEFT", 10, -24);
+		frame.scrollChild.fs2:SetPoint("TOPLEFT", 50, -30);
 		frame.scrollChild.fs2:SetJustifyH("LEFT");
-		--Bottom string.
 		frame.scrollChild.fs3 = frame.scrollChild:CreateFontString("NITLootReminderListFrameFS3", "ARTWORK");
-		frame.scrollChild.fs3:SetPoint("BOTTOM", 0, -20);
+		frame.scrollChild.fs3:SetPoint("TOPLEFT", 380, -30);
+		frame.scrollChild.fs3:SetJustifyH("LEFT");
+		--Bottom string.
+		frame.scrollChild.fs4 = frame.scrollChild:CreateFontString("NITLootReminderListFrameFS4", "ARTWORK");
+		frame.scrollChild.fs4:SetPoint("BOTTOM", 0, -20);
 		--frame.scrollChild.fs3:SetFont(NIT.regionFont, 14);
 		--Top right X close button.
 		frame.close = CreateFrame("Button", "NITLootReminderListFrameClose", frame, "UIPanelCloseButton");
@@ -711,31 +761,44 @@ function NIT:loadLootReminderListFrame()
 		--frame.scrollChild.fs2:SetFontObject(Game15Font);
 		frame.scrollChild.fs2:SetFont(NIT.regionFont, 13);
 		frame.scrollChild.fs3:SetFont(NIT.regionFont, 13);
-		frame.scrollChild.fs:ClearAllPoints();
-		frame.scrollChild.fs2:ClearAllPoints();
-		frame.scrollChild.fs3:ClearAllPoints();
-		frame.scrollChild.fs:SetPoint("TOP", 0, -5);
-		frame.scrollChild.fs2:SetPoint("TOP", 0, -25);
-		frame.scrollChild.fs3:SetPoint("TOPLEFT", 10, -48);
+		--frame.scrollChild.fs:ClearAllPoints();
+		--frame.scrollChild.fs2:ClearAllPoints();
+		--frame.scrollChild.fs3:ClearAllPoints();
+		--frame.scrollChild.fs:SetPoint("TOP", 0, -5);
+		--frame.scrollChild.fs2:SetPoint("TOP", 0, -25);
+		--[[frame.scrollChild.fs3:SetPoint("TOPLEFT", 10, -48);
 		frame.scrollChild.fs3:SetPoint("RIGHT", 0, -48);
 		frame.scrollChild.fs3:SetJustifyH("LEFT");
 		frame.scrollChild.fs3:CanWordWrap(true);
 		frame.scrollChild.fs3:CanNonSpaceWrap(true);
 		frame.scrollChild.fs3:SetNonSpaceWrap(true);
-		frame.scrollChild.fs3:SetWordWrap(true);
+		frame.scrollChild.fs3:SetWordWrap(true);]]
 		frame:Hide();
 		lootReminderListFrame = frame;
 	end
-	lootReminderListFrame.scrollChild.fs:SetText("|cFFFFFFFFNIT Loot Reminder Daily List|r\n|cFF1EFF00[" .. L["Tarnished Undermine Real"] .. "]|r");
-	local text = "\n";
-	local count = 0;
-	for instanceID, instanceName in NIT:pairsByKeys(dungeons) do
+	local totalDailyReals = getTotalDailyReals();
+	local totalLootedToday = getTotalLootedToday();
+	local totalLootedTodayString;
+	if (totalLootedToday == 0) then
+		totalLootedTodayString = "|cFFFF00000|r";
+	elseif (totalLootedToday < totalDailyReals) then
+		totalLootedTodayString = "|cFFFFFF00" .. totalLootedToday .. "|r";
+	else
+		totalLootedTodayString = "|cFF00FF00" .. totalLootedToday .. "|r";
+	end
+	local totalDaily = "  |cFF9CD6DE(" .. L["Total today"] .. ": " .. totalLootedTodayString .. " / |cFF00FF00" .. totalDailyReals .. "|r)|r";
+	lootReminderListFrame.scrollChild.fs:SetText(NIT.prefixColor.. "NIT Loot Reminder Daily List|r\n|cFF1EFF00[" .. L["Tarnished Undermine Real"] .. "]|r " .. totalDaily);
+	local text = "\n\n";
+	local count ,instanceCount = 0, 0;
+	for instanceID, instanceData in NIT:pairsByKeys(dungeons) do
 		count = count + 1;
+		instanceCount = instanceCount + 1;
 		if (count == 1) then
-			text = text .. "|cFFFFFF00" .. instanceName .. "|r";
+			text = text .. "|cFFFFFF00" .. instanceData.name .. "|r";
 		else
-			text = text .. "\n\n|cFFFFFF00" .. instanceName .. "|r";
+			text = text .. "\n\n|cFFFFFF00" .. instanceData.name .. "|r";
 		end
+		text = text .. " |cFF9CD6DE(" .. L["Total Reals"] .. ": |cFF00FF00" .. getTotalRealsPerDungeon(instanceID) .. "|r)|r";
 		count = count + 1;
 		local sorted = {};
 		local lootedCount = 0;
@@ -748,6 +811,7 @@ function NIT:loadLootReminderListFrame()
 					instanceID = v.instanceID,
 					header = v.header,
 					title = v.title,
+					reals = v.reals,
 				};
 				tinsert(sorted, t);
 			end
@@ -771,17 +835,26 @@ function NIT:loadLootReminderListFrame()
 					lootedString = "|cFF00FF00(" .. L["Looted"] .. ")|r";
 					lootedCount = lootedCount + 1;
 				else
-					lootedString = "|cFFFF0000(" .. L["Not Looted"] .. ")|r";
+					lootedString = "|cFFFF0000(" .. L["Not Killed"] .. ")|r";
+				end
+				local extraInfoString = "";
+				if (v.reals) then
+					extraInfoString = " |cFF9CD6DE(x" .. v.reals .. ")|r"
 				end
 				if (count == 1) then
-					text = text .. "|cFFFFAE42".. v.name .. "|r  " .. lootedString;
+					text = text .. "|cFFFFAE42".. v.name .. "|r  " .. lootedString .. extraInfoString;
 				else
-					text = text .. "\n|cFFFFAE42" .. v.name .. "|r  " .. lootedString;
+					text = text .. "\n|cFFFFAE42" .. v.name .. "|r  " .. lootedString .. extraInfoString;
 				end
 			end
 		end
+		if (instanceCount == 3) then
+			lootReminderListFrame.scrollChild.fs2:SetText(text);
+			text = "";
+		elseif (instanceCount == 6) then
+			lootReminderListFrame.scrollChild.fs3:SetText(text);
+		end
 	end
-	lootReminderListFrame.scrollChild.fs2:SetText(text);
 	--newVersionFrame:SetSize(600, 50 + newVersionFrame.scrollChild.fs:GetStringHeight() + newVersionFrame.scrollChild.fs2:GetStringHeight() + newVersionFrame.scrollChild.fs3:GetStringHeight());
 	lootReminderListFrame:Show();
 end

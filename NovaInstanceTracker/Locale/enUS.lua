@@ -393,6 +393,7 @@ L["noCurrentRaidLockouts"] = "No current raid lockouts.";
 
 L["weeklyQuests"] = "Weekly Quests";
 L["dailyQuests"] = "Daily Quests";
+L["monthlyQuests"] = "Monthly Quests";
 
 L["openLockouts"] = "Open Lockouts";
 
@@ -583,9 +584,18 @@ L["Looted"] = "Looted";
 L["Not Looted"] = "Not Looted";
 L["Killed But Not Looted"] = "Killed But Not Looted";
 L["Loot the Tarnished Undermine Real"] = "Loot the Tarnished Undermine Real";
+L["Not Killed"] = "Not Killed";
+L["Loot Reminder List"] = "Loot Reminder List";
+L["Check your daily reals status"] = "Check your daily reals status"; --This string can't be any longer characters than this to fit in button.
+L["Bosses Looted"] = "Bosses Looted";
+L["Total today"] = "Total today";
+L["Total Reals"] = "Total Reals";
 
 L["Reminder"] = "Reminder";
 L["missingArgentDawnTrinket"] = "%s trinket reminder %s isn't equipped." --Argent Dawn trinket reminder [Rune of the Dawn] isn't equipped.
 
 L["argentDawnTrinketReminderTitle"] = "Argent Dawn Trinket Reminder";
 L["argentDawnTrinketReminderDesc"] = "Argent Dawn trinket reminder in chat if you enter Scholomance/Stratholme with the trinket in bags and not exalted.";
+
+L["skipRealMsgIfCappedTitle"] = "No msg if capped";
+L["skipRealMsgIfCappedDesc"] = "Skip the Tarnished Undermine Real loot msg if we're capped at 150 tokens already.";

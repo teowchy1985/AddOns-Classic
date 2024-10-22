@@ -408,6 +408,7 @@ L["noCurrentRaidLockouts"] = "目前沒有副本進度。";
 
 L["weeklyQuests"] = "每週任務";
 L["dailyQuests"] = "每日任務";
+L["monthlyQuests"] = "每月任務";
 
 L["openLockouts"] = "打開副本進度";
 
@@ -460,12 +461,21 @@ L["Looted"] = "已拾取";
 L["Not Looted"] = "未拾取";
 L["Killed But Not Looted"] = "已擊殺但是還沒有拾取";
 L["Loot the Tarnished Undermine Real"] = "拾取黯淡的幽坑城真幣";
+L["Not Killed"] = "未擊殺";
+L["Loot Reminder List"] = "拾取提醒清單";
+L["Check your daily reals status"] = "檢查每日真幣狀態"; --This string can't be any longer characters than this to fit in button.
+L["首領已拾取"] = "Bosses Looted";
+L["今日總計"] = "Total today";
+L["真幣總計"] = "Total Reals";
 
 L["Reminder"] = "提醒";
 L["missingArgentDawnTrinket"] = "%s 飾品提醒 %s 尚未裝備。" --Argent Dawn trinket reminder [Rune of the Dawn] isn't equipped.
 
 L["argentDawnTrinketReminderTitle"] = "銀色黎明飾品提醒";
 L["argentDawnTrinketReminderDesc"] = "進入通靈學院/斯坦索姆時，背包中有飾品且未崇拜，則會在聊天中發出銀色黎明飾品提醒。";
+
+L["skipRealMsgIfCappedTitle"] = "滿了不顯示訊息";
+L["skipRealMsgIfCappedDesc"] = "如果真幣已經滿了 150 個，跳過黯淡的幽坑城真幣的拾取訊息。";
 
 --增加
 L["Nova Instance Tracker"] = "Nova 副本進度追蹤";
