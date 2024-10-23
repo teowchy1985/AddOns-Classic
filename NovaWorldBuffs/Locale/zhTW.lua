@@ -1147,3 +1147,6 @@ L["Battle Shout"] = "戰鬥怒吼";
 
 L["dmfBuffDroppedNoCooldown"] = "獲得了暗月馬戲團增益效果 %s，在此遊戲版本中沒有冷卻時間。";
 L["chronoboonReleasedNoCooldown"] = "你已使用時光之末釋放了一個暗月馬戲團增益效果，在此遊戲版本中沒有冷卻時間。";
+
+L["skipDmfCookieTitle"] = "跳過幸運餅乾";
+L["skipDmfCookieDesc"] = "啟用此選項在獲得 DMF 增益後跳過取得幸運餅乾。";

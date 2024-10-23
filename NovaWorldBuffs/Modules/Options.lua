@@ -838,18 +838,26 @@ NWB.options = {
 			get = "getAutoDmfBuffType",
 			set = "setAutoDmfBuffType",
 		},
+		skipDmfCookie = {
+			type = "toggle",
+			name = L["skipDmfCookieTitle"],
+			desc = L["skipDmfCookieDesc"],
+			order = 285,
+			get = "getSkipDmfCookie",
+			set = "setSkipDmfCookie",
+		},
 		autoBuffsText = {
 			type = "description",
 			name = "|cFFFF0000" .. L["note"] .. " |cFF9CD6DE" .. L["dmfConfigWarning"],
 			fontSize = "medium",
-			order = 285,
+			order = 286,
 		},
 		dmfSettingsList = {
 			type = "execute",
 			name = L["dmfSettingsListTitle"],
 			desc = L["dmfSettingsListDesc"],
 			func = "openDMFListFrame",
-			order = 286,
+			order = 287,
 		},
 		guildChatFilterHeader = {
 			type = "header",
@@ -1948,6 +1956,7 @@ NWB.optionDefaults = {
 		minimapLayerFontSize = 10,
 		minimapLayerScale = 1,
 		buffsFrameMinLevel = 2,
+		skipDmfCookie = true,
 		
 		--TBC options
 		disableSoundsAboveMaxBuffLevel = true,
@@ -2251,23 +2260,12 @@ local function loadNewVersionFrame()
 		frame:Hide();
 		newVersionFrame = frame;
 	end
-	linesVersion = 2.85;
+	linesVersion = 2.97;
 	local lines = {
 		--" ",
-		"|cFFFF6900[Era]|r",
-		"- Re-enabled buff timers on Era realms with Blizzard reversing the decision to remove them.",
-		"- Removed nef hand in cooldown timer on Era realms, it's been broken and without a cooldown since SoD release and wasn't fixed when they re-added timers to era today so I'm guessing it won't get fixed any time soon (or maybe they don't realize it's been broken?).",
-		"- Added option to disable minimized client flashes for buff drops when not in a capital city (or other place a buff can drop), enabled by default.",
-		"- Started re-writing a lot of the addon so if Blizzard changes buff timers in the future it can be easily changed in the addon just by modifying a settings file, everything should still be working properly but please let me know if any new bugs pop up.",
-		" ",
-		"|cFFFF6900[SoD Only]|r",
-		"- Removed Rend guild chat msgs on SoD realms since there are so many handins with no cooldown atm, might take a week or so for enough people to update before they completely disappear from guild chat.",
-		"- All buff drop msgs/sounds now have a 10 minute cooldown on a per buff type basis.",
-		"- Fixed EU Blackrock pvp event spawn timer.",
-		" ",
-		" ",
-		"|cFFFFFF00|cFFFF6900Reminder:|r There's an old feature that |cFF00FF00Guild Masters|r can use if they wanted to disable guild chat msgs from this addon for the entire guild, just put any of the following #hashtags anywhere in your public guild note (can add multiple at the same time).|r\n|cFF9CD6DE#nwb1 = Disable ALL msgs at once.\n#nwb2 = Disable timers msgs.\n#nwb3 = Disable buff dropped msgs.\n#nwb4 = Disable !wb command.\n#nwb5 = Disable Songflowers msgs.\n#nwb6 = Disable all timer data from outside the guild.\n#nwb7 = Disable NPC was killed msgs.\n#nwb8 = Disable NPC has started walking msgs.|r",
-		"This list can always be found on the curseforge NWB page.",
+		"|cFFFF6900[Era/SoD]|r",
+		"Auto DMF buff now skips getting the fortune cookie at the end, if you still want the cookie you can disable the skip option in config.",
+		"A few other small fixes and tweaks.",
 	};
 	--[[if (NWB.realm == "Arugal" or NWB.realm == "Remulos" or NWB.realm == "Yojamba") then
 		lines = {
@@ -2310,7 +2308,6 @@ function NWB:checkNewVersion()
 	if (NWB.version and NWB.version ~= 9999) then
 		if (not NWB.db.global.versions[NWB.version]) then
 			if (NWB.isClassic) then
-				--Only show this update for cata users.
 				--if (NWB:GetCurrentRegion() == 1 and not string.match(NWB.realm, "(AU)")) then
 					loadNewVersionFrame();
 				--end
@@ -3435,6 +3432,15 @@ function NWB:getAutoDmfBuffType(info)
 	else
 		return self.db.global.autoDmfBuffType;
 	end
+end
+
+--DMF skip cookie.
+function NWB:setSkipDmfCookie(info, value)
+	self.db.global.skipDmfCookie = value;
+end
+
+function NWB:getSkipDmfCookie(info)
+	return self.db.global.skipDmfCookie;
 end
 
 --Auto get Dire Maul buff.
