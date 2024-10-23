@@ -2038,7 +2038,7 @@ function NWB:receivedNpcDied(type, timestamp, distribution, layer, sender)
 	end
 	if (tonumber(timestamp) and timestamp > 0) then
 		local timeAgo = GetServerTime() - timestamp;
-		if (timeAgo < 1800 and (not NWB.receivedNpcDiedCooldown[type] or (GetServerTime() - NWB.receivedNpcDiedCooldown[type]) > 600)) then
+		if (timeAgo > -1 and timeAgo < 1800 and (not NWB.receivedNpcDiedCooldown[type] or (GetServerTime() - NWB.receivedNpcDiedCooldown[type]) > 600)) then
 			local typeString = "Unknown";
 			local dataPrefix;
 			if (NWB.isLayered and layer) then

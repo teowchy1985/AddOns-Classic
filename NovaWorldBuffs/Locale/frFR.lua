@@ -1039,3 +1039,9 @@ L["Total honor this event"] = "Total honor this event";
 L["Might of Stormwind"] = "Puissance de Hurlevent";
 
 L["Battle Shout"] = "Cri de guerre";
+
+L["dmfBuffDroppedNoCooldown"] = "Buff de la Foire de Sombrelune %s reçu, aucun temps de recharge dans cette version du jeu.";
+L["chronoboonReleasedNoCooldown"] = "Vous avez relâché un buff de la Foire de Sombrelune avec chronochance, aucun temps de recharge dans cette version du jeu.";
+
+L["skipDmfCookieTitle"] = "Ignorer la prédiction";
+L["skipDmfCookieDesc"] = "Activez ceci pour ignorer la réception de la prédiction de la Foire de Sombrelune après avoir reçu le buff de la Foire de Sombrelune.";

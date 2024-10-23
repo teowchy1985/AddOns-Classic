@@ -5324,6 +5324,7 @@ function NWB:updateFelwoodWorldmapMarker(type)
 		local count = 0;
 		local tooltipText = "";
 		local hasTimer;
+		local layers = NWB.data.layers;
 		for k, v in pairs(mapSFFrames) do
 			--Remove any frames for any layer has been removed from db.
 			--Note that layer1 frame is never added to the mapSFFrames table, only extra layer frames are.
@@ -5335,8 +5336,13 @@ function NWB:updateFelwoodWorldmapMarker(type)
 					mapSFFrames[k][kk] = nil;
 				end
 			end
+			for k, v in pairs(_G[k .. "NWB"].timerFrames) do
+				if (not layers[v.layerID]) then
+					v:Hide();
+				end
+			end
 		end
-		for k, v in NWB:pairsByKeys(NWB.data.layers) do
+		for k, v in NWB:pairsByKeys(layers) do
 			count = count + 1;
 			local frame;
 			if (count == 1) then
@@ -5374,6 +5380,9 @@ function NWB:updateFelwoodWorldmapMarker(type)
 				end
 			end
 			if (frame) then
+				frame.layerID = k;
+				--NWB:debug(_G[type .. "NWB"].timerFrames)
+				_G[type .. "NWB"].timerFrames[count] = frame;
 				local time = (NWB.data.layers[k][type] + 1500) - GetServerTime();
 				if (NWB.db.global.showExpiredTimers and time < 1 and time > (0 - (60 * NWB.db.global.expiredTimersDuration))) then
 					--Convert seconds left to positive.
@@ -5735,6 +5744,7 @@ function NWB:createSongflowerMarkers()
 		obj.timerFrame.fs:SetFont(NWB.regionFont, 13);
 		obj.timerFrame:SetWidth(42);
 		obj.timerFrame:SetHeight(24);
+		obj.timerFrames = {};
 		obj.lastUpdate = 0;
 		obj:SetScript("OnUpdate", function(self)
 			if (GetServerTime() - obj.lastUpdate < 1) then
@@ -8349,10 +8359,28 @@ function NWB:removeOldLayersTicker()
 	local removed;
 	if (NWB.data.layers and next(NWB.data.layers)) then
 		for k, v in pairs(NWB.data.layers) do
+			local remove;
 			if (v.lastSeenNPC and GetServerTime() - v.lastSeenNPC > expireTime) then
-				NWB.data.layers[k] = nil;
-				removed = true;
-				NWB:debug("Removed old layer ticker", k, v.lastSeenNPC, GetServerTime() - v.lastSeenNPC);
+				remove = true;
+			end
+			local foundSongflower;
+			if (remove) then
+				for i = 1, 9 do
+					--Don't remove if active sf timer.
+					--It shouldn't really happen where there's an active sf timer but no city npcs seen for an hour,
+					--Maybe on low pop realms it could.
+					if (GetServerTime() - v["flower" .. i] < 1500) then
+						foundSongflower = true;
+					end
+				end
+				if (not foundSongflower) then
+					NWB.data.layers[k] = nil;
+					removed = true;
+					NWB:debug("Removed old layer ticker", k, v.lastSeenNPC, GetServerTime() - v.lastSeenNPC);
+				end
+			end
+			if (foundSongflower) then
+				NWB:debug("Found songflower layer timer extension", k, v.lastSeenNPC, GetServerTime() - v.lastSeenNPC);
 			end
 		end
 	end
@@ -10879,6 +10907,7 @@ function NWB:recalcVersionFrame()
 end
 
 --NPC events
+local choseDmfBuff;
 local f = CreateFrame("Frame");
 f:RegisterEvent("GOSSIP_SHOW");
 f:SetScript('OnEvent', function(self, event, ...)
@@ -10938,15 +10967,15 @@ f:SetScript('OnEvent', function(self, event, ...)
 				--Enable after testing at next DMF, don't want any mistakes with people getting wrong buff.
 				buffType = NWB.data.dmfBuffSettings[UnitName("player")];
 			end
-			if (GetLocale() == "enUS") then
+			--[[if (GetLocale() == "enUS") then
 				--Make this an option to skip the fortune cookie later.
-				--[[if (string.match(g1, "I'd love to get one of those written fortunes you mentioned")) then
-					return
-				end
-				if (string.match(g1, "I am ready to discover where my fortune lies!")) then
-					SelectGossipOption(1);
-					return;
-				end]]
+				--if (string.match(g1, "I'd love to get one of those written fortunes you mentioned")) then
+				--	return
+				--end
+				--if (string.match(g1, "I am ready to discover where my fortune lies!")) then
+				--	SelectGossipOption(1);
+				--	return;
+				--end
 				if (g1 and not g2) then
 					--Pages with only 1 option.
 					SelectGossipOption(1);
@@ -10957,11 +10986,11 @@ f:SetScript('OnEvent', function(self, event, ...)
 					--Sayge's Dark Fortune of Damage: +10% Damage (1, 1).
 					SelectGossipOption(1);
 					--No need for string checks for dmg, it's 1, 1.
-					--[[if (string.match(g1, "I slay the man on the spot as my liege would expect me to do")) then
-						SelectGossipOption(1);
-					elseif (string.match(g1, "and do it in such a manner that he suffers painfully before he dies")) then
-						SelectGossipOption(1);
-					end]]
+					--if (string.match(g1, "I slay the man on the spot as my liege would expect me to do")) then
+					--	SelectGossipOption(1);
+					--elseif (string.match(g1, "and do it in such a manner that he suffers painfully before he dies")) then
+					--	SelectGossipOption(1);
+					--end
 					return;
 				end
 				if (buffType == "Agility") then
@@ -11027,7 +11056,12 @@ f:SetScript('OnEvent', function(self, event, ...)
 					end
 					return;
 				end
-			else
+			else]]
+				if (choseDmfBuff and NWB.db.global.skipDmfCookie) then
+					--If we chose dmf buff already then skip the cookie option, choseDmfBuff cleared on gossip closed.
+					C_GossipInfo.CloseGossip();
+					return;
+				end
 				--This should probably be done with a table instead of if statements, but it's small and only ran twice a month so whatever.
 				if (g4) then
 					--First buff selection page has 4 options, if there's 4 it can only be this page.
@@ -11072,6 +11106,7 @@ f:SetScript('OnEvent', function(self, event, ...)
 						return;
 					end
 				elseif (g3) then
+					choseDmfBuff = true;
 					--Second buff selection page has 3 options, if there's 3 it can only be this page.
 					if (buffType == "Damage") then
 						--Sayge's Dark Fortune of Damage: +10% Damage (1, 1).
@@ -11117,7 +11152,7 @@ f:SetScript('OnEvent', function(self, event, ...)
 					SelectGossipOption(1);
 				end
 				--NWB:print("Auto DMF buff selection only works for English client sorry, other languages coming soon.");
-			end
+			--end
 		end
 		---I have removed string checks for everything below here to make it work for all regions from the start.
 		---They only ever have the 1 chat option so it should be safe.
@@ -11181,6 +11216,7 @@ local f = CreateFrame("Frame");
 f:RegisterEvent("TAXIMAP_OPENED");
 f:RegisterEvent("TAXIMAP_CLOSED");
 f:RegisterEvent("GOSSIP_SHOW");
+f:RegisterEvent("GOSSIP_CLOSED");
 local isTaxiMapOpened;
 f:SetScript("OnEvent", function(self, event, ...)
 	if (event == "TAXIMAP_OPENED") then
@@ -11220,6 +11256,8 @@ f:SetScript("OnEvent", function(self, event, ...)
 				and (GetServerTime() - NWB.lastZanBuffGained) <= NWB.db.global.buffHelperDelay) then
 			SelectGossipOption(1);
 		end
+	elseif (event == "GOSSIP_CLOSED") then
+		choseDmfBuff = nil;
 	end
 end)
 

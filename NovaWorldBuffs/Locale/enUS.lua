@@ -1049,3 +1049,6 @@ L["Battle Shout"] = "Battle Shout";
 
 L["dmfBuffDroppedNoCooldown"] = "Darkmoon Faire buff %s received, no cooldown in this game version.";
 L["chronoboonReleasedNoCooldown"] = "You have chronoboon released a Darkmoon Faire buff, no cooldown in this game version.";
+
+L["skipDmfCookieTitle"] = "Skip Fortune Cookie";
+L["skipDmfCookieDesc"] = "Enable this to skip getting the Fortune Cookie after you get DMF buff.";

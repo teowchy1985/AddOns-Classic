@@ -1032,3 +1032,9 @@ L["Total honor this event"] = "Total honor this event";
 L["Might of Stormwind"] = "Poderío de Ventormenta";
 
 L["Battle Shout"] = "Grito de batalla";
+
+L["dmfBuffDroppedNoCooldown"] = "Has recibido el beneficio de la Feria de la Luna Negra %s, sin tiempo de reutilización en esta versión del juego.";
+L["chronoboonReleasedNoCooldown"] = "Has liberado un beneficio de la Feria de la Luna Negra con cronobeneficio, sin tiempo de reutilización en esta versión del juego.";
+
+L["skipDmfCookieTitle"] = "Omitir fortuna";
+L["skipDmfCookieDesc"] = "Activa esto para omitir recibir la fortuna de la Feria de la Luna Negra después de obtener el beneficio de la Feria de la Luna Negra.";

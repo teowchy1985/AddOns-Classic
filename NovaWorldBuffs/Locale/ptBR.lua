@@ -1049,3 +1049,9 @@ L["Total honor this event"] = "Total honor this event";
 L["Might of Stormwind"] = "Poder de Ventobravo";
 
 L["Battle Shout"] = "Brado de Batalha";
+
+L["dmfBuffDroppedNoCooldown"] = "Bônus da Feira de Negraluna %s recebido, sem tempo de recarga nesta versão do jogo.";
+L["chronoboonReleasedNoCooldown"] = "Você liberou um bônus da Feira de Negraluna com Dádiva do Tempo, sem tempo de recarga nesta versão do jogo.";
+
+L["skipDmfCookieTitle"] = "Pular sorte";
+L["skipDmfCookieDesc"] = "Ativa isto para pular o recebimento da Sorte da Feira de Negraluna após obter o bônus da Feira de Negraluna.";
