@@ -1,8 +1,7 @@
 # BlizzMove
 
-## [v3.5.42](https://github.com/Kiatra/BlizzMove/tree/v3.5.42) (2024-09-28)
-[Full Changelog](https://github.com/Kiatra/BlizzMove/compare/v3.5.41...v3.5.42) [Previous Releases](https://github.com/Kiatra/BlizzMove/releases)
+## [v3.6.0](https://github.com/Kiatra/BlizzMove/tree/v3.6.0) (2024-10-23)
+[Full Changelog](https://github.com/Kiatra/BlizzMove/compare/v3.5.43...v3.6.0) [Previous Releases](https://github.com/Kiatra/BlizzMove/releases)
 
-- Classic TOC Bump  
-- Update for classic era  
-- Fixed a typo  
+- TOC Bump  
+- Rewrite of the "scroll to re-scale" logic, which should remove all posiblity of taint issues  
