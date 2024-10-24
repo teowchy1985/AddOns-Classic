@@ -35,7 +35,7 @@ local UnitIsPlayer          = _G.UnitIsPlayer
 local UnitName              = _G.UnitName
 local UnitReaction          = _G.UnitReaction
 local UnitIsUnit            = _G.UnitIsUnit
-local GetSpellInfo          = _G.GetSpellInfo
+local GetSpellInfo          = _G.GetSpellInfo or C_Spell.GetSpellInfo
 local GetShapeshiftForm     = _G.GetShapeshiftForm
 local FindAuraByName        = AuraUtil.FindAuraByName
 
@@ -277,7 +277,7 @@ function TC2:UpdateThreatBars()
     local igniteOwner = nil
     local hasActiveIgnite = false
     if C.bar.showIgniteIndicator or C.customBarColors.igniteEnabled then
-        igniteOwner = select(7, FindAuraByName(C_Spell.GetSpellInfo(12848), TC2.playerTarget, "HARMFUL"))
+        igniteOwner = select(7, FindAuraByName(GetSpellInfo(12848), TC2.playerTarget, "HARMFUL"))
     end
     -- update view
     for i = 1, C.bar.count do
