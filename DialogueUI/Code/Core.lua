@@ -6,6 +6,7 @@ local CancelClosingGossipInteraction = API.CancelClosingGossipInteraction;
 local QuestIsFromAreaTrigger = API.QuestIsFromAreaTrigger;
 local GossipDataProvider = addon.GossipDataProvider;
 local QuestGetAutoAccept = API.QuestGetAutoAccept;
+local ShouldMuteQuestDetail = API.ShouldMuteQuestDetail;
 local CloseQuest = CloseQuest;
 local InCombatLockdown = InCombatLockdown;
 local IsInInstance = IsInInstance;
@@ -33,6 +34,11 @@ local QuestEvents = {
     "QUEST_COMPLETE",   --Talk to turn in quest
 };
 
+local MapEvents = {
+    PLAYER_ENTERING_WORLD = true,
+    ZONE_CHANGED_NEW_AREA = true,
+};
+
 local CloseDialogEvents = {};
 
 if not addon.IsToCVersionEqualOrNewerThan(50000) then
@@ -46,6 +52,18 @@ if not addon.IsToCVersionEqualOrNewerThan(50000) then
     end
 end
 
+local ShouldMuteQuest;
+if addon.IsToCVersionEqualOrNewerThan(110005) then
+    local GetQuestID = GetQuestID;
+    function ShouldMuteQuest()
+        local questID = GetQuestID();
+        return ShouldMuteQuestDetail(questID)
+    end
+else
+    function ShouldMuteQuest()
+        return false
+    end
+end
 
 function EL:OnManualEvent(event, ...)
     self:SetScript("OnUpdate", nil);
@@ -128,6 +146,14 @@ function EL:OnEvent(event, ...)
         end
 
     elseif event == "QUEST_DETAIL" then
+        if ShouldMuteQuest() then
+            if API.IsQuestAutoAccepted() then
+                API.AcknowledgeAutoAcceptQuest();
+            end
+            CloseQuest();
+            return
+        end
+
         self.lastEvent = event;
 
         local questStartItemID = ...
@@ -152,15 +178,15 @@ function EL:OnEvent(event, ...)
         self.lastEvent = event;
         MainFrame:ShowUI(event);
 
-    elseif event == "PLAYER_ENTERING_WORLD" then
-        if DISABLE_DUI_IN_INSTANCE then
-            Muter:UpdateForInstance();
-        end
-
     elseif CloseDialogEvents[event] then
         self.lastEvent = event;
         self.timeSinceQuestFinish = nil;
         MainFrame:HideUI();
+
+    elseif MapEvents[event] then
+        if DISABLE_DUI_IN_INSTANCE then
+            Muter:UpdateForInstance();
+        end
     end
 
     --print(event, GetTimePreciseSec());    --debug
@@ -175,7 +201,11 @@ function EL:ListenEvent(state)
         self:SetScript("OnEvent", self.OnEvent);
     else
         method= "UnregisterEvent";
-        self:SetScript("OnEvent", nil);
+        if DISABLE_DUI_IN_INSTANCE then
+            self:SetScript("OnEvent", self.OnEvent);
+        else
+            self:SetScript("OnEvent", nil);
+        end
     end
 
     for _, event in ipairs(GossipEvents) do
@@ -314,7 +344,7 @@ do  --Unlisten events from default UI
         Muter.questEvents.LEARNED_SPELL_IN_TAB = true;            --Classic
     end
 
-    local function MuteDefaultQuestUI(state)
+    local function SetUseDialogueUI(state)
         if state == nil then state = true end;
 
         if state then
@@ -369,30 +399,36 @@ do  --Unlisten events from default UI
                 QuestFrame:SetScale(1);
             end
         end
-    end
-    addon.MuteDefaultQuestUI = MuteDefaultQuestUI;
 
-    MuteDefaultQuestUI(true);
+        addon.EnableBookUI(state);
+    end
+    addon.SetUseDialogueUI = SetUseDialogueUI;
+
+    SetUseDialogueUI(true);
 
     function Muter:UpdateForInstance()
         if IsInInstance() then
-            MuteDefaultQuestUI(false);
+            SetUseDialogueUI(false);
         else
-            MuteDefaultQuestUI(true);
+            SetUseDialogueUI(true);
         end
     end
 
     local function Settings_DisableDUIInInstance(dbValue, userInput)
-        DISABLE_DUI_IN_INSTANCE = dbValue ~= false;
+        DISABLE_DUI_IN_INSTANCE = dbValue == true;
         if DISABLE_DUI_IN_INSTANCE then
-            EL:RegisterEvent("PLAYER_ENTERING_WORLD");
+            for event in pairs(MapEvents) do
+                EL:RegisterEvent(event);
+            end
             Muter:UpdateForInstance();
             if userInput and IsInInstance() and MainFrame:IsShown() then
                 MainFrame:Hide();
             end
         else
-            EL:UnregisterEvent("PLAYER_ENTERING_WORLD");
-            MuteDefaultQuestUI(true);
+            for event in pairs(MapEvents) do
+                EL:UnregisterEvent(event);
+            end
+            SetUseDialogueUI(true);
         end
     end
     addon.CallbackRegistry:Register("SettingChanged.DisableDUIInInstance", Settings_DisableDUIInInstance);
