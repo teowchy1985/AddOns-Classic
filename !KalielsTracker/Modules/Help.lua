@@ -253,21 +253,15 @@ local function SetupTutorials()
 			imageY = WOW_PROJECT_ID > WOW_PROJECT_CLASSIC and 9 or 16,
 			imageAbsolute = true,
 			text = "            |T"..helpPath.."help_whats-new_title:32:181:0:0:256:32:0:181:0:32|t\n\n"..
-					cTitle.."4.0.2 版本|r\n"..
-					"- 修正 (任務日誌) - 點擊任務時不會追蹤或追蹤錯誤的任務\n"..
-					"\n"..
-					cTitle.."4.0.1 版本|r\n"..
-					"- 修正 (任務) - 經典時期 - 點擊已完成的任務時發生的錯誤\n"..
-					"\n"..
-					cTitle.."4.0.0 版本|r\n"..
-					"- 新增 - 支援 WoW 4.4.0\n"..
-					"- 更新 (說明) - 更新資訊頁面\n"..
-					"- 更新 - 支援插件 - ElvUI 13.62\n"..
+					cTitle.."版本 4.1.0|r\n"..
+					"- 新增 - 支援 WoW 1.15.4\n"..
+					"- 更新 (說明) - Active Patrons\n"..
+					"- 更新 - 支援插件 - ElvUI 13.79, Tukui 20.455\n"..
 					"- 更新 - 函式庫\n"..
-					"- 更新 - 支援插件 - Questie 10.0.2\n"..
+					"- 更新 - 支援插件 - Questie 10.6.4\n"..
 					"\n"..
 
-					cTitle.."WoW 4.4.0/1.15.2 - 尚無解決辦法的已知問題|r\n"..
+					cTitle.."WoW 4.4.0/1.15.4 - 尚無解決辦法的已知問題|r\n"..
 					"- 戰鬥中點擊追蹤的任務或成就不會有反應。\n"..
 					"- 戰鬥中標題列的 Q 和 A 按鈕無法運作。\n\n"..
 
@@ -335,11 +329,15 @@ local function SetupTutorials()
 					"經過了 10 年的插件工作後，我啟用了 Patreon，當作是開發插件所需時間的補償。\n\n"..
 					"                                    非常感謝所有贊助者  |T"..helpPath.."help_patreon:16:16:0:0:256:32:157:173:0:16|t\n\n"..
 					cTitle.."Active Patrons|r\n"..
+					SetFormatedPatronName("Legendary", "Zayah", "Vek'nilash")..
 					SetFormatedPatronName("Epic", "Haekwon", "Elune")..
 					SetFormatedPatronName("Epic", "Liothen", "Emerald Dream")..
+					SetFormatedPatronName("Rare", "A")..
 					SetFormatedPatronName("Uncommon", "Anaara", "Auchindoun")..
+					SetFormatedPatronName("Uncommon", "Calvin Jones")..
 					SetFormatedPatronName("Uncommon", "Charles Howarth")..
 					SetFormatedPatronName("Uncommon", "Flex (drantor)")..
+					SetFormatedPatronName("Uncommon", "Illidanclone", "Kazzak")..
 					SetFormatedPatronName("Uncommon", "Jeffrey Hofer")..
 					SetFormatedPatronName("Uncommon", "Mystekal")..
 					SetFormatedPatronName("Uncommon", "Semy", "Ravencrest")..

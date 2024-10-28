@@ -1,11 +1,7 @@
 # Kaliel's Tracker Classic changelog
-### 4.0.2
-- FIXED (questlog) - wrong or no quest is activated when clicked
-### 4.0.1
-- FIXED (quests) - Classic Era - error when clicking on a completed quest
-### 4.0.0
-- ADDED - support for WoW 4.4.0
-- CHANGED (help) - page &quot;What&#x27;s New&quot;
-- CHANGED - addon support - ElvUI 13.62
+### 4.1.0
+- ADDED - support for WoW 1.15.4
+- CHANGED (help) - Active Patrons
+- CHANGED - addon support - ElvUI 13.79, Tukui 20.455
 - CHANGED - Libs
-- CHANGED - addon support - Questie 10.0.2
+- CHANGED - addon support - Questie 10.6.4
