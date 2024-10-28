@@ -357,7 +357,7 @@ local function getOptions()
 									end,
 									set = function(info, value)
 										to_confirm_character_removal(value)
-										InterfaceOptionsFrame:Hide()
+										SettingsPanel:Hide()
 									end,
 								},
 							},
