@@ -35,19 +35,18 @@ StaticPopupDialogs[addonName.."_ReloadUI"] = {
 
 -- ElvUI
 local function ElvUI_SetSupport()
-    if KT:CheckAddOn("ElvUI", "v13.62", true) then
+    if KT:CheckAddOn("ElvUI", "v13.79", true) then
         KT.frame:SetScale(1)
         KT.frame.Buttons:SetScale(1)
         local E = unpack(_G.ElvUI)
         local B = E:GetModule("Blizzard")
-        B.QuestWatch_MoveFrames = function() end
         B.QuestWatch_AddQuestClick = function() end
     end
 end
 
 -- Tukui
 local function Tukui_SetSupport()
-    if KT:CheckAddOn("Tukui", "20.41", true) then
+    if KT:CheckAddOn("Tukui", "v20.455", true) then
         KT.frame:SetScale(1)
         KT.frame.Buttons:SetScale(1)
         local T = unpack(_G.Tukui)

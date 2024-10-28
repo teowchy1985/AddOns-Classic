@@ -1859,18 +1859,8 @@ end
 
 function KT:OnEnable()
 	_DBG("|cff00ff00Enable|r - "..self:GetName(), true)
-	local resolution = GetCVar("gxFullscreenResolution")
-	local windowed = Display_DisplayModeDropDown:windowedmode()
-	if not windowed then
-		if resolution == "auto" then
-			resolution = select(1, GetScreenResolutions())
-		end
-	else
-		resolution = GetCVar("gxWindowedResolution")
-	end
-	self.screenWidth, self.screenHeight = string.match(resolution, "(%d+)x(%d+)")
-	self.screenWidth = tonumber(self.screenWidth)
-	self.screenHeight = tonumber(self.screenHeight)
+	self.screenWidth = round(GetScreenWidth())
+	self.screenHeight = round(GetScreenHeight())
 
 	SetFrames()
 	SetHooks()
