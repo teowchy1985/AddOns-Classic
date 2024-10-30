@@ -1,0 +1,33 @@
+## Interface: 40400
+## Title: Button Forge |cff69ccf0(Classic-Cata)|r
+## Version: 1.0.22-classic-Cata
+## Author: Massiner of Nathrezim, Albirew, Sunnova
+## SavedVariables: ButtonForgeGlobalSettings, ButtonForgeGlobalProfiles, ButtonForgeGlobalBackup
+## SavedVariablesPerCharacter: ButtonForgeSave, BFSave
+## IconTexture: Interface\AddOns\ButtonForge\ButtonForge.blp
+## X-Curse-Project-ID: 25215
+## OptionalDeps: Masque
+Declares.lua
+Const.lua
+Locale-enUS.lua
+Locale-koKR.lua
+Locale-ruRU.lua
+Locale-zhCN.lua
+Locale-zhTW.lua
+Locale-deDE.lua
+EventManager.lua
+UILibLayers.xml
+UILibConfigPage.xml
+UILibClickMask.lua
+UILibDragIcon.lua
+UILibCreateButton.lua
+UILibInputBox.lua
+UILibLines.lua
+Util.lua
+UILibToolbar.xml
+KeyBinder.xml
+Button.lua
+Bar.lua
+CustomAction.lua
+bindings.lua
+ButtonForge_API1.lua
