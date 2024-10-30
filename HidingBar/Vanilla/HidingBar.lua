@@ -9,7 +9,6 @@ local btnSettingsMeta = {__index = function(self, key)
 	return self[key]
 end}
 local createdButtonsByName, btnSettings, noEventFrames = {}, {}, {}
-hb.ombDefIcon = "Interface/MINIMAP/Vehicle-SilvershardMines-Arrow"
 hb.ldbiPrefix = "LibDBIcon10_"
 hb.matchName = hb.ldbiPrefix..addon.."%d+$"
 hb.createdButtons, hb.minimapButtons, hb.mixedButtons = {}, {}, {}
@@ -1678,7 +1677,7 @@ do
 		self.ldb_icon = ldb:NewDataObject(self.ombName, {
 			type = "data source",
 			text = self.ombName,
-			icon = hb.ombDefIcon,
+			icon = "Interface/MINIMAP/Vehicle-SilvershardMines-Arrow",
 			OnClick = OnClick,
 			OnEnter = OnEnter,
 			OnLeave = OnLeave,
@@ -2371,22 +2370,19 @@ function hidingBarMixin:setBarTypePosition(typePosition)
 			end
 		end
 
-		local rotation
 		if self.config.omb.anchor == "left" then
 			secondPosition = btnSize + self.config.omb.distanceToBar
-			rotation = -math.pi/2
+			self.omb.icon:SetRotation(-math.pi/2)
 		elseif self.config.omb.anchor == "right" then
 			secondPosition = -btnSize - self.config.omb.distanceToBar
-			rotation = math.pi/2
+			self.omb.icon:SetRotation(math.pi/2)
 		elseif self.config.omb.anchor == "top" then
 			secondPosition = -btnSize - self.config.omb.distanceToBar
-			rotation = math.pi
+			self.omb.icon:SetRotation(math.pi)
 		else
 			secondPosition = btnSize + self.config.omb.distanceToBar
-			rotation = 0
+			self.omb.icon:SetRotation(0)
 		end
-		self.ldb_icon.icon = self.config.omb.icon or hb.ombDefIcon
-		self.omb.icon:SetRotation(self.config.omb.icon and 0 or rotation)
 
 		self.anchorObj = self.config.omb
 		self.rFrame = self.omb
