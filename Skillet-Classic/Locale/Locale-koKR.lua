@@ -266,6 +266,10 @@ L["Select None"] = "선택 안 함"
 L["Select skill difficulty threshold"] = "숙련도 증가 선택"
 L["Selected Addon"] = "선택한 애드온"
 L["Selection"] = "선택"
+--[[Translation missing --]]
+L["SELECTTOPRECIPEDESC"] = "Pre-select the top recipe"
+--[[Translation missing --]]
+L["SELECTTOPRECIPENAME"] = "Select top recipe"
 L["Sells for "] = "판매 기간 "
 L["Set Favorite"] = "즐겨찾기 설정"
 L["shift-click to link"] = "쉬프트-클릭으로 링크"

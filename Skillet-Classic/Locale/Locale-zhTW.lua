@@ -235,6 +235,10 @@ L["Select None"] = "清除選取"
 L["Select skill difficulty threshold"] = "選擇技能難度等級"
 L["Selected Addon"] = "已選擇插件"
 L["Selection"] = "選取"
+--[[Translation missing --]]
+L["SELECTTOPRECIPEDESC"] = "Pre-select the top recipe"
+--[[Translation missing --]]
+L["SELECTTOPRECIPENAME"] = "Select top recipe"
 L["Sells for "] = "售得"
 L["Set Favorite"] = "設為最愛"
 L["shift-click to link"] = "Shift+左鍵點擊來連結"

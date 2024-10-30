@@ -268,6 +268,10 @@ L["Select None"] = "取消选择"
 L["Select skill difficulty threshold"] = "选择技能难度阈值"
 L["Selected Addon"] = "已选择插件"
 L["Selection"] = "选项"
+--[[Translation missing --]]
+L["SELECTTOPRECIPEDESC"] = "Pre-select the top recipe"
+--[[Translation missing --]]
+L["SELECTTOPRECIPENAME"] = "Select top recipe"
 L["Sells for "] = "售得"
 L["Set Favorite"] = "收藏"
 L["shift-click to link"] = "shift-点击生成链接"

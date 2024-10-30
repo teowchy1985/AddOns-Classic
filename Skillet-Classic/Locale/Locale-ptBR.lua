@@ -248,6 +248,10 @@ L["Select None"] = "Limpar seleção"
 L["Select skill difficulty threshold"] = "Selecione o limite de dificuldade da habilidade"
 L["Selected Addon"] = "Addon Selecionado"
 L["Selection"] = "Seleção"
+--[[Translation missing --]]
+L["SELECTTOPRECIPEDESC"] = "Pre-select the top recipe"
+--[[Translation missing --]]
+L["SELECTTOPRECIPENAME"] = "Select top recipe"
 L["Sells for "] = "Vender por"
 L["Set Favorite"] = "Definir favorito"
 L["shift-click to link"] = "clique com a tecla Shift pressionada para vincular"
