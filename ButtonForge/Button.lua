@@ -1252,6 +1252,10 @@ end
 
 
 
+local function GetMouseFocus() -- added for Cata 4.4.1 09/05/2024
+	local t = GetMouseFoci()
+	return t[1]
+end
 
 
 --[[--------------------------------------------------------------------------

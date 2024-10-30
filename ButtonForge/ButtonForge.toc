@@ -1,6 +1,6 @@
 ## Interface: 40400
 ## Title: Button Forge |cff69ccf0(Classic-Cata)|r
-## Version: 1.0.22-classic-Cata
+## Version: 1.0.23-classic-Cata
 ## Author: Massiner of Nathrezim, Albirew, Sunnova
 ## SavedVariables: ButtonForgeGlobalSettings, ButtonForgeGlobalProfiles, ButtonForgeGlobalBackup
 ## SavedVariablesPerCharacter: ButtonForgeSave, BFSave

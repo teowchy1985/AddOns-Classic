@@ -196,6 +196,7 @@ Conditional:RegisterEvent("UNIT_SPELLCAST_CHANNEL_STOP");	--channel:
 Conditional:RegisterEvent("PLAYER_EQUIPMENT_CHANGED");	--equipped:
 Conditional:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED");	--spec:
 Conditional:RegisterEvent("UPDATE_SHAPESHIFT_COOLDOWN");	--stance/form:
+local last_GetShapeshiftForm = GetShapeshiftForm()
 Conditional:RegisterEvent("UPDATE_SHAPESHIFT_FORM");	--stance/form:
 Conditional:RegisterEvent("UPDATE_STEALTH");			--stealth
 Conditional:RegisterEvent("UNIT_ENTERED_VEHICLE");		--vehicleui
@@ -385,7 +386,13 @@ function Glow:OnEvent(Event, Arg1)
 	Full.RefGlow = true;
 	Full.RefreshButtons = true;
 end
-function Conditional:OnEvent()
+function Conditional:OnEvent(Event, unit, ...)
+  if (Event == "UPDATE_SHAPESHIFT_FORM") then
+  	if last_GetShapeshiftForm == GetShapeshiftForm() then
+			return
+		end
+  	last_GetShapeshiftForm = GetShapeshiftForm()
+	end	
 	Full.RefConditional = true;
 	Full.RefreshButtons = true;
 end
