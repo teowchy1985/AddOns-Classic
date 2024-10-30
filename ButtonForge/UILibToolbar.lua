@@ -97,7 +97,10 @@ function UILib.ToggleAdvancedTools()
 	EventFull.RefChecked = true;
 end
 
-
+local function GetMouseFocus() -- added for Cata 4.4.1 09/05/2024, copied from retail BF
+	local t = GetMouseFoci()
+	return t[1]
+end
 
 function UILib.ToggleRightClickSelfCast(Value)
 	if (Value ~= nil) then
