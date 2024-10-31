@@ -1,4 +1,4 @@
-## Interface: 40400, 40401
+## Interface: 40401, 40401
 ## X-Max-Interface: 110005
 ## X-Min-Interface:  11504
 ## X-Incompatible-With: 30403

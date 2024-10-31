@@ -1,5 +1,5 @@
 ## Interface: 110002
-## Interface-Cata: 40400
+## Interface-Cata: 40401
 ## Interface-Classic: 11503
 ## Title: Lib: LibDropDownMenu
 ## Notes: Library providing downdown menu like blizzards DropDownMenu

@@ -1,4 +1,4 @@
-## Interface: 11504, 30403, 40400, 110002
+## Interface: 11504, 30403, 40401, 110002
 ## Title: Masque: |cff267EFFTrinity|r
 ## Author: Maul
 ## Version: Centauri-5
