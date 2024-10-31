@@ -12,10 +12,13 @@ end
 --设置面板
 UnitFramesPlus_OptionsFrame = CreateFrame("Frame", "UnitFramesPlus_OptionsFrame", UIParent);
 UnitFramesPlus_OptionsFrame.name = UFP_OP_Name;
-InterfaceOptions_AddCategory(UnitFramesPlus_OptionsFrame);
-UnitFramesPlus_OptionsFrame:SetScript("OnShow", function()
-    UnitFramesPlus_OptionPanel_OnShow();
-end)
+if InterfaceOptions_AddCategory then
+	InterfaceOptions_AddCategory(UnitFramesPlus_OptionsFrame);
+else
+	local category = Settings.RegisterCanvasLayoutCategory(UnitFramesPlus_OptionsFrame, UnitFramesPlus_OptionsFrame.name)
+	category.ID = UnitFramesPlus_OptionsFrame.name
+	Settings.RegisterAddOnCategory(category)
+end
 
 --快速焦点快捷键下拉菜单
 local QuickFocusDropDown = {"alt", "shift", "ctrl"};
@@ -193,9 +196,11 @@ StaticPopupDialogs["UFP_MOUSESHOW"] = {
     button1 = UFP_OP_Accept,
     button2 = UFP_OP_Cancel,
     OnAccept = function()
-        InterfaceOptionsFrame:Hide();
-        GameMenuButtonUIOptions:Click();
-        InterfaceOptionsFrameCategoriesButton3:Click();
+        if InterfaceOptionsFrame then
+			InterfaceOptionsFrame:Hide();
+			GameMenuButtonUIOptions:Click();
+			InterfaceOptionsFrameCategoriesButton3:Click();
+		end
     end,
     timeout = 0,
     hideOnEscape = 1,
@@ -277,70 +282,111 @@ do
     UnitFramesPlus_Global_Options.name = UFP_OP_Global_Options;
     UnitFramesPlus_Global_Options.parent = UFP_OP_Name;
     UnitFramesPlus_Global_Options:Hide();
-    InterfaceOptions_AddCategory(UnitFramesPlus_Global_Options);
+    if InterfaceOptions_AddCategory then
+		InterfaceOptions_AddCategory(UnitFramesPlus_Global_Options);
+	else
+		category = Settings.GetCategory(UnitFramesPlus_Global_Options.parent)
+		local subcategory = Settings.RegisterCanvasLayoutSubcategory(category, UnitFramesPlus_Global_Options, UnitFramesPlus_Global_Options.name)
+	end
 
     --玩家设置菜单
     local UnitFramesPlus_Player_Options = CreateFrame("Frame", "UnitFramesPlus_Player_Options", UIParent);
     UnitFramesPlus_Player_Options.name = "├"..UFP_OP_Player_Options;
     UnitFramesPlus_Player_Options.parent = UFP_OP_Name;
     UnitFramesPlus_Player_Options:Hide();
-    InterfaceOptions_AddCategory(UnitFramesPlus_Player_Options);
+    if InterfaceOptions_AddCategory then
+		InterfaceOptions_AddCategory(UnitFramesPlus_Player_Options);
+	else
+		local subcategory = Settings.RegisterCanvasLayoutSubcategory(category, UnitFramesPlus_Player_Options, UnitFramesPlus_Player_Options.name)
+	end
 
     --玩家宠物设置菜单
     local UnitFramesPlus_Pet_Options = CreateFrame("Frame", "UnitFramesPlus_Pet_Options", UIParent);
     UnitFramesPlus_Pet_Options.name = "├─"..UFP_OP_Pet_Options;
     UnitFramesPlus_Pet_Options.parent = UFP_OP_Name;
     UnitFramesPlus_Pet_Options:Hide();
-    InterfaceOptions_AddCategory(UnitFramesPlus_Pet_Options);
+    if InterfaceOptions_AddCategory then
+		InterfaceOptions_AddCategory(UnitFramesPlus_Pet_Options);
+	else
+		local subcategory = Settings.RegisterCanvasLayoutSubcategory(category, UnitFramesPlus_Pet_Options, UnitFramesPlus_Pet_Options.name)
+	end
 
     --目标设置菜单
     local UnitFramesPlus_Target_Options = CreateFrame("Frame", "UnitFramesPlus_Target_Options", UIParent);
     UnitFramesPlus_Target_Options.name = "├"..UFP_OP_Target_Options;
     UnitFramesPlus_Target_Options.parent = UFP_OP_Name;
     UnitFramesPlus_Target_Options:Hide();
-    InterfaceOptions_AddCategory(UnitFramesPlus_Target_Options);
+    if InterfaceOptions_AddCategory then
+		InterfaceOptions_AddCategory(UnitFramesPlus_Target_Options);
+	else
+		local subcategory = Settings.RegisterCanvasLayoutSubcategory(category, UnitFramesPlus_Target_Options, UnitFramesPlus_Target_Options.name)
+	end
 
     --目标的目标设置菜单
     local UnitFramesPlus_TargetTarget_Options = CreateFrame("Frame", "UnitFramesPlus_TargetTarget_Options", UIParent);
     UnitFramesPlus_TargetTarget_Options.name = "├─"..UFP_OP_ToT_Options;
     UnitFramesPlus_TargetTarget_Options.parent = UFP_OP_Name;
     UnitFramesPlus_TargetTarget_Options:Hide();
-    InterfaceOptions_AddCategory(UnitFramesPlus_TargetTarget_Options);
+    if InterfaceOptions_AddCategory then
+		InterfaceOptions_AddCategory(UnitFramesPlus_TargetTarget_Options);
+	else
+		local subcategory = Settings.RegisterCanvasLayoutSubcategory(category, UnitFramesPlus_TargetTarget_Options, UnitFramesPlus_TargetTarget_Options.name)
+	end
 
     --焦点设置菜单
     UnitFramesPlus_Focus_Options = CreateFrame("Frame", "UnitFramesPlus_Focus_Options", UIParent);
     UnitFramesPlus_Focus_Options.name = "├"..UFP_OP_Focus_Options;
     UnitFramesPlus_Focus_Options.parent = UFP_OP_Name;
     UnitFramesPlus_Focus_Options:Hide();
-    InterfaceOptions_AddCategory(UnitFramesPlus_Focus_Options);
+    if InterfaceOptions_AddCategory then
+		InterfaceOptions_AddCategory(UnitFramesPlus_Focus_Options);
+	else
+		local subcategory = Settings.RegisterCanvasLayoutSubcategory(category, UnitFramesPlus_Focus_Options, UnitFramesPlus_Focus_Options.name)
+	end
 
     --焦点目标设置菜单
     UnitFramesPlus_FocusTarget_Options = CreateFrame("Frame", "UnitFramesPlus_FocusTarget_Options", UIParent);
     UnitFramesPlus_FocusTarget_Options.name = "├─"..UFP_OP_FocusTarget_Options;
     UnitFramesPlus_FocusTarget_Options.parent = UFP_OP_Name;
     UnitFramesPlus_FocusTarget_Options:Hide();
-    InterfaceOptions_AddCategory(UnitFramesPlus_FocusTarget_Options);
+    if InterfaceOptions_AddCategory then
+		InterfaceOptions_AddCategory(UnitFramesPlus_FocusTarget_Options);
+	else
+		local subcategory = Settings.RegisterCanvasLayoutSubcategory(category, UnitFramesPlus_FocusTarget_Options, UnitFramesPlus_FocusTarget_Options.name)
+	end
 
     --队友设置菜单
     local UnitFramesPlus_Party_Options = CreateFrame("Frame", "UnitFramesPlus_Party_Options", UIParent);
     UnitFramesPlus_Party_Options.name = "├"..UFP_OP_Party_Options;
     UnitFramesPlus_Party_Options.parent = UFP_OP_Name;
     UnitFramesPlus_Party_Options:Hide();
-    InterfaceOptions_AddCategory(UnitFramesPlus_Party_Options);
+    if InterfaceOptions_AddCategory then
+		InterfaceOptions_AddCategory(UnitFramesPlus_Party_Options);
+	else
+		local subcategory = Settings.RegisterCanvasLayoutSubcategory(category, UnitFramesPlus_Party_Options, UnitFramesPlus_Party_Options.name)
+	end
 
     --队友目标设置菜单
     local UnitFramesPlus_PartyTarget_Options = CreateFrame("Frame", "UnitFramesPlus_PartyTarget_Options", UIParent);
     UnitFramesPlus_PartyTarget_Options.name = "├─"..UFP_OP_PartyTarget_Options;
     UnitFramesPlus_PartyTarget_Options.parent = UFP_OP_Name;
     UnitFramesPlus_PartyTarget_Options:Hide();
-    InterfaceOptions_AddCategory(UnitFramesPlus_PartyTarget_Options);
+    if InterfaceOptions_AddCategory then
+		InterfaceOptions_AddCategory(UnitFramesPlus_PartyTarget_Options);
+	else
+		local subcategory = Settings.RegisterCanvasLayoutSubcategory(category, UnitFramesPlus_PartyTarget_Options, UnitFramesPlus_PartyTarget_Options.name)
+	end
 
     --其他设置菜单
     local UnitFramesPlus_Extra_Options = CreateFrame("Frame", "UnitFramesPlus_Extra_Options", UIParent);
     UnitFramesPlus_Extra_Options.name = "└"..UFP_OP_Ext_Options;
     UnitFramesPlus_Extra_Options.parent = UFP_OP_Name;
     UnitFramesPlus_Extra_Options:Hide();
-    InterfaceOptions_AddCategory(UnitFramesPlus_Extra_Options);
+    if InterfaceOptions_AddCategory then
+		InterfaceOptions_AddCategory(UnitFramesPlus_Extra_Options);
+	else
+		local subcategory = Settings.RegisterCanvasLayoutSubcategory(category, UnitFramesPlus_Extra_Options, UnitFramesPlus_Extra_Options.name)
+	end
 
     --全局设定
     local globalconfig = UnitFramesPlus_Global_Options:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge");
@@ -349,7 +395,7 @@ do
     globalconfig:SetText(UFP_OP_Global_Options);
 
     --恢复默认设置
-    local UnitFramesPlus_OptionsFrame_Reset = CreateFrame("Button", "UnitFramesPlus_OptionsFrame_Reset", UnitFramesPlus_Global_Options, "OptionsButtonTemplate");
+    local UnitFramesPlus_OptionsFrame_Reset = CreateFrame("Button", "UnitFramesPlus_OptionsFrame_Reset", UnitFramesPlus_Global_Options, "UIPanelButtonTemplate");
     UnitFramesPlus_OptionsFrame_Reset:ClearAllPoints();
     UnitFramesPlus_OptionsFrame_Reset:SetPoint("TOPLEFT", globalconfig, "TOPLEFT", 2, -40);
     UnitFramesPlus_OptionsFrame_Reset:SetWidth(154);
@@ -4080,7 +4126,7 @@ function UnitFramesPlus_OptionPanel_OnShow()
     end
     UnitFramesPlus_OptionsFrame_GlobalPortraitNPCNo:SetChecked(UnitFramesPlusDB["global"]["portraitnpcno"]==1);
     if UnitFramesPlusDB["global"]["portrait"] == 0 then
-        BlizzardOptionsPanel_Slider_Disable(UnitFramesPlus_OptionsFrame_GlobalPortraitTypeSlider);
+        UnitFramesPlus_OptionsFrame_GlobalPortraitTypeSlider:Disable() -- BlizzardOptionsPanel_Slider_Disable(UnitFramesPlus_OptionsFrame_GlobalPortraitTypeSlider);
         BlizzardOptionsPanel_CheckButton_Disable(UnitFramesPlus_OptionsFrame_GlobalPortrait3DBG);
         BlizzardOptionsPanel_CheckButton_Disable(UnitFramesPlus_OptionsFrame_GlobalPortraitNPCNo);
     elseif UnitFramesPlusDB["global"]["portrait"] == 1 then
@@ -4559,3 +4605,7 @@ end
         end
     end
 end
+
+UnitFramesPlus_OptionsFrame:SetScript("OnShow", function()
+    UnitFramesPlus_OptionPanel_OnShow();
+end)
