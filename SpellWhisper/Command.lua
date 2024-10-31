@@ -10,8 +10,12 @@ SlashCmdList["SWC"] = function(Input)
     local Command, Rest = Input:match("^(%S*)%s*(.-)$")
 	if Command:lower() == "gui" then
 		if not UnitAffectingCombat("player") then
-			InterfaceOptionsFrame_OpenToCategory(L["SpellWhisper"])
-			InterfaceOptionsFrame_OpenToCategory(L["SpellWhisper"])
+			if InterfaceOptionsFrame_OpenToCategory then
+				InterfaceOptionsFrame_OpenToCategory(L["SpellWhisper"])
+				InterfaceOptionsFrame_OpenToCategory(L["SpellWhisper"])
+			else
+				Settings.OpenToCategory(L["SpellWhisper"])
+			end
 		else
 			print(L["<|cFFBA55D3SW|r>Can NOT Open |cFFBA55D3SpellWhisper|r GUI when you in COMBAT."])
 		end

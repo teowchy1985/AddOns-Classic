@@ -19,7 +19,13 @@ ScrollFrame.ScrollBar:SetPoint("TOPLEFT", ScrollFrame, "TOPRIGHT", -20, -20)
 ScrollFrame.ScrollBar:SetPoint("BOTTOMLEFT", ScrollFrame, "BOTTOMRIGHT", -20, 20)
 ScrollFrame:SetScrollChild(Panel)
 ScrollFrame.name = L["SpellWhisper"]
-InterfaceOptions_AddCategory(ScrollFrame)
+if InterfaceOptions_AddCategory then
+	InterfaceOptions_AddCategory(ScrollFrame)
+else
+	local category = Settings.RegisterCanvasLayoutCategory(ScrollFrame, ScrollFrame.name)
+	category.ID = ScrollFrame.name
+	Settings.RegisterAddOnCategory(category)
+end
 --标题
 local PanelTitle = Panel:CreateFontString(nil, "ARTWORK", "GameFontNormalLargeLeft")
 PanelTitle:SetPoint("TOPLEFT", 16, -16)

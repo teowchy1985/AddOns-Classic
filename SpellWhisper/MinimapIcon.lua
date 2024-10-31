@@ -80,8 +80,12 @@ if LDB and LDBIcon then
 					print(L["<|cFFBA55D3SW|r>The HUD Frame is Unlocked!"])
 				end
 			elseif button == "RightButton" then
-				InterfaceOptionsFrame_OpenToCategory(L["SpellWhisper"])
-				InterfaceOptionsFrame_OpenToCategory(L["SpellWhisper"])
+				if InterfaceOptionsFrame_OpenToCategory then
+					InterfaceOptionsFrame_OpenToCategory(L["SpellWhisper"])
+					InterfaceOptionsFrame_OpenToCategory(L["SpellWhisper"])
+				else
+					Settings.OpenToCategory(L["SpellWhisper"])
+				end
 			end
 		end
 	end
@@ -241,8 +245,12 @@ function MinimapIcon:Initialize()
 					print(L["<|cFFBA55D3SW|r>The HUD Frame is Unlocked!"])
 				end
 			elseif button == "RightButton" then
-				InterfaceOptionsFrame_OpenToCategory(L["SpellWhisper"])
-				InterfaceOptionsFrame_OpenToCategory(L["SpellWhisper"])
+				if InterfaceOptionsFrame_OpenToCategory then
+					InterfaceOptionsFrame_OpenToCategory(L["SpellWhisper"])
+					InterfaceOptionsFrame_OpenToCategory(L["SpellWhisper"])
+				else
+					Settings.OpenToCategory(L["SpellWhisper"])
+				end
 			end
 		end
 	end)
