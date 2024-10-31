@@ -1030,6 +1030,7 @@ function Frame:CHAT_MSG_ADDON(...) -- 同步Rank，决定谁能发言，提示�
 
 	if arg[1] == Addon.PrefixSW then
 		local AddonChannelMsg = tonumber(arg[2])
+		if not AddonChannelMsg then return end -- 暫時修正
 		if AddonChannelMsg >= 1000 and AddonChannelMsg <= 80000 and (arg[3]:lower() == "party" or arg[3]:lower() == "raid") then
 			if Config.OutputChannel == "off" or Config.OutputChannel == "self" or Config.OutputChannel == "hud" then
 				return
