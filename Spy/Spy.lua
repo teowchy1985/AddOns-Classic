@@ -1681,8 +1681,7 @@ end
 
 function Spy:ShowConfig()
 	-- Opens the profile tab first so the menu expands
-	InterfaceOptionsFrame_OpenToCategory(self.optionsFrames.Profiles)
-	InterfaceOptionsFrame_OpenToCategory(self.optionsFrames.Spy)
+	Settings.OpenToCategory(self.optionsFrames.Spy.name) -- 暫時修正
 end
 
 function Spy:OnEnable(first)
