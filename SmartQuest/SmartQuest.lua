@@ -44,7 +44,7 @@ SmartQuest = {
 	Setting = { };
 	UIRendered = nil;
 	DebugMode = nil;
-	BetaMode = nil; -- WoW Beta client detection
+	-- BetaMode = nil; -- WoW Beta client detection
 	DragonflightMode = nil; -- Dragonflight UI client detection
 	ClassicMode = nil; -- WoW Classic client detection
 
@@ -70,10 +70,10 @@ SmartQuest = {
 
 SmartQuestOptions = { };
 
-if (select(4, GetBuildInfo()) > 110100) then
-	SmartQuest.BetaMode = true;
-end
-if (select(4, GetBuildInfo()) >= 100000) then
+-- if (select(4, GetBuildInfo()) > 110100) then
+--	SmartQuest.BetaMode = true;
+-- end
+if (select(4, GetBuildInfo()) ~= 30403) then
 	SmartQuest.DragonflightMode = true;
 end
 if (select(4, GetBuildInfo()) < 80000) then
