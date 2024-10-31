@@ -272,13 +272,23 @@ LibEvent:attachEvent("VARIABLES_LOADED", function()
     InitCheckbox(frame)
 end)
 
-InterfaceOptions_AddCategory(frame)
+if InterfaceOptions_AddCategory then
+	InterfaceOptions_AddCategory(frame)
+else
+	local category = Settings.RegisterCanvasLayoutCategory(frame, frame.name)
+	category.ID = frame.name
+	Settings.RegisterAddOnCategory(category)
+end
 SLASH_TinyInspectReforged1 = "/tinyinspectr"
 SLASH_TinyInspectReforged2 = "/tir"
 function SlashCmdList.TinyInspectReforged(msg, editbox)
     if (msg == "raid") then
         return ToggleFrame(TinyInspectReforgedRaidFrame)
     end
-    InterfaceOptionsFrame_OpenToCategory(frame)
-    InterfaceOptionsFrame_OpenToCategory(frame)
+    if InterfaceOptionsFrame_OpenToCategory then
+		InterfaceOptionsFrame_OpenToCategory(frame)
+		InterfaceOptionsFrame_OpenToCategory(frame)
+	else
+		Settings.OpenToCategory(frame.name)
+	end
 end
