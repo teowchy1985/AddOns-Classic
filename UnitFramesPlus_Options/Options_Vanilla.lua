@@ -9,10 +9,34 @@ if IsAddOnLoaded("EasyFrames") then
 	showOptions = false
 end
 
+-- 重新定義暴雪遺棄的函數
+local function BlizzardOptionsPanel_Slider_Disable(self)
+	self:Disable()
+	_G[self:GetName().."Text"]:SetTextColor(0.5, 0.5, 0.5);
+end
+
+local function BlizzardOptionsPanel_Slider_Enable(self)
+	self:Enable()
+	_G[self:GetName().."Text"]:SetTextColor(1, 0.82, 0);
+end
+
+local function BlizzardOptionsPanel_CheckButton_Disable(self)
+	self:Disable()
+	_G[self:GetName().."Text"]:SetTextColor(0.5, 0.5, 0.5);
+end
+
+local function BlizzardOptionsPanel_CheckButton_Enable(self)
+	self:Enable()
+	_G[self:GetName().."Text"]:SetTextColor(1, 0.82, 0);
+end
+
 --设置面板
 UnitFramesPlus_OptionsFrame = CreateFrame("Frame", "UnitFramesPlus_OptionsFrame", UIParent);
 UnitFramesPlus_OptionsFrame.name = UFP_OP_Name;
-InterfaceOptions_AddCategory(UnitFramesPlus_OptionsFrame);
+local category = Settings.RegisterCanvasLayoutCategory(UnitFramesPlus_OptionsFrame, UnitFramesPlus_OptionsFrame.name)
+category.ID = UnitFramesPlus_OptionsFrame.name
+Settings.RegisterAddOnCategory(category)
+
 UnitFramesPlus_OptionsFrame:SetScript("OnShow", function()
     UnitFramesPlus_OptionPanel_OnShow();
 end)
@@ -174,45 +198,41 @@ do
     local infotext = UnitFramesPlus_OptionsFrame:CreateFontString(nil, "ARTWORK", "GameFontNormal");
     infotext:ClearAllPoints();
     infotext:SetPoint("TOPLEFT", info, "TOPLEFT", 0, -40);
-    infotext:SetTextColor(1, 1, 1);
     infotext:SetText(UFP_OP_InfoText);
 
     local infotext2 = UnitFramesPlus_OptionsFrame:CreateFontString(nil, "ARTWORK", "GameFontNormal");
     infotext2:ClearAllPoints();
     infotext2:SetPoint("TOPLEFT", infotext, "TOPLEFT", 0, -40);
-    infotext2:SetTextColor(1, 1, 1);
     infotext2:SetText(UFP_OP_InfoText2);
 
     local infotext3 = UnitFramesPlus_OptionsFrame:CreateFontString(nil, "ARTWORK", "GameFontNormal");
     infotext3:ClearAllPoints();
     infotext3:SetPoint("TOPLEFT", infotext2, "TOPLEFT", 0, -40);
-    infotext3:SetTextColor(1, 1, 1);
     infotext3:SetText(UFP_OP_InfoText3);
 
 --[[ 移除不再需要的說明文字
 	local infotext4 = UnitFramesPlus_OptionsFrame:CreateFontString(nil, "ARTWORK", "GameFontNormal");
     infotext4:ClearAllPoints();
     infotext4:SetPoint("TOPLEFT", infotext3, "TOPLEFT", 0, -40);
-    infotext4:SetTextColor(1, 1, 1);
+    infotext4:SetTextColor(1, 0.82, 0);
     infotext4:SetText(UFP_OP_InfoText4);
 
     local infotext5 = UnitFramesPlus_OptionsFrame:CreateFontString(nil, "ARTWORK", "GameFontNormal");
     infotext5:ClearAllPoints();
     infotext5:SetPoint("TOPLEFT", infotext4, "TOPLEFT", 0, -40);
-    infotext5:SetTextColor(1, 1, 1);
+    infotext5:SetTextColor(1, 0.82, 0);
     infotext5:SetText(UFP_OP_InfoText5);
 
     local infotext6 = UnitFramesPlus_OptionsFrame:CreateFontString(nil, "ARTWORK", "GameFontNormal");
     infotext6:ClearAllPoints();
     infotext6:SetPoint("TOPLEFT", infotext5, "TOPLEFT", 0, -40);
-    infotext6:SetTextColor(1, 1, 1);
+    infotext6:SetTextColor(1, 0.82, 0);
     infotext6:SetText(UFP_OP_InfoText6);
 --]]
     if GetLocale() == "zhCN" then
         local infotext7 = UnitFramesPlus_OptionsFrame:CreateFontString(nil, "ARTWORK", "GameFontNormal");
         infotext7:ClearAllPoints();
         infotext7:SetPoint("TOPLEFT", infotext6, "TOPLEFT", 0, -40);
-        infotext7:SetTextColor(1, 1, 1);
         infotext7:SetText("感谢支持：wow.isler.me");
     end
 	
@@ -223,56 +243,57 @@ do
     UnitFramesPlus_Global_Options.name = UFP_OP_Global_Options;
     UnitFramesPlus_Global_Options.parent = UFP_OP_Name;
     UnitFramesPlus_Global_Options:Hide();
-    InterfaceOptions_AddCategory(UnitFramesPlus_Global_Options);
+    category = Settings.GetCategory(UnitFramesPlus_Global_Options.parent)
+	local subcategory = Settings.RegisterCanvasLayoutSubcategory(category, UnitFramesPlus_Global_Options, UnitFramesPlus_Global_Options.name)
 
     --玩家设置菜单
     local UnitFramesPlus_Player_Options = CreateFrame("Frame", "UnitFramesPlus_Player_Options", UIParent);
     UnitFramesPlus_Player_Options.name = "├"..UFP_OP_Player_Options;
     UnitFramesPlus_Player_Options.parent = UFP_OP_Name;
     UnitFramesPlus_Player_Options:Hide();
-    InterfaceOptions_AddCategory(UnitFramesPlus_Player_Options);
+    local subcategory = Settings.RegisterCanvasLayoutSubcategory(category, UnitFramesPlus_Player_Options, UnitFramesPlus_Player_Options.name)
 
     --玩家宠物设置菜单
     local UnitFramesPlus_Pet_Options = CreateFrame("Frame", "UnitFramesPlus_Pet_Options", UIParent);
     UnitFramesPlus_Pet_Options.name = "├─"..UFP_OP_Pet_Options;
     UnitFramesPlus_Pet_Options.parent = UFP_OP_Name;
     UnitFramesPlus_Pet_Options:Hide();
-    InterfaceOptions_AddCategory(UnitFramesPlus_Pet_Options);
+    local subcategory = Settings.RegisterCanvasLayoutSubcategory(category, UnitFramesPlus_Pet_Options, UnitFramesPlus_Pet_Options.name)
 
     --目标设置菜单
     local UnitFramesPlus_Target_Options = CreateFrame("Frame", "UnitFramesPlus_Target_Options", UIParent);
     UnitFramesPlus_Target_Options.name = "├"..UFP_OP_Target_Options;
     UnitFramesPlus_Target_Options.parent = UFP_OP_Name;
     UnitFramesPlus_Target_Options:Hide();
-    InterfaceOptions_AddCategory(UnitFramesPlus_Target_Options);
+    local subcategory = Settings.RegisterCanvasLayoutSubcategory(category, UnitFramesPlus_Target_Options, UnitFramesPlus_Target_Options.name)
 
     --目标的目标设置菜单
     local UnitFramesPlus_TargetTarget_Options = CreateFrame("Frame", "UnitFramesPlus_TargetTarget_Options", UIParent);
     UnitFramesPlus_TargetTarget_Options.name = "├─"..UFP_OP_ToT_Options;
     UnitFramesPlus_TargetTarget_Options.parent = UFP_OP_Name;
     UnitFramesPlus_TargetTarget_Options:Hide();
-    InterfaceOptions_AddCategory(UnitFramesPlus_TargetTarget_Options);
+    local subcategory = Settings.RegisterCanvasLayoutSubcategory(category, UnitFramesPlus_TargetTarget_Options, UnitFramesPlus_TargetTarget_Options.name)
 
     --队友设置菜单
     local UnitFramesPlus_Party_Options = CreateFrame("Frame", "UnitFramesPlus_Party_Options", UIParent);
     UnitFramesPlus_Party_Options.name = "├"..UFP_OP_Party_Options;
     UnitFramesPlus_Party_Options.parent = UFP_OP_Name;
     UnitFramesPlus_Party_Options:Hide();
-    InterfaceOptions_AddCategory(UnitFramesPlus_Party_Options);
+    local subcategory = Settings.RegisterCanvasLayoutSubcategory(category, UnitFramesPlus_Party_Options, UnitFramesPlus_Party_Options.name)
 
     --队友目标设置菜单
     local UnitFramesPlus_PartyTarget_Options = CreateFrame("Frame", "UnitFramesPlus_PartyTarget_Options", UIParent);
     UnitFramesPlus_PartyTarget_Options.name = "├─"..UFP_OP_PartyTarget_Options;
     UnitFramesPlus_PartyTarget_Options.parent = UFP_OP_Name;
     UnitFramesPlus_PartyTarget_Options:Hide();
-    InterfaceOptions_AddCategory(UnitFramesPlus_PartyTarget_Options);
+    local subcategory = Settings.RegisterCanvasLayoutSubcategory(category, UnitFramesPlus_PartyTarget_Options, UnitFramesPlus_PartyTarget_Options.name)
 
     --其他设置菜单
     local UnitFramesPlus_Extra_Options = CreateFrame("Frame", "UnitFramesPlus_Extra_Options", UIParent);
     UnitFramesPlus_Extra_Options.name = "└"..UFP_OP_Ext_Options;
     UnitFramesPlus_Extra_Options.parent = UFP_OP_Name;
     UnitFramesPlus_Extra_Options:Hide();
-    InterfaceOptions_AddCategory(UnitFramesPlus_Extra_Options);
+    local subcategory = Settings.RegisterCanvasLayoutSubcategory(category, UnitFramesPlus_Extra_Options, UnitFramesPlus_Extra_Options.name)
 
     --全局设定
     local globalconfig = UnitFramesPlus_Global_Options:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge");
@@ -281,7 +302,7 @@ do
     globalconfig:SetText(UFP_OP_Global_Options);
 
     --恢复默认设置
-    local UnitFramesPlus_OptionsFrame_Reset = CreateFrame("Button", "UnitFramesPlus_OptionsFrame_Reset", UnitFramesPlus_Global_Options, "OptionsButtonTemplate");
+    local UnitFramesPlus_OptionsFrame_Reset = CreateFrame("Button", "UnitFramesPlus_OptionsFrame_Reset", UnitFramesPlus_Global_Options, "UIPanelButtonTemplate");
     UnitFramesPlus_OptionsFrame_Reset:ClearAllPoints();
     UnitFramesPlus_OptionsFrame_Reset:SetPoint("TOPLEFT", globalconfig, "TOPLEFT", 2, -40);
     UnitFramesPlus_OptionsFrame_Reset:SetWidth(154);
@@ -396,10 +417,8 @@ do
             BlizzardOptionsPanel_Slider_Enable(UnitFramesPlus_OptionsFrame_GlobalPortraitTypeSlider);
             if UnitFramesPlusDB["global"]["portraittype"] == 1 then
                 BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_GlobalPortrait3DBG);
-                UnitFramesPlus_OptionsFrame_GlobalPortrait3DBGText:SetTextColor(1, 1, 1);
             elseif UnitFramesPlusDB["global"]["portraittype"] == 2 then
                 BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_GlobalPortraitNPCNo);
-                UnitFramesPlus_OptionsFrame_GlobalPortraitNPCNoText:SetTextColor(1, 1, 1);
             end
         else
             BlizzardOptionsPanel_Slider_Disable(UnitFramesPlus_OptionsFrame_GlobalPortraitTypeSlider);
@@ -419,7 +438,6 @@ do
             BlizzardOptionsPanel_Slider_Enable(UnitFramesPlus_OptionsFrame_PlayerPortraitTypeSlider);
             if UnitFramesPlusDB["player"]["portraittype"] == 1 then
                 BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PlayerPortrait3DBG);
-                UnitFramesPlus_OptionsFrame_PlayerPortrait3DBGText:SetTextColor(1, 1, 1);
             end
         else
             BlizzardOptionsPanel_Slider_Disable(UnitFramesPlus_OptionsFrame_PlayerPortraitTypeSlider);
@@ -441,10 +459,8 @@ do
             BlizzardOptionsPanel_Slider_Enable(UnitFramesPlus_OptionsFrame_TargetPortraitTypeSlider);
             if UnitFramesPlusDB["target"]["portraittype"] == 1 then
                 BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_TargetPortrait3DBG);
-                UnitFramesPlus_OptionsFrame_TargetPortrait3DBGText:SetTextColor(1, 1, 1);
             elseif UnitFramesPlusDB["target"]["portraittype"] == 2 then
                 BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_TargetPortraitNPCNo);
-                UnitFramesPlus_OptionsFrame_TargetPortraitNPCNoText:SetTextColor(1, 1, 1);
             end
         else
             BlizzardOptionsPanel_Slider_Disable(UnitFramesPlus_OptionsFrame_TargetPortraitTypeSlider);
@@ -467,7 +483,6 @@ do
                 BlizzardOptionsPanel_Slider_Enable(UnitFramesPlus_OptionsFrame_PartyPortraitTypeSlider);
                 if UnitFramesPlusDB["party"]["portraittype"] == 1 then
                     BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyPortrait3DBG);
-                    UnitFramesPlus_OptionsFrame_PartyPortrait3DBGText:SetTextColor(1, 1, 1);
                 end
             else
                 BlizzardOptionsPanel_Slider_Disable(UnitFramesPlus_OptionsFrame_PartyPortraitTypeSlider);
@@ -494,19 +509,16 @@ do
 			UnitFramesPlusDB["global"]["portraittype"] = value;
 			if value == 1 then
 				BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_GlobalPortrait3DBG);
-				UnitFramesPlus_OptionsFrame_GlobalPortrait3DBGText:SetTextColor(1, 1, 1);
 				BlizzardOptionsPanel_CheckButton_Disable(UnitFramesPlus_OptionsFrame_GlobalPortraitNPCNo);
 			elseif value == 2 then
 				BlizzardOptionsPanel_CheckButton_Disable(UnitFramesPlus_OptionsFrame_GlobalPortrait3DBG);
 				BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_GlobalPortraitNPCNo);
-				UnitFramesPlus_OptionsFrame_GlobalPortraitNPCNoText:SetTextColor(1, 1, 1);
 			end
 
 			UnitFramesPlusDB["player"]["portraittype"] = value;
 			UnitFramesPlus_PlayerPortrait();
 			if value == 1 then
 				BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PlayerPortrait3DBG);
-				UnitFramesPlus_OptionsFrame_PlayerPortrait3DBGText:SetTextColor(1, 1, 1);
 			else
 				BlizzardOptionsPanel_CheckButton_Disable(UnitFramesPlus_OptionsFrame_PlayerPortrait3DBG);
 			end
@@ -516,12 +528,10 @@ do
 			UnitFramesPlus_TargetPortrait();
 			if value == 1 then
 				BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_TargetPortrait3DBG);
-				UnitFramesPlus_OptionsFrame_TargetPortrait3DBGText:SetTextColor(1, 1, 1);
 				BlizzardOptionsPanel_CheckButton_Disable(UnitFramesPlus_OptionsFrame_TargetPortraitNPCNo);
 			elseif value == 2 then
 				BlizzardOptionsPanel_CheckButton_Disable(UnitFramesPlus_OptionsFrame_TargetPortrait3DBG);
 				BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_TargetPortraitNPCNo);
-				UnitFramesPlus_OptionsFrame_TargetPortraitNPCNoText:SetTextColor(1, 1, 1);
 			end
 			UnitFramesPlus_OptionsFrame_TargetPortraitTypeSlider:SetValue(value);
 
@@ -530,7 +540,6 @@ do
 				UnitFramesPlus_PartyPortrait();
 				if value == 1 then
 					BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyPortrait3DBG);
-					UnitFramesPlus_OptionsFrame_PartyPortrait3DBGText:SetTextColor(1, 1, 1);
 				else
 					BlizzardOptionsPanel_CheckButton_Disable(UnitFramesPlus_OptionsFrame_PartyPortrait3DBG);
 				end
@@ -764,14 +773,11 @@ end
             UIDropDownMenu_EnableDropDown(UnitFramesPlus_OptionsFrame_PlayerHPMPPctPartOne);
             UIDropDownMenu_EnableDropDown(UnitFramesPlus_OptionsFrame_PlayerHPMPPctPartTwo);
             BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PlayerHPMPUnit);
-            UnitFramesPlus_OptionsFrame_PlayerHPMPUnitText:SetTextColor(1, 1, 1);
             BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PlayerCoordinate);
-            UnitFramesPlus_OptionsFrame_PlayerCoordinateText:SetTextColor(1, 1, 1);
             if GetLocale() == "zhCN" or GetLocale() == "zhTW" then
                 BlizzardOptionsPanel_Slider_Enable(UnitFramesPlus_OptionsFrame_PlayerUnitTypeSlider);
             end
 			BlizzardOptionsPanel_Slider_Enable(UnitFramesPlus_OptionsFrame_PlayerExtraTextFontSizeSlider);
-			UnitFramesPlus_OptionsFrame_PlayerExtraTextFontSizeSliderText:SetTextColor(1, 1, 1);
         else
             UIDropDownMenu_DisableDropDown(UnitFramesPlus_OptionsFrame_PlayerHPMPPctPartOne);
             UIDropDownMenu_DisableDropDown(UnitFramesPlus_OptionsFrame_PlayerHPMPPctPartTwo);
@@ -848,12 +854,9 @@ if showOptions then
             UIDropDownMenu_EnableDropDown(UnitFramesPlus_OptionsFrame_PlayerHPMPPctPartOne);
             UIDropDownMenu_EnableDropDown(UnitFramesPlus_OptionsFrame_PlayerHPMPPctPartTwo);
             BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PlayerHPMPUnit);
-            UnitFramesPlus_OptionsFrame_PlayerHPMPUnitText:SetTextColor(1, 1, 1);
             BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PlayerCoordinate);
-            UnitFramesPlus_OptionsFrame_PlayerCoordinateText:SetTextColor(1, 1, 1);
         else
             BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PlayerHPMPPct);
-            UnitFramesPlus_OptionsFrame_PlayerHPMPPctText:SetTextColor(1, 1, 1);
         end
         UnitFramesPlus_PlayerExtrabar();
         self:SetChecked(UnitFramesPlusDB["player"]["extrabar"]==1);
@@ -941,7 +944,6 @@ end
             BlizzardOptionsPanel_Slider_Enable(UnitFramesPlus_OptionsFrame_PlayerPortraitTypeSlider);
             if UnitFramesPlusDB["player"]["portraittype"] == 1 then
                 BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PlayerPortrait3DBG);
-                UnitFramesPlus_OptionsFrame_PlayerPortrait3DBGText:SetTextColor(1, 1, 1);
             end
             if UnitFramesPlusDB["target"]["portrait"] == 1 
             and UnitFramesPlusDB["party"]["portrait"] == 1 then
@@ -950,7 +952,6 @@ end
                 BlizzardOptionsPanel_Slider_Enable(UnitFramesPlus_OptionsFrame_GlobalPortraitTypeSlider);
                 if UnitFramesPlusDB["global"]["portraittype"] == 1 then
                     BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_GlobalPortrait3DBG);
-                    UnitFramesPlus_OptionsFrame_GlobalPortrait3DBGText:SetTextColor(1, 1, 1);
                 elseif UnitFramesPlusDB["global"]["portraittype"] == 2 then
                     BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_GlobalPortraitNPCNo);
                 end
@@ -984,7 +985,6 @@ end
 			UnitFramesPlus_PlayerPortrait();
 			if value == 1 then
 				BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PlayerPortrait3DBG);
-				UnitFramesPlus_OptionsFrame_PlayerPortrait3DBGText:SetTextColor(1, 1, 1);
 			else
 				BlizzardOptionsPanel_CheckButton_Disable(UnitFramesPlus_OptionsFrame_PlayerPortrait3DBG);
 			end
@@ -1215,13 +1215,9 @@ end
         UnitFramesPlusDB["pet"]["target"] = 1 - UnitFramesPlusDB["pet"]["target"];
         if UnitFramesPlusDB["pet"]["target"] == 1 then
             BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PetTargetTmp);
-            UnitFramesPlus_OptionsFrame_PetTargetTmpText:SetTextColor(1, 1, 1);
             BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PetTargetHPPct);
-            UnitFramesPlus_OptionsFrame_PetTargetHPPctText:SetTextColor(1, 1, 1);
             BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PetTargetShiftDrag);
-            UnitFramesPlus_OptionsFrame_PetTargetShiftDragText:SetTextColor(1, 1, 1);
             BlizzardOptionsPanel_Slider_Enable(UnitFramesPlus_OptionsFrame_PetTargetScaleSlider);
-            UnitFramesPlus_OptionsFrame_PetTargetScaleSliderText:SetTextColor(1, 1, 1);
         else
             BlizzardOptionsPanel_CheckButton_Disable(UnitFramesPlus_OptionsFrame_PetTargetTmp);
             BlizzardOptionsPanel_CheckButton_Disable(UnitFramesPlus_OptionsFrame_PetTargetHPPct);
@@ -1352,12 +1348,10 @@ end
             UIDropDownMenu_EnableDropDown(UnitFramesPlus_OptionsFrame_TargetHPMPPctPartOne);
             UIDropDownMenu_EnableDropDown(UnitFramesPlus_OptionsFrame_TargetHPMPPctPartTwo);
             BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_TargetHPMPUnit);
-            UnitFramesPlus_OptionsFrame_TargetHPMPUnitText:SetTextColor(1, 1, 1);
             if GetLocale() == "zhCN" or GetLocale() == "zhTW" then
                 BlizzardOptionsPanel_Slider_Enable(UnitFramesPlus_OptionsFrame_TargetUnitTypeSlider);
             end
 			BlizzardOptionsPanel_Slider_Enable(UnitFramesPlus_OptionsFrame_TargetExtraTextFontSizeSlider);
-            UnitFramesPlus_OptionsFrame_TargetExtraTextFontSizeSliderText:SetTextColor(1, 1, 1);
         else
             UIDropDownMenu_DisableDropDown(UnitFramesPlus_OptionsFrame_TargetHPMPPctPartOne);
             UIDropDownMenu_DisableDropDown(UnitFramesPlus_OptionsFrame_TargetHPMPPctPartTwo);
@@ -1435,10 +1429,8 @@ if showOptions then
             UIDropDownMenu_EnableDropDown(UnitFramesPlus_OptionsFrame_TargetHPMPPctPartOne);
             UIDropDownMenu_EnableDropDown(UnitFramesPlus_OptionsFrame_TargetHPMPPctPartTwo);
             BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_TargetHPMPUnit);
-            UnitFramesPlus_OptionsFrame_TargetHPMPUnitText:SetTextColor(1, 1, 1);
         else
             BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_TargetHPMPPct);
-            UnitFramesPlus_OptionsFrame_TargetHPMPPctText:SetTextColor(1, 1, 1);
         end
         UnitFramesPlus_TargetExtrabar();
         self:SetChecked(UnitFramesPlusDB["target"]["extrabar"]==1);
@@ -1496,7 +1488,6 @@ end
         UnitFramesPlusDB["target"]["classicon"] = 1 - UnitFramesPlusDB["target"]["classicon"];
         if UnitFramesPlusDB["target"]["classicon"] == 1 then
             BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_TargetClassIconMore);
-            UnitFramesPlus_OptionsFrame_TargetClassIconMoreText:SetTextColor(1, 1, 1);
         else
             BlizzardOptionsPanel_CheckButton_Disable(UnitFramesPlus_OptionsFrame_TargetClassIconMore);
         end
@@ -1540,9 +1531,7 @@ if showOptions then
         UnitFramesPlusDB["target"]["buffsize"] = 1 - UnitFramesPlusDB["target"]["buffsize"];
         if UnitFramesPlusDB["target"]["buffsize"] == 1 then
             BlizzardOptionsPanel_Slider_Enable(UnitFramesPlus_OptionsFrame_TargetBuffSizeMineSlider);
-            UnitFramesPlus_OptionsFrame_TargetBuffSizeMineSliderText:SetTextColor(1, 1, 1);
             BlizzardOptionsPanel_Slider_Enable(UnitFramesPlus_OptionsFrame_TargetBuffSizeOtherSlider);
-            UnitFramesPlus_OptionsFrame_TargetBuffSizeOtherSliderText:SetTextColor(1, 1, 1);
         else
             BlizzardOptionsPanel_Slider_Disable(UnitFramesPlus_OptionsFrame_TargetBuffSizeMineSlider);
             BlizzardOptionsPanel_Slider_Disable(UnitFramesPlus_OptionsFrame_TargetBuffSizeOtherSlider);
@@ -1605,10 +1594,8 @@ end
             BlizzardOptionsPanel_Slider_Enable(UnitFramesPlus_OptionsFrame_TargetPortraitTypeSlider);
             if UnitFramesPlusDB["target"]["portraittype"] == 1 then
                 BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_TargetPortrait3DBG);
-                UnitFramesPlus_OptionsFrame_TargetPortrait3DBGText:SetTextColor(1, 1, 1);
             elseif UnitFramesPlusDB["target"]["portraittype"] == 2 then
                 BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_TargetPortraitNPCNo);
-                UnitFramesPlus_OptionsFrame_TargetPortraitNPCNoText:SetTextColor(1, 1, 1);
             end
             if UnitFramesPlusDB["player"]["portrait"] == 1 
             and UnitFramesPlusDB["target"]["portrait"] == 1 
@@ -1618,7 +1605,6 @@ end
                 BlizzardOptionsPanel_Slider_Enable(UnitFramesPlus_OptionsFrame_GlobalPortraitTypeSlider);
                 if UnitFramesPlusDB["global"]["portraittype"] == 1 then
                     BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_GlobalPortrait3DBG);
-                    UnitFramesPlus_OptionsFrame_GlobalPortrait3DBGText:SetTextColor(1, 1, 1);
                 elseif UnitFramesPlusDB["global"]["portraittype"] == 2 then
                     BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_GlobalPortraitNPCNo);
                 end
@@ -1654,12 +1640,10 @@ end
 			UnitFramesPlus_TargetPortraitDisplayUpdate();
 			if value == 1 then
 				BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_TargetPortrait3DBG);
-				UnitFramesPlus_OptionsFrame_TargetPortrait3DBGText:SetTextColor(1, 1, 1);
 				BlizzardOptionsPanel_CheckButton_Disable(UnitFramesPlus_OptionsFrame_TargetPortraitNPCNo);
 			elseif value == 2 then
 				BlizzardOptionsPanel_CheckButton_Disable(UnitFramesPlus_OptionsFrame_TargetPortrait3DBG);
 				BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_TargetPortraitNPCNo);
-				UnitFramesPlus_OptionsFrame_TargetPortraitNPCNoText:SetTextColor(1, 1, 1);
 			end
 		end
 	end)
@@ -1878,30 +1862,20 @@ end
         UnitFramesPlusDB["targettarget"]["showtot"] = 1 - UnitFramesPlusDB["targettarget"]["showtot"];
         if UnitFramesPlusDB["targettarget"]["showtot"] == 1 then
             BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_TargetTargetTarget);
-            UnitFramesPlus_OptionsFrame_TargetTargetTargetText:SetTextColor(1, 1, 1);
             BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_TargetTargetDebuff);
-            UnitFramesPlus_OptionsFrame_TargetTargetDebuffText:SetTextColor(1, 1, 1);
             BlizzardOptionsPanel_Slider_Enable(UnitFramesPlus_OptionsFrame_TargetTargetScaleSlider);
-            UnitFramesPlus_OptionsFrame_TargetTargetScaleSliderText:SetTextColor(1, 1, 1);
             BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_TargetTargetHPPct);
-            UnitFramesPlus_OptionsFrame_TargetTargetHPPctText:SetTextColor(1, 1, 1);
             BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_TargetTargetEnemyCheck);
-            UnitFramesPlus_OptionsFrame_TargetTargetEnemyCheckText:SetTextColor(1, 1, 1);
             BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_TargetTargetColorName);
-            UnitFramesPlus_OptionsFrame_TargetTargetColorNameText:SetTextColor(1, 1, 1);
             if UnitFramesPlusDB["targettarget"]["colorname"] == 1 then
 	            BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_TargetTargetColorNameNPCNo);
-	            UnitFramesPlus_OptionsFrame_TargetTargetColorNameNPCNoText:SetTextColor(1, 1, 1);
 	        end
             -- BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_TargetTargetShortName);
-            -- UnitFramesPlus_OptionsFrame_TargetTargetShortNameText:SetTextColor(1, 1, 1);
+            -- UnitFramesPlus_OptionsFrame_TargetTargetShortNameText:SetTextColor(1, 0.82, 0);
             BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_TargetTargetShiftDrag);
-            UnitFramesPlus_OptionsFrame_TargetTargetShiftDragText:SetTextColor(1, 1, 1);
             BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_TargetTargetClassPortrait);
-            UnitFramesPlus_OptionsFrame_TargetTargetClassPortraitText:SetTextColor(1, 1, 1);
             if UnitFramesPlusDB["targettarget"]["portrait"] == 1 then
                 BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_TargetTargetClassPortraitNPCNo);
-                UnitFramesPlus_OptionsFrame_TargetTargetClassPortraitNPCNoText:SetTextColor(1, 1, 1);
             end
         else
             BlizzardOptionsPanel_CheckButton_Disable(UnitFramesPlus_OptionsFrame_TargetTargetTarget);
@@ -1945,7 +1919,6 @@ end
         UnitFramesPlus_TargetTargetTargetClassPortraitDisplayUpdate();
         if UnitFramesPlusDB["targettarget"]["portrait"] == 1 then
             BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_TargetTargetClassPortraitNPCNo);
-            UnitFramesPlus_OptionsFrame_TargetTargetClassPortraitNPCNoText:SetTextColor(1, 1, 1);
         else
             BlizzardOptionsPanel_CheckButton_Disable(UnitFramesPlus_OptionsFrame_TargetTargetClassPortraitNPCNo);
         end
@@ -2001,7 +1974,6 @@ end
         UnitFramesPlusDB["targettarget"]["colorname"] = 1 - UnitFramesPlusDB["targettarget"]["colorname"];
         if UnitFramesPlusDB["targettarget"]["colorname"] == 1 then
             BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_TargetTargetColorNameNPCNo);
-            UnitFramesPlus_OptionsFrame_TargetTargetColorNameNPCNoText:SetTextColor(1, 1, 1);
         else
             BlizzardOptionsPanel_CheckButton_Disable(UnitFramesPlus_OptionsFrame_TargetTargetColorNameNPCNo);
         end
@@ -2074,12 +2046,14 @@ end
     UnitFramesPlus_OptionsFrame_PartyHideRaid:SetPoint("TOPLEFT", partyconfig, "TOPLEFT", 0, -40);
     UnitFramesPlus_OptionsFrame_PartyHideRaid:SetHitRectInsets(0, -100, 0, 0);
     UnitFramesPlus_OptionsFrame_PartyHideRaidText:SetText(UFP_OP_Party_HideRaid);
+	UnitFramesPlus_OptionsFrame_PartyHideRaid:Disable()  -- 暫時停用此功能，待修復
+	UnitFramesPlus_OptionsFrame_PartyHideRaidText:SetTextColor(0.5, 0.5, 0.5)
     UnitFramesPlus_OptionsFrame_PartyHideRaid:SetScript("OnClick", function(self)
         UnitFramesPlusDB["party"]["hideraid"] = 1 - UnitFramesPlusDB["party"]["hideraid"];
         UnitFramesPlus_HideRaidFrame();
         -- if UnitFramesPlusDB["party"]["hideraid"] == 1 then
         --     BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyInRaid);
-        --     UnitFramesPlus_OptionsFrame_PartyInRaidText:SetTextColor(1, 1, 1);
+        --     UnitFramesPlus_OptionsFrame_PartyInRaidText:SetTextColor(1, 0.82, 0);
         -- else
         --     BlizzardOptionsPanel_CheckButton_Disable(UnitFramesPlus_OptionsFrame_PartyInRaid);
         -- end
@@ -2189,53 +2163,40 @@ end
 				BlizzardOptionsPanel_Slider_Disable(UnitFramesPlus_OptionsFrame_PartyExtraTextFontSizeSlider);
 			else
 				BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyPet);
-				UnitFramesPlus_OptionsFrame_PartyPetText:SetTextColor(1, 1, 1);
 				BlizzardOptionsPanel_Slider_Enable(UnitFramesPlus_OptionsFrame_PartyExtraTextFontSizeSlider);
-				UnitFramesPlus_OptionsFrame_PartyExtraTextFontSizeSliderText:SetTextColor(1, 1, 1);
 				BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyHP);
-				UnitFramesPlus_OptionsFrame_PartyHPText:SetTextColor(1, 1, 1);
 				if UnitFramesPlusDB["party"]["hp"] == 1 then
 					BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyHPPct);
-					UnitFramesPlus_OptionsFrame_PartyHPPctText:SetTextColor(1, 1, 1);
 				end
 				BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyColorName);
-				UnitFramesPlus_OptionsFrame_PartyColorNameText:SetTextColor(1, 1, 1);
 				BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyShortName);
-				UnitFramesPlus_OptionsFrame_PartyShortNameText:SetTextColor(1, 1, 1);
 				BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyLevel);
-				UnitFramesPlus_OptionsFrame_PartyLevelText:SetTextColor(1, 1, 1);
 				BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyPortraitType);
-				UnitFramesPlus_OptionsFrame_PartyPortraitTypeText:SetTextColor(1, 1, 1);
 				if UnitFramesPlusDB["party"]["portrait"] == 1 then
 					BlizzardOptionsPanel_Slider_Enable(UnitFramesPlus_OptionsFrame_PartyPortraitTypeSlider);
 					if UnitFramesPlusDB["party"]["portraittype"] ~= 2 then
 						BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyPortrait3DBG);
-						UnitFramesPlus_OptionsFrame_PartyPortrait3DBGText:SetTextColor(1, 1, 1);
+						UnitFramesPlus_OptionsFrame_PartyPortrait3DBGText:SetTextColor(1, 0.82, 0);
 					end
 				end
 				-- BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyOfflineDetection);
-				-- UnitFramesPlus_OptionsFrame_PartyOfflineDetectionText:SetTextColor(1, 1, 1);
+				-- UnitFramesPlus_OptionsFrame_PartyOfflineDetectionText:SetTextColor(1, 0.82, 0);
 				-- BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyDeathGhost);
-				-- UnitFramesPlus_OptionsFrame_PartyDeathGhostText:SetTextColor(1, 1, 1);
+				-- UnitFramesPlus_OptionsFrame_PartyDeathGhostText:SetTextColor(1, 0.82, 0);
 				BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyBuff);
-				UnitFramesPlus_OptionsFrame_PartyBuffText:SetTextColor(1, 1, 1);
 				if UnitFramesPlusDB["party"]["buff"] == 1 then
 					BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyBuffFilter);
-					UnitFramesPlus_OptionsFrame_PartyBuffFilterText:SetTextColor(1, 1, 1);
 					if UnitFramesPlusDB["party"]["filter"] == 1 then
 						UIDropDownMenu_EnableDropDown(UnitFramesPlus_OptionsFrame_PartyBuffFilterType);
 					end
 					BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyBuffHidetip);
-					UnitFramesPlus_OptionsFrame_PartyBuffHidetipText:SetTextColor(1, 1, 1);
 				end
 				-- BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyCastbar);
-				-- UnitFramesPlus_OptionsFrame_PartyCastbarText:SetTextColor(1, 1, 1);
+				-- UnitFramesPlus_OptionsFrame_PartyCastbarText:SetTextColor(1, 0.82, 0);
 				-- BlizzardOptionsPanel_Slider_Enable(UnitFramesPlus_OptionsFrame_PartyScaleSlider);
-				-- UnitFramesPlus_OptionsFrame_PartyScaleSliderText:SetTextColor(1, 1, 1);
+				-- UnitFramesPlus_OptionsFrame_PartyScaleSliderText:SetTextColor(1, 0.82, 0);
 				BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyBartext);
-				UnitFramesPlus_OptionsFrame_PartyBartextText:SetTextColor(1, 1, 1);
 				BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyHPMPUnit);
-				UnitFramesPlus_OptionsFrame_PartyHPMPUnitText:SetTextColor(1, 1, 1);
 				if GetLocale() == "zhCN" or GetLocale() == "zhTW" then
 					UnitFramesPlus_OptionsFrame_PartyUnitTypeSlider:SetValue(UnitFramesPlusDB["party"]["unittype"]);
 					if UnitFramesPlusDB["party"]["hpmpunit"] == 1 then
@@ -2244,48 +2205,34 @@ end
 				end
 				if UnitFramesPlusDB["party"]["bartext"] == 1 then
 					BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyMouseShow);
-					UnitFramesPlus_OptionsFrame_PartyMouseShowText:SetTextColor(1, 1, 1);
 				end
 				-- BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyShiftDrag);
-				-- UnitFramesPlus_OptionsFrame_PartyShiftDragText:SetTextColor(1, 1, 1);
+				-- UnitFramesPlus_OptionsFrame_PartyShiftDragText:SetTextColor(1, 0.82, 0);
 				BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyPortraitIndicator);
-				UnitFramesPlus_OptionsFrame_PartyPortraitIndicatorText:SetTextColor(1, 1, 1);
 				if showOptions then
 					BlizzardOptionsPanel_Slider_Enable(UnitFramesPlus_OptionsFrame_PartyScaleSlider);
-					UnitFramesPlus_OptionsFrame_PartyScaleSliderText:SetTextColor(1, 1, 1);
 					BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyColorHP);
-					UnitFramesPlus_OptionsFrame_PartyColorHPText:SetTextColor(1, 1, 1);
 					if UnitFramesPlusDB["party"]["colorhp"] == 1 then
 						BlizzardOptionsPanel_Slider_Enable(UnitFramesPlus_OptionsFrame_PartyColorHPSlider);
 					end
 				end
 				if UnitFramesPlusDB["partytarget"]["show"] == 1 then
 					BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyTarget);
-					UnitFramesPlus_OptionsFrame_PartyTargetText:SetTextColor(1, 1, 1);
 					BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyTargetLite);
-					UnitFramesPlus_OptionsFrame_PartyTargetLiteText:SetTextColor(1, 1, 1);
 					BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyTargetHPPct);
-					UnitFramesPlus_OptionsFrame_PartyTargetHPPctText:SetTextColor(1, 1, 1);
 					BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyTargetEnemyCheck);
-					UnitFramesPlus_OptionsFrame_PartyTargetEnemyCheckText:SetTextColor(1, 1, 1);
 					BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyTargetColorName);
-					UnitFramesPlus_OptionsFrame_PartyTargetColorNameText:SetTextColor(1, 1, 1);
 					if UnitFramesPlusDB["partytarget"]["colorname"] == 1 then
 						BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyTargetColorNameNPCNo);
-						UnitFramesPlus_OptionsFrame_PartyTargetColorNameNPCNoText:SetTextColor(1, 1, 1);
 					end
 					BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyTargetShortName);
-					UnitFramesPlus_OptionsFrame_PartyTargetShortNameText:SetTextColor(1, 1, 1);
 					BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyTargetDebuff);
-					UnitFramesPlus_OptionsFrame_PartyTargetDebuffText:SetTextColor(1, 1, 1);
 					-- BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyTargetHighlight);
-					-- UnitFramesPlus_OptionsFrame_PartyTargetHighlightText:SetTextColor(1, 1, 1);
+					-- UnitFramesPlus_OptionsFrame_PartyTargetHighlightText:SetTextColor(1, 0.82, 0);
 					if UnitFramesPlusDB["partytarget"]["lite"] ~= 1 then
 						BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyTargetClassPortrait);
-						UnitFramesPlus_OptionsFrame_PartyTargetClassPortraitText:SetTextColor(1, 1, 1);
 						if UnitFramesPlusDB["partytarget"]["portrait"] == 1 then
 							BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyTargetClassPortraitNPCNo);
-							UnitFramesPlus_OptionsFrame_PartyTargetClassPortraitNPCNoText:SetTextColor(1, 1, 1);
 						end
 					end
                 end
@@ -2320,7 +2267,6 @@ end
         UnitFramesPlusDB["party"]["hp"] = 1 - UnitFramesPlusDB["party"]["hp"];
         if UnitFramesPlusDB["party"]["hp"] == 1 then
             BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyHPPct);
-            UnitFramesPlus_OptionsFrame_PartyHPPctText:SetTextColor(1, 1, 1);
         else
             BlizzardOptionsPanel_CheckButton_Disable(UnitFramesPlus_OptionsFrame_PartyHPPct);
         end
@@ -2401,9 +2347,7 @@ end
         UnitFramesPlusDB["party"]["buff"] = 1 - UnitFramesPlusDB["party"]["buff"];
         if UnitFramesPlusDB["party"]["buff"] == 1 then
             BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyBuffHidetip);
-            UnitFramesPlus_OptionsFrame_PartyBuffHidetipText:SetTextColor(1, 1, 1);
             BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyBuffFilter);
-            UnitFramesPlus_OptionsFrame_PartyBuffFilterText:SetTextColor(1, 1, 1);
             UIDropDownMenu_EnableDropDown(UnitFramesPlus_OptionsFrame_PartyBuffFilterType);
         else
             BlizzardOptionsPanel_CheckButton_Disable(UnitFramesPlus_OptionsFrame_PartyBuffHidetip);
@@ -2466,7 +2410,6 @@ end
             BlizzardOptionsPanel_CheckButton_Disable(UnitFramesPlus_OptionsFrame_PartyMouseShow);
         else
             BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyMouseShow);
-            UnitFramesPlus_OptionsFrame_PartyMouseShowText:SetTextColor(1, 1, 1);
         end
         self:SetChecked(UnitFramesPlusDB["party"]["bartext"]==1);
     end)
@@ -2584,7 +2527,6 @@ end
             BlizzardOptionsPanel_Slider_Enable(UnitFramesPlus_OptionsFrame_PartyPortraitTypeSlider);
             if UnitFramesPlusDB["party"]["portraittype"] == 1 then
                 BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyPortrait3DBG);
-                UnitFramesPlus_OptionsFrame_PartyPortrait3DBGText:SetTextColor(1, 1, 1);
             end
             if UnitFramesPlusDB["player"]["portrait"] == 1 
             and UnitFramesPlusDB["target"]["portrait"] == 1 
@@ -2594,7 +2536,6 @@ end
                 BlizzardOptionsPanel_Slider_Enable(UnitFramesPlus_OptionsFrame_GlobalPortraitTypeSlider);
                 if UnitFramesPlusDB["global"]["portraittype"] == 1 then
                     BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_GlobalPortrait3DBG);
-                    UnitFramesPlus_OptionsFrame_GlobalPortrait3DBGText:SetTextColor(1, 1, 1);
                 elseif UnitFramesPlusDB["global"]["portraittype"] == 2 then
                     BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_GlobalPortraitNPCNo);
                 end
@@ -2628,7 +2569,6 @@ end
 			UnitFramesPlus_PartyPortrait();
 			if value == 1 then
 				BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyPortrait3DBG);
-				UnitFramesPlus_OptionsFrame_PartyPortrait3DBGText:SetTextColor(1, 1, 1);
 			else
 				BlizzardOptionsPanel_CheckButton_Disable(UnitFramesPlus_OptionsFrame_PartyPortrait3DBG);
 			end
@@ -2858,53 +2798,39 @@ end
 				BlizzardOptionsPanel_Slider_Disable(UnitFramesPlus_OptionsFrame_PartyExtraTextFontSizeSlider);
 			else
 				BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyPet);
-				UnitFramesPlus_OptionsFrame_PartyPetText:SetTextColor(1, 1, 1);
 				BlizzardOptionsPanel_Slider_Enable(UnitFramesPlus_OptionsFrame_PartyExtraTextFontSizeSlider);
-				UnitFramesPlus_OptionsFrame_PartyExtraTextFontSizeSliderText:SetTextColor(1, 1, 1);
 				BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyHP);
-				UnitFramesPlus_OptionsFrame_PartyHPText:SetTextColor(1, 1, 1);
 				if UnitFramesPlusDB["party"]["hp"] == 1 then
 					BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyHPPct);
-					UnitFramesPlus_OptionsFrame_PartyHPPctText:SetTextColor(1, 1, 1);
 				end
 				BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyColorName);
-				UnitFramesPlus_OptionsFrame_PartyColorNameText:SetTextColor(1, 1, 1);
 				BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyShortName);
-				UnitFramesPlus_OptionsFrame_PartyShortNameText:SetTextColor(1, 1, 1);
 				BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyLevel);
-				UnitFramesPlus_OptionsFrame_PartyLevelText:SetTextColor(1, 1, 1);
 				BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyPortraitType);
-				UnitFramesPlus_OptionsFrame_PartyPortraitTypeText:SetTextColor(1, 1, 1);
 				if UnitFramesPlusDB["party"]["portrait"] == 1 then
 					BlizzardOptionsPanel_Slider_Enable(UnitFramesPlus_OptionsFrame_PartyPortraitTypeSlider);
 					if UnitFramesPlusDB["party"]["portraittype"] ~= 2 then
 						BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyPortrait3DBG);
-						UnitFramesPlus_OptionsFrame_PartyPortrait3DBGText:SetTextColor(1, 1, 1);
 					end
 				end
 				-- BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyOfflineDetection);
-				-- UnitFramesPlus_OptionsFrame_PartyOfflineDetectionText:SetTextColor(1, 1, 1);
+				-- UnitFramesPlus_OptionsFrame_PartyOfflineDetectionText:SetTextColor(1, 0.82, 0);
 				-- BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyDeathGhost);
-				-- UnitFramesPlus_OptionsFrame_PartyDeathGhostText:SetTextColor(1, 1, 1);
+				-- UnitFramesPlus_OptionsFrame_PartyDeathGhostText:SetTextColor(1, 0.82, 0);
 				BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyBuff);
-				UnitFramesPlus_OptionsFrame_PartyBuffText:SetTextColor(1, 1, 1);
 				if UnitFramesPlusDB["party"]["buff"] == 1 then
 					BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyBuffFilter);
-					UnitFramesPlus_OptionsFrame_PartyBuffFilterText:SetTextColor(1, 1, 1);
 					if UnitFramesPlusDB["party"]["filter"] == 1 then
 						UIDropDownMenu_EnableDropDown(UnitFramesPlus_OptionsFrame_PartyBuffFilterType);
 					end
 					BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyBuffHidetip);
-					UnitFramesPlus_OptionsFrame_PartyBuffHidetipText:SetTextColor(1, 1, 1);
 				end
 				-- BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyCastbar);
-				-- UnitFramesPlus_OptionsFrame_PartyCastbarText:SetTextColor(1, 1, 1);
+				-- UnitFramesPlus_OptionsFrame_PartyCastbarText:SetTextColor(1, 0.82, 0);
 				-- BlizzardOptionsPanel_Slider_Enable(UnitFramesPlus_OptionsFrame_PartyScaleSlider);
-				-- UnitFramesPlus_OptionsFrame_PartyScaleSliderText:SetTextColor(1, 1, 1);
+				-- UnitFramesPlus_OptionsFrame_PartyScaleSliderText:SetTextColor(1, 0.82, 0);
 				BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyBartext);
-				UnitFramesPlus_OptionsFrame_PartyBartextText:SetTextColor(1, 1, 1);
 				BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyHPMPUnit);
-				UnitFramesPlus_OptionsFrame_PartyHPMPUnitText:SetTextColor(1, 1, 1);
 				if GetLocale() == "zhCN" or GetLocale() == "zhTW" then
 					UnitFramesPlus_OptionsFrame_PartyUnitTypeSlider:SetValue(UnitFramesPlusDB["party"]["unittype"]);
 					if UnitFramesPlusDB["party"]["hpmpunit"] == 1 then
@@ -2913,48 +2839,34 @@ end
 				end
 				if UnitFramesPlusDB["party"]["bartext"] == 1 then
 					BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyMouseShow);
-					UnitFramesPlus_OptionsFrame_PartyMouseShowText:SetTextColor(1, 1, 1);
 				end
 				-- BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyShiftDrag);
-				-- UnitFramesPlus_OptionsFrame_PartyShiftDragText:SetTextColor(1, 1, 1);
+				-- UnitFramesPlus_OptionsFrame_PartyShiftDragText:SetTextColor(1, 0.82, 0);
 				BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyPortraitIndicator);
-				UnitFramesPlus_OptionsFrame_PartyPortraitIndicatorText:SetTextColor(1, 1, 1);
 				if showOptions then
 					BlizzardOptionsPanel_Slider_Enable(UnitFramesPlus_OptionsFrame_PartyScaleSlider);
-					UnitFramesPlus_OptionsFrame_PartyScaleSliderText:SetTextColor(1, 1, 1);
 					BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyColorHP);
-					UnitFramesPlus_OptionsFrame_PartyColorHPText:SetTextColor(1, 1, 1);
 					if UnitFramesPlusDB["party"]["colorhp"] == 1 then
 						BlizzardOptionsPanel_Slider_Enable(UnitFramesPlus_OptionsFrame_PartyColorHPSlider);
 					end
 				end
 				if UnitFramesPlusDB["partytarget"]["show"] == 1 then
 					BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyTarget);
-					UnitFramesPlus_OptionsFrame_PartyTargetText:SetTextColor(1, 1, 1);
 					BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyTargetLite);
-					UnitFramesPlus_OptionsFrame_PartyTargetLiteText:SetTextColor(1, 1, 1);
 					BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyTargetHPPct);
-					UnitFramesPlus_OptionsFrame_PartyTargetHPPctText:SetTextColor(1, 1, 1);
 					BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyTargetEnemyCheck);
-					UnitFramesPlus_OptionsFrame_PartyTargetEnemyCheckText:SetTextColor(1, 1, 1);
 					BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyTargetColorName);
-					UnitFramesPlus_OptionsFrame_PartyTargetColorNameText:SetTextColor(1, 1, 1);
 					if UnitFramesPlusDB["partytarget"]["colorname"] == 1 then
 						BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyTargetColorNameNPCNo);
-						UnitFramesPlus_OptionsFrame_PartyTargetColorNameNPCNoText:SetTextColor(1, 1, 1);
 					end
 					BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyTargetShortName);
-					UnitFramesPlus_OptionsFrame_PartyTargetShortNameText:SetTextColor(1, 1, 1);
 					BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyTargetDebuff);
-					UnitFramesPlus_OptionsFrame_PartyTargetDebuffText:SetTextColor(1, 1, 1);
 					-- BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyTargetHighlight);
-					-- UnitFramesPlus_OptionsFrame_PartyTargetHighlightText:SetTextColor(1, 1, 1);
+					-- UnitFramesPlus_OptionsFrame_PartyTargetHighlightText:SetTextColor(1, 0.82, 0);
 					if UnitFramesPlusDB["partytarget"]["lite"] ~= 1 then
 						BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyTargetClassPortrait);
-						UnitFramesPlus_OptionsFrame_PartyTargetClassPortraitText:SetTextColor(1, 1, 1);
 						if UnitFramesPlusDB["partytarget"]["portrait"] == 1 then
 							BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyTargetClassPortraitNPCNo);
-							UnitFramesPlus_OptionsFrame_PartyTargetClassPortraitNPCNoText:SetTextColor(1, 1, 1);
 						end
 					end
 				end
@@ -2980,28 +2892,18 @@ end
         UnitFramesPlus_PartyTarget();
         if UnitFramesPlusDB["partytarget"]["show"] == 1 then
             BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyTargetLite);
-            UnitFramesPlus_OptionsFrame_PartyTargetLiteText:SetTextColor(1, 1, 1);
             BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyTargetHPPct);
-            UnitFramesPlus_OptionsFrame_PartyTargetHPPctText:SetTextColor(1, 1, 1);
             BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyTargetEnemyCheck);
-            UnitFramesPlus_OptionsFrame_PartyTargetEnemyCheckText:SetTextColor(1, 1, 1);
             BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyTargetColorName);
-            UnitFramesPlus_OptionsFrame_PartyTargetColorNameText:SetTextColor(1, 1, 1);
             if UnitFramesPlusDB["partytarget"]["colorname"] == 1 then
 	            BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyTargetColorNameNPCNo);
-	            UnitFramesPlus_OptionsFrame_PartyTargetColorNameNPCNoText:SetTextColor(1, 1, 1);
 	        end
             BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyTargetShortName);
-            UnitFramesPlus_OptionsFrame_PartyTargetShortNameText:SetTextColor(1, 1, 1);
             BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyTargetDebuff);
-            UnitFramesPlus_OptionsFrame_PartyTargetDebuffText:SetTextColor(1, 1, 1);
             -- BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyTargetHighlight);
-            -- UnitFramesPlus_OptionsFrame_PartyTargetHighlightText:SetTextColor(1, 1, 1);
             BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyTargetClassPortrait);
-            UnitFramesPlus_OptionsFrame_PartyTargetClassPortraitText:SetTextColor(1, 1, 1);
             if UnitFramesPlusDB["partytarget"]["portrait"] == 1 then
                 BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyTargetClassPortraitNPCNo);
-                UnitFramesPlus_OptionsFrame_PartyTargetClassPortraitNPCNoText:SetTextColor(1, 1, 1);
             end
         else
             BlizzardOptionsPanel_CheckButton_Disable(UnitFramesPlus_OptionsFrame_PartyTargetLite);
@@ -3032,10 +2934,8 @@ end
             BlizzardOptionsPanel_CheckButton_Disable(UnitFramesPlus_OptionsFrame_PartyTargetClassPortraitNPCNo);
         else
             BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyTargetClassPortrait);
-            UnitFramesPlus_OptionsFrame_PartyTargetClassPortraitText:SetTextColor(1, 1, 1);
             if UnitFramesPlusDB["partytarget"]["portrait"] == 1 then
                 BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyTargetClassPortraitNPCNo);
-                UnitFramesPlus_OptionsFrame_PartyTargetClassPortraitNPCNoText:SetTextColor(1, 1, 1);
             end
         end
         self:SetChecked(UnitFramesPlusDB["partytarget"]["lite"]==1);
@@ -3054,7 +2954,6 @@ end
         end
         if UnitFramesPlusDB["partytarget"]["portrait"] == 1 then
             BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyTargetClassPortraitNPCNo);
-            UnitFramesPlus_OptionsFrame_PartyTargetClassPortraitNPCNoText:SetTextColor(1, 1, 1);
         else
             BlizzardOptionsPanel_CheckButton_Disable(UnitFramesPlus_OptionsFrame_PartyTargetClassPortraitNPCNo);
         end
@@ -3116,7 +3015,6 @@ end
         UnitFramesPlusDB["partytarget"]["colorname"] = 1 - UnitFramesPlusDB["partytarget"]["colorname"];
         if UnitFramesPlusDB["partytarget"]["colorname"] == 1 then
             BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_PartyTargetColorNameNPCNo);
-            UnitFramesPlus_OptionsFrame_PartyTargetColorNameNPCNoText:SetTextColor(1, 1, 1);
         else
             BlizzardOptionsPanel_CheckButton_Disable(UnitFramesPlus_OptionsFrame_PartyTargetColorNameNPCNo);
         end
@@ -3181,7 +3079,6 @@ end
             UnitFramesPlusDB["extra"]["rangecheck"] = 1 - UnitFramesPlusDB["extra"]["rangecheck"];
             if UnitFramesPlusDB["extra"]["rangecheck"] == 1 then
                 BlizzardOptionsPanel_CheckButton_Enable(UnitFramesPlus_OptionsFrame_ExtraRangeCheckInInstance);
-                UnitFramesPlus_OptionsFrame_ExtraRangeCheckInInstanceText:SetTextColor(1, 1, 1);
             else
                 BlizzardOptionsPanel_CheckButton_Disable(UnitFramesPlus_OptionsFrame_ExtraRangeCheckInInstance);
             end
