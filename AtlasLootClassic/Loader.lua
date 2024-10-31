@@ -64,13 +64,6 @@ local ATLASLOOT_MODULE_LIST = {
 		tt_text = nil,		-- ToolTip text
 	},
 	{
-		addonName = "AtlasLootClassic_Collections",
-		--icon = "Interface\\ICONS\\Inv_ChampionsOfAzeroth",
-		name = AL["Collections"],
-		tt_title = nil,		-- ToolTip title
-		tt_text = nil,		-- ToolTip text
-	},
-	{
 		addonName = "AtlasLootClassic_SoD",
 		--icon = "Interface\\ICONS\\Inv_ChampionsOfAzeroth",
 		name = AL["Legacy Content"],
