@@ -4841,13 +4841,7 @@ local bossOptions = {
 }
 
 function EasyFrames:ChatCommand(input)
-    if not input or input:trim() == "" then
-        InterfaceOptionsFrame_OpenToCategory(EasyFrames.optFrames.Profiles)
-        InterfaceOptionsFrame_OpenToCategory(EasyFrames.optFrames.EasyFrames)
-    else
-        InterfaceOptionsFrame_OpenToCategory(EasyFrames.optFrames.Profiles)
-        InterfaceOptionsFrame_OpenToCategory(EasyFrames.optFrames[input] or EasyFrames.optFrames.EasyFrames)
-    end
+    Settings.OpenToCategory(L["Easy Frames"]) -- 暫時修正
 end
 
 function EasyFrames:SetupOptions()
