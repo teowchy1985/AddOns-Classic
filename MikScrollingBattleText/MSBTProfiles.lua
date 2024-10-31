@@ -3327,7 +3327,7 @@ local function SetupBlizzardOptions()
 	frame.name = L.MSBT_MSBT
 
 	-- Create an option button in the center of the frame to launch MSBT's options.
-	local button = CreateFrame("Button", nil, frame, IsCataClassic and "OptionsButtonTemplate" or "UIPanelButtonTemplate")
+	local button = CreateFrame("Button", nil, frame, "UIPanelButtonTemplate") -- 暫時修正
 	button:SetSize(100, 24)
 	button:SetPoint("CENTER")
 	button:SetText(MikSBT.COMMAND)
