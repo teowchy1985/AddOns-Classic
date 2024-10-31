@@ -1,4 +1,5 @@
 local L = LibStub("AceLocale-3.0"):GetLocale("ExtVendor", true);
+local LibDD = LibStub:GetLibrary("LibUIDropDownMenu-4.0")
 
 local SLOT_FILTERS = {
     [1] = {"INVTYPE_HEAD", "INVTYPE_SHOULDER", "INVTYPE_CLOAK", "INVTYPE_CHEST", "INVTYPE_ROBE", "INVTYPE_WRIST", "INVTYPE_HAND", "INVTYPE_WAIST", "INVTYPE_LEGS", "INVTYPE_FEET"},
@@ -112,7 +113,7 @@ function ExtVendor_DisplayFilterDropDown(self)
         { text = L["CONFIGURE_QUICKVENDOR"], notCheckable = true, func = function() ExtVendor_QVConfigFrame:Show(); end },
         { text = L["CONFIGURE_ADDON"], notCheckable = true, func = function() ExtVendor_ShowMainConfig(); end },
     };
-    EasyMenu(menu, MerchantFrameFilterDropDown, self, 0, 0, "MENU", 1);
+    LibDD:EasyMenu(menu, MerchantFrameFilterDropDown, self, 0, 0, "MENU", 1);
 end
 
 

@@ -25,9 +25,8 @@ function ExtVendorConfig_About_OnLoad(self)
     self.okay = function(self) ExtVendorConfig_About_OnClose(); end;
     self.cancel = function(self) ExtVendorConfig_About_OnClose(); end;
     self.refresh = function(self) ExtVendorConfig_About_OnRefresh(); end;
-	local category = Settings.RegisterCanvasLayoutCategory(self, self.name)
-	category.ID = "ExtVendor"
-	Settings.RegisterAddOnCategory(category)
+	local category = Settings.GetCategory(self.parent)
+    local subcategory = Settings.RegisterCanvasLayoutSubcategory(category, self, self.name)
 
     ExtVendorConfigAboutTitle:SetText(string.format(L["VERSION_TEXT"], "|cffffffffv" .. EXTVENDOR.Version));
     ExtVendorConfigAboutAuthor:SetText(L["LABEL_AUTHOR"] .. ": |cffffffff" .. ABOUT.author);

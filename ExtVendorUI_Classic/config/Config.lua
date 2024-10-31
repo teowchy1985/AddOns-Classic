@@ -5,7 +5,7 @@ local CONFIG_SHOWN = false;
 
 function ExtVendor_ShowMainConfig()
     -- call this twice because the interface options panel never likes to open to an addon category the first time for some reason
-    Settings.OpenToCategory("ExtVendor");
+    Settings.OpenToCategory(L["ADDON_TITLE"]);
 end
 
 --========================================
