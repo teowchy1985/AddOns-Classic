@@ -43,7 +43,7 @@ function GUI.CreateCheckBox()
 	self.onClickFunc = nil	-- Run on OnClick
 	self.checked = false
 
-	self.frame = CreateFrame("CheckButton", frameName, nil, WOW_PROJECT_ID == WOW_PROJECT_CLASSIC and "OptionsBaseCheckButtonTemplate" or "OptionsCheckButtonTemplate")
+	self.frame = CreateFrame("CheckButton", frameName, nil, "UICheckButtonTemplate")
 	self.frame:SetWidth(25)
 	self.frame:SetHeight(25)
 	self.frame:SetScript("OnClick", OnClick)

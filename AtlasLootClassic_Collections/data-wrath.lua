@@ -64,12 +64,16 @@ local COLLECTIONS_CONTENT = data:AddContentType(AL["Collections"], ATLASLOOT_COL
 local WORLD_EVENT_CONTENT = data:AddContentType(AL["World Events"], ATLASLOOT_SEASONALEVENTS_COLOR)
 
 -- colors
-local BLUE = "|cff6666ff%s|r"
--- local GREY = "|cff999999%s|r"
-local GREEN = "|cff66cc33%s|r"
-local _RED = "|cffcc6666%s|r"
-local PURPLE = "|cff9900ff%s|r"
--- local WHIT = "|cffffffff%s|r"
+local SUPERIOR_QUALITY = "|cff0070dd%s|r"
+local EPIC_QUALITY = "|cffa335ee%s|r"
+local BOA_QUALITY = "|cff00ccff%s|r"
+local LEGENDARY_QUALITY = "|cffff8000%s|r"
+--local BLUE = "|cff6666ff%s|r"
+--local GREY = "|cff999999%s|r"
+--local GREEN = "|cff66cc33%s|r"
+--local _RED = "|cffcc6666%s|r"
+--local PURPLE = "|cff9900ff%s|r"
+--local WHIT = "|cffffffff%s|r"
 
 data["DalaranVendor"] = {
     name = format(AL["'%s' Vendor"], C_Map.GetAreaInfo(4395)),
@@ -116,6 +120,7 @@ data["CookingVendorWrath"] = {
     ContentType = VENDOR_CONTENT,
     TableType = NORMAL_ITTYPE,
     gameVersion = AtlasLoot.WRATH_VERSION_NUM,
+    CorrespondingFields = private.COOKING_VENDOR,
     items = {{
         name = AL["Misc"],
         [NORMAL_DIFF] = {{1, 46349}, -- Chef's Hat
@@ -1204,23 +1209,59 @@ data["TabardsWrath"] = {
     items = {{
         name = AL["Factions"],
         CoinTexture = "Reputation",
-        [ALLIANCE_DIFF] = {{1, 43155}, -- Tabard of the Ebon Blade
-        {2, 43157}, -- Tabard of the Kirin Tor
-        {3, 43156} -- Tabard of the Wyrmrest Accord
-        -- TODO: Add missing
+        [NORMAL_DIFF] = {
+            { 1, 43154 }, -- Tabard of the Argent Crusade
+            { 2, 43155 }, -- Tabard of the Ebon Blade
+            { 3, 43157 }, -- Tabard of the Kirin Tor
+            { 4, 43156 }, -- Tabard of the Wyrmrest Accord
+            { 5, 206392 }, -- Tabard of the Sons of Hodir
+            { 16, 46874 } -- Argent Crusader's Tabard
         }
-    }}
+    },
+    { -- PvP
+        name = AL["Achievements"],
+        [NORMAL_DIFF] = {
+            { 1, 40643 }, -- Tabard of the Achiever
+            { 2, 43300 }, -- Loremaster's Colors
+            { 3, 43348 }, -- Tabard of the Explorer
+        },
+    },
+    { -- PvP
+        name = AL["Arena"],
+        [NORMAL_DIFF] = {
+            { 1, 45983 }, -- Furious Gladiator's Tabard
+            { 2, 49086, }, -- Relentless Gladiator's Tabard
+            { 3, 51534 }, -- Wrathful Gladiator's Tabard
+            { 16, 43349 }, -- Tabard of Brute Force
+        },
+    },
+    { -- PvP
+        name = AL["Battlegrounds"],
+        [ALLIANCE_DIFF] = {
+            {1, 49052} -- Tabard of Conquest
+        },
+        [HORDE_DIFF] = {
+            {1, 49054}, -- Tabard of Conquest
+        }
+    },
+    {
+        name = AL["Misc"],
+        [NORMAL_DIFF] = {
+            {1, 52252} -- Tabard of the Lightbringer
+        },
+    },
+}
 }
 
 data["LegendarysWrath"] = {
-    name = AL["Legendarys"],
+    name = format(LEGENDARY_QUALITY, AL["Legendaries"]),
     ContentType = COLLECTIONS_CONTENT,
     LoadDifficulty = LOAD_DIFF,
     TableType = NORMAL_ITTYPE,
     CorrespondingFields = private.LEGENDARYS,
     gameVersion = AtlasLoot.WRATH_VERSION_NUM,
     items = {{
-        name = AL["Legendarys"],
+        name = AL["Legendaries"],
         [NORMAL_DIFF] = {
         {1, 49623, "ac4623"}, -- Shadowmourne
         {16, 46017, "ac3142"} -- Val'anyr, Hammer of Ancient Kings
@@ -1229,7 +1270,7 @@ data["LegendarysWrath"] = {
 }
 
 data["HeirloomWrath"] = {
-    name = AL["Heirloom"],
+    name = format(BOA_QUALITY, AL["Heirloom"]),
     ContentType = COLLECTIONS_CONTENT,
     LoadDifficulty = LOAD_DIFF,
     TableType = NORMAL_ITTYPE,
