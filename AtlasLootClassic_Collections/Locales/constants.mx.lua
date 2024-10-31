@@ -10,7 +10,11 @@ AL["'%s' Vendor"] = "'%s' Vendedor"
 AL["Abyssal Dukes"] = "Duques abisales"
 AL["Abyssal Lords"] = "Lords abisales"
 AL["Abyssal Templars"] = "Templarios abisales"
+--[[Translation missing --]]
+--[[ AL["Additional Armaments"] = "Additional Armaments"--]] 
 AL["Ahune"] = "Ahune"
+--[[Translation missing --]]
+--[[ AL["All Quests Done"] = "All Quests Done"--]] 
 --[[Translation missing --]]
 --[[ AL["Apothecary Hummel"] = "Apothecary Hummel"--]] 
 --[[Translation missing --]]
@@ -25,6 +29,8 @@ AL["Baron Kazum"] = "Barón Kazum"
 AL["Box of Chocolates"] = "Caja de bombones"
 AL["Brewfest"] = "Fiesta de la Cerveza"
 AL["Brightly Colored Egg"] = "Huevo de colores vivos"
+--[[Translation missing --]]
+--[[ AL["Calling the Ancients"] = "Calling the Ancients"--]] 
 AL["Capitals"] = "Capitales"
 --[[Translation missing --]]
 --[[ AL["Card Game Tabards"] = "Card Game Tabards"--]] 
@@ -55,13 +61,21 @@ AL["Elemental Invasions"] = "Invasión elemental"
 --[[ AL["Emblem of Valor"] = "Emblem of Valor"--]] 
 AL["Equip"] = "Armadura"
 AL["Faction Mounts"] = "Monturas de facción"
+--[[Translation missing --]]
+--[[ AL["Favors of the World Tree"] = "Favors of the World Tree"--]] 
 AL["Feast of Winter Veil"] = "El festín del Festival de Invierno"
 AL["Festive Gift"] = "Obsequio festivo"
+--[[Translation missing --]]
+--[[ AL["Filling the Moonwell"] = "Filling the Moonwell"--]] 
 AL["First Prize"] = "Primer precio"
+--[[Translation missing --]]
+--[[ AL["Fissure Stone Fragment"] = "Fissure Stone Fragment"--]] 
 AL["Food"] = "Comida"
 AL["Gaily Wrapped Present"] = "Regalo con envoltorio alegre"
 AL["Gently Shaken Gift"] = "Regalo ligeramente agitado"
 AL["Gift of Adoration"] = "Ofrenda de adoración"
+--[[Translation missing --]]
+--[[ AL["Guild"] = "Guild"--]] 
 AL["Gurubashi Arena"] = "Arena Gurubashi"
 AL["Hallow's End"] = "Halloween"
 AL["Harvest Festival"] = "Festival de la Cosecha"
@@ -83,6 +97,12 @@ AL["Masks"] = "Máscaras"
 AL["Midsummer Festival"] = "Festival de Fuego del Solsticio de Verano"
 AL["Noblegarden"] = "Jardín Noble"
 AL["One-Handed Weapons"] = "Armas de una mano"
+--[[Translation missing --]]
+--[[ AL["P1"] = "P1"--]] 
+--[[Translation missing --]]
+--[[ AL["P3"] = "P3"--]] 
+--[[Translation missing --]]
+--[[ AL["P4"] = "P4"--]] 
 --[[Translation missing --]]
 --[[ AL["Pilgrim's Bounty"] = "Pilgrim's Bounty"--]] 
 AL["Prince Skaldrenox"] = "Príncipe Skaldrenox"

@@ -62,12 +62,16 @@ local COLLECTIONS_CONTENT = data:AddContentType(AL["Collections"], ATLASLOOT_COL
 local WORLD_EVENT_CONTENT = data:AddContentType(AL["World Events"], ATLASLOOT_SEASONALEVENTS_COLOR)
 
 -- colors
-local BLUE = "|cff6666ff%s|r"
--- local GREY = "|cff999999%s|r"
-local GREEN = "|cff66cc33%s|r"
-local _RED = "|cffcc6666%s|r"
-local PURPLE = "|cff9900ff%s|r"
--- local WHIT = "|cffffffff%s|r"
+local SUPERIOR_QUALITY = "|cff0070dd%s|r"
+local EPIC_QUALITY = "|cffa335ee%s|r"
+local BOA_QUALITY = "|cff00ccff%s|r"
+local LEGENDARY_QUALITY = "|cffff8000%s|r"
+--local BLUE = "|cff6666ff%s|r"
+--local GREY = "|cff999999%s|r"
+--local GREEN = "|cff66cc33%s|r"
+--local _RED = "|cffcc6666%s|r"
+--local PURPLE = "|cff9900ff%s|r"
+--local WHIT = "|cffffffff%s|r"
 
 data["BadgeofJustice"] = {
     name = format(AL["'%s' Vendor"], AL["Badge of Justice"]),
@@ -580,7 +584,8 @@ data["TabardsBC"] = {
     items = {{
         name = AL["Factions"],
         CoinTexture = "Reputation",
-        [ALLIANCE_DIFF] = {{1, 31779}, -- Aldor Tabard
+        [ALLIANCE_DIFF] = {
+        {1, 31779}, -- Aldor Tabard
         {2, 31780}, -- Scryers Tabard
         {4, 31804}, -- Cenarion Expedition Tabard
         {5, 31776}, -- Consortium Tabard
@@ -592,30 +597,38 @@ data["TabardsBC"] = {
         {11, 31775}, -- Sporeggar Tabard
         {12, 35221}, -- Tabard of the Shattered Sun
         {16, 23999}, -- Honor Hold Tabard
-        {17, 31774} -- Honor Hold Tabard
+        {17, 31774} -- Kurenai Tabard
         },
         [HORDE_DIFF] = {
             GetItemsFromDiff = ALLIANCE_DIFF,
-            {1, 24004}, -- Thrallmar Tabard
-            {16, 31773} -- Mag'har Tabard
+            {16, 24004}, -- Thrallmar Tabard
+            {17, 31773} -- Mag'har Tabard
+        }
+    }, {
+        -- Quests
+        name = AL["Quest"],
+        [NORMAL_DIFF] = {
+            {1, 31404}, -- Green Trophy Tabard of the Illidari
+            {2, 31405}, -- Purple Trophy Tabard of the Illidari
         }
     }, { -- Unobtainable Tabards
         name = AL["Unobtainable Tabards"],
-        [NORMAL_DIFF] = {{1, 36941}, -- Competitor's Tabard
-        {16, 28788} -- Tabard of the Protector
+        [NORMAL_DIFF] = {
+            {1, 36941}, -- Competitor's Tabard
+            {16, 28788} -- Tabard of the Protector
         }
     }}
 }
 
 data["LegendarysBC"] = {
-    name = AL["Legendarys"],
+    name = format(LEGENDARY_QUALITY, AL["Legendaries"]),
     ContentType = COLLECTIONS_CONTENT,
     LoadDifficulty = LOAD_DIFF,
     TableType = NORMAL_ITTYPE,
     gameVersion = AtlasLoot.BC_VERSION_NUM,
     CorrespondingFields = private.LEGENDARYS,
     items = {{
-        name = AL["Legendarys"],
+        name = AL["Legendaries"],
         [NORMAL_DIFF] = {
         {1, 34334, "ac725"}, -- Thori'dal, the Stars' Fury
         {3, 32837, "ac426"}, -- Warglaive of Azzinoth

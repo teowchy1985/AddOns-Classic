@@ -157,6 +157,8 @@ AL["Open AtlasLoot without auto select"] = "Abrir AtlasLoot sin selección autom
 AL["Open Favourites"] = "Abrir favoritos"
 AL["Open Options"] = "Opciones de apertura"
 AL["Patchwerk"] = "Remendejo"
+--[[Translation missing --]]
+--[[ AL["Patterns"] = "Patterns"--]] 
 AL["Plans"] = "Diseños"
 AL["Polearm"] = "Arma de asta"
 --[[Translation missing --]]

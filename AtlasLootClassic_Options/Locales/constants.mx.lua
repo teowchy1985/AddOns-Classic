@@ -20,7 +20,6 @@ AL["Content bottom bar"] = "Barra inferior de contenido"
 AL["Content phase settings"] = "Configuración de fase de contenido"
 AL["Content top bar"] = "Barra superior de contenido"
 AL["Delete list"] = "Quitar lista"
-AL["Enable Atlas map integration if available."] = "Activar la integración del mapa Atlas si está disponible."
 AL["Enable auto selection of bosses if available."] = "Activar selección automática si el jefe está disponible"
 AL["Enable auto selection of instances if available."] = "Activar selección automática si la instancia está disponible"
 --[[Translation missing --]]
