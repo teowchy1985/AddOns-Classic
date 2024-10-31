@@ -105,6 +105,7 @@ function ChatTabMixin:Init(slidingMessageFrame)
   end
 
   -- Override context menu
+  --[[
   UIDropDownMenu_Initialize(dropDown, function ()
     local info = UIDropDownMenu_CreateInfo()
 
@@ -144,14 +145,14 @@ function ChatTabMixin:Init(slidingMessageFrame)
       info.notCheckable = 1
       UIDropDownMenu_AddButton(info)
     end
---[[
+
     -- Filter header
     info = UIDropDownMenu_CreateInfo()
     info.text = FILTERS
     info.isTitle = 1
     info.notCheckable = 1
     UIDropDownMenu_AddButton(info)
---]]
+
     -- Configure frame settings
     info = UIDropDownMenu_CreateInfo()
     info.text = "設定視窗外觀"
@@ -166,7 +167,7 @@ function ChatTabMixin:Init(slidingMessageFrame)
     info.notCheckable = 1
     UIDropDownMenu_AddButton(info)
   end, "MENU")
-
+  --]]
   -- Listeners
   if self.subscriptions == nil then
     self.subscriptions = {

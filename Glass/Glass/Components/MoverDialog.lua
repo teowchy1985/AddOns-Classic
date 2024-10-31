@@ -56,7 +56,7 @@ function MoverDialogMixin:Init()
   self.desc:SetPoint("BOTTOMRIGHT", -18, 48)
   self.desc:SetText("聊天視窗已經解鎖，現在可以拖曳移動聊天視窗來調整位置。")
 
-  self.lockButton = CreateFrame("Button", nil, self, "OptionsButtonTemplate")
+  self.lockButton = CreateFrame("Button", nil, self, "UIPanelButtonTemplate")
   self.lockButton:SetText("鎖定")
   self.lockButton:SetScript("OnClick", function()
     Core:Dispatch(LockMover())
