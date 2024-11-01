@@ -3236,7 +3236,7 @@ data["Firelands"] = {
             },
         },
         { -- Firestones
-            name = ALIL["Firestone Vendor"],
+            name = AL["Firestone Vendor"],
             ContentPhaseCata = 3,
             ExtraList = true,
             [NORMAL_DIFF] = {

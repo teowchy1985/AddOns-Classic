@@ -337,7 +337,7 @@ data["JusticePoints"] = {
         { 5, 57930 } -- Pendant of Quiet Breath
     }
     }, {
-        name = ALIL["Ring"],
+        name = ALIL["Finger"],
         [VENDOR_DIFF] = {
             { 1, 58189 }, -- Twined Band of Flowers
             { 2, 58188 }, -- Band of Secret Names
@@ -476,7 +476,7 @@ data["ValorPoints"] = {
             { 30, 71261 } -- Gigantform Bracers
         }
     }, {
-        name = ALIL["Ranged Weapons"],
+        name = AL["Ranged Weapons"],
         [VENDOR_DIFF] = {
             { 1, 71218 }, -- Deflecting Star
             { 2, 71154 }, -- Giantslicer
@@ -494,7 +494,7 @@ data["ValorPoints"] = {
             { 17,  71214 }, -- Firemind Pendant
         }
     }, {
-        name = ALIL["Ring"],
+        name = ALIL["Finger"],
         [VENDOR_DIFF] = {
             { 1,  70940 }, -- Deflecting Brimstone Band
             { 2,  71208 }, -- Serrated Brimstone Signet
@@ -580,7 +580,7 @@ data["FissureStoneFragments"] = {
         }
     },
     {
-        name = AL["Cloak"],
+        name = ALIL["Cloak"],
         [VENDOR_DIFF] = {
             { 1, 60232 }, -- Shroud of Endless Grief
             { 2, 65018 }, -- Shadow of Dread
@@ -633,7 +633,7 @@ data["FissureStoneFragments"] = {
         }
     },
     {
-        name = ALIL["Ring"],
+        name = ALIL["Finger"],
         [VENDOR_DIFF] = {
             { 1, 60226 }, -- Dargonax's Signet
             { 16, 232949 }, -- Satchel of the Cloudburst Ring
