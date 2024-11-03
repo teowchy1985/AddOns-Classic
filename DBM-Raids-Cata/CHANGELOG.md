@@ -1,6 +1,7 @@
 # <DBM Mod> Raids (Cata)
 
-## [r248](https://github.com/DeadlyBossMods/DBM-Cataclysm/tree/r248) (2024-10-31)
-[Full Changelog](https://github.com/DeadlyBossMods/DBM-Cataclysm/compare/r247...r248) [Previous Releases](https://github.com/DeadlyBossMods/DBM-Cataclysm/releases)
+## [r249](https://github.com/DeadlyBossMods/DBM-Cataclysm/tree/r249) (2024-11-03)
+[Full Changelog](https://github.com/DeadlyBossMods/DBM-Cataclysm/compare/r248...r249) [Previous Releases](https://github.com/DeadlyBossMods/DBM-Cataclysm/releases)
 
-- bump cata tocs  
+- remove game version 11.0.2 and add game version 11.0.7  
+- scope all cata raids to 1 zone id  
