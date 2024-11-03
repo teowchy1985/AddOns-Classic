@@ -1,7 +1,7 @@
 # DBM - Vanilla and Season of Discovery
 
-## [r758](https://github.com/DeadlyBossMods/DBM-Vanilla/tree/r758) (2024-10-31)
-[Full Changelog](https://github.com/DeadlyBossMods/DBM-Vanilla/compare/r757...r758) [Previous Releases](https://github.com/DeadlyBossMods/DBM-Vanilla/releases)
+## [r759](https://github.com/DeadlyBossMods/DBM-Vanilla/tree/r759) (2024-11-03)
+[Full Changelog](https://github.com/DeadlyBossMods/DBM-Vanilla/compare/r758...r759) [Previous Releases](https://github.com/DeadlyBossMods/DBM-Vanilla/releases)
 
-- bump cata tocs  
-- Fix two most recent reports and close https://github.com/DeadlyBossMods/DBM-Vanilla/issues/241#issuecomment-2445863178  
+- remove game version 11.0.2 and add game version 11.0.7  
+- Scope all vanilla raids with specific zone Ids  
