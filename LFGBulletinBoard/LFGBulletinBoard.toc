@@ -1,4 +1,4 @@
-## Interface: 11504, 40401
+## Interface: 40401
 ## Title: LFG Bulletin Board
 ## Notes: Sort LFG/LFM Messages
 ## Version: 3.39
@@ -6,6 +6,9 @@
 ## DefaultState: enabled
 ## SavedVariables: GroupBulletinBoardDB
 ## SavedVariablesPerCharacter: GroupBulletinBoardDBChar
+## X-Curse-Project-ID: 484920
+## X-Wago-ID: aN0YWP6j
+
 LibGPIOptions.lua
 LibGPIMinimapButton.lua
 LibGPIToolBox.lua
