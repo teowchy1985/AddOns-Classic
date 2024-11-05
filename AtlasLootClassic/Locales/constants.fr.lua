@@ -134,6 +134,7 @@ AL["Open AtlasLoot without auto select"] = "Ouvrir AtlasLoot sans sélection aut
 AL["Open Favourites"] = "Ouvrir les favoris"
 AL["Open Options"] = "Ouvrir les options"
 AL["Patchwerk"] = "Le Recousu"
+AL["Patterns"] = "Patrons"
 AL["Plans"] = "Plans"
 AL["Polearm"] = "Arme d'hast"
 AL["Prince Tenris Mirkblood"] = "Prince Tenris Bourbassang"
