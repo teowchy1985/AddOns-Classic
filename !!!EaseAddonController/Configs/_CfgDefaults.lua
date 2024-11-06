@@ -2104,6 +2104,13 @@ D["RollTrackerClassicZ"] = {
 		text = "輸入 /rt [物品連結] \n可以通知大家開始骰這件物品。\n",
 	}
 };
+D["ReforgeLite"] = {
+    defaultEnable = 0,
+	tags = { "ITEM" },
+	title = "重鑄助手",
+	desc = "可匯入或設定權重，計算後自動重鑄最優屬性。``重鑄裝備時會自動顯示視窗。`",
+	icon = "Interface\\Reforging\\Reforge-Portrait",
+};
 D["SexyMap"] = {
     defaultEnable = 1,
 	title = "性感小地圖",

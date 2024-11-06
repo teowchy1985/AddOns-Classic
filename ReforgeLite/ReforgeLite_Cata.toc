@@ -1,0 +1,26 @@
+## Interface: 40401
+## Author: d07.RiV (Iroared) (Continued by Brues)
+## Title: ReforgeLite Classic
+## Notes: Calculates optimal reforging for given weights/caps.
+## Title-zhCN: |cffB973FF[装备]|r 重铸助手
+## Notes-zhCN: ReforgeLite |n可汇入或设定权重，计算后自动重铸最优属性。
+## Version: v1.9.6
+## SavedVariables: ReforgeLiteDB
+## OptionalDeps: Pawn
+## X-Website: https://github.com/skyler-code/ReforgeLite/issues
+## X-Curse-Project-ID: 1004227
+
+## Title-zhTW: |cffB973FF[裝備]|r 重鑄助手
+## Notes-zhTW: ReforgeLite |n|n可匯入或設定權重，計算後自動重鑄最優屬性。
+## DefaultState: disabled
+
+util\json.lua
+util\tables.lua
+
+locales.xml
+
+GUI.lua
+ReforgeLite.lua
+ReforgeEngine.lua
+Presets.lua
+ExportImport.lua
