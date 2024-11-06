@@ -2110,6 +2110,10 @@ D["ReforgeLite"] = {
 	title = "重鑄助手",
 	desc = "可匯入或設定權重，計算後自動重鑄最優屬性。``重鑄裝備時會自動顯示視窗。`",
 	icon = "Interface\\Reforging\\Reforge-Portrait",
+	{
+		type = "text",
+		text = "使用方法：\n\n1.和秘法重鑄師對話，顯示主視窗。\n\n2.點'預設'旁的小箭頭，選擇職業專精。\n\n3.點'計算'按鈕，再往下捲動，點'顯示'按鈕。\n\n4.最後點'重鑄'按鈕。",
+	},
 };
 D["SexyMap"] = {
     defaultEnable = 1,
