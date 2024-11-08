@@ -32,8 +32,7 @@ local player = UnitName("player")
 local saveZaXiangNum = 0
 local saveZaXiangTbl = {}
 
-BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
-    if addonName ~= AddonName then return end
+BG.Init(function()
     -- 拾取事件通报到屏幕中上
     local name = "lootTime"
     BG.options[name .. "reset"] = 8
@@ -502,6 +501,11 @@ BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
                     break
                 end
             end
+            if BG.IsVanilla then
+                if typeID == 9 and quality >= 3 then -- 60服蓝色图纸
+                    Iswhitelist = true
+                end
+            end
             if not Iswhitelist then
                 if quality < BG.lootQuality[FB] then
                     return
@@ -519,7 +523,7 @@ BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
                         end
                     end
                 end
-                -- 过滤附魔分解的物品（例如：深渊水晶），subclassID==0是60年代的附魔材料子分类
+                -- 过滤附魔分解的物品（例如：深渊水晶），subclassID==0 是60年代的附魔材料子分类
                 if typeID == 7 and (subclassID == 12 or subclassID == 0) then
                     return
                 end
@@ -575,17 +579,6 @@ BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
         if stackCount ~= 1 then
             AddLootItem_stackCount(FB, nil, link, Texture, level, Hope, count, typeID, lootplayer)
             return
-        end
-        -- Plus黑上部分boss需要根据物品id直接记录
-        if FB == "UBRS" then
-            for numb, v in pairs(BG.SpecialLoot[FB]) do
-                for _, _itemID in pairs(BG.SpecialLoot[FB][numb]) do
-                    if _itemID == itemID then
-                        AddLootItem(FB, numb, link, Texture, level, Hope, count, typeID, lootplayer)
-                        return
-                    end
-                end
-            end
         end
         -- 特殊物品总是记录到杂项
         for _, _itemID in ipairs(BG.Loot.zaXiangItems) do

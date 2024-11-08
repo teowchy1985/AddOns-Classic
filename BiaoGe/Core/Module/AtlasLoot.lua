@@ -24,8 +24,7 @@ local RealmId = GetRealmID()
 local player = UnitName("player")
 local className, classFilename, classID = UnitClass("player")
 
-BG.RegisterEvent("PLAYER_ENTERING_WORLD", function(self, even, isLogin, isReload)
-    if not (isLogin or isReload) then return end
+BG.Init2(function()
     local addonName = "AtlasLootClassic"
     if not IsAddOnLoaded(addonName) then return end
 

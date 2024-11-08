@@ -29,9 +29,7 @@ local pt = print
 local RealmId = GetRealmID()
 local player = UnitName("player")
 
-BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
-    if addonName ~= AddonName then return end
-
+BG.Init(function()
     BG.ButtonAd = BG.ButtonOnLineCount or BG.ButtonToken
     if BG.ButtonAd then return end
 

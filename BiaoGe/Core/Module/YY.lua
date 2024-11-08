@@ -26,9 +26,7 @@ Y.maxHistory = 40     -- 最多保存多少个历史查询记录
 Y.maxSearchText = 300 -- 最多接受多少个评价详细
 Y.searchLastDay = 360 -- 接收最近多少天内的评价
 
-BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
-    if addonName ~= AddonName then return end
-
+BG.Init(function()
     -- 初始化数据库
     do
         if not BiaoGe.YYdb then
@@ -2307,8 +2305,7 @@ BG.RegisterEvent("CHAT_MSG_CHANNEL_NOTICE", function(self, even, text, playerNam
     end
 end)
 
-BG.RegisterEvent("PLAYER_ENTERING_WORLD", function(self, even, isLogin, isReload)
-    if not (isLogin or isReload) then return end
+BG.Init2(function()
     BG.YYShowHide(BiaoGe.YYdb.share)
 
     local i = 1

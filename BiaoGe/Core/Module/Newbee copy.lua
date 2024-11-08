@@ -33,9 +33,7 @@ local player = UnitName("player")
 
 local UPLOADTIME = 30
 
-BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
-    if addonName ~= AddonName then return end
-
+BG.Init(function()
     BiaoGe.newbee_report = BiaoGe.newbee_report or {}
     BiaoGe.newbee_report_notuploaded = BiaoGe.newbee_report_notuploaded or {}
 
@@ -604,8 +602,7 @@ BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
 end)
 
 -- 登录游戏时，如果状态为正在上传，则设置倒计时x秒
-BG.RegisterEvent("PLAYER_ENTERING_WORLD", function(self, even, isLogin, isReload)
-    if not (isLogin or isReload) then return end
+BG.Init2(function()
     BG.After(3, function()
         if BiaoGe.newbee_report.uploadstate == 0 then
             PlaySoundFile(BG["sound_uploading" .. BiaoGe.options.Sound], "Master")

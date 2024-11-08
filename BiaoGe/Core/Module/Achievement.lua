@@ -26,9 +26,7 @@ local pt = print
 local RealmId = GetRealmID()
 local player = UnitName("player")
 
-BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
-    if addonName ~= AddonName then return end
-
+BG.Init(function()
     BiaoGe.achievement = BiaoGe.achievement or {}
     for _, FB in ipairs(BG.FBtable) do
         BiaoGe.achievement[FB] = BiaoGe.achievement[FB] or {}
@@ -43,6 +41,7 @@ BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
             -- 40821, -- test
             2895,
             3037,
+            4626,
             3164,
             3163,
             3189,
@@ -64,7 +63,8 @@ BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
             4816,
             4637,
             4608,
-            4584,
+            4625,
+            -- 4584,
             4635,
             4634,
             4633,
@@ -735,8 +735,7 @@ BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
         end)
     end)
 
-    BG.RegisterEvent("PLAYER_ENTERING_WORLD", function(self, even, isLogin, isReload)
-        if not (isLogin or isReload) then return end
+    BG.Init2(function()
         BG.UpdateAchievementFrame()
     end)
 end)

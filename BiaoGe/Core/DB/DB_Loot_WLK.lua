@@ -173,9 +173,7 @@ do
         BG.Loot[FB].ExchangeItems = {
             [49644] = { 49485, 49486, 49487, },
         }
-        for item, v in pairs(BG.Loot[FB].ExchangeItems) do -- 提前缓存
-            GetItemInfo(item)
-        end
+        BG.CachesExchangeItem(FB)
     end
     -- ULD
     do
@@ -295,9 +293,7 @@ do
             [45506] = { 45796 }, -- 10人
             -- [  ] = {  },
         }
-        for item, v in pairs(BG.Loot[FB].ExchangeItems) do -- 提前缓存
-            GetItemInfo(item)
-        end
+        BG.CachesExchangeItem(FB)
     end
     -- NAXX
     do
@@ -404,9 +400,7 @@ do
             [44569] = { 44658, 44657, 44659, 44660 },
             [44577] = { 44661, 44662, 44664, 44665 },
         }
-        for item, v in pairs(BG.Loot[FB].ExchangeItems) do -- 提前缓存
-            GetItemInfo(item)
-        end
+        BG.CachesExchangeItem(FB)
 
         -- 阿尔法
         local A = "α"
@@ -751,9 +745,7 @@ do
         BG.Loot[FB].ExchangeItems[52029] = { 51244, 51285, 51243, 51225, 51286, 51242, 51226, 51287, 51241, 51227, 51288, 51239, 51228, 51289, 51238, 51229, 51249, 51237, 51220, 51248, 51236, 51221, 51247, 51235, 51222, 51246, 51240, 51223, 51245, 51224 }
         BG.Loot[FB].ExchangeItems[52030] = { 51260, 51265, 51261, 51270, 51266, 51262, 51271, 51267, 51263, 51272, 51268, 51264, 51273, 51269, 51255, 51274, 51230, 51256, 51275, 51231, 51257, 51276, 51232, 51258, 51277, 51233, 51259, 51278, 51234, 51279 }
         -- BG.Loot[FB].ExchangeItems[52030] = { }
-        for item, v in pairs(BG.Loot[FB].ExchangeItems) do -- 提前缓存
-            GetItemInfo(item)
-        end
+        BG.CachesExchangeItem(FB)
     end
 
     local FB = "TOC"
@@ -963,9 +955,7 @@ do
             BG.Loot[FB].ExchangeItems[47242] = { 48300, 48496, 48063, 48394, 48096, 48181, 48592, 48301, 48302, 48499, 48064, 48461, 48148, 48194, 48594, 48304, 48303, 48553, 48065, 48463, 48152, 48195, 48623, 48331, 48332, 48556, 48093, 48464, 48178, 48196, 48624, 48334, 48333, 47768, 48590, 48094, 48497, 48182, 48239, 48626, 48361, 47769, 48335, 47772, 48593, 48095, 48498, 48193, 48240, 48657, 48364, 47770, 48362, 47803, 48622, 48149, 48500, 48197, 48242, 48659, 48392, 47771, 48363, 47807, 48625, 48150, 48554, 48238, 48271, 48660, 48395, 47804, 48365, 48062, 48658, 48151, 48555, 48241, 48272, 48462, 47805, 48391, 48066, 48661, 48179, 48557, 48270, 48274, 48465, 47806, 48393, 48092, 48180, 48591, 48273 }
             -- BG.Loot[FB].ExchangeItems[47559] = {}
         end
-        for item, v in pairs(BG.Loot[FB].ExchangeItems) do -- 提前缓存
-            GetItemInfo(item)
-        end
+        BG.CachesExchangeItem(FB)
     end
 
     local FB = "ULD"

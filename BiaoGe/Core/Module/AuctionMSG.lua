@@ -27,11 +27,7 @@ local HopeMaxi = ns.HopeMaxi
 
 local pt = print
 
-local frame = CreateFrame("Frame")
-frame:RegisterEvent("ADDON_LOADED")
-frame:SetScript("OnEvent", function(self, event, addonName)
-    if addonName ~= AddonName then return end
-
+BG.Init(function()
     BiaoGe.auctionMSGhistory = BiaoGe.auctionMSGhistory or {}
 
 
@@ -262,10 +258,7 @@ frame:SetScript("OnEvent", function(self, event, addonName)
         local bt = CreateFrame("Button", nil, BG.FrameAuctionMSG) -- 放大
         bt:SetSize(18, 18)
         bt:SetPoint("BOTTOM", chatbt, "TOP", 1, -2)
-        bt:SetNormalTexture(3487944)
-        bt:SetHighlightTexture(3487944)
-        bt:GetNormalTexture():SetTexCoord(.38, .5, 0, 0.25)
-        bt:GetHighlightTexture():SetTexCoord(.38, .5, 0, 0.25)
+        BG.SetButtonAtlas(bt, "common-icon-zoomin")
         BG.FrameAuctionMSG.buttonBig = bt
         if BiaoGe.auctionMSGIsBig then
             bt:Hide()
@@ -280,10 +273,7 @@ frame:SetScript("OnEvent", function(self, event, addonName)
         local bt = CreateFrame("Button", nil, BG.FrameAuctionMSG) -- 缩小
         bt:SetSize(18, 18)
         bt:SetPoint("BOTTOM", chatbt, "TOP", 1, -2)
-        bt:SetNormalTexture(3487944)
-        bt:SetHighlightTexture(3487944)
-        bt:GetNormalTexture():SetTexCoord(.38, .5, 0.5, 0.75)
-        bt:GetHighlightTexture():SetTexCoord(.38, .5, 0.5, 0.75)
+        BG.SetButtonAtlas(bt, "common-icon-zoomout")
         BG.FrameAuctionMSG.buttonSmall = bt
         if not BiaoGe.auctionMSGIsBig then
             bt:Hide()

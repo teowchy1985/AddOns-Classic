@@ -78,13 +78,13 @@ do
             HopeMaxn[FB] = hopemaxn or 1
         end
         if BG.IsVanilla_Sod then
-            AddDB("BD", mainFrameWidth, 835, 3, 9, { 0, 5, 9 })
-            AddDB("Gno", mainFrameWidth, 835, 3, 8, { 0, 5, 8 })
+            AddDB("BD", mainFrameWidth, 810, 3, 9, { 0, 5, 9 })
+            AddDB("Gno", mainFrameWidth, 810, 3, 8, { 0, 5, 8 })
             AddDB("Temple", mainFrameWidth, 885, 3, 10, { 0, 6, 9, })
-            AddDB("UBRS", mainFrameWidth, 835, 3, 10, { 0, 5, 9 })
-            AddDB("MCsod", 1715, 940, 4, 16, { 0, 6, 11, 14 })
+            AddDB("MCsod", mainFrameWidth, 940, 3, 13, { 0, 6, 11 })
             AddDB("ZUGsod", mainFrameWidth, 810, 3, 12, { 0, 6, 11 })
-            AddDB("BWLsod", mainFrameWidth, 810, 3, 10, { 0, 5, 8 })
+            AddDB("BWLsod", mainFrameWidth, 810, 3, 9, { 0, 5, 7 })
+            AddDB("Worldsod", mainFrameWidth, 810, 3, 10, { 0, 4, 9 })
         elseif BG.IsVanilla_60 then
             AddDB("MC", mainFrameWidth, 873, 3, 13, { 0, 8, 12 })
             AddDB("BWL", mainFrameWidth, 810, 3, 10, { 0, 5, 9 })
@@ -118,7 +118,6 @@ do
             BG.difficultyTable[FB] = difficultyTable or { "N", "H" }
             BG.phaseFBtable[FB] = phaseTable or { FB }
             BG.bossPositionStartEnd[instanceID] = bossPositionTbl or { 1, Maxb[FB] - 2 }
-
             BG.FBfromBossPosition[FB] = {}
             for i = 1, Maxb[FB] do
                 BG.FBfromBossPosition[FB][i] = { name = FB, localName = GetRealZoneText(instanceID) }
@@ -128,41 +127,32 @@ do
                 BG.instanceIDfromBossPosition[FB][i] = instanceID
             end
         end
+        local function AddOneBoss(FB, instanceID, bossNum, name)
+            BG.FBIDtable[instanceID] = FB
+            BG.bossPositionStartEnd[instanceID] = { bossNum, bossNum }
+            BG.FBfromBossPosition[FB][bossNum] = { name = name, localName = GetRealZoneText(instanceID) }
+            BG.instanceIDfromBossPosition[FB][bossNum] = instanceID
+        end
+
         if BG.IsVanilla_Sod then
             BG.FB1 = "MCsod"
             BG.fullLevel = 25
-            BG.theEndBossID = { 2891, 2940, 2956, 3018, 793, 617, }
+            BG.theEndBossID = { 672, 617, } -- MC BWL
             AddDB("BD", 48, "P1", 10, 3)
             AddDB("Gno", 90, "P2", 10, 3)
             AddDB("Temple", 109, "P3", 20, 3)
-            AddDB("UBRS", 229, "P4", 10, 3, nil, { "UBRS", "MCsod" })
-            AddDB("MCsod", 409, "P4", 20, nil, nil, { "UBRS", "MCsod" }, { 1, 11 })
-            AddDB("ZUGsod", 309, "P5", 10, 3, nil, { "BWLsod", "ZUGsod" })
-            AddDB("BWLsod", 469, "P5", 20, nil, nil, { "BWLsod", "ZUGsod" })
+            AddDB("MCsod", 409, "P4", 20)
+            AddDB("ZUGsod", 309, "P5", 10, 3)
+            AddDB("BWLsod", 469, "P5", 20)
+            AddDB("Worldsod", 249, "", 20, nil, nil, nil, { 1, 1 })
+            BG.FBtable2[#BG.FBtable2].localName = L["世界Boss"]
 
-            BG.FBIDtable[249] = "MCsod" -- 奥妮克希亚的巢穴
-            BG.bossPositionStartEnd[249] = { 12, 12 }
-            BG.FBfromBossPosition["MCsod"][12] = { name = "OLsod", localName = GetRealZoneText(249) }
-            BG.instanceIDfromBossPosition["MCsod"][12] = 249
-
-            BG.FBIDtable[2791] = "MCsod" -- 风暴悬崖
-            BG.bossPositionStartEnd[2791] = { 13, 13 }
-            BG.FBfromBossPosition["MCsod"][13] = { name = "SC", localName = GetRealZoneText(2791) }
-            BG.instanceIDfromBossPosition["MCsod"][13] = 2791
-
-            BG.FBIDtable[2789] = "MCsod" -- 腐烂之痕
-            BG.bossPositionStartEnd[2789] = { 14, 14 }
-            BG.FBfromBossPosition["MCsod"][14] = { name = "TTS", localName = GetRealZoneText(2789) }
-            BG.instanceIDfromBossPosition["MCsod"][14] = 2789
-
+            -- 风暴悬崖
+            AddOneBoss("Worldsod", 2791, 2, "SC")
+            -- 腐烂之痕
+            AddOneBoss("Worldsod", 2789, 3, "TTS")
             -- 水晶谷
-            do
-                local FB, instanceID, bossNum = "BWLsod", 2804, 9
-                BG.FBIDtable[instanceID] = FB
-                BG.bossPositionStartEnd[instanceID] = { bossNum, bossNum }
-                BG.FBfromBossPosition[FB][bossNum] = { name = "TCV", localName = GetRealZoneText(instanceID) }
-                BG.instanceIDfromBossPosition[FB][bossNum] = instanceID
-            end
+            AddOneBoss("Worldsod", 2804, 4, "TCV")
         elseif BG.IsVanilla_60 then
             BG.FB1 = "MC"
             BG.fullLevel = 60
@@ -432,7 +422,13 @@ do
                 ExchangeItems = {},
             }
         end
-        BG.SpecialLoot = {}
+
+        -- 提前缓存兑换物品
+        function BG.CachesExchangeItem(FB)
+            for item in pairs(BG.Loot[FB].ExchangeItems) do
+                GetItemInfo(item)
+            end
+        end
     end
 
     -- 字体
@@ -650,6 +646,26 @@ local function DataBase()
     else
         BiaoGe = {}
     end
+
+    -- 副本选择初始化
+    -- FB1 是UI当前选择的副本
+    -- FB2 是玩家当前所处的副本
+    if BiaoGe.FB then
+        local yes
+        for k, FB in pairs(BG.FBtable) do
+            if BiaoGe.FB == FB then
+                BG.FB1 = BiaoGe.FB
+                yes = true
+                break
+            end
+        end
+        if not yes then
+            BiaoGe.FB = BG.FB1
+        end
+    else
+        BiaoGe.FB = BG.FB1
+    end
+
     if not BiaoGe.point then
         BiaoGe.point = {}
     end
@@ -657,7 +673,7 @@ local function DataBase()
         BiaoGe.duizhang = {}
     end
 
-    for index, FB in ipairs(BG.FBtable) do
+    for _, FB in ipairs(BG.FBtable) do
         if not BiaoGe[FB] then
             BiaoGe[FB] = {}
         end
@@ -672,7 +688,7 @@ local function DataBase()
     if not BiaoGe.HistoryList then
         BiaoGe.HistoryList = {}
     end
-    for index, FB in ipairs(BG.FBtable) do
+    for _, FB in ipairs(BG.FBtable) do
         if not BiaoGe.HistoryList[FB] then
             BiaoGe.HistoryList[FB] = {}
         end
@@ -681,7 +697,7 @@ local function DataBase()
     if not BiaoGe.History then
         BiaoGe.History = {}
     end
-    for index, FB in ipairs(BG.FBtable) do
+    for _, FB in ipairs(BG.FBtable) do
         if not BiaoGe.History[FB] then
             BiaoGe.History[FB] = {}
         end
@@ -706,9 +722,8 @@ local function DataBase()
     end
     local name = "moLing"
     BG.options[name .. "reset"] = 1
-    if not BiaoGe.options[name] then
-        BiaoGe.options[name] = BG.options[name .. "reset"]
-    end
+    BiaoGe.options[name] = BiaoGe.options[name] or BG.options[name .. "reset"]
+
     -- 声音方案
     BiaoGe.options.Sound = BiaoGe.options.Sound or BG.soundTbl[random(#BG.soundTbl)]
 
@@ -776,6 +791,53 @@ local function DataBase()
         BG.RegisterEvent("PLAYER_LEVEL_UP", function(self, even, level)
             BiaoGe.playerInfo[realmID][player].level = level
         end)
+    end
+
+    -- 修正数据
+    do
+        if BG.IsVanilla_Sod then
+            local FB = "MCsod"
+            if BiaoGe[FB].boss18.zhuangbei1 then
+                BiaoGe[FB].boss12 = BG.Copy(BiaoGe[FB].boss15)
+                BiaoGe[FB].boss13 = BG.Copy(BiaoGe[FB].boss16)
+                BiaoGe[FB].boss14 = BG.Copy(BiaoGe[FB].boss17)
+                BiaoGe[FB].boss15 = BG.Copy(BiaoGe[FB].boss18)
+                BiaoGe[FB].boss16 = {}
+                BiaoGe[FB].boss17 = {}
+                BiaoGe[FB].boss18 = {}
+
+                for DT, v in pairs(BiaoGe.History[FB]) do
+                    if BiaoGe.History[FB][DT].boss18.zhuangbei1 then
+                        BiaoGe.History[FB][DT].boss12 = BG.Copy(BiaoGe.History[FB][DT].boss15)
+                        BiaoGe.History[FB][DT].boss13 = BG.Copy(BiaoGe.History[FB][DT].boss16)
+                        BiaoGe.History[FB][DT].boss14 = BG.Copy(BiaoGe.History[FB][DT].boss17)
+                        BiaoGe.History[FB][DT].boss15 = BG.Copy(BiaoGe.History[FB][DT].boss18)
+                        BiaoGe.History[FB][DT].boss16 = {}
+                        BiaoGe.History[FB][DT].boss17 = {}
+                        BiaoGe.History[FB][DT].boss18 = {}
+                    end
+                end
+            end
+
+            local FB = "BWLsod"
+            if BiaoGe[FB].boss12.zhuangbei1 then
+                BiaoGe[FB].boss8 = BG.Copy(BiaoGe[FB].boss9)
+                BiaoGe[FB].boss9 = BG.Copy(BiaoGe[FB].boss10)
+                BiaoGe[FB].boss10 = BG.Copy(BiaoGe[FB].boss11)
+                BiaoGe[FB].boss11 = BG.Copy(BiaoGe[FB].boss12)
+                BiaoGe[FB].boss12 = {}
+
+                for DT, v in pairs(BiaoGe.History[FB]) do
+                    if BiaoGe.History[FB][DT].boss12.zhuangbei1 then
+                        BiaoGe.History[FB][DT].boss8 = BG.Copy(BiaoGe.History[FB][DT].boss9)
+                        BiaoGe.History[FB][DT].boss9 = BG.Copy(BiaoGe.History[FB][DT].boss10)
+                        BiaoGe.History[FB][DT].boss10 = BG.Copy(BiaoGe.History[FB][DT].boss11)
+                        BiaoGe.History[FB][DT].boss11 = BG.Copy(BiaoGe.History[FB][DT].boss12)
+                        BiaoGe.History[FB][DT].boss12 = {}
+                    end
+                end
+            end
+        end
     end
 end
 

@@ -8,11 +8,7 @@ local RealmID = GetRealmID()
 local player = UnitName("player")
 local _, class = UnitClass("player")
 
-local frame = CreateFrame("Frame")
-frame:RegisterEvent("ADDON_LOADED")
-frame:SetScript("OnEvent", function(self, event, addonName)
-    if addonName ~= AddonName then return end
-
+BG.Init(function()
     local MaxFilter = {
         ["DEATHKNIGHT"] = 2,
         ["PALADIN"] = 3,
@@ -95,7 +91,7 @@ frame:SetScript("OnEvent", function(self, event, addonName)
         "Interface/Icons/spell_deathknight_frostpresence",  -- 冰DK
         "Interface/Icons/spell_deathknight_unholypresence", -- 邪DK
 
-        "Interface/Icons/ability_rogue_eviscerate",         -- 武器
+        "Interface/Icons/ability_rogue_ambush",             -- 武器
         "Interface/Icons/ability_warrior_defensivestance",  -- 防御姿势T
         "Interface/Icons/INV_Sword_48",                     -- 斩杀
 
@@ -131,6 +127,31 @@ frame:SetScript("OnEvent", function(self, event, addonName)
         "Interface/Icons/spell_holy_wordfortitude",         -- 戒律
         "Interface/Icons/spell_holy_guardianspirit",        -- 神圣
         "Interface/Icons/spell_shadow_shadowwordpain",      -- 暗影
+
+
+        -- 额外
+        135957, 237480, 135372,
+        132369, 132337, 132362,
+        135993, 135891, 135959,
+        132180, 132293, 135826,
+        135790, 136023, 237579,
+        136078, 236162, 236168,
+        132304, 132298, 136177,
+        136183, 237558, 136228,
+        135841, 236217, 135735,
+        136200, 135936, 135940,
+
+        -- 135957, 237480, 135372, 135371,
+        -- 132369, 132337, 132362, 132307,
+        -- 135993, 135891, 135959, 135875,
+        -- 132180, 132293, 135826, 132330,
+        -- 135790, 136023, 237579, 136026,
+        -- 136078, 236162, 236168, 132135,
+        -- 132304, 132298, 136177, 132306,
+        -- 136183, 237558, 136228, 135789,
+        -- 135841, 236217, 135735, 135848,
+        -- 136200, 135936, 135940, 135953,
+
     }
 
     ------------------装备词缀------------------
@@ -149,25 +170,24 @@ frame:SetScript("OnEvent", function(self, event, addonName)
             { name = "攻击强度", value = ITEM_MOD_ATTACK_POWER_SHORT },
             { name = "武器技能", value = COMBAT_RATING_NAME1 },
             { name = "击中时可能", value = ITEM_SPELL_TRIGGER_ONPROC },
-            { name = "所有命中", value = L["所有法术和攻击的命中"], nothave = { ITEM_SPELL_TRIGGER_ONPROC }, onenter = L["这个词缀是赛季服新增的，指物理和法系的命中，治疗一般需要过滤此词缀"] },
-            { name = "物理命中", value = L["你击中目标"], onenter = L["这个词缀是指物理命中"] },
-            { name = "物理暴击", value = L["你造成爆击"], onenter = L["这个词缀是指物理爆击"] },
-            { name = "法术命中", value = L["你的法术击中"], nothave = { ITEM_SPELL_TRIGGER_ONPROC }, onenter = L["这个词缀是指法术命中"] },
-            { name = "法术暴击", value = L["你的法术造成爆击"], nothave = { ITEM_SPELL_TRIGGER_ONPROC }, onenter = L["这个词缀是指法术爆击"] },
-            { name = "法术伤害", value = STAT_SPELLDAMAGE, nothave = { ITEM_SPELL_TRIGGER_ONPROC }, onenter = L["这个词缀是指单纯增加法术伤害，治疗一般需要过滤此词缀"] },
-            { name = "法术强度", value = L["所有法术和魔法效果所造成的伤害和治疗效果"], nothave = { ITEM_SPELL_TRIGGER_ONPROC }, onenter = L["这个词缀是指增加法术伤害和治疗，物理职业一般需要过滤此词缀"] },
-            { name = "特定法术强度", value = L["法术和效果所造成的伤害"], nothave = { ITEM_SPELL_TRIGGER_ONPROC }, onenter = L["这个词缀是指某种属性的法术伤害，比如增加火焰法术伤害，治疗一般需要过滤此词缀"] },
-            { name = "治疗强度", value = L["法术所造成的治疗效果"], nothave = { ITEM_SPELL_TRIGGER_ONPROC }, onenter = L["这个词缀是指单纯增加治疗效果，法系DPS一般需要过滤此词缀"] },
+            { name = "所有命中", value = L["所有法术和攻击的命中"], nothave = { ITEM_SPELL_TRIGGER_ONPROC }, onenter = L["这个词缀是赛季服新增的，指物理和法系的命中，治疗需要过滤此词缀"] },
+            { name = "物理命中", name2 = L["物理命中"], value = L["你击中目标"] },
+            { name = "物理暴击", name2 = L["物理爆击"], value = L["你造成爆击"] },
+            { name = "法术命中", name2 = L["法系命中"], value = L["你的法术击中"], nothave = { ITEM_SPELL_TRIGGER_ONPROC } },
+            { name = "法术暴击", name2 = L["法系爆击"], value = L["你的法术造成爆击"], nothave = { ITEM_SPELL_TRIGGER_ONPROC } },
+            { name = "特定法术强度", name2 = L["特定法术强度"], value = { L["法术和效果所造成的伤害"] }, nothave = { ITEM_SPELL_TRIGGER_ONPROC }, onenter = L["仅加法强，不加奶强，治疗需要过滤此词缀"] },
+            { name = "法术强度", name2 = L["法术强度"], value = L["所有法术和魔法效果所造成的伤害和治疗效果"], nothave = { ITEM_SPELL_TRIGGER_ONPROC }, onenter = L["法强+奶强"] },
+            { name = "治疗强度", name2 = L["治疗强度"], value = { L["法术所造成的治疗效果"], L["法术治疗提高"], L["法术和效果造成的治疗提高"] }, nothave = { ITEM_SPELL_TRIGGER_ONPROC } },
         }
+        -- STAT_SPELLDAMAGE,
+        local t1 = { "5回法力值", "法术强度", "特定法术强度", "治疗强度", "法术命中", "法术暴击", } -- FZ, FQ
+        local t3 = { "5回法力值", "法术强度", "特定法术强度", "治疗强度", "招架", "格挡值", "武器技能", "法术命中", "法术暴击", } -- 熊T
 
-        local t1 = { "5回法力值", "法术强度", "特定法术强度", "治疗强度", "法术命中", "法术暴击", "法术伤害", } -- FZ, FQ
-        local t3 = { "5回法力值", "法术强度", "特定法术强度", "治疗强度", "招架", "格挡值", "武器技能", "法术命中", "法术暴击", "法术伤害", } -- 熊T
-
-        local dps1 = { "5回法力值", "法术强度", "特定法术强度", "治疗强度", "招架", "躲闪", "防御", "格挡值", "法术命中", "法术暴击", "法术伤害", } -- KBZ/CJQ
-        local dps2 = { "5回法力值", "法术强度", "特定法术强度", "治疗强度", "招架", "躲闪", "防御", "格挡值", "法术命中", "法术暴击", "法术伤害", } -- DZ
+        local dps1 = { "5回法力值", "法术强度", "特定法术强度", "治疗强度", "招架", "躲闪", "防御", "格挡值", "法术命中", "法术暴击", } -- KBZ/CJQ
+        local dps2 = { "5回法力值", "法术强度", "特定法术强度", "治疗强度", "招架", "躲闪", "防御", "格挡值", "法术命中", "法术暴击", } -- DZ
         local dps3 = { "5回法力值", "法术强度", "特定法术强度", "治疗强度", } -- ZQS
-        local dps4 = { "5回法力值", "法术强度", "特定法术强度", "治疗强度", "招架", "躲闪", "防御", "格挡值", "法术命中", "法术暴击", "法术伤害", } -- LR
-        local dps5 = { "5回法力值", "法术强度", "特定法术强度", "治疗强度", "招架", "躲闪", "防御", "格挡值", "武器技能", "法术命中", "法术暴击", "法术伤害", } -- 猫
+        local dps4 = { "5回法力值", "法术强度", "特定法术强度", "治疗强度", "招架", "躲闪", "防御", "格挡值", "法术命中", "法术暴击", } -- LR
+        local dps5 = { "5回法力值", "法术强度", "特定法术强度", "治疗强度", "招架", "躲闪", "防御", "格挡值", "武器技能", "法术命中", "法术暴击", } -- 猫
 
         local fx1 = { "招架", "躲闪", "防御", "格挡值", "攻击强度", "武器技能", "击中时可能", "治疗强度", "物理命中", "物理暴击", } -- 法系dps
 
@@ -201,16 +221,6 @@ frame:SetScript("OnEvent", function(self, event, addonName)
             ["PRIEST" .. "1"] = n1,    -- MS
             ["PRIEST" .. "2"] = fx1,   -- AM
         }
-
-        for i = 1, MaxFilter[class] do
-            if not BiaoGe.FilterClassItemDB[RealmID][player][i].ShuXing then
-                BiaoGe.FilterClassItemDB[RealmID][player][i].ShuXing = {}
-
-                for k, v in pairs(BG.FilterClassItem_Default.ShuXing[class .. i]) do
-                    BiaoGe.FilterClassItemDB[RealmID][player][i].ShuXing[v] = 1
-                end
-            end
-        end
     else
         if BG.IsWLK then
             BG.FilterClassItemDB.ShuXing = {
@@ -275,8 +285,8 @@ frame:SetScript("OnEvent", function(self, event, addonName)
         local n2 = { "力量", "敏捷", "命中", "精神", "格挡", "招架", "躲闪", "防御", "精准", "攻击强度", "护甲穿透", "近战攻击", "远程攻击", "副手物品", } -- NQ/NS
 
         BG.FilterClassItem_Default.ShuXing = {
-            ["DEATHKNIGHT" .. 1] = t2,   -- 血DK
-            ["DEATHKNIGHT" .. 2] = dps1, -- DK
+            ["DEATHKNIGHT" .. "1"] = t2,   -- 血DK
+            ["DEATHKNIGHT" .. "2"] = dps1, -- DK
 
             ["WARRIOR" .. "1"] = t1,     -- FZ
             ["WARRIOR" .. "2"] = dps1,   -- KBZ
@@ -305,14 +315,22 @@ frame:SetScript("OnEvent", function(self, event, addonName)
             ["PRIEST" .. "1"] = n1,      -- MS
             ["PRIEST" .. "2"] = fx1,     -- AM
         }
+    end
+    for k, v in pairs(BG.FilterClassItemDB.ShuXing) do
+        if type(BG.FilterClassItemDB.ShuXing[k].value) == "table" then
+            for _, text in pairs(BG.FilterClassItemDB.ShuXing[k].value) do
+                text = text:gsub("%%s", "(.+)")
+            end
+        else
+            BG.FilterClassItemDB.ShuXing[k].value = BG.FilterClassItemDB.ShuXing[k].value:gsub("%%s", "(.+)")
+        end
+    end
+    for i = 1, MaxFilter[class] do
+        if not BiaoGe.FilterClassItemDB[RealmID][player][i].ShuXing then
+            BiaoGe.FilterClassItemDB[RealmID][player][i].ShuXing = {}
 
-        for i = 1, MaxFilter[class] do
-            if not BiaoGe.FilterClassItemDB[RealmID][player][i].ShuXing then
-                BiaoGe.FilterClassItemDB[RealmID][player][i].ShuXing = {}
-
-                for k, v in pairs(BG.FilterClassItem_Default.ShuXing[class .. i]) do
-                    BiaoGe.FilterClassItemDB[RealmID][player][i].ShuXing[v] = 1
-                end
+            for k, v in pairs(BG.FilterClassItem_Default.ShuXing[class .. i]) do
+                BiaoGe.FilterClassItemDB[RealmID][player][i].ShuXing[v] = 1
             end
         end
     end

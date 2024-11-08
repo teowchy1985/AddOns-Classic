@@ -41,9 +41,7 @@ local function P_color(text)
     return text
 end
 
-BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
-    if addonName ~= AddonName then return end
-
+BG.Init(function()
     local name = "BossFontSize"
     BG.options[name .. "reset"] = 15
     local fontsize = BiaoGe.options["BossFontSize"] or BG.options[name .. "reset"]

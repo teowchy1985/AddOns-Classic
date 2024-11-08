@@ -1,4 +1,4 @@
-local _, ns = ...
+local AddonName, ns = ...
 
 local L = ns.L
 
@@ -49,6 +49,24 @@ local function ClassQuest(classID)
 end
 ns.ClassQuest = ClassQuest
 
+function BG.Init(func)
+    local f = CreateFrame("Frame")
+    f:RegisterEvent("ADDON_LOADED")
+    f:SetScript("OnEvent", function(self, event, addonName)
+        if addonName ~= AddonName then return end
+        func()
+    end)
+end
+
+function BG.Init2(func)
+    local f = CreateFrame("Frame")
+    f:RegisterEvent("PLAYER_ENTERING_WORLD")
+    f:SetScript("OnEvent", function(self, even, isLogin, isReload)
+        if not (isLogin or isReload) then return end
+        func()
+    end)
+end
+
 -- 版本号
 local ver = select(4, GetBuildInfo())
 if ver < 20000 then
@@ -92,4 +110,20 @@ end
 
 if UnitFactionGroup("player") == "Horde" then
     BG.IsHorde = true
+end
+
+function BG.Copy(table)
+    if type(table) == "table" then
+        local t = {}
+        for k, v in pairs(table) do
+            if type(v) == "table" then
+                t[k] = BG.Copy(v) -- 递归拷贝子表
+            else
+                t[k] = v
+            end
+        end
+        return t
+    else
+        return table
+    end
 end

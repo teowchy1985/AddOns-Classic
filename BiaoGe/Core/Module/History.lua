@@ -495,7 +495,7 @@ function BG.HistoryUI()
         end)
         bt:SetScript("OnClick", function(self)
             local FB = BG.FB1
-            if BG.BiaoGeIsHavedItem(FB) then
+            if BG.BiaoGeHavedItem(FB) then
                 StaticPopup_Show("YINGYONGBIAOGE")
                 return
             end
@@ -720,7 +720,7 @@ do
                                 BG.HistoryFrame[FB]["boss" .. b]["time"]:SetText("")
                             end
                         end
-                        BG.History.Title:SetText(L["< 历史表格 > "])
+                        BG.History.Title:SetText(L["<历史表格> "])
                         BG.TextLockoutID:SetText(L["团本锁定ID："] .. L["无"])
                         BG.TextLockoutID:SetTextColor(0.5, 0.5, 0.5)
                         return
@@ -751,42 +751,44 @@ do
                 BG.History.chooseNum = i
                 local DT = BiaoGe.HistoryList[FB][i][1]
                 for b = 1, Maxb[FB] + 2 do
-                    for i = 1, Maxi[FB] do
-                        if BG.HistoryFrame[FB]["boss" .. b]["zhuangbei" .. i] then
-                            BG.HistoryFrame[FB]["boss" .. b]["zhuangbei" .. i]:SetText(BiaoGe.History[FB][DT]["boss" .. b]["zhuangbei" .. i] or "")
-                            BG.HistoryFrame[FB]["boss" .. b]["maijia" .. i]:SetText(BiaoGe.History[FB][DT]["boss" .. b]["maijia" .. i] or "")
-                            BG.HistoryFrame[FB]["boss" .. b]["maijia" .. i]:SetCursorPosition(0)
-                            if BiaoGe.History[FB][DT]["boss" .. b]["color" .. i] then
-                                BG.HistoryFrame[FB]["boss" .. b]["maijia" .. i]:SetTextColor(unpack(BiaoGe.History[FB][DT]["boss" .. b]["color" .. i]))
-                            end
-                            BG.HistoryFrame[FB]["boss" .. b]["jine" .. i]:SetText(BiaoGe.History[FB][DT]["boss" .. b]["jine" .. i] or "")
+                    if BiaoGe.History[FB][DT]["boss" .. b] then
+                        for i = 1, Maxi[FB] do
+                            if BG.HistoryFrame[FB]["boss" .. b]["zhuangbei" .. i] then
+                                BG.HistoryFrame[FB]["boss" .. b]["zhuangbei" .. i]:SetText(BiaoGe.History[FB][DT]["boss" .. b]["zhuangbei" .. i] or "")
+                                BG.HistoryFrame[FB]["boss" .. b]["maijia" .. i]:SetText(BiaoGe.History[FB][DT]["boss" .. b]["maijia" .. i] or "")
+                                BG.HistoryFrame[FB]["boss" .. b]["maijia" .. i]:SetCursorPosition(0)
+                                if BiaoGe.History[FB][DT]["boss" .. b]["color" .. i] then
+                                    BG.HistoryFrame[FB]["boss" .. b]["maijia" .. i]:SetTextColor(unpack(BiaoGe.History[FB][DT]["boss" .. b]["color" .. i]))
+                                end
+                                BG.HistoryFrame[FB]["boss" .. b]["jine" .. i]:SetText(BiaoGe.History[FB][DT]["boss" .. b]["jine" .. i] or "")
 
-                            if BiaoGe.History[FB][DT]["boss" .. b]["guanzhu" .. i] then
-                                BG.HistoryFrame[FB]["boss" .. b]["guanzhu" .. i]:Show()
-                            else
-                                BG.HistoryFrame[FB]["boss" .. b]["guanzhu" .. i]:Hide()
-                            end
+                                if BiaoGe.History[FB][DT]["boss" .. b]["guanzhu" .. i] then
+                                    BG.HistoryFrame[FB]["boss" .. b]["guanzhu" .. i]:Show()
+                                else
+                                    BG.HistoryFrame[FB]["boss" .. b]["guanzhu" .. i]:Hide()
+                                end
 
-                            if BiaoGe.History[FB][DT]["boss" .. b]["qiankuan" .. i] then
-                                BG.HistoryFrame[FB]["boss" .. b]["qiankuan" .. i].qiankuan = BiaoGe.History[FB][DT]["boss" .. b]["qiankuan" .. i]
-                                BG.HistoryFrame[FB]["boss" .. b]["qiankuan" .. i]:Show()
-                            else
-                                BG.HistoryFrame[FB]["boss" .. b]["qiankuan" .. i]:Hide()
+                                if BiaoGe.History[FB][DT]["boss" .. b]["qiankuan" .. i] then
+                                    BG.HistoryFrame[FB]["boss" .. b]["qiankuan" .. i].qiankuan = BiaoGe.History[FB][DT]["boss" .. b]["qiankuan" .. i]
+                                    BG.HistoryFrame[FB]["boss" .. b]["qiankuan" .. i]:Show()
+                                else
+                                    BG.HistoryFrame[FB]["boss" .. b]["qiankuan" .. i]:Hide()
+                                end
                             end
                         end
-                    end
-                    if BG.HistoryFrame[FB]["boss" .. b]["time"] then
-                        if BiaoGe.History[FB][DT]["boss" .. b]["time"] then
-                            BG.HistoryFrame[FB]["boss" .. b]["time"]:SetText(L["击杀用时"] .. " " .. BiaoGe.History[FB][DT]["boss" .. b]["time"])
-                        else
-                            BG.HistoryFrame[FB]["boss" .. b]["time"]:SetText("")
+                        if BG.HistoryFrame[FB]["boss" .. b]["time"] then
+                            if BiaoGe.History[FB][DT]["boss" .. b]["time"] then
+                                BG.HistoryFrame[FB]["boss" .. b]["time"]:SetText(L["击杀用时"] .. " " .. BiaoGe.History[FB][DT]["boss" .. b]["time"])
+                            else
+                                BG.HistoryFrame[FB]["boss" .. b]["time"]:SetText("")
+                            end
                         end
                     end
                 end
                 BG.HistoryMainFrame:Show()
 
                 BG.History.Title:SetParent(BG["HistoryFrame" .. FB])
-                BG.History.Title:SetText(L["< 历史表格 > "] .. " " .. i)
+                BG.History.Title:SetText(L["<历史表格>"] .. " " .. i)
                 BG.History.chooseNum = i
 
                 BG.UpdateLockoutIDText(DT)
@@ -836,21 +838,23 @@ do
         for DT in pairs(BiaoGe.History[FB]) do
             if num > 15 then break end
             for b = 1, Maxb[FB] do
-                for i = 1, Maxi[FB] do
-                    local zhuangbei = BiaoGe.History[FB][DT]["boss" .. b]["zhuangbei" .. i]
-                    if zhuangbei then
-                        local HitemID = GetItemID(zhuangbei)
-                        if HitemID and (HitemID == itemID) and tonumber(BiaoGe.History[FB][DT]["boss" .. b]["jine" .. i]) then
-                            local m = BiaoGe.History[FB][DT]["boss" .. b]["maijia" .. i] or ""
-                            local c = BiaoGe.History[FB][DT]["boss" .. b]["color" .. i] or { 1, 1, 1 }
-                            local j = BiaoGe.History[FB][DT]["boss" .. b]["jine" .. i]
-                            table.insert(db, {
-                                tonumber(DT),
-                                zhuangbei,
-                                m,
-                                c,
-                                tonumber(j)
-                            })
+                if BiaoGe.History[FB][DT]["boss" .. b] then
+                    for i = 1, Maxi[FB] do
+                        local zhuangbei = BiaoGe.History[FB][DT]["boss" .. b]["zhuangbei" .. i]
+                        if zhuangbei then
+                            local HitemID = GetItemID(zhuangbei)
+                            if HitemID and (HitemID == itemID) and tonumber(BiaoGe.History[FB][DT]["boss" .. b]["jine" .. i]) then
+                                local m = BiaoGe.History[FB][DT]["boss" .. b]["maijia" .. i] or ""
+                                local c = BiaoGe.History[FB][DT]["boss" .. b]["color" .. i] or { 1, 1, 1 }
+                                local j = BiaoGe.History[FB][DT]["boss" .. b]["jine" .. i]
+                                table.insert(db, {
+                                    tonumber(DT),
+                                    zhuangbei,
+                                    m,
+                                    c,
+                                    tonumber(j)
+                                })
+                            end
                         end
                     end
                 end

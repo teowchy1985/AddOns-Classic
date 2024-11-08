@@ -35,16 +35,6 @@ if BG.IsVanilla_Sod then
         2959,
         2956,
     }
-    BG.Loot.encounterID.UBRS = {
-        276,
-        277,
-        0,
-        0,
-        278,
-        279,
-        280,
-        0,
-    }
     BG.Loot.encounterID.MCsod = {
         663,
         664,
@@ -57,9 +47,6 @@ if BG.IsVanilla_Sod then
         671,
         672,
         3018, -- 熔火之心
-        1084, -- 黑龙
-        3027, -- 蓝龙
-        3026, -- 卡扎克
     }
     BG.Loot.encounterID.ZUGsod = {
         785,
@@ -81,7 +68,16 @@ if BG.IsVanilla_Sod then
         0, -- 5号6号合并，因为是同时击杀
         616,
         617,
-        3079,
+    }
+    BG.Loot.encounterID.Worldsod = {
+        1084, -- 黑龙
+        3027, -- 蓝龙
+        3026, -- 卡扎克
+        3079, -- 桑兰德
+        0,    -- 莱索恩
+        0,    -- 艾莫莉丝
+        0,    -- 泰拉尔
+        0,    -- 伊森德雷
     }
 end
 

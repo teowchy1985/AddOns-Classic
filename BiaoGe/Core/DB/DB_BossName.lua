@@ -28,6 +28,20 @@ end
 -- Sod
 do
     if BG.IsVanilla_Sod then
+        local c="339900"
+        local boss = {
+            { name = L["奥\n妮\n克\n希\n亚"], color = "CC6600" },
+            { name = L["艾\n索\n雷\n葛\n斯"], color = "0099FF" },
+            { name = L["卡\n扎\n克"], color = "cc9999" },
+            { name = L["桑\n德\n兰\n王\n子"], color = "87CEFA" },
+            { name = L["莱\n索\n恩"], color = c },
+            { name = L["艾\n莫\n莉\n丝"], color = c },
+            { name = L["泰\n拉\n尔"], color = c },
+            { name = L["伊\n森\n德\n雷"], color = c },
+        }
+        Addother(boss)
+        AddDB("Worldsod", boss)
+
         local boss = {
             { name = L["拉\n佐\n格\n尔"], color = "DA70D6" },
             { name = L["瓦\n拉\n斯\n塔\n兹"], color = "DA70D6" },
@@ -36,11 +50,10 @@ do
             { name = L["双\n龙"], color = "FFFF00" },
             { name = L["克\n洛\n玛\n古\n斯"], color = "9370DB" },
             { name = L["奈\n法\n利\n安"], color = "D2691E" },
-            { name = L["桑\n德\n兰\n王\n子"], color = "87CEFA" },
         }
         Addother(boss)
         AddDB("BWLsod", boss)
-    
+
         local boss = {
             { name = L["耶\n克\n里\n克"], color = "98FB98" },
             { name = L["温\n诺\n希\n斯"], color = "98FB98" },
@@ -68,26 +81,10 @@ do
             { name = L["埃\n克\n索\n图\n斯"], color = "FF6699" },
             { name = L["拉\n格\n纳\n罗\n斯"], color = "FF6699" },
             { name = L["熔\n火\n之\n心"], color = "FF6699" },
-            { name = L["奥\n妮\n克\n希\n亚"], color = "CC6600" },
-            { name = L["艾\n索\n雷\n葛\n斯"], color = "87CEFA" },
-            { name = L["卡\n扎\n克"], color = "CC6600" },
         }
         Addother(boss)
         AddDB("MCsod", boss)
     end
-
-    local boss = {
-        { name = L["烈\n焰\n卫\n士"], color = "FF6699" },
-        { name = L["索\n拉\n卡\n·\n火\n冠"], color = "FF6699" },
-        { name = L["杰\n德"], color = "C0C0C0" },
-        { name = L["古\n拉\n鲁\n克"], color = "C0C0C0" },
-        { name = L["雷\n德\n·\n黑\n手"], color = "FFFF00" },
-        { name = L["比\n斯\n巨\n兽"], color = "90EE90" },
-        { name = L["达\n基\n萨\n斯\n将\n军"], color = "FF4400" },
-        { name = L["瓦\n塔\n拉\n克\n公\n爵"], color = "9932CC" },
-    }
-    Addother(boss)
-    AddDB("UBRS", boss)
 
     local boss = {
         { name = L["阿\n塔\n拉\n利\n恩"], color = "D2B48C" },

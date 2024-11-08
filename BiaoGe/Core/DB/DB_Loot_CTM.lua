@@ -103,9 +103,7 @@ do
                 -- [] = {},
                 -- [] = {},
             }
-            for item, v in pairs(BG.Loot[FB].ExchangeItems) do -- 提前缓存
-                GetItemInfo(item)
-            end
+            BG.CachesExchangeItem(FB)
         end
 
         -- 5人本

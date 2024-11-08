@@ -116,6 +116,17 @@ local function AddTexture(Texture, y, coord)
 end
 ns.AddTexture = AddTexture
 
+function BG.SetButtonAtlas(bt, atlas)
+    local tex = bt:CreateTexture()
+    tex:SetAllPoints()
+    tex:SetAtlas(atlas)
+    local tex2 = bt:CreateTexture()
+    tex2:SetAllPoints()
+    tex2:SetAtlas(atlas)
+    bt:SetNormalTexture(tex)
+    bt:SetHighlightTexture(tex2)
+end
+
 function BG.CreateRoundTexture(tex, parent, w, h)
     local icon = CreateFrame("Frame", nil, parent or UIParent)
     icon:SetPoint("CENTER")
@@ -287,7 +298,7 @@ do
 end ]]
 
 ------------------当前表格已经有东西了------------------
-function BG.BiaoGeIsHavedItem(FB, _type, instanceID)
+function BG.BiaoGeHavedItem(FB, _type, instanceID)
     local startB = 1
     local endB = Maxb[FB] + 1
     if _type == "onlyboss" then
@@ -574,22 +585,6 @@ end
 
 function BG.SendSystemMessage(msg)
     SendSystemMessage(BG.STC_b1("<BiaoGe>") .. " " .. msg)
-end
-
-function BG.Copy(table)
-    if type(table) == "table" then
-        local t = {}
-        for k, v in pairs(table) do
-            if type(v) == "table" then
-                t[k] = BG.Copy(v) -- 递归拷贝子表
-            else
-                t[k] = v
-            end
-        end
-        return t
-    else
-        return table
-    end
 end
 
 function BG.SetBorderAlpha(self)
