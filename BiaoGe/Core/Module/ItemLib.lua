@@ -46,16 +46,16 @@ local maxhope
 -- 给获取途径排序
 local typeIDtbl = {
     "raid",
+    "sod_currency",
+    "currency",
     "fb5",
     "quest",
-    "currency",
     "faction",
     "profession",
-    "sod_currency",
     "world",
     "worldboss",
     "pvp",
-    "pvp_currency"
+    "pvp_currency",
 }
 local function GetTypeID(type)
     for i, v in ipairs(typeIDtbl) do
@@ -595,10 +595,9 @@ local function Mode(FB, count1, tbl, EquipLocs, itemID, type, hard, ii, k)
         count1 = count1 + 1
         if not isCache[itemID] then
             isCache[itemID] = true
+            -- if not GetItemInfo(itemID) then pt(itemID) end -- 测试哪些itemID是错误的
             local item = Item:CreateFromItemID(itemID)
             item:ContinueOnItemLoad(function()
-                local name, link, quality, level, _, _, _, _, EquipLoc, Texture, _, typeID, subclassID, bindType = GetItemInfo(itemID)
-                -- pt(FB, count1, itemID, level)
                 BG.Tooltip_SetItemByID(itemID) -- 提前设置一次物品鼠标提示信息，避免绿字属性获取不了
             end)
         end
@@ -1244,9 +1243,9 @@ local function UpdateTiptext(num, itemtbale)
         BG.ItemLibMainFrame[num].notUpdateDBText = t
     end
     BG.ItemLibMainFrame[num].notUpdateDBText:Hide()
-    if FB == "BWLsod" or FB == "ZUGsod" then
-        BG.ItemLibMainFrame[num].notUpdateDBText:Show()
-    end
+    -- if FB == "BWLsod" or FB == "ZUGsod" then
+    --     BG.ItemLibMainFrame[num].notUpdateDBText:Show()
+    -- end
 
     local P = BG.GetFBinfo(FB, "phase")
     local B = ""
@@ -1786,8 +1785,8 @@ function BG.ItemLibUI()
             if BG.IsVanilla_Sod then
                 tbl = {
                     { name = L["团本"], name2 = "raid", },
-                    { name = L["5人本"], name2 = "fb5", },
                     { name = L["牌子/货币"], name2 = "currency", },
+                    { name = L["5人本"], name2 = "fb5", },
                     { name = L["声望"], name2 = "faction", },
                     { name = L["专业"], name2 = "profession", },
                     { name = L["世界掉落"], name2 = "world", },
@@ -2223,9 +2222,7 @@ function BG.ItemLibUI()
     end
 end
 
-BG.RegisterEvent("PLAYER_ENTERING_WORLD", function(self, even, isLogin, isReload)
-    if not (isLogin or isReload) then return end
-
+BG.Init2(function()
     BG.itemLibCaches = {}
 
     BG.ItemLibMainFrame:HookScript("OnShow", function(self)

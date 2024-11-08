@@ -24,9 +24,7 @@ local pt = print
 local RealmId = GetRealmID()
 local player = UnitName("player")
 
-BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
-    if addonName ~= AddonName then return end
-
+BG.Init(function()
     BiaoGe.options.showAuctionLogFrame = BiaoGe.options.showAuctionLogFrame or 0
     BiaoGe.options.auctionLogChoose = BiaoGe.options.auctionLogChoose or 1
     BiaoGe.auctionTrade = BiaoGe.auctionTrade or {}
@@ -37,7 +35,7 @@ BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
         bt:SetNormalFontObject(BG.FontGreen15)
         bt:SetDisabledFontObject(BG.FontDis15)
         bt:SetHighlightFontObject(BG.FontWhite15)
-        bt:SetText(AddTexture("QUEST") .. L["拍卖记录"])
+        bt:SetText(L["拍卖记录"])
         bt:SetSize(bt:GetFontString():GetWidth(), 20)
         BG.SetTextHighlightTexture(bt)
         BG.ButtonAuctionLog = bt
@@ -1846,6 +1844,7 @@ BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
             UpdateMyQianKuan()
         end)
         BG.RegisterEvent("TRADE_CLOSED", function(self, ...)
+            if BG.DeBug then return end
             if tradeShowTime and GetTime() - tradeShowTime < 1 then return end
             local player = lastTradeItemNum.player
             if not (player and BiaoGe.auctionTrade[player]) then return end

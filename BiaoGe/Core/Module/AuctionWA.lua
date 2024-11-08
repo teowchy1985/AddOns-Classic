@@ -2,11 +2,9 @@ local AddonName, ns = ...
 
 local pt = print
 
-BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
-    if addonName ~= AddonName then return end
-
+BG.Init(function()
     local aura_env = aura_env or {}
-    aura_env.ver = "v2.1"
+    aura_env.ver = "v2.2"
 
     function aura_env.GetVerNum(str)
         return tonumber(string.match(str, "v(%d+%.%d+)")) or 0
@@ -93,6 +91,7 @@ BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
         L["记录"] = "記錄"
         L["、"] = "、"
         L["匿名"] = "匿名"
+        L["出价设为："] = "出價設為："
     end
 
     function aura_env.RGB(hex, Alpha)
@@ -161,21 +160,7 @@ BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
     end
 
     -- 字体
-    local STANDARD_TEXT_FONT
     do
-        local l = GetLocale()
-        if (l == "koKR") then
-            STANDARD_TEXT_FONT = "Fonts\\2002.TTF";
-        elseif (l == "zhCN") then
-            STANDARD_TEXT_FONT = "Fonts\\ARKai_T.ttf";
-        elseif (l == "zhTW") then
-            STANDARD_TEXT_FONT = "Fonts\\ARKai_T.ttf";
-        elseif (l == "ruRU") then
-            STANDARD_TEXT_FONT = "Fonts\\FRIZQT___CYR.TTF";
-        else
-            STANDARD_TEXT_FONT = "Fonts\\FRIZQT__.TTF";
-        end
-
         local color = "Gold18" -- BGA.FontGold18
         _G.BGA.FontGold18 = CreateFont("BGA.Font" .. color)
         _G.BGA.FontGold18:SetTextColor(1, 0.82, 0)
@@ -509,29 +494,13 @@ BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
         end)
     end
 
-    function aura_env.currentMoney_OnEnter(self)
-        if not self.owner.start and not self.owner.IsEnd and self.owner.player ~= UnitName("player") then
-            local _, fudu = aura_env.Addmoney(self.owner.money, "+")
-            GameTooltip:SetOwner(self.owner, "ANCHOR_BOTTOM", 0, 0)
-            GameTooltip:ClearLines()
-            GameTooltip:AddLine(self.owner.currentMoneyText:GetText(), 1, 1, 1)
-            GameTooltip:AddLine(L["点击：复制当前价格并增加"] .. fudu, 1, 0.82, 0, true)
-            GameTooltip:Show()
-            self.isOnEnter = true
-        end
-    end
-
     function aura_env.currentMoney_OnMouseDown(self)
         self.owner:GetScript("OnMouseDown")(_G.BGA.AuctionMainFrame)
     end
 
     function aura_env.currentMoney_OnMouseUp(self)
-        if not self.owner.start and not self.owner.IsEnd and self.owner.player ~= UnitName("player") then
-            self.owner.myMoneyEdit:SetText(aura_env.Addmoney(self.owner.money, "+"))
-            aura_env.UpdateAllOnEnters()
-            PlaySound(aura_env.sound1)
-        end
-        self.owner:GetScript("OnMouseUp")(_G.BGA.AuctionMainFrame)
+        local f = self.owner
+        f:GetScript("OnMouseUp")(_G.BGA.AuctionMainFrame)
     end
 
     function aura_env.myMoney_OnTextChanged(self)
@@ -569,6 +538,11 @@ BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
             f.ButtonSendMyMoney:Enable()
             f.ButtonSendMyMoney.disf:Hide()
         end
+        if money <= f.money then
+            f.ButtonJian:Disable()
+        else
+            f.ButtonJian:Enable()
+        end
         aura_env.UpdateAllOnEnters()
     end
 
@@ -576,6 +550,13 @@ BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
         local _type = "-"
         if delta == 1 then
             _type = "+"
+        end
+        if _type == "-" then
+            local f = self.owner
+            local myMoney = tonumber(self:GetText())
+            if myMoney and myMoney <= f.money then
+                return
+            end
         end
         self:SetText(aura_env.Addmoney(self:GetText(), _type))
     end
@@ -595,22 +576,34 @@ BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
     end
 
     function aura_env.JiaJian_OnEnter(self)
-        local _, fudu = aura_env.Addmoney(self.edit:GetText(), self._type)
-        local r, g, b = 1, 0, 0
-        if self._type == "+" then
-            r, g, b = 0, 1, 0
-        end
-        GameTooltip:SetOwner(self.owner, "ANCHOR_BOTTOM", 0, 0)
+        local f = self.owner
+        local myMoney = tonumber(self.edit:GetText()) or 0
+        local _, fudu = aura_env.Addmoney(myMoney, self._type)
+        GameTooltip:SetOwner(f, "ANCHOR_BOTTOM", 0, 0)
         GameTooltip:ClearLines()
-        GameTooltip:AddLine(self._type .. " " .. fudu, r, g, b, true)
-        GameTooltip:AddLine(L["根据你的出价动态改变增减幅度"], 1, 0.82, 0, true)
-        GameTooltip:AddLine(L["长按：快速调整价格"], 1, 0.82, 0, true)
+        if not f.start and not f.IsEnd and f.player ~= UnitName("player") and self._type == "+" and myMoney <= f.money then
+            GameTooltip:AddLine(L["出价设为："] .. "|cffffffff" .. (f.money + fudu), 1, 0.82, 0, true)
+        else
+            local r, g, b = 1, 0, 0
+            if self._type == "+" then
+                r, g, b = 0, 1, 0
+            end
+            GameTooltip:AddLine(self._type .. " " .. fudu, r, g, b, true)
+            GameTooltip:AddLine(L["根据你的出价动态改变增减幅度"], 1, 0.82, 0, true)
+            GameTooltip:AddLine(L["长按：快速调整价格"], 1, 0.82, 0, true)
+        end
         GameTooltip:Show()
         self.isOnEnter = true
     end
 
     function aura_env.JiaJian_OnClick(self)
-        self.edit:SetText(aura_env.Addmoney(self.edit:GetText(), self._type))
+        local f = self.owner
+        local myMoney = tonumber(self.edit:GetText()) or 0
+        if not f.start and not f.IsEnd and f.player ~= UnitName("player") and self._type == "+" and myMoney <= f.money then
+            self.edit:SetText(aura_env.Addmoney(f.money, "+"))
+        else
+            self.edit:SetText(aura_env.Addmoney(myMoney, self._type))
+        end
         aura_env.UpdateAllOnEnters()
         PlaySound(aura_env.sound1)
     end
@@ -620,6 +613,10 @@ BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
         local t_do = 0.5
         self:SetScript("OnUpdate", function(self, elapsed)
             t = t + elapsed
+            if not self:IsEnabled() then
+                self:SetScript("OnUpdate", nil)
+                return
+            end
             if t >= t_do then
                 t = t_do - 0.1
                 self.edit:SetText(aura_env.Addmoney(self.edit:GetText(), self._type))
@@ -741,9 +738,6 @@ BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
 
     function aura_env.UpdateAllOnEnters()
         for i, f in ipairs(_G.BGA.Frames) do
-            if f.currentMoneyText.isOnEnter then
-                aura_env.currentMoney_OnEnter(f.currentMoneyText)
-            end
             if f.myMoneyEdit.isOnEnter then
                 aura_env.myMoney_OnEnter(f.myMoneyEdit)
             end
@@ -1374,8 +1368,6 @@ BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
             f:SetPoint("TOPLEFT", AuctionFrame.itemFrame, "BOTTOMLEFT", 3, -3)
             f:SetScript("OnMouseDown", aura_env.currentMoney_OnMouseDown)
             f:SetScript("OnMouseUp", aura_env.currentMoney_OnMouseUp)
-            f:SetScript("OnEnter", aura_env.currentMoney_OnEnter)
-            f:SetScript("OnLeave", aura_env.OnLeave)
             f.owner = AuctionFrame
             local t = f:CreateFontString()
             t:SetFont(STANDARD_TEXT_FONT, 14, "OUTLINE")

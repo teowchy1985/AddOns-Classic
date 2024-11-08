@@ -349,7 +349,7 @@ function BG.FilterClassItemUI()
             end
             buttons[i] = bt
             local text = v.name2 or v.value
-            text = text:gsub("%%s", "xx")
+            text = text:gsub("%(%.%+%)", "xx")
             bt.Text:SetText(text)
             bt.Text:SetWidth(width)
             bt.Text:SetWordWrap(false)
@@ -556,15 +556,35 @@ function BG.FilterClassItemUI()
 
         f.icons = {}
         local height
+        local last
         local maxicon = 12
+        local othericon = 31
+        local isOther
         for i, iconpath in ipairs(BG.FilterClassItemDB.NewIcon) do
             local bt = CreateFrame("Button", nil, f)
-            if i == 1 then
-                bt:SetPoint("TOPLEFT", t, "BOTTOMLEFT", 0, -10)
-            elseif (i - 1) % maxicon ~= 0 then
-                bt:SetPoint("LEFT", f.icons[i - 1], "RIGHT", 10, 0)
-            elseif (i - 1) % maxicon == 0 then
-                bt:SetPoint("TOPLEFT", f.icons[i - maxicon], "BOTTOMLEFT", 0, -10)
+            if i > othericon then
+                isOther = true
+            end
+            if not isOther then
+                if i == 1 then
+                    bt:SetPoint("TOPLEFT", t, "BOTTOMLEFT", 0, -8)
+                elseif (i - 1) % maxicon == 0 then
+                    bt:SetPoint("TOPLEFT", f.icons[i - maxicon], "BOTTOMLEFT", 0, -10)
+                    last = i
+                elseif (i - 1) % maxicon ~= 0 then
+                    bt:SetPoint("LEFT", f.icons[i - 1], "RIGHT", 10, 0)
+                end
+            else
+                local newi = i - othericon
+                if newi == 1 then
+                    bt:SetPoint("TOPLEFT", f.icons[last], "BOTTOMLEFT", 0, -10)
+                    last = i
+                elseif (newi - 1) % maxicon == 0 then
+                    bt:SetPoint("TOPLEFT", f.icons[i - maxicon], "BOTTOMLEFT", 0, -10)
+                    last = i
+                elseif (newi - 1) % maxicon ~= 0 then
+                    bt:SetPoint("LEFT", f.icons[i - 1], "RIGHT", 10, 0)
+                end
             end
             bt:SetSize(30, 30)
             bt.num = i
@@ -573,8 +593,8 @@ function BG.FilterClassItemUI()
             tinsert(f.icons, bt)
 
             local tex = bt:CreateTexture(nil, "BACKGROUND") -- 选中材质
-            tex:SetSize(50, 50)
-            tex:SetPoint("CENTER")
+            tex:SetSize(45, 45)
+            tex:SetPoint("CENTER", 0, 0)
             tex:SetTexture("Interface/ChatFrame/UI-ChatIcon-BlinkHilight")
             tex:Hide()
             bt.tex = tex
@@ -589,6 +609,7 @@ function BG.FilterClassItemUI()
             hightex:SetColorTexture(RGB("FFFFFF", 0.2))
 
             bt:SetScript("OnClick", function(self)
+                BG.PlaySound(1)
                 for ii, v in ipairs(f.icons) do
                     if ii ~= self.num then
                         v.tex:Hide()
@@ -602,7 +623,7 @@ function BG.FilterClassItemUI()
 
         local bt = CreateFrame("Button", nil, f, "UIPanelButtonTemplate")
         bt:SetSize(120, 30)
-        bt:SetPoint("TOPLEFT", 25, -height - 40)
+        bt:SetPoint("TOPLEFT", 25, -height - 15)
         bt:SetText(L["确定"])
         bt:SetScript("OnEnter", function(self)
             local tbl = {}

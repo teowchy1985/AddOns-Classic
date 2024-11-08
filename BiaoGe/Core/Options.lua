@@ -47,11 +47,7 @@ ns.InterfaceOptionsFrame_OpenToCategory = _G.InterfaceOptionsFrame_OpenToCategor
 end
 
 
-
-
-BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
-    if addonName ~= AddonName then return end
-
+BG.Init(function()
     local main = CreateFrame("Frame", nil, UIParent)
     main:Hide()
     main.name = L["BiaoGe"]
@@ -422,7 +418,7 @@ BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
                 BiaoGe.options[name] = BG.options[name .. "reset"]
             end
             BG.MainFrame.Bg:SetAlpha(BiaoGe.options[name])
-            
+
             local ontext = {
                 L["背景材质透明度"] .. L["|cff808080（右键还原设置）|r"],
                 L["调整背景材质透明度。"],
@@ -1615,6 +1611,71 @@ BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
         O.CreateLine(autoAuction, height - h)
         h = h + 15
 
+        -- 一键开拍
+        do
+            local buttons = {}
+
+            local name = "fastMoney"
+            BG.options[name .. "reset"] = 1
+            BiaoGe.options[name] = BiaoGe.options[name] or BG.options[name .. "reset"]
+            local ontext = {
+                L["一键开拍"],
+                L["在团长拍卖面板里，增加多个价格按钮，点击后直接按该价格开始拍卖。"],
+            }
+            local f = O.CreateCheckButton(name, AddTexture("QUEST") .. L["一键开拍"] .. "*", autoAuction, 15, height - h, ontext)
+            BG.options["button" .. name] = f
+            f:HookScript("OnClick", function(self)
+                if self:GetChecked() then
+                    buttons[1]:Show()
+                else
+                    buttons[1]:Hide()
+                end
+            end)
+
+            local function CreateEdit(i)
+                local edit = CreateFrame("EditBox", nil, f, "InputBoxTemplate")
+                edit:SetSize(80, 20)
+                if i == 1 then
+                    edit:SetPoint("TOPLEFT", f, "BOTTOMRIGHT", 5, 0)
+                    if BiaoGe.options[name] ~= 1 then edit:Hide() end
+                else
+                    edit:SetParent(buttons[1])
+                    edit:SetPoint("LEFT", buttons[i - 1], "RIGHT", 10, 0)
+                end
+                edit:SetAutoFocus(false)
+                edit:SetNumeric(true)
+                edit.i = i
+                tinsert(buttons, edit)
+                edit:SetScript("OnTextChanged", function(self)
+                    BiaoGe.Auction.fastMoney[i] = tonumber(self:GetText()) or ""
+                end)
+                edit:SetScript("OnShow", function(self)
+                    self:SetText(BiaoGe.Auction.fastMoney[i] or "")
+                end)
+                edit:HookScript("OnMouseDown", function(self, enter)
+                    if enter == "RightButton" then
+                        self:SetEnabled(false)
+                        self:SetText("")
+                    end
+                end)
+                edit:HookScript("OnMouseUp", function(self, enter)
+                    self:SetEnabled(true)
+                end)
+                edit:HookScript("OnEnterPressed", function(self)
+                    self:ClearFocus()
+                end)
+                edit:HookScript("OnTabPressed", function(self)
+                    if buttons[i + 1] then
+                        buttons[i + 1]:SetFocus()
+                    end
+                end)
+            end
+            for i = 1, #BiaoGe.Auction.fastMoney do
+                CreateEdit(i)
+            end
+        end
+        h = h + 30
+        h = h + 30
         -- 使用组合键打开拍卖面板
         do
             local name = "autoAuctionStart"
@@ -1622,9 +1683,9 @@ BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
             BiaoGe.options[name] = BiaoGe.options[name] or BG.options[name .. "reset"]
             local ontext = {
                 L["使用组合键打开拍卖面板"],
-                L["团长/物品分配者ALT+点击背包/表格/聊天框装备，来打开拍卖面板。"],
+                L["团长或物品分配者ALT+点击背包/表格/聊天框装备，来打开拍卖面板。"],
             }
-            local f = O.CreateCheckButton(name, L["使用组合键打开拍卖面板"] .. "*", autoAuction, 15, height - h, ontext)
+            local f = O.CreateCheckButton(name, L["使用组合键打开团长拍卖面板"] .. "*", autoAuction, 15, height - h, ontext)
             BG.options["button" .. name] = f
         end
         h = h + 30
@@ -1706,11 +1767,8 @@ BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
                     height = height - height_jiange
                 end
                 right = bt
-                if type ~= "fb" then
-                    bt.Text:SetText("|cff" .. color .. name2:gsub("sod", "") .. RR)
-                else
-                    bt.Text:SetText("|cff" .. color .. name:gsub("sod", "") .. RR)
-                end
+                bt.Text:SetText("|cff" .. color .. (name2 or name):gsub("sod", "") .. RR)
+
                 bt.Text:SetWidth(width2 - 25)
                 bt.Text:SetWordWrap(false)
 
@@ -2320,9 +2378,7 @@ BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
         end
 
         -- 集结号
-        BG.RegisterEvent("PLAYER_ENTERING_WORLD", function(self, even, isLogin, isReload)
-            if not (isLogin or isReload) then return end
-
+        BG.Init2(function()
             local text = others:CreateFontString(nil, "ARTWORK", "GameFontNormal")
             text:SetPoint("TOPLEFT", width, height - h)
             text:SetText(BG.STC_g1(L["集结号"]))
@@ -2789,7 +2845,9 @@ BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
                 GameTooltip:ClearLines()
                 GameTooltip:AddLine(L["提醒"], 1, 1, 1, true)
                 GameTooltip:AddLine(format(L["你当前角色%s的%s将会被%s的|cffff0000替换|r。"],
-                        SetClassCFF(UnitName("player"), "player"), "|cff00FF00" .. chooseText .. RR, "|c" .. c2 .. choose.player .. RR),
+                        SetClassCFF(UnitName("player"), "player"),
+                        "|cff00FF00" .. chooseText .. RR,
+                        "|c" .. c2 .. (BiaoGe.realmName[choose.realmID] or choose.realmID) .. "-" .. choose.player .. RR),
                     1, 0.82, 0, true)
                 GameTooltip:Show()
             end)
@@ -2811,7 +2869,10 @@ BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
                     c2 = select(4, GetClassColor(BiaoGe.playerInfo[choose.realmID][choose.player].class))
                 end
                 StaticPopup_Show("BIAOGE_QUEDINGFUZHI",
-                    format(L["你当前角色%s的%s将会被%s的|cffff0000替换|r。"], SetClassCFF(UnitName("player"), "player"), "|cff00FF00" .. chooseText .. RR, "|c" .. c2 .. choose.player .. RR))
+                    format(L["你当前角色%s的%s将会被%s的|cffff0000替换|r。"],
+                        SetClassCFF(UnitName("player"), "player"),
+                        "|cff00FF00" .. chooseText .. RR,
+                        "|c" .. c2 .. (BiaoGe.realmName[choose.realmID] or choose.realmID) .. "-" .. choose.player .. RR))
             end)
 
             StaticPopupDialogs["BIAOGE_QUEDINGFUZHI"] = {
@@ -3066,8 +3127,6 @@ BG.RegisterEvent("PLAYER_LOGIN", function(self, event, addonName)
 end)
 
 -- debug
--- local f = CreateFrame("Frame")
--- f:RegisterEvent("PLAYER_ENTERING_WORLD")
--- f:SetScript("OnEvent", function(self, even, ...)
+-- BG.Init2(function(self, even, ...)
 --     InterfaceOptionsFrame_OpenToCategory("|cff00BFFFBiaoGe|r")
 -- end)

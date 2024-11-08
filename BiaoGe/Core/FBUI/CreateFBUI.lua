@@ -26,11 +26,11 @@ if BG.IsVanilla_Sod then
     buttonCount.Gno = { 5, 5, 5, 5, 5, 10, 8, 8, }
     buttonCount.Temple = { 5, 5, 5, 4, 4, 4, 4, 6, 25, 9, }
     BG.zaxiang.Temple = { i = 20 }
-    buttonCount.UBRS = { 5, 5, 5, 5, 5, 5, 5, 5, 10, 12, }
-    buttonCount.MCsod = { 5, 5, 5, 5, 5, 5, 5, 5, 6, 8, 6, 11, 10, 10, 11, 6, }
+    buttonCount.MCsod = { 5, 5, 5, 5, 5, 5, 5, 5, 6, 8, 6, 11, 6, }
     buttonCount.ZUGsod = { 4, 4, 4, 4, 4, 4, 4, 4, 4, 9, 10, 6, }
     BG.zaxiang.ZUGsod = { i = 5 }
-    buttonCount.BWLsod = { 4, 4, 4, 4, 8, 5, 17, 4, 7, 5, }
+    buttonCount.BWLsod = { 4, 4, 4, 4, 8, 5, 21, 7, 5, }
+    buttonCount.Worldsod = { 10, 5, 5, 5, 5, 5, 5, 5, 4, 5 }
 elseif BG.IsVanilla_60 then
     buttonCount.MC = { 3, 3, 3, 4, 3, 3, 3, 4, 4, 5, 8, 11, 15, }
     buttonCount.BWL = { 5, 5, 5, 5, 5, 5, 5, 6, 9, 12, }

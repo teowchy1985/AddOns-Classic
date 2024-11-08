@@ -76,6 +76,7 @@ function BG.RoleOverviewUI()
     if not BiaoGe.MONEYchoice then
         if BG.IsVanilla then
             BiaoGe.MONEYchoice = {
+                [226404] = 1,
                 [221262] = 1,
                 [221365] = 1,
                 ["money"] = 1,
@@ -112,6 +113,9 @@ function BG.RoleOverviewUI()
                 BiaoGe.FBCDchoice["TCV"] = 1
                 BiaoGe.FBCDchoice["Temple"] = nil
             end)
+            BG.Once("MONEYchoice", 241101, function()
+                BiaoGe.MONEYchoice[226404] = 1
+            end)
         elseif BG.IsWLK then
         elseif BG.IsCTM then
         end
@@ -120,12 +124,12 @@ function BG.RoleOverviewUI()
     if BG.IsVanilla_Sod then
         BG.FBCDall_table = {
             { name = "BWLsod", color = "00BFFF", fbId = 469, type = "fb" },
-            { name = "ZUGsod", color = "00BFFF", fbId = 309, type = "fb" },
-            { name = "TCV", color = "00BFFF", fbId = 2804, type = "fb" },
             { name = "MCsod", color = "00BFFF", fbId = 409, type = "fb" },
-            { name = "OLsod", color = "00BFFF", fbId = 249, type = "fb" },
-            { name = "SC", color = "00BFFF", fbId = 2791, type = "fb" },
-            { name = "TTS", color = "00BFFF", fbId = 2789, type = "fb" },
+            { name = "ZUGsod", color = "00BFFF", fbId = 309, type = "fb" },
+            { name = "TCV", name2 = L["风王子"], color = "00BFFF", fbId = 2804, type = "fb" },
+            { name = "OLsod", name2 = L["黑龙"], color = "00BFFF", fbId = 249, type = "fb" },
+            { name = "SC", name2 = L["蓝龙"], color = "00BFFF", fbId = 2791, type = "fb" },
+            { name = "TTS", name2 = L["卡扎克"], color = "00BFFF", fbId = 2789, type = "fb" },
             { name = "Temple", color = "00BFFF", fbId = 109, type = "fb" },
             { name = "Gno", color = "00BFFF", fbId = 90, type = "fb" },
             { name = "BD", color = "00BFFF", fbId = 48, type = "fb" },
@@ -138,9 +142,9 @@ function BG.RoleOverviewUI()
         }
 
         BG.MONEYall_table = {
+            { name = L["褪色的安德麦雷亚尔"], color = "FF6600", id = 226404, tex = 133799, width = 70 }, -- 荒野祭品
             { name = L["荒野祭品"], color = "98FB98", id = 221262, tex = 132119, width = 70 }, -- 荒野祭品
-            -- { name = L["白银戮币"], color = "FF6347", id = 221365, id_gold = 221366, id_copper = 213168, tex = 237282, width = 70 }, -- test
-            { name = L["白银戮币"], color = "FF6347", id = 221365, id_gold = 221366, id_copper = 221364, tex = 237282, width = 70 }, -- 白银戮币
+            { name = L["白银戮币"], color = "E6E8FA", id = 221365, id_gold = 221366, id_copper = 221364, tex = 237282, width = 70 }, -- 白银戮币
             { name = L["金币"], color = "FFD700", id = "money", tex = 237618, width = 90 }, -- 金币
         }
     elseif BG.IsVanilla_60 then
@@ -362,11 +366,22 @@ function BG.RoleOverviewUI()
         -- 设置重置时间
         local text3 = ""
         local text7 = ""
+        local function IsSmallRaid(FBID)
+            -- ZUG ZA AQL 黑暗深渊 诺莫瑞根 风暴悬崖 腐烂之痕 水晶谷
+            local tbl = { 309, 568, 509, 48, 90, 2791, 2789, 2804 }
+            if BG.IsVanilla_Sod then
+                tinsert(tbl, 249) -- 奥妮克希亚
+            end
+            for i, _FBID in ipairs(tbl) do
+                if FBID == _FBID then
+                    return true
+                end
+            end
+        end
         for p, v in pairs(BiaoGe.FBCD[realmID]) do
             for i, cd in pairs(BiaoGe.FBCD[realmID][p]) do
                 if cd.resettime then
-                    if cd.fbId == 309 or cd.fbId == 568 or cd.fbId == 509 -- ZUG ZA AQL
-                        or cd.fbId == 48 or cd.fbId == 90 then            -- BD Gno
+                    if IsSmallRaid(cd.fbId) then
                         text3 = format(L["小团本%s"], SecondsToTime(cd.resettime, true, nil, 2))
                     elseif cd.num ~= 5 then
                         text7 = SecondsToTime(cd.resettime, true, nil, 2)
@@ -409,11 +424,8 @@ function BG.RoleOverviewUI()
                 else
                     t:SetPoint("TOPLEFT", right, "TOPRIGHT", width_jiange, 0)
                 end
-                if v.type and v.type ~= "fb" then
-                    t:SetText("|cff" .. v.color .. v.name2:gsub("sod", "") .. RR)
-                else
-                    t:SetText("|cff" .. v.color .. v.name:gsub("sod", "") .. RR)
-                end
+                t:SetText("|cff" .. v.color .. (v.name2 or v.name):gsub("sod", "") .. RR)
+
                 if i == 1 then
                     FBCDchoice_table[i].width = 15
                     lastwidth = FBCDchoice_table[i].width
@@ -591,15 +603,15 @@ function BG.RoleOverviewUI()
             -- 复制数据
             for player, value in pairs(BiaoGe.Money[realmID]) do
                 BG.m_new[player] = BG.Copy(value)
-                for i, v in pairs(MONEYchoice_table) do                   -- 给空key添加值0，主要是为了填补一些旧角色缺少某些新数据
-                    if tonumber(v.id) and not BG.m_new[player][v.id] then -- 排除掉角色名字和金币
+                for i, v in pairs(MONEYchoice_table) do
+                    if tonumber(v.id) and not BG.m_new[player][v.id] then -- 给空key添加值0，主要是为了填补一些旧角色缺少某些新数据
                         local tex
                         if BG.IsVanilla then
                             tex = v.tex
                         else
                             tex = C_CurrencyInfo.GetCurrencyInfo(v.id).iconFileID
                         end
-                        BG.m_new[player][v.id] = { count = 0, tex = tex }
+                        BG.m_new[player][v.id] = { count = 0, tex = tex, isNotKnow = true }
                     elseif v.id == "money" and not BG.m_new[player][v.id] then -- 如果是金币
                         BG.m_new[player][v.id] = 0
                     end
@@ -676,7 +688,7 @@ function BG.RoleOverviewUI()
 
                         for ii, vv in ipairs(MONEYchoice_table) do
                             if vv.id then
-                                local a = tostring(type(v[vv.id]) == "table" and v[vv.id].count or v[vv.id]):gsub("-", "")
+                                local count = tostring(type(v[vv.id]) == "table" and (v[vv.id].isNotKnow and L["未知"] or v[vv.id].count) or v[vv.id]):gsub("-", "")
                                     .. " " .. AddTexture(vv.tex) -- 牌子
                                 local t_paizi = f:CreateFontString()
                                 t_paizi:SetFont(STANDARD_TEXT_FONT, fontsize, "OUTLINE")
@@ -688,8 +700,8 @@ function BG.RoleOverviewUI()
                                     width = MONEYchoice_table[ii].width
                                     t_paizi:SetPoint("TOPRIGHT", right, "TOPRIGHT", width, 0)
                                 end
-                                t_paizi:SetText(a)
-                                if a:match("^%d+") == "0" then
+                                t_paizi:SetText(count)
+                                if count:match("^%d+") == "0" or count:find(L["未知"]) then
                                     t_paizi:SetTextColor(0.5, 0.5, 0.5)
                                 end
                                 right = t_paizi
@@ -1727,8 +1739,7 @@ function BG.RoleOverviewUI()
                 GetCooldown()
             end)
 
-            BG.RegisterEvent("PLAYER_ENTERING_WORLD", function(self, even, isLogin, isReload)
-                if not (isLogin or isReload) then return end
+            BG.Init2(function()
                 GetCooldown()
                 UpdateProfessionCD()
             end)

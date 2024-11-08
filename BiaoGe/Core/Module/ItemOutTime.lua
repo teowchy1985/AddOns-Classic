@@ -24,9 +24,7 @@ local pt = print
 local RealmId = GetRealmID()
 local player = UnitName("player")
 
-BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
-    if addonName ~= AddonName then return end
-
+BG.Init(function()
     BiaoGe.options.showGuoQiFrame = BiaoGe.options.showGuoQiFrame or 0
     BiaoGe.lastGuoQiTime = BiaoGe.lastGuoQiTime or 0
 

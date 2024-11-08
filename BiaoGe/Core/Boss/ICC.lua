@@ -21,9 +21,7 @@ local AddTexture = ns.AddTexture
 local pt = print
 
 
-BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
-    if addonName ~= AddonName then return end
-
+BG.Init(function()
     for i, FB in ipairs(BG.FBtable) do
         if FB ~= "ICC" then
             local t = BG["BossFrame" .. FB]:CreateFontString()

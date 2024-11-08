@@ -29,9 +29,7 @@ local pt = print
 local RealmId = GetRealmID()
 local player = UnitName("player")
 
-BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
-    if addonName ~= AddonName then return end
-
+BG.Init(function()
     -- 函数：交易自动记录买家和金额
     do
         BG.tradeQuality = 0

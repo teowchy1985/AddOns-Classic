@@ -90,7 +90,11 @@ do
     local function GetDBShuXingInfo(text)
         for k, v in pairs(BG.FilterClassItemDB.ShuXing) do
             if text == v.name then
-                return v.value:gsub("%%s", "(.+)"), v.nothave
+                local value = v.value
+                if type(value) ~= "table" then
+                    value = { value }
+                end
+                return value, v.nothave
             end
         end
     end
@@ -98,9 +102,16 @@ do
         local num = BiaoGe.FilterClassItemDB[RealmId][player].chooseID
         if not num then return end
         for name, _ in pairs(BiaoGe.FilterClassItemDB[RealmId][player][num].ShuXing) do
-            local localText, nothave = GetDBShuXingInfo(name)
-            if localText then
-                if strfind(TooltipText, localText) then
+            local localTextTbl, nothave = GetDBShuXingInfo(name)
+            if localTextTbl then
+                local yes
+                for _, localText in pairs(localTextTbl) do
+                    if strfind(TooltipText, localText) then
+                        yes = true
+                        break
+                    end
+                end
+                if yes then
                     if nothave then
                         for _, nothaveLocalText in pairs(nothave) do
                             if strfind(TooltipText, nothaveLocalText) then
@@ -326,7 +337,7 @@ end
 
 ------------------函数：按职业排序------------------
 function BG.PaiXuRaidRosterInfo(filter)
-    local tbl =filter or {
+    local tbl = filter or {
         "DEATHKNIGHT", --     "死亡骑士",
         "PALADIN",     --     "圣骑士",
         "WARRIOR",     --     "战士",
@@ -1994,7 +2005,8 @@ function BG.GetAuctionPrice(itemID, mod)
     local realmName = GetRealmName()
     local faction = UnitFactionGroup("player")
     if AUCTIONATOR_PRICE_DATABASE and AUCTIONATOR_PRICE_DATABASE[realmName .. " " .. faction] and
-        AUCTIONATOR_PRICE_DATABASE[realmName .. " " .. faction][itemID] then
+        AUCTIONATOR_PRICE_DATABASE[realmName .. " " .. faction][itemID] and
+        type(AUCTIONATOR_PRICE_DATABASE[realmName .. " " .. faction][itemID].m) == "number" then
         local m = AUCTIONATOR_PRICE_DATABASE[realmName .. " " .. faction][itemID].m
         if mod == "notsilver" then
             m = m - (m % 10000)
@@ -2186,8 +2198,11 @@ function BG.FindDropdownItem(dropdown, text)
     local name = dropdown:GetName()
     for i = 1, UIDROPDOWNMENU_MAXBUTTONS do
         local dropdownItem = _G[name .. 'Button' .. i]
+        -- pt(dropdownItem:GetText())
         if dropdownItem:IsShown() and dropdownItem:GetText() == text then
             return i, dropdownItem
         end
     end
 end
+
+-- /dump _G['DropDownList1Button1']

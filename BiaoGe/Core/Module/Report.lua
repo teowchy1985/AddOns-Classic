@@ -23,8 +23,7 @@ local player = UnitName("player")
 
 local R = {}
 
-BG.RegisterEvent("ADDON_LOADED", function(self, event, addonName)
-    if addonName ~= AddonName then return end
+BG.Init(function()
     if BG.IsWLK then
         BiaoGe.Report = BiaoGe.Report or {}
         BiaoGe.Report.db = BiaoGe.Report.db or {}
