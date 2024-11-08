@@ -26,6 +26,20 @@ local isCata = WOW_PROJECT_ID == WOW_PROJECT_CATACLYSM_CLASSIC
 
 Skillet.NewsName = "Skillet-Classic News"
 Skillet.NewsData = {
+	{	version = "2.03",
+		data = {
+			{	name = "Fixes",
+				data = {
+					{ header = "EasyMenu", body = "Replace EasyMenu calls" },
+				},
+			},
+			{	name = "Changes",
+				data = {
+					{ header = "Queuing", body = "Add more right-click queue to top" },
+				},
+			},
+		},
+	},
 	{	version = "2.02",
 		data = {
 			{	name = "Changes",
