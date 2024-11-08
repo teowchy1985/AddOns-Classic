@@ -17,3 +17,5 @@ AL["PvP Ranks"] = "Rangos de JcJ"
 AL["Ranged"] = "A distancia"
 AL["Season %s"] = "Temporada %s"
 AL["Two-Handed"] = "Dos manos"
+--[[Translation missing --]]
+--[[ AL["Unobtainable"] = "Unobtainable"--]] 

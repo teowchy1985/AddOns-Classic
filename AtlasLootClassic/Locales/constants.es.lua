@@ -201,6 +201,10 @@ AL["Revanchion"] = "Revanchion"
 AL["Right Click"] = "Clic Derecho"
 AL["Right-click to close Atlas window."] = "Clic Derecho para cerrar la ventana de Atlas."
 --[[Translation missing --]]
+--[[ AL["Ruthless %s"] = "Ruthless %s"--]] 
+--[[Translation missing --]]
+--[[ AL["Ruthless (Elite) %s"] = "Ruthless (Elite) %s"--]] 
+--[[Translation missing --]]
 --[[ AL["Sanctified %s"] = "Sanctified %s"--]] 
 AL["Sapphiron"] = "Sapphiron"
 --[[Translation missing --]]

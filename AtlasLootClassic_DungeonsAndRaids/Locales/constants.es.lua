@@ -334,6 +334,8 @@ AL["Viscidus"] = "Viscidus"
 AL["Viscous Fallout"] = "Radiactivo viscoso"
 AL["War Master Voone"] = "Maestro de guerra Voone"
 AL["Warchief Rend Blackhand"] = "Jefe de Guerra Desgarro Puño Negro"
+--[[Translation missing --]]
+--[[ AL["Wardens of the Dream"] = "Wardens of the Dream"--]] 
 AL["Warder Stilgiss"] = "Guarda Stilgiss"
 AL["Watchman Doomgrip"] = "Vigía Presaletal"
 AL["Weaver"] = "Sastrón"
