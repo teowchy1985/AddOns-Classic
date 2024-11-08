@@ -1,6 +1,6 @@
 # Syndicator
 
-## [127](https://github.com/Baganator/Syndicator/tree/127) (2024-10-23)
-[Full Changelog](https://github.com/Baganator/Syndicator/compare/126...127) 
+## [130](https://github.com/Baganator/Syndicator/tree/130) (2024-11-07)
+[Full Changelog](https://github.com/Baganator/Syndicator/compare/129...130) 
 
-- Update toc for 11.0.5  
+- Retail: Fix errors when searching with pets in (Blizzard glitched) guild bank  
