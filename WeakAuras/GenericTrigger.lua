@@ -1863,7 +1863,7 @@ function GenericTrigger.Add(data, region)
 
   if warnAboutCLEUEvents then
     Private.AuraWarnings.UpdateWarning(data.uid, "spammy_event_warning", "error",
-                L["|cFFFF0000Support for unfiltered COMBAT_LOG_EVENT_UNFILTERED is deprecated|r\nCOMBAT_LOG_EVENT_UNFILTERED without a filter is advised against as it’s very performance costly.\nFind more information:\nhttps://github.com/WeakAuras/WeakAuras2/wiki/Custom-Triggers#events"])
+                L["|cFFFF0000Support for unfiltered COMBAT_LOG_EVENT_UNFILTERED is deprecated|r\nCOMBAT_LOG_EVENT_UNFILTERED without a filter is advised against as it’s very performance costly.\nFind more information:\nhttps://github.com/WeakAuras/WeakAuras2/wiki/Custom-Triggers#events"], true)
   else
     Private.AuraWarnings.UpdateWarning(data.uid, "spammy_event_warning")
   end
@@ -4023,8 +4023,12 @@ do
   function WeakAuras.TenchInit()
     if not(tenchFrame) then
       tenchFrame = CreateFrame("Frame");
-      tenchFrame:RegisterUnitEvent("UNIT_INVENTORY_CHANGED", "player");
       tenchFrame:RegisterEvent("PLAYER_ENTERING_WORLD");
+      if WeakAuras.IsRetail() then
+        tenchFrame:RegisterEvent("WEAPON_ENCHANT_CHANGED")
+      else
+        tenchFrame:RegisterUnitEvent("UNIT_INVENTORY_CHANGED", "player")
+      end
       if WeakAuras.IsClassicEra() then
         tenchFrame:RegisterEvent("PLAYER_EQUIPMENT_CHANGED");
       end
@@ -4120,7 +4124,7 @@ do
 
       tenchFrame:SetScript("OnEvent", function()
         Private.StartProfileSystem("generictrigger temporary enchant");
-        timer:ScheduleTimer(tenchUpdate, 0.1);
+        timer:ScheduleTimer(tenchUpdate, 0.1)
         Private.StopProfileSystem("generictrigger temporary enchant");
       end);
 
