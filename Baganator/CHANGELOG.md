@@ -1,6 +1,6 @@
 # Baganator
 
-## [502](https://github.com/Baganator/Baganator/tree/502) (2024-10-23)
-[Full Changelog](https://github.com/Baganator/Baganator/compare/501...502) 
+## [504](https://github.com/Baganator/Baganator/tree/504) (2024-11-07)
+[Full Changelog](https://github.com/Baganator/Baganator/compare/503...504) 
 
-- Update toc for 11.0.5  
+- Fix searching unified guild bank view tab  
