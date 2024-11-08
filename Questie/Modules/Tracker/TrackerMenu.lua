@@ -14,6 +14,8 @@ local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
 -------------------------
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
+---@type QuestieMap
+local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 ---@type QuestieLink
 local QuestieLink = QuestieLoader:ImportModule("QuestieLink")
 ---@type QuestieCombatQueue
@@ -22,8 +24,6 @@ local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
----@type DistanceUtils
-local DistanceUtils = QuestieLoader:ImportModule("DistanceUtils")
 
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
@@ -35,9 +35,6 @@ TrackerMenu.menuFrame = LibDropDown:Create_UIDropDownMenu("QuestieTrackerMenuFra
 local tinsert = table.insert
 
 -- Create local Quest Menu functions
----@param menu table
----@param quest Quest
----@param objective QuestObjective
 TrackerMenu.addFocusOption = function(menu, quest, objective)
     if Questie.db.char.TrackerFocus and type(Questie.db.char.TrackerFocus) == "string" and Questie.db.char.TrackerFocus == tostring(quest.Id) .. " " .. tostring(objective.Index) then
         tinsert(menu, {
@@ -60,33 +57,17 @@ TrackerMenu.addFocusOption = function(menu, quest, objective)
     end
 end
 
----@param menu table
----@param quest Quest
----@param objective QuestObjective
-TrackerMenu.addTomTomOptionForQuest = function(menu, quest)
+TrackerMenu.addTomTomOption = function(menu, quest, objective)
     tinsert(menu, {
         text = l10n('Set |cFF54e33bTomTom|r Target'),
         func = function()
             LibDropDown:CloseDropDownMenus()
 
-            local spawn, zone, name = DistanceUtils.GetNearestSpawnForQuest(quest)
-            if spawn then
-                TrackerUtils:SetTomTomTarget(name, zone, spawn[1], spawn[2])
+            local spawn, zone, name = QuestieMap:GetNearestQuestSpawn(quest)
+            if (not spawn) and objective ~= nil then
+                spawn, zone, name = QuestieMap:GetNearestSpawn(objective)
             end
-        end
-    })
-end
 
----@param menu table
----@param quest Quest
----@param objective QuestObjective
-TrackerMenu.addTomTomOptionForObjective = function(menu, objective)
-    tinsert(menu, {
-        text = l10n('Set |cFF54e33bTomTom|r Target'),
-        func = function()
-            LibDropDown:CloseDropDownMenus()
-
-            local spawn, zone, name = DistanceUtils.GetNearestObjective(objective.spawnList)
             if spawn then
                 TrackerUtils:SetTomTomTarget(name, zone, spawn[1], spawn[2])
             end
@@ -406,7 +387,7 @@ function TrackerMenu:GetMenuForQuest(quest)
         local objectiveMenu = {}
 
         TrackerMenu.addFocusOption(objectiveMenu, quest, objective)
-        TrackerMenu.addTomTomOptionForObjective(objectiveMenu, objective)
+        TrackerMenu.addTomTomOption(objectiveMenu, nil, objective)
         TrackerMenu.addShowHideObjectivesOption(objectiveMenu, quest, objective)
         TrackerMenu.addShowObjectivesOnMapOption(objectiveMenu, quest, objective)
 
@@ -418,7 +399,7 @@ function TrackerMenu:GetMenuForQuest(quest)
             local objectiveMenu = {}
 
             TrackerMenu.addFocusOption(objectiveMenu, quest, objective)
-            TrackerMenu.addTomTomOptionForObjective(objectiveMenu, objective)
+            TrackerMenu.addTomTomOption(objectiveMenu, nil, objective)
             TrackerMenu.addShowHideObjectivesOption(objectiveMenu, quest, objective)
             TrackerMenu.addShowObjectivesOnMapOption(objectiveMenu, quest, objective)
 
@@ -432,7 +413,7 @@ function TrackerMenu:GetMenuForQuest(quest)
 
     TrackerMenu.addObjectiveOption(menu, subMenu, quest)
     TrackerMenu.addFocusUnfocusOption(menu, quest)
-    TrackerMenu.addTomTomOptionForQuest(menu, quest, nil)
+    TrackerMenu.addTomTomOption(menu, quest, nil)
     TrackerMenu.minMaxQuestOption(menu, quest)
     TrackerMenu.addShowHideQuestsOption(menu, quest)
     TrackerMenu.addShowFinisherOnMapOption(menu, quest)

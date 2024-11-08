@@ -1103,8 +1103,7 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
 
     ---@type StartedBy
     local startedBy = QO.startedBy
-    ---@type Starters
-    QO.Starts = { -- TODO: Rename to Starters
+    QO.Starts = {
         NPC = startedBy[1],
         GameObject = startedBy[2],
         Item = startedBy[3],
@@ -1119,7 +1118,6 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
 
     ---@type FinishedBy
     local finishedBy = QO.finishedBy
-    ---@type Finisher
     QO.Finisher = {
         NPC = finishedBy[1],
         GameObject = finishedBy[2],
@@ -1256,7 +1254,6 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
     if requiredSourceItems then
         for _, itemId in pairs(requiredSourceItems) do
             if itemId then
-                -- TODO: This is not required anymore since we validate the database for this case
                 -- Make sure requiredSourceItems aren't already an objective
                 local itemObjPresent = false
                 if objectives[3] then
