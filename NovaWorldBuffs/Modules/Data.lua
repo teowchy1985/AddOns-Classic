@@ -158,7 +158,9 @@ function NWB:OnCommReceived(commPrefix, string, distribution, sender)
 	end
 	NWB.hasAddon[sender] = (remoteVersion or "0");
 	--Trying to fix double guild msg bug, extract settings from data first even if the rest fails for some reason.
-	NWB:extractSettings(data, sender, distribution);
+	if (distribution == "GUILD") then
+		NWB:extractSettings(data, sender, distribution);
+	end
 	--if (not tonumber(remoteVersion)) then
 		--Trying to catch a lua error and find out why.
 	--	NWB:debug("version missing", sender, cmd, data, deserialized);
@@ -1718,19 +1720,24 @@ function NWB:receivedData(dataReceived, sender, distribution, elapsed)
 										if (not NWB.data.layers[layer].layerMap) then
 											NWB.data.layers[layer].layerMap = {};
 										end
-										for zoneID, mapID in pairs(v) do
-											if (not NWB.data.layers[layer].layerMap[zoneID] and NWB.layerMapWhitelist[mapID]) then
-												local skip;
-												for k, v in pairs(NWB.data.layers) do
-													if (v.layerMap and v.layerMap[zoneID]) then
-														--If we already have this zoneid in any layer then don't overwrite it.
-														skip = true;
+										if (type(v) == "table") then
+											for zoneID, mapID in pairs(v) do
+												if (not NWB.data.layers[layer].layerMap[zoneID] and NWB.layerMapWhitelist[mapID]) then
+													local skip;
+													for k, v in pairs(NWB.data.layers) do
+														if (v.layerMap and v.layerMap[zoneID]) then
+															--If we already have this zoneid in any layer then don't overwrite it.
+															skip = true;
+														end
+													end
+													if (NWB:validateZoneID(zoneID, layer, mapID) and not skip) then
+														NWB.data.layers[layer].layerMap[zoneID] = mapID;
 													end
 												end
-												if (NWB:validateZoneID(zoneID, layer, mapID) and not skip) then
-													NWB.data.layers[layer].layerMap[zoneID] = mapID;
-												end
 											end
+										else
+											NWB:debug("Layermap error:", sender, v);
+											NWB:debug(data);
 										end
 									elseif (v ~= nil and k ~= "layers") then
 										if (not NWB.validKeys[k]) then

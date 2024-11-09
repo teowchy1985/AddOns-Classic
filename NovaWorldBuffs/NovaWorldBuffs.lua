@@ -3302,6 +3302,9 @@ function NWB:playSound(sound, type)
 end
 
 function NWB:middleScreenMsg(type, msg, colorTable, time)
+	if ((UnitInBattleground("player") or NWB:isInArena()) and NWB.db.global.middleHideBattlegrounds) then
+		return;
+	end
 	if (not NWB.isClassic and (NWB.db.global.disableMiddleAllLevels
 		or (UnitLevel("player") > NWB.maxBuffLevel and NWB.db.global.disableMiddleAboveMaxBuffLevel))) then
 		return;
@@ -11161,8 +11164,11 @@ f:SetScript('OnEvent', function(self, event, ...)
 			--Orb of command GameObject-0-4671-0-29-179879-00005F974A
 			--if (npcID == "179879" and string.match(g1, "Place my hand on the orb")) then
 			if (npcID == "179879") then
-				SelectGossipOption(1);
-				return;
+				--There was an issue with shaman class quest and this auto gossip? Not sure if true but now we ignore if on the quest, and also check for single dialogue option.
+				if (#C_GossipInfo.GetOptions() == 1 and not C_QuestLog.IsOnQuest(85556) and not C_QuestLog.IsOnQuest(85557) and not C_QuestLog.IsOnQuest(85558)) then
+					SelectGossipOption(1);
+					return;
+				end
 			end
 		end
 	end

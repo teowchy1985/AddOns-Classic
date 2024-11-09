@@ -338,6 +338,11 @@ end
 --Basically is lands missing 10 or so seconds on my realm.
 local yellOneOffset = 30;
 local yellTwoOffset = 30;
+if (NWB.isClassic and not NWB.isSOD) then
+	--Account for new strat to delay rend drop in era.
+	yellOneOffset = 80;
+	yellTwoOffset = 80;
+end
 local buffLag, dl1, dl2 = 15;
 NWB.lastZanBuffGained = 0;
 NWB.lastDmfBuffGained = 0;
