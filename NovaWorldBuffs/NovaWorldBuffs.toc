@@ -1,8 +1,8 @@
-## Interface: 11504, 40400
+## Interface: 11504, 40401
 ## Notes: World buff timers and much more.
 ## Title: Nova World Buffs
 ## Author: Novaspark-Arugal OCE
-## Version: 2.97
+## Version: 2.98
 ## SavedVariables: NWBdatabase
 
 embeds.xml

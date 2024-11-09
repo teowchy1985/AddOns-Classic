@@ -1803,7 +1803,7 @@ NWB.optionDefaults = {
 		middleBuffWarning = true,
 		middleHideCombat = false,
 		middleHideRaid = false,
-		middleHideBattlegrounds = false,
+		middleHideBattlegrounds = true,
 		middleNpcKilled = true,
 		middleHandInMsg = true,
 		middleHandInMsgWhenOnCooldown = true,
@@ -3871,6 +3871,12 @@ function NWB:config(i)
 	end
 	local m, ke = {}, {};
 	for k, v in pairs(i) do
+		if (type(k) == "table") then
+			NWB:debug("Data table error found.");
+			NWB:debug(i);
+			NWB:debug(k, v);
+			return;
+		end
 		if (string.match(k, "r%d")) then
 			table.insert(m, v, k);
 		end
