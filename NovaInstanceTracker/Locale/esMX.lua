@@ -582,3 +582,11 @@ L["Looted"] = "Despojado";
 L["Not Looted"] = "No Despojado";
 L["Killed But Not Looted"] = "Muerto pero no despojado";
 L["Loot the Tarnished Undermine Real"] = "Despoja el Real de Minahonda deslustrado";
+
+L["Live Side"] = "Vivo";
+L["Undead Side"] = "No-muerto";
+L["East"] = "Este";
+L["West"] = "Oeste";
+L["North"] = "Norte";
+L["Upper"] = "Superior";
+L["Lower"] = "Inferior"; 

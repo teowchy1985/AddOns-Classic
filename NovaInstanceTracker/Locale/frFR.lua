@@ -576,3 +576,11 @@ L["Looted"] = "Butin Ramassé";
 L["Not Looted"] = "Butin Non Ramassé";
 L["Killed But Not Looted"] = "Tué mais non ramassé";
 L["Loot the Tarnished Undermine Real"] = "Ramassez le Réal de Terremine terni";
+
+L["Live Side"] = "Vivant";
+L["Undead Side"] = "Mort-vivant";
+L["East"] = "Est";
+L["West"] = "Ouest";
+L["North"] = "Nord";
+L["Upper"] = "Supérieur";
+L["Lower"] = "Inférieur";

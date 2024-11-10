@@ -579,3 +579,11 @@ L["Looted"] = "Saqueado";
 L["Not Looted"] = "Não Saqueado";
 L["Killed But Not Looted"] = "Morto mas não saqueado";
 L["Loot the Tarnished Undermine Real"] = "Saqueie o Real da Inframina Desgastado";
+
+L["Live Side"] = "Vivo";
+L["Undead Side"] = "Morto-vivo";
+L["East"] = "Leste";
+L["West"] = "Oeste";
+L["North"] = "Norte";
+L["Upper"] = "Superior";
+L["Lower"] = "Inferior";

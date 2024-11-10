@@ -1052,6 +1052,9 @@ function NIT:updateMinimapButton(tooltip, frame)
 			if (data.honor) then
 				tooltip:AddLine("|cFF9CD6DE" .. L["Honor"] .. ":|r |cFFFFFFFF" .. NIT:calcRecordedHonor(1));
 			end
+			--if (data.hk) then
+			--	tooltip:AddLine("|cFF9CD6DE" .. HONORABLE_KILLS .. ":|r |cFFFFFFFF" .. data.hk);
+			--end
 			if (UnitLevel("player") ~= NIT.maxLevel and data.type ~= "arena") then
 				tooltip:AddLine("|cFF9CD6DE" .. L["experience"] .. ":|r |cFFFFFFFF" .. (NIT:commaValue(data.xpFromChat) or "Unknown"));
 				if (data.xpFromChat and data.xpFromChat > 0) then
