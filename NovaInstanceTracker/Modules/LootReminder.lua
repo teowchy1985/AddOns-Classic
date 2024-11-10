@@ -254,7 +254,7 @@ local dungeons = {
 --Order field is the most comon order these would be killed in for display purposes.
 local turBosses = {
 	--Stratholme (1-9 live side, 10+ undead side).
-	[-100] = {header = true, title = "Live Side", instanceID = 329, order = 0},
+	[-100] = {header = true, title = L["Live Side"], instanceID = 329, order = 0},
 	[11058] = {name = "Ezra Grimm", instanceID = 329, order = 1},
 	[10516] = {name = "The Unforgiven", instanceID = 329, order = 2},
 	[11143] = {name = "Postmaster Malown", instanceID = 329, order = 3},
@@ -263,7 +263,7 @@ local turBosses = {
 	[10997] = {name = "Cannon Master Willey", instanceID = 329, order = 6},
 	[10811] = {name = "Archivist Galford", instanceID = 329, order = 7},
 	[10812] = {name = "Balnazzar", instanceID = 329, order = 8}, --Balnazaar is Grand Crusader Dathrohan npcID when it dies and as Balnazzar corpse.
-	[-101] = {header = true, title = "Undead Side", instanceID = 329, order = 10},
+	[-101] = {header = true, title = L["Undead Side"], instanceID = 329, order = 10},
 	[10437] = {name = "Nerub'enkan", instanceID = 329, order = 14},
 	[10436] = {name = "Baroness Anastari", instanceID = 329, order = 12},
 	[10438] = {name = "Maleki the Pallid", instanceID = 329, order = 15},
@@ -305,20 +305,20 @@ local turBosses = {
 	[9019] = {name = "Emperor Dagran Thaurissan", instanceID = 230, order = 10, reals = 2},
 	
 	--Dire Maul (1-9 east, 10-19 west, 20+ north).
-	[-102] = {header = true, title = "East", instanceID = 429, order = 0},
+	[-102] = {header = true, title = L["East"], instanceID = 429, order = 0},
 	[14354] = {name = "Pusillin", instanceID = 429, order = 1},
 	[11490] = {name = "Zevrim Thornhoof", instanceID = 429, order = 2},
 	[13280] = {name = "Hydrospawn", instanceID = 429, order = 3},
 	[14327] = {name = "Lethtendris", instanceID = 429, order = 4},
 	[11492] = {name = "Alzzin the Wildshaper", instanceID = 429, order = 5},
-	[-103] = {header = true, title = "West", instanceID = 429, order = 10},
+	[-103] = {header = true, title = L["West"], instanceID = 429, order = 10},
 	[11489] = {name = "Tendris Warpwood", instanceID = 429, order = 11},
 	[11488] = {name = "Illyanna Ravenoak", instanceID = 429, order = 12},
 	[11487] = {name = "Magister Kalendris", instanceID = 429, order = 13},
 	--[11467] = {name = "Tsu'zee", instanceID = 429, order = 14}, --Needs testing (rare mob so unlikely to drop).
 	[11496] = {name = "Immol'thar", instanceID = 429, order = 15},
 	[11486] = {name = "Prince Tortheldrin", instanceID = 429, order = 16},
-	[-104] = {header = true, title = "North", instanceID = 429, order = 20},
+	[-104] = {header = true, title = L["North"], instanceID = 429, order = 20},
 	--[14326] = {name = "Guard Mol'dar", instanceID = 429, order = 21}, --Some north bosses don't drop, probably for tribute run reasons.
 	--[14322] = {name = "Stomper Kreeg", instanceID = 429, order = 22}, --Some north bosses don't drop, probably for tribute run reasons.
 	--[14321] = {name = "Guard Fengus", instanceID = 429, order = 23}, --Some north bosses don't drop, probably for tribute run reasons.
@@ -337,7 +337,7 @@ local turBosses = {
 	[227028] = {name = "Hellscream's Phantom", instanceID = 2784, order = 7},
 	
 	--Blackrock Spire (1-9 lower, 10+ upper).
-	[-105] = {header = true, title = "Upper", instanceID = 229, order = 0},
+	[-105] = {header = true, title = L["Upper"], instanceID = 229, order = 0},
 	[9816] = {name = "Pyroguard Emberseer", instanceID = 229, order = 1},
 	--[10264] = {name = "Solakar Flamewreath", instanceID = 229, order = 2}, -- No drop.
 	--[10899] = {name = "Goraluk Anvilcrack", instanceID = 229, order = 3}, --No drop.
@@ -346,7 +346,7 @@ local turBosses = {
 	[10430] = {name = "The Beast", instanceID = 229, order = 6},
 	[10363] = {name = "General Drakkisath", instanceID = 229, order = 7},
 	--[10509] = {name = "Jed Runewatcher", instanceID = 229, order = 99}, --No drop.
-	[-106] = {header = true, title = "Lower", instanceID = 229, order = 10},
+	[-106] = {header = true, title = L["Lower"], instanceID = 229, order = 10},
 	[9196] = {name = "Highlord Omokk", instanceID = 229, order = 11},
 	[9236] = {name = "Shadow Hunter Vosh'gajin", instanceID = 229, order = 12},
 	[9237] = {name = "War Master Voone", instanceID = 229, order = 13},

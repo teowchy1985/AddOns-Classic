@@ -886,11 +886,11 @@ function NIT:recordBgStats()
 	local totalPlayers = GetNumBattlefieldScores();
 	--local mapID = C_Map.GetBestMapForUnit("player");
 	if (NIT.data.instances[1].type == "bg") then
+		local me = UnitName("player");
 		for i = 1, totalPlayers do
 			local name, kb, hk, deaths, honor, faction, rank, race, class, classEnglish, damage, healing = GetBattlefieldScore(i);
 			--local rankName, rankNumber = GetPVPRankInfo(rank, faction);
 			--Record me only.
-			local me = UnitName("player");
 			if (name == me) then
 				instance.kb = kb;
 				instance.hk = hk;
@@ -938,11 +938,11 @@ function NIT:recordBgStats()
 			instance.winningFaction = 1;
 		end
 	elseif (NIT.data.instances[1].type == "arena") then
+		local me = UnitName("player");
 		local purpleTeam, goldTeam = {}, {};
 		for i = 1, totalPlayers do
 			local name, kb, hk, deaths, honor, faction, rank, race, class, classEnglish, damage, healing = GetBattlefieldScore(i);
 			--Record all players.
-			local me = UnitName("player");
 			if (name) then
 				local t = {
 					kb = kb,
@@ -3084,6 +3084,7 @@ local currencyItems = {
     [236571] = "Chef's Award",
     [136192] = "Mote of Darkness",
     [132851] = "Essence of Corrupted Deathwing",
+    [133449] = "Fissure Stone Fragment",
 	--Profession tokens.
     [134411] = "Epicurean's Award",
     [236571] = "Chef's Award",

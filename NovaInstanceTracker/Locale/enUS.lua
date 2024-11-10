@@ -599,3 +599,11 @@ L["argentDawnTrinketReminderDesc"] = "Argent Dawn trinket reminder in chat if yo
 
 L["skipRealMsgIfCappedTitle"] = "No msg if capped";
 L["skipRealMsgIfCappedDesc"] = "Skip the Tarnished Undermine Real loot msg if we're capped at 150 tokens already.";
+
+L["Live Side"] = "Live Side";
+L["Undead Side"] = "Undead Side";
+L["East"] = "East";
+L["West"] = "West";
+L["North"] = "North";
+L["Upper"] = "Upper";
+L["Lower"] = "Lower";

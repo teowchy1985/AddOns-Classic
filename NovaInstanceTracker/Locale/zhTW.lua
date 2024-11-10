@@ -477,6 +477,14 @@ L["argentDawnTrinketReminderDesc"] = "進入通靈學院/斯坦索姆時，背�
 L["skipRealMsgIfCappedTitle"] = "滿了不顯示訊息";
 L["skipRealMsgIfCappedDesc"] = "如果真幣已經滿了 150 個，跳過黯淡的幽坑城真幣的拾取訊息。";
 
+L["Live Side"] = "活人";
+L["Undead Side"] = "不死";
+L["East"] = "東";
+L["West"] = "西";
+L["North"] = "北";
+L["Upper"] = "上";
+L["Lower"] = "下";
+
 --增加
 L["Nova Instance Tracker"] = "Nova 副本進度追蹤";
 L["NovaInstanceTracker"] = "副本-進度";
