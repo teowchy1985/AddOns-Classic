@@ -144,6 +144,7 @@ function QuestieOptionsDefaults:Load()
             trackerEnabled = false, -- 更改預設值
             ldbDisplayText = "Questie",
             enableQuestFrameIcons = true,
+            loadCustomSounds = false,
             soundOnQuestComplete = false,
             questCompleteSoundChoiceName = "QuestDefault",
             soundOnObjectiveComplete = false,
