@@ -1,5 +1,5 @@
 ﻿----------------------------------------------------------------------
--- 	Leatrix Plus 4.0.33 (6th October 2024)
+-- 	Leatrix Plus 4.0.34 (13th October 2024)
 ----------------------------------------------------------------------
 
 --	01:Functions  02:Locks    03:Restart  40:Player   45:Rest
@@ -19,7 +19,7 @@
 	local void
 
 	-- Version
-	LeaPlusLC["AddonVer"] = "4.0.33"
+	LeaPlusLC["AddonVer"] = "4.0.34"
 
 	-- Get locale table
 	local void, Leatrix_Plus = ...
@@ -40,12 +40,8 @@
 		end
 	end
 
-	-- Check for addons
+	-- Check for ElvUI
 	if C_AddOns.IsAddOnLoaded("ElvUI") then LeaPlusLC.ElvUI = unpack(ElvUI) end
-	if C_AddOns.IsAddOnLoaded("Glass") then LeaPlusLC.Glass = true end
-	if C_AddOns.IsAddOnLoaded("CharacterStatsWRATH") then LeaPlusLC.CharacterStatsWRATH = true end
-	if C_AddOns.IsAddOnLoaded("totalRP3") then LeaPlusLC.totalRP3 = true end
-	if C_AddOns.IsAddOnLoaded("TitanClassic") then LeaPlusLC.TitanClassic = true end
 
 ----------------------------------------------------------------------
 --	L00: Leatrix Plus
@@ -1651,7 +1647,7 @@
 			----------------------------------------------------------------------
 
 			-- Achievement link function
-			local function DoWowheadAchievementFunc()
+			EventUtil.ContinueOnAddOnLoaded("Blizzard_AchievementUI",function()
 
 				-- Create editbox
 				local aEB = CreateFrame("EditBox", nil, AchievementFrame)
@@ -1725,21 +1721,7 @@
 				hooksecurefunc("AchievementFrameAchievements_ClearSelection", function(self) aEB:Hide()	end)
 				hooksecurefunc("AchievementCategoryButton_OnClick", function(self) aEB:Hide() end)
 
-			end
-
-			-- Run function when achievement UI is loaded
-			if C_AddOns.IsAddOnLoaded("Blizzard_AchievementUI") then
-				DoWowheadAchievementFunc()
-			else
-				local waitAchievementsFrame = CreateFrame("FRAME")
-				waitAchievementsFrame:RegisterEvent("ADDON_LOADED")
-				waitAchievementsFrame:SetScript("OnEvent", function(self, event, arg1)
-					if arg1 == "Blizzard_AchievementUI" then
-						DoWowheadAchievementFunc()
-						waitAchievementsFrame:UnregisterAllEvents()
-					end
-				end)
-			end
+			end)
 
 			----------------------------------------------------------------------
 			-- Quest log frame
@@ -5760,37 +5742,21 @@
 			----------------------------------------------------------------------
 
 			-- Function to style and position the clock
-			local function SetMiniClock(firstRun)
-				if C_AddOns.IsAddOnLoaded("Blizzard_TimeManager") then
-					if LeaPlusLC["SquareMinimap"] == "On" and firstRun == true then
-						local regions = {TimeManagerClockButton:GetRegions()}
-						regions[1]:Hide()
-						TimeManagerClockButton:ClearAllPoints()
-						TimeManagerClockButton:SetPoint("BOTTOMLEFT", Minimap, "BOTTOMLEFT", -15, -8)
-						TimeManagerClockButton:SetHitRectInsets(15, 10, 5, 8)
-						TimeManagerClockButton:SetFrameLevel(100)
-						local timeBG = TimeManagerClockButton:CreateTexture(nil, "BACKGROUND")
-						timeBG:SetTexture("Interface\\ChatFrame\\ChatFrameBackground")
-						timeBG:SetPoint("TOPLEFT", 15, -5)
-						timeBG:SetPoint("BOTTOMRIGHT", -10, 8)
-						timeBG:SetVertexColor(0, 0, 0, 0.6)
-					end
+			EventUtil.ContinueOnAddOnLoaded("Blizzard_TimeManager",function()
+				if LeaPlusLC["SquareMinimap"] == "On" then
+					local regions = {TimeManagerClockButton:GetRegions()}
+					regions[1]:Hide()
+					TimeManagerClockButton:ClearAllPoints()
+					TimeManagerClockButton:SetPoint("BOTTOMLEFT", Minimap, "BOTTOMLEFT", -15, -8)
+					TimeManagerClockButton:SetHitRectInsets(15, 10, 5, 8)
+					TimeManagerClockButton:SetFrameLevel(100)
+					local timeBG = TimeManagerClockButton:CreateTexture(nil, "BACKGROUND")
+					timeBG:SetTexture("Interface\\ChatFrame\\ChatFrameBackground")
+					timeBG:SetPoint("TOPLEFT", 15, -5)
+					timeBG:SetPoint("BOTTOMRIGHT", -10, 8)
+					timeBG:SetVertexColor(0, 0, 0, 0.6)
 				end
-			end
-
-			-- Run function when Blizzard addon is loaded
-			if C_AddOns.IsAddOnLoaded("Blizzard_TimeManager") then
-				SetMiniClock(true)
-			else
-				local waitFrame = CreateFrame("FRAME")
-				waitFrame:RegisterEvent("ADDON_LOADED")
-				waitFrame:SetScript("OnEvent", function(self, event, arg1)
-					if arg1 == "Blizzard_TimeManager" then
-						SetMiniClock(true)
-						waitFrame:UnregisterAllEvents()
-					end
-				end)
-			end
+			end)
 
 			----------------------------------------------------------------------
 			-- Enable mousewheel zoom
@@ -7444,15 +7410,19 @@
 			----------------------------------------------------------------------
 
 			-- Wardrobe (used by transmogrifier NPC) and mount journal
-			local function DoBlizzardCollectionsFunc()
+			EventUtil.ContinueOnAddOnLoaded("Blizzard_Collections",function()
+
 				-- Hide positioning controls for mount journal
 				MountJournal.MountDisplay.ModelScene.RotateLeftButton:Hide()
 				MountJournal.MountDisplay.ModelScene.RotateRightButton:Hide()
+
 				-- Hide positioning controls for pet journal
 				PetJournalPetCard.modelScene.RotateLeftButton:Hide()
 				PetJournalPetCard.modelScene.RotateRightButton:Hide()
+
 				-- Hide positioning controls for wardrobe
 				WardrobeTransmogFrameControlFrame:HookScript("OnShow", WardrobeTransmogFrameControlFrame.Hide)
+
 				-- Set zoom speed for mount journal
 				MountJournal.MountDisplay.ModelScene:SetScript("OnMouseWheel", function(self, delta)
 					for i = 1, LeaPlusLC["DressupFasterZoom"] do
@@ -7461,6 +7431,7 @@
 						end
 					end
 				end)
+
 				-- Set zoom speed for pet journal
 				PetJournalPetCard.modelScene:SetScript("OnMouseWheel", function(self, delta)
 					for i = 1, LeaPlusLC["DressupFasterZoom"] do
@@ -7469,6 +7440,7 @@
 						end
 					end
 				end)
+
 				-- Wider transmogrifier character preview
 				if LeaPlusLC["DressupWiderPreview"] == "On" then
 
@@ -7574,20 +7546,7 @@
 
 				end
 
-			end
-
-			if C_AddOns.IsAddOnLoaded("Blizzard_Collections") then
-				DoBlizzardCollectionsFunc()
-			else
-				local waitFrame = CreateFrame("FRAME")
-				waitFrame:RegisterEvent("ADDON_LOADED")
-				waitFrame:SetScript("OnEvent", function(self, event, arg1)
-					if arg1 == "Blizzard_Collections" then
-						DoBlizzardCollectionsFunc()
-						waitFrame:UnregisterAllEvents()
-					end
-				end)
-			end
+			end)
 
 			----------------------------------------------------------------------
 			-- Enable zooming and panning
@@ -7636,7 +7595,7 @@
 			----------------------------------------------------------------------
 
 			-- Inspect System
-			local function DoInspectSystemFunc()
+			EventUtil.ContinueOnAddOnLoaded("Blizzard_InspectUI",function()
 
 				-- Hide model rotation controls
 				InspectModelFrameRotateLeftButton:Hide()
@@ -7656,20 +7615,7 @@
 					Model_StopPanning(self)
 				end)
 
-			end
-
-			if C_AddOns.IsAddOnLoaded("Blizzard_InspectUI") then
-				DoInspectSystemFunc()
-			else
-				local waitFrame = CreateFrame("FRAME")
-				waitFrame:RegisterEvent("ADDON_LOADED")
-				waitFrame:SetScript("OnEvent", function(self, event, arg1)
-					if arg1 == "Blizzard_InspectUI" then
-						DoInspectSystemFunc()
-						waitFrame:UnregisterAllEvents()
-					end
-				end)
-			end
+			end)
 
 		end
 
@@ -7800,7 +7746,7 @@
 			--	Trainers Frame
 			----------------------------------------------------------------------
 
-			local function TrainerFunc(frame)
+			EventUtil.ContinueOnAddOnLoaded("Blizzard_TrainerUI", function()
 
 				-- Make the frame double-wide
 				UIPanelWindows["ClassTrainerFrame"] = {area = "override", pushable = 0, xoffset = -16, yoffset = 12, bottomClampOverride = 140 + 12, width = 685, height = 487, whileDead = 1}
@@ -8036,21 +7982,7 @@
 					end
 				end
 
-			end
-
-			-- Run function when Trainer UI has loaded
-			if C_AddOns.IsAddOnLoaded("Blizzard_TrainerUI") then
-				TrainerFunc()
-			else
-				local waitFrame = CreateFrame("FRAME")
-				waitFrame:RegisterEvent("ADDON_LOADED")
-				waitFrame:SetScript("OnEvent", function(self, event, arg1)
-					if arg1 == "Blizzard_TrainerUI" then
-						TrainerFunc()
-						waitFrame:UnregisterAllEvents()
-					end
-				end)
-			end
+			end)
 
 		end
 
@@ -8150,7 +8082,7 @@
 			--	TradeSkill Frame
 			----------------------------------------------------------------------
 
-			local function TradeSkillFunc(frame)
+			EventUtil.ContinueOnAddOnLoaded("Blizzard_TradeSkillUI",function()
 
 				-- Make the tradeskill frame double-wide
 				UIPanelWindows["TradeSkillFrame"] = {area = "override", pushable = 3, xoffset = -16, yoffset = 12, bottomClampOverride = 140 + 12, width = 685, height = 487, whileDead = 1}
@@ -8309,21 +8241,7 @@
 					end
 				end
 
-			end
-
-			-- Run function when TradeSkill UI has loaded
-			if C_AddOns.IsAddOnLoaded("Blizzard_TradeSkillUI") then
-				TradeSkillFunc("TradeSkill")
-			else
-				local waitFrame = CreateFrame("FRAME")
-				waitFrame:RegisterEvent("ADDON_LOADED")
-				waitFrame:SetScript("OnEvent", function(self, event, arg1)
-					if arg1 == "Blizzard_TradeSkillUI" then
-						TradeSkillFunc("TradeSkill")
-						waitFrame:UnregisterAllEvents()
-					end
-				end)
-			end
+			end)
 
 		end
 
@@ -8515,25 +8433,11 @@
 		if LeaPlusLC["ShowBagSearchBox"] == "On" and not LeaLockList["ShowBagSearchBox"] then
 
 			-- Function to unregister search event for guild bank since it isn't used
-			local function SetGuildBankFunc()
+			EventUtil.ContinueOnAddOnLoaded("Blizzard_GuildBankUI",function()
 				for i = 1, MAX_GUILDBANK_TABS do
 					_G["GuildBankTab" .. i].Button:UnregisterEvent("INVENTORY_SEARCH_UPDATE")
 				end
-			end
-
-			-- Run search event function when Blizzard addon is loaded
-			if C_AddOns.IsAddOnLoaded("Blizzard_GuildBankUI") then
-				SetGuildBankFunc()
-			else
-				local waitFrame = CreateFrame("FRAME")
-				waitFrame:RegisterEvent("ADDON_LOADED")
-				waitFrame:SetScript("OnEvent", function(self, event, arg1)
-					if arg1 == "Blizzard_GuildBankUI" then
-						SetGuildBankFunc()
-						waitFrame:UnregisterAllEvents()
-					end
-				end)
-			end
+			end)
 
 			-- Create bag item search box
 			local BagItemSearchBox = CreateFrame("EditBox", nil, ContainerFrame1, "BagSearchBoxTemplate")
@@ -9006,7 +8910,7 @@
 
 		if LeaPlusLC["AhExtras"] == "On" then
 
-			local function AuctionFunc()
+			EventUtil.ContinueOnAddOnLoaded("Blizzard_AuctionUI",function()
 
 				-- Set default auction duration value to saved settings or default settings
 				AuctionFrameAuctions.duration = LeaPlusDB["AHDuration"] or 3
@@ -9203,21 +9107,7 @@
 						end
 					end
 				end)
-			end
-
-			-- Run function when Blizzard addon is loaded
-			if C_AddOns.IsAddOnLoaded("Blizzard_AuctionUI") then
-				AuctionFunc()
-			else
-				local waitFrame = CreateFrame("FRAME")
-				waitFrame:RegisterEvent("ADDON_LOADED")
-				waitFrame:SetScript("OnEvent", function(self, event, arg1)
-					if arg1 == "Blizzard_AuctionUI" then
-						AuctionFunc()
-						waitFrame:UnregisterAllEvents()
-					end
-				end)
-			end
+			end)
 
 		end
 
@@ -10026,9 +9916,11 @@
 					UIWidgetTopCenterContainerFrame:SetScale(LeaPlusLC["WidgetScale"])
 				else
 					-- Show Titan Panel screen adjust warning if Titan Panel is installed with screen adjust enabled
-					if LeaPlusLC.TitanClassic and TitanPanelSetVar and TitanPanelGetVar then
-						if not TitanPanelGetVar("ScreenAdjust") then
-							titanFrame:Show()
+					if C_AddOns.IsAddOnLoaded("TitanClassic") then
+						if TitanPanelSetVar and TitanPanelGetVar then
+							if not TitanPanelGetVar("ScreenAdjust") then
+								titanFrame:Show()
+							end
 						end
 					end
 
@@ -11321,7 +11213,7 @@
 				if LibDBIconTooltip then LibDBIconTooltip:SetScale(LeaPlusLC["LeaPlusTipSize"]) end
 
 				-- Total RP 3
-				if LeaPlusLC.totalRP3 and TRP3_MainTooltip and TRP3_CharacterTooltip then
+				if C_AddOns.IsAddOnLoaded("totalRP3") and TRP3_MainTooltip and TRP3_CharacterTooltip then
 					TRP3_MainTooltip:SetScale(LeaPlusLC["LeaPlusTipSize"])
 					TRP3_CharacterTooltip:SetScale(LeaPlusLC["LeaPlusTipSize"])
 				end
@@ -13204,7 +13096,7 @@
 					end
 
 					-- Disable items that conflict with Glass
-					if LeaPlusLC.Glass then
+					if C_AddOns.IsAddOnLoaded("Glass") then
 						local reason = L["Cannot be used with Glass"]
 						Lock("UseEasyChatResizing", reason) -- Use easy resizing
 						Lock("NoCombatLogTab", reason) -- Hide the combat log
