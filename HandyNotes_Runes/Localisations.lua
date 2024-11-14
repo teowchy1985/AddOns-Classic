@@ -716,8 +716,110 @@ else
 	ns.L["Hide if learnt"] = "Hide if the rune was learnt"
 end
 
--- v2.14 added Mage Book quest name translations
+-- Phase 4 and 5 spells v2.23 plus changed/missed v2.2x
+if ns.locale == "zhCN" then
+	-- Druid
+	ns.L["Improved Swipe"] = "强化横扫"
+	ns.L["Starfall"] = "星辰坠落"
+	ns.L["Tree of Life"] = "生命之树"
+	-- Hunter
+--	ns.L["Cobra Slayer"] = ""
+	ns.L["Heart of the Lion"] = "雄狮之心"
+	ns.L["Hit and Run"] = "一击脱离"
+	ns.L["Improved Volley"] = "强化乱射"
+--	ns.L["Rapid Killing"] = ""
+	ns.L["Resourcefulness"] = "游刃有余"
+--	ns.L["T.N.T."] = ""
+--	ns.L["Wyvern Strike"] = ""
+	-- Mage
+	ns.L["Arcane Barrage"] = "奥术弹幕"
+	ns.L["Overheat"] = "过热"
+	ns.L["Frozen Orb"] = "寒冰宝珠"
+	-- Paladin
+--	ns.L["Aura Mastery"] = ""
+--	ns.L["Divine Light"] = ""
+--	ns.L["Hallowed Ground"] = ""
+	ns.L["Shield of Righteousness"] = "正义盾击"
+	ns.L["Shock and Awe"] = "震慑"
+	ns.L["Righteous Vengeance"] = "正义复仇"
+	-- Priest
+	-- Rogue
+	-- Shaman
+	-- Warlock
+	-- Warrior
+elseif ns.locale == "zhTW" then
+	-- Druid
+	ns.L["Improved Swipe"] = "強化橫掃"
+	ns.L["Starfall"] = "星辰墜落"
+	ns.L["Tree of Life"] = "生命之樹"
+	-- Hunter
+--	ns.L["Cobra Slayer"] = ""
+	ns.L["Heart of the Lion"] = "雄獅之心"
+	ns.L["Hit and Run"] = "一擊脫離"
+	ns.L["Improved Volley"] = "強化亂射"
+--	ns.L["Rapid Killing"] = ""
+	ns.L["Resourcefulness"] = "游刃有餘"
+--	ns.L["T.N.T."] = ""
+--	ns.L["Wyvern Strike"] = ""
+	-- Mage
+	ns.L["Arcane Barrage"] = "奧術彈幕"
+	ns.L["Overheat"] = "過熱"
+	ns.L["Frozen Orb"] = "寒冰寶珠"
+	-- Paladin
+--	ns.L["Aura Mastery"] = ""
+--	ns.L["Divine Light"] = ""
+--	ns.L["Hallowed Ground"] = ""
+	ns.L["Shield of Righteousness"] = "正義盾擊"
+	ns.L["Shock and Awe"] = "震懾"
+	ns.L["Righteous Vengeance"] = "正義復仇"
+	-- Priest
+	-- Rogue
+	-- Shaman
+	-- Warlock
+	-- Warrior
+end
 
+-- Ring runes spells added v2.23
+if ns.locale == "zhCN" then
+	ns.L["Arcane Specialization"] = "奥术专精"
+	ns.L["Axe Specialization"] = "斧类武器专精"
+	ns.L["Dagger Specialization"] = "匕首专精"
+	ns.L["Defense Specialization"] = "防御专精"
+	ns.L["Feral Combat Specialization"] = "野性战斗专精"
+	ns.L["Fire Specialization"] = "火焰专精"
+	ns.L["Fist Weapon Specialization"] = "拳套专精"
+	ns.L["Frost Specialization"] = "冰霜专精"
+	ns.L["Healing Specialization"] = "治疗专精"
+	ns.L["Holy Specialization"] = "神圣专精"
+	ns.L["Mace Specialization"] = "锤类武器专精"
+	ns.L["Meditation Specialization"] = "冥想专精"
+	ns.L["Nature Specialization"] = "自然专精"
+	ns.L["Pole Weapon Specialization"] = "长柄军械专精"
+	ns.L["Ranged Weapon Specialization"] = "远程武器专精"
+	ns.L["Shadow Specialization"] = "暗影专精"
+	ns.L["Sword Specialization"] = "剑类武器专精"
+
+elseif ns.locale == "zhTW" then
+	ns.L["Arcane Specialization"] = "奧術專精"
+	ns.L["Axe Specialization"] = "斧類武器專精"
+	ns.L["Dagger Specialization"] = "匕首專精"
+	ns.L["Defense Specialization"] = "防禦專精"
+	ns.L["Feral Combat Specialization"] = "野性戰鬥專精"
+	ns.L["Fire Specialization"] = "火焰專精"
+	ns.L["Fist Weapon Specialization"] = "拳套專精"
+	ns.L["Frost Specialization"] = "冰霜專精"
+	ns.L["Healing Specialization"] = "治療專精"
+	ns.L["Holy Specialization"] = "神聖專精"
+	ns.L["Mace Specialization"] = "錘類武器專精"
+	ns.L["Meditation Specialization"] = "冥想專精"
+	ns.L["Nature Specialization"] = "自然專精"
+	ns.L["Pole Weapon Specialization"] = "長柄軍械專精"
+	ns.L["Ranged Weapon Specialization"] = "遠程武器專精"
+	ns.L["Shadow Specialization"] = "暗影專精"
+	ns.L["Sword Specialization"] = "劍類武器專精"
+end
+
+-- v2.14 added Mage Book quest name translations
 ns.class = select( 2, UnitClass( "player" ) )
 
 if ns.class == "MAGE" then
