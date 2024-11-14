@@ -1,3 +1,43 @@
+* To do - Uldaman has pins for Skillbooks? Remove
+* SM pins too if still there. Or leave note.. blizzard changed to purchaseable?
+
+== v2.24 - 14th November 2024
+* Paladin Malleable Protection replaces Enlightened Judgements
+* Paladin Rune of Purifying Power correctly/fully named
+* Paladin Divine Sacrifice / Hand of Sacrifice has the new spell ID
+* Paladin "Righteous Vengeance" added
+* Paladin "Shield of Righteousness" added
+* Paladin "Shock and Awe" added
+* Paladin "Avenging Wrath" added
+* Paladin Skill Books "Exorcist" and "Seal of Martyrdom" revamped/added
+
+== v2.23 - 13th November 2024
+* Phase 4 as follows:
+* Players no longer told to Grind SM for Skill Books - can now be purchased
+* Skill book vendors had a missing toolip. Fixed
+* Skill Books moved to Phase 4 from 2 in the summary pins
+* New textures for runes 26 to 29 in six colours
+	(my internal numbering - nothing to do with Blizzard)
+* Many translations for altered spells plus rings plus all new phase 4/5 spells
+* Guide format now allows for single guide shared across classes
+* Druid Tree of Life guide and pins added
+* Druid Improved Swipe guide and pins added
+* Druid Starfall guide and pins added
+* Hunter Cobra Slayer changed from Chest to Gloves
+* Hunter Beast Mastery changed from Gloves to Chest
+* Hunter Cobra Slayer now a rune, was a Skillbook
+* Hunter Heart of the Lion rune removed
+* Hunter Improved Volley number of pins pruned
+* Unimplemented Hunter Phase 1 rune Heart of the Lion is now a Skillbook
+* Hunter Kill Command changed to Kill Shot with new spellID
+* Hunter Invigoration is now Wyvern Strike with a new spellID too
+* Hunter reordered Phase 4 runes
+* Mage added Arcane Barrage
+* Mage added Frozen Orb
+* Mage added Overheat
+* Synchronised the mage book start summary text
+* Mage books added for Phase 4
+
 == v2.22 - 8th October 2024
 * TOC updated to 1.15.4
 * Note: No actual new content

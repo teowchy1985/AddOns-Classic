@@ -10,7 +10,11 @@ local colourPlaintext	= ns.colour.plaintext
 --
 --=======================================================================================================
 
-local st = { druid={}, hunter={}, mage={}, paladin={}, priest={}, rogue={}, shaman={}, warlock={}, warrior={} }
+local st = { druid={}, hunter={}, mage={}, paladin={}, priest={}, rogue={}, shaman={}, warlock={}, warrior={}, ring={} }
+
+st.timbermaw = "Note that going to Winterspring, you'll\npass through Timbermaw Hold. This is a\n"
+			.."dilemma: killing the mobs lowers your rep\nwith that faction. Decide first if you\n"
+			.."indeed want to first become Friendly"
 
 -- Druid Phase 1
 st.druid.ferocious = "Obtained from numerous Riverpaw mobs in Westfall,\nThe Den Mother in Darkshore, Grimson the Pale in\n"
@@ -76,6 +80,12 @@ st.druid.improvedBarkskin = "With Barksin (L44) learnt, go to the\nsouth-west co
 			.."the Thistleshrub Dew Collectors (L47-48)\nfor an Idol of Raging Shambler.\n\n"
 			.."Equip the Idol. Defeat 5 enemies while\nbuffed with Barkskin. This puts five\n"
 			.."charges onto the Idol. Right click it"
+-- Druid Phase 3
+st.druid.impSwipe = "From Tanaris, enter Un'Goro, kill the\nRavasaur mobs until the Idol of the\nHuntress drops. Equip it.\n\n"
+			.."While in Cat Form, Hibernate five\nmobs. Kill them.\n\nRight click the Idol again ftw!"
+st.druid.treeOfLife = "Encounter the Vengeful Wisp, north-west\nof Irontree Woods. Continue north-west to\n"
+			.."Jadefire Run.\n\nGrind the Jadefire satyrs until you\nreceive a Shimmering Light buff.\n\n"
+			.."Speak to your Wisp friend and it'll\ndrop a gift. That's your phat lewt!"
 
 -- Hunter Phase 1
 st.hunter.beastMastery = "Farm Goretusk Haunch from the numerous Goretusks\nin Westfall then use it to spawn Silverspur. Kill\n"
@@ -129,84 +139,108 @@ st.hunter.rapidKilling = "Enter the Firewatch Ridge cave, north-west corner\nof 
 			.."For her first task, avoid the Shadowsworn ritualists\nto her south-west as they are tougher.\n\n"
 			.."Calefactus is a unique Core Hound model you'll also\nwant to tame while you are doing Brought to Heel.\n\n"
 			.."Note that you receive a great trinket that specifically\nassists with taming Molten Core Core Hounds. BoPU"
+-- Hunter Phase 4
+st.hunter.hitAndRun = "The Escaped Core Hounds (L60)\ndrop the Rune of the Guerrilla"
+st.hunter.resourceful = "The entirety of this rune occurs in the\nEastern Plaguelands.\n\n"
+			.."Kill slimes and Plagued Swine for Bubbling\nGreen Ichor and Tainted Boar Meat respectively.\n\n"
+			.."Combine one of each to produce a Rancid Hunk\nof Flesh and feed that to one of the numerous\n"
+			.."Carrion Grubs.\n\nIt will vomit up a Regurgitated Skeleton and\nwithin that skeleton is your rune!"
+st.hunter.volley = "Grind any mobs in Silithus for a Busted Gizmo.\n\nNow visit Edwi Copperbolt in the far south of\n"
+			.."Silithus nad he'll give you a Desert Sonar.\n\nWith this you are looking for Sandworms (L60e),\n"
+			.."pinned on your map. Kill for phat lewt."
 
 -- Mage
-st.mage.books = "There are three runes to be earned from collecting books from across Azeroth. Any of the listed books count.\n"
+st.mage.books = "There are four runes to be earned from collecting books from across Azeroth. Any of the listed books count.\n"
 			.."You hand in each book that you discover to Owen Thadd (H) in Undercity or Garion Wendell (A) in Stormwind.\n\n"
 			.."You may hand in the books singly or several at a time. When you have handed in sufficient books for a rune a\n"
 			.."trivial completion quest will then reward you with your rune."
-st.mage.booksQuestIDsA = { 79953, 81955, 79949, 78145, 79091, 79092, 79535, 79097, 78142, 81956, 
-						78147, 79948, 79950, 81952, 78149, 79947, 78146, 81949, 79951, 78124, 
-						79093, 78148, 79952, 81947, 78143, 81953, 78127, 81951, 81954, 78150, 79536, 82208 }
+st.mage.bookStart = " books across Azeroth, too numerous to list here, but...\n"
+			.."see my detailed guide at: Garion Wendell in the Stormwind Mage Tower\n"
+			.."portal room (A) or Owen Thadd in the Mages Quarter of Undercity (H)"
+st.mage.booksQuestIDsA = { 79953, 81955, 84398, 79949, 78145, 79091, 79092, 79535, 79097, 78142, 81956, 78147, 79948,
+						79950, 81952, 78149, 79947, 78146, 81949, 84396, 79951, 78124, 84402, 79093, 78148, 79952,
+						81947, 84401, 78143, 81953, 78127, 84400, 81951, 84395, 81954, 78150, 79536, 82208 }
 st.mage.booksQuestNamesA = {
-						"A Ludites Guide to Caring for Your Pet" ..colourPlaintext .."    Farm Lost Ones in the Swamp of Sorrows",
-						"A Mind of Metal" ..colourPlaintext .."    On a table in a tent, Searing Gorge",
-						"A Web of Lies: Debunking Myths and Legends" ..colourPlaintext .."    Alongside a tent. Winterbark Village, Arathi",
-						"Arcanic Systems Manual" ..colourPlaintext .."    The Sludge Fen, The Barrens",
-						"Archmage Antonidas: The Unabridged Autobiography" ..colourPlaintext .."    Hall of Explorers, Ironforge",
-						"Archmage Theocritus's Research Journal"..colourPlaintext .."    Tower of Azora, Elwynn Forest",
-						"Basilisks: Should Petrification be Feared?" ..colourPlaintext .."    Entrance to Crystalvein Mine, Stranglethorn",
-						"Baxtan: On Destructive Magics" ..colourPlaintext .."    Next to Gazlove, Ratchet, The Barrens",
-						"Bewitchments and Glamours" ..colourPlaintext .."    Moonbrook, Westfall",
-						"Conjurer's Codex" ..colourPlaintext .."    Go to the Blasted Lands",
-						"Crimes Against Anatomy" ..colourPlaintext .."    Raven Hill Crypt, Duskwood",
-						"Defensive Magics 101" ..colourPlaintext .."    Ogre Tower in Alterac Mountains",
-						"Demons and You" ..colourPlaintext .."    Inside the Thunder Axe Fortress",
-						"Everyday Etiquette" ..colourPlaintext .."    Heldar Encampment, Azshara",
-						"Fury of the Land" ..colourPlaintext .."    Near Grimtotems in Stonetalon Mountains",
-						"Geomancy: The Stone-Cold Truth" ..colourPlaintext .."    Inside a hut, Darkcloud Pinnacle, Thousand Needles",
-						"Goaz Scrolls" ..colourPlaintext .."    Whelgar's Excavation Site, Wetlands",
-						"Legends of the Tidesages" ..colourPlaintext .."    Inside a building in the Pirate Cove, Tanaris",
-						"Mummies: A Guide to the Unsavory Undead" ..colourPlaintext .."    Crypt within a mesa. Badlands",
-						"Nar'thalas Almanac" ..colourPlaintext .."    Darkshore Ruins",
-						"Rumi of Gnomeregan: The Collected Works" ..colourPlaintext .."    Thelsamar or Westfall Inn",
-						"Runes of the Sorcerer-Kings" ..colourPlaintext .."    The Ogre Cave in Loch Modan",
-						"RwlRwlRwlRwl!" ..colourPlaintext .."    Witch Hill murloc Camp, Swamp of Sorrows",
-						"Sanguine Sorcery" ..colourPlaintext .."    On top of the Sunken Temple, Swamp of Sorrows",
-						"Secrets of the Dreamers" ..colourPlaintext .."    Near the Wailing Caverns portal",
-						"Stonewrought Design" ..colourPlaintext .."    On Franclorn Forgewright's altar, Black Mountain",
-						"The Dalaran Digest" ..colourPlaintext .."    Amber Mill, Silverpine Forest",
-						"The Liminal and the Arcane" ..colourPlaintext .."    @ Oneiros, Feralas but ONLY with a Nightmare Incursion",
-						"Venomous Journeys" ..colourPlaintext .."    Behind a brown wall, The Hinterlands",
-						"Friend of the Library" ..colourPlaintext .."    The final step for Icy Veins!", 
-						"Greater Friend of the Library" ..colourPlaintext .."    The final step for Spell Power!",
-						"Greater Friend of the Library" ..colourPlaintext .."    The final step for Deep Freeze!" }
-st.mage.booksQuestIDsH = { 79953, 81955, 79949, 78145, 79096, 79535, 79097, 78142, 81956, 78147, 
-						79948, 79950, 81952, 78149, 79947, 78146, 81949, 79951, 78124, 78148, 
-						79952, 81947, 78143, 81953, 79095, 78127, 79094, 81951, 81954, 78150, 79536, 82208 }
+			"A Ludites Guide to Caring for Your Pet" ..colourPlaintext .."    Farm Lost Ones in the Swamp of Sorrows",
+			"A Mind of Metal" ..colourPlaintext .."    On a table in a tent, Searing Gorge",
+			"A Study of the Light" ..colourPlaintext .."    Back left corner of Light's Hope Chapel",
+			"A Web of Lies: Debunking Myths and Legends" ..colourPlaintext .."    Alongside a tent. Winterbark Village, Arathi",
+			"Arcanic Systems Manual" ..colourPlaintext .."    The Sludge Fen, The Barrens",
+			"Archmage Antonidas: The Unabridged Autobiography" ..colourPlaintext .."    Hall of Explorers, Ironforge",
+			"Archmage Theocritus's Research Journal"..colourPlaintext .."    Tower of Azora, Elwynn Forest",
+			"Basilisks: Should Petrification be Feared?" ..colourPlaintext .."    Entrance to Crystalvein Mine, Stranglethorn",
+			"Baxtan: On Destructive Magics" ..colourPlaintext .."    Next to Gazlove, Ratchet, The Barrens",
+			"Bewitchments and Glamours" ..colourPlaintext .."    Moonbrook, Westfall",
+			"Conjurer's Codex" ..colourPlaintext .."    Go to the Blasted Lands",
+			"Crimes Against Anatomy" ..colourPlaintext .."    Raven Hill Crypt, Duskwood",
+			"Defensive Magics 101" ..colourPlaintext .."    Ogre Tower in Alterac Mountains",
+			"Demons and You" ..colourPlaintext .."    Inside the Thunder Axe Fortress",
+			"Everyday Etiquette" ..colourPlaintext .."    Heldar Encampment, Azshara",
+			"Fury of the Land" ..colourPlaintext .."    Near Grimtotems in Stonetalon Mountains",
+			"Geomancy: The Stone-Cold Truth" ..colourPlaintext .."    Inside a hut, Darkcloud Pinnacle, Thousand Needles",
+			"Goaz Scrolls" ..colourPlaintext .."    Whelgar's Excavation Site, Wetlands",
+			"Legends of the Tidesages" ..colourPlaintext .."    Inside a building in the Pirate Cove, Tanaris",
+			"Magma or Larva?" ..colourPlaintext .."    On a ledge just inside the open cavern past Lothos Riftwalker",
+			"Mummies: A Guide to the Unsavory Undead" ..colourPlaintext .."    Crypt within a mesa. Badlands",
+			"Nar'thalas Almanac" ..colourPlaintext .."    Darkshore Ruins",
+			"Necromancy 101" ..colourPlaintext .."    On a table in a nook, upper level Scholomance. NOT inthe instance",
+			"Rumi of Gnomeregan: The Collected Works" ..colourPlaintext .."    Thelsamar or Westfall Inn",
+			"Runes of the Sorcerer-Kings" ..colourPlaintext .."    The Ogre Cave in Loch Modan",
+			"RwlRwlRwlRwl!" ..colourPlaintext .."    Witch Hill murloc Camp, Swamp of Sorrows",
+			"Sanguine Sorcery" ..colourPlaintext .."    On top of the Sunken Temple, Swamp of Sorrows",
+			"Scourge: Undead Menace or Misunderstood?" ..colourPlaintext .."    Just before the Stratholme bridge",
+			"Secrets of the Dreamers" ..colourPlaintext .."    Near the Wailing Caverns portal",
+			"Stonewrought Design" ..colourPlaintext .."    On Franclorn Forgewright's altar, Black Mountain",
+			"The Dalaran Digest" ..colourPlaintext .."    Amber Mill, Silverpine Forest",
+			"The Knight and the Lady" ..colourPlaintext .."    In the small house",
+			"The Liminal and the Arcane" ..colourPlaintext .."    @ Oneiros, Feralas but ONLY with a Nightmare Incursion",
+			"Undead Potatoes" ..colourPlaintext .."    Upstairs, in a farmhouse",
+			"Venomous Journeys" ..colourPlaintext .."    Behind a brown wall, The Hinterlands",
+			"Friend of the Library" ..colourPlaintext .."    The final step for Icy Veins!", 
+			"Greater Friend of the Library" ..colourPlaintext .."    The final step for Spell Power!",
+			"Greater Friend of the Library" ..colourPlaintext .."    The final step for Deep Freeze!" }
+st.mage.booksQuestIDsH = { 79953, 81955, 84398, 79949, 78145, 79096, 79535, 79097, 78142, 81956, 78147, 79948, 79950,
+						81952, 78149, 79947, 78146, 81949, 84396, 79951, 78124, 84402, 78148, 79952, 81947, 84401,
+						78143, 81953, 79095, 78127, 84400, 79094, 81951, 84395, 81954, 78150, 79536, 82208 }
 st.mage.booksQuestNamesH = {
-						"A Ludites Guide to Caring for Your Pet" ..colourPlaintext .."    Farm Lost Ones in the Swamp of Sorrows",
-						"A Mind of Metal" ..colourPlaintext .."    On a table in a tent, Searing Gorge",
-						"A Web of Lies: Debunking Myths and Legends" ..colourPlaintext .."    Alongside a tent. Winterbark Village, Arathi",
-						"Arcanic Systems Manual" ..colourPlaintext .."    The Sludge Fen, The Barrens",
-						"Ataeric: On Arcane Curiosities"..colourPlaintext .."    Sepulcher",
-						"Basilisks: Should Petrification be Feared?" ..colourPlaintext .."    Entrance to Crystalvein Mine, Stranglethorn",
-						"Baxtan: On Destructive Magics" ..colourPlaintext .."    Next to Gazlove, Ratchet, The Barrens",
-						"Bewitchments and Glamours" ..colourPlaintext .."    Moonbrook, Westfall",
-						"Conjurer's Codex" ..colourPlaintext .."    Go to the Blasted Lands",
-						"Crimes Against Anatomy" ..colourPlaintext .."    Raven Hill Crypt, Duskwood",
-						"Defensive Magics 101" ..colourPlaintext .."    Ogre Tower in Alterac Mountains",
-						"Demons and You" ..colourPlaintext .."    Inside the Thunder Axe Fortress",
-						"Everyday Etiquette" ..colourPlaintext .."    Heldar Encampment, Azshara",
-						"Fury of the Land" ..colourPlaintext .."    Near Grimtotems in Stonetalon Mountains",
-						"Geomancy: The Stone-Cold Truth" ..colourPlaintext .."    Inside a hut, Darkcloud Pinnacle, Thousand Needles",
-						"Goaz Scrolls" ..colourPlaintext .."    Whelgar's Excavation Site, Wetlands",
-						"Legends of the Tidesages" ..colourPlaintext .."    Inside a building in the Pirate Cove, Tanaris",
-						"Mummies: A Guide to the Unsavory Undead" ..colourPlaintext .."    Crypt within a mesa. Badlands",
-						"Nar'thalas Almanac" ..colourPlaintext .."    Darkshore Ruins",
-						"Runes of the Sorcerer-Kings" ..colourPlaintext .."    The Ogre Cave in Loch Modan",
-						"RwlRwlRwlRwl!" ..colourPlaintext .."    Witch Hill murloc Camp, Swamp of Sorrows",
-						"Sanguine Sorcery" ..colourPlaintext .."    On top of the Sunken Temple, Swamp of Sorrows",
-						"Secrets of the Dreamers" ..colourPlaintext .."    Near the Wailing Caverns portal",
-						"Stonewrought Design" ..colourPlaintext .."    On Franclorn Forgewright's altar, Black Mountain",
-						"The Apothecary's Metaphysical Primer" ..colourPlaintext .."    Brill alchemy Shop",
-						"The Dalaran Digest" ..colourPlaintext .."    Amber Mill, Silverpine Forest",
-						"The Lessons of Ta'zo" ..colourPlaintext .."    Valley of Sprits, Orgrimmar",
-						"The Liminal and the Arcane" ..colourPlaintext .."    @ Oneiros, Feralas but ONLY with a Nightmare Incursion",
-						"Venomous Journeys" ..colourPlaintext .."    Behind a brown wall, The Hinterlands",
-						"Friend of the Library" ..colourPlaintext .."    The final step for Icy Veins!", 
-						"Greater Friend of the Library" ..colourPlaintext .."    The final step for Spell Power!",
-						"Greater Friend of the Library" ..colourPlaintext .."    The final step for Deep Freeze!" }
+			"A Ludites Guide to Caring for Your Pet" ..colourPlaintext .."    Farm Lost Ones in the Swamp of Sorrows",
+			"A Mind of Metal" ..colourPlaintext .."    On a table in a tent, Searing Gorge",
+			"A Study of the Light" ..colourPlaintext .."    Back left corner of Light's Hope Chapel",
+			"A Web of Lies: Debunking Myths and Legends" ..colourPlaintext .."    Alongside a tent. Winterbark Village, Arathi",
+			"Arcanic Systems Manual" ..colourPlaintext .."    The Sludge Fen, The Barrens",
+			"Ataeric: On Arcane Curiosities"..colourPlaintext .."    Sepulcher",
+			"Basilisks: Should Petrification be Feared?" ..colourPlaintext .."    Entrance to Crystalvein Mine, Stranglethorn",
+			"Baxtan: On Destructive Magics" ..colourPlaintext .."    Next to Gazlove, Ratchet, The Barrens",
+			"Bewitchments and Glamours" ..colourPlaintext .."    Moonbrook, Westfall",
+			"Conjurer's Codex" ..colourPlaintext .."    Go to the Blasted Lands",
+			"Crimes Against Anatomy" ..colourPlaintext .."    Raven Hill Crypt, Duskwood",
+			"Defensive Magics 101" ..colourPlaintext .."    Ogre Tower in Alterac Mountains",
+			"Demons and You" ..colourPlaintext .."    Inside the Thunder Axe Fortress",
+			"Everyday Etiquette" ..colourPlaintext .."    Heldar Encampment, Azshara",
+			"Fury of the Land" ..colourPlaintext .."    Near Grimtotems in Stonetalon Mountains",
+			"Geomancy: The Stone-Cold Truth" ..colourPlaintext .."    Inside a hut, Darkcloud Pinnacle, Thousand Needles",
+			"Goaz Scrolls" ..colourPlaintext .."    Whelgar's Excavation Site, Wetlands",
+			"Legends of the Tidesages" ..colourPlaintext .."    Inside a building in the Pirate Cove, Tanaris",
+			"Magma or Larva?" ..colourPlaintext .."    On a ledge just inside the open cavern past Lothos Riftwalker",
+			"Mummies: A Guide to the Unsavory Undead" ..colourPlaintext .."    Crypt within a mesa. Badlands",
+			"Nar'thalas Almanac" ..colourPlaintext .."    Darkshore Ruins",
+			"Necromancy 101" ..colourPlaintext .."    On a table in a nook, upper level Scholomance. NOT inthe instance",
+			"Runes of the Sorcerer-Kings" ..colourPlaintext .."    The Ogre Cave in Loch Modan",
+			"RwlRwlRwlRwl!" ..colourPlaintext .."    Witch Hill murloc Camp, Swamp of Sorrows",
+			"Sanguine Sorcery" ..colourPlaintext .."    On top of the Sunken Temple, Swamp of Sorrows",
+			"Scourge: Undead Menace or Misunderstood?" ..colourPlaintext .."    Just before the Stratholme bridge",
+			"Secrets of the Dreamers" ..colourPlaintext .."    Near the Wailing Caverns portal",
+			"Stonewrought Design" ..colourPlaintext .."    On Franclorn Forgewright's altar, Black Mountain",
+			"The Apothecary's Metaphysical Primer" ..colourPlaintext .."    Brill alchemy Shop",
+			"The Dalaran Digest" ..colourPlaintext .."    Amber Mill, Silverpine Forest",
+			"The Knight and the Lady" ..colourPlaintext .."    In the small house",
+			"The Lessons of Ta'zo" ..colourPlaintext .."    Valley of Sprits, Orgrimmar",
+			"The Liminal and the Arcane" ..colourPlaintext .."    @ Oneiros, Feralas but ONLY with a Nightmare Incursion",
+			"Undead Potatoes" ..colourPlaintext .."    Upstairs, in a farmhouse",
+			"Venomous Journeys" ..colourPlaintext .."    Behind a brown wall, The Hinterlands",
+			"Friend of the Library" ..colourPlaintext .."    The final step for Icy Veins!", 
+			"Greater Friend of the Library" ..colourPlaintext .."    The final step for Spell Power!",
+			"Greater Friend of the Library" ..colourPlaintext .."    The final step for Deep Freeze!" }
 
 -- Mage Phase 1
 st.mage.enlightenment = "Alliance should head as far east as Ridgepoint\nTower in Elwynn Forest, although anywhere there\n"
@@ -249,6 +283,21 @@ st.mage.booksBM = "Proceed into Blackrock Mountain as you would to\nrun through 
 st.mage.temporal = "Collect 1 x Pristine Owlbeast Quill from\nOwlbeasts in The Hinterlands, 5 x Zukk'ash\n"
 			.."Resin from Silithids in south-east Feralas,\nand 8 x Farraki Papyrus from Zul'Farrak zombies.\n\n"
 			.."Extra reward is a Personal Spellbook. Finally,\nyou can conjure Comprehension Charms!!!"
+-- Mage Phase 4
+st.mage.frozenOrb = "Farm the Deadwood mobs until a Mysterious\nDarnassian Scroll drops.\n\n"
+			.."As usual, use your Comprehension Charm.\n\nSouth-east now to Calyx Greenglow and use\n"
+			.."the scroll on him! Accept the quest.\n\nDown south now, grind those Irontree mobs\n"
+			.."until an Unusual Flask drops.\n\nHead over to Winterspring and seek out\n"
+			.."Calyx again, conveniently near the exit\nof the Timbermaw Hold. Kill\n"
+			.."The shade of Calyx. Loot. Profit!\n\n" ..st.timbermaw
+st.mage.magmaLarva = "Lothos Riftwaker is at the entrance to the Blackrock\nDepths cavern, deep down and almost at the larva level\n"
+			.."and in the very centre of Blackrock Mountain cavern.\n\nProceed past him to Franclorn Forgewright's altar room.\n\n"
+			.."Go on and you are now in the Blackrock Depths cavern.\nJust inside this cavern you'll see the book on a ledge."
+st.mage.overheat = "At EACH of the four locations you'll\nencounter a frozen Novie Frost Mage.\n\n"
+			.."Unfreeze him by using fire spells.\n\nStill alive, use Remove Lesser Curse.\n\n"
+			.."EACH mage will drop a Torn Spell Notes.\n\nCombine all four for your Phat lewt!\n\n"
+			.."Okay... how to NOT kill... Alternate\nrank 1 Fireball and rank 1 scorch.\n"
+			.."It's slow but it does work. Respawn is\nunder a minute btw"
 
 -- Paladin Phase 1
 st.paladin.banishment = "Target the Defias Enchanters, Defias Night Blades\n"
@@ -285,7 +334,7 @@ st.paladin.guardedLight = "You must have learnt Divine Intervention (L30).\n\nUp
 			.."Holy Rune, cast Divine Intervention upon yourself\nand die. You may do this anywhere convenient.\n\n"
 			.."Another player must resurrect you, not necessarily\na Paladin. You will auto acquire the rune.\n\n"
 			.."Note that Soulstones do not work for this"
-st.paladin.judgements = "The Dark Iron Bombadiers and Suppliers have the best\n(albeit bad) drop rates for all three Tarnished\n"
+st.paladin.malleable = "The Dark Iron Bombadiers and Suppliers have the best\n(albeit bad) drop rates for all three Tarnished\n"
 			.."Prayer Bead I/II/III.\n\nPurify I with Blessing of Might cast while in combat.\n"
 			.."Purify II with Divine Shield at <10% health.\nPurify III with Seal of Justice and Judgment while fleeing.\n\n"
 			.."Now combine -> Rosary of the Light. Take the Rosary to\nBrother Atticus in Stromgarde Keep"
@@ -326,6 +375,17 @@ st.paladin.lightsGrace = "You must travel to an inaccessible platform\nin Ferala
 			.."Now, speak to Frix and he'll send you to the Bay\nto speak to his brother. The rune is yours!"
 st.paladin.wrath = "North of Quel'Danil Lodge in The Hinterlands is\nwhere Paladins will use their Sense Undead to\n"
 			.."locate a Vengeful Spirit (L45). Kill it.\n\nSpeak to Magister Falath in the Mystic Ward of\nIronforge. Enjoy!"
+-- Paladin Phase 4/5
+st.paladin.avengingWrath = "You receive this spell book at the same time\nas you complete Shock and Awe!"
+st.paladin.righteousness = "Kill a Slack-Jawed Ghoul, mostly south of the\nwestern end of the main east -west path.\n\n"
+			.."You are now accompanied by Orthas. You also\nare given the means to summon Orthas at will.\n\n"
+			.."Orthas's Hammer is on the upper level of the\nhouse at Corrin's Crossing.\n\n"
+			.."(Each step of the way you should summon Orthas.\n\nAs per the map look for abominations. You\n"
+			.."want a Partially-Digested Plate Armor to drop.\n\nNext kill Maleki the Pallid in Stratholme.\n\n"
+			.."You'll travel next to the Undercroft to\nround out this quest chain\n\n"
+st.paladin.shockAwe = "Follows straight after the Vengeance rune.\n\nA tip to level your Squire is to spam\nFlash of Light!"
+st.paladin.vengeance = "Note: Two runes plus one spell book happen in\na linear manner. Vengeance -> Shock and Awe ->\n"
+			.."Avenging Wrath.\n\nThe quests are very straight forward and the\npin's in this \"hub\" have been numbered"
 
 -- Priest Phase 1
 st.priest.circle = "Obtain Dark Insight from the Defias mobs\nthen use it at the secluded grave"
@@ -433,7 +493,8 @@ st.rogue.envenom = "Speak to Kris Legace. She's behind Durnholde\nKeep. There's 
 st.rogue.mutilate = "Pp Dark Iron Spies for Blackrat's Note, south of\nHelm's Bed Lake, far east Dun Morogh; Pp Garrick\n"
 			.."Padfoot for Cutty's Note, Northshire Vineyards;\nLord Melenas, Fel Rock Cave, Teldrassil (A).\n\n"
 			.."Pp Burning Blade mobs for Ba'kso's Note, Durotar;\nPp Captain Perrine, south of Brill, Tirisfal Glades (H)"
-st.rogue.precision = "Loot from the Forlorn Cavern, Ironforge; Cutthroat\nAlley, Stormwind; Gnarlpine Stash, far south,\nTeldrassil (A).\n\n"
+st.rogue.precision = "Loot from the Forlorn Cavern, Ironforge; Cutthroat\nAlley, Stormwind; Gnarlpine Stash, far south,\n"
+			.."Teldrassil (A).\n\n"
 			.."Chest in The Drag, Orgrimmar; Shipwreck Cache,\neast of Garron's Haunt, Tirisfal Glades (H)"
 st.rogue.quickDraw = "You need to piece together a Treasure Map that is in\nfour segments. You cannot share segments across zones.\n"
 			.."Decide where you will be mostly spending your time. Pick Pocket.\n\n"
@@ -871,6 +932,20 @@ st.wildGodsSpells = { "Improved Frenzied Regeneration", "Lock and Load", "Advanc
 				"Improved Sanctuary", "Divine Aegis", "Combat Potency", "Riptide", "Vengeance",
 				"Sword and Board" }
 st.wildGodsStart = "Begin by talking to the Shadowtooth Emissary at the Emerald Sanctuary in southern Felwood"
+-- Common Phase 4
+st.purchaseSkillBook = "Purchase from Zor Lonetree, Org. Valley of Wisdom (H) or Milton Sheaf, SW Keep Library (A)"
+st.skillBookVendor = "Skill Books may be purchased from this librarian"
+-- Common Rings Phase 4/5
+st.ring.defense = "From Searing Gorge (or perhaps Burning Steppes)\nwalk down the round path inside the cavern of\n"
+			.."Blackrock Mountain until you reach the BRS\nmeeting stone.\n\nTurn into that hallway. Then the first right\n"
+			.."into a small room. There are two copies of\nthe book on the floor. You only need to loot\none for your phat lewt"
+st.ring.defenseTip = "Lowbies can corpse run and loot this as one\nof the books may be looted while out of agro/\nsight of the mob"
+st.ring.fire = "From Thorium Point go south-east. Locate\na hole in the ground. Jump in.\n\n"
+			.."Turn and go north and up the ramp.\n\nAt the fork bear left. Book is on\na bench in the alcove"
+st.ring.sword = "Walk around to the back of Karazhan and locate\nthe correct entrance to the Master's Cellar, as\n"
+			.."per the pin.\n\nThe stair down lead into the catacombs. Now go\nright, following the path around. You're at\n"
+			.."a downhill passage, leading to a central rise.\n\nTo the left of this platform are two pillars,\n"
+			.."with the book between them. Loot FTW!"
 
 --=======================================================================================================
 --
@@ -878,13 +953,52 @@ st.wildGodsStart = "Begin by talking to the Shadowtooth Emissary at the Emerald 
 --
 --=======================================================================================================
 
-st.dungeonSummary = "Drops from named elites / bosses in the Scarlet Monastery, Razorfen Downs and Uldaman"
+st.dungeonSummary = "Drops from named elites / bosses in the Scarlet Monastery, Razorfen Downs and Uldaman" -- Deprecated P4
 st.supplyFactionStart = "Elaine Compton, \"Azeroth Commerce Authority Vendor\", Stormwind (A),\n"
 			.."Jornah, \"Durotar Supply and Logistics Vendor\", Orgrimmar (H)"
 st.twoPlusHealers = "2+ Players - Healers. First step: Find Adventurer's Remains/Spirit: \n"
-
+					
 ns.runes = {
-		
+
+	["RINGS"] = {
+		-- Phase 4
+		["Arcane Specialization"] = { rune="Rune of Arcane Specialization", phase=4, spellID=442893, level=60, icon="R", slot=11,
+				start="In a small tower in Hearthglen, Western Plaguelands. Mobs are L58-61e plus many easier" },
+		["Axe Specialization"] = { rune="Rune of Axe Specialization", phase=4, spellID=442876, level=55, icon="R", slot=11,
+				start="Book is inside the Blackrock Stronghold in the Burning Steppes. Orc mobs are (L55-58)" },
+		["Dagger Specialization"] = { rune="Rune of Dagger Specialization", phase=4, spellID=442887, level=58, icon="R", slot=11,
+				start="Far south west Silithus in a tent in a Twilight Outpost. Twilight mobs (L58-60)" },
+		["Defense Specialization"] = { rune="Rune of Defense Specialization", phase=4, spellID=459312, level=55, icon="R", slot=11,
+				start="Near the (real) Blackrock Spire entrance in Blackrock Mountain (L53-55e)" },
+		["Feral Combat Specialization"] = { rune="Rune of Feral Combat Specialization", phase=4, spellID=453622, level=57, icon="R", 
+				slot=11, start="Far north of Winterspring at Frostsaber Rock (L55-60). Book is easy to see" },
+		["Fire Specialization"] = { rune="Rune of Fire Specialization", phase=4, spellID=442894, level=50, icon="R", slot=11,
+				start="In the Slag Pit, south of Thorium Gorge in the Searing Gorge (L48-50e)" },
+		["Fist Weapon Specialization"] = { rune="Rune of Fist Weapon Specialization", phase=4, spellID=442890, level=57, icon="R",
+				slot=11, start="Central Silithus, south-west of Cenarion Hold (L58-60)" },
+		["Frost Specialization"] = { rune="Rune of Frost Specialization", phase=4, spellID=442895, level=56, icon="R", slot=11,
+				start="Southern Winterspring @ a ransacked camp site, off the main path (L56-59)" },
+		["Holy Specialization"] = { rune="Rune of Holy Specialization", phase=4, spellID=442898, level=58, icon="R", slot=11,
+				start="The book is inside a large chapel @ Tyr's Hand, Eastern Plaguelands (L53-55e)" },
+		["Mace Specialization"] = { rune="Rune of Mace Specialization", phase=4, spellID=442881, level=60, icon="R", slot=11,
+				start="Grim Batol, far eastern Wetlands (L58-62e). Ton of mobs, long walk/ride. See my tip" },
+		["Nature Specialization"] = { rune="Rune of Nature Specialization", phase=4, spellID=442896, level=53, icon="R", slot=11,
+				start="Felpaw Village, far north-east corner of Felwood (L53-56)" },
+		["Pole Weapon Specialization"] = { rune="Rune of Pole Weapon Specialization", phase=4, spellID=442892, level=52, icon="R",
+				slot=11, start="In the Temple of Arkkoran @ a north-east peninsular in Azshara (L53-55)" },
+		["Ranged Weapon Specialization"] = { rune="Rune of Ranged Weapon Specialization", phase=4, spellID=442891, level=60, icon="R",
+				slot=11, start="Marris Stead in far western Eastern Plaguelands. (L62e) but Horde safe" },
+		["Shadow Specialization"] = { rune="Rune of Shadow Specialization", phase=4, spellID=442897, level=57, icon="R", slot=11,
+				start="Behind the large altar in the Tainted Scar, south-west Blasted Lands (L60)" },
+		["Sword Specialization"] = { rune="Rune of Sword Specialization", phase=4, spellID=442813, level=57, icon="R", slot=11,
+				start="In the Master's Cellar, underneath Karazhan in Deadwind Pass (L58-60)" },
+		-- Phase 5
+		["Meditation Specialization"] = { rune="Rune of Meditation Specialization", phase=4, spellID=468762, level=25, icon="R",
+				slot=11, start="In a building in the Shimmering Flats, Thousand Needles" },
+		["Healing Specialization"] = { rune="Rune of Healing Specialization", phase=4, spellID=468758, level=30, icon="R", slot=11,
+				start="The book is in Faldir's Cove, Arathi Highlands" },
+	},
+	
 	["DRUID"] = {
 		-- Phase 1
 		["Fury of Stormrage"]={ rune="Lunar Idol", phase=1, spellID=414799, level=2, icon=1, slot=5,
@@ -926,9 +1040,9 @@ ns.runes = {
 		["King of the Jungle"]={ rune="Rune of the Jungle King", phase=2, spellID=417046, level=40, icon=18, slot=8,
 				start=st.dalaranSpeakTo },
 		-- Phase 2 Skill Books
-		["Deeper Wilds"]={ skillBook="Leaflet of Deeper Wilds", spellID=436956, level=1, start= st.dungeonSummary },
-		["Enhanced Restoration"]={ skillBook="Leaflet of Enhanced Restoration", spellID=417123, level=1, start= st.dungeonSummary },
-		["Revive"]={ skillBook="Leaflet of Revive", spellID=437138, level=1, start= st.dungeonSummary },
+		["Deeper Wilds"]={ skillBook="Leaflet of Deeper Wilds", spellID=436956, level=1, start= st.purchaseSkillBook },
+		["Enhanced Restoration"]={ skillBook="Leaflet of Enhanced Restoration", spellID=417123, level=1, start= st.purchaseSkillBook },
+		["Revive"]={ skillBook="Leaflet of Revive", spellID=437138, level=1, start= st.purchaseSkillBook },
 		-- Phase 3
 		["Gore"]={ rune="Rune of Bloodshed", phase=3, spellID=417145, level="23/37/47", icon=19, slot=1, start=st.emeraldWardens },
 		["Gale Winds"]={ rune="Rune of the Windstorm", phase=3, spellID=417135, level=40, icon=20, slot=1,
@@ -948,7 +1062,7 @@ ns.runes = {
 				start="Defeat Arcterrus (L59e) in The Hidden Grove, Winterspring" },
 		["Tree of Life"]={ rune="Rune of the World Tree", phase=4, spellID=439733, level=51, icon=27, slot=15,
 				start="Talk to a Vengeful Wisp in Felwood and follow my guide" },
-				
+		
 		spells={ "Fury of Stormrage", "Living Seed", "Sunfire", "Lifebloom", "Mangle", "Wild Strikes",
 				"Lacerate", "Skull Bash", "Starsurge", "Savage Roar", "Survival of the Fittest",
 				"Wild Growth", "Survival Instincts", "Dreamstate", "Berserk", "Eclipse", "Nourish",
@@ -956,6 +1070,10 @@ ns.runes = {
 				"Efflorescence", "Improved Frenzied Regeneration", "Improved Swipe", "Starfall", 
 				"Tree of Life" },
 		skillBooks={ "Deeper Wilds", "Enhanced Restoration", "Revive" },
+		rings={ "Arcane Specialization", "Dagger Specialization", "Defense Specialization",
+				"Feral Combat Specialization", "Fist Weapon Specialization", "Mace Specialization",
+				"Nature Specialization", "Pole Weapon Specialization", "Healing Specialization",
+				"Meditation Specialization", }
 	},
 
 	["HUNTER"] = {
@@ -974,33 +1092,26 @@ ns.runes = {
 		["Carve"]={ rune="Rune of Carve", phase=1, spellID=425711, level=10, icon=5, slot=10,
 				start="Tame animals with reagent: Amberstill Ranch, Dun Morogh; Relaeron, Darnassus (A)\n"
 					.."Razzil, Razor Hill, Durotar; Takoda Sunmane, Bloodhoof Village, Mulgore (H)" },
-		["Beast Mastery"]={ rune="Rune of Beast Mastery", phase=1, spellID=409368, level=15, icon=6, slot=10,
+		["Beast Mastery"]={ rune="Rune of Beast Mastery", phase=1, spellID=409368, level=15, icon=6, slot=5,
 				start="Furbolg camp, Darkshore; Farstrider Lodge, Loch Modan; Silverspur, north of Gold Coast Quarry, Westfall (A)\n"
 					.."Ferocious Grizzled Bear, northern Silverpine Forest; Patrolling Cheetah, north of Taurajo, The Barrens (H)" },
 		["Serpent Spread"]={ rune="Rune of Serpent Spread", phase=1, spellID=425738, level=15, icon=7, slot=7,
 				start=st.supplyFactionStart },
---		["Kill Command"]={ rune="Rune of Kill Command", phase=1, spellID=409379, level=20, icon=8, slot=7,
---				start="Jixo Madrocket, near Sun Rock Retreat, Stonetalon Mountains (A/H)" },
-		["Kill Shot"]={ rune="Rune of Kill Command", phase=1, spellID=409593, level=20, icon=8, slot=7,
+		["Kill Shot"]={ rune="Rune of Kill Command", phase=1, spellID=409974, level=20, icon=8, slot=7,
 				start="Jixo Madrocket, near Sun Rock Retreat, Stonetalon Mountains (A/H)" },
 		["Sniper Training"]={ rune="Rune of the Sniper", phase=1, spellID=415399, level=20, icon=9, slot=7,
 				start="Gnarled Harpoon, west of the Ruins of Mathystra, Darkshore; Kackle, in The Loch (south), Loch Modan;\n"
 					.."Defias Scout, Sentinel Hill, Westfall (A); Kilxx, Ratchet, The Barrens (H)" },		
 		["Lone Wolf"]={ rune="Rune of Lone wolf", phase=1, spellID=415370, level=20, icon=10, slot=5,
 				start="Grizzby @ Ratchet, The Barrens" },
---		["Heart of the Lion"]={ rune="Rune of Heart of the Lion", phase=1, spellID=409580, level=25, icon=11, slot=5,
---				start="Carrodin, rear of the Thelgen Rock Cave, Wetlands (A/H)" },
+		["Cobra Slayer"]={ rune="Rune of Cobra Slayer", phase=1, spellID=409960, level=25, icon=11, slot=10,
+				start="Carrodin, rear of the Thelgen Rock Cave, Wetlands (A/H)" },
 		["Cobra Strikes"]={ rune="Rune of Cobra Strikes", phase=1, spellID=425713, level=25, icon=12, slot=5,
 				start="Zixil, wanders between Tarren Mill and Southshore, Hillsbrad Foothills (A/H)" },
-		-- Phase 1 Skill Books
-		["Cobra Slayer"]={ skillBook="Rune of Cobra Slayer", phase=1, spellID=458393, level=25, icon=11, slot=5,
-				start="Carrodin, rear of the Thelgen Rock Cave, Wetlands (A/H)" },
 		-- Phase 2
 		["Expose Weaknesss"]={ rune="Rune of Expose Weakness", phase=2, spellID=409504, level=26, icon=13, slot=6,
 				start="Kill Ogres (L36-43) and Troggs (L39-41) in the Badlands" },
---		["Invigoration"]={ rune="Rune of Invigoration", phase=2, spellID=437997, level=27, icon=14, slot=8,
---				start="Go to Amaryllis Webb in the Swamp of Sorrows to obtain a catching kit. No killing" },
-		["Wyvern Strike"]={ rune="Rune of Invigoration", phase=2, spellID=437997, level=27, icon=14, slot=8,
+		["Wyvern Strike"]={ rune="Rune of Invigoration", phase=2, spellID=458436, level=27, icon=14, slot=8,
 				start="Go to Amaryllis Webb in the Swamp of Sorrows to obtain a catching kit. No killing" },
 		["Trap Launcher"]={ rune="Rune of the Trapper", phase=2, spellID=409541, level=30, icon=15, slot=8,
 				start="Go to a pillaged campsite in Desolace" },
@@ -1011,7 +1122,7 @@ ns.runes = {
 		["Melee Specialist"]={ rune="Rune of Close Combat", phase=2, spellID=415352, level=40, icon=18, slot=6,
 				start=st.dalaranSpeakTo },
 		-- Phase 2 Skill Books
-		["Aspect of the Viper"]={ skillBook="Treatise on Aspect of the Viper", spellID=415423, level=1, start= st.dungeonSummary },
+		["Aspect of the Viper"]={ skillBook="Treatise on Aspect of the Viper", spellID=415423, level=1, start= st.purchaseSkillBook },
 		-- Phase 3
 		["T.N.T."]={ rune="Rune of Detonation", phase=3, spellID=428717, level="23/37/47", icon=19, slot=9, start=st.emeraldWardens },
 		["Raptor Fury"]={ rune="Rune of the Raptor", phase=3, spellID=415358, level=40, icon=20, slot=9,
@@ -1023,13 +1134,27 @@ ns.runes = {
 		["Focus Fire"]={ rune="Rune of Focused Fire", phase=3, spellID=428726, level=45, icon=23, slot=9,
 				start="Loot a Stormcrow Egg from the Stormcrow Nest in the Searing Gorge. Then kill the Enraged Stormcrow" },
 		["Lock and Load"]={ rune="Rune of Firepower", phase=3, spellID=415413, level=50, icon=24, slot=9, start=st.wildGodsStart },
+		-- Phase 4
+		["Improved Volley"]={ rune="Rune of Shelling", phase=4, spellID=440520, level=56, icon=25, slot=15,
+				start="Kill Twilight mobs in Silithus (L58-61) and loot a Busted Gizmo" },
+		["Resourcefulness"]={ rune="Rune of the Resourceful", phase=4, spellID=440529, level=58, icon=26, slot=15,
+				start="Kill slimes (L54-56) and Plagued Swine (L60) in the Eastern PLaguelands and follow my guide" },
+		["Hit and Run"]={ rune="Rune of the Guerrilla", phase=4, spellID=440533, level=58, icon=27, slot=15,
+				start="Kill an Escaped Core Hound (L60) in the Burning Steppes, nothing more!" },
+		-- Phase 4 Skill Books (was it 4? Def not 1 or 2)
+		["Heart of the Lion"]={ skillBook="Treatise on the Heart of the Lion", spellID=409580, level=1, start= st.purchaseSkillBook },
 
 		spells={ "Chimera Shot", "Explosive Shot", "Master Marksman", "Flanking Strike", "Carve",
 				"Beast Mastery", "Serpent Spread", "Kill Shot", "Sniper Training", "Lone Wolf",
-				"Cobra Strikes", "Expose Weaknesss", "Wyvern Strike", "Trap Launcher",
+				"Cobra Slayer", "Cobra Strikes", "Expose Weaknesss", "Wyvern Strike", "Trap Launcher",
 				"Dual Wield Specialization", "Steady Shot", "Melee Specialist", "T.N.T.", "Raptor Fury",
-				"Catlike Reflexes", "Rapid Killing", "Focus Fire", "Lock and Load", },
-		skillBooks={ "Aspect of the Viper", "Cobra Slayer" },
+				"Catlike Reflexes", "Rapid Killing", "Focus Fire", "Lock and Load", "Improved Volley",
+				"Resourcefulness", "Hit and Run", },
+		skillBooks={ "Aspect of the Viper", "Heart of the Lion" },
+		rings={ "Arcane Specialization", "Axe Specialization", "Dagger Specialization", "Fire Specialization", 
+				"Fist Weapon Specialization", "Frost Specialization", "Nature Specialization",
+				"Pole Weapon Specialization", "Ranged Weapon Specialization", "Sword Specialization",
+				"Meditation Specialization", }
 	},
 								
 	["MAGE"] = {
@@ -1060,9 +1185,7 @@ ns.runes = {
 		["Arcane Blast"]={ rune="Spell Notes: Arcane Blast", phase=1, spellID=400574, level=18, icon=9, slot=10,
 				start="Naga Manuscript from Wrathtail Naga, Zoram Strand, north coast of Ashenvale (A/H)" },
 		["Icy Veins"]={ rune="Icy Veins", phase=1, spellID=425121, level=20, icon=10, slot=7,
-				start="Collect 10 books across Azeroth, too numerous to list here, but...\n"
-					.."see my detailed guide at: Garion Wendell in the Stormwind Mage Tower\n"
-					.."portal room (A) or Owen Thadd in the Mages Quarter of Undercity (H)" },
+				start="Collect 10" ..st.mage.bookStart },
 		["Rewind Time"]={ rune="Spell Notes: Rewind Time (TERWEM DINI)", phase=1, spellID=401462, level=20, icon=11, slot=9,
 				start="Grizzby @ Ratchet, The Barrens" },
 		["Mass Regeneration"]={ rune="Spell Notes: Mass Regeneration", phase=1, spellID=412510, level=25, icon=12, slot=7,
@@ -1085,7 +1208,7 @@ ns.runes = {
 		["Missile Barrage"]={ rune="Spell Notes: Missile Barrage", phase=2, spellID=400588, level=40, icon=19, slot=6,
 				start=st.dalaranSpeakTo },
 		-- Phase 2 Skill Books
-		["Expanded Intellect"]={ skillBook="Tome of Expanded Intellect", spellID=436949, level=1, start=st.dungeonSummary },
+		["Expanded Intellect"]={ skillBook="Tome of Expanded Intellect", spellID=436949, level=1, start=st.purchaseSkillBook },
 		-- Phase 3
 		["Molten Armor"]={ rune="Spell Notes: Molten Armor", phase=3, spellID=428741, level="23/37/47", icon=20, slot=9,
 				start=st.emeraldWardens },
@@ -1094,20 +1217,28 @@ ns.runes = {
 		["Temporal Anomaly"]={ rune="Temporal Anomaly", phase=3, spellID=428885, level=42, icon=22, slot=1,
 				start="Garion Wendell (A) or Owen Thadd (H), your friendly librarian, will have a fetch quest at L42." },
 		["Deep Freeze"]={ rune="Deep Freeze", phase=3, spellID=428739, level=45, icon=23, slot=1,
-				start="Collect 25 books across Azeroth, too numerous to list here, but...\n"
-					.."see my detailed guide at: Garion Wendell in the Stormwind Mage Tower\n"
-					.."portal room (A) or Owen Thadd in the Mages Quarter of Undercity (H)" },
+				start="Collect 25" ..st.mage.bookStart  },
 		["Displacement"]={ rune="Scroll of Controlled Displacement", phase=3, spellID=428861, level=47, icon=24, slot=9,
 				start=st.leylineSummary },
 		["Advanced Warding"]={ rune="Spell Notes: Advanced Warding", phase=3, spellID=428738, level=50, icon=25, slot=1,
 				start=st.wildGodsStart },
-		
+		-- Phase 4
+		["Arcane Barrage"]={ rune="Arcane Barrage", phase=4, spellID=400610, level=50, icon=26, slot=15,
+				start="Collect 35" ..st.mage.bookStart },
+		["Overheat"]={ rune="Spell Notes: Overheat", phase=4, spellID=401737, level=45, icon=27, slot=15,
+				start="Look for a Novice Frost Mage (L50-52) in each of four locations in the Western Plaguelands" },
+		["Frozen Orb"]={ rune="Spell Notes: Frozen Orb", phase=4, spellID=440802, level=51, icon=28, slot=15,
+				start="Go to Felwood and kill Deadwood Furbolg mobs (L53-55)" },
+
 		spells={ "Ice Lance", "Living Flame", "Enlightenment", "Burnout", "Fingers of Frost", "Living Bomb",
 				"Arcane Surge", "Regeneration", "Arcane Blast", "Icy Veins", "Rewind Time", "Mass Regeneration",
 				"Chronostatic Preservation", "Brain Freeze", "Hot Streak", "Spell Power", "Frostfire Bolt",
 				"Spellfrost Bolt", "Missile Barrage", "Molten Armor", "Balefire Bolt", "Temporal Anomaly",
-				"Deep Freeze", "Displacement", "Advanced Warding",  },
+				"Deep Freeze", "Displacement", "Advanced Warding", "Arcane Barrage", "Overheat", "Frozen Orb", },
 		skillBooks={ "Expanded Intellect" },
+		rings={ "Arcane Specialization", "Dagger Specialization", "Fire Specialization", "Frost Specialization",
+				"Pole Weapon Specialization", "Sword Specialization", "Healing Specialization",
+				"Meditation Specialization", }
 	},
 					
 	["PALADIN"] = {
@@ -1124,25 +1255,20 @@ ns.runes = {
 --				start="On a bench in Thelsamar Tavern, Loch Modan; Undying Laborer, Jangalode Mine, Westfall" },
 		["Hallowed Ground"]={ rune="Libram of Blessings", phase=1, spellID=458287, level=10, icon=5, slot=5,
 				start="On a bench in Thelsamar Tavern, Loch Modan; Undying Laborer, Jangalode Mine, Westfall" },
---		["Seal of Martyrdom"]={ rune="Rune of Martyrdom", phase=1, spellID=407798, level=10, icon=6, slot=5,
---				start="Brother Romulus, Stormwind Cathedral" },
 		["Divine Light"]={ rune="Rune of Divine Light", phase=1, spellID=458856, level=10, icon=6, slot=5,
 				start="Brother Romulus, Stormwind Cathedral" },
 		["Beacon of Light"]={ rune="Rune of Beckoning Light", phase=1, spellID=407613, level=15, icon=7, slot=10,
 				start=st.supplyFactionStart },
 		["Hand of Reckoning"]={ rune="Libram of Justice", phase=1, spellID=407631, level=15, icon=8, slot=10,
 				start="Far south cave in Stonesplitter Valley, Loch Modan; Leprithus and Defias Drone, Westfall" },
-		["Divine Sacrifice"]={ rune="Rune of Sacrifice", phase=1, spellID=407804, level=20, icon=9, slot=7,
+		["Divine Sacrifice"]={ rune="Rune of Sacrifice", phase=1, spellID=462853, level=20, icon=9, slot=7,
 				start="Grizzby @ Ratchet, The Barrens" },
 		["Avenger's Shield"]={ rune="Rune of the Avenger", phase=1, spellID=407669, level=23, icon=10, slot=7,
 				start="Dro'zem the Blasphemous, Redridge Mountians. Well south of the\n",
 			"Tower of Althalaxx, northern Darkshore" },
 		["Divine Storm"]={ rune="Divine Storm Rune", phase=1, spellID=407778, level=25, icon=11, slot=5,
 				start="Top of the Tower of Althalaxx, northern Darkshore" },
---		["Exorcist"]={ rune="Libram of Banishment", phase=1, spellID=415076, level=25, icon=12, slot=7,
---				start="Defias mobs on the souther border of Duskwood" },
-		-- Phase 1 Skill Books
-		["Aura Mastery"]={ skillBook="Libram of Banishment", phase=1, spellID=407624, level=25, icon=12, slot=7,
+		["Aura Mastery"]={ rune="Libram of Banishment", phase=1, spellID=407624, level=25, icon=12, slot=7,
 				start="Defias mobs on the souther border of Duskwood" },
 		-- Phase 2
 		["Sacred Shield"]={ rune="Libram of Deliverance", phase=2, spellID=412019, level=18, icon=13, slot=8,
@@ -1151,13 +1277,15 @@ ns.runes = {
 				start="Loot the Dormant Holy Rune in the Alterac Mountains. Later, requires a helper" },
 		["The Art of War"]={ rune="Rune of Warfare", phase=2, spellID=426157, level=30, icon=15, slot=8,
 				start="Go to a pillaged campsite in Desolace" },
-		["Enlightened Judgements"]={ rune="Rune of Piety", phase=2, spellID=426173, level=34, icon=16, slot=6, 
+--		["Enlightened Judgements"]={ rune="Rune of Piety", phase=2, spellID=426173, level=34, icon=16, slot=6, 
+--				start="Farm mobs in Arathi Highlands (wetlands) for three types of beads. Purify and then combine the beads" },
+		["Malleable Protection"]={ rune="Rune of Piety", phase=2, spellID=458318, level=34, icon=16, slot=6, 
 				start="Farm mobs in Arathi Highlands (wetlands) for three types of beads. Purify and then combine the beads" },
 		["Infusion of Light"]={ rune="Rune of Infusions", phase=2, spellID=426065, level=40, icon=17, slot=6, start=st.dalaranSpeakTo },
 		["Sheath of Light"]={ rune="Sheath of Light", phase=2, spellID=426158, level=40, icon=18, slot=6,
 				start="Find a Broken Hammer in Mannoroc Cove in Desolace to commence a quest chain. Requires Cathedral wing access to SM" },
 		-- Phase 2 Skill Books
-		["Enhanced Blessings"]={ skillBook="Testament of Enhanced Blessings", spellID=435984, level=1, start=st.dungeonSummary },
+		["Enhanced Blessings"]={ skillBook="Testament of Enhanced Blessings", spellID=435984, level=1, start=st.purchaseSkillBook },
 		-- Phase 3
 		["Improved Hammer of Wrath"]={ rune="Rune of the Hammer", phase=3, spellID=429152, level="23/37/47", icon=19, slot=9,
 				start=st.emeraldWardens },
@@ -1168,22 +1296,45 @@ ns.runes = {
 				start=st.wildGodsStart },
 		["Fanaticism"]={ rune="Fanaticism", phase=3, spellID=429142, level=44, icon=22, slot=1,
 				start="Learn the Sheath of Light rune prior. Speak to Aeonas the Vindicated in the SW Cathedral. Must be L44" },
-		["Purifying Power"]={ rune="Purifying Power", phase=3, spellID=429144, level=47, icon=23, slot=9,
+		["Purifying Power"]={ rune="Rune of Purifying Power", phase=3, spellID=429144, level=47, icon=23, slot=9,
 				start=st.leylineSummary ..st.leylineSummaryExtra },		
 		["Hammer of the Righteous"]={ rune="Hammer of the Righteous", phase=3, spellID=409922, level=50, icon=24, slot=9,
 				start="Learn Fanaticism prior. Speak to Aeonas the Vindicated at the Bloodvenom Falls, Felwood. Must be L44.\n"
 					.."Along the way you'll go to the Grim Guzzler, inside Blackrock Depths, and Maraudon (group for that)" },
 		["Light's Grace"]={ rune="Rune of Grace", phase=3, spellID=428909, level=50, icon=25, slot=9,
 				start="Head to the Lower Wilds of Feralas, south east of Camp Mojache." },
+		-- Phase 4
+		["Righteous Vengeance"]={ rune="Righteous Vengeance", phase=4, spellID=440672, level=51, icon=26, slot=15,
+				start="Speak to the Fallen Knight, north of Dalson's Field in the Western Plaguelands (L52-54)" },
+		["Shield of Righteousness"]={ rune="Shield of Righteousness", phase=4, spellID=440658, level=54, icon=27, slot=15,
+				start="Kill the Slack-Jawed Ghoul, near the main path east-west in the Eastern Plaguelands. See the pin guides (L57)" },
+		["Shock and Awe"]={ rune="Shock and Awe", phase=4, spellID=462834, level=60, icon=28, slot=15,
+				start="This rune follows after Righteous Vengeance. It's a linear chain. With a bonus Skill Book too! (60e)" },
+		-- Phase 4 Skill Books
+		["Avenging Wrath"]={ skillBook="Testament of Avenging Wrath", spellID=407788, level=1,
+				start="NOT purchasable. You receive this as a surprise bonus outcome for the Shock and Awe rune (60e)" },
+		["Exorcist"]={ skillBook="Libram of Banishment", spellID=415076, level=1, start=st.purchaseSkillBook },
+		["Seal of Martyrdom"]={ skillBook="Rune of Martyrdom", spellID=407798, level=1, start=st.purchaseSkillBook },
 
 		spells={ "Crusader Strike", "Inspiration Exemplar", "Rebuke", "Aegis", "Hallowed Ground",
 			"Divine Light", "Beacon of Light", "Hand of Reckoning", "Divine Sacrifice",
 			"Avenger's Shield", "Divine Storm", "Aura Mastery", "Sacred Shield", "Guarded by the Light",
-			"The Art of War", "Enlightened Judgements", "Infusion of Light", "Sheath of Light",
+			"The Art of War", "Malleable Protection", "Infusion of Light", "Sheath of Light",
 			"Improved Hammer of Wrath", "Wrath", "Improved Sanctuary", "Fanaticism", "Purifying Power",
-			"Hammer of the Righteous", "Light's Grace", },
-		skillBooks={ "Enhanced Blessings" },
+			"Hammer of the Righteous", "Light's Grace", "Righteous Vengeance", "Shield of Righteousness",
+			"Shock and Awe" },
+		skillBooks={ "Enhanced Blessings", "Avenging Wrath", "Exorcist", "Seal of Martyrdom" },
+		rings={ "Axe Specialization", "Defense Specialization", "Holy Specialization", "Mace Specialization",
+			"Pole Weapon Specialization", "Sword Specialization", "Healing Specialization",
+			"Meditation Specialization", },
 	},
+
+	[44604660] = { npc=227519, name="Fallen Knight", class={ "PALADIN" }, spell={ "Righteous Vengeance" },
+					quest={ { 83808, 83935, 83822, 83936 } }, guide={ st.paladin.vengeance },
+					questName={ { "In a Bind", "Clearing the Path", "The Fallen Knight", "Dalton's Quest" } }, },
+	[47805060] = { npc=227672, name="Squire Cuthbert", class={ "PALADIN" }, spell={ "Righteous Vengeance" },
+					quest={ { 83808, 83935, 83822, 83936 } }, guide={ st.paladin.vengeance },
+					questName={ { "In a Bind", "Clearing the Path", "The Fallen Knight", "Dalton's Quest" } }, },
 
 	["PRIEST"] = {
 		-- Phase 1
@@ -1234,8 +1385,17 @@ ns.runes = {
 		["Dispersion"]={ rune="Prophecy of Imprisoned Malice", phase=2, spellID=425294, level=18, icon=18, slot=8,
 				start="Officially you need a mage and rogue to help with tasks in Stranglethorn Vale. See that map also for HACKS!" },
 		-- Phase 2 Skill Books
-		["Increased Fortitude"]={ skillBook="Scroll Increased Fortitude", spellID=436951, level=1, start=st.dungeonSummary },
-		["Shadowfiend"]={ skillBook="Scroll of Shadowfiend", spellID=401977, level=1, start=st.dungeonSummary },
+		["Increased Fortitude"]={ skillBook="Scroll Increased Fortitude", spellID=436951, level=1, start=st.purchaseSkillBook },
+		["Shadowfiend"]={ skillBook="Scroll of Shadowfiend", spellID=401977, level=1, start=st.purchaseSkillBook },
+
+		-- 1 = "Head"			 8 = "Feet"			15 = "Back"
+		-- 2 = "Neck"			 9 = "Wrist"		16 = "Main Hand"
+		-- 3 = "Shoulders"		10 = "Hands"		17 = "Off Hand"
+		-- 4 = "Shirt"			11 = "Ring 1"		18 = "Ranged"
+		-- 5 = "Chest"			12 = "Ring 2"		19 = "Tabard"
+		-- 6 = "Waist"			13 = "Trinket 1"
+		-- 7 = "Legs"			14 = "Trinket 2"
+				
 		-- Phase 3
 		["Void Zone"]={ rune="Nihilist Epiphany", phase=3, spellID=431681, level="23/37/47", icon=19, slot=9,
 				start=st.emeraldWardens },
@@ -1250,13 +1410,22 @@ ns.runes = {
 		["Eye of the Void"]={ rune="Prophecy of Awakened Chaos", phase=3, spellID=402789, level=47, icon=24, slot=1,
 				start="Collect seven eyes from around Azeroth: Blasted Lands, Felwood, Feralas, Searing Gorge,\n"
 					.."Stranglethorn Vale, Tanaris, The Hinterlands. Afterwards go to Azshara for the hand in" },
+		-- Phase 4
+--		["Binding Heal"]={ rune="", phase=4, spellID=, level=45, icon=25, slot=15,
+--				start="" },
+--		["Soul Warding"]={ rune="", phase=4, spellID=, level=45, icon=26, slot=15,
+--				start="" },
+--		["Vampiric Touch"]={ rune="", phase=4, spellID=, level=45, icon=27, slot=15,
+--				start="" },
 
 		spells={ "Penance", "Prayer of Mending", "Void Plague", "Homunculi", "Shared Pain", "Mind Sear",
 			"Twisted Faith", "Shadow Word: Death", "Serendipity", "Power Word: Barrier",
 			"Strength of Soul", "Circle of Healing", "Empowered Renew", "Mind Spike", "Renewed Hope",
 			"Pain Suppression", "Spirit of the Redeemer", "Dispersion", "Void Zone", "Surge of Light",
 			"Divine Aegis", "Pain and Suffering", "Despair", "Eye of the Void", },
+		--	"Binding Heal", "Soul Warding", "Vampiric Touch" },
 		skillBooks={ "Increased Fortitude", "Shadowfiend" },
+		rings={},
 	},
 			
 	["ROGUE"] = {
@@ -1308,7 +1477,7 @@ ns.runes = {
 		["Master of Subtlety"]={ rune="Rune of Subtlety", phase=2, spellID=425096, level=40, icon=18, slot=8,
 				start="Head to a tower in Kurzen's Compound, far north Stranglethorn Vale" },
 		-- Phase 2 Skill Books
-		["Redirect"]={ skillBook="Manual of Redirect", spellID=438040, level=1, start=st.dungeonSummary },
+		["Redirect"]={ skillBook="Manual of Redirect", spellID=438040, level=1, start=st.purchaseSkillBook },
 		-- Phase 3
 		["Cut to the Chase"]={ rune="Rune of Alacrity", phase=3, spellID=432271, level="23/37/47", icon=19, slot=9,
 				start=st.emeraldWardens },
@@ -1322,14 +1491,22 @@ ns.runes = {
 		["Honor Among Thieves"]={ rune="Rune of the Coterie", phase=3, spellID=432264, level=45, icon=24, slot=1,
 				start="You need to have visited Ravenholdt previously and to have completed the Pyrewood Dead Drop quests/runes.\n"
 					.."Then at L45 you'll receive a letter sending you back to Ravenholdt Manor" },
+		-- Phase 4
+--		["Blunderbuss"]={ rune="", phase=4, spellID=, level=45, icon=25, slot=15,
+--				start="" },
+--		["Crimson Tempest"]={ rune="", phase=4, spellID=, level=45, icon=26, slot=15,
+--				start="" },
+--		["Fan of Knives"]={ rune="", phase=4, spellID=, level=45, icon=27, slot=15,
+--				start="" },
 
 		spells={ "Shadowstrike", "Quick Draw", "Slaughter from the Shadows",  "Mutilate",
 			"Between the Eyes", "Saber Slash", "Blade Dance", "Just a Flesh Wound", "Envenom",
 			"Main Gauche", "Deadly Brew", "Cutthroat", "Poisoned Knife", "Shadowstep",
 			"Shuriken Toss", "Rolling with the Punches", "Waylay", "Master of Subtlety",
 			"Cut to the Chase", "Focused Attacks", "Carnage", "Unfair Advantage", "Combat Potency",
-			"Honor Among Thieves", },
+			"Honor Among Thieves", }, --"Blunderbuss", "Crimson Tempest", "Fan of Knives" },
 		skillBooks={ "Redirect" },
+		rings={},
 	},
 			
 	["SHAMAN"] = {
@@ -1376,7 +1553,7 @@ ns.runes = {
 		["Two-Handed Mastery"]={ rune="Rune of Two-Handed Mastery", phase=2, spellID=436364, level=40, icon=19, slot=5,
 				start=st.dalaranSpeakTo },
 		-- Phase 2 Skill Books
-		["Totemic Projection"]={ skillBook="Revelation of Totemic Projection", spellID=437009, level=1, start=st.dungeonSummary },
+		["Totemic Projection"]={ skillBook="Revelation of Totemic Projection", spellID=437009, level=1, start=st.purchaseSkillBook },
 		-- Phase 3
 		["Burn"]={ rune="Rune of Burn", phase=3, spellID=415231, level="23/37/47", icon=20, slot=1, start=st.emeraldWardens },
 		["Tidal Waves"]={ rune="Rune of Tidal Waves", phase=3, spellID=432042, level=37, icon=21, slot=9,
@@ -1391,14 +1568,22 @@ ns.runes = {
 				start="Abyssal Sands, Tanaris. Simple mob run through... except you have a 50% damage\ntaken debuff. Mobs are L43-45" },
 		["Overcharged"]={ rune="Rune of Overcharged", phase=3, spellID=432240, level=45, icon=26, slot=9,
 				start="Fetch quests in Azshara, Searing Gorge, Tanaris & The Hinterlands. Final hand in is in Feralas" },
+		-- Phase 4
+--		["Coherence"]={ rune="", phase=4, spellID=, level=45, icon=27, slot=15,
+--				start="" },
+--		["Feral Spirit"]={ rune="", phase=4, spellID=, level=45, icon=28, slot=15,
+--				start="" },
+--		["Storm, Earth and Fire"]={ rune="", phase=4, spellID=, level=45, icon=29, slot=15,
+--				start="" },
 
 		spells={ "Overload", "Lava Lash", "Shield Mastery", "Ancestral Guidance", "Molten Blast",
 			"Way of Earth", "Healing Rain", "Water Shield", "Dual Wield Specialization",
 			"Lava Burst", "Greater Ghost Wolf", "Earth Shield", "Spirit of the Alpha", "Decoy Totem",
 			"Ancestral Awakening", "Fire Nova", "Power Surge", "Maelstrom Weapon", "Two-Handed Mastery",
 			"Burn", "Tidal Waves", "Static Shock", "Riptide", "Mental Dexterity", "Rolling Thunder",
-			"Overcharged" },
+			"Overcharged", "Coherence", }, --"Feral Spirit", "Storm, Earth and Fire" },
 		skillBooks={ "Totemic Projection" },
+		rings={},
 	},
 
 	["WARLOCK"] = {
@@ -1448,8 +1633,8 @@ ns.runes = {
 		["Demonic Knowledge"]={ rune="Rune of Forbidden Knowledge", phase=2, spellID=412732, level=40, icon=18, slot=8,
 				start=st.dalaranSpeakTo },
 		-- Phase 2 Skill Books
-		["Portal Summoning"]={ skillBook="Grimoire of Portal Summoning", spellID=437169, level=1, start=st.dungeonSummary },
-		["Soul Harvesting"]={ skillBook="Grimoire of Soul Harvesting", spellID=437032, level=1, start=st.dungeonSummary },
+		["Portal Summoning"]={ skillBook="Grimoire of Portal Summoning", spellID=437169, level=1, start=st.purchaseSkillBook },
+		["Soul Harvesting"]={ skillBook="Grimoire of Soul Harvesting", spellID=437032, level=1, start=st.purchaseSkillBook },
 		-- Phase 3
 		["Summon Felguard"]={ rune="Rune of the Felguard", phase=3, spellID=427733, level=10, icon=19, slot=9,
 				start="Acquire an Explorer Imp, randomly after using Drain Soul (L10). Stand near a Fel Portal\n"
@@ -1462,13 +1647,22 @@ ns.runes = {
 				start="Around the path west of Camp Mojache, loot two containers and defeat a Diseased Forest Walker (L43-44)" },
 		["Vengeance"]={ rune="Rune of Vengeance", phase=3, spellID=426470, level=40, icon=23, slot=1, start=st.wildGodsStart },
 		["Backdraft"]={ rune="Backdraft", phase=3, spellID=427713, level=47, icon=24, slot=1, start=st.leylineSummary },
+		-- Phase 4
+--		["Decimation"]={ rune="", phase=4, spellID=, level=45, icon=25, slot=15,
+--				start="" },
+--		["Infernal Armor"]={ rune="", phase=4, spellID=, level=45, icon=26, slot=15,
+--				start="" },
+--		["Mark of Chaos"]={ rune="", phase=4, spellID=, level=45, icon=27, slot=15,
+--				start="" },
 
 		spells={ "Haunt", "Chaos Bolt", "Demonic Grace", "Demonic Tactics", "Soul Siphon",
 			"Master Channeler", "Everlasting Affliction", "Lake of Fire", "Shadow Bolt Volley",
 			"Demonic Pact", "Incinerate", "Metamorphosis", "Dance of the Wicked", "Shadow and Flame",
 			"Grimoire of Synergy", "Invocation", "Shadowflame", "Demonic Knowledge", "Summon Felguard",
-			"Unstable Affliction", "Immolation Aura", "Pandemic", "Vengeance", "Backdraft" },
+			"Unstable Affliction", "Immolation Aura", "Pandemic", "Vengeance", "Backdraft", },
+		--	"Decimation", "Infernal Armor", "Mark of Chaos" },
 		skillBooks={ "Portal Summoning", "Soul Harvesting" },
+		rings={},
 	},
 
 	["WARRIOR"] = {
@@ -1516,7 +1710,7 @@ ns.runes = {
 		["Precise Timing"]={ rune="Rune of Ruthless Precision", phase=2, spellID=402922, level=40, icon=18, slot=6,
 				start=st.dalaranSpeakTo },
 		-- Phase 2 Skill Books
-		["Commanding Shout"]={ skillBook="Handbook of Commanding Shout", spellID=403215, level=1, start=st.dungeonSummary },
+		["Commanding Shout"]={ skillBook="Handbook of Commanding Shout", spellID=403215, level=1, start=st.purchaseSkillBook },
 		-- Phase 3
 		["Shield Mastery"]={ rune="Rune of the Protector",phase=3,  spellID=426980, level="23/37/47", icon=19, slot=1,
 				start=st.emeraldWardens },
@@ -1532,6 +1726,9 @@ ns.runes = {
 				start="Head to the Searing Gorge, collect some constructor parts, summon Iodax (L50). Defeat. Loot" },
 		["Vigilance"]={ rune="Rune of the Watchman", phase=3, spellID=426972, level=50, icon=25, slot=1,
 				start="Defeat the Tyrant of the Hive (L46e) in the Writhing Deep, Feralas. Best to group up" },
+		-- Phase 4
+--		[""]={ rune="", phase=4, spellID=, level=45, icon=25, slot=15,
+--				start="" },
 
 		spells={ "Victory Rush", "Blood Frenzy", "Furious Thunder", "Devastate", "Frenzied Assault",
 			"Single-Minded Fury", "Endless Rage", "Quick Strike", "Warbringer", "Consumed by Rage", 
@@ -1539,6 +1736,7 @@ ns.runes = {
 			"Blood Surge", "Rallying Cry", "Precise Timing", "Shield Mastery", "Wrecking Crew",
 			"Sword and Board", "Rampage", "Gladiator Stance", "Taste for Blood", "Vigilance",  },
 		skillBooks={ "Commanding Shout" },
+		rings={},
 	},
 }
 
@@ -1580,13 +1778,16 @@ points[ 1417 ] = { -- Arathi Highlands
 	[26006360] = { npc=2590, name="Syndicate Conjuror", class={ "WARLOCK" },
 					tip="you need 10 x Conjuror's Pendant.\nYou may safely group with other warlocks",
 					spell={ "Invocation" }, guide={ st.warlock.invocation } },
+	[35207910] = { object=499987, name="Spellbook", spell={ "Healing Specialization" }, ring=true, 
+					class={ "DRUID", "MAGE", "PALADIN", "PRIEST", "SHAMAN", },
+					guide="You'll see the book on a crate near a\nbonfire in the pirate cove. Easy as!", },
 	[53009100] = { object=420055, name="Rowboat", class={ "DRUID", "HUNTER", "MAGE", "PALADIN", "PRIEST", "ROGUE",
 					"SHAMAN", "WARLOCK", "WARRIOR" }, spell={ "Eclipse", "Trap Launcher", "Brain Freeze", "The Art of War",
 					"Mind Spike", "Poisoned Knife", "Ancestral Awakening", "Shadow and Flame", "Enraged Regeneration" },
 					guide={ st.pillaged }, quest={ { 79229, 79235, 79236, 79242 } }, 
 					questName={ { "Highway Robbery", "On the Lam", "Cherry for Your Thoughts", "No Honor Among Thieves" } } },
 	[27205700] = { npc=217387, name="Brother Atticus", class={ "PALADIN" },
-					spell={ "Enlightened Judgements" }, guide={ st.paladin.judgements } },
+					spell={ "Malleable Protection" }, guide={ st.paladin.malleable } },
 	[30802860] = { npc=217589, name="Hay Weevil", class={ "DRUID", "HUNTER" },
 					spell={ "Survival Instincts", "Wyvern Strike" }, guide={ st.amaryllis } },
 	[31406480] = { object=422911, name="Sealed Barrel", class={ "WARRIOR" }, spell={ "Blood Surge" }, guide={ st.warrior.bloodSurge },
@@ -1594,7 +1795,7 @@ points[ 1417 ] = { -- Arathi Highlands
 					quest={ { 79624, 79677, 79678 } }, questName={ { "Anyone Can Cook", "A Quick Grocery Run", "Taste Testing" } } },
 	[34004400] = { npc=2562, name="Boulderfist Ogre", class={ "SHAMAN" }, spell={ "Power Surge" }, guide={ st.shaman.powerSurge } },
 	[48608860] = { name="Dark Iron (Various)", class={ "PALADIN" },
-					spell={ "Enlightened Judgements" }, guide={ st.paladin.judgements } },
+					spell={ "Malleable Protection" }, guide={ st.paladin.malleable } },
 	[55603920] = { npc=217589, name="Hay Weevil", class={ "DRUID", "HUNTER" },
 					spell={ "Survival Instincts", "Wyvern Strike" }, guide={ st.amaryllis } },
 	[57607460] = { npc=217300, name="Skonk", class={ "WARRIOR" }, spell={ "Blood Surge" }, guide={ st.warrior.bloodSurge },
@@ -1680,6 +1881,10 @@ points[ 1418 ] = { -- Badlands
 							"Portal Summoning", "Soul Harvesting", "Commanding Shout" }, },
 }
 points[ 1419 ] = { -- Blasted Lands
+	[33604870] = { object=457089, name="The Shadow Connection", spell={ "Shadow Specialization" }, ring=true, 
+					class={ "PRIEST", "WARLOCK", },
+					guide="To get here you head far south-west. Then\nturn north and in the far top corenr of the\n"
+					.."Tainted Scar is a large altar. The book is\nbehind it. Phat lewt!", },
 	[45301640] = { object=442405, name="Abandoned Cache", class={ "ROGUE" }, spell={ "Carnage" },
 					guide={ "Climb the tower, lockpick the chest.\nSurprise! A Murderous Lost One (L46).\nKill for your phat lewt!" }, },
 	[45405420] = { npc=221740, name="Calefactus the Unleashed", class={ "HUNTER" }, spell={ "Rapid Killing" },
@@ -1704,9 +1909,28 @@ points[ 1419 ] = { -- Blasted Lands
 					guide={ st.hunter.rapidKilling }, tip={ "These are L51-53" } },
 }
 points[ 1428 ] = { -- Burning Steppes
+	[26005620] = { npc=227746, name="Escaped Core Hound", class={ "HUNTER" },
+					spell={ "Hit and Run" }, guide={ st.hunter.hitAndRun }, tip="These are L60", },
 	[28002900] = { item=220349, name="Stonewrought Design", class={ "MAGE" },
 					spell={ "Deep Freeze" }, guide={ st.mage.books }, alsoTestQuest=true, tip=st.mage.booksBM,
 					quest={ { 81953 } }, questName={ { "Stonewrought Design" } } },
+	[28902450] = { npc=227746, name="Escaped Core Hound", class={ "HUNTER" },
+					spell={ "Hit and Run" }, guide={ st.hunter.hitAndRun }, tip="These are L60", },
+	[30002400] = { name="Scrolls", class={ "MAGE" }, tip=st.mage.magmaLarva,
+					spell={ "Arcane Barrage" }, guide={ st.mage.books }, alsoTestQuest=true,				
+					quest={ { 84396 } }, questName={ { "Magma or Larva" } } },
+	[35202710] = { object=457099, name="Zirene's Guide to Getting Punched ", spell={ "Defense Specialization" }, ring=true, 
+					class={ "DRUID", "PALADIN", "ROGUE", "SHAMAN", "WARLOCK", "WARRIOR" },
+					guide=st.ring.defense, tip=st.ring.defenseTip, },
+	[40003430] = { object=457101, name="The Rites of Mak'Gora", class={ "HUNTER", "PALADIN", "SHAMAN", "WARRIOR" },
+					spell={ "Axe Specialization" }, ring=true,
+					guide="On a ledge in the central pit of\nthe Blackrock Stronghold. Loot FTW!", },
+	[40606060] = { npc=227746, name="Escaped Core Hound", class={ "HUNTER" },
+					spell={ "Hit and Run" }, guide={ st.hunter.hitAndRun }, tip="These are L60", },
+	[63804980] = { npc=227746, name="Escaped Core Hound", class={ "HUNTER" },
+					spell={ "Hit and Run" }, guide={ st.hunter.hitAndRun }, tip="These are L60", },
+	[89005300] = { npc=227746, name="Escaped Core Hound", class={ "HUNTER" },
+					spell={ "Hit and Run" }, guide={ st.hunter.hitAndRun }, tip="These are L60", },
 }
 points[ 1430 ] = { -- Deadwind Pass
 	[52003440] = { npc=218920, name="Dalaran Agent",
@@ -1714,11 +1938,15 @@ points[ 1430 ] = { -- Deadwind Pass
 					"SHAMAN", "WARLOCK", "WARRIOR" }, spell={ "King of the Jungle", "Melee Specialist", "Missile Barrage",
 					"Infusion of Light", "Spirit of the Redeemer", "Waylay", "Two-Handed Mastery", "Demonic Knowledge",
 					"Precise Timing" }, guide={ st.dalaranAgent }, quest={ st.dalaranQuest }, questName={ st.dalaranQuestName } },
+	[43107460] = { object=457088, name="Advanced Swordplay", spell={ "Sword Specialization" }, ring=true, 
+					class={ "HUNTER", "MAGE", "PALADIN", "ROGUE", "WARLOCK", "WARRIOR", }, guide=st.ring.sword, },
 	[43803380] = { npc=218931, name="Dalaran Agent", tip="Seen all along the top path plus north from here",
 					class={ "DRUID", "HUNTER", "MAGE", "PALADIN", "PRIEST", "ROGUE",
 					"SHAMAN", "WARLOCK", "WARRIOR" }, spell={ "King of the Jungle", "Melee Specialist", "Missile Barrage",
 					"Infusion of Light", "Spirit of the Redeemer", "Waylay", "Two-Handed Mastery", "Demonic Knowledge",
 					"Precise Timing" }, guide={ st.dalaranAgent }, quest={ st.dalaranQuest }, questName={ st.dalaranQuestName } },
+	[47707830] = { object=457088, name="Advanced Swordplay", spell={ "Sword Specialization" }, ring=true, tip="Use this entrance",
+					class={ "HUNTER", "MAGE", "PALADIN", "ROGUE", "WARLOCK", "WARRIOR", }, guide=st.ring.sword, },
 }
 points[ 1426 ] = { -- Dun Morogh
 	[18007450] = { name="Newman's Landing", class={ "PALADIN" }, spell={ "Sheath of Light" }, guide={ st.paladin.sheathLight },
@@ -2045,6 +2273,69 @@ points[ 1431 ] = { -- Duskwood
 					spell={ "Wild Growth" }, guide={ st.druid.wildGrowth }, tip=st.agon },
 	[91103060] = { name="Secluded Grave", class={ "PRIEST" },
 					spell={ "Circle of Healing" }, guide={ st.priest.circle } },
+}
+points[ 1423 ] = { -- Eastern Plaguelands
+	[18203320] = { npc=16117, name="Plagued Swine", class={ "HUNTER" }, spell={ "Resourcefulness" },
+					guide={ st.hunter.resourceful }, tip="You want 1 x Tainted Boar Meat" },
+	[26307470] = { object=457090, name="Famous (and Infamous) Rangers of Azeroth", spell={ "Ranged Weapon Specialization" }, 
+					class={ "HUNTER", "ROGUE", "WARRIOR", },  ring=true,
+					guide="Left of the doorway at Marris Stead in\nEastern Plaguelands.\n\n"
+					.."Nathanos Blightcaller (L62e) and his two\nBlighthounds (L58-59e) are Horde friendly", },
+
+	[27608600] = { npc=229018, name="Rotting Dwarf Corpse", class={ "PALADIN", }, spell={ "Shield of Righteousness" },
+					guide={ st.paladin.righteousness }, quest={ { 84318, 84319, 84330, 84414, 84332 } }, tip="Step (5) Undercroft",
+					questName={ { "Oil", "Oh No Ye Don't!", "A Wee Bit O' Necromancy", "Send Me On Me Way!", "A Thane's Gratitude" } }, },
+	[29608180] = { npc=228620, name="Slack-Jawed Ghoul", class={ "PALADIN", }, spell={ "Shield of Righteousness" },
+					guide={ st.paladin.righteousness }, quest={ { 84318, 84319, 84330, 84414, 84332 } }, tip="Step (1)",
+					questName={ { "Oil", "Oh No Ye Don't!", "A Wee Bit O' Necromancy", "Send Me On Me Way!", "A Thane's Gratitude" } }, },
+	[31002000] = { npc=10438, name="Maleki the Pallid", class={ "PALADIN", }, spell={ "Shield of Righteousness" },
+					guide={ st.paladin.righteousness }, quest={ { 84318, 84319, 84330, 84414, 84332 } },
+					tip="Step (4) Inside Stratholme.\n5th boss - Service Gate wing",
+					questName={ { "Oil", "Oh No Ye Don't!", "A Wee Bit O' Necromancy", "Send Me On Me Way!", "A Thane's Gratitude" } }, },
+	[35803560] = { name="Abominations/Stitched Horrors", class={ "PALADIN", }, spell={ "Shield of Righteousness" },
+					guide={ st.paladin.righteousness }, quest={ { 84318, 84319, 84330, 84414, 84332 } }, tip="Step (3)",
+					questName={ { "Oil", "Oh No Ye Don't!", "A Wee Bit O' Necromancy", "Send Me On Me Way!", "A Thane's Gratitude" } }, },
+	[37605760] = { name="Abominations/Stitched Horrors", class={ "PALADIN", }, spell={ "Shield of Righteousness" },
+					guide={ st.paladin.righteousness }, quest={ { 84318, 84319, 84330, 84414, 84332 } }, tip="Step (3)",
+					questName={ { "Oil", "Oh No Ye Don't!", "A Wee Bit O' Necromancy", "Send Me On Me Way!", "A Thane's Gratitude" } }, },
+	[42007960] = { npc=228620, name="Slack-Jawed Ghoul", class={ "PALADIN", }, spell={ "Shield of Righteousness" },
+					guide={ st.paladin.righteousness }, quest={ { 84318, 84319, 84330, 84414, 84332 } }, tip="Step (1)",
+					questName={ { "Oil", "Oh No Ye Don't!", "A Wee Bit O' Necromancy", "Send Me On Me Way!", "A Thane's Gratitude" } }, },
+	[61006780] = { name="Abominations/Stitched Horrors", class={ "PALADIN", }, spell={ "Shield of Righteousness" },
+					guide={ st.paladin.righteousness }, quest={ { 84318, 84319, 84330, 84414, 84332 } }, tip="Step (3)",
+					questName={ { "Oil", "Oh No Ye Don't!", "A Wee Bit O' Necromancy", "Send Me On Me Way!", "A Thane's Gratitude" } }, },
+	[61306920] = { object=461639, name="Orthas' Hammer", class={ "PALADIN", }, spell={ "Shield of Righteousness" },
+					guide={ st.paladin.righteousness }, quest={ { 84318, 84319, 84330, 84414, 84332 } }, tip="Step (2) Corrin's Crossing",
+					questName={ { "Oil", "Oh No Ye Don't!", "A Wee Bit O' Necromancy", "Send Me On Me Way!", "A Thane's Gratitude" } }, },
+
+	[31252100] = { object=463212, name="Scrolls", class={ "MAGE" },
+					spell={ "Arcane Barrage" }, guide={ st.mage.books }, alsoTestQuest=true,
+					tip="On the table right before the bridge to Stratholme",
+					quest={ { 84401 } }, questName={ { "Scourge: Undead Menace or Misunderstood?" } } },
+	[54505120] = { object=463208, name="Scrolls", class={ "MAGE" }, tip="In a small house",
+					spell={ "Arcane Barrage" }, guide={ st.mage.books }, alsoTestQuest=true,
+					quest={ { 84400 } }, questName={ { "The Knight and the Lady" } } },
+	[54607020] = { name="Living Decay / Rotting Sludge", class={ "HUNTER" }, spell={ "Resourcefulness" },
+					guide={ st.hunter.resourceful }, tip="You want 1 x Bubbling Green Ichor" },
+	[66606660] = { npc=8603, name="Carrion Grub", class={ "HUNTER" }, spell={ "Resourcefulness" },
+					guide={ st.hunter.resourceful }, tip="They are literally everywhere.\nThis is just one example" },
+	[76006060] = { name="Living Decay / Rotting Sludge", class={ "HUNTER" }, spell={ "Resourcefulness" },
+					guide={ st.hunter.resourceful }, tip="You want 1 x Bubbling Green Ichor" },
+	[81705780] = { object=463207, name="Scrolls", class={ "MAGE" }, tip="Back left corner of Light's Hope Chapel",
+					spell={ "Arcane Barrage" }, guide={ st.mage.books }, alsoTestQuest=true,				
+					quest={ { 84398 } }, questName={ { "A Study of the Light" } } },
+	[83607820] = { object=457094, name="The True Nature of the Light", spell={ "Holy Specialization" }, ring=true, 
+					class={ "PALADIN", "PRIEST", },
+					guide="As per the pin, enter the Abbey and turn left,\nmaking for the library wing.\n\n"
+					.."The book is on top of a bookshelf which is\nnext to a staircase.\n\n"
+					.."Note that if you die and rez on the first\nlanding, you'll be out of LoS of the mobs\n"
+					.."for an easy loot and hearth!", },
+	[86603960] = { npc=227985, name="Arkonos the Cursed", class={ "PALADIN", "PALADIN", }, spell={ "Shock and Awe", "Avenging Wrath" },
+					guide={ st.paladin.shockAwe, st.paladin.avengingWrath },
+					tip="The Scourge Shadow Scalpel will drop from\nthe Shadowmage and Dread Weaver mobs",
+					quest={ { 83936, 83823, 84008, 84017, 84125, 84126 }, { 84126 } },
+					questName={ { "Dalton's Quest", "A Lesson in Violence", "A Lesson in Grace", "A Time to Kill", 
+						"Close Enough to Touch", "Finish the Fight" }, { "Finish the Fight" }, }, },
 }
 points[ 1429 ] = { -- Elwynn Forest
 	[13213968] = { npc=203475, name="Liv Bradford", class={ "PALADIN", "WARRIOR" }, faction="Alliance",
@@ -2648,9 +2939,15 @@ points[ 1427 ] = { -- Searing Gorge
 					quest={ { 82073, 82076, 82071, 82074, 82072, 82075, 81960, 81968 } },
 					questName={ { "Cleansing Water", "Answering Water's Call", "Purifying Fire", "Answering Fire's Call",
 						"Purging Earth", "Answering Earth's Call", "Clarifying Air", "Answering Air's Call" } } },
+	[28008200] = { object=457099, name="Zirene's Guide to Getting Punched ", spell={ "Defense Specialization" }, ring=true, 
+					class={ "DRUID", "PALADIN", "ROGUE", "SHAMAN", "WARLOCK", "WARRIOR" },
+					guide=st.ring.defense, tip=st.ring.defenseTip, },
 	[30008200] = { item=220349, name="Stonewrought Design", class={ "MAGE" },
 					spell={ "Deep Freeze" }, guide={ st.mage.books }, alsoTestQuest=true, tip=st.mage.booksBM,
 					quest={ { 81953 } }, questName={ { "Stonewrought Design" } } },
+	[31008600] = { name="Scrolls", class={ "MAGE" }, tip=st.mage.magmaLarva,
+					spell={ "Arcane Barrage" }, guide={ st.mage.books }, alsoTestQuest=true,				
+					quest={ { 84396 } }, questName={ { "Magma or Larva" } } },
 	[31807340] = { name="Magma / Inferno Elemental", class={ "SHAMAN" }, spell={ "Overcharged" }, guide={ st.shaman.overcharged },
 					quest={ { 82073, 82076, 82071, 82074, 82072, 82075, 81960, 81968 } },
 					questName={ { "Cleansing Water", "Answering Water's Call", "Purifying Fire", "Answering Fire's Call",
@@ -2658,6 +2955,8 @@ points[ 1427 ] = { -- Searing Gorge
 	[37804950] = { object=441253, name="Book", class={ "MAGE" }, tip="Look inside the tent. On the table",
 					spell={ "Deep Freeze" }, guide={ st.mage.books }, alsoTestQuest=true,
 					quest={ { 81955 } }, questName={ { "A Mind of Metal" } } },
+	[41503560] = { object=457097, name="Elements for Dummies Volume II: Fire", spell={ "Fire Specialization" }, ring=true, 
+					class={ "HUNTER", "MAGE", "SHAMAN", "WARLOCK", }, guide=st.ring.fire, tip="(3) Left alcove" },
 	[42994469] = { object=441915, name="Giant Golem Arm (left)", class={ "WARRIOR" }, spell={ "Taste for Blood" },
 					guide={ st.warrior.tasteForBlood } },
 	[42503050] = { object=441913, name="Giant Golem Foot (left)", class={ "WARRIOR" }, spell={ "Taste for Blood" },
@@ -2667,8 +2966,12 @@ points[ 1427 ] = { -- Searing Gorge
 					tip="In a cave. You'll need to drop down" },
 	[44003290] = { object=441912, name="Giant Golem Foot (right)", class={ "WARRIOR" }, spell={ "Taste for Blood" },
 					guide={ st.warrior.tasteForBlood }, tip="Inside the slag pits" },
+	[48704500] = { object=457097, name="Elements for Dummies Volume II: Fire", spell={ "Fire Specialization" }, ring=true, 
+					class={ "HUNTER", "MAGE", "SHAMAN", "WARLOCK", }, guide=st.ring.fire, tip="(1) Jump down here" },
 	[49703740] = { object=441914, name="Giant Golem Arm (right)", class={ "WARRIOR" }, spell={ "Taste for Blood" },
 					guide={ st.warrior.tasteForBlood }, tip="In the lower cave" },
+	[49704560] = { object=457097, name="Elements for Dummies Volume II: Fire", spell={ "Fire Specialization" }, ring=true, 
+					class={ "HUNTER", "MAGE", "SHAMAN", "WARLOCK", }, guide=st.ring.fire, tip="(2) Go to the Slag Pit", },
 	[53105590] = { name="Stormcrow Nest/Egg", class={ "HUNTER" }, spell={ "Focus Fire" }, guide={ st.hunter.focusFire } },
 	[55006500] = { item=221319, name="Blackrock Leycryst", class={ "MAGE", "PALADIN", "PRIEST", "WARLOCK" },
 					spell={ "Displacement", "Purifying Power", "Despair", "Backdraft" }, guide={ st.leylineGuide },
@@ -2842,7 +3145,9 @@ points[ 1453 ] = { -- Stormwind City
 	[61732920] = { object=386777, name="Dusty Chest", class={ "ROGUE" }, faction="Alliance", guide={ st.rogue.precision },
 					spell={ "Slaughter from the Shadows" }, tip="Upper level of the house in\nCutthroat Alley, Stormwind" },
 	[69695102] = { npc=203226, name="Viktoria Woods", class={ "WARRIOR" }, faction="Alliance",
-					spell={ "Devastate" }, guide={ st.warrior.devastate ..st.warrior.devastateVik }, }
+					spell={ "Devastate" }, guide={ st.warrior.devastate ..st.warrior.devastateVik }, },
+	[74000750] = { npc=1440, name="Milton Sheaf", tip="Skillbooks vendor", skillBook=true, guide={ st.skillBookVendor }, 
+					faction="Alliance", },
 }
 points[ 1434 ] = { -- Stranglethorn Vale
 	[23800860] = { npc=1061,name="Gan'zulah", class={ "PRIEST" }, spell={ "Dispersion" }, guide={ st.priest.dispersion } },
@@ -3294,8 +3599,44 @@ points[ 1458 ] = { -- Undercity
 					spell={ "Soul Siphon" }, guide={ st.warlock.soulSiphon } },
 }
 points[ 1422 ] = { -- Western Plaguelands
+	[47301370] = { object=457102, name="Elements for Dummies Volume III: Arcane", class={ "DRUID", "HUNTER", "MAGE" },
+					spell={ "Arcane Specialization" }, ring=true, guide="Locate a tower in Hearthglen, north-western\n"
+					.."Western Plaguelands. Top floor of the tower.\nThe book is leaning against a bookshelf. Loot!", },
+	[36805470] = { name="Novice Frost Mage", class={ "MAGE" }, tip={ "In the house" }, spell={ "Overheat" }, guide={ st.mage.overheat } },
+	[38205460] = { name="Scrolls", class={ "MAGE" }, tip="Upstairs, in the farmhouse",
+					spell={ "Arcane Barrage" }, guide={ st.mage.books }, alsoTestQuest=true,				
+					quest={ { 84395 } }, questName={ { "Undead Potatoes" } } },
+	[44604660] = { npc=227519, name="Fallen Knight", class={ "PALADIN", "PALADIN", "PALADIN" },
+					spell={ "Righteous Vengeance", "Shock and Awe", "Avenging Wrath" },
+					tip="(1) Begin here\n(4) You MUST select \"burn\"",
+					guide={ st.paladin.vengeance, st.paladin.shockAwe, st.paladin.avengingWrath },
+					quest={ { 83808, 83935, 83822, }, { 83936, 83823, 84008, 84017, 84125, 84126 }, { 84126 } },
+					questName={ { "In a Bind", "Clearing the Path", "The Fallen Knight", }, { "Dalton's Quest", 
+						"A Lesson in Violence", "A Lesson in Grace", "A Time to Kill", "Close Enough to Touch", "Finish the Fight" },
+						{ "Finish the Fight" }, }, },
+	[45105190] = { name="Novice Frost Mage", class={ "MAGE" }, spell={ "Overheat" }, guide={ st.mage.overheat } },
+	[45705390] = { object=455812, name="Squire Cuthbert's Sword", class={ "PALADIN", "PALADIN", "PALADIN" },
+					spell={ "Righteous Vengeance", "Shock and Awe", "Avenging Wrath" }, tip="(3) of the chain",
+					guide={ st.paladin.vengeance, st.paladin.shockAwe, st.paladin.avengingWrath },
+					quest={ { 83808, 83935, 83822, }, { 83936, 83823, 84008, 84017, 84125, 84126 }, { 84126 } },
+					questName={ { "In a Bind", "Clearing the Path", "The Fallen Knight", }, { "Dalton's Quest", 
+						"A Lesson in Violence", "A Lesson in Grace", "A Time to Kill", "Close Enough to Touch", "Finish the Fight" },
+						{ "Finish the Fight" }, }, },
+	[47805060] = { npc=227672, name="Squire Cuthbert", class={ "PALADIN", "PALADIN", "PALADIN" },
+					spell={ "Righteous Vengeance", "Shock and Awe", "Avenging Wrath" }, tip="(2) His location for this step",
+					guide={ st.paladin.vengeance, st.paladin.shockAwe, st.paladin.avengingWrath },
+					quest={ { 83808, 83935, 83822, }, { 83936, 83823, 84008, 84017, 84125, 84126 }, { 84126 } },
+					questName={ { "In a Bind", "Clearing the Path", "The Fallen Knight", }, { "Dalton's Quest", 
+						"A Lesson in Violence", "A Lesson in Grace", "A Time to Kill", "Close Enough to Touch", "Finish the Fight" },
+						{ "Finish the Fight" }, }, },
+	[53306450] = { name="Novice Frost Mage", class={ "MAGE" }, spell={ "Overheat" }, guide={ st.mage.overheat } },
 	[59408460] = { object=410847, name="Rusty Safe", class={ "ROGUE" }, tip={ "In the water. Jump down" },
 					spell={ "Envenom" }, guide={ st.rogue.envenom } },
+	[64205770] = { name="Novice Frost Mage", class={ "MAGE" }, tip={ "In the house" }, spell={ "Overheat" }, guide={ st.mage.overheat } },
+	[69417284] = { name="Scrolls", class={ "MAGE" },
+					tip="On a table in a nook. Near Blood of Heroes, Scholomance Castle. Right, up ladders",
+					spell={ "Arcane Barrage" }, guide={ st.mage.books }, alsoTestQuest=true,				
+					quest={ { 84402 } }, questName={ { "Necromancy 101" } } },
 }
 points[ 1436 ] = { -- Westfall
 	[26006950] = { object=408799, name="Idol of the Deep", class={ "WARLOCK", "WARRIOR" }, faction="Alliance",
@@ -3598,6 +3939,15 @@ points[ 1437 ] = { -- Wetlands
 					guide={ st.grizzby }, quest={ 78266 }, questName={ "Dark Iron Ordinance" } },
 	[62602600] = { name="Dark Iron Demolitionist/Dwarf/Saboteur/Tunneler", class=st.allClass, spell=st.allSpellG,
 					guide={ st.grizzby }, quest={ 78266 }, questName={ "Dark Iron Ordinance" } },
+	[74106910] = { object=457093, name="Blunt Justice: A Dwarf's Tale", spell={ "Mace Specialization" }, ring=true,
+					class={ "DRUID", "PALADIN", "PRIEST", "ROGUE", "SHAMAN", "WARRIOR", },
+					guide="Huge walk/run from Menethil. If your map\nis fogged then look for a path east in the\n"
+					.."central Wetlands and follow it is at curves\ndown south. Ascend Grim Batol\n\n"
+					.."Lots of normal mobs along the way. After\nthe third gate there are no more mobs.\n\n"
+					.."At the final Grim Batol door, the book\nis on a barrel in the right corner",
+					tip="If you have Aragriar's Whimsical World Warper\nthen you are a winner! Four hour cooldown so\n"
+					.."with planning you'll eventually be transported\nright to the Grim Batol door!!! Nevermind the\n"
+					.."inconvenience of the other dud locations..." },
 }
 
 --=======================================================================================================
@@ -3842,6 +4192,10 @@ points[ 1447 ] = { -- Azshara
 					questName={ { "The Old Champ", "Defanged", "Return to the Arena", "Fight Night" } } },
 	[43003000] = { npc=222580, name="Child of Apa'ro", class={ "DRUID" }, spell={ "Efflorescence" },
 					guide={ st.druid.efflorescence }, quest={ 81924 }, questName={ "Wisdom of the Guardians" } },
+	[76834429] = { object=457091, name="Chen's Training Manual", spell={ "Nature Specialization" }, ring=true, 
+					class={ "DRUID", "HUNTER", "MAGE", "PALADIN", "PRIEST", "SHAMAN", "WARLOCK", "WARRIOR", },
+					tip="The first mention of Pandaren and/or Chen in Classic?",
+					guide="It's on the ground floor of the Temple\nof Arkkoran, nextto a small pool", },
 	[89003300] = { npc=223590, name="Shrine of the Watcher", class={ "PRIEST" }, spell={ "Eye of the Void" },
 					quest={ { 82316 } }, questName={ { "Seven Eyes I Seek..." } }, guide={ st.priest.eyeOfVoid } },
 }
@@ -4261,6 +4615,8 @@ points[ 1448 ] = { -- Felwood
 	[42604140] = { name="Infernal / Entropic Beast", class={ "PALADIN" }, preRune={ { "Fanaticism" } },
 					quest={ { 81790 } }, questName={ { "Materials of Significance" } }, spell={ "Hammer of the Righteous" },
 					guide={ st.paladin.hammerRighteous } },
+	[42601780] = { npc=228596, name="Jadefire mobs (various)", class={ "DRUID" }, spell={ "Tree of Life" },
+					guide={ st.druid.treeOfLife }, tip="L49-53" },
 	[43005700] = { name="Rope / Aeonus", class={ "PALADIN" }, preRune={ { "Fanaticism" } },
 					tip="Reports indicate that Aeonus' horse is interactive\nand located at the Emerald Santuary to the south",
 					quest={ { 81790 } }, questName={ { "Materials of Significance" } }, spell={ "Hammer of the Righteous" },
@@ -4268,6 +4624,17 @@ points[ 1448 ] = { -- Felwood
 	[44605200] = { npc=221636, name="Gregory", class={ "PALADIN" }, preRune={ { "Fanaticism" } },
 					quest={ { 81790 } }, questName={ { "Materials of Significance" } }, spell={ "Hammer of the Righteous" },
 					guide={ st.paladin.hammerRighteous } },
+	[45601860] = { npc=228596, name="Vengeful Wisp", class={ "DRUID" }, spell={ "Tree of Life" },
+					guide={ st.druid.treeOfLife }, tip="Between the two small lakes" },
+	[50802420] = { npc=7139, name="Irontree Stomper", class={ "MAGE" }, spell={ "Frozen Orb" },
+					quest={ { 84369 } }, questName={ { "Healing the Healer" } }, guide={ st.mage.frozenOrb }, },
+	[61501300] = { npc=228822, name="Calyx Greenglow", class={ "MAGE" }, spell={ "Frozen Orb" },
+					quest={ { 84369 } }, questName={ { "Healing the Healer" } }, guide={ st.mage.frozenOrb }, },
+	[62800750] = { object=457092, name="The Fury of Stormrage", spell={ "Nature Specialization" }, ring=true, 
+					class={ "DRUID", "HUNTER", "ROGUE", "SHAMAN", }, tip="These are the Timbermaw Hold rep mobs",
+					guide="Far north-east of Felwood in Felpaw Village.\nAt the foot of a large totem, on a basket", },
+	[63000900] = { name="Deadwood mobs (various)", class={ "MAGE" }, spell={ "Frozen Orb" },
+					quest={ { 84369 } }, questName={ { "Healing the Healer" } }, guide={ st.mage.frozenOrb }, },
 }
 points[ 1444 ] = { -- Feralas
 	[22207050] = { name="Treant Avatar / Blightbark", class={ "DRUID" }, spell={ "Efflorescence" },
@@ -4582,6 +4949,8 @@ points[ 1454 ] = { -- Orgrimmar
 					tip="It's a large rock tablet with red writing, leaning against the wall.\n"
 						.."Valley of Spirits. On the left side as you approach the Mage trainers" },
 	[39003800] = { npc=4047, name="Zor Lonetree", class={ "SHAMAN" }, spell={ "Fire Nova" }, guide={ st.shaman.fireNova } },
+	[39103810] = { npc=4047, name="Zor Lonetree", tip="Skillbooks vendor", skillBook=true, guide={ st.skillBookVendor }, 
+					faction="Horde", },
 	[51646370] = { npc=214070, name="Jornah", faction="Horde",
 					class=st.allClass, spell=st.allSpellACA, guide={ st.supplyFaction } },
 	[55864491] = { object=404830, name="Dusty Chest", class={ "ROGUE" }, faction="Horde",
@@ -4592,6 +4961,25 @@ points[ 1454 ] = { -- Orgrimmar
 					tip="Speak to Zamja first, and then speak to\nGru'ark who is just outside" },
 	[58085119] = { npc=208023, name="Gru'ark", class={ "WARRIOR" }, faction="Horde", spell={ "Frenzied Assault" },
 					guide={ st.warrior.frenziedAssault }, tip= "Upper level - same level as Zamja" },
+}
+points[ 1451 ] = { -- Silithus
+	[20108510] = { object=457100, name="Renzik's Thoughts on \"Fair\" Fighting", spell={ "Dagger Specialization" }, ring=true, 
+					class={ "DRUID", "HUNTER", "MAGE", "PRIEST", "ROGUE", "SHAMAN", "WARLOCK", "WARRIOR" },
+					guide="Inside a tent in a Twilight Outpost, the\nlast such outpost before the Gates, in\n"
+					.."South-western Silithus. There's a camp\nfire and a wheelbarrow outside the tent.\n", },
+	[33106580] = { npc=227493, name="Sandworm", class={ "HUNTER" }, spell={ "Improved Volley" },
+					guide={ st.hunter.volley }, },
+	[36607160] = { npc=227493, name="Sandworm", class={ "HUNTER" }, spell={ "Improved Volley" },
+					guide={ st.hunter.volley }, },
+	[37206050] = { npc=227493, name="Sandworm", class={ "HUNTER" }, spell={ "Improved Volley" },
+					guide={ st.hunter.volley }, },
+	[38204540] = { object=457096, name="Be First: A Brawler's Guide to Boxing", spell={ "Fist Weapon Specialization" }, 
+					class={ "DRUID", "HUNTER", "ROGUE", "SHAMAN", "WARRIOR", }, ring=true,
+					guide="The book is sitting on a crate in the Twilight Base Camp", },
+	[41208880] = { npc=227951, name="Edwi Copperbolt", class={ "HUNTER" }, spell={ "Improved Volley" },
+					guide={ st.hunter.volley }, },
+	[41306720] = { npc=227493, name="Sandworm", class={ "HUNTER" }, spell={ "Improved Volley" },
+					guide={ st.hunter.volley }, },
 }
 points[ 1442 ] = { -- Stonetalon Mountains
 	[27406520] = { name="Earth/Fire Elementals (Various)", class={ "SHAMAN" }, faction="Horde",
@@ -4765,7 +5153,8 @@ points[ 1446 ] = { -- Tanaris
 }
 points[ 1438 ] = { -- Teldrassil
 	[33603560] = { npc=204827, name="Adventurer's Remains", class={ "DRUID", "PALADIN", "PRIEST", "SHAMAN" }, faction="Alliance",
-					spell={ "Lifebloom", "Inspiration Exemplar", "Prayer of Mending", "Ancestral Guidance" }, guide={ st.woundedAdventurer } },
+					spell={ "Lifebloom", "Inspiration Exemplar", "Prayer of Mending", "Ancestral Guidance" },
+					guide={ st.woundedAdventurer } },
 	[34802820] = { name="Harpies (Various)", faction="Alliance", class={ "ROGUE" }, faction="Alliance", 
 					tip="Pick Pocket or kill. Bottom-Right Map Piece",
 					spell={ "Quick Draw" }, guide={ st.rogue.quickDraw ..st.rogue.quickDrawTel } },
@@ -4813,7 +5202,8 @@ points[ 1438 ] = { -- Teldrassil
 	[55004220] = { npc=1989, name="Grellkin", class={ "DRUID" }, faction="Alliance",
 					spell={ "Fury of Stormrage" }, guide={ st.druid.lunarIdolA }, quest={ 77571 },
 					questName={ "Relics of the Kaldorei" } },
-	[55339084] = { name="Rune of Quick Draw", faction="Alliance", class={ "ROGUE" }, tip="Final Rune location. Hollow stump, Rut'theran Village",
+	[55339084] = { name="Rune of Quick Draw", faction="Alliance", class={ "ROGUE" },
+					tip="Final Rune location. Hollow stump, Rut'theran Village",
 					spell={ "Quick Draw" }, guide={ st.rogue.quickDraw ..st.rogue.quickDrawTel } },
 	[55403280] = { npc=1986, name="Webwood Spider", class={ "WARRIOR" }, faction="Alliance",
 					spell={ "Victory Rush" }, guide={ st.starterZoneClass }, quest={ 77575 },
@@ -4847,7 +5237,8 @@ points[ 1438 ] = { -- Teldrassil
 	[58604040] = { npc=3597, name="Mardant Strongoak", class={ "DRUID" }, faction="Alliance",
 					spell={ "Fury of Stormrage" }, guide={ st.druid.lunarIdolA }, quest={ 77571 },
 					questName={ "Relics of the Kaldorei" } },
-	[58664045] = { npc=3596, name="Ayanna Everstride", class={ "HUNTER" }, faction="Alliance", tip="Inside Aldrassil. Ascend to the first level",
+	[58664045] = { npc=3596, name="Ayanna Everstride", class={ "HUNTER" }, faction="Alliance",
+					tip="Inside Aldrassil. Ascend to the first level",
 					quest={ 77568 }, questName={ "A Hunter's Strength" },
 					spell={ "Chimera Shot" }, guide={ st.starterZoneClass } },
 	[59943304] = { name="Moonwell", class={ "PRIEST" }, faction="Alliance",
@@ -5025,6 +5416,9 @@ points[ 1441 ] = { -- Thousand Needles
 	[66008800] = { name="Combat Dummy x 3", class={ "WARRIOR" }, spell={ "Intervene" }, guide={ st.warrior.intervene }, },
 	[68605550] = { npc=217418, name="Zai'enki", class={ "DRUID" },
 					spell={ "Berserk" }, guide={ st.druid.berserk }, },
+	[80107710] = { object=499988, name="Spellbook", spell={ "Meditation Specialization" }, ring=true, 
+					class={ "DRUID", "HUNTER", "MAGE", "PALADIN", "PRIEST", "SHAMAN", "WARLOCK", },
+					guide="In the hut, by the right side\nof the door on a side-bench", },
 }
 points[ 1456 ] = { -- Thunder Bluff
 	[26191866] = { npc=207754, name="Mooart", class={ "WARRIOR" }, faction="Horde",
@@ -5044,6 +5438,24 @@ points[ 1456 ] = { -- Thunder Bluff
 					spell={ "Lava Lash" }, guide={ st.shaman.lavaLash }, quest={ { 76156, 76160, 76240 } },
 					questName={ { "Stalk With The Earthmother", "Stalk With The Earthmother", "Stalk With The Earthmother" } },
 					tip="If you need to learn fishing. You do of\ncourse use my Cod Do Batter fishing AddOn?" },
+}
+points[ 1449 ] = { -- Un'Goro Crater
+	[60007000] = { name="Ravasaur mobs (various)", class={ "DRUID" }, spell={ "Improved Swipe" },
+					guide={ st.druid.impSwipe }, },
+	[67005100] = { name="Ravasaur mobs (various)", class={ "DRUID" }, spell={ "Improved Swipe" },
+					guide={ st.druid.impSwipe }, },
+}
+points[ 1452 ] = { -- Winterspring
+	[29803560] = { npc=228822, name="Calyx Greenglow", class={ "MAGE" }, spell={ "Frozen Orb" },
+					quest={ { 84369 } }, questName={ { "Healing the Healer" } }, guide={ st.mage.frozenOrb }, },
+	[49000800] = { object=457098, name="Finding Your Inner Feline: A Guide to Modern Druidism", 
+					spell={ "Feral Combat Specialization" }, ring=true, 
+					class={ "DRUID", }, guide="The book is sitting in a stone hearth, to\nthe right of the Frostsaber Rock structure", },
+	[59005900] = { object=457095, name="Elements for Dummies Volume I: Frost", spell={ "Frost Specialization" }, ring=true, 
+					class={ "HUNTER", "MAGE", "SHAMAN", },
+					guide="Under a table in a ransacked camp site\nas per the pin. Easy as, except for mobs", },
+	[63001800] = { name="Ravasaur mobs (various)", class={ "DRUID" }, spell={ "Starfall" }, tip="Kill and loot. Nuf said! L59e.",
+					guide={ "If you go around and climb the mountain\nyou can drop down, avoiding the mobs.\n\n" ..st.timbermaw }, },
 }
 
 --=======================================================================================================

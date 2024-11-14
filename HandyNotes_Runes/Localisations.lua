@@ -19,7 +19,6 @@ end
 setmetatable( L, { __index = function( L, key ) return key end } )
 
 -- Firstly, translations I often use in all my AddOns
-
 if ns.locale == "deDE" then
 	ns.L["Character"] = "Charakter"
 	ns.L["Account"] = "Accountweiter"
@@ -378,7 +377,6 @@ else
 end
 
 -- Translations specific to the Runes AddOn
-
 if ns.locale == "deDE" then
 	ns.L["AddOn Description"] = "Alle SoD-Runen. (Und mehr!)"
 	ns.L["Hide if learnt"] = "Verstecke dich, wenn die Rune gelernt wurde"
@@ -424,6 +422,7 @@ if ns.locale == "deDE" then
 	ns.L["Beast Mastery"] = "Meister der Tiere"
 	ns.L["Carve"] = "Zerlegen"
 	ns.L["Chimera Shot"] = "Schimärenschuss"
+	ns.L["Cobra Slayer"] = "Kobrastöße"
 	ns.L["Cobra Strikes"] = "Kobrastöße"
 	ns.L["Explosive Shot"] = "Explosivschuss"
 	ns.L["Flanking Strike"] = "Flankenangriff"
@@ -447,6 +446,12 @@ if ns.locale == "deDE" then
 	ns.L["Lock and Load"] = "Sichern und Laden"
 	ns.L["Rapid Killing"] = "Schneller Tod"
 	ns.L["Raptor Killing"] = "Raptorenfuror"
+	ns.L["Rapid Killing"] = ""
+	ns.L["T.N.T."] = ""
+	ns.L["Improved Volley"] = ""
+	ns.L["Resourcefulness"] = ""
+	ns.L["Hit and Run"] = ""
+	ns.L["Heart of the Lion"] = ""
 	-- Mage Phase 1
 	ns.L["Arcane Blast"] = "Arkanschlag"
 	ns.L["Arcane Surge"] = "Arkane Woge"
@@ -2573,8 +2578,404 @@ else
 	ns.L["Hide if learnt"] = "Hide if the rune was learnt"
 end
 
--- v2.14 added Mage Book quest name translations
+-- Phase 4 and 5 spells v2.23 plus changed/missed v2.2x
+if ns.locale == "deDE" then
+	-- Druid
+	ns.L["Improved Swipe"] = "Verbesserter Prankenhieb"
+	ns.L["Starfall"] = "Sternenregen"
+	ns.L["Tree of Life"] = "Baum des Lebens"
+	-- Hunter
+--	ns.L["Cobra Slayer"] = ""
+	ns.L["Heart of the Lion"] = "Löwenherz"
+	ns.L["Hit and Run"] = "Drauf und weg"
+	ns.L["Improved Volley"] = "Verbesserte Salve"
+--	ns.L["Rapid Killing"] = ""
+	ns.L["Resourcefulness"] = "Improvisation"
+--	ns.L["T.N.T."] = ""
+--	ns.L["Wyvern Strike"] = ""
+	-- Mage
+	ns.L["Arcane Barrage"] = "Arkanbeschuss"
+	ns.L["Overheat"] = "Überhitzen"
+	ns.L["Frozen Orb"] = "Gefrorene Kugel"
+	-- Paladin
+--	ns.L["Aura Mastery"] = ""
+--	ns.L["Divine Light"] = ""
+--	ns.L["Hallowed Ground"] = ""
+	ns.L["Shield of Righteousness"] = "Schild der Rechtschaffenheit"
+	ns.L["Shock and Awe"] = "Schockierende Ehrfurcht"
+	ns.L["Righteous Vengeance"] = "Rechtschaffene Vergeltung"
+	-- Priest
+	-- Rogue
+	-- Shaman
+	-- Warlock
+	-- Warrior
+elseif ns.locale == "esES" or ns.locale == "esMX" then
+	-- Druid
+	ns.L["Improved Swipe"] = "Flagelo mejorado"
+	ns.L["Starfall"] = "Lluvia de estrellas"
+	ns.L["Tree of Life"] = "Árbol de vida"
+	-- Hunter
+--	ns.L["Cobra Slayer"] = ""
+	ns.L["Heart of the Lion"] = "Corazón del león"
+	ns.L["Hit and Run"] = "Ataque fugaz"
+	ns.L["Improved Volley"] = "Salva mejorada"
+--	ns.L["Rapid Killing"] = ""
+	ns.L["Resourcefulness"] = "Ingenio"
+--	ns.L["T.N.T."] = ""
+--	ns.L["Wyvern Strike"] = ""
+	-- Mage
+	ns.L["Arcane Barrage"] = "Tromba Arcana"
+	ns.L["Overheat"] = "Recalentamiento"
+	ns.L["Frozen Orb"] = "Orbe congelado"
+	-- Paladin
+--	ns.L["Aura Mastery"] = ""
+--	ns.L["Divine Light"] = ""
+--	ns.L["Hallowed Ground"] = ""
+	ns.L["Shield of Righteousness"] = "Escudo de rectitud"
+	ns.L["Shock and Awe"] = "Conmoción y terror"
+	ns.L["Righteous Vengeance"] = "Venganza recta"
+	-- Priest
+	-- Rogue
+	-- Shaman
+	-- Warlock
+	-- Warrior
+elseif ns.locale == "frFR" then
+	-- Druid
+	ns.L["Improved Swipe"] = "Balayage amélioré"
+	ns.L["Starfall"] = "Météores"
+	ns.L["Tree of Life"] = "Arbre de vie"
+	-- Hunter
+--	ns.L["Cobra Slayer"] = ""
+	ns.L["Heart of the Lion"] = "Cœur de lion"
+	ns.L["Hit and Run"] = "Attaque éclair"
+	ns.L["Improved Volley"] = "Salve améliorée"
+--	ns.L["Rapid Killing"] = ""
+	ns.L["Resourcefulness"] = "Ingéniosité"
+--	ns.L["T.N.T."] = ""
+--	ns.L["Wyvern Strike"] = ""
+	-- Mage
+	ns.L["Arcane Barrage"] = "Barrage des arcanes"
+	ns.L["Overheat"] = "Surchauffe"
+	ns.L["Frozen Orb"] = "Orbe gelé"
+	-- Paladin
+--	ns.L["Aura Mastery"] = ""
+--	ns.L["Divine Light"] = ""
+--	ns.L["Hallowed Ground"] = ""
+	ns.L["Shield of Righteousness"] = "Bouclier de piété"
+	ns.L["Shock and Awe"] = "Retentissement"
+	ns.L["Righteous Vengeance"] = "Vengeance vertueuse"
+	-- Priest
+	-- Rogue
+	-- Shaman
+	-- Warlock
+	-- Warrior
+elseif ns.locale == "koKR" then
+	-- Druid
+	ns.L["Improved Swipe"] = "휘둘러치기 연마"
+	ns.L["Starfall"] = "별똥별"
+	ns.L["Tree of Life"] = "생명의 나무"
+	-- Hunter
+--	ns.L["Cobra Slayer"] = ""
+	ns.L["Heart of the Lion"] = "사자의 심장"
+	ns.L["Hit and Run"] = "치고 빠지기"
+	ns.L["Improved Volley"] = "연발 사격 연마"
+--	ns.L["Rapid Killing"] = ""
+	ns.L["Resourcefulness"] = "뛰어난 계략"
+--	ns.L["T.N.T."] = ""
+--	ns.L["Wyvern Strike"] = ""
+	-- Mage
+	ns.L["Arcane Barrage"] = "비전 탄막"
+	ns.L["Overheat"] = "과열"
+	ns.L["Frozen Orb"] = "얼어붙은 구슬"
+	-- Paladin
+--	ns.L["Aura Mastery"] = ""
+--	ns.L["Divine Light"] = ""
+--	ns.L["Hallowed Ground"] = ""
+	ns.L["Shield of Righteousness"] = "정의의 방패"
+	ns.L["Shock and Awe"] = "충격과 공포"
+	ns.L["Righteous Vengeance"] = "정의의 복수"
+	-- Priest
+	-- Rogue
+	-- Shaman
+	-- Warlock
+	-- Warrior
+elseif ns.locale == "ptBR" or ns.locale == "ptPT" then
+	-- Druid
+	ns.L["Improved Swipe"] = "Patada Aprimorada"
+	ns.L["Starfall"] = "Chuva Estelar"
+	ns.L["Tree of Life"] = "Árvore da Vida"
+	-- Hunter
+--	ns.L["Cobra Slayer"] = ""
+	ns.L["Heart of the Lion"] = "Coração de Leão"
+	ns.L["Hit and Run"] = "Bater e Correr"
+	ns.L["Improved Volley"] = "Salva Aprimorada"
+--	ns.L["Rapid Killing"] = ""
+	ns.L["Resourcefulness"] = "Desenvoltura"
+--	ns.L["T.N.T."] = ""
+--	ns.L["Wyvern Strike"] = ""
+	-- Mage
+	ns.L["Arcane Barrage"] = "Salva Arcana"
+	ns.L["Overheat"] = "Superaquecimento"
+	ns.L["Frozen Orb"] = "Orbe Congelado"
+	-- Paladin
+--	ns.L["Aura Mastery"] = ""
+--	ns.L["Divine Light"] = ""
+--	ns.L["Hallowed Ground"] = ""
+	ns.L["Shield of Righteousness"] = "Escudo de Retidão"
+	ns.L["Shock and Awe"] = "Choque e Admiração"
+	ns.L["Righteous Vengeance"] = "Vingança Íntegra"
+	-- Priest
+	-- Rogue
+	-- Shaman
+	-- Warlock
+	-- Warrior
+elseif ns.locale == "ruRU" then
+	-- Druid
+	ns.L["Improved Swipe"] = "Улучшенный размах"
+	ns.L["Starfall"] = "Звездопад"
+	ns.L["Tree of Life"] = "Древо жизни"
+	-- Hunter
+--	ns.L["Cobra Slayer"] = ""
+	ns.L["Heart of the Lion"] = "Львиное сердце"
+	ns.L["Hit and Run"] = "Бей и беги"
+	ns.L["Improved Volley"] = "Улучшенный град стрел"
+--	ns.L["Rapid Killing"] = ""
+	ns.L["Resourcefulness"] = "Находчивость"
+--	ns.L["T.N.T."] = ""
+--	ns.L["Wyvern Strike"] = ""
+	-- Mage
+	ns.L["Arcane Barrage"] = "Чародейский обстрел"
+	ns.L["Overheat"] = "Перегрев"
+	ns.L["Frozen Orb"] = "Ледяной шар"
+	-- Paladin
+--	ns.L["Aura Mastery"] = ""
+--	ns.L["Divine Light"] = ""
+--	ns.L["Hallowed Ground"] = ""
+	ns.L["Shield of Righteousness"] = "Щит праведности"
+	ns.L["Shock and Awe"] = "Шок и трепет"
+	ns.L["Righteous Vengeance"] = "Праведная месть"
+	-- Priest
+	-- Rogue
+	-- Shaman
+	-- Warlock
+	-- Warrior
+elseif ns.locale == "zhCN" then
+	-- Druid
+	ns.L["Improved Swipe"] = "强化横扫"
+	ns.L["Starfall"] = "星辰坠落"
+	ns.L["Tree of Life"] = "生命之树"
+	-- Hunter
+--	ns.L["Cobra Slayer"] = ""
+	ns.L["Heart of the Lion"] = "雄狮之心"
+	ns.L["Hit and Run"] = "一击脱离"
+	ns.L["Improved Volley"] = "强化乱射"
+--	ns.L["Rapid Killing"] = ""
+	ns.L["Resourcefulness"] = "游刃有余"
+--	ns.L["T.N.T."] = ""
+--	ns.L["Wyvern Strike"] = ""
+	-- Mage
+	ns.L["Arcane Barrage"] = "奥术弹幕"
+	ns.L["Overheat"] = "过热"
+	ns.L["Frozen Orb"] = "寒冰宝珠"
+	-- Paladin
+--	ns.L["Aura Mastery"] = ""
+--	ns.L["Divine Light"] = ""
+--	ns.L["Hallowed Ground"] = ""
+	ns.L["Shield of Righteousness"] = "正义盾击"
+	ns.L["Shock and Awe"] = "震慑"
+	ns.L["Righteous Vengeance"] = "正义复仇"
+	-- Priest
+	-- Rogue
+	-- Shaman
+	-- Warlock
+	-- Warrior
+elseif ns.locale == "zhTW" then
+	-- Druid
+	ns.L["Improved Swipe"] = "強化橫掃"
+	ns.L["Starfall"] = "星辰墜落"
+	ns.L["Tree of Life"] = "生命之樹"
+	-- Hunter
+--	ns.L["Cobra Slayer"] = ""
+	ns.L["Heart of the Lion"] = "雄獅之心"
+	ns.L["Hit and Run"] = "一擊脫離"
+	ns.L["Improved Volley"] = "強化亂射"
+--	ns.L["Rapid Killing"] = ""
+	ns.L["Resourcefulness"] = "游刃有餘"
+--	ns.L["T.N.T."] = ""
+--	ns.L["Wyvern Strike"] = ""
+	-- Mage
+	ns.L["Arcane Barrage"] = "奧術彈幕"
+	ns.L["Overheat"] = "過熱"
+	ns.L["Frozen Orb"] = "寒冰寶珠"
+	-- Paladin
+--	ns.L["Aura Mastery"] = ""
+--	ns.L["Divine Light"] = ""
+--	ns.L["Hallowed Ground"] = ""
+	ns.L["Shield of Righteousness"] = "正義盾擊"
+	ns.L["Shock and Awe"] = "震懾"
+	ns.L["Righteous Vengeance"] = "正義復仇"
+	-- Priest
+	-- Rogue
+	-- Shaman
+	-- Warlock
+	-- Warrior
+end
 
+-- Ring runes spells added v2.23
+if ns.locale == "deDE" then
+	ns.L["Arcane Specialization"] = "Arkan-Spezialisierungen"
+	ns.L["Axe Specialization"] = "Axt-Spezialisierung"
+	ns.L["Dagger Specialization"] = "Dolch-Spezialisierung"
+	ns.L["Defense Specialization"] = "Verteidigungsspezialisierung"
+	ns.L["Feral Combat Specialization"] = "Wildkampf-Spezialisierung"
+	ns.L["Fire Specialization"] = "Feuer-Spezialisierung"
+	ns.L["Fist Weapon Specialization"] = "Faustwaffen-Spezialisierung"
+	ns.L["Frost Specialization"] = "Frost-Spezialisierung"
+	ns.L["Healing Specialization"] = "Heilungsspezialisierung"
+	ns.L["Holy Specialization"] = "Heiligspezialisierung"
+	ns.L["Mace Specialization"] = "Streitkolben-Spezialisierung"
+	ns.L["Meditation Specialization"] = "Meditationsspezialisierung"
+	ns.L["Nature Specialization"] = "Natur-Spezialisierung"
+	ns.L["Pole Weapon Specialization"] = "Stangenwaffen-Spezialisierung"
+	ns.L["Ranged Weapon Specialization"] = "Distanzwaffen-Spezialisierung"
+	ns.L["Shadow Specialization"] = "Schatten-Spezialisierung"
+	ns.L["Sword Specialization"] = "Schwert-Spezialisierung"
+
+elseif ns.locale == "esES" or ns.locale == "esMX" then
+	ns.L["Arcane Specialization"] = "Especialización en lo Arcano"
+	ns.L["Axe Specialization"] = "Especialización en hachas"
+	ns.L["Dagger Specialization"] = "Especialización en dagas"
+	ns.L["Defense Specialization"] = "Especialización en defensa"
+	ns.L["Feral Combat Specialization"] = "Especialización en combate feral"
+	ns.L["Fire Specialization"] = "Especialización en Fuego"
+	ns.L["Fist Weapon Specialization"] = "Especialización en armas de puño"
+	ns.L["Frost Specialization"] = "Especialización en Escarcha"
+	ns.L["Healing Specialization"] = "Especialización en sanación"
+	ns.L["Holy Specialization"] = "Especialización en lo Sagrado"
+	ns.L["Mace Specialization"] = "Especialización en mazas"
+	ns.L["Meditation Specialization"] = "Especialización en meditación"
+	ns.L["Nature Specialization"] = "Especialización en Naturaleza"
+	ns.L["Pole Weapon Specialization"] = "Especialización en armas de asta"
+	ns.L["Ranged Weapon Specialization"] = "Especialización en armas a distancia"
+	ns.L["Shadow Specialization"] = "Especialización en las Sombras"
+	ns.L["Sword Specialization"] = "Especialización en espadas"
+
+elseif ns.locale == "frFR" then
+	ns.L["Arcane Specialization"] = "Spécialisation Arcanes"
+	ns.L["Axe Specialization"] = "Spécialisation Hache"
+	ns.L["Dagger Specialization"] = "Spécialisation Dague"
+	ns.L["Defense Specialization"] = "Spécialisation Défense"
+	ns.L["Feral Combat Specialization"] = "Spécialisation Combat farouche"
+	ns.L["Fire Specialization"] = "Spécialisation Feu"
+	ns.L["Fist Weapon Specialization"] = "Spécialisation Arme de pugilat"
+	ns.L["Frost Specialization"] = "Spécialisation Givre"
+	ns.L["Healing Specialization"] = "Spécialisation en soins"
+	ns.L["Holy Specialization"] = "Spécialisation (Sacré)"
+	ns.L["Mace Specialization"] = "Spécialisation Masse"
+	ns.L["Meditation Specialization"] = "Spécialisation en méditation"
+	ns.L["Nature Specialization"] = "Spécialisation Nature"
+	ns.L["Pole Weapon Specialization"] = "Spécialisation Armes d’hast"
+	ns.L["Ranged Weapon Specialization"] = "Spécialisation Armes à distance"
+	ns.L["Shadow Specialization"] = "Spécialisation Ombre"
+	ns.L["Sword Specialization"] = "Spécialisation Épée"
+
+elseif ns.locale == "koKR" then
+	ns.L["Arcane Specialization"] = "비전 마법 전문화"
+	ns.L["Axe Specialization"] = "도끼류 전문화"
+	ns.L["Dagger Specialization"] = "단검류 전문화"
+	ns.L["Defense Specialization"] = "방어 전문화"
+	ns.L["Feral Combat Specialization"] = "야생 전투 전문화"
+	ns.L["Fire Specialization"] = "화염 마법 전문화"
+	ns.L["Fist Weapon Specialization"] = "장착 무기류 전문화"
+	ns.L["Frost Specialization"] = "냉기 마법 전문화"
+	ns.L["Healing Specialization"] = "치유 전문화"
+	ns.L["Holy Specialization"] = "신성 마법 전문화"
+	ns.L["Mace Specialization"] = "둔기류 전문화"
+	ns.L["Meditation Specialization"] = "명상 전문화"
+	ns.L["Nature Specialization"] = "자연 마법 전문화"
+	ns.L["Pole Weapon Specialization"] = "장대류 무기 전문화"
+	ns.L["Ranged Weapon Specialization"] = "원거리 무기 전문화"
+	ns.L["Shadow Specialization"] = "암흑 마법 전문화"
+	ns.L["Sword Specialization"] = "도검류 전문화"
+
+elseif ns.locale == "ptBR" or ns.locale == "ptPT" then
+	ns.L["Arcane Specialization"] = "Especialização Arcana"
+	ns.L["Axe Specialization"] = "Especialização em Machado"
+	ns.L["Dagger Specialization"] = "Especialização em Adaga"
+	ns.L["Defense Specialization"] = "Especialização de Defesa"
+	ns.L["Feral Combat Specialization"] = "Especialização em Combate Feral"
+	ns.L["Fire Specialization"] = "Especialização em Fogo"
+	ns.L["Fist Weapon Specialization"] = "Especialização em Arma de Punho"
+	ns.L["Frost Specialization"] = "Especialização Gélida"
+	ns.L["Healing Specialization"] = "Especialização em Cura"
+	ns.L["Holy Specialization"] = "Especialização Sagrada"
+	ns.L["Mace Specialization"] = "Especialização em Maça"
+	ns.L["Meditation Specialization"] = "Especialização em Meditação"
+	ns.L["Nature Specialization"] = "Especialização em Natureza"
+	ns.L["Pole Weapon Specialization"] = "Especialização em Arma de Haste"
+	ns.L["Ranged Weapon Specialization"] = "Especialização em Arma de Longo Alcance"
+	ns.L["Shadow Specialization"] = "Especialização em Sombra"
+	ns.L["Sword Specialization"] = "Especialização em Espada"
+
+elseif ns.locale == "ruRU" then
+	ns.L["Arcane Specialization"] = "Специализация на тайной магии"
+	ns.L["Axe Specialization"] = "Специализация на владении топором"
+	ns.L["Dagger Specialization"] = "Специализация на кинжалах"
+	ns.L["Defense Specialization"] = "Специализация на защите"
+	ns.L["Feral Combat Specialization"] = "Специализация на силе зверя"
+	ns.L["Fire Specialization"] = "Специализация – огонь"
+	ns.L["Fist Weapon Specialization"] = "Специализация на кулачном оружии"
+	ns.L["Frost Specialization"] = "Специализация на магии льда"
+	ns.L["Healing Specialization"] = "Специализация на исцелении"
+	ns.L["Holy Specialization"] = "Cпециализация – магия Света"
+	ns.L["Mace Specialization"] = "Специализация на ударном оружии"
+	ns.L["Meditation Specialization"] = "Специализация на медитации"
+	ns.L["Nature Specialization"] = "Специализация – природа"
+	ns.L["Pole Weapon Specialization"] = "Специализация на древковом оружии"
+	ns.L["Ranged Weapon Specialization"] = "Специализация на оружии дальнего боя"
+	ns.L["Shadow Specialization"] = "Специализация на Тьме"
+	ns.L["Sword Specialization"] = "Специализация на владении мечами"
+
+elseif ns.locale == "zhCN" then
+	ns.L["Arcane Specialization"] = "奥术专精"
+	ns.L["Axe Specialization"] = "斧类武器专精"
+	ns.L["Dagger Specialization"] = "匕首专精"
+	ns.L["Defense Specialization"] = "防御专精"
+	ns.L["Feral Combat Specialization"] = "野性战斗专精"
+	ns.L["Fire Specialization"] = "火焰专精"
+	ns.L["Fist Weapon Specialization"] = "拳套专精"
+	ns.L["Frost Specialization"] = "冰霜专精"
+	ns.L["Healing Specialization"] = "治疗专精"
+	ns.L["Holy Specialization"] = "神圣专精"
+	ns.L["Mace Specialization"] = "锤类武器专精"
+	ns.L["Meditation Specialization"] = "冥想专精"
+	ns.L["Nature Specialization"] = "自然专精"
+	ns.L["Pole Weapon Specialization"] = "长柄军械专精"
+	ns.L["Ranged Weapon Specialization"] = "远程武器专精"
+	ns.L["Shadow Specialization"] = "暗影专精"
+	ns.L["Sword Specialization"] = "剑类武器专精"
+
+elseif ns.locale == "zhTW" then
+	ns.L["Arcane Specialization"] = "奧術專精"
+	ns.L["Axe Specialization"] = "斧類武器專精"
+	ns.L["Dagger Specialization"] = "匕首專精"
+	ns.L["Defense Specialization"] = "防禦專精"
+	ns.L["Feral Combat Specialization"] = "野性戰鬥專精"
+	ns.L["Fire Specialization"] = "火焰專精"
+	ns.L["Fist Weapon Specialization"] = "拳套專精"
+	ns.L["Frost Specialization"] = "冰霜專精"
+	ns.L["Healing Specialization"] = "治療專精"
+	ns.L["Holy Specialization"] = "神聖專精"
+	ns.L["Mace Specialization"] = "錘類武器專精"
+	ns.L["Meditation Specialization"] = "冥想專精"
+	ns.L["Nature Specialization"] = "自然專精"
+	ns.L["Pole Weapon Specialization"] = "長柄軍械專精"
+	ns.L["Ranged Weapon Specialization"] = "遠程武器專精"
+	ns.L["Shadow Specialization"] = "暗影專精"
+	ns.L["Sword Specialization"] = "劍類武器專精"
+end
+
+-- v2.14 added Mage Book quest name translations
 ns.class = select( 2, UnitClass( "player" ) )
 
 if ns.class == "MAGE" then
