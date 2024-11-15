@@ -192,6 +192,8 @@ AL["Regen"] = "Regeneración"
 --[[Translation missing --]]
 --[[ AL["Relentless %s"] = "Relentless %s"--]] 
 AL["Remove item from list"] = "Quitar objeto de la lista"
+--[[Translation missing --]]
+--[[ AL["Removed"] = "Removed"--]] 
 AL["Reputation"] = "Reputación"
 --[[Translation missing --]]
 --[[ AL["Requesting favorite list from %s ..."] = "Requesting favorite list from %s ..."--]] 

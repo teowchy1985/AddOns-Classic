@@ -119,6 +119,8 @@ AL["Scourge Invasion"] = "Invasión de la Plaga"
 AL["Silithus Abyssal"] = "Abisal Silithus"
 AL["Smokywood Pastures"] = "Pastos de Bosquehumeante"
 AL["Smokywood Pastures Special Gift"] = "Obsequio especial de Pastos de Bosquehumeante"
+--[[Translation missing --]]
+--[[ AL["Stolen Present"] = "Stolen Present"--]] 
 AL["Stranglethorn Fishing Extravaganza"] = "Gran espectáculo de pesca de Tuercespina"
 AL["Sunmote"] = "Mota de sol"
 AL["The Duke of Cynders"] = "Duque de las Brasas"
