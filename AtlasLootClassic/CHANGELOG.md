@@ -1,22 +1,16 @@
-# [v4.2.2](https://github.com/snowflame0/AtlasLootClassic_Cata/tree/v4.2.2) (2024-11-08)
+# [v4.2.3](https://github.com/snowflame0/AtlasLootClassic_Cata/tree/v4.2.3) (2024-11-14)
 
-[Full Changelog](https://github.com/snowflame0/AtlasLootClassic_Cata/compare/v4.2.1...v4.2.2)
+[Full Changelog](https://github.com/snowflame0/AtlasLootClassic_Cata/compare/v4.2.2...v4.2.3)
 
 ## Commits
 
-Firsthunter (7):
+Adal (2):
 
-- More 371s added
-- Added Avatar of Hakkar to ST
-- Added Unobtainable to Pvp locales
-- Moved 359 weapons to S10
-- Added an "Unobtainable" table for old S9 stuff
-- Added 371 vicious sets
-- Updated vicious glad sets to 371
+- Reorganization for Winter Veil
+- Level range of classic dungeons fix
 
-Snowflame (3):
+Snowflame0 (2):
 
-- Fix Sunken temple sources, prune useless data
-- Clean up pvp changes, add missing locale strings
-- Add Firelands items with random enchantment data, fix sunken temple name
+- Move removed raids into own category, add vendor prices for firestone (dumb guildy), clean up item info for relic/thrown slots
+- New locale strings
 
