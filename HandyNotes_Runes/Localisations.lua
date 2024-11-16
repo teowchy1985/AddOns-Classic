@@ -723,26 +723,28 @@ if ns.locale == "zhCN" then
 	ns.L["Starfall"] = "星辰坠落"
 	ns.L["Tree of Life"] = "生命之树"
 	-- Hunter
---	ns.L["Cobra Slayer"] = ""
+	ns.L["Cobra Slayer"] = "眼镜蛇屠夫"
 	ns.L["Heart of the Lion"] = "雄狮之心"
 	ns.L["Hit and Run"] = "一击脱离"
 	ns.L["Improved Volley"] = "强化乱射"
---	ns.L["Rapid Killing"] = ""
+	ns.L["Rapid Killing"] = "疾速杀戮"
 	ns.L["Resourcefulness"] = "游刃有余"
---	ns.L["T.N.T."] = ""
---	ns.L["Wyvern Strike"] = ""
+	ns.L["Wyvern Strike"] = "翼龙打击"
 	-- Mage
 	ns.L["Arcane Barrage"] = "奥术弹幕"
 	ns.L["Overheat"] = "过热"
 	ns.L["Frozen Orb"] = "寒冰宝珠"
 	-- Paladin
---	ns.L["Aura Mastery"] = ""
---	ns.L["Divine Light"] = ""
---	ns.L["Hallowed Ground"] = ""
+	ns.L["Aura Mastery"] = "光环掌握"
+	ns.L["Divine Light"] = "神圣之光"
+	ns.L["Hallowed Ground"] = "神圣之地"
 	ns.L["Shield of Righteousness"] = "正义盾击"
 	ns.L["Shock and Awe"] = "震慑"
 	ns.L["Righteous Vengeance"] = "正义复仇"
 	-- Priest
+	ns.L["Binding Heal"] = "联结治疗"
+	ns.L["Soul Warding"] = "灵魂守护"
+	ns.L["Vampiric Touch"] = "吸血鬼之触"
 	-- Rogue
 	-- Shaman
 	-- Warlock
@@ -753,26 +755,28 @@ elseif ns.locale == "zhTW" then
 	ns.L["Starfall"] = "星辰墜落"
 	ns.L["Tree of Life"] = "生命之樹"
 	-- Hunter
---	ns.L["Cobra Slayer"] = ""
+	ns.L["Cobra Slayer"] = "眼鏡蛇屠夫"
 	ns.L["Heart of the Lion"] = "雄獅之心"
 	ns.L["Hit and Run"] = "一擊脫離"
 	ns.L["Improved Volley"] = "強化亂射"
---	ns.L["Rapid Killing"] = ""
+	ns.L["Rapid Killing"] = "疾速殺戮"
 	ns.L["Resourcefulness"] = "游刃有餘"
---	ns.L["T.N.T."] = ""
---	ns.L["Wyvern Strike"] = ""
+	ns.L["Wyvern Strike"] = "翼龍打擊"
 	-- Mage
 	ns.L["Arcane Barrage"] = "奧術彈幕"
 	ns.L["Overheat"] = "過熱"
 	ns.L["Frozen Orb"] = "寒冰寶珠"
 	-- Paladin
---	ns.L["Aura Mastery"] = ""
---	ns.L["Divine Light"] = ""
---	ns.L["Hallowed Ground"] = ""
+	ns.L["Aura Mastery"] = "光環掌握"
+	ns.L["Divine Light"] = "神聖之光"
+	ns.L["Hallowed Ground"] = "神聖之地"
 	ns.L["Shield of Righteousness"] = "正義盾擊"
 	ns.L["Shock and Awe"] = "震懾"
 	ns.L["Righteous Vengeance"] = "正義復仇"
 	-- Priest
+	ns.L["Binding Heal"] = "聯結治療"
+	ns.L["Soul Warding"] = "靈魂守護"
+	ns.L["Vampiric Touch"] = "吸血鬼之觸"
 	-- Rogue
 	-- Shaman
 	-- Warlock

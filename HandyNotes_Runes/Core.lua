@@ -3,7 +3,7 @@
 
                                                 Runes
 
-                                     v2.24 - 14th November 2024
+                                     v2.25 - 15th November 2024
                                 Copyright (C) Taraezor / Chris Birch
                                          All Rights Reserved
 
@@ -632,7 +632,7 @@ ns.options = {
 								width = 0.8, min = 1, max = 21, step = 1, arg = "skillBook", order = 94, },
 				ring = { type = "range", name = ns.L["Ring"], desc = ns.iconStandard .."\n21 = " ..ns.L["No Map Pin"],
 								width = 0.8, min = 1, max = 21, step = 1, arg = "ring", order = 95, },
-				separator1 = { type = "header", name = "", order = 95, },
+				separator1 = { type = "header", name = "", order = 96, },
 				rune101 = { type = "range", name = ns.L[ "Rune" ] .." 1", desc = ns.iconChoice, width = 0.8,
 								min = 1, max = 7, step = 1, arg = "rune101", order = 101, },
 				rune102 = { type = "range", name = ns.L[ "Rune" ] .." 2", desc = ns.iconChoice, width = 0.8,

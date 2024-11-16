@@ -379,150 +379,212 @@ st.priest.penanceDur = "與肯加伊交談並獲得你的\n未激活符文。前
 			.."你的符文。瞧！"
 			..st.priest.penanceMed
 st.priest.penanceEF = "\n\n具體來說，人類牧師將拜訪\n北郡修道院的安妮塔女祭司。\n"
-			.."然後你前往迴音嶺礦洞，\n殺死狗頭人苦工，直到掉落\n"
-			.."一個陷入困境的侍僧的記憶。\n\n返回修道院。/跪下。獲得\n"
-			.."增益後，點擊掠奪到的\n記憶以學習符文！" ..st.priest.penanceMed
-st.priest.penanceTel = "\n\n珊達位於世界之樹泰達希爾。\n與她交談，然後前往泰達希爾\n"
-			.."北部和洞穴東部的月亮井。\n/跪下。獲得增益後，點擊你的符文！" ..st.priest.penanceMed
-st.priest.penanceTG = "\n\n與黑暗牧師達斯滕交談後，你\n需要前往附近的墓地。\n"
-			.."在墓地/跪下，獲得增益後\n你只需點擊你的符文即可！" ..st.priest.penanceMed
-st.priest.sharedPain = "貝爾德隊長和鐵鎚松，赫爾姆斯·貝德湖，\n丹莫羅最東部，吉布爾維特，丹莫羅\n"
-			.."最西部；狗頭人怪物，母親之牙，陷阱者魯克拉，\n碧玉礦脈地區，艾爾文森林；\n"
-			.."梅萊納斯領主，獸穴，泰達希爾 (聯盟)。\n\n瑪卡斯加爾、扎拉贊、科卡尼斯、斯科恩、加茲烏斯\n"
-			.."- 都在杜洛塔；提瑞斯法農民怪物，索利登\n農場地區，提瑞斯法林地 (部落)\n"
-st.priest.strength = "從熊怪身上取得原始洞察，\n然後爬上地圖上標記的樹"
-st.priest.twisted = "有關地點，請參閱快速入門指南。\n\n"
-st.priest.twistedBarr = "刷剃刀嶺怪物以獲得援助之手。\n它的說明文字就是提示！使用一級\n"
-			.."復活術復活一個倒下的冒險者。\n你也可以復活他/她的寵物！"
-st.priest.twistedDark = "殺死風暴鱗片娜迦，直到掉落\n碎矛祭品。前往附近的水域，跳\n"
-			.."進去，點擊碎矛神像。瞧！"
-st.priest.twistedLM = "在銀溪礦洞刷地洞老鼠以獲得\n一枚祭品硬幣。前往出口，\n"
-			.."但在到達之前，向右看一個凹室。\n將硬幣扔進井裡，你就...\n"
-			.."做得好！現在刪除這個插件，因為\n這個雙關語太糟糕了"
-st.priest.twistedSil = "最簡單的版本。殺死並掠奪\n可悲的是，有 15 分鐘的刷新時間"
-st.priest.twistedWest = "殺死“不死”苦工，一個骷髏，\n但當它試圖復活時，你必須\n"
-			.."用任何神聖傷害殺死它。掠奪以獲得勝利！"
-st.priest.voidPlague = "諾莫瑞根附近的麻瘋地精/吉布爾維特；艾爾文\n森林的金牙；納爾普尼藏寶處，巴尼希爾\n"
-			.."墓穴，泰達希爾 (聯盟)\n庫爾提拉斯怪物，剃刀嶺以東，杜洛塔；吉爾加，\n"
-			.."死亡之門西北，提瑞斯法林地 (部落)"
--- 牧師 第二階段
-st.priest.dispersion = "讓一個盜賊從任何血帆海盜巨魔身上\n偷取一份神秘的巨魔卷軸。\n"
-			.."盜賊必須擁有精通潛行符文\n和珍妮的護符。卷軸可能在拍賣行上。\n\n"
-			.."讓一個法師使用理解法術來\n解讀卷軸 -> 解讀過的巨魔卷軸\n"
-			.."或者直接在拍賣行上購買。\n\n這將開始任務“巨魔卷軸”。\n\n"
-			.."按照地圖所示從噴泉中\n取走聖泉水。前往西北角，\n"
-			.."在擁有兩個冥想增益的情況下，\n在甘祖拉 (41 級) 附近和後方\n"
-			.."的一個噴泉上使用聖水。獲得你的戰利品！\n\n注意：這個任務是可共享的，允許牧師\n"
-			.."跳過盜賊/法師的幫助。卷軸可以\n交易 / 在拍賣行上購買。薩克斯拉斯領主 (45 級稀有)\n"
-			.."可能會出現在聖泉。你的食屍鬼\n(18 級符文) 可以拖住甘祖拉，或者為什麼不\n"
-			.."死在正確的噴泉上然後復活！\n只要你聰明，你可以直接跳到甘祖拉\n"
-			.."那一步，跳過任務和法師/盜賊的幫助！！!"
-st.priest.empowered = "就像刷指定的怪物一樣簡單"
-st.priest.painSuppression = "在悲伤沼澤、阿拉希\n高地和塵泥沼澤收集“迴響”。\n\n"
-			.."在血色修道院墓地區\n收集第四個迴響。前往血色修道院圖書館區，\n"
-			.."並按照以下順序激活每尊雕像處的\n迴響：\n\n1) 戰士 - 沼澤迴響\n2) 法師 - 阿拉希迴響\n"
-			.."3) 聖騎士 - 塞拉摩迴響\n4) 牧師 - 墓地迴響\n\n一個明亮的球體出現了。點擊它以獲得豐厚的戰利品！"
-st.priest.renewedHope = "沿著荒蕪之地的海岸刷滑刃娜迦怪物，\n直到掉落一個令人不安的幻象。\n\n"
-			.."現在對一個滑刃\n海潮女祭司 (33-34 級) 使用精神控制 (30 級)。你的等級必須\n"
-			.."不低於這個怪物 2 級以上，精神控制才能生效。\n\n現在使用你令人不安的幻象來學習！"
--- 牧師 第三階段
-st.priest.eyeOfVoid = "從艾澤拉斯各地收集七隻眼睛：詛咒之地、\n費伍德森林、費拉拉斯、灼熱峽谷、荊棘谷、\n"
-			.."塔納利斯和辛特蘭。\n\n之後前往\n"
-			.."艾薩拉最東北端的海角，找到觀察者的神殿。\n\n/跪下以接取任務。(如果出現錯誤，請重新加載)。\n"
-			.."交還任務以獲得豐厚的獎勵"
-st.priest.surgeLight = "在服務器時間晚上 9 點到凌晨 3 點之間，\n迷失靈魂的迴響將在以下地點刷新：塔納利斯的\n"
-			.."加基森墓地、荊棘谷的阿爾博拉斯廢墟、\n"
-			.."斯通納德東南部的墓地、雷矛\n村西北部的墓地。\n\n迴響免疫除奧術以外的大多數傷害。\n"
-			.."殺死並掠奪。\n\n刷新速度非常快，所以如果你沒有看到迴響，\n那麼你就站在錯誤的時間點了"
+			.."然後前往回音山礦坑，\n殺死狗頭人苦工，直到掉落\n"
+			.."\"不安的助手回憶\"。\n\n返回修道院。/跪下。獲得\n"
+			.."增益效果後，點擊拾取的\n回憶來學習符文！" ..st.priest.penanceMed
+st.priest.penanceTel = "\n\n샨達位於艾達希爾的世界之樹上。\n與她交談，然後前往艾達希爾北部\n"
+			.."以及洞穴東邊的月井。\n/跪下。獲得增益效果後，點擊你的符文！" ..st.priest.penanceMed
+st.priest.penanceTG = "\n\n與黑暗牧師達斯頓交談後，你需要前往\n附近的墓地。\n"
+			.."/跪在墓地裡，獲得增益效果後，\n你只需要點擊你的符文！" ..st.priest.penanceMed
+st.priest.sharedPain = "貝爾德隊長和錘脊，赫爾姆斯湖，\n敦莫羅以東；吉布維特，敦莫羅\n"
+			.."以西；狗頭人怪物，母牙，陷阱師魯克萊，\n碧玉礦坑區域，艾爾文森林；\n"
+			.."梅萊納斯領主，邪惡岩石洞穴，泰達希爾 (聯盟)。\n\n馬卡斯加爾，扎拉贊恩，科爾卡尼斯，斯科恩，加茲烏茲\n"
+			.."- 全部在杜隆塔爾；提瑞斯法農民怪物，索利登\n農場區域，提瑞斯法林地 (部落)\n"
+st.priest.strength = "從熊怪怪物身上獲得原始洞察力，\n然後爬上地圖上標記的樹。"
+st.priest.twisted = "請參閱快速入門指南以了解位置。\n\n"
+st.priest.twistedBarr = "擊殺剃刀沼澤怪物以獲得援助之手。\n它的提示就是線索！使用一級\n"
+			.."復活術，復活一名倒下的冒險者。\n你也可以復活他/她的寵物！"
+st.priest.twistedDark = "殺死風暴之鱗納迦，直到掉落碎矛\n供品。前往附近的水域，跳入水中，\n"
+			.."然後點擊碎矛神像。瞧！"
+st.priest.twistedLM = "在銀溪礦坑中擊殺地道鼠以獲得\n供奉硬幣。前往出口，\n"
+			.."但在出口前向右看，找到一個凹室。\n將硬幣投入井中，你就... \n"
+			.."完成了！現在刪除此插件，因為這個\n雙關語太糟糕了。"
+st.priest.twistedSil = "最簡單的版本。殺死並拾取\n可惜重生時間為 15 分鐘。"
+st.priest.twistedWest = "殺死「不死」的苦工，一個骷髏，\n但當它試圖復活時，你必須\n"
+			.."用任何神聖傷害殺死它。拾取戰利品！"
+st.priest.voidPlague = "麻瘋地精/吉布維特，靠近諾莫瑞根；金牙，\n在艾爾文森林；納爾派恩藏寶箱，巴尼西爾\n"
+			.."墓穴，泰達希爾 (聯盟)\n庫爾提拉斯怪物，剃刀嶺以東，杜隆塔爾；吉爾加爾，\n"
+			.."死亡嶺西北，提瑞斯法林地 (部落)"
 
--- 盜賊 第一階段
-st.rogue.bladeDance = "黑海岸的峭壁之泉洞穴。鑰匙從峭壁之泉的怪物身上掉落；在洛克莫丹扒竊黑鐵矮人。打開鎖盒；扒竊西部荒野的迪菲亞怪物以獲得一個謹慎的信封。前往死亡礦井的後門 (聯盟)。\n\n扒竊南海怪物以獲得海盜的火柴盒。前往附近的小山上。點燃火藥桶。轟！瞧，你的獎勵在等著你！(部落)"
-st.rogue.deadlyBrew = "在 20 級時，你會收到一封來自“C”的信。忽略它。在 22 級時學習消失和擾亂，並在欺騙大師 (第一層敏銳) 中投入五點。強烈建議學習偽裝 (第二層)。再投入 5 點！\n\n"
-			.."在焦炭村的小房子/小屋裡拾取箱子。這樣就開始了第一個任務 (上面)。\n\n"
-			.."(不要去石爪山脈。菜鳥才去那裡。獨自進入影牙城堡，因為你，我的朋友，是高手！)\n\n"
-			.."潛行到雷西爾戈爾。第一個房間的第一個 Boss。前往你附近的聯盟/部落牢房。打開牢房，但要迅速消失！與 NPC 交談以打開庭院大門。\n\n"
-			.."你需要找到吉米拉和吉菲爾。潛行！你可能會幸運地抵抗扒竊。準備好消失。必要時也使用擾亂。\n\n"
-			.."吉米拉在餐廳裡，靠近廚房。扒竊她以獲得姐妹的半把鑰匙。\n\n"
-			.."吉菲爾在樓上，向右走。他掉落兄弟的半把鑰匙。\n\n"
-			.."將兩者組合成雙子鑰匙，但請注意，你需要再次消失 (或在安全的地方進行)。\n\n"
-			.."回到庭院和馬廄。用鑰匙打開箱子。你現在有了塞爾索斯之角。\n\n"
-			.."在地牢外，在小房子裡交任務。你現在必須等待第二封郵件。它會告訴你回到這裡領取你的獎勵！！！\n\n"
-			.."情況可能有所不同，但據報導，你必須前往一個城市才能觸發信件。但首先嘗試等待 15 分鐘，包括完全退出遊戲。可能會省去很長的路！\n\n"
-			.."(第二個任務 (上面) 表示你在收到第二封信後是否還沒有“交任務”)。"
-st.rogue.envenom = "與克里斯·萊加斯交談。她在敦霍爾德城堡後面。不需要進去。\n\n"
-			.."從她那裡購買“熱門線索”。你需要 75 銀。\n\n查看你的地圖。沿著塔倫米爾以東的河流一直走到西瘟疫之地。\n\n"
-			.."繼續走到盡頭 - 瀑布。\n"
-			.."一個生鏽的保險箱的位置標記在地圖上。"
-st.rogue.mutilate = "在丹莫羅最東邊的赫爾姆斯之床湖以南扒竊黑鐵間諜以獲得黑鼠的字條；在北郡葡萄園扒竊加里克·帕德富特以獲得卡蒂的字條；在泰達希爾的邪惡之石洞穴扒竊梅萊納斯勳爵 (聯盟)。\n\n"
-			.."在杜隆塔爾扒竊燃燒之刃以獲得巴克索的字條；在提瑞斯法林地布瑞爾以南扒竊佩林隊長 (部落)。"
-st.rogue.precision = "從鐵爐堡的荒涼洞穴、暴風城的刺客小巷、泰達希爾最南端的納爾普尼藏匿處拾取 (聯盟)。\n\n"
-			.."奧格瑞瑪的貧民窟的箱子；提瑞斯法林地加倫鬼魂以東的沉船寶藏 (部落)。"
+-- 牧師階段 2
+st.priest.dispersion = "請盜賊從任何血頂巨魔身上扒竊\n神秘的巨魔捲軸。該盜賊必須擁有\n"
+			.."精通詭術符文和珍妮的護身符。捲軸\n可能在拍賣行上。\n\n"
+			.."請法師使用理解護符來\n解讀捲軸 -> 解讀後的巨魔捲軸\n"
+			.."或者直接在拍賣行購買。\n\n這將開始任務「巨魔捲軸」。\n\n"
+			.."根據地圖從噴泉中取聖泉水。前往西北角，\n"
+			.."並在兩個冥想增益效果下，在甘祖拉 (41 級)\n"
+			.."附近後方的噴泉上使用聖水。\n獲得你的戰利品！\n\n注意：此任務可共享，允許牧師\n"
+			.."跳過盜賊/法師的幫助。捲軸可交易/\n在拍賣行上。薩克拉斯領主 (45 級稀有)\n"
+			.."可能出現在聖泉。你的魔像 (18 級符文)\n可以拖住甘祖拉，或者你也可以\n"
+			.."死亡並在正確的噴泉上復活！\n只要夠聰明，你可以直接跳到甘祖拉\n"
+			.."步驟，跳過任務和法師/盜賊的幫助！！!"
+st.priest.empowered = "就像擊殺指定的怪物一樣簡單。"
+st.priest.painSuppression = "在悲傷沼澤、阿拉希高地和塵泥沼澤\n收集「回音」。\n\n"
+			.."在血色修道院墓地區收集第四個回音。\n前往血色修道院圖書館區，並按以下順序\n"
+			.."在每個雕像處啟動一個回音：\n\n1) 戰士 - 沼澤回音\n2) 法師 - 阿拉希回音\n"
+			.."3) 聖騎士 - 塞拉摩回音\n4) 牧師 - 墓地回音\n\n將會出現一個閃亮的球體。點擊它以獲得豐厚戰利品！"
+st.priest.renewedHope = "在淒涼之地海岸擊殺滑刃納迦怪物，直到\n掉落令人不安的幻象。\n\n"
+			.."現在對滑刃潮汐女祭司 (33-34 級)\n使用精神控制 (30 級)。你的等級\n"
+			.."不能比此怪物低兩個等級以上，才能使精神控制生效。\n\n現在使用你的令人不安的幻象來學習！"
+
+-- 牧師階段 3
+st.priest.eyeOfVoid = "從艾澤拉斯各地收集七隻眼睛：詛咒之地、\n費伍德森林、菲拉斯、灼熱峽谷、荊棘谷、\n"
+			.."塔納利斯和辛特蘭。\n\n然後前往艾薩拉最東北端的海角，找到\n觀察者的神殿。\n\n/跪下以接收任務。(如果出現錯誤，請重新載入)。\n"
+			.."提交任務以獲得豐厚獎勵。"
+st.priest.surgeLight = "在伺服器時間晚上 9 點到凌晨 3 點之間，\n迷失靈魂的回音將會在以下地點生成：塔納利斯的加基森\n"
+			.."墓地，荊棘谷的阿爾博拉斯廢墟，斯通納德東南方的\n"
+			.."墓地，以及蠻錘村西北方的墓地。\n\n回音免疫大多數傷害，除了奧術傷害。\n"
+			.."殺死並拾取。\n\n重生速度非常快，所以如果你沒有看到回音，\n那麼你就是在錯誤的時間站在那裡。"
+
+-- 牧師階段 4/5
+st.priest.bindingHeal = "前往你平常的牧師符文任務NPC，\n無論是奧格瑪 (部落) 榮譽谷的迪特里希·普萊斯\n"
+			.."還是暴風城 (聯盟) 教堂區的大祭司蘿倫娜。\n\n前往西瘟疫之地開始「失落的傳家寶」任務。\n"
+			.."從悲傷之丘墓穴中獲得三個遺物。提交任務。\n\n"
+			.."你現在要去西瘟疫之地西北部的壁爐谷。\n分類帳在市政廳的講台上。\n\n"
+			.."現在前往東瘟疫之地東南角的提爾之手。\n你會在鐘樓的頂層找到寶箱。\n\n"
+			.."你收到的謎題盒是鎖著的，所以\n殺死血色十字軍怪物以獲得鑰匙。\n\n"
+			.."你將在奧格瑪/暴風城完成任務。獲得符文戰利品！"
+st.priest.soulWarding = "你需要一個合作的隊伍，至少 3 人。\n\n"
+			.."你必須殺死的第一個怪物是斯坦索姆信使 (57 級精英)，\n"
+			.."所以往前走，在岔路口向左急轉。他會\n"
+			.."掉落三個隨機的信箱鑰匙。在正確的信箱\n"
+			.."使用鑰匙以獲得總共三個暗影罐。\n\n"
+			.."罐子是獨一無二的，所以需要另外兩個人幫助你。\n\n"
+			.."在前往巴納扎爾的路上，你會看到三個基座。閱讀\n"
+			.."它們以獲得關於你必須處理哪些 Boss 的線索：\n\n"
+			..colourPlaintext .."\"在死者之中，這個凡人...\" " ..colourHighlight .."瑪爾基\n"
+			..colourPlaintext .."\"一個被詛咒守護的幽靈...\" " ..colourHighlight .."阿納斯塔里\n"
+			..colourPlaintext .."\"古老的王國...\" " ..colourHighlight .."奈魯布恩坎\n"
+			..colourPlaintext .."\"由血肉築成，一種罪惡的...\" " ..colourHighlight .."拉姆斯登\n"
+			..colourPlaintext .."\"人民仰望他...\" " ..colourHighlight .."巴瑟拉斯\n"
+			..colourPlaintext .."\"一個邪惡惡意的鬥士...\" " ..colourHighlight .."瑞文戴爾\n"
+			..colourPlaintext .."\"神聖的憤怒淨化罪惡和...\" " ..colourHighlight .."巴納扎爾\n"
+			..colourPlaintext .."\"硫磺的味道...\" " ..colourHighlight .."炮手威利\n\n"
+			.."在該屍體上，你必須使用一個罐子來捕捉 Boss 的回音。\n"
+			.."請注意，回音的持續時間為兩個小時。\n\n"
+			.."回到基座，你必須在正確的\n"
+			.."基座使用回音。然後會有一個寶珠可以拾取 - 符文戰利品！"
+
+-- 盜賊階段 1
+st.rogue.bladeDance = "懸崖之泉河洞穴，黑海岸。鑰匙掉落自\n懸崖之泉怪物；在洛克莫丹扒竊黑鐵矮人。\n"
+			.."打開鎖盒；扒竊死礦的迪菲亞盜賊以獲得\n謹慎的信封。前往死礦的後門，西部荒野 (聯盟)。\n\n"
+			.."扒竊南海海盜以獲得海盜的火柴盒。前往\n附近的山丘。點燃火藥桶。\n"
+			.."轟！瞧，你的獎勵正在等著你！ (部落)"
+st.rogue.deadlyBrew = "在 20 級時，你會收到來自「C」的信。忽略它。在 22 級時學習消失和擾亂，\n"
+			.."並在欺騙大師 (第一層敏銳) 中投入五點。強烈建議\n"
+			.."偽裝 (第二層) 再投入 5 點！\n\n"
+			.."在派爾伍德村，拾取小屋/棚屋裡的箱子。這樣就開始了第一個任務 (上面)。\n\n"
+			.."(不要去石爪山脈。那是新手做的事。獨自進入影牙城堡，因為我的朋友，你是高手！)\n\n"
+			.."潛行到雷希爾戈爾。第一個房間裡的第一個 Boss。前往附近的聯盟/部落牢房。打開牢房，\n"
+			.."但要迅速消失！與 NPC 交談以打開庭院大門。\n\n"
+			.."你需要找到吉米拉和吉菲爾。潛行！你可能會幸運地抵抗扒竊。準備好\n"
+			.."消失。必要時也使用擾亂。\n\n"
+			.."吉米拉在餐廳裡，靠近廚房。扒竊她以獲得姊妹的半把鑰匙。\n\n"
+			.."吉菲爾在樓上，向右轉。他會掉落兄弟的半把鑰匙。\n\n"
+			.."將兩者組合成雙子鑰匙，但請注意，你需要再次消失 (或安全地進行)。\n\n"
+			.."回到庭院和馬廄。用鑰匙打開箱子。你現在擁有了塞爾索斯之角。\n\n"
+			.."在地城外，在小屋裡交任務。你現在必須等待第二封郵件。它會告訴\n"
+			.."你回到這裡領取你的獎勵！！!\n\n"
+			.."情況可能有所不同，但報告指出你必須前往一個城市才能觸發信件。但首先嘗試等待 15 分鐘，\n"
+			.."包括完全退出遊戲。可能會省去長途跋涉！\n\n"
+			.."(第二個任務 (上面) 表示你在收到第二封信後是否還沒有「交任務」)"
+st.rogue.envenom = "與克莉絲·萊加斯交談。她在敦霍爾德城堡後面。\n不需要進入城堡。\n\n"
+			.."從她那裡購買「熱門線索」。你需要 75 銀幣。\n\n"
+			.."查看你的地圖。沿著塔倫米爾東邊的河流\n"
+			.."一直走到西瘟疫之地。\n\n"
+			.."繼續向右走到盡頭 - 瀑布。生鏽保險箱的\n"
+			.."位置標記在地圖上。"
+st.rogue.mutilate = "在赫爾姆斯湖以南，敦莫羅最東邊，扒竊黑鐵間諜以獲得黑鼠的筆記；在北郡葡萄園扒竊加里克·帕德富特以獲得卡迪的筆記；\n"
+			.."梅萊納斯領主，邪惡岩石洞穴，泰達希爾 (聯盟)。\n\n"
+			.."在杜隆塔爾扒竊燃燒之刃怪物以獲得巴克索的筆記；\n"
+			.."扒竊佩林隊長，布瑞爾以南，提瑞斯法林地 (部落)"
+st.rogue.precision = "從鐵爐堡的荒蕪洞穴，暴風城的刺客巷，泰達希爾 (聯盟) 最南端的納爾派恩藏匿處拾取。\n\n"
+			.."奧格瑪的貧民窟的箱子；加倫鬼屋以東的沉船寶箱，提瑞斯法林地 (部落)"
 st.rogue.quickDraw = "你需要拼湊一張藏寶圖，它分為四部分。你不能跨區域共享碎片。\n"
-			.."決定你大部分時間會在哪裡度過。扒竊。\n\n"
-st.rogue.quickDrawDM = "丹莫羅藏寶圖：\n"
-			.."    右上：寒冷山谷和丹莫羅西部的霜鬃怪物\n"
-			.."    左上：赫爾姆斯之床湖最東南邊以南/西部的石顎怪物\n"
-			.."    右下：麻風侏儒，諾莫瑞根之門，丹莫羅最西邊\n"
-			.."    左下：黑鐵間諜，赫爾姆斯之床湖以南，丹莫羅最東南邊\n"
-			.."    最終位置：在一座橋下，從卡拉諾斯到鐵爐堡的路上"
+			.."決定你主要在哪個區域活動。扒竊。\n\n"
+st.rogue.quickDrawDM = "敦莫羅藏寶圖：\n"
+			.."    右上：冰鬚怪，在寒冷山谷和敦莫羅西部\n"
+			.."    左上：石顎怪，在赫爾姆斯湖西南，敦莫羅最東南\n"
+			.."    右下：麻瘋地精，諾莫瑞根之門，敦莫羅最西\n"
+			.."    左下：黑鐵間諜，在赫爾姆斯湖以南，敦莫羅最東南\n"
+			.."    最終位置：在卡拉諾斯到鐵爐堡的路上，一座橋下"
 st.rogue.quickDrawEF = "艾爾文森林藏寶圖：\n"
-			.."    右上：三個礦洞入口的狗頭人怪物\n"
-			.."    左上：迪菲亞巫師，石碑湖中央，到處都是強盜\n"
-			.."    右下：魚人搜尋者，石碑湖東側，東南海岸\n"
-			.."    左下：河爪斥候，在霍格或石碑湖附近\n"
-			.."    最終位置：在脊點塔附近"
+			.."    右上：狗頭人怪物，在三個礦坑的入口\n"
+			.."    左上：迪菲亞巫師，在石碑湖中央，到處都是盜賊\n"
+			.."    右下：魚人搜尋者，在石碑湖東側，東南海岸\n"
+			.."    左下：河流爪追擊者，在霍格或石碑湖附近\n"
+			.."    最終位置：在山脊點塔附近"
 st.rogue.quickDrawTel = "泰達希爾藏寶圖：\n"
-			.."    右上：在神諭林地河流的樹精怪物，多蘭納爾以南的湖泊\n"
-			.."    左上：納爾普尼怪物，班艾西爾巴羅巢穴\n"
+			.."    右上：小樹精怪物，在神諭林地河流，多蘭納爾以南的湖泊\n"
+			.."    左上：納爾派恩怪物，巴尼西爾墓穴\n"
 			.."    右下：鷹身人，神諭林地\n"
-			.."    左下：小精靈，邪惡之石洞穴\n"
+			.."    左下：小精靈，邪惡岩石洞穴\n"
 			.."    最終位置：空心樹樁，魯瑟蘭村"
 st.rogue.quickDrawDur = "杜隆塔爾藏寶圖：\n"
-			.."    右上：庫爾提拉斯怪物，剃刀嶺以東\n"
-			.."    左上：燃燒之刃怪物。通過剃刀嶺靠近\n"
+			.."    右上：庫爾提拉斯怪物，在剃刀嶺以東\n"
+			.."    左上：燃燒之刃怪物。經由剃刀嶺前往\n"
 			.."    右下：豺狼人，杜隆塔爾中部\n"
-			.."    左下：巨魔，回音群島主島\n"
-			.."    最終位置：在一座雕像的腳下，回音群島南部"
+			.."    左下：巨魔，主回音群島\n"
+			.."    最終位置：在一座雕像腳下，回音群島南部"
 st.rogue.quickDrawTG = "提瑞斯法林地藏寶圖：\n"
-			.."    右上：到處都是血色怪物，例如，通往修道院的路上\n"
-			.."    左上：死鐘鎮以北的農民\n"
-			.."    左下：加倫鬼魂的豺狼人\n"
-			.."    右下：邪惡的魚人，沿海地區\n"
-st.rogue.saberSlash = "黑海岸的奧伯丁燈塔；洛克莫丹的石雕水壩平台；西部荒野哨兵嶺旅館後面的山丘 (聯盟)。\n\n貧瘠之地北衛要塞的馬廄屋頂；銀松森林影牙城堡入口平台上的生鏽的箱子 (部落)。"
-st.rogue.Cutthroat = "首先通過扒竊暮色森林南邊的迪菲亞怪物獲得一枚雕刻金戒指。\n\n"
-			.."然後走到墓地，在雕像前/跪下。小心巡邏，選擇你的時機！"
-st.rogue.slaughter = "丹莫羅卡拉諾斯旅館上方；艾爾文森林黃金鎮以北的鬼屋屋頂；泰達希爾班艾西爾巴羅巢穴內的幾個藏匿處 (聯盟)。\n\n"
-			.."杜隆塔爾的乾涸峽谷 - 尋找剃刀嶺西北方北邊的一個標記；提瑞斯法林地阿加曼德墓穴的遺物寶箱。鑰匙從附近的怪物身上掉落。"
+			.."    右上：到處都是血色十字軍怪物，例如，通往修道院的路上\n"
+			.."    左上：農民，在死亡嶺以北\n"
+			.."    左下：豺狼人，在加倫鬼屋\n"
+			.."    右下：邪鰭魚人，沿海地區\n"
+st.rogue.saberSlash = "黑海岸的奧伯丁燈塔；洛克莫丹的石工水壩平台；\n西部荒野 (聯盟) 的哨兵嶺旅店後面的山丘。\n\n"
+			.."貧瘠之地的北衛塔樓的馬廄屋頂；\n影牙城堡入口平台上的生鏽箱子，銀松森林 (部落)"
+st.rogue.Cutthroat = "首先通過扒竊暮色森林南部邊境的迪菲亞盜賊\n獲得一枚雕刻金戒指。\n\n"
+			.."然後前往墓地，在雕像前/跪下。小心巡邏怪，\n選擇你的時機！"
+st.rogue.slaughter = "敦莫羅卡拉諾斯旅店上方；艾爾文森林金海岸北部鬼屋的屋頂；\n"
+			.."泰達希爾 (聯盟) 的巴尼西爾墓穴內有多個寶箱位置。\n\n"
+			.."杜隆塔爾的乾涸溝壑 - 尋找剃刀嶺西北偏北的一個標記；\n"
+			.."提瑞斯法林地的阿加曼德地穴中的遺物寶箱。鑰匙掉落自附近的怪物"
 
--- 盜賊 第二階段
-st.rogue.punches = "只需打開保險箱內的保險箱。最難的需要\n55 級的開鎖技能。你可以丟棄\n你會找到的筆記。"
-st.rogue.shadowstep = "在 20 級時，你會收到一封來自“C”的信，假設你已經獲得了致命藥膏。\n\n"
-			.."再次前往銀松森林焦炭村的信箱位置，並接取“博斯卡之眼”第 2 部分。\n\n"
-			.."補給箱位於修道院場地馬廄附近（副本外）。\n"
+-- 盜賊階段 2
+st.rogue.punches = "只需在保險箱中找到保險箱。最難的需要\n55 級開鎖技能。你可以丟棄你找到的筆記。"
+st.rogue.shadowstep = "假設你已經獲得了致命藥膏，在 20 級時，你會收到來自「C」的信。\n\n"
+			.."再次前往銀松森林派爾伍德村的死信箱位置，並拾取「博斯卡之眼」第 2 部分。\n\n"
+			.."補給箱在修道院 grounds 的馬廄附近 (副本外)。\n"
 			.."開鎖 (100) 並拾取偽裝。\n\n"
-			.."單人進入血色墓地側廳，穿上偽裝並扒竊一個血色占卜師以獲得鑰匙。進入圖書館側廳，並打開檔案室裡的私人信箱以獲得機密信息。進入墓地側廳。在荒涼迴廊的長凳上/坐下，然後穿過房間，在另一邊/坐下。\n\n"
-			.."現在向北走，從一個陵墓壁龕中拾取石制保險箱以獲得另一把鑰匙。\n\n"
-			.."前往圖書館側廳的寶藏陳列室，拾取上鎖的聖物箱 -> 博斯卡之眼。\n\n"
-			.."回到焦炭村，將眼睛放入信箱中。爐石到一個主要城市。查看郵件（重新登錄）。\n"
-			.."是的... 回到信箱。拾取你的豐厚戰利品。"
-st.rogue.shurikenToss = "在標記的箱子生成位置附近會\n有一個毒鏢陷阱。使用解除陷阱 (30 級)\n"
-			.."或等待其他盜賊為你解除。\n\n不要走到陷阱前面！！！\n\n"
-			.."箱子會出現，裡面裝著豐厚的戰利品！"
-st.rogue.subtlety = "進入庫爾森營地的石塔，\n與溫德爾·馬瑟斯交談。\n\n"
-			.."在北邊的洞穴裡殺死庫爾森怪物\n以獲得複合籠子的鑰匙。釋放馬瑟斯。\n\n"
-			.."在藏寶海灣與阿蘭薩斯船長交談。\n\n請注意，洞穴裡還有一個箱子 (125)\n"
+			.."獨自進入血色墓地區，穿上偽裝並扒竊一名血色占卜師以獲得鑰匙。進入圖書館區，\n"
+			.."並打開檔案室中的私人信箱以獲得機密訊息。進入墓地區。在荒涼修道院的長椅上/坐下，然後穿過房間在另一側/坐下。\n\n"
+			.."現在向北走，從陵墓壁龕中拾取石棺以獲得另一把鑰匙。\n\n"
+			.."前往圖書館區的寶物陳列室，並拾取上鎖的聖物箱 -> 博斯卡之眼。\n\n"
+			.."回到派爾伍德，將眼睛放入死信箱中。爐石回到一個主要城市。檢查郵件 (重新登錄)。\n"
+			.."是的... 回到死信箱。領取你的豐厚戰利品。"
+st.rogue.shurikenToss = "在標記的箱子生成位置附近會有一個毒鏢陷阱。使用拆除陷阱 (30 級)\n"
+			.."或等待其他盜賊為你拆除。\n\n不要走到陷阱前面！！！\n\n"
+			.."箱子將會出現，裡面裝著豐厚戰利品！"
+st.rogue.subtlety = "進入庫爾森營地的石塔，與溫德爾·馬瑟斯交談。\n\n"
+			.."在北部洞穴中殺死庫爾森怪物以獲得複合籠鑰匙。釋放馬瑟斯。\n\n"
+			.."在藏寶海灣與艾蘭薩斯船長交談。\n\n請注意，洞穴中還有一個箱子 (125)\n"
 			.."你可以開鎖。"
 
--- 盜賊 第三階段
-st.rogue.honorThieves = "在接到任務後，你將前往奧特蘭克山脈的拉文霍德莊園。那裡的法拉德會派你前往祖爾法拉克。\n\n單人進入祖爾法拉克。（這是一個專為完成此任務的盜賊設計的特殊版本）。\n\n"
-			.."在帳篷裡尋找兩個裝在陶罐裡的邪惡混合物。請注意，將混合物扔進大鍋不會打破潛行。\n\n"
-			.."在安圖蘇爾附近使用一個，然後從他的包裡拾取骨頭祭品。同樣，從巫醫祖姆拉身上獲得亡者護符。裝備這個飾品，你會看到一個墳墓。從中拾取血肉祭品。\n\n"
-			.."將兩個祭品組合起來 -> 血魔法精華。\n\n"
-			.."在“樓梯事件”的右側是一個石塊。跳上去。走到一個有箱子的陽台上。獲得空心徽記。將其與血魔法精華組合 -> 血魔法徽記。\n\n"
+-- 盜賊階段 3
+st.rogue.honorThieves = "接到任務後，你將前往奧特蘭克山脈的拉文霍德莊園。\n那裡的法拉德會派你前往祖爾法拉克。\n"
+			.."單獨進入祖爾法拉克。(這是一個專為執行此任務的盜賊設計的特殊版本)。\n\n"
+			.."在帳篷裡尋找兩個裝在陶罐裡的邪惡藥劑。\n請注意，將藥劑扔進大鍋不會打破潛行。\n\n"
+			.."在安圖蘇爾附近使用一個，然後從他的袋子裡拾取骨骼供品。\n同樣，對巫醫祖姆拉使用，以獲得亡者護符。裝備這個飾品，你會看到一個墳墓。從中拾取血肉供品。\n\n"
+			.."組合兩個供品 -> 血魔法精華。\n\n"
+			.."在「樓梯事件」的右側是一個石塊。跳上去。走到一個有箱子的陽台。獲得\n"
+			.."空心紋章。將其與血魔法精華組合 -> 血魔法紋章。\n\n"
 			.."在金字塔頂部拾取戰爭寶箱以獲得卡茲多爾的護符。幹得好。返回拉文霍德。\n\n"
-			.."現在將你修改過的護符帶到焦炭村的信箱。現在回到拉文霍德，法拉德將用你的符文和一件很棒的敏捷斗篷獎勵你！"
-st.rogue.unfair = "在塔納利斯的海灣扒竊海盜，直到你獲得一個綁匪的錢袋，裡面裝著一枚珍貴的徽章。\n\n"
-			.."把它帶到蒸汽地精港的賈比，他會很樂意用它交換一個卑鄙手段的符文！"
+			.."現在將你的改造後的護符帶到派爾伍德村的死信箱。現在回到拉文霍德，法拉德\n"
+			.."將用你的符文和一件很棒的敏捷斗篷獎勵你！"
+st.rogue.unfair = "在塔納利斯的海灣扒竊海盜怪物，直到你\n獲得一個綁匪的錢袋，裡面裝著一枚珍貴的徽章。\n\n"
+			.."把它帶到蒸汽地精港的賈比，他會很樂意用它交換一個\n卑鄙伎倆符文！"
+
+-- 盜賊階段 4/5
+st.rogue.blunderbuss = "非典型地，圖釘編號從 0 開始。\n\n首先開鎖 (至少 250) 腳鎖，直到掉落一個傳送符印。\n\n"
+			.."現在按照確切的順序前往編號為 1 到 4 的圖釘。\n請注意，每次你與一根柱子互動時，你都會被傳送到\n"
+			.."另一根柱子。如果幸運的話，它就是正確的下一根柱子！\n\n"
+			.."在第四根柱子之後，你會被傳送到最終位置。那裡有一個箱子！"
+st.rogue.crimson = "在壁爐谷擊殺血色十字軍工人以獲得工具箱鑰匙。扒竊或殺死都可以。\n\n"
+			.."用它打開血色工具箱。\n\n現在前往標記的板條箱，並使用\n"
+			.."工具箱中的生鏽撬棍。\n\n"
+			.."現在前往另一座塔，使用你新獲得的保險箱鑰匙。找到\n"
+			.."貝拉弗斯的保險箱。你的豐厚戰利品！"
+
 
 -- 薩滿祭司 第一階段
 st.shaman.dyadicIcon = "巨魔/獸人：在試煉谷與希克里克會面，\n牛頭人：在納拉奇營地與米拉·晨行者會面。\n\n"
@@ -1406,13 +1468,6 @@ ns.runes = {
 			"Meditation Specialization", },
 	},
 
-	[44604660] = { npc=227519, name="Fallen Knight", class={ "PALADIN" }, spell={ "Righteous Vengeance" },
-					quest={ { 83808, 83935, 83822, 83936 } }, guide={ st.paladin.vengeance },
-					questName={ { "In a Bind", "Clearing the Path", "The Fallen Knight", "Dalton's Quest" } }, },
-	[47805060] = { npc=227672, name="Squire Cuthbert", class={ "PALADIN" }, spell={ "Righteous Vengeance" },
-					quest={ { 83808, 83935, 83822, 83936 } }, guide={ st.paladin.vengeance },
-					questName={ { "In a Bind", "Clearing the Path", "The Fallen Knight", "Dalton's Quest" } }, },
-
 	["PRIEST"] = {
 		-- Phase 1
 		["Penance"]={ rune="Memory of a Troubled Acolyte", phase=1, spellID=402174, level=2, icon=1, slot=10,
@@ -1458,21 +1513,13 @@ ns.runes = {
 				start="Kill nagas in northern Desolace until the Unsettling Vision drops. Then activate it via Mind Control" },	
 		["Pain Suppression"]={ rune="Memory of a Leader's Betrayal", phase=2, spellID=402004, level=35, icon=16, slot=8,
 				start="look for \"Echos\" in Arathi, Dustwallow, SM graveyard, Swamp of Sorrows. Then complete a ritual in the SM Library wing " },
-		["Spirit of the Redeemer"]={ rune="Luminous Epiphany", phase=2, spellID=425284, level=40, icon=17, slot=8, start=st.dalaranSpeakTo },
+		["Spirit of the Redeemer"]={ rune="Luminous Epiphany", phase=2, spellID=425284, level=40, icon=17, slot=8,
+				start=st.dalaranSpeakTo },
 		["Dispersion"]={ rune="Prophecy of Imprisoned Malice", phase=2, spellID=425294, level=18, icon=18, slot=8,
 				start="Officially you need a mage and rogue to help with tasks in Stranglethorn Vale. See that map also for HACKS!" },
 		-- Phase 2 Skill Books
 		["Increased Fortitude"]={ skillBook="Scroll Increased Fortitude", spellID=436951, level=1, start=st.purchaseSkillBook },
 		["Shadowfiend"]={ skillBook="Scroll of Shadowfiend", spellID=401977, level=1, start=st.purchaseSkillBook },
-
-		-- 1 = "Head"			 8 = "Feet"			15 = "Back"
-		-- 2 = "Neck"			 9 = "Wrist"		16 = "Main Hand"
-		-- 3 = "Shoulders"		10 = "Hands"		17 = "Off Hand"
-		-- 4 = "Shirt"			11 = "Ring 1"		18 = "Ranged"
-		-- 5 = "Chest"			12 = "Ring 2"		19 = "Tabard"
-		-- 6 = "Waist"			13 = "Trinket 1"
-		-- 7 = "Legs"			14 = "Trinket 2"
-				
 		-- Phase 3
 		["Void Zone"]={ rune="Nihilist Epiphany", phase=3, spellID=431681, level="23/37/47", icon=19, slot=9,
 				start=st.emeraldWardens },
@@ -1488,21 +1535,23 @@ ns.runes = {
 				start="Collect seven eyes from around Azeroth: Blasted Lands, Felwood, Feralas, Searing Gorge,\n"
 					.."Stranglethorn Vale, Tanaris, The Hinterlands. Afterwards go to Azshara for the hand in" },
 		-- Phase 4
---		["Binding Heal"]={ rune="", phase=4, spellID=, level=45, icon=25, slot=15,
---				start="" },
---		["Soul Warding"]={ rune="", phase=4, spellID=, level=45, icon=26, slot=15,
---				start="" },
---		["Vampiric Touch"]={ rune="", phase=4, spellID=, level=45, icon=27, slot=15,
---				start="" },
+		["Binding Heal"]={ rune="Jubilant Epiphany", phase=4, spellID=401937, level=55, icon=25, slot=15,
+				start="Go to High Priestess Laurena, Stormwind Cathedral (A) or Dietrich Praice, Valley of Spirits, Orgrimmar (H)" },
+		["Soul Warding"]={ rune="Oneiric Epiphany", phase=4, spellID=402000, level=60, icon=26, slot=15,
+				start="Go to Stratholme Live Side (Main Entrance), Eastern Plaguelands. Follow the guide precisely (L58-62e)" },
+		["Vampiric Touch"]={ rune="Aperitive Epiphany", phase=4, spellID=402668, level=60, icon=27, slot=15,
+				start="Drops from Hellscream's Phantom (L62e), last boss in Demon Fall Canyon, Ashenvale but...\n"
+					.."You need to unlock the dungeon. Speak to the Shadowtooth Emissary in Emerald Santuary, Felwood" },
 
 		spells={ "Penance", "Prayer of Mending", "Void Plague", "Homunculi", "Shared Pain", "Mind Sear",
 			"Twisted Faith", "Shadow Word: Death", "Serendipity", "Power Word: Barrier",
 			"Strength of Soul", "Circle of Healing", "Empowered Renew", "Mind Spike", "Renewed Hope",
 			"Pain Suppression", "Spirit of the Redeemer", "Dispersion", "Void Zone", "Surge of Light",
-			"Divine Aegis", "Pain and Suffering", "Despair", "Eye of the Void", },
-		--	"Binding Heal", "Soul Warding", "Vampiric Touch" },
+			"Divine Aegis", "Pain and Suffering", "Despair", "Eye of the Void",
+			"Binding Heal", "Soul Warding", "Vampiric Touch" },
 		skillBooks={ "Increased Fortitude", "Shadowfiend" },
-		rings={},
+		rings={ "Dagger Specialization", "Holy Specialization", "Mace Specialization", "Pole Weapon Specialization",
+			"Shadow Specialization", "Healing Specialization", "Meditation Specialization", },
 	},
 			
 	["ROGUE"] = {
@@ -1568,22 +1617,38 @@ ns.runes = {
 		["Honor Among Thieves"]={ rune="Rune of the Coterie", phase=3, spellID=432264, level=45, icon=24, slot=1,
 				start="You need to have visited Ravenholdt previously and to have completed the Pyrewood Dead Drop quests/runes.\n"
 					.."Then at L45 you'll receive a letter sending you back to Ravenholdt Manor" },
+
+		-- 1 = "Head"			 8 = "Feet"			15 = "Back"
+		-- 2 = "Neck"			 9 = "Wrist"		16 = "Main Hand"
+		-- 3 = "Shoulders"		10 = "Hands"		17 = "Off Hand"
+		-- 4 = "Shirt"			11 = "Ring 1"		18 = "Ranged"
+		-- 5 = "Chest"			12 = "Ring 2"		19 = "Tabard"
+		-- 6 = "Waist"			13 = "Trinket 1"
+		-- 7 = "Legs"			14 = "Trinket 2"
+				
 		-- Phase 4
---		["Blunderbuss"]={ rune="", phase=4, spellID=, level=45, icon=25, slot=15,
---				start="" },
---		["Crimson Tempest"]={ rune="", phase=4, spellID=, level=45, icon=26, slot=15,
---				start="" },
---		["Fan of Knives"]={ rune="", phase=4, spellID=, level=45, icon=27, slot=15,
---				start="" },
+		["Fan of Knives"]={ rune="Rune of Knives", phase=4, spellID=409240, level=1, icon=25, slot=15,
+				start="Loot a wooden chest in Winterfall Village, Winterspring (L55-59" },
+		["Crimson Tempest"]={ rune="Rune of the Crimson Tempest", phase=4, spellID=412096, level=55, icon=26, slot=15,
+				start="A run-around in Hearthglen - chests plus pp/kill. Start with Scarlet Workers (L55-57) " },
+		["Blunderbuss"]={ rune="Rune of the Swashbuckler", phase=4, spellID=436610, level=57, icon=27, slot=15,
+				start="Begin by lockpicking Scarlet Footlockers @ Tyr's Hand in the Eastern Plaguelands,\n"
+					.."(Min LP 250, 275+ better) (L53-57e + L61e)" },
+		-- Phase 4 Skill Books
+		["Atropic Poison"]={ skillBook="Manual of Atropic Poison", spellID=439503, level=1, start=st.purchaseSkillBook },
+		["Numbing Poison"]={ skillBook="Manual of Numbing Poison", spellID=439505, level=1, start=st.purchaseSkillBook },
+		["Occult Poison I"]={ skillBook="Manual of Occult Poison", spellID=458822, level=1, start=st.purchaseSkillBook },
+		["Sebacious Poison"]={ skillBook="Manual of Sebacious Poison", spellID=439500, level=1, start=st.purchaseSkillBook },
 
 		spells={ "Shadowstrike", "Quick Draw", "Slaughter from the Shadows",  "Mutilate",
 			"Between the Eyes", "Saber Slash", "Blade Dance", "Just a Flesh Wound", "Envenom",
 			"Main Gauche", "Deadly Brew", "Cutthroat", "Poisoned Knife", "Shadowstep",
 			"Shuriken Toss", "Rolling with the Punches", "Waylay", "Master of Subtlety",
 			"Cut to the Chase", "Focused Attacks", "Carnage", "Unfair Advantage", "Combat Potency",
-			"Honor Among Thieves", }, --"Blunderbuss", "Crimson Tempest", "Fan of Knives" },
-		skillBooks={ "Redirect" },
-		rings={},
+			"Honor Among Thieves", "Crimson Tempest", "Blunderbuss", "Fan of Knives" },
+		skillBooks={ "Atropic Poison", "Numbing Poison", "Occult Poison I", "Redirect", "Sebacious Poison" },
+		rings={ "Dagger Specialization", "Defense Specialization", "Fist Weapon Specialization", "Mace Specialization",
+			"Nature Specialization", "Ranged Weapon Specialization", "Sword Specialization", },
 	},
 			
 	["SHAMAN"] = {
@@ -2352,13 +2417,14 @@ points[ 1431 ] = { -- Duskwood
 					spell={ "Circle of Healing" }, guide={ st.priest.circle } },
 }
 points[ 1423 ] = { -- Eastern Plaguelands
+	[14753050] = { object=856874, name="Sending Pillar", class={ "ROGUE" }, spell={ "Blunderbuss" },
+					guide={ st.rogue.blunderbuss }, tip="Step (4) The fourth pillar.\nAbove the spider cave entrance" },
 	[18203320] = { npc=16117, name="Plagued Swine", class={ "HUNTER" }, spell={ "Resourcefulness" },
 					guide={ st.hunter.resourceful }, tip="You want 1 x Tainted Boar Meat" },
 	[26307470] = { object=457090, name="Famous (and Infamous) Rangers of Azeroth", spell={ "Ranged Weapon Specialization" }, 
 					class={ "HUNTER", "ROGUE", "WARRIOR", },  ring=true,
 					guide="Left of the doorway at Marris Stead in\nEastern Plaguelands.\n\n"
 					.."Nathanos Blightcaller (L62e) and his two\nBlighthounds (L58-59e) are Horde friendly", },
-
 	[27608600] = { npc=229018, name="Rotting Dwarf Corpse", class={ "PALADIN", }, spell={ "Shield of Righteousness" },
 					guide={ st.paladin.righteousness }, quest={ { 84318, 84319, 84330, 84414, 84332 } }, tip="Step (5) Undercroft",
 					questName={ { "Oil", "Oh No Ye Don't!", "A Wee Bit O' Necromancy", "Send Me On Me Way!", "A Thane's Gratitude" } }, },
@@ -2375,6 +2441,8 @@ points[ 1423 ] = { -- Eastern Plaguelands
 	[37605760] = { name="Abominations/Stitched Horrors", class={ "PALADIN", }, spell={ "Shield of Righteousness" },
 					guide={ st.paladin.righteousness }, quest={ { 84318, 84319, 84330, 84414, 84332 } }, tip="Step (3)",
 					questName={ { "Oil", "Oh No Ye Don't!", "A Wee Bit O' Necromancy", "Send Me On Me Way!", "A Thane's Gratitude" } }, },
+	[40009200] = { object=856876, name="Sending Pillar", class={ "ROGUE" }, spell={ "Blunderbuss" },
+					guide={ st.rogue.blunderbuss }, tip="Step (2) The second pillar.\nIt's on a small hill near the wrecked building" },
 	[42007960] = { npc=228620, name="Slack-Jawed Ghoul", class={ "PALADIN", }, spell={ "Shield of Righteousness" },
 					guide={ st.paladin.righteousness }, quest={ { 84318, 84319, 84330, 84414, 84332 } }, tip="Step (1)",
 					questName={ { "Oil", "Oh No Ye Don't!", "A Wee Bit O' Necromancy", "Send Me On Me Way!", "A Thane's Gratitude" } }, },
@@ -2384,7 +2452,8 @@ points[ 1423 ] = { -- Eastern Plaguelands
 	[61306920] = { object=461639, name="Orthas' Hammer", class={ "PALADIN", }, spell={ "Shield of Righteousness" },
 					guide={ st.paladin.righteousness }, quest={ { 84318, 84319, 84330, 84414, 84332 } }, tip="Step (2) Corrin's Crossing",
 					questName={ { "Oil", "Oh No Ye Don't!", "A Wee Bit O' Necromancy", "Send Me On Me Way!", "A Thane's Gratitude" } }, },
-
+	[31251950] = { name="Stratholme Live Side (Main Entrance)", class={ "PRIEST" },
+					spell={ "Soul Warding" }, guide={ st.priest.soulWarding }, },
 	[31252100] = { object=463212, name="Scrolls", class={ "MAGE" },
 					spell={ "Arcane Barrage" }, guide={ st.mage.books }, alsoTestQuest=true,
 					tip="On the table right before the bridge to Stratholme",
@@ -2394,25 +2463,48 @@ points[ 1423 ] = { -- Eastern Plaguelands
 					quest={ { 84400 } }, questName={ { "The Knight and the Lady" } } },
 	[54607020] = { name="Living Decay / Rotting Sludge", class={ "HUNTER" }, spell={ "Resourcefulness" },
 					guide={ st.hunter.resourceful }, tip="You want 1 x Bubbling Green Ichor" },
+	[62200750] = { object=456883, name="Adon's Trunk", class={ "ROGUE" }, spell={ "Blunderbuss" },
+					guide={ st.rogue.blunderbuss }, tip="Step (5) Grab your phat lewt!" },
 	[66606660] = { npc=8603, name="Carrion Grub", class={ "HUNTER" }, spell={ "Resourcefulness" },
 					guide={ st.hunter.resourceful }, tip="They are literally everywhere.\nThis is just one example" },
+	[70003500] = { object=856874, name="Sending Pillar", class={ "ROGUE" }, spell={ "Blunderbuss" },
+					guide={ st.rogue.blunderbuss }, tip="Step (3) The third pillar" },
 	[76006060] = { name="Living Decay / Rotting Sludge", class={ "HUNTER" }, spell={ "Resourcefulness" },
 					guide={ st.hunter.resourceful }, tip="You want 1 x Bubbling Green Ichor" },
+	[80808520] = { object=179498, name="Scarlet Footlocker", class={ "ROGUE" }, spell={ "Blunderbuss" },
+					guide={ st.rogue.blunderbuss }, tip="Step (0) pick these until a Sending Sigil drops" },
 	[81705780] = { object=463207, name="Scrolls", class={ "MAGE" }, tip="Back left corner of Light's Hope Chapel",
 					spell={ "Arcane Barrage" }, guide={ st.mage.books }, alsoTestQuest=true,				
 					quest={ { 84398 } }, questName={ { "A Study of the Light" } } },
+	[82005800] = { object=856874, name="Sending Pillar", class={ "ROGUE" }, spell={ "Blunderbuss" },
+					guide={ st.rogue.blunderbuss }, tip="Step (1) The first pillar" },
+	[82008400] = { item=228912, name="Artifact Storage Key", class={ "PRIEST" }, spell={ "Binding Heal" },
+					quest={ ( ( ns.faction == "Alliance" ) and { 84320, 84321, 84322, 84323 } or { 84405, 84406, 84322, 84407 } ) },
+					guide={ st.priest.bindingHeal },
+					questName={ { "Lost Heirloom", "Relic of Light", "Scarlet Research", "The Prize Within", } }, },
+	[82908470] = { object=179498, name="Scarlet Footlocker", class={ "ROGUE" }, spell={ "Blunderbuss" },
+					guide={ st.rogue.blunderbuss }, tip="Step (0) pick these until a Sending Sigil drops" },
+	[83507950] = { object=459388, name="Artifact Cache", class={ "PRIEST" }, spell={ "Binding Heal" },
+					quest={ ( ( ns.faction == "Alliance" ) and { 84320, 84321, 84322, 84323 } or { 84405, 84406, 84322, 84407 } ) },
+					guide={ st.priest.bindingHeal },
+					questName={ { "Lost Heirloom", "Relic of Light", "Scarlet Research", "The Prize Within", } }, },
 	[83607820] = { object=457094, name="The True Nature of the Light", spell={ "Holy Specialization" }, ring=true, 
 					class={ "PALADIN", "PRIEST", },
 					guide="As per the pin, enter the Abbey and turn left,\nmaking for the library wing.\n\n"
 					.."The book is on top of a bookshelf which is\nnext to a staircase.\n\n"
 					.."Note that if you die and rez on the first\nlanding, you'll be out of LoS of the mobs\n"
 					.."for an easy loot and hearth!", },
+	[83607930] = { object=179498, name="Scarlet Footlocker", class={ "ROGUE" }, spell={ "Blunderbuss" },
+					guide={ st.rogue.blunderbuss }, tip="Step (0) pick these until a Sending Sigil drops\n"
+						.."There might be 2 or 3 in this area" },
 	[86603960] = { npc=227985, name="Arkonos the Cursed", class={ "PALADIN", "PALADIN", }, spell={ "Shock and Awe", "Avenging Wrath" },
 					guide={ st.paladin.shockAwe, st.paladin.avengingWrath },
 					tip="The Scourge Shadow Scalpel will drop from\nthe Shadowmage and Dread Weaver mobs",
 					quest={ { 83936, 83823, 84008, 84017, 84125, 84126 }, { 84126 } },
 					questName={ { "Dalton's Quest", "A Lesson in Violence", "A Lesson in Grace", "A Time to Kill", 
 						"Close Enough to Touch", "Finish the Fight" }, { "Finish the Fight" }, }, },
+	[86708320] = { object=179498, name="Scarlet Footlocker", class={ "ROGUE" }, spell={ "Blunderbuss" },
+					guide={ st.rogue.blunderbuss }, tip="Step (0) pick these until a Sending Sigil drops" },
 }
 points[ 1429 ] = { -- Elwynn Forest
 	[13213968] = { npc=203475, name="Liv Bradford", class={ "PALADIN", "WARRIOR" }, faction="Alliance",
@@ -3206,6 +3298,9 @@ points[ 1453 ] = { -- Stormwind City
 	[37827997] = { npc=211033, name="Garion Wendell", class={ "MAGE" }, faction="Alliance",
 					spell={ "Spell Power" }, tip="Collect any 20 books", guide={ st.mage.books },
 					quest={ st.mage.booksQuestIDsA }, questName={ st.mage.booksQuestNamesA }, },
+	[38702640] = { npc=376, name="High Priestess Laurena", class={ "PRIEST" }, faction="Alliance", spell={ "Binding Heal" },
+					quest={ { 84320, 84321, 84322, 84323 } }, guide={ st.priest.bindingHeal },
+					questName={ { "Lost Heirloom", "Relic of Light", "Scarlet Research", "The Prize Within", } }, },
 	[39328147] = { npc=211033, name="Garion Wendell", class={ "MAGE" }, faction="Alliance",
 					spell={ "Deep Freeze" }, tip="Collect any 25 books", guide={ st.mage.books },
 					quest={ st.mage.booksQuestIDsA }, questName={ st.mage.booksQuestNamesA, }, },					
@@ -3676,13 +3771,14 @@ points[ 1458 ] = { -- Undercity
 					spell={ "Soul Siphon" }, guide={ st.warlock.soulSiphon } },
 }
 points[ 1422 ] = { -- Western Plaguelands
-	[47301370] = { object=457102, name="Elements for Dummies Volume III: Arcane", class={ "DRUID", "HUNTER", "MAGE" },
-					spell={ "Arcane Specialization" }, ring=true, guide="Locate a tower in Hearthglen, north-western\n"
-					.."Western Plaguelands. Top floor of the tower.\nThe book is leaning against a bookshelf. Loot!", },
 	[36805470] = { name="Novice Frost Mage", class={ "MAGE" }, tip={ "In the house" }, spell={ "Overheat" }, guide={ st.mage.overheat } },
 	[38205460] = { name="Scrolls", class={ "MAGE" }, tip="Upstairs, in the farmhouse",
 					spell={ "Arcane Barrage" }, guide={ st.mage.books }, alsoTestQuest=true,				
 					quest={ { 84395 } }, questName={ { "Undead Potatoes" } } },
+	[42201810] = { object=457443, name="Scarlet Ledger", class={ "PRIEST" }, spell={ "Binding Heal" },
+					quest={ ( ( ns.faction == "Alliance" ) and { 84320, 84321, 84322, 84323 } or { 84405, 84406, 84322, 84407 } ) },
+					guide={ st.priest.bindingHeal },
+					questName={ { "Lost Heirloom", "Relic of Light", "Scarlet Research", "The Prize Within", } }, },
 	[44604660] = { npc=227519, name="Fallen Knight", class={ "PALADIN", "PALADIN", "PALADIN" },
 					spell={ "Righteous Vengeance", "Shock and Awe", "Avenging Wrath" },
 					tip="(1) Begin here\n(4) You MUST select \"burn\"",
@@ -3691,7 +3787,11 @@ points[ 1422 ] = { -- Western Plaguelands
 					questName={ { "In a Bind", "Clearing the Path", "The Fallen Knight", }, { "Dalton's Quest", 
 						"A Lesson in Violence", "A Lesson in Grace", "A Time to Kill", "Close Enough to Touch", "Finish the Fight" },
 						{ "Finish the Fight" }, }, },
+	[45001410] = { object=463540, name="Scarlet Toolbox", class={ "ROGUE" }, spell={ "Crimson Tempest" }, guide={ st.rogue.crimson } },
 	[45105190] = { name="Novice Frost Mage", class={ "MAGE" }, spell={ "Overheat" }, guide={ st.mage.overheat } },
+	[45801260] = { npc=1883, name="Scarlet Worker", class={ "ROGUE" }, spell={ "Crimson Tempest" }, guide={ st.rogue.crimson } },
+	[45801830] = { object=461632, name="Marked Crate", class={ "ROGUE" }, spell={ "Crimson Tempest" }, guide={ st.rogue.crimson,
+					tip="This is the middle tower of Hearthglen,\ntop floor. Safe Box Key is inside the crate" } },
 	[45705390] = { object=455812, name="Squire Cuthbert's Sword", class={ "PALADIN", "PALADIN", "PALADIN" },
 					spell={ "Righteous Vengeance", "Shock and Awe", "Avenging Wrath" }, tip="(3) of the chain",
 					guide={ st.paladin.vengeance, st.paladin.shockAwe, st.paladin.avengingWrath },
@@ -3699,6 +3799,11 @@ points[ 1422 ] = { -- Western Plaguelands
 					questName={ { "In a Bind", "Clearing the Path", "The Fallen Knight", }, { "Dalton's Quest", 
 						"A Lesson in Violence", "A Lesson in Grace", "A Time to Kill", "Close Enough to Touch", "Finish the Fight" },
 						{ "Finish the Fight" }, }, },
+	[46301460] = { object=461633, name="Belavus' Safe Box", class={ "ROGUE" }, spell={ "Crimson Tempest" }, guide={ st.rogue.crimson,
+					tip="This is the middle tower of Hearthglen,\ntop floor. Safe Box Key is inside the crate" } },
+	[47301370] = { object=457102, name="Elements for Dummies Volume III: Arcane", class={ "DRUID", "HUNTER", "MAGE" },
+					spell={ "Arcane Specialization" }, ring=true, guide="Locate a tower in Hearthglen, north-western\n"
+					.."Western Plaguelands. Top floor of the tower.\nThe book is leaning against a bookshelf. Loot!", },
 	[47805060] = { npc=227672, name="Squire Cuthbert", class={ "PALADIN", "PALADIN", "PALADIN" },
 					spell={ "Righteous Vengeance", "Shock and Awe", "Avenging Wrath" }, tip="(2) His location for this step",
 					guide={ st.paladin.vengeance, st.paladin.shockAwe, st.paladin.avengingWrath },
@@ -3707,6 +3812,18 @@ points[ 1422 ] = { -- Western Plaguelands
 						"A Lesson in Violence", "A Lesson in Grace", "A Time to Kill", "Close Enough to Touch", "Finish the Fight" },
 						{ "Finish the Fight" }, }, },
 	[53306450] = { name="Novice Frost Mage", class={ "MAGE" }, spell={ "Overheat" }, guide={ st.mage.overheat } },
+	[54808120] = { object=457389, name="Family Records", class={ "PRIEST" }, spell={ "Binding Heal" },
+					quest={ ( ( ns.faction == "Alliance" ) and { 84320, 84321, 84322, 84323 } or { 84405, 84406, 84322, 84407 } ) },
+					guide={ st.priest.bindingHeal },
+					questName={ { "Lost Heirloom", "Relic of Light", "Scarlet Research", "The Prize Within", } }, },
+	[54108070] = { object=457390, name="Survivor Journal", class={ "PRIEST" }, spell={ "Binding Heal" },
+					quest={ ( ( ns.faction == "Alliance" ) and { 84320, 84321, 84322, 84323 } or { 84405, 84406, 84322, 84407 } ) },
+					guide={ st.priest.bindingHeal },
+					questName={ { "Lost Heirloom", "Relic of Light", "Scarlet Research", "The Prize Within", } }, },
+	[54808120] = { object=457387, name="Heirloom Coffer", class={ "PRIEST" }, spell={ "Binding Heal" },
+					quest={ ( ( ns.faction == "Alliance" ) and { 84320, 84321, 84322, 84323 } or { 84405, 84406, 84322, 84407 } ) },
+					guide={ st.priest.bindingHeal },
+					questName={ { "Lost Heirloom", "Relic of Light", "Scarlet Research", "The Prize Within", } }, },
 	[59408460] = { object=410847, name="Rusty Safe", class={ "ROGUE" }, tip={ "In the water. Jump down" },
 					spell={ "Envenom" }, guide={ st.rogue.envenom } },
 	[64205770] = { name="Novice Frost Mage", class={ "MAGE" }, tip={ "In the house" }, spell={ "Overheat" }, guide={ st.mage.overheat } },
@@ -4183,6 +4300,8 @@ points[ 1440 ] = { -- Ashenvale
 					questName={ { "A Strange Artifact", "Advice from Stormwind", "A Second Opinion", "Earning Your Salt", 
 						"It Must Be Destroyed", "Return to Delgren" }, { "The Orb of Soran'ruk", "Rumors Abound",
 						"The Conjuring", "The Mysterious Traveler", "Raszel Ander" } } },
+	[84507500] = { name="Demon Fall Canyon", class={ "PRIEST" }, spell={ "Vampiric Touch" },
+					guide={ "Drops off Hellscream's Phantom,\nthe final boss. Drop rate?" }, },
 	[84607060] = { name="Mannoroc Lasher + (Infernals, Felguards, Hounds)", class={ "PALADIN", "WARLOCK" },
 					faction="Alliance",
 					spell={ "Divine Storm", "Metamorphosis" }, guide={ st.paladin.divineStorm, st.warlock.metamorphosis },
@@ -4687,8 +4806,6 @@ points[ 1445 ] = { -- Dustwallow Marsh
 points[ 1448 ] = { -- Felwood
 	[35305870] = { item=223336, name="Piercing Eye", class={ "PRIEST" }, spell={ "Eye of the Void" },
 					quest={ { 82316 } }, questName={ { "Seven Eyes I Seek..." } }, guide={ st.priest.eyeOfVoid } },
-	[41304360] = { npc=222408, name="Shadowtooth Emissary", class=st.allClass, spell=st.wildGodsSpells, guide={ st.wildGods },
-					quest={ { 82043, 82044 } }, questName={ { "The Wild Gods (Part 1)", "The Wild Gods (Part 2)" } } },
 	[42604140] = { name="Infernal / Entropic Beast", class={ "PALADIN" }, preRune={ { "Fanaticism" } },
 					quest={ { 81790 } }, questName={ { "Materials of Significance" } }, spell={ "Hammer of the Righteous" },
 					guide={ st.paladin.hammerRighteous } },
@@ -4705,6 +4822,9 @@ points[ 1448 ] = { -- Felwood
 					guide={ st.druid.treeOfLife }, tip="Between the two small lakes" },
 	[50802420] = { npc=7139, name="Irontree Stomper", class={ "MAGE" }, spell={ "Frozen Orb" },
 					quest={ { 84369 } }, questName={ { "Healing the Healer" } }, guide={ st.mage.frozenOrb }, },
+	[51508200] = { npc=222408, name="Shadowtooth Emissary", class=st.allClass, spell=st.wildGodsSpells,
+					guide=st.wildGods, quest={ { 82043, 82044 } },
+					questName={ { "The Wild Gods (Part 1)", "The Wild Gods (Part 2)" } }, },
 	[61501300] = { npc=228822, name="Calyx Greenglow", class={ "MAGE" }, spell={ "Frozen Orb" },
 					quest={ { 84369 } }, questName={ { "Healing the Healer" } }, guide={ st.mage.frozenOrb }, },
 	[62800750] = { object=457092, name="The Fury of Stormrage", spell={ "Nature Specialization" }, ring=true, 
@@ -5021,6 +5141,9 @@ points[ 1412 ] = { -- Mulgore
 					spell={ "Devastate" }, guide={ st.warrior.devastate ..st.warrior.devastateVat }, tip="Severed Harpy Head" },
 }
 points[ 1454 ] = { -- Orgrimmar
+	[35808720] = { npc=211229, name="Dietrich Praice", class={ "PRIEST" }, faction="Horde", spell={ "Binding Heal" },
+					quest={ { 84405, 84406, 84322, 84407 } }, guide={ st.priest.bindingHeal },
+					questName={ { "Lost Heirloom", "Relic of Light", "Scarlet Research", "The Prize Within", } }, },
 	[38707840] = { object=405149, name="Mural of Ta'zo", class={ "MAGE" }, faction="Horde", alsoTestQuest=true,
 					spell={ "Icy Veins" }, guide={ st.mage.books }, quest={ 79094 }, questName={ "The Lessons of Ta'zo" },
 					tip="It's a large rock tablet with red writing, leaning against the wall.\n"
@@ -5533,6 +5656,8 @@ points[ 1452 ] = { -- Winterspring
 					guide="Under a table in a ransacked camp site\nas per the pin. Easy as, except for mobs", },
 	[63001800] = { name="Ravasaur mobs (various)", class={ "DRUID" }, spell={ "Starfall" }, tip="Kill and loot. Nuf said! L59e.",
 					guide={ "If you go around and climb the mountain\nyou can drop down, avoiding the mobs.\n\n" ..st.timbermaw }, },
+	[67703540] = { object=462432, name="Wooden Chest", class={ "ROGUE" }, spell={ "Fan of Knives" },
+					guide={ "Locate the chest in Winterfall Village. You must\nenter this code: Frostsaber, Owl, Bear, Owl"}, },
 }
 
 --=======================================================================================================
