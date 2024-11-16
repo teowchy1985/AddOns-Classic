@@ -1,6 +1,14 @@
-local AddonName, Data = ...
+---@type string
+local AddonName = ...
+---@class Data
+local Data = select(2, ...)
+---@class BattleGroundEnemies
 local BattleGroundEnemies = BattleGroundEnemies
 local L = Data.L
+
+local generalDefaults = {
+	HideWhenZero = false,
+}
 
 local defaultSettings = {
 	Enabled = true,
@@ -24,20 +32,28 @@ local defaultSettings = {
 	},
 	Text = {
 		FontSize = 13,
-		FontOutline = "",
-		FontColor = {1, 1, 1, 1},
-		EnableShadow = true,
-		ShadowColor = {0, 0, 0, 1},
 		JustifyH = "RIGHT",
 		JustifyV = "MIDDLE"
 	}
 }
 
+local generalOptions = function(location, playerType)
+	return {
+		HideWhenZero = {
+			type = "toggle",
+			name = L.HideWhenZero,
+			desc = L.TargetIndicatorNumeric_HideWhenZero_Desc,
+			width = 'normal',
+			order = 1
+		}
+	}
+end
+
 local options = function(location, playerType)
 	return {
 		TextSettings = {
 			type = "group",
-			name = L.TextSettings,
+			name = L.Text,
 			inline = true,
 			order = 4,
 			get = function(option)
@@ -55,29 +71,36 @@ local targetIndicatorNumeric = BattleGroundEnemies:NewButtonModule({
 	moduleName = "TargetIndicatorNumeric",
 	localizedModuleName = L.TargetIndicatorNumeric,
 	defaultSettings = defaultSettings,
+	generalDefaults = generalDefaults,
 	options = options,
+	generalOptions = generalOptions,
 	events = {"UpdateTargetIndicators"},
-	enabledInThisExpansion = true
+	enabledInThisExpansion = true,
+	attachSettingsToButton = true
 })
 
 function targetIndicatorNumeric:AttachToPlayerButton(playerButton)
 	playerButton.TargetIndicatorNumeric = BattleGroundEnemies.MyCreateFontString(playerButton)
 
 	function playerButton.TargetIndicatorNumeric:UpdateTargetIndicators()
-		local i = 0
-		for enemyButton in pairs(playerButton.UnitIDs.TargetedByEnemy) do
-			i = i + 1
+		local enemyTargets = 0
+
+		if playerButton.UnitIDs and playerButton.UnitIDs.TargetedByEnemy then
+			for enemyButton in pairs(playerButton.UnitIDs.TargetedByEnemy) do
+				enemyTargets = enemyTargets + 1
+			end
 		end
-
-		local enemyTargets = i
-
 		
-		self:SetText(enemyTargets)
+		if enemyTargets == 0 and self.config.HideWhenZero then
+			self:SetText("")
+		else
+			self:SetText(enemyTargets)
+		end
 	end
 
 	playerButton.TargetIndicatorNumeric.ApplyAllSettings = function(self)
 		self:ApplyFontStringSettings(self.config.Text)
-		self:SetText(0)
+		self:UpdateTargetIndicators()
 	end
 
 	playerButton.TargetIndicatorNumeric.Reset = function(self)
@@ -85,4 +108,5 @@ function targetIndicatorNumeric:AttachToPlayerButton(playerButton)
 		if not self:GetFont() then return end
 		self:SetText(0) --we do that because the level is anchored right to this and the name is anhored right to the level
 	end
+	return playerButton.TargetIndicatorNumeric
 end

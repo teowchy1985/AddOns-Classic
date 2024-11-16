@@ -1,5 +1,10 @@
+---@class BattleGroundEnemies
 local BattleGroundEnemies = BattleGroundEnemies
-local AddonName, Data = ...
+
+---@type string
+local AddonName = ...
+---@class Data
+local Data = select(2, ...)
 local GetTime = GetTime
 local GetSpellTexture = C_Spell and C_Spell.GetSpellTexture or GetSpellTexture
 
@@ -28,19 +33,10 @@ local defaultSettings = {
 		}
 	},
 	Cooldown = {
-		ShowNumber = true,
 		FontSize = 12,
-		FontOutline = "OUTLINE",
-		EnableShadow = false,
-		ShadowColor = {0, 0, 0, 1},
 	},
 	Text = {
 		FontSize = 17,
-		FontOutline = "THICKOUTLINE",
-		FontColor = {1, 1, 1, 1},
-		EnableShadow = false,
-		DrawSwipe = true,
-		ShadowColor = {0, 0, 0, 1}
 	}
 }
 
@@ -48,7 +44,7 @@ local options = function(location)
 	return {
 		TextSettings = {
 			type = "group",
-			name = L.TextSettings,
+			name = L.Text,
 			inline = true,
 			order = 4,
 			get = function(option)
@@ -80,8 +76,9 @@ local objectiveAndRespawn = BattleGroundEnemies:NewButtonModule({
 	localizedModuleName = L.ObjectiveAndRespawnTimer,
 	defaultSettings = defaultSettings,
 	options = options,
-	events = {"ShouldQueryAuras", "CareAboutThisAura", "BeforeFullAuraUpdate", "NewAura", "UnitDied", "ArenaOpponentShown", "ArenaOpponentHidden"},
-	enabledInThisExpansion = true
+	events = {"ShouldQueryAuras", "BeforeFullAuraUpdate", "NewAura", "UnitDied", "UnitRevived", "ArenaOpponentShown", "ArenaOpponentHidden"},
+	enabledInThisExpansion = true,
+	attachSettingsToButton = true
 })
 
 function objectiveAndRespawn:AttachToPlayerButton(playerButton)
@@ -105,6 +102,8 @@ function objectiveAndRespawn:AttachToPlayerButton(playerButton)
 
 
 	frame.Cooldown:SetScript("OnCooldownDone", function()
+		BattleGroundEnemies:Debug(playerButton.PlayerDetails.PlayerName, "OnCooldownDone")
+
 		frame:Reset()
 	end)
 	-- ObjectiveAndRespawn.Cooldown:SetScript("OnCooldownDone", function()
@@ -114,8 +113,13 @@ function objectiveAndRespawn:AttachToPlayerButton(playerButton)
 	function frame:Reset()
 		self:Hide()
 		self.Icon:SetTexture()
-		if self.AuraText:GetFont() then self.AuraText:SetText("") end
+		if self.AuraText:GetFont() then self:HideText() end
 		self.ActiveRespawnTimer = false
+	end
+
+	function frame:HideText()
+		self.AuraText:SetText("")
+		self.shownValue = false
 	end
 
 
@@ -126,16 +130,16 @@ function objectiveAndRespawn:AttachToPlayerButton(playerButton)
 	end
 	function frame:SearchForDebuffs(aura)
 		--BattleGroundEnemies:Debug("Läüft")
-		local battleGroundDebuffs = BattleGroundEnemies.BattleGroundDebuffs
+		local battleGroundDebuffs = BattleGroundEnemies.states.battleGroundDebuffs
 		local value
 		if battleGroundDebuffs then
 			for i = 1, #battleGroundDebuffs do
 				if aura.spellId == battleGroundDebuffs[i] then
-					if BattleGroundEnemies.CurrentMapID == 417 then -- 417 is Kotmogu, we scan for orb debuffs
+					if BattleGroundEnemies.states.currentMapID == 417 then -- 417 is Kotmogu, we scan for orb debuffs
 	
 						if aura.points and type(aura.points) == "table" then
 							if aura.points[2] then
-								if not self.Value then
+								if not self.shownValue then
 									--BattleGroundEnemies:Debug("hier")
 									--player just got the debuff
 									self.Icon:SetTexture(GetSpellTexture(aura.spellId))
@@ -158,9 +162,9 @@ function objectiveAndRespawn:AttachToPlayerButton(playerButton)
 						-- not kotmogu
 						value = aura.applications
 					end
-					if value ~= self.Value then
+					if value ~= self.shownValue then
 						self.AuraText:SetText(value)
-						self.Value = value
+						self.shownValue = value
 					end
 					self.continue = false
 					return
@@ -178,21 +182,6 @@ function objectiveAndRespawn:AttachToPlayerButton(playerButton)
 		end
 	end
 
-
-	function frame:CareAboutThisAura(unitID, filter, aura)
-		if BattleGroundEnemies.ArenaIDToPlayerButton[unitID] then -- this player is shown on the arena frame and is carrying a flag, orb, etc..
-			local bgDebuffs = BattleGroundEnemies.BattleGroundDebuffs
-			if bgDebuffs then
-
-				for i = 1, #bgDebuffs do
-					if aura.spellId == bgDebuffs[i] then
-						return true
-					end
-				end
-			end
-		end
-	end
-
 	function frame:BeforeFullAuraUpdate(filter)
 		if filter == "HARMFUL" then
 			self.continue = true
@@ -204,35 +193,57 @@ function objectiveAndRespawn:AttachToPlayerButton(playerButton)
 		if not self.continue then return end
 
 		if not BattleGroundEnemies.ArenaIDToPlayerButton[unitID] then return end -- This player is not shown on arena enemy so we dont care
-		if BattleGroundEnemies.BattleGroundDebuffs then self:SearchForDebuffs(aura) end
+		if BattleGroundEnemies.states.battleGroundDebuffs then self:SearchForDebuffs(aura) end
+	end
+
+	function frame:UnitRevived()
+		BattleGroundEnemies:Debug(playerButton.PlayerDetails.PlayerName, "UnitRevived")
+
+		--BattleGroundEnemies:Debug("UnitRevived")
+		if self.ActiveRespawnTimer then
+			self.Cooldown:Clear() -- this doesn't seem to trigger OnCooldownDone for some reason, i am sure it used to in the past
+			frame:Reset()
+		end
 	end
 
 	function frame:UnitDied()
-		if (BattleGroundEnemies.IsRatedBG or (BattleGroundEnemies.Testmode.Active and BattleGroundEnemies.BGSize == 15)) then
+		BattleGroundEnemies:Debug(playerButton.PlayerDetails.PlayerName, "UnitDied")
+
+		if (BattleGroundEnemies.states.isRatedBG or BattleGroundEnemies.states.isSoloRBG or (BattleGroundEnemies.Testmode.Active)) then
 		--BattleGroundEnemies:Debug("UnitIsDead SetCooldown")
 			if not self.ActiveRespawnTimer then
 				self:Show()
 				self.Icon:SetTexture(GetSpellTexture(8326))
-				self.AuraText:SetText("")
+				self:HideText()
 				self.ActiveRespawnTimer = true
 			end
-			self.Cooldown:SetCooldown(GetTime(), IsCataClassic and 45 or 26) --overwrite an already active timer
+			local respawmTime = 26
+			if IsCataClassic then
+				respawmTime = 45
+			else
+				if BattleGroundEnemies.states.isSoloRBG then
+					respawmTime = 15
+				end
+			end
+			self.Cooldown:SetCooldown(GetTime(), respawmTime) --overwrite an already active timer
 		end
 	end
 
 	function frame:ArenaOpponentShown()
-		if BattleGroundEnemies.BattlegroundBuff then
-			--BattleGroundEnemies:Debug(self:Getframe().PlayerDetails.PlayerName, "has buff")
-			self.Icon:SetTexture(GetSpellTexture(BattleGroundEnemies.BattlegroundBuff[playerButton.PlayerIsEnemy and BattleGroundEnemies.EnemyFaction or BattleGroundEnemies.AllyFaction]))
+		BattleGroundEnemies:Debug(playerButton.PlayerDetails.PlayerName, "ArenaOpponentShown")
+		if BattleGroundEnemies.states.battlegroundBuff then
+			BattleGroundEnemies:Debug(playerButton.PlayerDetails.PlayerName, "has buff")
+			self.Icon:SetTexture(GetSpellTexture(BattleGroundEnemies.states.battlegroundBuff[playerButton.PlayerIsEnemy and BattleGroundEnemies.EnemyFaction or BattleGroundEnemies.AllyFaction]))
 			self:Show()
 		end
 
-		self.AuraText:SetText("")
-		self.Value = false
+		self:HideText()
 	end
 
 	function frame:ArenaOpponentHidden()
+		BattleGroundEnemies:Debug(playerButton.PlayerDetails.PlayerName, "ArenaOpponentHidden")
 		self:Reset()
 	end
 	playerButton.ObjectiveAndRespawn = frame
+	return playerButton.ObjectiveAndRespawn
 end

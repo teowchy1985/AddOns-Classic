@@ -1,5 +1,7 @@
-
-
+---@class Data
+local Data = select(2, ...)
+---@class BattleGroundEnemies
+local BattleGroundEnemies = BattleGroundEnemies
 
 function BattleGroundEnemies:NewContainer(playerButton, createChildF, setupChildF)
 	local f = CreateFrame("Frame", nil, playerButton)
@@ -23,32 +25,16 @@ function BattleGroundEnemies:NewContainer(playerButton, createChildF, setupChild
 
 		if useButtonHeightAsSize then iconSize = playerButton:GetHeight() end
 
-		local growLeft = horizontalGrowdirection == "leftwards"
-		local growUp = verticalGrowdirection == "upwards"
+		local growRightwards = horizontalGrowdirection == "rightwards"
+		local growDownwards = verticalGrowdirection == "downwards"
 		self:Show()
 		local widestRow = 0
 		local highestColumn = 0
 		local numInputs = #self.inputs
-		local pointX, offsetX, offsetY, pointY, offsetDirectionX, offsetDirectionY
+		local pointX, offsetX, offsetY, pointY
 
 
-		if growLeft then
-			pointX = "RIGHT"
-			offsetDirectionX = -1
-		else
-			pointX = "LEFT"
-			offsetDirectionX = 1
-		end
-
-		if growUp then
-			pointY = "BOTTOM"
-			offsetDirectionY = 1
-		else
-			pointY = "TOP"
-			offsetDirectionY = -1
-		end
-
-		local point = pointY..pointX
+		local point, offsetDirectionX, offsetDirectionY = Data.Helpers.getContainerAnchorPointForConfig(growRightwards, growDownwards)
 
 		local column = 1
 		local row = 1
@@ -152,7 +138,7 @@ function BattleGroundEnemies:NewContainer(playerButton, createChildF, setupChild
 	function f:FindInputByAttribute(attribute, value)
 		for i = 1, #self.inputs do
 			if self.inputs[i][attribute] == value then
-				return self.inputs[i]
+				return self.inputs[i], i
 			end
 		end
 	end
@@ -160,6 +146,10 @@ function BattleGroundEnemies:NewContainer(playerButton, createChildF, setupChild
 	function f:UpdateInput(input, inputData)
 		Mixin(input, inputData)
 		return input
+	end
+
+	function f:RemoveFromInput(index)
+		return table.remove(self.inputs, index)
 	end
 
 	function f:Reset()

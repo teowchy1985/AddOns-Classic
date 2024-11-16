@@ -1,37 +1,22 @@
-local AddonName, Data = ...
+---@type string
+local AddonName = ...
+---@class Data
+local Data = select(2, ...)
 local L = Data.L
 
 local table_insert = table.insert
 
 local C_Spell = C_Spell
-local GetSpellInfo = GetSpellInfo
+local GetSpellName = C_Spell and C_Spell.GetSpellName or GetSpellName
 local SpellGetVisibilityInfo = SpellGetVisibilityInfo
 local SpellIsPriorityAura = SpellIsPriorityAura
 local SpellIsSelfBuff = SpellIsSelfBuff
 local UnitAffectingCombat = UnitAffectingCombat
 local UnitName = UnitName
 
-local defaults = {
-	Parent = "Button",
-	ActivePoints = 1,
-	Container = {
-		IconSize = 22,
-		IconsPerRow = 8,
-		HorizontalGrowDirection = "leftwards",
-		HorizontalSpacing = 2,
-		VerticalGrowdirection = "upwards",
-		VerticalSpacing = 1,
-	},
-	Coloring_Enabled = true,
-	Cooldown = {
-		ShowNumber = true,
-		FontSize = 8,
-		FontOutline = "OUTLINE",
-		EnableShadow = false,
-		DrawSwipe = false,
-		ShadowColor = {0, 0, 0, 1},
-	},
-	Filtering = {
+local generalDefaults = {
+		HideHighestPriority = false,
+		Filtering = {
 		Enabled = true,
 		Mode = "Custom",
 		CustomFiltering = {
@@ -50,10 +35,27 @@ local defaults = {
 	}
 }
 
+local defaults = {
+	Parent = "Button",
+	ActivePoints = 1,
+	Container = {
+		IconSize = 22,
+		IconsPerRow = 8,
+		HorizontalGrowDirection = "leftwards",
+		HorizontalSpacing = 2,
+		VerticalGrowdirection = "downwards",
+		VerticalSpacing = 1,
+	},
+	Coloring_Enabled = true,
+	Cooldown = {
+		FontSize = 8,
+	},
+}
+
 
 -- CompactUnitFrame_Util_IsPriorityDebuff
 local function IsPriorityDebuff(spellId)
-	if BattleGroundEnemies.PlayerDetails.PlayerClass == "PALADIN" then
+	if BattleGroundEnemies.UserDetails.PlayerClass == "PALADIN" then
 		local isForbearance = (spellId == 25771)
 		return isForbearance or SpellIsPriorityAura(spellId);
 	else
@@ -110,7 +112,7 @@ local function AddFilteringSettings(location, filter)
 		},
 		FilterSettings = {
 			type = "group",
-			name = L.FilterSettings,
+			name = "",
 			desc = L.AurasFilteringSettings_Desc,
 			get = function(option)
 				return Data.GetOption(location, option)
@@ -120,6 +122,8 @@ local function AddFilteringSettings(location, filter)
 			end,
 			disabled = function() return not location.Enabled end,
 			order = 2,
+			inline = true,
+			childGroups = "tab",
 			args = {
 				Mode = {
 					type = "select",
@@ -245,15 +249,8 @@ local function AddFilteringSettings(location, filter)
 								local valueTable = {}
 
 								for spellId in pairs(location.CustomFiltering.SpellIDFiltering_Filterlist) do
-									local spellName
-									if C_Spell and C_Spell.GetSpellInfo then
-										local spellInfo = C_Spell.GetSpellInfo(spellId)
-										if spellInfo then
-											spellName = spellInfo.name
-										end
-									else
-										spellName = GetSpellInfo(spellId)
-									end
+									local spellName = GetSpellName(spellId)
+
 									valueTable[spellId] = spellId..": "..(spellName or "")
 								end
 
@@ -279,6 +276,37 @@ local function AddFilteringSettings(location, filter)
 					}
 				}
 			}
+		}
+	}
+end
+
+local function addGeneralAuraSettings(location, filter)
+	return {
+		FilteringSettings = {
+			type = "group",
+			name = L.FilterSettings,
+			desc = L.AurasFilteringSettings_Desc,
+			get = function(option)
+				return Data.GetOption(location.Filtering, option)
+			end,
+			set = function(option, ...)
+				return Data.SetOption(location.Filtering, option, ...)
+			end,
+			order = 9,
+			childGroups = "tab",
+			args = AddFilteringSettings(location.Filtering, filter)
+		}
+	}
+end
+
+local function addGeneralPriorityAuraSettings(location, filter)
+	return {
+		HideHighestPriority = {
+			type = "toggle",
+			name = L.HideHighestPriority,
+			desc = L.HideHighestPriority_Desc,
+			width = 'normal',
+			order = 1
 		}
 	}
 end
@@ -309,22 +337,24 @@ local function AddAuraSettings(location, filter, isPriorityContainer)
 			end,
 			order = 8,
 			args = Data.AddCooldownSettings(location.Cooldown),
-		},
-		FilteringSettings = {
-			type = "group",
-			name = L.FilterSettings,
-			desc = L.AurasFilteringSettings_Desc,
-			get = function(option)
-				return Data.GetOption(location.Filtering, option)
-			end,
-			set = function(option, ...)
-				return Data.SetOption(location.Filtering, option, ...)
-			end,
-			hidden = isPriorityContainer,
-			order = 9,
-			args = AddFilteringSettings(location.Filtering, filter)
 		}
 	}
+end
+
+local generalNonPriorityBuffOptions = function(location)
+	return addGeneralAuraSettings(location, "HELPFUL")
+end
+
+local generalNonPriorityDebuffOptions = function(location)
+	return addGeneralAuraSettings(location, "HARMFUL")
+end
+
+local generalPriorityBuffOptions = function(location)
+	return addGeneralPriorityAuraSettings(location, "HELPFUL")
+end
+
+local generalPriorityDebuffOptions = function(location)
+	return addGeneralPriorityAuraSettings(location, "HARMFUL")
 end
 
 local nonPriorityBuffOptions = function(location)
@@ -347,14 +377,16 @@ local flags = {
 	HasDynamicSize = true
 }
 
-local events = {"ShouldQueryAuras", "CareAboutThisAura", "BeforeFullAuraUpdate", "NewAura", "AfterFullAuraUpdate", "UnitDied"}
+local events = {"ShouldQueryAuras", "BeforeFullAuraUpdate", "NewAura", "AfterFullAuraUpdate", "UnitDied"}
 
 local nonPriorityBuffs = BattleGroundEnemies:NewButtonModule({
 	moduleName = "NonPriorityBuffs",
 	localizedModuleName = L.NonPriorityBuffs,
 	flags = flags,
 	defaultSettings = defaults,
+	generalDefaults = generalDefaults,
 	options = nonPriorityBuffOptions,
+	generalOptions = generalNonPriorityBuffOptions,
 	events = events,
 	enabledInThisExpansion = true
 })
@@ -363,7 +395,9 @@ local nonPriorityDebuffs = BattleGroundEnemies:NewButtonModule({
 	localizedModuleName = L.NonPriorityDebuffs,
 	flags = flags,
 	defaultSettings = defaults,
+	generalDefaults = generalDefaults,
 	options = nonPriorityDebuffOptions,
+	generalOptions = generalNonPriorityDebuffOptions,
 	events = events,
 	enabledInThisExpansion = true
 })
@@ -373,7 +407,9 @@ local priorityBuffs = BattleGroundEnemies:NewButtonModule({
 	localizedModuleName = L.PriorityBuffs,
 	flags = flags,
 	defaultSettings = defaults,
+	generalDefaults = generalDefaults,
 	options = priorityBuffOptions,
+	generalOptions = generalPriorityBuffOptions,
 	events = events,
 	enabledInThisExpansion = true
 })
@@ -382,7 +418,9 @@ local priorityDebuffs = BattleGroundEnemies:NewButtonModule({
 	localizedModuleName = L.PriorityDebuffs,
 	flags = flags,
 	defaultSettings = defaults,
+	generalDefaults = generalDefaults,
 	options = priorityDebuffOptions,
+	generalOptions = generalPriorityDebuffOptions,
 	events = events,
 	enabledInThisExpansion = true
 })
@@ -467,7 +505,7 @@ local function createNewAuraFrame(playerButton, container)
 
 		--self.count:ApplyFontStringSettings(conf.StackText)
 		local cooldownConfig = conf.Cooldown
-		self.cooldown:ApplyCooldownSettings(cooldownConfig, true)
+		self.cooldown:ApplyCooldownSettings(cooldownConfig, true, {0, 0, 0, 0.5})
 		if container.filter == "HELPFUL" then
 			self.Stealable:SetSize(conf.Container.IconSize + 3, conf.Container.IconSize + 3)
 		end
@@ -521,6 +559,9 @@ local function AttachToPlayerButton(playerButton, filterr, isPriorityContainer)
 
 	function auraContainer:BeforeFullAuraUpdate(filter)
 		if not (filter == self.filter) then return end
+		if self.isPriorityContainer then
+			self.highestPriority = 0
+		end
 		self:ResetInputs()
 	end
 
@@ -618,11 +659,25 @@ local function AttachToPlayerButton(playerButton, filterr, isPriorityContainer)
 
 		if not auraContainer:CareAboutThisAura(unitID, filter, aura) then return end
 
+		if aura.Priority and self.isPriorityContainer then
+			if aura.Priority > self.highestPriority then
+				self.highestPriority = aura.Priority
+			end
+		end
+
 		self:NewInput(aura)
 	end
 
 	function auraContainer:AfterFullAuraUpdate(filter)
 		if not (filter == self.filter) then return end
+		if self.config.HideHighestPriority then
+			-- remove it from inputs
+
+			local input, index = self:FindInputByAttribute("Priority", self.highestPriority)
+			if input then
+				self:RemoveFromInput(index)
+			end
+		end
 		self:Display()
 	end
 
@@ -636,17 +691,21 @@ end
 
 function nonPriorityBuffs:AttachToPlayerButton(playerButton)
 	playerButton.NonPriorityBuffs = AttachToPlayerButton(playerButton, "HELPFUL", false)
+	return playerButton.NonPriorityBuffs
 end
 
 function nonPriorityDebuffs:AttachToPlayerButton(playerButton)
 	playerButton.NonPriorityDebuffs = AttachToPlayerButton(playerButton, "HARMFUL", false)
+	return playerButton.NonPriorityDebuffs
 end
 
 function priorityBuffs:AttachToPlayerButton(playerButton)
 	playerButton.PriorityBuffs = AttachToPlayerButton(playerButton, "HELPFUL", true)
+	return playerButton.PriorityBuffs
 end
 
 function priorityDebuffs:AttachToPlayerButton(playerButton)
 	playerButton.PriorityDebuffs = AttachToPlayerButton(playerButton, "HARMFUL", true)
+	return playerButton.PriorityDebuffs
 end
 

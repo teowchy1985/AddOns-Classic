@@ -1,4 +1,8 @@
-local AddonName, Data = ...
+---@type string
+local AddonName = ...
+---@class Data
+local Data = select(2, ...)
+---@class BattleGroundEnemies
 local BattleGroundEnemies = BattleGroundEnemies
 local LSM = LibStub("LibSharedMedia-3.0")
 local L = Data.L
@@ -9,19 +13,22 @@ local UnitPowerMax = UnitPowerMax
 local UnitPowerType = UnitPowerType
 local math_random = math.random
 
+local generalDefaults = {
+	Texture = 'Blizzard Raid Bar',
+	Background = {0, 0, 0, 0.66},
+	OnlyShowForHealers = false
+}
 
 local defaultSettings = {
 	Enabled = true,
 	Parent = "Button",
 	Height = 5,
-	Texture = 'Blizzard Raid Bar',
-	Background = {0, 0, 0, 0.66},
 	ActivePoints = 2,
 	Points = {
 		{
 			Point = "BOTTOMLEFT",
-			RelativeFrame = "Spec",
-			RelativePoint = "BOTTOMRIGHT",
+			RelativeFrame = "Button",
+			RelativePoint = "BOTTOMLEFT",
 		},
 		{
 			Point = "BOTTOMRIGHT",
@@ -31,31 +38,53 @@ local defaultSettings = {
 	}
 }
 
-local options = function(location)
+
+
+local options = function (location)
+	return {
+		Height = {
+			type = "range",
+			name = L.Height,
+			min = 1,
+			max = 50,
+			step = 1,
+			order = 1
+		},
+	}
+end
+
+local generalOptions = function(location)
 	return {
 		Texture = {
 			type = "select",
 			name = L.BarTexture,
-			desc = L.PowerBar_Texture_Desc,
+			desc = L.HealthBar_Texture_Desc,
 			dialogControl = 'LSM30_Statusbar',
 			values = AceGUIWidgetLSMlists.statusbar,
 			width = "normal",
-			order = 3
+			order = 1
 		},
-		Fake = Data.AddHorizontalSpacing(4),
 		Background = {
 			type = "color",
 			name = L.BarBackground,
 			desc = L.PowerBar_Background_Desc,
 			hasAlpha = true,
 			width = "normal",
-			order = 5
-		}
+			order = 2
+		},
+		OnlyShowForHealers = {
+			type = "toggle",
+			name = L.OnlyShowForHealers,
+			desc = L.PowerBar_OnlyShowForHealers_Desc,
+			width = 'normal',
+			order = 3
+		},
 	}
 end
 
 local flags = {
-	SetZeroHeightWhenDisabled = true
+	SetZeroHeightWhenDisabled = true,
+	FixedPosition = true
 }
 
 local power = BattleGroundEnemies:NewButtonModule({
@@ -63,9 +92,12 @@ local power = BattleGroundEnemies:NewButtonModule({
 	localizedModuleName = L.PowerBar,
 	flags = flags,
 	defaultSettings = defaultSettings,
+	generalDefaults = generalDefaults,
 	options = options,
+	generalOptions = generalOptions,
 	events = {"UnitIdUpdate", "UpdatePower", "PlayerDetailsChanged"},
-	enabledInThisExpansion = true
+	enabledInThisExpansion = true,
+	attachSettingsToButton = true
 })
 
 function power:AttachToPlayerButton(playerButton)
@@ -88,7 +120,7 @@ function power:AttachToPlayerButton(playerButton)
 	end
 
 	function playerButton.Power:CheckForNewPowerColor(powerToken)
-		--BattleGroundEnemies:LogToSavedVariables("CheckForNewPowerColor", powerToken)
+		--BattleGroundEnemies:Debug("CheckForNewPowerColor", powerToken)
 
 		if self.powerToken ~= powerToken then
 			local color = PowerBarColor[powerToken]
@@ -108,9 +140,17 @@ function power:AttachToPlayerButton(playerButton)
 		end
 	end
 
-	function playerButton.Power:PlayerDetailsChanged(playerDetails)
+	function playerButton.Power:PlayerDetailsChanged()
+		local playerDetails = playerButton.PlayerDetails
 		if not playerDetails then return end
 		if not playerDetails.PlayerClass then return end
+		if not playerDetails.PlayerRole then return end
+
+		if playerDetails.PlayerRole == "HEALER" or not self.config.OnlyShowForHealers then
+			self:SetHeight(self.config.Height or 0.01)
+		else
+			self:SetHeight(0.01)
+		end
 		
 		local powerToken
 		if playerDetails.PlayerClass then
@@ -128,7 +168,7 @@ function power:AttachToPlayerButton(playerButton)
 	
 	
 	function playerButton.Power:UpdatePower(unitID)
-		--BattleGroundEnemies:LogToSavedVariables("UpdatePower", unitID, powerToken)
+		--BattleGroundEnemies:Debug("UpdatePower", unitID, powerToken)
 		if unitID then
 			self:UpdateMinMaxValues(UnitPowerMax(unitID))
 			self:SetValue(UnitPower(unitID))
@@ -142,8 +182,10 @@ function power:AttachToPlayerButton(playerButton)
 	function playerButton.Power:ApplyAllSettings()
 		-- power
 		self:SetHeight(self.config.Height or 0.01)
+
 		self:SetStatusBarTexture(LSM:Fetch("statusbar", self.config.Texture))--self.healthBar:SetStatusBarTexture(137012)
 		self.Background:SetVertexColor(unpack(self.config.Background))
-		self:PlayerDetailsChanged(playerButton.PlayerDetails)
+		self:PlayerDetailsChanged()
 	end
+	return playerButton.Power
 end
