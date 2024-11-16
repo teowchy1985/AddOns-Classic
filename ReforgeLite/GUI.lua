@@ -24,7 +24,7 @@ end
 
 function GUI:Lock()
   for _, frames in ipairs({self.panelButtons, self.imgButtons, self.editBoxes, self.checkButtons}) do
-    for _, frame in ipairs(frames) do
+    for _, frame in pairs(frames) do
       if frame:IsEnabled() then
         frame.locked = true
         frame:Disable()
@@ -42,7 +42,7 @@ function GUI:Lock()
       end
     end
   end
-  for _, dropdown in ipairs(self.dropdowns) do
+  for _, dropdown in pairs(self.dropdowns) do
     if not dropdown.isDisabled then
       dropdown:DisableDropdown()
       dropdown.locked = true
@@ -52,7 +52,7 @@ end
 
 function GUI:Unlock()
   for _, frames in ipairs({self.panelButtons, self.imgButtons, self.editBoxes, self.checkButtons}) do
-    for _, frame in ipairs(frames) do
+    for _, frame in pairs(frames) do
       if frame.locked then
         frame:Enable()
         frame.locked = nil
@@ -70,7 +70,7 @@ function GUI:Unlock()
       end
     end
   end
-  for _, dropdown in ipairs(self.dropdowns) do
+  for _, dropdown in pairs(self.dropdowns) do
     if dropdown.locked then
       dropdown:EnableDropdown()
       dropdown.locked = nil
@@ -112,7 +112,6 @@ function GUI:SetTooltip (widget, tip)
 end
 
 GUI.editBoxes = {}
-GUI.editBoxes.insert = tinsert
 GUI.unusedEditBoxes = {}
 function GUI:CreateEditBox (parent, width, height, default, setter)
   local box
@@ -122,9 +121,10 @@ function GUI:CreateEditBox (parent, width, height, default, setter)
     box:Show ()
     box:SetTextColor (1, 1, 1)
     box:EnableMouse (true)
+    self.editBoxes[box:GetName()] = box
   else
     box = CreateFrame ("EditBox", self:GenerateWidgetName (), parent, "InputBoxTemplate")
-    self.editBoxes:insert(box)
+    self.editBoxes[box:GetName()] = box
     box:SetAutoFocus (false)
     box:SetFontObject (ChatFontNormal)
     box:SetNumeric ()
@@ -141,6 +141,7 @@ function GUI:CreateEditBox (parent, width, height, default, setter)
       box:SetScript ("OnEditFocusLost", nil)
       box:SetScript ("OnEnter", nil)
       box:SetScript ("OnLeave", nil)
+      self.editBoxes[box:GetName()] = nil
       tinsert (self.unusedEditBoxes, box)
     end
   end
@@ -167,7 +168,6 @@ end
 
 
 GUI.dropdowns = {}
-GUI.dropdowns.insert = tinsert
 GUI.unusedDropdowns = {}
 function GUI:CreateDropdown (parent, values, options)
   local sel
@@ -175,9 +175,10 @@ function GUI:CreateDropdown (parent, values, options)
     sel = tremove (self.unusedDropdowns, 1)
     sel:SetParent (parent)
     sel:Show ()
+    self.dropdowns[sel:GetName()] = sel
   else
     sel = LibDD:Create_UIDropDownMenu(self:GenerateWidgetName(), parent)
-    self.dropdowns:insert(sel)
+    self.dropdowns[sel:GetName()] = sel
     LibDD:UIDropDownMenu_SetInitializeFunction(sel, function (dropdown)
       self:ClearEditFocus()
       for _, value in ipairs(dropdown.values) do
@@ -235,7 +236,8 @@ function GUI:CreateDropdown (parent, values, options)
       frame.selectedValue = nil
       frame.menuItemDisabled = nil
       frame.menuItemHidden = nil
-      tinsert (self.unusedDropdowns, frame)
+      self.dropdowns[frame:GetName()] = nil
+      tinsert(self.unusedDropdowns, frame)
     end
   end
   sel.values = values
@@ -252,7 +254,6 @@ function GUI:CreateDropdown (parent, values, options)
 end
 
 GUI.checkButtons = {}
-GUI.checkButtons.insert = tinsert
 GUI.unusedCheckButtons = {}
 function GUI:CreateCheckButton (parent, text, default, setter)
   local btn
@@ -260,15 +261,17 @@ function GUI:CreateCheckButton (parent, text, default, setter)
     btn = tremove (self.unusedCheckButtons, 1)
     btn:SetParent (parent)
     btn:Show ()
+    self.checkButtons[btn:GetName()] = btn
   else
     local name = self:GenerateWidgetName ()
     btn = CreateFrame ("CheckButton", name, parent, "UICheckButtonTemplate")
-    self.checkButtons:insert(btn)
+    self.checkButtons[btn:GetName()] = btn
     btn.Recycle = function (btn)
       btn:Hide ()
       btn:SetScript ("OnEnter", nil)
       btn:SetScript ("OnLeave", nil)
       btn:SetScript ("OnClick", nil)
+      self.checkButtons[btn:GetName()] = nil
       tinsert (self.unusedCheckButtons, btn)
     end
   end
@@ -283,7 +286,6 @@ function GUI:CreateCheckButton (parent, text, default, setter)
 end
 
 GUI.imgButtons = {}
-GUI.imgButtons.insert = tinsert
 GUI.unusedImgButtons = {}
 function GUI:CreateImageButton (parent, width, height, img, pus, hlt, disabledTexture, handler)
   local btn
@@ -294,12 +296,13 @@ function GUI:CreateImageButton (parent, width, height, img, pus, hlt, disabledTe
   else
     local name = self:GenerateWidgetName ()
     btn = CreateFrame ("Button", name, parent)
-    self.imgButtons:insert(btn)
+    self.imgButtons[btn:GetName()] = btn
     btn.Recycle = function (f)
       f:Hide ()
       f:SetScript ("OnEnter", nil)
       f:SetScript ("OnLeave", nil)
       f:SetScript ("OnClick", nil)
+      self.imgButtons[f:GetName()] = nil
       tinsert (self.unusedImgButtons, f)
     end
   end
@@ -315,7 +318,6 @@ function GUI:CreateImageButton (parent, width, height, img, pus, hlt, disabledTe
 end
 
 GUI.panelButtons = {}
-GUI.panelButtons.insert = tinsert
 GUI.unusedPanelButtons = {}
 function GUI:CreatePanelButton(parent, text, handler)
   local btn
@@ -323,10 +325,11 @@ function GUI:CreatePanelButton(parent, text, handler)
     btn = tremove(self.unusedPanelButtons, 1)
     btn:SetParent(parent)
     btn:Show()
+    self.panelButtons[btn:GetName()] = btn
   else
     local name = self:GenerateWidgetName ()
     btn = CreateFrame("Button", name, parent, "UIPanelButtonTemplate")
-    self.panelButtons:insert(btn)
+    self.panelButtons[btn:GetName()] = btn
     btn.Recycle = function (f)
       f:SetText("")
       f:Hide ()
@@ -334,6 +337,7 @@ function GUI:CreatePanelButton(parent, text, handler)
       f:SetScript ("OnLeave", nil)
       f:SetScript ("OnPreClick", nil)
       f:SetScript ("OnClick", nil)
+      self.panelButtons[btn:GetName()] = nil
       tinsert (self.unusedPanelButtons, f)
     end
     btn.RenderText = function(f, ...)
@@ -594,32 +598,34 @@ function GUI:CreateTable (rows, cols, firstRow, firstColumn, gridColor, parent)
     return self.colPos[j] - self.colPos[j - 1]
   end
   t.AlignCell = function (self, i, j)
-    local x = self.cells[i][j].offsX or 0
-    local y = self.cells[i][j].offsY or 0
-    if self.cells[i][j].align == "FILL" then
-      self.cells[i][j]:SetPoint ("TOPLEFT", self, "TOPLEFT", self:GetCellX (j - 1) + x, self:GetCellY (i - 1) + y)
-      self.cells[i][j]:SetPoint ("BOTTOMRIGHT", self, "BOTTOMRIGHT", self:GetCellX (j) + x, self:GetCellY (i) + y)
+    local cell = self.cells[i][j]
+    local x = cell.offsX or 0
+    local y = cell.offsY or 0
+    local alignment = cell.align
+    if alignment == "FILL" then
+      cell:SetPoint ("TOPLEFT", self, "TOPLEFT", self:GetCellX (j - 1) + x, self:GetCellY (i - 1) + y)
+      cell:SetPoint ("BOTTOMRIGHT", self, "BOTTOMRIGHT", self:GetCellX (j) + x, self:GetCellY (i) + y)
 
-    elseif self.cells[i][j].align == "TOPLEFT" then
-      self.cells[i][j]:SetPoint ("TOPLEFT", self, "TOPLEFT", self:GetCellX (j - 1) + 2 + x, self:GetCellY (i - 1) - 2 + y)
-    elseif self.cells[i][j].align == "LEFT" then
-      self.cells[i][j]:SetPoint ("LEFT", self, "TOPLEFT", self:GetCellX (j - 1) + 2 + x, self:GetCellY (i - 0.5) + y)
-    elseif self.cells[i][j].align == "BOTTOMLEFT" then
-      self.cells[i][j]:SetPoint ("BOTTOMLEFT", self, "TOPLEFT", self:GetCellX (j - 1) + 2 + x, self:GetCellY (i) + 2 + y)
+    elseif alignment == "TOPLEFT" then
+      cell:SetPoint ("TOPLEFT", self, "TOPLEFT", self:GetCellX (j - 1) + 2 + x, self:GetCellY (i - 1) - 2 + y)
+    elseif alignment == "LEFT" then
+      cell:SetPoint ("LEFT", self, "TOPLEFT", self:GetCellX (j - 1) + 2 + x, self:GetCellY (i - 0.5) + y)
+    elseif alignment == "BOTTOMLEFT" then
+      cell:SetPoint ("BOTTOMLEFT", self, "TOPLEFT", self:GetCellX (j - 1) + 2 + x, self:GetCellY (i) + 2 + y)
 
-    elseif self.cells[i][j].align == "TOP" then
-      self.cells[i][j]:SetPoint ("TOP", self, "TOPLEFT", self:GetCellX (j - 0.5) + x, self:GetCellY (j - 1) - 2 + y)
-    elseif self.cells[i][j].align == "CENTER" then
-      self.cells[i][j]:SetPoint ("CENTER", self, "TOPLEFT", self:GetCellX (j - 0.5) + x, self:GetCellY (i - 0.5) + y)
-    elseif self.cells[i][j].align == "BOTTOM" then
-      self.cells[i][j]:SetPoint ("BOTTOM", self, "TOPLEFT", self:GetCellX (j - 0.5) + x, self:GetCellY (j) + 2 + y)
+    elseif alignment == "TOP" then
+      cell:SetPoint ("TOP", self, "TOPLEFT", self:GetCellX (j - 0.5) + x, self:GetCellY (j - 1) - 2 + y)
+    elseif alignment == "CENTER" then
+      cell:SetPoint ("CENTER", self, "TOPLEFT", self:GetCellX (j - 0.5) + x, self:GetCellY (i - 0.5) + y)
+    elseif alignment == "BOTTOM" then
+      cell:SetPoint ("BOTTOM", self, "TOPLEFT", self:GetCellX (j - 0.5) + x, self:GetCellY (j) + 2 + y)
 
-    elseif self.cells[i][j].align == "TOPRIGHT" then
-      self.cells[i][j]:SetPoint ("TOPRIGHT", self, "TOPLEFT", self:GetCellX (j) - 2 + x, self:GetCellY (i - 1) - 2 + y)
-    elseif self.cells[i][j].align == "RIGHT" then
-      self.cells[i][j]:SetPoint ("RIGHT", self, "TOPLEFT", self:GetCellX (j) - 2 + x, self:GetCellY (i - 0.5) + y)
-    elseif self.cells[i][j].align == "BOTTOMRIGHT" then
-      self.cells[i][j]:SetPoint ("BOTTOMRIGHT", self, "TOPLEFT", self:GetCellX (j) - 2 + x, self:GetCellY (i) + 2 + y)
+    elseif alignment == "TOPRIGHT" then
+      cell:SetPoint ("TOPRIGHT", self, "TOPLEFT", self:GetCellX (j) - 2 + x, self:GetCellY (i - 1) - 2 + y)
+    elseif alignment == "RIGHT" then
+      cell:SetPoint ("RIGHT", self, "TOPLEFT", self:GetCellX (j) - 2 + x, self:GetCellY (i - 0.5) + y)
+    elseif alignment == "BOTTOMRIGHT" then
+      cell:SetPoint ("BOTTOMRIGHT", self, "TOPLEFT", self:GetCellX (j) - 2 + x, self:GetCellY (i) + 2 + y)
     end
   end
   t.OnUpdateFix = function (self)

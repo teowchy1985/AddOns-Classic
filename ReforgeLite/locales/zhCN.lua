@@ -11,12 +11,14 @@ L["At least"] = "至少"
 L["At most"] = "最多"
 --[[Translation missing --]]
 --[[ L["Bearweave"] = ""--]] 
-L["Best result"] = "最佳成果"
+L["Best Result"] = "最佳成果"
 L["Cap value"] = "上限值"
 L["Click an item to lock it"] = "点击以锁定该物品"
 L["Compute"] = "计算"
 L["Crit block"] = "精确格挡"
 L["Debug"] = "调试"
+--[[Translation missing --]]
+--[[ L["Destination stat color"] = ""--]] 
 L["Enter pawn string"] = "输入Pawn字符串"
 L["Enter the preset name"] = "输入预设名称"
 L["Enter WoWSims JSON"] = "输入 WoWSims JSON"
@@ -24,6 +26,8 @@ L["Exactly"] = "确切地"
 L["Expertise hard cap"] = "精准硬上限"
 L["Expertise soft cap"] = "精准软上限"
 L["Export"] = "出口"
+--[[Translation missing --]]
+--[[ L["Highlight reforged stats"] = ""--]] 
 L["Import Pawn"] = "导入Pawn"
 L["Import WoWSims"] = "导入WoWSims"
 L["Inactive window color"] = "未激活窗口的颜色"
@@ -44,12 +48,18 @@ L["Result"] = "成果"
 L["Score"] = "得分"
 L["Show reforged stats in item tooltips"] = "在鼠标提示中显示重铸后的属性"
 L["Slide to the left if the calculation slows your game too much."] = "如果计算导致你的游戏速度太慢，请向左滑动。"
+--[[Translation missing --]]
+--[[ L["Source stat color"] = ""--]] 
 L["Spell hit cap"] = "法术命中上限"
 L["Spirit to hit"] = "精神转命中"
-L["Stat weights"] = "属性权重"
+L["Stat Weights"] = "属性权重"
 L["Sum"] = "总计"
+--[[Translation missing --]]
+--[[ L["Summarize reforged stats"] = ""--]] 
 L["Tanking model"] = "坦克模式"
 --[[Translation missing --]]
 --[[ L["ticks"] = ""--]] 
 L["Weight after cap"] = "超过上限后权重"
+--[[Translation missing --]]
+--[[ L["Window Settings"] = ""--]] 
 

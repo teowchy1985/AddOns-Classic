@@ -11,12 +11,14 @@ L["At least"] = "최소"
 L["At most"] = "최대"
 --[[Translation missing --]]
 --[[ L["Bearweave"] = ""--]] 
-L["Best result"] = "최고 결과"
+L["Best Result"] = "최고 결과"
 L["Cap value"] = "조건 값"
 L["Click an item to lock it"] = "재연마하지 않을 아이템은 클릭하세요"
 L["Compute"] = "계산"
 L["Crit block"] = "결정적 방어"
 L["Debug"] = "디버그"
+--[[Translation missing --]]
+--[[ L["Destination stat color"] = ""--]] 
 L["Enter pawn string"] = "Pawn 문자열을 입력하세요"
 L["Enter the preset name"] = "프리셋 이름을 입력하세요"
 L["Enter WoWSims JSON"] = "WoWSims JSON을 입력하세요"
@@ -24,6 +26,8 @@ L["Exactly"] = "정확히"
 L["Expertise hard cap"] = "숙련 하드 캡"
 L["Expertise soft cap"] = "숙련 소프트 캡"
 L["Export"] = "내보내다"
+--[[Translation missing --]]
+--[[ L["Highlight reforged stats"] = ""--]] 
 L["Import Pawn"] = "Pawn 가져오기"
 L["Import WoWSims"] = "WoWSims 가져오기"
 L["Inactive window color"] = "비활성화된 창 색상"
@@ -46,13 +50,19 @@ L["Result"] = "결과"
 L["Score"] = "점수"
 L["Show reforged stats in item tooltips"] = "아이템 툴팁에 재연마된 능력치 표시"
 L["Slide to the left if the calculation slows your game too much."] = "계산으로 인해 게임 속도가 너무 느려지면 왼쪽으로 밉니다."
+--[[Translation missing --]]
+--[[ L["Source stat color"] = ""--]] 
 L["Spell hit cap"] = "주문 만적중"
 L["Spirit to hit"] = "정신력으로 인한 적중도"
-L["Stat weights"] = "스탯 가중치"
+L["Stat Weights"] = "스탯 가중치"
 L["Sum"] = "합계"
+--[[Translation missing --]]
+--[[ L["Summarize reforged stats"] = ""--]] 
 L["Tanking model"] = "탱킹 모델"
 --[[Translation missing --]]
 --[[ L["ticks"] = ""--]] 
 L["Weight after cap"] = "조건 값 이후 가중치"
+--[[Translation missing --]]
+--[[ L["Window Settings"] = ""--]] 
 
 L["EquipPredicate"] = ITEM_SPELL_TRIGGER_ONEQUIP .. " "

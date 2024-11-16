@@ -11,7 +11,7 @@ L["At least"] = "Al menos"
 L["At most"] = "Como maximo"
 --[[Translation missing --]]
 --[[ L["Bearweave"] = ""--]] 
-L["Best result"] = "Mejor resultado"
+L["Best Result"] = "Mejor resultado"
 L["Cap value"] = "Valor de cap"
 --[[Translation missing --]]
 --[[ L["Click an item to lock it"] = ""--]] 
@@ -19,6 +19,8 @@ L["Compute"] = "Calcular"
 L["Crit block"] = "Crit block"
 --[[Translation missing --]]
 --[[ L["Debug"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["Destination stat color"] = ""--]] 
 L["Enter pawn string"] = "Introduzca cadena peon"
 L["Enter the preset name"] = "Introduzca el nombre del ajuste"
 L["Enter WoWSims JSON"] = "Ingrese WoWSims JSON"
@@ -26,6 +28,8 @@ L["Exactly"] = "Exactamente"
 L["Expertise hard cap"] = "Cap maximo Pericia"
 L["Expertise soft cap"] = "Cap minimo Pericia"
 L["Export"] = "Exportar"
+--[[Translation missing --]]
+--[[ L["Highlight reforged stats"] = ""--]] 
 L["Import Pawn"] = "Importar Peon"
 L["Import WoWSims"] = "Importar WoWsims"
 L["Inactive window color"] = "Color de ventana inactiva"
@@ -49,13 +53,19 @@ L["Score"] = "Puntuacion"
 --[[Translation missing --]]
 --[[ L["Show reforged stats in item tooltips"] = ""--]] 
 L["Slide to the left if the calculation slows your game too much."] = "Deslízate hacia la izquierda si el cálculo ralentiza demasiado tu juego."
+--[[Translation missing --]]
+--[[ L["Source stat color"] = ""--]] 
 L["Spell hit cap"] = "Cap de golpe con hechizos"
 L["Spirit to hit"] = "Espiritu a Golpe"
-L["Stat weights"] = "Peso de estadisticas"
+L["Stat Weights"] = "Peso de Estadisticas"
 L["Sum"] = "Tot"
+--[[Translation missing --]]
+--[[ L["Summarize reforged stats"] = ""--]] 
 --[[Translation missing --]]
 --[[ L["Tanking model"] = ""--]] 
 --[[Translation missing --]]
 --[[ L["ticks"] = ""--]] 
 L["Weight after cap"] = "Peso despues del cap"
+--[[Translation missing --]]
+--[[ L["Window Settings"] = ""--]] 
 

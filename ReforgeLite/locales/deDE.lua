@@ -11,13 +11,15 @@ L["At least"] = "Mindestens"
 L["At most"] = "Maximal"
 --[[Translation missing --]]
 --[[ L["Bearweave"] = ""--]] 
-L["Best result"] = "Bestes Resultat"
+L["Best Result"] = "Bestes Resultat"
 L["Cap value"] = "Capwert tooltip"
 L["Click an item to lock it"] = "Klicken um einen Gegenstand zu sperren"
 L["Compute"] = "Berechnen"
 L["Crit block"] = "Kritischer Block"
 --[[Translation missing --]]
 --[[ L["Debug"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["Destination stat color"] = ""--]] 
 --[[Translation missing --]]
 --[[ L["Enter pawn string"] = ""--]] 
 --[[Translation missing --]]
@@ -28,6 +30,8 @@ L["Exactly"] = "Genau"
 L["Expertise hard cap"] = "Waffenkunde Hardcap"
 L["Expertise soft cap"] = "Waffenkunde Softcap"
 L["Export"] = "Export"
+--[[Translation missing --]]
+--[[ L["Highlight reforged stats"] = ""--]] 
 L["Import Pawn"] = "Pawn importieren"
 L["Import WoWSims"] = "WoWSims importieren"
 L["Inactive window color"] = "inaktive Fensterfarbe"
@@ -51,13 +55,19 @@ L["Result"] = "Resultat"
 L["Score"] = "Punkte"
 L["Show reforged stats in item tooltips"] = "Zeige umgeschmiedete Werte im Gegenstandstooltip"
 L["Slide to the left if the calculation slows your game too much."] = "Schieben Sie es nach links, wenn die Berechnung Ihr Spiel zu sehr verlangsamt."
+--[[Translation missing --]]
+--[[ L["Source stat color"] = ""--]] 
 L["Spell hit cap"] = "Zaubertrefferwertungscap"
 L["Spirit to hit"] = "Willenskraft in Trefferwertung"
-L["Stat weights"] = "Gewichtung"
+L["Stat Weights"] = "Gewichtung"
 L["Sum"] = "Summe"
+--[[Translation missing --]]
+--[[ L["Summarize reforged stats"] = ""--]] 
 --[[Translation missing --]]
 --[[ L["Tanking model"] = ""--]] 
 --[[Translation missing --]]
 --[[ L["ticks"] = ""--]] 
 L["Weight after cap"] = "Gewichtung über Cap"
+--[[Translation missing --]]
+--[[ L["Window Settings"] = ""--]] 
 

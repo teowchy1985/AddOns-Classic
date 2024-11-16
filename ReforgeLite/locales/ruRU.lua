@@ -11,12 +11,14 @@ L["At least"] = "Не ниже"
 L["At most"] = "Не выше"
 --[[Translation missing --]]
 --[[ L["Bearweave"] = ""--]] 
-L["Best result"] = "Лучший результат"
+L["Best Result"] = "Лучший результат"
 L["Cap value"] = "Пороговое значение"
 L["Click an item to lock it"] = "Нажмите на предмет, чтобы его заблокировать"
 L["Compute"] = "Посчитать"
 L["Crit block"] = "Крит блок"
 L["Debug"] = "Отладка"
+--[[Translation missing --]]
+--[[ L["Destination stat color"] = ""--]] 
 L["Enter pawn string"] = "Введите строку Pawn"
 L["Enter the preset name"] = "Введите имя шаблона"
 L["Enter WoWSims JSON"] = "Введите WoWSims JSON"
@@ -24,6 +26,8 @@ L["Exactly"] = "Точно"
 L["Expertise hard cap"] = "Мастерство (парирование)"
 L["Expertise soft cap"] = "Мастерство (уклонение)"
 L["Export"] = "Экспорт"
+--[[Translation missing --]]
+--[[ L["Highlight reforged stats"] = ""--]] 
 L["Import Pawn"] = "Импорт Pawn"
 L["Import WoWSims"] = "Импорт WoWSims"
 L["Inactive window color"] = "Цвет неактивного окна"
@@ -44,12 +48,18 @@ L["Result"] = "Результат"
 L["Score"] = "Вес"
 L["Show reforged stats in item tooltips"] = "Показывать перекованные статы в подсказках"
 L["Slide to the left if the calculation slows your game too much."] = "Сдвиньте влево, если расчет слишком сильно замедляет вашу игру."
+--[[Translation missing --]]
+--[[ L["Source stat color"] = ""--]] 
 L["Spell hit cap"] = "Заклинания - меткость"
 L["Spirit to hit"] = "Дух в меткость"
-L["Stat weights"] = "Веса"
+L["Stat Weights"] = "Веса"
 L["Sum"] = "Сум"
+--[[Translation missing --]]
+--[[ L["Summarize reforged stats"] = ""--]] 
 L["Tanking model"] = "Режим танка"
 --[[Translation missing --]]
 --[[ L["ticks"] = ""--]] 
 L["Weight after cap"] = "Вес после порога"
+--[[Translation missing --]]
+--[[ L["Window Settings"] = ""--]] 
 
