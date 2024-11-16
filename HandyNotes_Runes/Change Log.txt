@@ -1,5 +1,20 @@
-* To do - Uldaman has pins for Skillbooks? Remove
-* SM pins too if still there. Or leave note.. blizzard changed to purchaseable?
+* Old Skill Book dungeon pins still hanging around - actually still possible to ge them this way?
+* Priest racial ability guide?
+* Mage books - show the four separate quests somehow - I think no space on the screen which is why i removed?
+* Translations for all new added quests
+* Translations addendum from previous phases plus miscellany from p4/5
+* special priest guide for Cassandra's tome?
+* Demon Fall Canyon attunement would be nice to do
+
+== v2.26 - 16th November 2024
+* Everything Rogue. Translations missing
+
+== v2.25 - 15th November 2024
+* Priest and everything to do with them for p4/5
+* Shadowtooth Emissary (all Wild Gods runes) location corrected
+* Hunter Cobra Slayer, Rapid Killing and Wyvern Strike translations
+* Missing spell translations added for D/H/M as necessary
+* Better placement for the ring icon options
 
 == v2.24 - 14th November 2024
 * Paladin Malleable Protection replaces Enlightened Judgements

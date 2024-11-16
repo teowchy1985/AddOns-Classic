@@ -2585,26 +2585,28 @@ if ns.locale == "deDE" then
 	ns.L["Starfall"] = "Sternenregen"
 	ns.L["Tree of Life"] = "Baum des Lebens"
 	-- Hunter
---	ns.L["Cobra Slayer"] = ""
+	ns.L["Cobra Slayer"] = "Kobraschlächter"
 	ns.L["Heart of the Lion"] = "Löwenherz"
 	ns.L["Hit and Run"] = "Drauf und weg"
 	ns.L["Improved Volley"] = "Verbesserte Salve"
---	ns.L["Rapid Killing"] = ""
+	ns.L["Rapid Killing"] = "Schneller Tod"
 	ns.L["Resourcefulness"] = "Improvisation"
---	ns.L["T.N.T."] = ""
---	ns.L["Wyvern Strike"] = ""
+	ns.L["Wyvern Strike"] = "Flügeldrachenstoß"
 	-- Mage
 	ns.L["Arcane Barrage"] = "Arkanbeschuss"
 	ns.L["Overheat"] = "Überhitzen"
 	ns.L["Frozen Orb"] = "Gefrorene Kugel"
 	-- Paladin
---	ns.L["Aura Mastery"] = ""
---	ns.L["Divine Light"] = ""
---	ns.L["Hallowed Ground"] = ""
+	ns.L["Aura Mastery"] = "Aurenmeisterschaft"
+	ns.L["Divine Light"] = "Göttliches Licht"
+	ns.L["Hallowed Ground"] = "Geheiligter Boden"
 	ns.L["Shield of Righteousness"] = "Schild der Rechtschaffenheit"
 	ns.L["Shock and Awe"] = "Schockierende Ehrfurcht"
 	ns.L["Righteous Vengeance"] = "Rechtschaffene Vergeltung"
 	-- Priest
+	ns.L["Binding Heal"] = "Verbindende Heilung"
+	ns.L["Soul Warding"] = "Seelenwehr"
+	ns.L["Vampiric Touch"] = "Vampirberührung"
 	-- Rogue
 	-- Shaman
 	-- Warlock
@@ -2615,26 +2617,29 @@ elseif ns.locale == "esES" or ns.locale == "esMX" then
 	ns.L["Starfall"] = "Lluvia de estrellas"
 	ns.L["Tree of Life"] = "Árbol de vida"
 	-- Hunter
---	ns.L["Cobra Slayer"] = ""
+	ns.L["Cobra Slayer"] = "Destripacobras"
 	ns.L["Heart of the Lion"] = "Corazón del león"
 	ns.L["Hit and Run"] = "Ataque fugaz"
 	ns.L["Improved Volley"] = "Salva mejorada"
---	ns.L["Rapid Killing"] = ""
+	ns.L["Rapid Killing"] = "Matanza rápida"
 	ns.L["Resourcefulness"] = "Ingenio"
---	ns.L["T.N.T."] = ""
---	ns.L["Wyvern Strike"] = ""
+	ns.L["T.N.T."] = "TNT"
+	ns.L["Wyvern Strike"] = "Golpe de dracoleón"
 	-- Mage
 	ns.L["Arcane Barrage"] = "Tromba Arcana"
 	ns.L["Overheat"] = "Recalentamiento"
 	ns.L["Frozen Orb"] = "Orbe congelado"
 	-- Paladin
---	ns.L["Aura Mastery"] = ""
---	ns.L["Divine Light"] = ""
---	ns.L["Hallowed Ground"] = ""
+	ns.L["Aura Mastery"] = "Maestría de aura"
+	ns.L["Divine Light"] = "Luz divina"
+	ns.L["Hallowed Ground"] = "Suelo sacralizado"
 	ns.L["Shield of Righteousness"] = "Escudo de rectitud"
 	ns.L["Shock and Awe"] = "Conmoción y terror"
 	ns.L["Righteous Vengeance"] = "Venganza recta"
 	-- Priest
+	ns.L["Binding Heal"] = "Sanación conjunta"
+	ns.L["Soul Warding"] = "Amparo de alma"
+	ns.L["Vampiric Touch"] = "Toque vampírico"
 	-- Rogue
 	-- Shaman
 	-- Warlock
@@ -2645,26 +2650,28 @@ elseif ns.locale == "frFR" then
 	ns.L["Starfall"] = "Météores"
 	ns.L["Tree of Life"] = "Arbre de vie"
 	-- Hunter
---	ns.L["Cobra Slayer"] = ""
+	ns.L["Cobra Slayer"] = "Pourfendeur de cobras"
 	ns.L["Heart of the Lion"] = "Cœur de lion"
 	ns.L["Hit and Run"] = "Attaque éclair"
 	ns.L["Improved Volley"] = "Salve améliorée"
---	ns.L["Rapid Killing"] = ""
+	ns.L["Rapid Killing"] = "Tueur rapide"
 	ns.L["Resourcefulness"] = "Ingéniosité"
---	ns.L["T.N.T."] = ""
---	ns.L["Wyvern Strike"] = ""
+	ns.L["Wyvern Strike"] = "Frappe de wyverne"
 	-- Mage
 	ns.L["Arcane Barrage"] = "Barrage des arcanes"
 	ns.L["Overheat"] = "Surchauffe"
 	ns.L["Frozen Orb"] = "Orbe gelé"
 	-- Paladin
---	ns.L["Aura Mastery"] = ""
---	ns.L["Divine Light"] = ""
---	ns.L["Hallowed Ground"] = ""
+	ns.L["Aura Mastery"] = "Maîtrise des auras"
+	ns.L["Divine Light"] = "Lumière divine"
+	ns.L["Hallowed Ground"] = "Sol sacré"
 	ns.L["Shield of Righteousness"] = "Bouclier de piété"
 	ns.L["Shock and Awe"] = "Retentissement"
 	ns.L["Righteous Vengeance"] = "Vengeance vertueuse"
 	-- Priest
+	ns.L["Binding Heal"] = "Soins de lien"
+	ns.L["Soul Warding"] = "Protection de l’âme"
+	ns.L["Vampiric Touch"] = "Toucher vampirique"
 	-- Rogue
 	-- Shaman
 	-- Warlock
@@ -2675,26 +2682,29 @@ elseif ns.locale == "koKR" then
 	ns.L["Starfall"] = "별똥별"
 	ns.L["Tree of Life"] = "생명의 나무"
 	-- Hunter
---	ns.L["Cobra Slayer"] = ""
+	ns.L["Cobra Slayer"] = "코브라 학살자"
 	ns.L["Heart of the Lion"] = "사자의 심장"
 	ns.L["Hit and Run"] = "치고 빠지기"
 	ns.L["Improved Volley"] = "연발 사격 연마"
---	ns.L["Rapid Killing"] = ""
+	ns.L["Rapid Killing"] = "신속한 사냥"
 	ns.L["Resourcefulness"] = "뛰어난 계략"
---	ns.L["T.N.T."] = ""
---	ns.L["Wyvern Strike"] = ""
+	ns.L["T.N.T."] = "강력한 폭탄"
+	ns.L["Wyvern Strike"] = "비룡의 일격"
 	-- Mage
 	ns.L["Arcane Barrage"] = "비전 탄막"
 	ns.L["Overheat"] = "과열"
 	ns.L["Frozen Orb"] = "얼어붙은 구슬"
 	-- Paladin
---	ns.L["Aura Mastery"] = ""
---	ns.L["Divine Light"] = ""
---	ns.L["Hallowed Ground"] = ""
+	ns.L["Aura Mastery"] = "오라 숙련"
+	ns.L["Divine Light"] = "천상의 빛"
+	ns.L["Hallowed Ground"] = "신성화된 땅"
 	ns.L["Shield of Righteousness"] = "정의의 방패"
 	ns.L["Shock and Awe"] = "충격과 공포"
 	ns.L["Righteous Vengeance"] = "정의의 복수"
 	-- Priest
+	ns.L["Binding Heal"] = "결속의 치유"
+	ns.L["Soul Warding"] = "영혼의 수호"
+	ns.L["Vampiric Touch"] = "흡혈의 손길"
 	-- Rogue
 	-- Shaman
 	-- Warlock
@@ -2705,26 +2715,28 @@ elseif ns.locale == "ptBR" or ns.locale == "ptPT" then
 	ns.L["Starfall"] = "Chuva Estelar"
 	ns.L["Tree of Life"] = "Árvore da Vida"
 	-- Hunter
---	ns.L["Cobra Slayer"] = ""
+	ns.L["Cobra Slayer"] = "Exterminador de Najas"
 	ns.L["Heart of the Lion"] = "Coração de Leão"
 	ns.L["Hit and Run"] = "Bater e Correr"
 	ns.L["Improved Volley"] = "Salva Aprimorada"
---	ns.L["Rapid Killing"] = ""
+	ns.L["Rapid Killing"] = "Matança Veloz"
 	ns.L["Resourcefulness"] = "Desenvoltura"
---	ns.L["T.N.T."] = ""
---	ns.L["Wyvern Strike"] = ""
+	ns.L["Wyvern Strike"] = "Golpe da Mantícora"
 	-- Mage
 	ns.L["Arcane Barrage"] = "Salva Arcana"
 	ns.L["Overheat"] = "Superaquecimento"
 	ns.L["Frozen Orb"] = "Orbe Congelado"
 	-- Paladin
---	ns.L["Aura Mastery"] = ""
---	ns.L["Divine Light"] = ""
---	ns.L["Hallowed Ground"] = ""
+	ns.L["Aura Mastery"] = "Proficiência em Auras"
+	ns.L["Divine Light"] = "Luz Divina"
+	ns.L["Hallowed Ground"] = "Solo Consagrado"
 	ns.L["Shield of Righteousness"] = "Escudo de Retidão"
 	ns.L["Shock and Awe"] = "Choque e Admiração"
 	ns.L["Righteous Vengeance"] = "Vingança Íntegra"
 	-- Priest
+	ns.L["Binding Heal"] = "Cura Vinculada"
+	ns.L["Soul Warding"] = "Proteção Anímica"
+	ns.L["Vampiric Touch"] = "Toque Vampírico"
 	-- Rogue
 	-- Shaman
 	-- Warlock
@@ -2735,26 +2747,29 @@ elseif ns.locale == "ruRU" then
 	ns.L["Starfall"] = "Звездопад"
 	ns.L["Tree of Life"] = "Древо жизни"
 	-- Hunter
---	ns.L["Cobra Slayer"] = ""
+	ns.L["Cobra Slayer"] = "Убийца кобр"
 	ns.L["Heart of the Lion"] = "Львиное сердце"
 	ns.L["Hit and Run"] = "Бей и беги"
 	ns.L["Improved Volley"] = "Улучшенный град стрел"
---	ns.L["Rapid Killing"] = ""
+	ns.L["Rapid Killing"] = "Быстрые убийства"
 	ns.L["Resourcefulness"] = "Находчивость"
---	ns.L["T.N.T."] = ""
---	ns.L["Wyvern Strike"] = ""
+	ns.L["T.N.T."] = "Тротил"
+	ns.L["Wyvern Strike"] = "Удар виверны"
 	-- Mage
 	ns.L["Arcane Barrage"] = "Чародейский обстрел"
 	ns.L["Overheat"] = "Перегрев"
 	ns.L["Frozen Orb"] = "Ледяной шар"
 	-- Paladin
---	ns.L["Aura Mastery"] = ""
---	ns.L["Divine Light"] = ""
---	ns.L["Hallowed Ground"] = ""
+	ns.L["Aura Mastery"] = "Владение аурами"
+	ns.L["Divine Light"] = "Божественный свет"
+	ns.L["Hallowed Ground"] = "Благословенная земля"
 	ns.L["Shield of Righteousness"] = "Щит праведности"
 	ns.L["Shock and Awe"] = "Шок и трепет"
 	ns.L["Righteous Vengeance"] = "Праведная месть"
 	-- Priest
+	ns.L["Binding Heal"] = "Связующее исцеление"
+	ns.L["Soul Warding"] = "Оберег души"
+	ns.L["Vampiric Touch"] = "Прикосновение вампира"
 	-- Rogue
 	-- Shaman
 	-- Warlock
@@ -2765,26 +2780,28 @@ elseif ns.locale == "zhCN" then
 	ns.L["Starfall"] = "星辰坠落"
 	ns.L["Tree of Life"] = "生命之树"
 	-- Hunter
---	ns.L["Cobra Slayer"] = ""
+	ns.L["Cobra Slayer"] = "眼镜蛇屠夫"
 	ns.L["Heart of the Lion"] = "雄狮之心"
 	ns.L["Hit and Run"] = "一击脱离"
 	ns.L["Improved Volley"] = "强化乱射"
---	ns.L["Rapid Killing"] = ""
+	ns.L["Rapid Killing"] = "疾速杀戮"
 	ns.L["Resourcefulness"] = "游刃有余"
---	ns.L["T.N.T."] = ""
---	ns.L["Wyvern Strike"] = ""
+	ns.L["Wyvern Strike"] = "翼龙打击"
 	-- Mage
 	ns.L["Arcane Barrage"] = "奥术弹幕"
 	ns.L["Overheat"] = "过热"
 	ns.L["Frozen Orb"] = "寒冰宝珠"
 	-- Paladin
---	ns.L["Aura Mastery"] = ""
---	ns.L["Divine Light"] = ""
---	ns.L["Hallowed Ground"] = ""
+	ns.L["Aura Mastery"] = "光环掌握"
+	ns.L["Divine Light"] = "神圣之光"
+	ns.L["Hallowed Ground"] = "神圣之地"
 	ns.L["Shield of Righteousness"] = "正义盾击"
 	ns.L["Shock and Awe"] = "震慑"
 	ns.L["Righteous Vengeance"] = "正义复仇"
 	-- Priest
+	ns.L["Binding Heal"] = "联结治疗"
+	ns.L["Soul Warding"] = "灵魂守护"
+	ns.L["Vampiric Touch"] = "吸血鬼之触"
 	-- Rogue
 	-- Shaman
 	-- Warlock
@@ -2795,26 +2812,28 @@ elseif ns.locale == "zhTW" then
 	ns.L["Starfall"] = "星辰墜落"
 	ns.L["Tree of Life"] = "生命之樹"
 	-- Hunter
---	ns.L["Cobra Slayer"] = ""
+	ns.L["Cobra Slayer"] = "眼鏡蛇屠夫"
 	ns.L["Heart of the Lion"] = "雄獅之心"
 	ns.L["Hit and Run"] = "一擊脫離"
 	ns.L["Improved Volley"] = "強化亂射"
---	ns.L["Rapid Killing"] = ""
+	ns.L["Rapid Killing"] = "疾速殺戮"
 	ns.L["Resourcefulness"] = "游刃有餘"
---	ns.L["T.N.T."] = ""
---	ns.L["Wyvern Strike"] = ""
+	ns.L["Wyvern Strike"] = "翼龍打擊"
 	-- Mage
 	ns.L["Arcane Barrage"] = "奧術彈幕"
 	ns.L["Overheat"] = "過熱"
 	ns.L["Frozen Orb"] = "寒冰寶珠"
 	-- Paladin
---	ns.L["Aura Mastery"] = ""
---	ns.L["Divine Light"] = ""
---	ns.L["Hallowed Ground"] = ""
+	ns.L["Aura Mastery"] = "光環掌握"
+	ns.L["Divine Light"] = "神聖之光"
+	ns.L["Hallowed Ground"] = "神聖之地"
 	ns.L["Shield of Righteousness"] = "正義盾擊"
 	ns.L["Shock and Awe"] = "震懾"
 	ns.L["Righteous Vengeance"] = "正義復仇"
 	-- Priest
+	ns.L["Binding Heal"] = "聯結治療"
+	ns.L["Soul Warding"] = "靈魂守護"
+	ns.L["Vampiric Touch"] = "吸血鬼之觸"
 	-- Rogue
 	-- Shaman
 	-- Warlock

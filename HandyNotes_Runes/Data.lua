@@ -462,6 +462,35 @@ st.priest.surgeLight = "Between the server hours of 9pm and 3am the\nEcho of a L
 			.."Graveyard in Tanaris, the Ruins of Alboraz in\nStranglethorn, the Graveyard south east of\n"
 			.."Stonard, the graveyard north west of Revantusk\nVillage.\n\nThe Echo is immune to most damage except Arcane.\n"
 			.."Kill and loot.\n\nRespawn is very fast so if you do not see the Echo\nthen you are standing there at the wrong time"
+-- Priest Phase 4/5
+st.priest.bindingHeal = "Go to your regular priestly rune quest giver,\nbe that Dietrich Praice in the VoS, Org (H)\n"
+			.."or High Priestess Laurena, Cath., SW (A).\n\nStart \"Lost Heirloom\" by heading to the\n"
+			.."Western Plaguelands. Obtain three relics\nfrom the Sorrow Hill Crypt. Hand in.\n\n"
+			.."You're now off to Hearthglen, north-west\nWestern Plaguelands. The ledger is on a\n"
+			.."podium in the Town Hall.\n\nNow Tyr's Hand, south-east corner of the\n"
+			.."Eastern Plaguelands. You'll find the\nCache on the top floor of the bell tower.\n\n"
+			.."The Puzzle Box you receive is locked so\nkill the scarlet mobs for a key.\n\n"
+			.."You'll finish up in Org/SW. Rune lewt!"
+st.priest.soulWarding = "You'll need a cooperative group here, minimum of 3.\n\n"
+			.."The first mob you must kill is the Stratholme Courier (L57e),\n"
+			.."so proceed forward and at the fork turn a hard left. He'll\n"
+			.."drop three random mailbox keys. At the correct mailboxes\n"
+			.."use a key to obtain a total of three Shadow Jars.\n\n"
+			.."The Jars are unique so two others must help you here.\n\n"
+			.."Along the way to Balnazzar you'll see three pedestals. Read\n"
+			.."them for clues as to which bosses you must process:\n\n"
+			..colourPlaintext .."\"Among the dead this mortal...\" " ..colourHighlight .."Maleki\n"
+			..colourPlaintext .."\"A specter cursed to guard...\" " ..colourHighlight .."Anastari\n"
+			..colourPlaintext .."\"The ancient kingdom ...\" " ..colourHighlight .."Nerub'enkan\n"
+			..colourPlaintext .."\"Built from flesh, a sin of...\" " ..colourHighlight .."Ramstein\n"
+			..colourPlaintext .."\"The people looked to him...\" " ..colourHighlight .."Barthilas\n"
+			..colourPlaintext .."\"A champion of wicked malice...\" " ..colourHighlight .."Rivendare\n"
+			..colourPlaintext .."\"Holy furor purges sin and...\" " ..colourHighlight .."Balnazzar\n"
+			..colourPlaintext .."\"The smell of brimstone...\" " ..colourHighlight .."Cannon Master Willey\n\n"
+			.."On that corpse you must use a jar to capture the boss echo.\n"
+			.."Note that echoes have a two hour duration.\n\n"
+			.."Back at the pedestals you must use the echoes at the correct\n"
+			.."pedestal. There will then be an orb to loot - rune loot!"
 
 -- Rogue Phase 1
 st.rogue.bladeDance = "Cliffspring River Cave, Darkshore. Keys drops\noff Cliffspring mobs; Pp Dark Iron Dwarves in\n"
@@ -572,6 +601,16 @@ st.rogue.honorThieves = "Upon receiving the quest you'll go to Ravenholdt\nManor
 			.."will reward you with your Rune AND a great Agility cloak!"
 st.rogue.unfair = "Pickpocket the pirate mobs at the Cove in Tanaris\nuntil you score a Kidnapper's Coin Purse with a\n"
 			.."Precious Medallion.\n\nTake to Jabbey at the Steamwheedle Port and he'll\nhappily exchange it for a Rune of Foul Play!"
+-- Rogue Phase 4/5
+st.rogue.blunderbuss = "Atypically, the pin numbering begins from 0.\n\nBegin by lock picking (min 250) the Footlockers\n"
+			.."until a Sending Sigil drops.\n\nNow go to the pins numbered 1 to 4 in that\n"
+			.."EXACT order. Note that each time you interact\nwith a pillar you will be teleported to one\n"
+			.."of the other pillars. If lucky it's the correct\nnext pillar!\n\nAfter the fourth pillar you are transported\n"
+			.."to a final location. There's a chest there!"
+st.rogue.crimson = "Farm the Scarlet Workers in Hearthglen\nfor a Toolbox Key. PP or kill works.\n\n"
+			.."Use it to open the Scarlet Toolbox.\n\nNow go to the Marked Crate and use\n"
+			.."the Rusty Crowbar from the Toolbox.\n\nAnother tower now and with your newly\n"
+			.."acquired Safe Box Key. Locate the\nBelavus' Safe Box. Your phat lewt!"
 
 -- Shaman Phase 1
 st.shaman.dyadicIcon = "Troll/Orc: Meet Shikrik in the Valley of the Trials,\nTauren: Meela Dawnstrider in Camp Narache.\n\n"
@@ -1329,13 +1368,6 @@ ns.runes = {
 			"Meditation Specialization", },
 	},
 
-	[44604660] = { npc=227519, name="Fallen Knight", class={ "PALADIN" }, spell={ "Righteous Vengeance" },
-					quest={ { 83808, 83935, 83822, 83936 } }, guide={ st.paladin.vengeance },
-					questName={ { "In a Bind", "Clearing the Path", "The Fallen Knight", "Dalton's Quest" } }, },
-	[47805060] = { npc=227672, name="Squire Cuthbert", class={ "PALADIN" }, spell={ "Righteous Vengeance" },
-					quest={ { 83808, 83935, 83822, 83936 } }, guide={ st.paladin.vengeance },
-					questName={ { "In a Bind", "Clearing the Path", "The Fallen Knight", "Dalton's Quest" } }, },
-
 	["PRIEST"] = {
 		-- Phase 1
 		["Penance"]={ rune="Memory of a Troubled Acolyte", phase=1, spellID=402174, level=2, icon=1, slot=10,
@@ -1381,21 +1413,13 @@ ns.runes = {
 				start="Kill nagas in northern Desolace until the Unsettling Vision drops. Then activate it via Mind Control" },	
 		["Pain Suppression"]={ rune="Memory of a Leader's Betrayal", phase=2, spellID=402004, level=35, icon=16, slot=8,
 				start="look for \"Echos\" in Arathi, Dustwallow, SM graveyard, Swamp of Sorrows. Then complete a ritual in the SM Library wing " },
-		["Spirit of the Redeemer"]={ rune="Luminous Epiphany", phase=2, spellID=425284, level=40, icon=17, slot=8, start=st.dalaranSpeakTo },
+		["Spirit of the Redeemer"]={ rune="Luminous Epiphany", phase=2, spellID=425284, level=40, icon=17, slot=8,
+				start=st.dalaranSpeakTo },
 		["Dispersion"]={ rune="Prophecy of Imprisoned Malice", phase=2, spellID=425294, level=18, icon=18, slot=8,
 				start="Officially you need a mage and rogue to help with tasks in Stranglethorn Vale. See that map also for HACKS!" },
 		-- Phase 2 Skill Books
 		["Increased Fortitude"]={ skillBook="Scroll Increased Fortitude", spellID=436951, level=1, start=st.purchaseSkillBook },
 		["Shadowfiend"]={ skillBook="Scroll of Shadowfiend", spellID=401977, level=1, start=st.purchaseSkillBook },
-
-		-- 1 = "Head"			 8 = "Feet"			15 = "Back"
-		-- 2 = "Neck"			 9 = "Wrist"		16 = "Main Hand"
-		-- 3 = "Shoulders"		10 = "Hands"		17 = "Off Hand"
-		-- 4 = "Shirt"			11 = "Ring 1"		18 = "Ranged"
-		-- 5 = "Chest"			12 = "Ring 2"		19 = "Tabard"
-		-- 6 = "Waist"			13 = "Trinket 1"
-		-- 7 = "Legs"			14 = "Trinket 2"
-				
 		-- Phase 3
 		["Void Zone"]={ rune="Nihilist Epiphany", phase=3, spellID=431681, level="23/37/47", icon=19, slot=9,
 				start=st.emeraldWardens },
@@ -1411,21 +1435,23 @@ ns.runes = {
 				start="Collect seven eyes from around Azeroth: Blasted Lands, Felwood, Feralas, Searing Gorge,\n"
 					.."Stranglethorn Vale, Tanaris, The Hinterlands. Afterwards go to Azshara for the hand in" },
 		-- Phase 4
---		["Binding Heal"]={ rune="", phase=4, spellID=, level=45, icon=25, slot=15,
---				start="" },
---		["Soul Warding"]={ rune="", phase=4, spellID=, level=45, icon=26, slot=15,
---				start="" },
---		["Vampiric Touch"]={ rune="", phase=4, spellID=, level=45, icon=27, slot=15,
---				start="" },
+		["Binding Heal"]={ rune="Jubilant Epiphany", phase=4, spellID=401937, level=55, icon=25, slot=15,
+				start="Go to High Priestess Laurena, Stormwind Cathedral (A) or Dietrich Praice, Valley of Spirits, Orgrimmar (H)" },
+		["Soul Warding"]={ rune="Oneiric Epiphany", phase=4, spellID=402000, level=60, icon=26, slot=15,
+				start="Go to Stratholme Live Side (Main Entrance), Eastern Plaguelands. Follow the guide precisely (L58-62e)" },
+		["Vampiric Touch"]={ rune="Aperitive Epiphany", phase=4, spellID=402668, level=60, icon=27, slot=15,
+				start="Drops from Hellscream's Phantom (L62e), last boss in Demon Fall Canyon, Ashenvale but...\n"
+					.."You need to unlock the dungeon. Speak to the Shadowtooth Emissary in Emerald Santuary, Felwood" },
 
 		spells={ "Penance", "Prayer of Mending", "Void Plague", "Homunculi", "Shared Pain", "Mind Sear",
 			"Twisted Faith", "Shadow Word: Death", "Serendipity", "Power Word: Barrier",
 			"Strength of Soul", "Circle of Healing", "Empowered Renew", "Mind Spike", "Renewed Hope",
 			"Pain Suppression", "Spirit of the Redeemer", "Dispersion", "Void Zone", "Surge of Light",
-			"Divine Aegis", "Pain and Suffering", "Despair", "Eye of the Void", },
-		--	"Binding Heal", "Soul Warding", "Vampiric Touch" },
+			"Divine Aegis", "Pain and Suffering", "Despair", "Eye of the Void",
+			"Binding Heal", "Soul Warding", "Vampiric Touch" },
 		skillBooks={ "Increased Fortitude", "Shadowfiend" },
-		rings={},
+		rings={ "Dagger Specialization", "Holy Specialization", "Mace Specialization", "Pole Weapon Specialization",
+			"Shadow Specialization", "Healing Specialization", "Meditation Specialization", },
 	},
 			
 	["ROGUE"] = {
@@ -1491,22 +1517,38 @@ ns.runes = {
 		["Honor Among Thieves"]={ rune="Rune of the Coterie", phase=3, spellID=432264, level=45, icon=24, slot=1,
 				start="You need to have visited Ravenholdt previously and to have completed the Pyrewood Dead Drop quests/runes.\n"
 					.."Then at L45 you'll receive a letter sending you back to Ravenholdt Manor" },
+
+		-- 1 = "Head"			 8 = "Feet"			15 = "Back"
+		-- 2 = "Neck"			 9 = "Wrist"		16 = "Main Hand"
+		-- 3 = "Shoulders"		10 = "Hands"		17 = "Off Hand"
+		-- 4 = "Shirt"			11 = "Ring 1"		18 = "Ranged"
+		-- 5 = "Chest"			12 = "Ring 2"		19 = "Tabard"
+		-- 6 = "Waist"			13 = "Trinket 1"
+		-- 7 = "Legs"			14 = "Trinket 2"
+				
 		-- Phase 4
---		["Blunderbuss"]={ rune="", phase=4, spellID=, level=45, icon=25, slot=15,
---				start="" },
---		["Crimson Tempest"]={ rune="", phase=4, spellID=, level=45, icon=26, slot=15,
---				start="" },
---		["Fan of Knives"]={ rune="", phase=4, spellID=, level=45, icon=27, slot=15,
---				start="" },
+		["Fan of Knives"]={ rune="Rune of Knives", phase=4, spellID=409240, level=1, icon=25, slot=15,
+				start="Loot a wooden chest in Winterfall Village, Winterspring (L55-59" },
+		["Crimson Tempest"]={ rune="Rune of the Crimson Tempest", phase=4, spellID=412096, level=55, icon=26, slot=15,
+				start="A run-around in Hearthglen - chests plus pp/kill. Start with Scarlet Workers (L55-57) " },
+		["Blunderbuss"]={ rune="Rune of the Swashbuckler", phase=4, spellID=436610, level=57, icon=27, slot=15,
+				start="Begin by lockpicking Scarlet Footlockers @ Tyr's Hand in the Eastern Plaguelands,\n"
+					.."(Min LP 250, 275+ better) (L53-57e + L61e)" },
+		-- Phase 4 Skill Books
+		["Atropic Poison"]={ skillBook="Manual of Atropic Poison", spellID=439503, level=1, start=st.purchaseSkillBook },
+		["Numbing Poison"]={ skillBook="Manual of Numbing Poison", spellID=439505, level=1, start=st.purchaseSkillBook },
+		["Occult Poison I"]={ skillBook="Manual of Occult Poison", spellID=458822, level=1, start=st.purchaseSkillBook },
+		["Sebacious Poison"]={ skillBook="Manual of Sebacious Poison", spellID=439500, level=1, start=st.purchaseSkillBook },
 
 		spells={ "Shadowstrike", "Quick Draw", "Slaughter from the Shadows",  "Mutilate",
 			"Between the Eyes", "Saber Slash", "Blade Dance", "Just a Flesh Wound", "Envenom",
 			"Main Gauche", "Deadly Brew", "Cutthroat", "Poisoned Knife", "Shadowstep",
 			"Shuriken Toss", "Rolling with the Punches", "Waylay", "Master of Subtlety",
 			"Cut to the Chase", "Focused Attacks", "Carnage", "Unfair Advantage", "Combat Potency",
-			"Honor Among Thieves", }, --"Blunderbuss", "Crimson Tempest", "Fan of Knives" },
-		skillBooks={ "Redirect" },
-		rings={},
+			"Honor Among Thieves", "Crimson Tempest", "Blunderbuss", "Fan of Knives" },
+		skillBooks={ "Atropic Poison", "Numbing Poison", "Occult Poison I", "Redirect", "Sebacious Poison" },
+		rings={ "Dagger Specialization", "Defense Specialization", "Fist Weapon Specialization", "Mace Specialization",
+			"Nature Specialization", "Ranged Weapon Specialization", "Sword Specialization", },
 	},
 			
 	["SHAMAN"] = {
@@ -2275,13 +2317,14 @@ points[ 1431 ] = { -- Duskwood
 					spell={ "Circle of Healing" }, guide={ st.priest.circle } },
 }
 points[ 1423 ] = { -- Eastern Plaguelands
+	[14753050] = { object=856874, name="Sending Pillar", class={ "ROGUE" }, spell={ "Blunderbuss" },
+					guide={ st.rogue.blunderbuss }, tip="Step (4) The fourth pillar.\nAbove the spider cave entrance" },
 	[18203320] = { npc=16117, name="Plagued Swine", class={ "HUNTER" }, spell={ "Resourcefulness" },
 					guide={ st.hunter.resourceful }, tip="You want 1 x Tainted Boar Meat" },
 	[26307470] = { object=457090, name="Famous (and Infamous) Rangers of Azeroth", spell={ "Ranged Weapon Specialization" }, 
 					class={ "HUNTER", "ROGUE", "WARRIOR", },  ring=true,
 					guide="Left of the doorway at Marris Stead in\nEastern Plaguelands.\n\n"
 					.."Nathanos Blightcaller (L62e) and his two\nBlighthounds (L58-59e) are Horde friendly", },
-
 	[27608600] = { npc=229018, name="Rotting Dwarf Corpse", class={ "PALADIN", }, spell={ "Shield of Righteousness" },
 					guide={ st.paladin.righteousness }, quest={ { 84318, 84319, 84330, 84414, 84332 } }, tip="Step (5) Undercroft",
 					questName={ { "Oil", "Oh No Ye Don't!", "A Wee Bit O' Necromancy", "Send Me On Me Way!", "A Thane's Gratitude" } }, },
@@ -2298,6 +2341,8 @@ points[ 1423 ] = { -- Eastern Plaguelands
 	[37605760] = { name="Abominations/Stitched Horrors", class={ "PALADIN", }, spell={ "Shield of Righteousness" },
 					guide={ st.paladin.righteousness }, quest={ { 84318, 84319, 84330, 84414, 84332 } }, tip="Step (3)",
 					questName={ { "Oil", "Oh No Ye Don't!", "A Wee Bit O' Necromancy", "Send Me On Me Way!", "A Thane's Gratitude" } }, },
+	[40009200] = { object=856876, name="Sending Pillar", class={ "ROGUE" }, spell={ "Blunderbuss" },
+					guide={ st.rogue.blunderbuss }, tip="Step (2) The second pillar.\nIt's on a small hill near the wrecked building" },
 	[42007960] = { npc=228620, name="Slack-Jawed Ghoul", class={ "PALADIN", }, spell={ "Shield of Righteousness" },
 					guide={ st.paladin.righteousness }, quest={ { 84318, 84319, 84330, 84414, 84332 } }, tip="Step (1)",
 					questName={ { "Oil", "Oh No Ye Don't!", "A Wee Bit O' Necromancy", "Send Me On Me Way!", "A Thane's Gratitude" } }, },
@@ -2307,7 +2352,8 @@ points[ 1423 ] = { -- Eastern Plaguelands
 	[61306920] = { object=461639, name="Orthas' Hammer", class={ "PALADIN", }, spell={ "Shield of Righteousness" },
 					guide={ st.paladin.righteousness }, quest={ { 84318, 84319, 84330, 84414, 84332 } }, tip="Step (2) Corrin's Crossing",
 					questName={ { "Oil", "Oh No Ye Don't!", "A Wee Bit O' Necromancy", "Send Me On Me Way!", "A Thane's Gratitude" } }, },
-
+	[31251950] = { name="Stratholme Live Side (Main Entrance)", class={ "PRIEST" },
+					spell={ "Soul Warding" }, guide={ st.priest.soulWarding }, },
 	[31252100] = { object=463212, name="Scrolls", class={ "MAGE" },
 					spell={ "Arcane Barrage" }, guide={ st.mage.books }, alsoTestQuest=true,
 					tip="On the table right before the bridge to Stratholme",
@@ -2317,25 +2363,48 @@ points[ 1423 ] = { -- Eastern Plaguelands
 					quest={ { 84400 } }, questName={ { "The Knight and the Lady" } } },
 	[54607020] = { name="Living Decay / Rotting Sludge", class={ "HUNTER" }, spell={ "Resourcefulness" },
 					guide={ st.hunter.resourceful }, tip="You want 1 x Bubbling Green Ichor" },
+	[62200750] = { object=456883, name="Adon's Trunk", class={ "ROGUE" }, spell={ "Blunderbuss" },
+					guide={ st.rogue.blunderbuss }, tip="Step (5) Grab your phat lewt!" },
 	[66606660] = { npc=8603, name="Carrion Grub", class={ "HUNTER" }, spell={ "Resourcefulness" },
 					guide={ st.hunter.resourceful }, tip="They are literally everywhere.\nThis is just one example" },
+	[70003500] = { object=856874, name="Sending Pillar", class={ "ROGUE" }, spell={ "Blunderbuss" },
+					guide={ st.rogue.blunderbuss }, tip="Step (3) The third pillar" },
 	[76006060] = { name="Living Decay / Rotting Sludge", class={ "HUNTER" }, spell={ "Resourcefulness" },
 					guide={ st.hunter.resourceful }, tip="You want 1 x Bubbling Green Ichor" },
+	[80808520] = { object=179498, name="Scarlet Footlocker", class={ "ROGUE" }, spell={ "Blunderbuss" },
+					guide={ st.rogue.blunderbuss }, tip="Step (0) pick these until a Sending Sigil drops" },
 	[81705780] = { object=463207, name="Scrolls", class={ "MAGE" }, tip="Back left corner of Light's Hope Chapel",
 					spell={ "Arcane Barrage" }, guide={ st.mage.books }, alsoTestQuest=true,				
 					quest={ { 84398 } }, questName={ { "A Study of the Light" } } },
+	[82005800] = { object=856874, name="Sending Pillar", class={ "ROGUE" }, spell={ "Blunderbuss" },
+					guide={ st.rogue.blunderbuss }, tip="Step (1) The first pillar" },
+	[82008400] = { item=228912, name="Artifact Storage Key", class={ "PRIEST" }, spell={ "Binding Heal" },
+					quest={ ( ( ns.faction == "Alliance" ) and { 84320, 84321, 84322, 84323 } or { 84405, 84406, 84322, 84407 } ) },
+					guide={ st.priest.bindingHeal },
+					questName={ { "Lost Heirloom", "Relic of Light", "Scarlet Research", "The Prize Within", } }, },
+	[82908470] = { object=179498, name="Scarlet Footlocker", class={ "ROGUE" }, spell={ "Blunderbuss" },
+					guide={ st.rogue.blunderbuss }, tip="Step (0) pick these until a Sending Sigil drops" },
+	[83507950] = { object=459388, name="Artifact Cache", class={ "PRIEST" }, spell={ "Binding Heal" },
+					quest={ ( ( ns.faction == "Alliance" ) and { 84320, 84321, 84322, 84323 } or { 84405, 84406, 84322, 84407 } ) },
+					guide={ st.priest.bindingHeal },
+					questName={ { "Lost Heirloom", "Relic of Light", "Scarlet Research", "The Prize Within", } }, },
 	[83607820] = { object=457094, name="The True Nature of the Light", spell={ "Holy Specialization" }, ring=true, 
 					class={ "PALADIN", "PRIEST", },
 					guide="As per the pin, enter the Abbey and turn left,\nmaking for the library wing.\n\n"
 					.."The book is on top of a bookshelf which is\nnext to a staircase.\n\n"
 					.."Note that if you die and rez on the first\nlanding, you'll be out of LoS of the mobs\n"
 					.."for an easy loot and hearth!", },
+	[83607930] = { object=179498, name="Scarlet Footlocker", class={ "ROGUE" }, spell={ "Blunderbuss" },
+					guide={ st.rogue.blunderbuss }, tip="Step (0) pick these until a Sending Sigil drops\n"
+						.."There might be 2 or 3 in this area" },
 	[86603960] = { npc=227985, name="Arkonos the Cursed", class={ "PALADIN", "PALADIN", }, spell={ "Shock and Awe", "Avenging Wrath" },
 					guide={ st.paladin.shockAwe, st.paladin.avengingWrath },
 					tip="The Scourge Shadow Scalpel will drop from\nthe Shadowmage and Dread Weaver mobs",
 					quest={ { 83936, 83823, 84008, 84017, 84125, 84126 }, { 84126 } },
 					questName={ { "Dalton's Quest", "A Lesson in Violence", "A Lesson in Grace", "A Time to Kill", 
 						"Close Enough to Touch", "Finish the Fight" }, { "Finish the Fight" }, }, },
+	[86708320] = { object=179498, name="Scarlet Footlocker", class={ "ROGUE" }, spell={ "Blunderbuss" },
+					guide={ st.rogue.blunderbuss }, tip="Step (0) pick these until a Sending Sigil drops" },
 }
 points[ 1429 ] = { -- Elwynn Forest
 	[13213968] = { npc=203475, name="Liv Bradford", class={ "PALADIN", "WARRIOR" }, faction="Alliance",
@@ -3129,6 +3198,9 @@ points[ 1453 ] = { -- Stormwind City
 	[37827997] = { npc=211033, name="Garion Wendell", class={ "MAGE" }, faction="Alliance",
 					spell={ "Spell Power" }, tip="Collect any 20 books", guide={ st.mage.books },
 					quest={ st.mage.booksQuestIDsA }, questName={ st.mage.booksQuestNamesA }, },
+	[38702640] = { npc=376, name="High Priestess Laurena", class={ "PRIEST" }, faction="Alliance", spell={ "Binding Heal" },
+					quest={ { 84320, 84321, 84322, 84323 } }, guide={ st.priest.bindingHeal },
+					questName={ { "Lost Heirloom", "Relic of Light", "Scarlet Research", "The Prize Within", } }, },
 	[39328147] = { npc=211033, name="Garion Wendell", class={ "MAGE" }, faction="Alliance",
 					spell={ "Deep Freeze" }, tip="Collect any 25 books", guide={ st.mage.books },
 					quest={ st.mage.booksQuestIDsA }, questName={ st.mage.booksQuestNamesA, }, },					
@@ -3599,13 +3671,14 @@ points[ 1458 ] = { -- Undercity
 					spell={ "Soul Siphon" }, guide={ st.warlock.soulSiphon } },
 }
 points[ 1422 ] = { -- Western Plaguelands
-	[47301370] = { object=457102, name="Elements for Dummies Volume III: Arcane", class={ "DRUID", "HUNTER", "MAGE" },
-					spell={ "Arcane Specialization" }, ring=true, guide="Locate a tower in Hearthglen, north-western\n"
-					.."Western Plaguelands. Top floor of the tower.\nThe book is leaning against a bookshelf. Loot!", },
 	[36805470] = { name="Novice Frost Mage", class={ "MAGE" }, tip={ "In the house" }, spell={ "Overheat" }, guide={ st.mage.overheat } },
 	[38205460] = { name="Scrolls", class={ "MAGE" }, tip="Upstairs, in the farmhouse",
 					spell={ "Arcane Barrage" }, guide={ st.mage.books }, alsoTestQuest=true,				
 					quest={ { 84395 } }, questName={ { "Undead Potatoes" } } },
+	[42201810] = { object=457443, name="Scarlet Ledger", class={ "PRIEST" }, spell={ "Binding Heal" },
+					quest={ ( ( ns.faction == "Alliance" ) and { 84320, 84321, 84322, 84323 } or { 84405, 84406, 84322, 84407 } ) },
+					guide={ st.priest.bindingHeal },
+					questName={ { "Lost Heirloom", "Relic of Light", "Scarlet Research", "The Prize Within", } }, },
 	[44604660] = { npc=227519, name="Fallen Knight", class={ "PALADIN", "PALADIN", "PALADIN" },
 					spell={ "Righteous Vengeance", "Shock and Awe", "Avenging Wrath" },
 					tip="(1) Begin here\n(4) You MUST select \"burn\"",
@@ -3614,7 +3687,11 @@ points[ 1422 ] = { -- Western Plaguelands
 					questName={ { "In a Bind", "Clearing the Path", "The Fallen Knight", }, { "Dalton's Quest", 
 						"A Lesson in Violence", "A Lesson in Grace", "A Time to Kill", "Close Enough to Touch", "Finish the Fight" },
 						{ "Finish the Fight" }, }, },
+	[45001410] = { object=463540, name="Scarlet Toolbox", class={ "ROGUE" }, spell={ "Crimson Tempest" }, guide={ st.rogue.crimson } },
 	[45105190] = { name="Novice Frost Mage", class={ "MAGE" }, spell={ "Overheat" }, guide={ st.mage.overheat } },
+	[45801260] = { npc=1883, name="Scarlet Worker", class={ "ROGUE" }, spell={ "Crimson Tempest" }, guide={ st.rogue.crimson } },
+	[45801830] = { object=461632, name="Marked Crate", class={ "ROGUE" }, spell={ "Crimson Tempest" }, guide={ st.rogue.crimson,
+					tip="This is the middle tower of Hearthglen,\ntop floor. Safe Box Key is inside the crate" } },
 	[45705390] = { object=455812, name="Squire Cuthbert's Sword", class={ "PALADIN", "PALADIN", "PALADIN" },
 					spell={ "Righteous Vengeance", "Shock and Awe", "Avenging Wrath" }, tip="(3) of the chain",
 					guide={ st.paladin.vengeance, st.paladin.shockAwe, st.paladin.avengingWrath },
@@ -3622,6 +3699,11 @@ points[ 1422 ] = { -- Western Plaguelands
 					questName={ { "In a Bind", "Clearing the Path", "The Fallen Knight", }, { "Dalton's Quest", 
 						"A Lesson in Violence", "A Lesson in Grace", "A Time to Kill", "Close Enough to Touch", "Finish the Fight" },
 						{ "Finish the Fight" }, }, },
+	[46301460] = { object=461633, name="Belavus' Safe Box", class={ "ROGUE" }, spell={ "Crimson Tempest" }, guide={ st.rogue.crimson,
+					tip="This is the middle tower of Hearthglen,\ntop floor. Safe Box Key is inside the crate" } },
+	[47301370] = { object=457102, name="Elements for Dummies Volume III: Arcane", class={ "DRUID", "HUNTER", "MAGE" },
+					spell={ "Arcane Specialization" }, ring=true, guide="Locate a tower in Hearthglen, north-western\n"
+					.."Western Plaguelands. Top floor of the tower.\nThe book is leaning against a bookshelf. Loot!", },
 	[47805060] = { npc=227672, name="Squire Cuthbert", class={ "PALADIN", "PALADIN", "PALADIN" },
 					spell={ "Righteous Vengeance", "Shock and Awe", "Avenging Wrath" }, tip="(2) His location for this step",
 					guide={ st.paladin.vengeance, st.paladin.shockAwe, st.paladin.avengingWrath },
@@ -3630,6 +3712,18 @@ points[ 1422 ] = { -- Western Plaguelands
 						"A Lesson in Violence", "A Lesson in Grace", "A Time to Kill", "Close Enough to Touch", "Finish the Fight" },
 						{ "Finish the Fight" }, }, },
 	[53306450] = { name="Novice Frost Mage", class={ "MAGE" }, spell={ "Overheat" }, guide={ st.mage.overheat } },
+	[54808120] = { object=457389, name="Family Records", class={ "PRIEST" }, spell={ "Binding Heal" },
+					quest={ ( ( ns.faction == "Alliance" ) and { 84320, 84321, 84322, 84323 } or { 84405, 84406, 84322, 84407 } ) },
+					guide={ st.priest.bindingHeal },
+					questName={ { "Lost Heirloom", "Relic of Light", "Scarlet Research", "The Prize Within", } }, },
+	[54108070] = { object=457390, name="Survivor Journal", class={ "PRIEST" }, spell={ "Binding Heal" },
+					quest={ ( ( ns.faction == "Alliance" ) and { 84320, 84321, 84322, 84323 } or { 84405, 84406, 84322, 84407 } ) },
+					guide={ st.priest.bindingHeal },
+					questName={ { "Lost Heirloom", "Relic of Light", "Scarlet Research", "The Prize Within", } }, },
+	[54808120] = { object=457387, name="Heirloom Coffer", class={ "PRIEST" }, spell={ "Binding Heal" },
+					quest={ ( ( ns.faction == "Alliance" ) and { 84320, 84321, 84322, 84323 } or { 84405, 84406, 84322, 84407 } ) },
+					guide={ st.priest.bindingHeal },
+					questName={ { "Lost Heirloom", "Relic of Light", "Scarlet Research", "The Prize Within", } }, },
 	[59408460] = { object=410847, name="Rusty Safe", class={ "ROGUE" }, tip={ "In the water. Jump down" },
 					spell={ "Envenom" }, guide={ st.rogue.envenom } },
 	[64205770] = { name="Novice Frost Mage", class={ "MAGE" }, tip={ "In the house" }, spell={ "Overheat" }, guide={ st.mage.overheat } },
@@ -4106,6 +4200,8 @@ points[ 1440 ] = { -- Ashenvale
 					questName={ { "A Strange Artifact", "Advice from Stormwind", "A Second Opinion", "Earning Your Salt", 
 						"It Must Be Destroyed", "Return to Delgren" }, { "The Orb of Soran'ruk", "Rumors Abound",
 						"The Conjuring", "The Mysterious Traveler", "Raszel Ander" } } },
+	[84507500] = { name="Demon Fall Canyon", class={ "PRIEST" }, spell={ "Vampiric Touch" },
+					guide={ "Drops off Hellscream's Phantom,\nthe final boss. Drop rate?" }, },
 	[84607060] = { name="Mannoroc Lasher + (Infernals, Felguards, Hounds)", class={ "PALADIN", "WARLOCK" },
 					faction="Alliance",
 					spell={ "Divine Storm", "Metamorphosis" }, guide={ st.paladin.divineStorm, st.warlock.metamorphosis },
@@ -4610,8 +4706,6 @@ points[ 1445 ] = { -- Dustwallow Marsh
 points[ 1448 ] = { -- Felwood
 	[35305870] = { item=223336, name="Piercing Eye", class={ "PRIEST" }, spell={ "Eye of the Void" },
 					quest={ { 82316 } }, questName={ { "Seven Eyes I Seek..." } }, guide={ st.priest.eyeOfVoid } },
-	[41304360] = { npc=222408, name="Shadowtooth Emissary", class=st.allClass, spell=st.wildGodsSpells, guide={ st.wildGods },
-					quest={ { 82043, 82044 } }, questName={ { "The Wild Gods (Part 1)", "The Wild Gods (Part 2)" } } },
 	[42604140] = { name="Infernal / Entropic Beast", class={ "PALADIN" }, preRune={ { "Fanaticism" } },
 					quest={ { 81790 } }, questName={ { "Materials of Significance" } }, spell={ "Hammer of the Righteous" },
 					guide={ st.paladin.hammerRighteous } },
@@ -4628,6 +4722,9 @@ points[ 1448 ] = { -- Felwood
 					guide={ st.druid.treeOfLife }, tip="Between the two small lakes" },
 	[50802420] = { npc=7139, name="Irontree Stomper", class={ "MAGE" }, spell={ "Frozen Orb" },
 					quest={ { 84369 } }, questName={ { "Healing the Healer" } }, guide={ st.mage.frozenOrb }, },
+	[51508200] = { npc=222408, name="Shadowtooth Emissary", class=st.allClass, spell=st.wildGodsSpells,
+					guide=st.wildGods, quest={ { 82043, 82044 } },
+					questName={ { "The Wild Gods (Part 1)", "The Wild Gods (Part 2)" } }, },
 	[61501300] = { npc=228822, name="Calyx Greenglow", class={ "MAGE" }, spell={ "Frozen Orb" },
 					quest={ { 84369 } }, questName={ { "Healing the Healer" } }, guide={ st.mage.frozenOrb }, },
 	[62800750] = { object=457092, name="The Fury of Stormrage", spell={ "Nature Specialization" }, ring=true, 
@@ -4944,6 +5041,9 @@ points[ 1412 ] = { -- Mulgore
 					spell={ "Devastate" }, guide={ st.warrior.devastate ..st.warrior.devastateVat }, tip="Severed Harpy Head" },
 }
 points[ 1454 ] = { -- Orgrimmar
+	[35808720] = { npc=211229, name="Dietrich Praice", class={ "PRIEST" }, faction="Horde", spell={ "Binding Heal" },
+					quest={ { 84405, 84406, 84322, 84407 } }, guide={ st.priest.bindingHeal },
+					questName={ { "Lost Heirloom", "Relic of Light", "Scarlet Research", "The Prize Within", } }, },
 	[38707840] = { object=405149, name="Mural of Ta'zo", class={ "MAGE" }, faction="Horde", alsoTestQuest=true,
 					spell={ "Icy Veins" }, guide={ st.mage.books }, quest={ 79094 }, questName={ "The Lessons of Ta'zo" },
 					tip="It's a large rock tablet with red writing, leaning against the wall.\n"
@@ -5456,6 +5556,8 @@ points[ 1452 ] = { -- Winterspring
 					guide="Under a table in a ransacked camp site\nas per the pin. Easy as, except for mobs", },
 	[63001800] = { name="Ravasaur mobs (various)", class={ "DRUID" }, spell={ "Starfall" }, tip="Kill and loot. Nuf said! L59e.",
 					guide={ "If you go around and climb the mountain\nyou can drop down, avoiding the mobs.\n\n" ..st.timbermaw }, },
+	[67703540] = { object=462432, name="Wooden Chest", class={ "ROGUE" }, spell={ "Fan of Knives" },
+					guide={ "Locate the chest in Winterfall Village. You must\nenter this code: Frostsaber, Owl, Bear, Owl"}, },
 }
 
 --=======================================================================================================
