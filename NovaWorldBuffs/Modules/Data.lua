@@ -39,16 +39,10 @@ local GetRaidRosterInfo = GetRaidRosterInfo;
 local strmatch = strmatch;
 local connectedRealms = {};
 local layerExpireTime = 10800;
-do
-	local megaServers = {
-		["Crusader Strike"] = true,
-		["Living Flame"] = true,
-		["Wild Growth"] = true,
-	};
-	if (megaServers[NWB.realm]) then
-		layerExpireTime = 3600;
-	end
+if (NWB.megaServer) then
+	layerExpireTime = 3600;
 end
+
 if (GetAutoCompleteRealms and next(GetAutoCompleteRealms())) then
 	NWB.isConnectedRealm = true;
 	for k, v in pairs(GetAutoCompleteRealms()) do

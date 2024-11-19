@@ -3873,8 +3873,14 @@ function NWB:config(i)
 	for k, v in pairs(i) do
 		if (type(k) == "table") then
 			NWB:debug("Data table error found.");
-			NWB:debug(i);
+			if (NWB.isDebug) then
+				print(i);
+				print(k, v);
+				UIParentLoadAddOn("Blizzard_DebugTools");
+				DevTools_Dump(i);
+			end
 			NWB:debug(k, v);
+			NWB:debug(i);
 			return;
 		end
 		if (string.match(k, "r%d")) then

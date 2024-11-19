@@ -4,6 +4,7 @@ if (not L) then
 end
 
 --Spanish translations by Cruzluz.
+--Spanish (EU)
 
 local type;
 if (WOW_PROJECT_ID == WOW_PROJECT_CLASSIC) then

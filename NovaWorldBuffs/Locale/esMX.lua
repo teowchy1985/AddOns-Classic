@@ -4,6 +4,7 @@ if (not L) then
 end
 
 --Spanish translations by Cruzluz.
+--Spanish (AL)
 
 --Rend buff aura name.
 L["Warchief's Blessing"] = "Bendición del Jefe de Guerra";
