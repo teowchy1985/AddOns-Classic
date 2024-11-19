@@ -38,6 +38,11 @@ local GetGuildRosterInfo = GetGuildRosterInfo;
 local GetRaidRosterInfo = GetRaidRosterInfo;
 local strmatch = strmatch;
 local connectedRealms = {};
+local layerExpireTime = 10800;
+if (NWB.megaServer) then
+	layerExpireTime = 3600;
+end
+
 if (GetAutoCompleteRealms and next(GetAutoCompleteRealms())) then
 	NWB.isConnectedRealm = true;
 	for k, v in pairs(GetAutoCompleteRealms()) do

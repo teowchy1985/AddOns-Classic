@@ -46,6 +46,28 @@ local GetContainerItemCooldown = GetContainerItemCooldown or C_Container.GetCont
 local GetItemCooldown = GetItemCooldown or C_Container.GetItemCooldown;
 local GetItemCount = GetItemCount or C_Item.GetItemCount;
 NWB.wgExpire = 259200;
+local layerExpireTime = 10800; --Also set in Data.lua.
+do
+	--SoD mega servers.
+	local megaServers = {
+		["Crusader Strike"] = true,
+		["Living Flame"] = true,
+		["Wild Growth"] = true,
+	};
+	if (megaServers[NWB.realm]) then
+		NWB.megaServer = true;
+	end
+end
+if (C_Seasons and (C_Seasons.GetActiveSeason() == 11 or C_Seasons.GetActiveSeason() == 12)) then
+	--Upcoming fresh classic and hardcore seasons, all realms will be mega servers at launch.
+	--Era 11, hardcore 12, probably no need to do lower layer expire time on hardcore servers but we'll do it anyway just for launch due to streamer zerg.
+	NWB.megaServer = true;
+end
+
+if (NWB.megaServer) then
+	layerExpireTime = 3600;
+end
+
 local yellPercent = NWB.yellPercent;
 local noWorldBuffTimers = NWB.noWorldBuffTimers;
 function NWB:loadSODPhases()
