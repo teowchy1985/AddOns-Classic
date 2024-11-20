@@ -525,19 +525,6 @@ D["BuyEmAllClassic"] = {
 	icon = 132763,
 	img = true,
 };
-D["CastCursor"] = {
-	defaultEnable = 0,
-	tags = { "MISC" },
-	title = "滑鼠游標施法條",
-	desc = "在滑鼠游標的周圍顯示圓形的施法條，還可以顯示 GCD。方便在戰鬥中觀看施法條、找到滑鼠的位置。`",
-	modifier = "彩虹ui",
-	-- --icon = "Interface\\Icons\\achievement_halloween_smiley_01",
-	-- img = true,
-	{
-        text = "設定選項",
-        callback = function(cfg, v, loading) SlashCmdList["CASTCURSOR"]("") end,
-    },
-};
 D["ccc"] = {
 	defaultEnable = 0,
 	tags = { "COMBAT" },
@@ -612,7 +599,7 @@ D["CharacterStatsClassic"] = {
 };
 D["Cell"] = {
 	defaultEnable = 0,
-	tags = { "BOSSRAID" },
+	tags = { "UNITFRAME" },
 	title = "團隊框架 (Cell)",
 	desc = "簡單好用又美觀的團隊框架，載入即可使用，幾乎不用設定。``有提供自訂外觀、增益/減益圖示和其他功能。對於補師，還有滑鼠點一下快速施法的功能。`",
 	modifier = "BSN, 彩虹ui",
@@ -629,39 +616,6 @@ D["Cell"] = {
         callback = function(cfg, v, loading) SlashCmdList["CELL"]("resetall") end,
     },
 };
-D["ChatBar Classic"] = {
-	defaultEnable = 0,
-	tags = { "SOCIAL" },
-	title = "聊天頻道按鈕",
-	desc = "在聊天視窗上方顯示一排能夠快速切換聊天頻道的按鈕列。`",
-	{
-        text = "重置位置",
-        callback = function() ChatBar_Reset() end,
-    },
-	{
-		type = "text",
-		text = "移動位置：在按鈕列的最左端或最右端用滑鼠左鍵拖曳。\n\n設定選項：在按鈕列的最左端或最右端點滑鼠右鍵，開啟設定選單。\n",
-	},
-};
-D["ChatWheel"] = {
-	defaultEnable = 0,
-	tags = { "SOCIAL" },
-	title = "快速發話環",
-	desc = "按下設定好的快速鍵後，會顯示一圈定型語，點一下即可快速發話，節省打字的時間，打副本特別好用。`",
-	modifier = "BNS, 彩虹ui",
-	--icon = "Interface\\Icons\\spell_holy_circleofrenewal",
-	-- img = true,
-    {
-        text = "設定選項",
-        callback = function(cfg, v, loading) 
-			Settings.OpenToCategory("聊天-快速發話")
-		end,
-    },
-	{
-		type = "text",
-		text = "開始使用：先在設定選項中設定好快速鍵。\n\n快速發話：按一下快速鍵，用滑鼠點預先設定好的定型語。\n\n取消發話：點滑鼠右鍵。\n\n更改發話內容：在設定選項中修改目前設定檔的內容 (定型語)。\n\n定型語格式為：\n環形選單文字-聊天發話的內容\n\n每組選單文字和發話內容單獨一行，最多 8 組。也可以儲存成多個不同的設定檔，方便不同的場合切換使用。\n",
-	},
-};
 D["ClassicAuraDurations"] = {
 	defaultEnable = 1,
 	tags = { "UNITFRAME" },
@@ -673,18 +627,6 @@ D["ClassicAuraDurations"] = {
         callback = function(cfg, v, loading) 
 			Settings.OpenToCategory("頭像-光環時間")
 		end,
-    },
-};
-D["ClassicCastbars"] = {
-	defaultEnable = 0,
-	tags = { "COMBAT" },
-	title = "目標/隊友施法條",
-	desc = "在目標頭像框架下方顯示目標的施法條，也有提供隊友的施法條。``|cffFF2D2D注意：在經典版中暴雪沒有提供這個功能，所以目標唱法時間是用估計的，不是非常精準，但已足夠讓你知道目標唱什麼法術，是否該斷法或爐石。`|r",
-	modifier = "Asukachikaru, 彩虹ui",
-	-- --icon = "Interface\\Icons\\ability_paladin_beaconoflight",
-	{
-        text = "設定選項",
-        callback = function(cfg, v, loading) SlashCmdList["CLASSICCASTBARS"]("") end,
     },
 };
 D["ClassicCalendar"] = {
@@ -707,11 +649,26 @@ D["ClassicCalendar"] = {
 		text = "點小地圖上的行事曆按鈕，或是點畫面正下方的時間，也可以打開行事曆。",
     },
 };
-D["ClassicSpellActivations"] = {
-	defaultEnable = 1,
-	tags = { "ACTIONBAR" },
-	title = "技能發光 (快捷列)",
-	desc = "技能觸發時快捷列上的技能圖示會發光。``目前支援戰士、聖騎士、盜賊、獵人和術士的特定幾個技能。``無法自行設定技能，如有需要其他技能發光，建議使用 'WA技能提醒' 插件。|r",
+D["ClassicPlatesPlus"] = {
+	defaultEnable = 0,
+	tags = { "UNITFRAME" },
+	title = "經典血條 Plus",
+	desc = "還原並美化經典版本的血條，有超清楚的個人資源條和簡單的自訂選項。`",
+	modifier = "彩虹ui",
+	{
+        text = "設定選項",
+        callback = function() 
+			Settings.OpenToCategory("ClassicPlatesPlus")
+		end,
+    },
+	{
+		type = "text",
+        text = "|cffFF2D2D啟用插件後需要重新載入介面。|r",       
+	},
+	{
+		type = "text",
+        text = "|cffFF2D2D請勿和 '威力血條' 同時載入使用。|r",       
+	},
 };
 D["ColorPickerPlus"] = {
 	defaultEnable = 1,
@@ -1968,8 +1925,8 @@ D["PowerRaid"] = {
 };
 D["Quartz"] = {
 	defaultEnable = WOW_PROJECT_ID == WOW_PROJECT_CLASSIC and 1 or 0,
-	tags = { "ENHANCEMENT" },
-	title = "施法條增強",
+	tags = { "UNITFRAME" },
+	title = "Quartz 施法條",
 	desc = "功能增強、模組化、可自訂外觀的施法條。``包括玩家、寵物的施法條，還有 GCD、揮擊、增益/減益效果和環境對應的計時條，都可以自訂調整。`",
 	modifier = "a9012456, Adavak, alpha2009, Adavak, Ananhaid, nevcairiel, Seelerv, Whyv, YuiFAN, 半熟魷魚, 彩虹ui",
 	icon = "Interface\\Icons\\spell_holy_divineprovidence",
@@ -2435,7 +2392,7 @@ D["TalentEmu"] = {
 };
 D["TidyPlates_ThreatPlates"] = {
     defaultEnable = 1,
-	tags = { "ENHANCEMENT" },
+	tags = { "UNITFRAME" },
 	title = "威力血條",
 	desc = "威力強大、能夠根據仇恨值變化血條、提供更多自訂選項的血條。還可以幫指定的怪自訂血條樣式，讓血條更清楚明顯。``威力血條現在已經是獨立運作的插件，不再需要和 Tidy 血條一起載入使用，也請不要同時載入。`",
 	modifier = "彩虹ui",
@@ -2455,7 +2412,7 @@ D["TidyPlates_ThreatPlates"] = {
 	},
 	{
 		type = "text",
-        text = "|cffFF2D2D請勿和 Neat 血條或其他血條插件同時載入使用。|r"
+        text = "|cffFF2D2D請勿和 '經典血條 Plus' 同時載入使用。|r",       
 	},
 	{
 		type = "text",
@@ -2662,7 +2619,7 @@ D["UnlearnedRecipes"] = {
 };
 D["VuhDo"] = {
     defaultEnable = 0,
-	tags = { "BOSSRAID" },
+	tags = { "UNITFRAME" },
 	title = "團隊框架 (巫毒)",
 	desc = "用來取代隊伍/團隊框架，滑鼠點一下就能快速施放法術/補血，是補師的好朋友! DD 和坦克也適用。``可以自訂框架的外觀、順序，提供治療、驅散、施放增益效果、使用飾品、距離檢查和仇恨提示和更多功能。``還有精美且清楚的 HOT 和動畫效果提醒驅散的 DEBUFF 圖示。`",
 	--icon = "Interface\\Icons\\inv_belt_mail_raidshaman_k_01",
