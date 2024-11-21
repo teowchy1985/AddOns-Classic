@@ -1,6 +1,6 @@
 ## Interface: 11505
 ## Title: Classic Calendar
-## Version: 0.7.0beta
+## Version: 0.7.0beta Fix
 ## SavedVariables: CCConfig
 ## X-Wago-ID: nKW1ZrNE
 ## X-WoWI-ID: 26678
@@ -9,10 +9,10 @@
 ## Title-zhTW: |cffFF7F00[團隊]|r 行事曆
 ## Notes-zhTW: Classic Calendar |n|n在經典版中提供和正式服相同的行事曆的功能。|n|cffffd200使用方法：|r點小地圖按鈕。
 
-# locales\localization-world.lua
-# ClassicCalendar_Options.lua
-# HolidayData.lua
-# Patches.lua
-# Patches.xml
-# ClassicCalendar.lua
-# ClassicCalendar.xml
+locales\localization-world.lua
+ClassicCalendar_Options.lua
+HolidayData.lua
+Patches.lua
+Patches.xml
+ClassicCalendar.lua
+ClassicCalendar.xml
