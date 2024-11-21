@@ -751,8 +751,9 @@ data["HydraxianWaterlords"] = {
 				{ 3, 22698 }, -- Pattern: Icy Scale Bracers
 				{ 4, 22705 }, -- Plans: Icebane Bracers
 				{ 5, 22695 }, -- Pattern: Polar Bracers
-				{ 6, 228979}, -- Enchanted Sigil: Flowing Waters
-				{ 17, 22754 }, -- Eternal Quintessence
+				{ 6, 22754 }, -- Eternal Quintessence
+				{ 9, "INV_Box_01", nil, AL["SoD Exclusive"], nil },
+				{ 10, 228979}, -- Enchanted Sigil: Flowing Waters
 			},
 		},
 		{ -- Honored
@@ -760,7 +761,8 @@ data["HydraxianWaterlords"] = {
 			[NORMAL_DIFF] = {
 				{ 1, "f749rep6" },
 				{ 2, 17333 }, -- Aqual Quintessence
-				{ 3, 227926}, -- Hydraxian Coronation
+				{ 4, "INV_Box_01", nil, AL["SoD Exclusive"], nil },
+				{ 5, 227926}, -- Hydraxian Coronation
 			},
 		},
 	},

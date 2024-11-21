@@ -176,31 +176,31 @@ data["SoD PvP"] = {
 			},
 		},
 		{
-		name = AL["Level 50 PvP Sets"],
-		TableType = SET_ITTYPE,
+		name = AL["Level 60 Blood Moon"],
+		TableType = NORMAL_ITTYPE,
 			[NORMAL_DIFF] = {
-				{ 1, "INV_Box_01", nil, AL["Horde"], nil },
-				{ 2, 1618 }, --Blood Guard's Plate
-				{ 4, 1624 },
-				{ 5, 1623 },
-				{ 6, 1622 },
-				{ 7, 1625 },
-				{ 9, 1627 },
-				{ 10, 1631 },
-				{ 11, 1629 },
-				{ 13, 1633 },
-				{ 14, 1635 },
-				{ 16, "INV_Box_01", nil, AL["Alliance"], nil },
-				{ 17, 1619 },
-				{ 18, 1620 },
-				{ 19, 1621 },
-				{ 21, 1665 },
-				{ 22, 1626 },
-				{ 24, 1628 },
-				{ 25, 1630 },
-				{ 26, 1632 },
-				{ 28, 1634 },
-				{ 29, 1636 },
+				{ 1, 235144 }, -- Satchel of Blood-Caked Copper Coins
+				{ 2, 235145 }, -- Satchel of Blood-Caked Silver Coins
+				{ 3, 234145 }, -- Blood-Caked Hakkari Bijou
+				{ 5, 233728 }, -- Blood-Caked Insignia
+				{ 7, 233740 }, -- Blood-Caked Shroud
+				{ 8, 233739 }, -- Blood-Caked Drape
+				{ 9, 233738 }, -- Blood-Caked Cape
+				{ 10, 233737 }, -- Blood-Caked Cloak
+				{ 12, 233736 }, -- Blood-Caked Band
+				{ 13, 233735 }, -- Blood-Caked Loop 
+				{ 14, 233734 }, -- Blood-Caked Circle
+				{ 15, 233733 }, -- Blood-Caked Ring
+				{ 16, 233732 }, -- Blood-Caked Necklace
+				{ 17, 233731 }, -- Blood-Caked Amulet
+				{ 18, 233730 }, -- Blood-Caked Talisman
+				{ 19, 233729 }, -- Blood-Caked Choker
+				{ 21, 233781 }, -- Battle Hardened Satin Wrists
+				{ 22, 233780 }, -- Battle Hardened Satin Bracers
+				{ 23, 233783 }, -- Battle Hardened Satin Sash
+				{ 24, 233786 }, -- Battle Hardened Satin Cinch
+				{ 26, 234960 }, -- Reins of the Blood-Caked Tiger
+				{ 27, 234961 }, -- Whistle of the Blood-Caked Raptor
 			},
 		},
 		{
@@ -293,6 +293,34 @@ data["SoD PvP"] = {
 				{ 128, 216495 }, -- Sanguine Crusher 
 				{ 129, 216496 }, -- Sanguine Skullcrusher 
 				{ 130, 216497 }, -- Exsanguinar 
+			},
+		},
+		{
+		name = AL["Level 50 PvP Sets"],
+		TableType = SET_ITTYPE,
+			[NORMAL_DIFF] = {
+				{ 1, "INV_Box_01", nil, AL["Horde"], nil },
+				{ 2, 1618 }, --Blood Guard's Plate
+				{ 4, 1624 },
+				{ 5, 1623 },
+				{ 6, 1622 },
+				{ 7, 1625 },
+				{ 9, 1627 },
+				{ 10, 1631 },
+				{ 11, 1629 },
+				{ 13, 1633 },
+				{ 14, 1635 },
+				{ 16, "INV_Box_01", nil, AL["Alliance"], nil },
+				{ 17, 1619 },
+				{ 18, 1620 },
+				{ 19, 1621 },
+				{ 21, 1665 },
+				{ 22, 1626 },
+				{ 24, 1628 },
+				{ 25, 1630 },
+				{ 26, 1632 },
+				{ 28, 1634 },
+				{ 29, 1636 },
 			},
 		},
 		{

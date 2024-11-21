@@ -67,6 +67,10 @@ local PRICE_INFO_LIST = {
 	["tb23"] 	= { itemID = 16982 }, -- Corehound Boots
 	["tb24"] 	= { itemID = 17014 }, -- Dark Iron Bracers
 	["TUR"]     = { itemID = 226404 }, -- Tarnished Undermine Real
+	["BCSC"]     = { itemID = 235142 }, -- Blood-Caked Silver Coin
+	["BCGC"]     = { itemID = 235143 }, -- Blood-Caked Gold Coin
+	["NE"]     = { itemID = 8529 }, --NogginFogger Elixir
+	["OoD"]     = { itemID = 1973 }, -- Orb of Deception
 	-- others
 	["money"] 			= { func = GetCoinTextureString },
 
@@ -321,6 +325,46 @@ VENDOR_PRICES_RAW.CLASSIC = {
 	 [232409] = "TUR:25",
 	 [232416] = "TUR:25",
 	 [232419] = "TUR:25",
+	 [235144] = "BCSC:1",
+	 [235145] = "BCGC:1",
+	 [234145] = "BCSC:1",
+	 [233728] = "BCSC:5",
+	 [233740] = "BCSC:25",
+	 [233739] = "BCSC:25",
+	 [233738] = "BCSC:25",
+	 [233737] = "BCSC:25",
+	 [233736] = "BCSC:25",
+	 [233735] = "BCSC:25",
+	 [233734] = "BCSC:25",
+	 [233733] = "BCSC:25",
+	 [233732] = "BCSC:25",
+	 [233731] = "BCSC:25",
+	 [233730] = "BCSC:25",
+	 [233729] = "BCSC:25",
+	 [233781] = "BCSC:50",
+	 [233780] = "BCSC:50",
+	 [233783] = "BCSC:50",
+	 [233786] = "BCSC:50",
+	 [234960] = "BCGC:2:money:8000000",
+	 [234961] = "BCGC:2:money:8000000",
+	 [215449] = "TUR:25",
+	 [223160] = "TUR:25",
+	 [223161] = "TUR:35",
+	 [215437] = "TUR:35",
+	 [220635] = "TUR:35",
+	 [221484] = "TUR:35",
+	 [220638] = "TUR:35",
+	 [216494] = "TUR:35",
+	 [216608] = "TUR:35",
+	 [220639] = "TUR:50",
+	 [220619] = "TUR:50",
+	 [234144] = "TUR:50",
+	 [234447] = "TUR:75",
+	 [234467] = "TUR:75",
+	 [234464] = "TUR:75",
+	 [234142] = "NE:200",
+	 [234143] = "OoD:1",
+	 
 }
 
 if AtlasLoot:GameVersion_GE(AtlasLoot.BC_VERSION_NUM) then

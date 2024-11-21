@@ -57,6 +57,7 @@ local SOD_CONTENT = data:AddContentType(AL["SoD Exclusives"], ATLASLOOT_RAID20_C
 local VENDOR_CONTENT = data:AddContentType(AL["Vendor"], ATLASLOOT_DUNGEON_COLOR)
 local SET_CONTENT = data:AddContentType(AL["Sets"], ATLASLOOT_PVP_COLOR)
 --local WORLD_BOSS_CONTENT = data:AddContentType(AL["World Bosses"], ATLASLOOT_WORLD_BOSS_COLOR)
+local CLASSIC_CONTENT = data:AddContentType(AL["Classic"], ATLASLOOT_RAID40_COLOR)
 local COLLECTIONS_CONTENT = data:AddContentType(AL["Collections"], ATLASLOOT_PVP_COLOR)
 local WORLD_EVENT_CONTENT = data:AddContentType(AL["World Events"], ATLASLOOT_SEASONALEVENTS_COLOR)
 
@@ -341,6 +342,28 @@ data["SoD Currency"] = {
 			},
 		},
 		{
+			name = AL["Toys"],
+			[NORMAL_DIFF] = {
+				{ 1, 215449 }, -- World Shrinker
+				{ 2, 223160 }, -- Bargain Bush
+				{ 3, 223161 }, -- Empty Supply Crate
+				{ 4, 215437 }, -- Trogg Transfigurator 3000
+				{ 5, 220635 }, -- Atal'alarion's Enchanted Boulder
+				{ 6, 221484 }, -- Witch Doctor's Hex Stick
+				{ 7, 220638 }, -- Unorthodox Hex Stick
+				{ 8, 216494 }, -- Aragriar's Whimsical World Warper
+				{ 9, 216608 }, -- Radiant Ray Reflectors
+				{ 10, 220639 }, -- Lledra's Inanimator
+				{ 11, 220619 }, -- Atal'ai Blood Ceremony
+				{ 16, 234144 }, -- Censer of the False Prophet
+				{ 17, 234447 }, -- Bubbles' Rod of Transformation
+				{ 18, 234467 }, -- Bubbles' Rod of Dragons
+				{ 19, 234464 }, -- Bubbles' Rod of Bubbles
+				{ 20, 234142 }, -- Bottomless Noggenfogger Elixir
+				{ 21, 234143 }, -- Globe of Deception
+			},
+		},
+		{
 			name = AL["Wild Offering Rewards"],
 			[NORMAL_DIFF] = {
 				{ 1, 223194 }, -- Band of the Wilds
@@ -426,31 +449,31 @@ data["SoD PvP"] = {
 			},
 		},
 		{
-		name = AL["Level 50 PvP Sets"],
-		TableType = SET_ITTYPE,
+		name = AL["Level 60 Blood Moon"],
+		TableType = NORMAL_ITTYPE,
 			[NORMAL_DIFF] = {
-				{ 1, "INV_Box_01", nil, AL["Horde"], nil },
-				{ 2, 1618 }, --Blood Guard's Plate
-				{ 4, 1624 },
-				{ 5, 1623 },
-				{ 6, 1622 },
-				{ 7, 1625 },
-				{ 9, 1627 },
-				{ 10, 1631 },
-				{ 11, 1629 },
-				{ 13, 1633 },
-				{ 14, 1635 },
-				{ 16, "INV_Box_01", nil, AL["Alliance"], nil },
-				{ 17, 1619 },
-				{ 18, 1620 },
-				{ 19, 1621 },
-				{ 21, 1665 },
-				{ 22, 1626 },
-				{ 24, 1628 },
-				{ 25, 1630 },
-				{ 26, 1632 },
-				{ 28, 1634 },
-				{ 29, 1636 },
+				{ 1, 235144 }, -- Satchel of Blood-Caked Copper Coins
+				{ 2, 235145 }, -- Satchel of Blood-Caked Silver Coins
+				{ 3, 234145 }, -- Blood-Caked Hakkari Bijou
+				{ 5, 233728 }, -- Blood-Caked Insignia
+				{ 7, 233740 }, -- Blood-Caked Shroud
+				{ 8, 233739 }, -- Blood-Caked Drape
+				{ 9, 233738 }, -- Blood-Caked Cape
+				{ 10, 233737 }, -- Blood-Caked Cloak
+				{ 12, 233736 }, -- Blood-Caked Band
+				{ 13, 233735 }, -- Blood-Caked Loop 
+				{ 14, 233734 }, -- Blood-Caked Circle
+				{ 15, 233733 }, -- Blood-Caked Ring
+				{ 16, 233732 }, -- Blood-Caked Necklace
+				{ 17, 233731 }, -- Blood-Caked Amulet
+				{ 18, 233730 }, -- Blood-Caked Talisman
+				{ 19, 233729 }, -- Blood-Caked Choker
+				{ 21, 233781 }, -- Battle Hardened Satin Wrists
+				{ 22, 233780 }, -- Battle Hardened Satin Bracers
+				{ 23, 233783 }, -- Battle Hardened Satin Sash
+				{ 24, 233786 }, -- Battle Hardened Satin Cinch
+				{ 26, 234960 }, -- Reins of the Blood-Caked Tiger
+				{ 27, 234961 }, -- Whistle of the Blood-Caked Raptor
 			},
 		},
 		{
@@ -543,6 +566,34 @@ data["SoD PvP"] = {
 				{ 128, 216495 }, -- Sanguine Crusher 
 				{ 129, 216496 }, -- Sanguine Skullcrusher 
 				{ 130, 216497 }, -- Exsanguinar 
+			},
+		},
+		{
+		name = AL["Level 50 PvP Sets"],
+		TableType = SET_ITTYPE,
+			[NORMAL_DIFF] = {
+				{ 1, "INV_Box_01", nil, AL["Horde"], nil },
+				{ 2, 1618 }, --Blood Guard's Plate
+				{ 4, 1624 },
+				{ 5, 1623 },
+				{ 6, 1622 },
+				{ 7, 1625 },
+				{ 9, 1627 },
+				{ 10, 1631 },
+				{ 11, 1629 },
+				{ 13, 1633 },
+				{ 14, 1635 },
+				{ 16, "INV_Box_01", nil, AL["Alliance"], nil },
+				{ 17, 1619 },
+				{ 18, 1620 },
+				{ 19, 1621 },
+				{ 21, 1665 },
+				{ 22, 1626 },
+				{ 24, 1628 },
+				{ 25, 1630 },
+				{ 26, 1632 },
+				{ 28, 1634 },
+				{ 29, 1636 },
 			},
 		},
 		{
@@ -1045,6 +1096,227 @@ data["Sod Exclusives"] = {
 	},
 }
 
+data["TierSets"] = {
+	name = AL["Tier & Sets"],
+	ContentType = CLASSIC_CONTENT,
+	TableType = SET_ITTYPE,
+	items = {
+		{ -- T1
+			name = format(AL["Tier %s Sets"], "1"),
+			CoinTexture = "CLASSIC",
+			[NORMAL_DIFF] = {
+				{ 1, 203 }, -- Warlock
+				{ 3, 202 }, -- Priest
+				{ 16, 201 }, -- Mage
+				{ 5, 204 }, -- Rogue
+				{ 20, 205 }, -- Druid
+				{ 7, 206 }, -- Hunter
+				{ 9, 209 }, -- Warrior
+				{ 22, 207 }, -- Shaman
+				{ 24, 208 }, -- Paladin
+			},
+		},
+		{ -- T2
+			name = format(AL["Tier %s Sets"], "2"),
+			CoinTexture = "CLASSIC",
+			[NORMAL_DIFF] = {
+				{ 1, 212 }, -- Warlock
+				{ 3, 211 }, -- Priest
+				{ 16, 210 }, -- Mage
+				{ 5, 213 }, -- Rogue
+				{ 20, 214 }, -- Druid
+				{ 7, 215 }, -- Hunter
+				{ 9, 218 }, -- Warrior
+				{ 22, 216 }, -- Shaman
+				{ 24, 217 }, -- Paladin
+			},
+		},
+		{ -- T2.5
+			name = format(AL["Tier %s Sets"], "2.5"),
+			CoinTexture = "CLASSIC",
+			[NORMAL_DIFF] = {
+				{ 1, 499 }, -- Warlock
+				{ 3, 507 }, -- Priest
+				{ 16, 503 }, -- Mage
+				{ 5, 497 }, -- Rogue
+				{ 20, 493 }, -- Druid
+				{ 7, 509 }, -- Hunter
+				{ 9, 496 }, -- Warrior
+				{ 22, 501 }, -- Shaman
+				{ 24, 505 }, -- Paladin
+			},
+		},
+		{ -- T3
+			name = format(AL["Tier %s Sets"], "3"),
+			CoinTexture = "CLASSIC",
+			[NORMAL_DIFF] = {
+				{ 1, 529 }, -- Warlock
+				{ 3, 525 }, -- Priest
+				{ 16, 526 }, -- Mage
+				{ 5, 524 }, -- Rogue
+				{ 20, 521 }, -- Druid
+				{ 7, 530 }, -- Hunter
+				{ 9, 523 }, -- Warrior
+				{ 22, 527 }, -- Shaman
+				{ 24, 528 }, -- Paladin
+			},
+		},
+		{ -- T0 / D1
+			name = format(AL["Dungeon Set %s"], "1"),
+			CoinTexture = "CLASSIC",
+			[NORMAL_DIFF] = {
+				{ 1, 183 }, -- Warlock
+				{ 3, 182 }, -- Priest
+				{ 16, 181 }, -- Mage
+				{ 5, 184 }, -- Rogue
+				{ 20, 185 }, -- Druid
+				{ 7, 186 }, -- Hunter
+				{ 9, 189 }, -- Warrior
+				{ 22, 187 }, -- Shaman
+				{ 24, 188 }, -- Paladin
+			},
+		},
+		{ -- T0.5 / D2
+			name = format(AL["Dungeon Set %s"], "2"),
+			CoinTexture = "CLASSIC",
+			[NORMAL_DIFF] = {
+				{ 1, 518 }, -- Warlock
+				{ 3, 514 }, -- Priest
+				{ 16, 517 }, -- Mage
+				{ 5, 512 }, -- Rogue
+				{ 20, 513 }, -- Druid
+				{ 7, 515 }, -- Hunter
+				{ 9, 511 }, -- Warrior
+				{ 22, 519 }, -- Shaman
+				{ 24, 516 }, -- Paladin
+			},
+		},
+		{
+			name = format(AL["%s Sets"], C_Map_GetAreaInfo(1977)),
+			[ALLIANCE_DIFF] = {
+				{ 1,  481 }, -- Warlock
+				{ 3,  480 }, -- Priest
+				{ 16, 482 }, -- Mage
+				{ 5,  478 }, -- Rogue
+				{ 20, 479 }, -- Druid
+				{ 7,  477 }, -- Hunter
+				{ 9,  474 }, -- Warrior
+				{ 24, 475 }, -- Paladin
+			},
+			[HORDE_DIFF] = {
+				GetItemsFromDiff = ALLIANCE_DIFF,
+				{ 22, 476 }, -- Shaman
+				{ 24 }, -- Paladin
+			},
+		},
+		{ -- Misc
+			name = format(AL["%s Sets"], AL["Misc"]),
+			[NORMAL_DIFF] = {
+				-- Swords
+				{ 1,  461 }, -- Warblade of the Hakkari
+				{ 3,  463 }, -- Primal Blessing
+				-- Rings
+				{ 16,  466 }, -- Major Mojo Infusion
+				{ 17,  462 }, -- Zanzil's Concentration
+				{ 18,  465 }, -- Prayer of the Primal
+				{ 19,  464 }, -- Overlord's Resolution
+				-- Fist weapons
+				{ 5,  261 }, -- Spirit of Eskhandar
+				-- Swords
+				{ 7,  41 }, -- Dal'Rend's Arms
+				-- Dagger / Mace
+				{ 9,  65 }, -- Spider's Kiss
+				-- Trinket
+				{ 11,  241 }, -- Shard of the Gods / 60
+			},
+		},
+		{ -- AQ20
+			name = format(AL["%s Sets"], C_Map_GetAreaInfo(3428).." 20"),
+			[ALLIANCE_DIFF] = {
+				{ 1,  500 }, -- Warlock
+				{ 3,  508 }, -- Priest
+				{ 16, 504 }, -- Mage
+				{ 5,  498 }, -- Rogue
+				{ 20, 494 }, -- Druid
+				{ 7,  510 }, -- Hunter
+				{ 9,  495 }, -- Warrior
+				{ 24, 506 }, -- Paladin
+			},
+			[HORDE_DIFF] = {
+				GetItemsFromDiff = ALLIANCE_DIFF,
+				{ 22, 502 }, -- Shaman
+				{ 24 }, -- Paladin
+			},
+		},
+		{ -- AQ40
+			name = format(AL["%s Sets"], C_Map_GetAreaInfo(3428).." 40"),
+			[ALLIANCE_DIFF] = {
+				{ 1,  499 }, -- Warlock
+				{ 3,  507 }, -- Priest
+				{ 16, 503 }, -- Mage
+				{ 5,  497 }, -- Rogue
+				{ 20, 493 }, -- Druid
+				{ 7,  509 }, -- Hunter
+				{ 9,  496 }, -- Warrior
+				{ 24, 505 }, -- Paladin
+			},
+			[HORDE_DIFF] = {
+				GetItemsFromDiff = ALLIANCE_DIFF,
+				{ 22, 501 }, -- Shaman
+				{ 24 }, -- Paladin
+			},
+		},
+		{ -- Cloth
+			name = ALIL["Cloth"],
+			[NORMAL_DIFF] = {
+				{ 1,  421 }, -- Bloodvine Garb / 65
+				{ 2,  520 }, -- Ironweave Battlesuit / 61-63
+				{ 3,  122 }, -- Necropile Raiment / 61
+				{ 4,  81 }, -- Twilight Trappings / 61
+				{ 5,  492 }, -- Twilight Trappings / 60
+				{ 16,  536 }, -- Regalia of Undead Cleansing / 63
+			},
+		},
+		{ -- Leather
+			name = ALIL["Leather"],
+			[NORMAL_DIFF] = {
+				{ 1,  442 }, -- Blood Tiger Harness / 65
+				{ 2,  441 }, -- Primal Batskin / 65
+				{ 3,  121 }, -- Cadaverous Garb / 61
+				{ 4,  142 }, -- Stormshroud Armor / 55-62
+				{ 5,  141 }, -- Volcanic Armor / 54-61
+				{ 6,  143 }, -- Devilsaur Armor / 58-60
+				{ 7,  144 }, -- Ironfeather Armor / 54-58
+				{ 8,  534 }, -- Undead Slayer's Armor / 63
+				{ 9,  161 }, -- Defias Leather / 18-24
+				{ 10,  162 }, -- Embrace of the Viper / 19-23
+				{ 16,  221 }, -- Garb of Thero-shan / 32-42
+			},
+		},
+		{ -- Mail
+			name = ALIL["Mail"],
+			[NORMAL_DIFF] = {
+				{ 1,  443 }, -- Bloodsoul Embrace / 65
+				{ 2,  123 }, -- Bloodmail Regalia / 61
+				{ 3,  489 }, -- Black Dragon Mail / 58-62
+				{ 4,  491 }, -- Blue Dragon Mail / 57-60
+				{ 5,  1 }, -- The Gladiator / 57
+				{ 6,  490 }, -- Green Dragon Mail / 52-56
+				{ 7,  163 }, -- Chain of the Scarlet Crusade / 35-43
+				{ 16,  535 }, -- Garb of the Undead Slayer / 63
+			},
+		},
+		{ -- Plate
+			name = ALIL["Plate"],
+			[NORMAL_DIFF] = {
+				{ 1,  444 }, -- The Darksoul / 65
+				{ 2,  124 }, -- Deathbone Guardian / 61
+				{ 3,  321 }, -- Imperial Plate / 53-61
+				{ 16,  533 }, -- Battlegear of Undead Slaying / 63
+			},
+		},
+	},
+}
 
 data["WorldEpics"] = {
 	name = AL["World Epics"],

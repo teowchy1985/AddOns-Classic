@@ -231,8 +231,8 @@ TOKEN_DATA.CLASSIC = {
 	[12033] = { 7910, 1529, 7909, 12361, 1705, 12799, 7971, 5500, 12800, 1206, 12364, type = 2 },		-- Thaurissan Family Jewels
 
 	-- Misc
-	[11086] = { 9372, 0, 9379, 11086 }, -- Jang'thraze the Protector
-	[9379] =  11086, -- Sang'thraze the Deflector
+	[11086] = { 9372,{223526, "SoD"}, 0, 9379, 11086 }, -- Jang'thraze the Protector
+	[9379] =  11086,{223526, "SoD"}, -- Sang'thraze the Deflector
 	[18784] = { 12725, 0, 18783, 18784 }, -- Top Half of Advanced Armorsmithing: Volume III
 	[18783] = 18784, -- Bottom Half of Advanced Armorsmithing: Volume III
 	[18780] = { 12727, 0, 18779, 18780 }, -- Top Half of Advanced Armorsmithing: Volume I
@@ -242,10 +242,10 @@ TOKEN_DATA.CLASSIC = {
 	[18781] = { 12726, 0, 18781, 18782 }, -- Bottom Half of Advanced Armorsmithing: Volume II
 	[21813] = { 21816, 21817, 21818, 21819, 21820, 21821, 21822, 21823, type = 2}, -- Bag of Candies
 	[19697] = { {19696, 4} }, -- Bounty of the Harvest
-	[18564] = { 19019, 0, 18563, 18564, 19017 }, -- Bindings of the Windseeker <right>
-	[18563] = 18564, -- Bindings of the Windseeker <left>
+	[18564] = { 19019,{230224, "SoD"}, 0, 18563, 18564, 19017 }, -- Bindings of the Windseeker <right>
+	[18563] = 18564,{230224, "SoD"}, -- Bindings of the Windseeker <left>
 	[19017] = 18564, -- Essence of the Firelord
-	[17204] = { 17182 }, -- Eye of Sulfuras
+	[17204] = 17182,  -- Eye of Sulfuras
 	[18703] = { 18714, 18713, 18715,0,nil,{228334, "SoD"},{228332, "SoD"}}, -- Ancient Petrified Leaf
 	[18646] = { 18665, 18646, 0, 18608, 18609,0,{228335, "SoD"},{228336, "SoD"}}, -- The Eye of Divinity
 	[18665] = 18646, -- The Eye of Shadow
@@ -276,7 +276,7 @@ TOKEN_DATA.CLASSIC = {
 	[20644] = { 20600, type = 3 }, -- Shrouded in Nightmare
 	[217350] = { 213346, 213345, 213344, 213343, type = 3 }, -- Thermaplugg's Engineering Notes
 	[217351] = { 213346, 213345, 213344, 213343, type = 3 }, -- Thermaplugg's Engineering Notes
-	[19018] = { 19019, type = 3 }, -- Dormant Wind Kissed Blade
+	[19018] = { 19019,{230224, "SoD"}, type = 3 }, -- Dormant Wind Kissed Blade
 	[231814] = { 224281, 224282, type = 3 }, -- Chromatic Heart
 	[231882] = { 231754, 231755, type = 3 }, -- Suppression Device Receipt
 	[230904] = { 229909, 229971, 229972, type = 3 }, -- Scroll: SEENECS FO RIEF
@@ -430,7 +430,7 @@ TOKEN_DATA.CLASSIC = {
 	[21762] = { 21156, 20876, 20879, 20875, 20878, 20881, 20877, 20874, 20882 }, -- Greater Scarab Coffer Key
 
 	-- AQ20
-	[21220] = { 21504, 21507, 21505, 21506, type = 3 }, -- Head of Ossirian the Unscarred
+	[21220] = { 21504, 21507, 21505, 21506, 0, {234811, "SoD"},{234812, "SoD"},{234813, "SoD"},{234814, "SoD"}, type = 3 }, -- Head of Ossirian the Unscarred
 
 	-- ZG
 	[19802] = { 19950, 19949, 19948, type = 3 }, -- Heart of Hakkar
@@ -634,6 +634,26 @@ TOKEN_DATA.CLASSIC = {
 	[231293] = { 231856, type = 9 }, -- Ancient Hakkari Manslayer (Bloodied)
 	[231301] = { 231855, type = 9 }, -- Fang of the Faceless (Bloodied)
 	[231315] = { 231854, type = 9 }, -- Zin'rokh, Destroyer of Worlds (Bloodied)
+	[234061] = { 234989, type = 9 }, -- Qiraji Sacrifical Dagger (Void-touched)
+	[234067] = { 234990, type = 9 }, -- Manslayer of the Qiraji (Void Touched)
+	[234096] = { 234991, type = 9 }, -- Bow of Taut Sinew (Void Touched)
+	[234097] = { 234992, type = 9 }, -- Stinger of Ayamiss (Void Touched)
+	[234104] = { 234993, type = 9 }, -- Crossbow of Imminent Doom (Void Touched)
+	[234112] = { 234994, type = 9 }, -- Sand Polished Hammer (Void Touched)
+	[234115] = { 234995, type = 9 }, -- Staff of the Ruins (Void Touched)
+	[233515] = { 234975, type = 9 }, -- Hammer of Ji'zhi (Void Touched)
+	[233571] = { 234976, type = 9 }, -- Wand of Qiraji Nobility (Void Touched)
+	[233576] = { 234977, type = 9 }, -- Silithid Claw (Void Touched)
+	[233585] = { 234650, type = 9 }, -- Ancient Qiraji Ripper (Void Touched)
+	[233586] = { 234978, type = 9 }, -- Jaw of the Sand Reaver (Void Touched)
+	[233599] = { 234979, type = 9 }, -- Sharpened Silithid Femur (Void Touched)
+	[233605] = { 234980, type = 9 }, -- Huhuran's Stinger (Void Touched)
+	[233621] = { 234981, type = 9 }, -- Kalimdor's Revenge (Void Touched)
+	[233626] = { 234983, type = 9 }, -- Larvae of the Great Worm (Void Touched)
+	[233636] = { 235014, type = 9 }, -- Scepter of the False Prophet (Void Touched)
+	[233634] = { 234984, type = 9 }, -- Death's Sthing (Void Touched)
+	[233640] = { 234985, type = 9 }, -- Dark Edge of Insanity (Void Touched)
+	[233509] = { 234974, type = 9 }, -- Staff of the Qiraji Prophets (Void Touched)
 	[231729] = {ICONS.PALADIN, 231179, 231195, 231188, 0, ICONS.HUNTER, 231060, 231069, 0, ICONS.SHAMAN, 231214, 231222, 231198, 231206, type = 6}, -- Ancient Gloves
 	[231724] = {ICONS.PALADIN, 231174, 231190, 231182, 0, ICONS.HUNTER, 231055, 231063, 0, ICONS.SHAMAN, 231215, 231223, 231199, 231207, type = 6}, -- Ancient Bindings
 	[231725] = {ICONS.PALADIN, 231175, 231191, 231183, 0, ICONS.HUNTER, 231056, 231065, 0, ICONS.SHAMAN, 231216, 231224, 231200, 231208, type = 6}, -- Ancient Belt
