@@ -1,5 +1,5 @@
 ﻿----------------------------------------------------------------------
--- 	Leatrix Plus 1.15.59 (13th November 2024)
+-- 	Leatrix Plus 1.15.62 (20th November 2024)
 ----------------------------------------------------------------------
 
 --	01:Functions 02:Locks   03:Restart 40:Player   45:Rest
@@ -19,7 +19,7 @@
 	local void
 
 	-- Version
-	LeaPlusLC["AddonVer"] = "1.15.59"
+	LeaPlusLC["AddonVer"] = "1.15.62"
 
 	-- Get locale table
 	local void, Leatrix_Plus = ...
@@ -5631,14 +5631,13 @@
 				MiniMapBattlefieldFrame:SetPoint("TOP", MiniMapMailFrame, "BOTTOM", 0, 0)
 
 				-- Looking For Group button
-				MiniMapLFGFrame:SetScale(0.75)
-				MiniMapLFGFrame:ClearAllPoints()
-				MiniMapLFGFrame:SetPoint("TOP", MiniMapBattlefieldFrame, "BOTTOM", 0, 0)
-
-				-- World map button
-				MiniMapWorldMapButton:SetScale(0.75)
-				MiniMapWorldMapButton:ClearAllPoints()
-				MiniMapWorldMapButton:SetPoint("BOTTOM", MinimapZoomIn, "TOP", 0, 0)
+				EventUtil.ContinueOnAddOnLoaded("Blizzard_GroupFinder_VanillaStyle", function()
+					if LFGMinimapFrame then
+						LFGMinimapFrame:SetScale(0.75)
+						LFGMinimapFrame:ClearAllPoints()
+						LFGMinimapFrame:SetPoint("TOP", MiniMapBattlefieldFrame, "BOTTOM", 0, 0)
+					end
+				end)
 
 				-- Zoom in button
 				MinimapZoomIn:SetScale(0.75)
@@ -5661,9 +5660,10 @@
 					C_Timer.After(1, function()
 						MiniMapMailFrame:Show()
 						MiniMapBattlefieldFrame:Show()
-						MiniMapWorldMapButton:Show()
 						GameTimeFrame:Show()
-						MiniMapLFGFrame:Show()
+						if LFGMinimapFrame then
+							LFGMinimapFrame:Show()
+						end
 						MiniMapTracking:Show()
 					end)
 				end
@@ -14123,7 +14123,6 @@
 				-- Move minimap
 				MinimapZoneTextButton:Hide()
 				MinimapBorderTop:SetTexture("")
-				MiniMapWorldMapButton:Hide()
 				MinimapBackdrop:ClearAllPoints()
 				MinimapBackdrop:SetPoint("CENTER", UIParent, "CENTER", -330, -75)
 				Minimap:SetPoint("CENTER", UIParent, "CENTER", -320, -50)
