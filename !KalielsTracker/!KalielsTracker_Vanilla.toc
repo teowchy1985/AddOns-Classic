@@ -12,16 +12,16 @@
 ## Notes-zhTW: Kaliel's Tracker |n|n增強畫面右方任務追蹤清單的功能。|n|n|cffffd200使用方法: |r從Esc>選項>插件>任務-追蹤清單，進行設定和移動位置。
 ## X-Category-zhTW: 任務
 
-Compatibility.lua
-Blizzard_Core_Vanilla.xml
+## Compatibility.lua
+## Blizzard_Core_Vanilla.xml
 
-Libs.xml
-Constants.lua
-Utils.lua
-Media.lua
+## Libs.xml
+## Constants.lua
+## Utils.lua
+## Media.lua
 
-KalielsTracker.lua
-KalielsTracker.xml
-Options.lua
+## KalielsTracker.lua
+## KalielsTracker.xml
+## Options.lua
 
-Modules.xml
+## Modules.xml
