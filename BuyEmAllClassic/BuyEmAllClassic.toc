@@ -2,7 +2,7 @@
 ## Interface: 11505, 40401
 ## Notes: Enhances shift-click interface at vendors.
 ## Title: BuyEmAll Classic
-## Version: 1.0.4
+## Version: 1.0.4 Fix
 ## SavedVariablesPerCharacter: BEAConfirmToggle
 ## LoadManagers: AddonLoader
 ## X-LoadOn-Merchant: true
