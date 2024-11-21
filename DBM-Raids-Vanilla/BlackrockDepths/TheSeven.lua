@@ -3,7 +3,7 @@ local L		= mod:GetLocalizedStrings()
 
 mod.statTypes = "lfr,normal,heroic"
 
-mod:SetRevision("20241107120311")
+mod:SetRevision("20241118073814")
 mod:SetCreatureID(226307, 226310, 226309, 226313, 226311, 226312, 226308)--226307 Anger'rel, 226310/doomrel, 226309/doperel, 226313/gloomrel, 226311/haterel, 226312/seethrel, 226308/vilerel
 mod:SetEncounterID(3048)
 mod:SetUsedIcons(1, 2, 3, 4)
@@ -151,7 +151,7 @@ function mod:BladestormTarget(targetname, uId)
 	end
 end
 
-function mod:StartNameplateTimers(guid, cid, delay)
+function mod:StartEngageTimers(guid, cid, delay)
 	if cid == 226307 then--Anger'rel (First activation)
 		if self:IsHeroic() then
 			timerMortalStrikeCD:Start(5.0-delay, guid)
