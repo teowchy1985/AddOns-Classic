@@ -866,6 +866,10 @@ if (NIT.isRetail) then
 	NIT.optionDefaults.global.instanceWindowWidth = 650;
 end
 
+function NIT:resetMinimapPosition()
+	NIT.db.global.minimapIcon = NIT.optionDefaults.global.minimapIcon;
+end
+
 --5 per hour and 30 per day lockouts are character specific.
 function NIT:buildDatabase()
 	--Create realm tables if they don't exist.
