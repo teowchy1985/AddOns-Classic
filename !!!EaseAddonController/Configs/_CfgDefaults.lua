@@ -43,7 +43,7 @@ D["!BugGrabber"] = {
 D["!KalielsTracker"] = {
 	defaultEnable = 1,
 	tags = { "QUEST" },
-	title = WOW_PROJECT_ID == WOW_PROJECT_CLASSIC and "(暫時停用) 任務追蹤清單增強" or "任務追蹤清單增強",,
+	title = WOW_PROJECT_ID == WOW_PROJECT_CLASSIC and "(暫時停用) 任務追蹤清單增強" or "任務追蹤清單增強",
 	desc = "增強畫面右方任務追蹤清單的功能。在設定選項中可以調整位置和文字大小。`",
 	modifier = "BNS, 彩虹ui",
 	icon = "Interface\\Addons\\!KalielsTracker\\Media\\KT_logo",
