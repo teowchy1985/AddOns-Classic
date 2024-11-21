@@ -359,10 +359,82 @@ local turBosses = {
 };
 
 --Bosses with a lockout like the world bosses and ony, no need to track coins just send a loot reminder when they die.
+--Mapped to npcID.
 local turBossesNoRecord = {
 	[6109] = {name = "Azuregos", instanceID = 2791},
 	[230302] = {name = "Lord Kazzak", instanceID = 2789},
 	[10184] = {name = "Onyxia", instanceID = 249},
+	--MC.
+	--[[[12056] = {name = "Baron Geddon", instanceID = 409},
+	[228433] = {name = "Baron Geddon", instanceID = 409},
+	[12057] = {name = "Garr", instanceID = 409},
+	[228432] = {name = "Garr", instanceID = 409},
+	[12259] = {name = "Gehennas", instanceID = 409},
+	[228431] = {name = "Gehennas", instanceID = 409},
+	[11988] = {name = "Golemagg the Incinerator", instanceID = 409},
+	[228435] = {name = "Golemagg the Incinerator", instanceID = 409},
+	[12118] = {name = "Lucifron", instanceID = 409},
+	[228429] = {name = "Lucifron", instanceID = 409},
+	[11982] = {name = "Magmadar", instanceID = 409},
+	[228430] = {name = "Magmadar", instanceID = 409},
+	[12018] = {name = "Majordomo Executus", instanceID = 409},
+	[228437] = {name = "Majordomo Executus", instanceID = 409},
+	[11502] = {name = "Ragnaros", instanceID = 409},
+	[228438] = {name = "Ragnaros", instanceID = 409},
+	[12264] = {name = "Shazzrah", instanceID = 409},
+	[228434] = {name = "Shazzrah", instanceID = 409},
+	[12098] = {name = "Sulfuron Harbinger", instanceID = 409},
+	[228436] = {name = "Sulfuron Harbinger", instanceID = 409},
+	--BWL.
+	[12435] = {name = "Razorgore the Untamed", instanceID = 469},
+	[12017] = {name = "Broodlord Lashlayer", instanceID = 469},
+	[14020] = {name = "Chromaggus", instanceID = 469},
+	[14601] = {name = "Ebonroc", instanceID = 469},
+	[11983] = {name = "Firemaw", instanceID = 469},
+	[11981] = {name = "Flamegor", instanceID = 469},
+	[11583] = {name = "Nefarian", instanceID = 469},
+	[13020] = {name = "Vaelastrasz the Corrupt", instanceID = 469},]]
+};
+
+--Encounters where the boss doesn't die, or where's there's more than 1 boss and we need to wait for all to die, use the encounter event.
+--Probably end up just changing all raid bosses to this instead of the death event.
+--Mapped to encounterID.
+local turBossesNoRecordEncounter = {
+	--[6109] = {name = "Azuregos"},
+	--[230302] = {name = "Lord Kazzak"},
+	--[10184] = {name = "Onyxia"},
+	--MC.
+	[668] = {name = "Baron Geddon"},
+	[666] = {name = "Garr"},
+	[665] = {name = "Gehennas"},
+	[667] = {name = "Golemagg the Incinerator"},
+	[663] = {name = "Lucifron"},
+	[664] = {name = "Magmadar"},
+	[671] = {name = "Majordomo Executus"},
+	[672] = {name = "Ragnaros"},
+	[667] = {name = "Shazzrah"},
+	[669] = {name = "Sulfuron Harbinger"},
+	--BWL.
+	[610] = {name = "Razorgore the Untamed"},
+	[612] = {name = "Broodlord Lashlayer"},
+	[616] = {name = "Chromaggus"},
+	[613] = {name = "Firemaw"},
+	[615] = {name = "Flamegor/Ebonroc"}, --SoD combined these 2 bosses.
+	[617] = {name = "Nefarian"},
+	[611] = {name = "Vaelastrasz the Corrupt"},
+	--ZG.
+	[793] = {name = "Hakkar"},
+	[791] = {name = "High Priestess Arlokk"},
+	[792] = {name = "Jin'do the Hexxer"},
+	[789] = {name = "High Priest Thekal"},
+	[788] = {name = "Edge of Madness"},
+	[787] = {name = "Bloodlord Mandokir"},
+	[786] = {name = "High Priestess Mar'li"},
+	[784] = {name = "High Priest Venoxis"},
+	[785] = {name = "High Priestess Jeklik"},
+	[790] = {name = "Gahz'ranka"},
+	--The crystal vale.
+	[3079] = {name = "Prince Thunderaan"},
 };
 
 local function getTotalDailyReals()
@@ -603,6 +675,14 @@ local function skipRealMsgIfCapped()
 	end
 end
 
+local function encounterEndSuccess(encounterID)
+	if (turBossesNoRecordEncounter[encounterID]) then
+		if (not skipRealMsgIfCapped()) then
+			addMsg(L["Loot the Tarnished Undermine Real"] .. "!", 10);
+		end
+	end
+end
+
 local function combatLogEventUnfiltered(...)
 	local timestamp, subEvent, hideCaster, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, 
 			destName, destFlags, destRaidFlags, _, spellName = CombatLogGetCurrentEventInfo();
@@ -636,16 +716,19 @@ local f = CreateFrame("Frame");
 f:RegisterEvent("CHAT_MSG_LOOT");
 f:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED");
 f:RegisterEvent("LOOT_OPENED");
---f:RegisterEvent("LOOT_CLOSED");
+f:RegisterEvent("ENCOUNTER_END");
 f:SetScript('OnEvent', function(self, event, ...)
-	if (event == "CHAT_MSG_LOOT") then
-		chatMsgLoot(...);
-	elseif (event == "COMBAT_LOG_EVENT_UNFILTERED") then
+	if (event == "COMBAT_LOG_EVENT_UNFILTERED") then
 		combatLogEventUnfiltered(...);
+	elseif (event == "CHAT_MSG_LOOT") then
+		chatMsgLoot(...);
+	elseif (event == "ENCOUNTER_END") then
+		local encounterID, _, _, _, success = ...;
+		if (success == 1) then
+			encounterEndSuccess(encounterID);
+		end
 	elseif (event == "LOOT_OPENED") then
 		lootOpened();
-	--elseif (event == "LOOT_CLOSED") then
-	--	lootClosed();
 	end
 end)
 
