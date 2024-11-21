@@ -2160,7 +2160,7 @@ D["SilverPlateTweaks"] = {
 	img = true,
 };
 D["SimpleItemLevel"] = {
-	defaultEnable = WOW_PROJECT_ID == WOW_PROJECT_CLASSIC and 1 or 0,
+	defaultEnable = 1,
 	tags = { "ITEM" },
 	title = "顯示物品等級",
 	desc = "在角色視窗的裝備欄位、背包和浮動提示資訊中顯示物品等級數字。`",
@@ -2467,7 +2467,7 @@ D["MerInspect-classic-era"] = {
 	title = "裝備觀察",
 	desc = "觀察其他玩家和自己時會在角色資訊視窗右方列出已裝備的物品清單，方便查看裝備和物品等級。`",
 	modifier = "彩虹ui",
-	-- --icon = "Interface\\Icons\\inv_helmet_leather_raiddruid_q_01",
+	icon = "Interface\\Icons\\achievement_level_20",
 	img = true,
 	{
         text = "設定選項",
@@ -2481,10 +2481,10 @@ D["TinyInspect"] = {
 	desc = "這是正式服用的插件，經典服無法使用。`",
 };
 D["TinyInspect-Reforged"] = {
-    defaultEnable = 1,
+    defaultEnable = 0,
 	tags = { "ITEM" },
-	title = "裝備觀察",
-	desc = "觀察其他玩家和自己時會在角色資訊視窗右方列出已裝備的物品清單，方便查看裝備和物品等級。``還包含裝備欄物品等級、背包中物品等級，和滑鼠提示中顯示玩家專精和裝等的功能。`",
+	title = "(請刪除) 裝備觀察",
+	desc = "這是舊的插件，已改用另一個裝備觀察插件。``請刪除舊的資料夾 (AddOns 裡面的 TinyInspect-Reforged) 以避免發生衝突。`",
 	icon = "Interface\\Icons\\achievement_level_20",
 	img = true,
 	{
