@@ -1,6 +1,6 @@
 ## Interface: 11505
 ## Title: Button Forge |cff69ccf0(Classic-Era)|r
-## Version: 1.0.23-classic-Era
+## Version: 1.0.23-classic-Era Fix
 ## Author: Massiner of Nathrezim, Albirew, Sunnova
 ## SavedVariables: ButtonForgeGlobalSettings, ButtonForgeGlobalProfiles, ButtonForgeGlobalBackup
 ## SavedVariablesPerCharacter: ButtonForgeSave, BFSave
