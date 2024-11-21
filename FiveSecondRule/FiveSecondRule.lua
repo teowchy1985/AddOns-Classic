@@ -9,7 +9,7 @@ do -- Private Scope
     local defaults = {
         ["enabled"] = true,
         ["unlocked"] = false,
-        ["integrateIntoPlayerFrame"] = false,
+        ["integrateIntoPlayerFrame"] = true,
         ["showTicks"] = true,
         ["barWidth"] = 117,
         ["barHeight"] = 11,

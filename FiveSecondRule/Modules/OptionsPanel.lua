@@ -214,8 +214,8 @@ function OptionsPanelFrame:CreateGUI(name, displayName, parent)
 
     -- INTEGRATE INTO PLAYER FRAME MANA BAR?
     if (not frame.content.integrateIntoPlayerFrame) then
-        local integrateIntoPlayerFrame = FiveSecondRule.UIFactory:MakeCheckbox(ADDON_NAME.."integrateIntoPlayerFrame", frame.content, "Check to integrate the countdown and tick spark into the player frame mana bar")
-        integrateIntoPlayerFrame.label:SetText("Integrate into Player frame mana bar")
+        local integrateIntoPlayerFrame = FiveSecondRule.UIFactory:MakeCheckbox(ADDON_NAME.."integrateIntoPlayerFrame", frame.content, "將冷卻和回魔進度整合到玩家頭像框架的法力條裡面")
+        integrateIntoPlayerFrame.label:SetText("整合到玩家頭像的法力條")
         integrateIntoPlayerFrame:SetPoint("TOPLEFT", 315, -180)
         integrateIntoPlayerFrame:SetScript("OnClick",function(self,button)
             FiveSecondRule_Options.integrateIntoPlayerFrame = self:GetChecked()
