@@ -1,4 +1,4 @@
-## Interface: 40401, 110002, 110005
+## Interface: 11505
 
 ## Title: Threat Plates
 ## Version: 12.0.12
@@ -27,6 +27,7 @@
 ## Notes-zhTW: Threat Plates|r |n|n威力強大、能夠根據仇恨值變化血條、提供更多自訂選項的血條。還可以幫指定的怪自訂血條樣式，讓血條更清楚明顯。|n|n|cffffd200使用方法: |r輸入 /tptp 或從Esc>選項>插件>血條，進行設定。
 ## X-Category-zhTW: 介面
 ## IconTexture: Interface\Icons\ability_warrior_innerrage
+## DefaultState: disabled
 
 Libs\Libs.xml
 Locales\Locales.xml

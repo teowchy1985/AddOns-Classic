@@ -650,7 +650,7 @@ D["ClassicCalendar"] = {
     },
 };
 D["ClassicPlatesPlus"] = {
-	defaultEnable = 0,
+	defaultEnable = WOW_PROJECT_ID == WOW_PROJECT_CLASSIC and 1 or 0,
 	tags = { "UNITFRAME" },
 	title = "經典血條 Plus",
 	desc = "還原並美化經典版本的血條，有超清楚的個人資源條和簡單的自訂選項。`",
@@ -2391,7 +2391,7 @@ D["TalentEmu"] = {
 	},
 };
 D["TidyPlates_ThreatPlates"] = {
-    defaultEnable = 1,
+    defaultEnable = WOW_PROJECT_ID == WOW_PROJECT_CLASSIC and 0 or 1,
 	tags = { "UNITFRAME" },
 	title = "威力血條",
 	desc = "威力強大、能夠根據仇恨值變化血條、提供更多自訂選項的血條。還可以幫指定的怪自訂血條樣式，讓血條更清楚明顯。``威力血條現在已經是獨立運作的插件，不再需要和 Tidy 血條一起載入使用，也請不要同時載入。`",
