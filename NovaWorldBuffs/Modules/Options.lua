@@ -1993,6 +1993,10 @@ NWB.optionDefaults = {
 	},
 };
 
+function NWB:resetMinimapPosition()
+	NWB.db.global.minimapIcon = NWB.optionDefaults.global.minimapIcon;
+end
+
 --Configuraton options are shared but buff data is realm and faction specific so I store timer data seperately.
 --Config options = NWB.db.global (ace3)
 --Timer data = NWB.data
