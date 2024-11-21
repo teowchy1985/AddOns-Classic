@@ -1,4 +1,4 @@
-## Interface: 11504
+## Interface: 11505
 ## Author: Snowflame0
 ## Version: SoD v0.9.60 Fix
 ## SavedVariables: AtlasLootClassicDB

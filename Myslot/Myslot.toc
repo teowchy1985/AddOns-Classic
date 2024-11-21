@@ -1,4 +1,4 @@
-## Interface: 11504, 30403, 40401, 110005
+## Interface: 11505, 30403, 40401, 110005
 ## X-Curse-Project-ID: 48863
 ## X-Wago-ID: BKpq0BGE
 ## Title: Myslot

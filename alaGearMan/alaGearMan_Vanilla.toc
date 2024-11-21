@@ -1,4 +1,4 @@
-## Interface: 11504
+## Interface: 11505
 ## Title: alaGearMan
 ## Title-zhCN: ala一键换装
 ## Title-zhTW: ala一鍵換裝

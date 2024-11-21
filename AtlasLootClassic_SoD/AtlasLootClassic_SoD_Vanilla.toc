@@ -1,4 +1,4 @@
-## Interface: 11504
+## Interface: 11505
 ## Author: Kwonko
 ## Version: v3.2.0
 ## Dependencies: AtlasLootClassic

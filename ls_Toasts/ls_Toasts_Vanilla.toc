@@ -1,4 +1,4 @@
-## Interface: 11504
+## Interface: 11505
 ## Author: lightspark
 ## Version: 11502.02
 ## Title: LS: |cff00cc99Toasts|r
