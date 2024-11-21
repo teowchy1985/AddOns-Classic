@@ -33,7 +33,7 @@
 				</Anchors>
 				<Layers>
 					<Layer level="OVERLAY">
-						<FontString name="$parent_Text" parentKey="Text" inherits="GameFontNormal" wraponspaces="false" justifyH="LEFT">
+						<FontString name="$parent_Text" parentKey="Text" inherits="GameFontNormal" nonspacewrap="true" justifyH="LEFT">
 							<Size>
 								<AbsDimension x="280" y="19" />
 							</Size>
@@ -62,7 +62,7 @@
 				</Anchors>
 				<Layers>
 					<Layer level="OVERLAY">
-						<FontString name="$parent_Text" parentKey="Text" inherits="NumberFontNormal" wraponspaces="false" justifyH="RIGHT">
+						<FontString name="$parent_Text" parentKey="Text" inherits="NumberFontNormal" nonspacewrap="true" justifyH="RIGHT">
 							<Size>
 								<AbsDimension x="160" y="19" />
 							</Size>
@@ -91,7 +91,7 @@
 				</Anchors>
 				<Layers>
 					<Layer level="OVERLAY">
-						<FontString name="$parent_Text" parentKey="Text" inherits="NumberFontNormal" wraponspaces="false" justifyH="RIGHT">
+						<FontString name="$parent_Text" parentKey="Text" inherits="NumberFontNormal" nonspacewrap="true" justifyH="RIGHT">
 							<Size>
 								<AbsDimension x="160" y="19" />
 							</Size>

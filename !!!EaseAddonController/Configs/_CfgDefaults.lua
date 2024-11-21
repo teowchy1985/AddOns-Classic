@@ -65,7 +65,7 @@ D["aBlueShaman"] = {
 };
 D["Accountant_Classic"] = {
 	defaultEnable = 1,
-	title = WOW_PROJECT_ID == WOW_PROJECT_CLASSIC and "(暫時停用) 個人會計" or "個人會計",
+	title = "個人會計",
 	desc = "追蹤每個角色的所有收入與支出狀況，並可顯示當日小計、當週小計、以及自有記錄起的總計。並可顯示所有角色的總金額。`",
 	modifier = "arith, 彩虹ui",
 	img = true,
