@@ -78,14 +78,17 @@ end
 
 if not DropDownList1._LEDDM then
 	DropDownList1._LEDDM = CreateFrame("Frame", nil, DropDownList1)
+	DropDownList1:SetClampedToScreen(true) 
 	DropDownList1._LEDDM:RegisterEvent("PLAYER_REGEN_DISABLED")
 	DropDownList1._LEDDM:SetScript("OnEvent", buttonPostClick)
+if UnitPopup_ShowMenu then
 	hooksecurefunc("UnitPopup_ShowMenu", function(dropdownMenu)
 		if UIDROPDOWNMENU_MENU_LEVEL == 1 then
 			DropDownList1._LEDDM.unitmenu = dropdownMenu
 			DropDownList1._LEDDM.unitmenuName = dropdownMenu:GetName()
 		end
 	end)
+end
 	WorldFrame:HookScript("OnMouseDown", buttonPostClick)
 end
 
@@ -133,7 +136,6 @@ DropDownList1._LEDDM:SetScript("OnShow", function(self)
 				end
 			else
 				self.safemenu = nil
-				return
 			end
 			if lib.buttonIndex > 0 or next(lib.disableUnitMenu) then
 				local prev = lib.buttons[lib.buttonIndex] or DropDownList1Button1
@@ -225,7 +227,7 @@ DropDownList1Button1:HookScript("OnEnter", hookDropDownButton)
 local function returntrue() return true end
 
 function lib:RegisterUnitMenu(which, name, click, view)
-	if UnitPopupMenus[which] and name then
+	if UnitPopupMenus and  UnitPopupMenus[which] and name then
 		lib.unitmenus[which] = lib.unitmenus[which] or {}
 		lib.unitmenus[which][name] = lib.unitmenus[which][name] or {}
 		lib.unitmenus[which][name].click = type(click) == "function" and click or nil
@@ -244,7 +246,7 @@ function lib:RegisterNewPoint(menu, show, hide, ...)
 end
 
 function lib:DisableUnitMenu(menu)
-	if UnitPopupMenus[menu] or UnitPopupButtons["LARGE_FOCUS"] then
+	if UnitPopupMenus and UnitPopupMenus[menu] or UnitPopupButtons["LARGE_FOCUS"] then
 		lib.disableUnitMenu[menu] = true
 	end
 end
