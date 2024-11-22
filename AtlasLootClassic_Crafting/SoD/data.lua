@@ -47,7 +47,7 @@ data["Alchemy"] = {
 	CorrespondingFields = private.ALCHEMY_LINK,
 	items = {
 		{
-			name = AL["SoD Phase 1-4"],
+			name = AL["SoD Phase 1-6"],
 			[NORMAL_DIFF] = {
 				{ 1, "INV_Box_01", nil, AL["Phase 1"], nil },
 				{ 2, 426607 }, --Elixir of Coalesced Regret
@@ -59,6 +59,11 @@ data["Alchemy"] = {
 				{ 10, 448085 }, --Flask of Restless Dreams
 				{ 11, 446226 }, --Flask of Everlasting Nightmares
 				{ 12, 446851 }, --Flask of Nightmarish Mojo
+				{ 16, "INV_Box_01", nil, AL["Phase 6"], nil },
+				{ 17, 1213571 }, -- Elixir of Alacrity
+				{ 18, 1213559 }, -- Elixir of the Honey Badger
+				{ 19, 1213563 }, -- Elixir of the Mage-Lord
+				{ 20, 1213565 }, -- Elixir of the Ironside
 			},
 		},
 		{
@@ -229,6 +234,33 @@ data["Blacksmithing"] = {
 	TableType = PROF_ITTYPE,
 	CorrespondingFields = private.BLACKSMITHING_LINK,
 	items = {
+			{
+			name = AL["SoD Phase 6"],
+			[NORMAL_DIFF] = {
+			{ 1, "INV_Box_01", nil, AL["Phase 6"], nil },
+			{ 2, 1213746 }, -- Heavy Obsidian Belt
+			{ 3, 1213709 }, -- Ironvine Belt
+			{ 4, 1213711 }, -- Ironvine Gloves
+			{ 5, 1213748 }, -- Light Obsidian Belt
+			{ 6, 1213715 }, -- Ironvine Breastplate
+			{ 8, 1214270 }, -- Jagged Obsidian Shield
+			{ 9, 1214274 }, -- Plans: Obsidian Mail Tunic
+			{ 10, 1213643 }, -- Obsidian Grinding Stone
+			{ 11, 1213638 }, -- Razorspike Headcage
+			{ 16, 1213484 }, -- Razorspike Shoulderplate
+			{ 17, 1213490 }, -- Razorspike Battleplate
+			{ 18, 1214309 }, -- Dreamscale Visor
+			{ 19, 1215507 }, -- Thick Obsidian Breastplate
+			{ 20, 1215507 }, -- Black Grasp of the Destroyer
+			{ 21, 1213498 }, -- Obsidian Champion
+			{ 22, 1213506 }, -- Obsidian Defender
+			{ 23, 1213500 }, -- Obsidian Destroyer
+			{ 24, 1214137 }, -- Obsidian Heartseeker
+			{ 25, 1213492 }, -- Obsidian Reaver
+			{ 26, 1213504 }, -- Obsidian Sageblade
+			{ 27, 1213502 }, -- Obsidian Stormhammer
+			}
+		},
 			{
 			name = AL["SoD Phase 4"],
 			[NORMAL_DIFF] = {
@@ -654,7 +686,33 @@ data["Enchanting"] = {
 	CorrespondingFields = private.ENCHANTING_LINK,
 	items = {
 		{
-			name = AL["SoD Phase 1-4"],
+			name = AL["SoD Phase 6"],
+			[NORMAL_DIFF] = {
+				{ 1, "INV_Box_01", nil, AL["Phase 6"], nil },
+				{ 2, 1213593 }, -- Speedstone
+				{ 3, 1213595 }, -- Tear of the Dreamer
+				{ 4, 1213598 }, -- Lodestone of Retaliation
+				{ 5, 1213600 }, -- Enchanted Stopwatch
+				{ 6, 1213603 }, -- Ruby-Encrusted Broach
+				{ 7, 1213628 }, -- Enchanted Prayer Tome
+				{ 8, 1213633 }, -- Enchanted Totem
+				{ 9, 1213635 }, -- Enchanted Mushroom
+				{ 10, 1216005 }, -- Libram of Righteousness
+				{ 11, 1216010 }, -- Libram of Sanctity
+				{ 12, 1216007 }, -- Libram of the Exorcist
+				{ 13, 1216018 }, -- Totem of Flowing Magma
+				{ 14, 1216014 }, -- Totem of Pyroclastic Thunder
+				{ 15, 1216016 }, -- Totem of Thunderous Strikes
+				{ 16, 1216022 }, -- Idol of Feline Ferocity
+				{ 17, 1216020 }, -- Idol of Sidereal Wrath
+				{ 18, 1216024 }, -- Idol of Ursin Power
+				{ 20, 1213610 }, -- Enchanted Repellent
+				{ 21, 1213607 }, -- Scroll: Wrath of the Swarm
+			}
+		},
+	
+		{
+			name = AL["SoD Phase 1-5"],
 			[NORMAL_DIFF] = {
 				{ 1, "INV_Box_01", nil, AL["Phase 1"], nil },
 				{ 2, 430409 }, --Brilliant Mana Oil / 310
@@ -907,6 +965,13 @@ data["Engineering"] = {
 				{ 15, 446237 }, -- Void-Powered Slayer's Vambraces
 				{ 16, "INV_Box_01", nil, AL["Phase 4"], nil },
 				{ 17, 461710 }, -- Fiery Core Sharpshooter Rifle
+				{ 19, "INV_Box_01", nil, AL["Phase 6"], nil },
+				{ 20, 1213573 }, -- Arcane Megabomb
+				{ 21, 1213576 }, -- The Fumigator
+				{ 22, 1213578 }, -- Obsidian Bomb
+				{ 23, 1213646 }, -- Obsidian Blasting Powder
+				{ 24, 1214145 }, -- Obsidian Shotgun
+				{ 25, 1213588 }, -- Tuned Force Reactive Disk
 			}
 		},
 		{
@@ -1136,7 +1201,7 @@ data["Tailoring"] = {
 	CorrespondingFields = private.TAILORING_LINK,
 	items = {
 			{
-			name = AL["SoD Phase 4"],
+			name = AL["SoD Phase 4-6"],
 			[NORMAL_DIFF] = {
 			{ 1, "INV_Box_01", nil, AL["Phase 4"], nil },
 			{ 2, 461747 }, -- Incandescent Mooncloth Vest
@@ -1151,6 +1216,20 @@ data["Tailoring"] = {
 			--{ 11, }, -- Fine Flarecore Gloves
 			--{ 12, }, -- Argent Elite Boots
 			--{ 13, }, -- Rugged Mantle of the Timbermaw
+			{ 16, "INV_Box_01", nil, AL["Phase 6"], nil },
+			{ 17, 1214173 }, -- Bolt of Qiraji Silk
+			{ 18, 1213740 }, -- Sylvan Shoulders
+			{ 19, 1213742 }, -- Sylvan Crown
+			{ 20, 1213744 }, -- Sylvan Vest
+			{ 21, 1213527 }, -- Vampiric Cowl
+			{ 22, 1213530 }, -- Vampiric Shawl
+			{ 23, 1213532 }, -- Vampiric Robe
+			{ 24, 1214307 }, -- Dreamscale Mitts
+			{ 25, 1214306 }, -- Dreamscale Bracers
+			{ 26, 1213536 }, -- Qiraji Silk Cape
+			{ 27, 1213538 }, -- Qiraji Silk Cloak
+			{ 28, 1213540 }, -- Qiraji Silk Drape
+			{ 29, 1213534 }, -- Qiraji Silk Scarf
 			}
 		},
 		{
@@ -1478,6 +1557,24 @@ data["Leatherworking"] = {
 	TableType = PROF_ITTYPE,
 	CorrespondingFields = private.LEATHERWORKING_LINK,
 	items = {
+		{
+			name = AL["SoD Phase 6"],
+			[NORMAL_DIFF] = {
+			{ 1, 1213717 }, -- Sandstalker Bracers
+			{ 2, 1213728 }, -- Spitfire Gauntlets
+			{ 3, 1213734 }, -- Bramblewood Belt
+			{ 4, 1213720 }, -- Sandstalker Gauntlets
+			{ 5, 1213723 }, -- Sandstalker Breastplate
+			{ 6, 1213731 }, -- Spitfire Breastplate
+			{ 7, 1213738 }, -- Bramblewood Helm
+			{ 8, 1213736 }, -- Bramblewood Boots
+			{ 9, 1213751 }, -- Dreamscale Breastplate
+			{ 16, 1213523 }, -- Razorbramble Shoulderpads
+			{ 17, 1213521 }, -- Razorbramble Cowl
+			{ 18, 1213525 }, -- Razorbramble Leathers
+			{ 19, 1214303 }, -- Dreamscale Kilt
+			}
+		},	
 			{
 			name = AL["SoD Phase 4"],
 			[NORMAL_DIFF] = {
@@ -1874,6 +1971,8 @@ data["Mining"] = {
 				{ 10, 2659 }, --Smelt Bronze / 65
 				{ 11, 3304 }, --Smelt Tin / 50
 				{ 12, 2657 }, --Smelt Copper / 25
+				{ 16, "INV_Box_01", nil, AL["SoD Phase 6"], nil },
+				{ 17, 1213638 }, -- Obsidian-Infused Thorium Bar
 			}
 		},
 	}
