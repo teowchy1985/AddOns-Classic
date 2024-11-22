@@ -8,10 +8,12 @@ ns.realm = GetNormalizedRealmName() -- On a fresh login this will return null
 ns.oceania = { AmanThul = true, Barthilas = true, Caelestrasz = true, DathRemar = true,
 			Dreadmaul = true, Frostmourne = true, Gundrak = true, JubeiThos = true, 
 			Khazgoroth = true, Nagrand = true, Saurfang = true, Thaurissan = true,
-			-- The following are Classic 1.15.x
+			-- The following are Classic Era 1.15.x
 			Yojamba = true, Remulos = true, Arugal = true, Felstriker = true,
-			-- The following are Seasonal Classic 1.15.x
-			Penance = true, Shadowstrike = true }
+			-- The following are Classic Seasonal (SoD) 1.15.x
+			Penance = true, Shadowstrike = true,
+			-- Classic Anniversary from 1.15.5
+			Maladath = true, }
 if ns.oceania[ ns.realm ] then
 	ns.locale = "enGB"
 end
@@ -446,12 +448,6 @@ if ns.locale == "deDE" then
 	ns.L["Lock and Load"] = "Sichern und Laden"
 	ns.L["Rapid Killing"] = "Schneller Tod"
 	ns.L["Raptor Killing"] = "Raptorenfuror"
-	ns.L["Rapid Killing"] = ""
-	ns.L["T.N.T."] = ""
-	ns.L["Improved Volley"] = ""
-	ns.L["Resourcefulness"] = ""
-	ns.L["Hit and Run"] = ""
-	ns.L["Heart of the Lion"] = ""
 	-- Mage Phase 1
 	ns.L["Arcane Blast"] = "Arkanschlag"
 	ns.L["Arcane Surge"] = "Arkane Woge"
@@ -596,7 +592,7 @@ if ns.locale == "deDE" then
 	ns.L["Riptide"] = "Springflut"
 	ns.L["Rolling Thunder"] = "Rollender Donner"
 	ns.L["Static Shock"] = "Statischer Schock"
-	ns.L["Tidal Waves"] = "Flutwellen"
+	ns.L["Tidal Waves"] = "Flutwellen"	
 	-- Warlock Phase 1
 	ns.L["Chaos Bolt"] = "Chaosblitz"
 	ns.L["Demonic Grace"] = "Dämonische Anmut"
@@ -2578,8 +2574,10 @@ else
 	ns.L["Hide if learnt"] = "Hide if the rune was learnt"
 end
 
--- Phase 4 and 5 spells v2.23 plus changed/missed v2.2x
+-- Phase 4 and 5 spells v2.23 to v2.29
 if ns.locale == "deDE" then
+	ns.L["Ring"] = "Ring"
+	ns.L["Rings"] = "Ringe"
 	-- Druid
 	ns.L["Improved Swipe"] = "Verbesserter Prankenhieb"
 	ns.L["Starfall"] = "Sternenregen"
@@ -2590,6 +2588,7 @@ if ns.locale == "deDE" then
 	ns.L["Hit and Run"] = "Drauf und weg"
 	ns.L["Improved Volley"] = "Verbesserte Salve"
 	ns.L["Rapid Killing"] = "Schneller Tod"
+	ns.L["Raptor Fury"] = "Raptorenfuror"
 	ns.L["Resourcefulness"] = "Improvisation"
 	ns.L["Wyvern Strike"] = "Flügeldrachenstoß"
 	-- Mage
@@ -2600,6 +2599,7 @@ if ns.locale == "deDE" then
 	ns.L["Aura Mastery"] = "Aurenmeisterschaft"
 	ns.L["Divine Light"] = "Göttliches Licht"
 	ns.L["Hallowed Ground"] = "Geheiligter Boden"
+	ns.L["Malleable Protection"] = "Formbarer Schutz"
 	ns.L["Shield of Righteousness"] = "Schild der Rechtschaffenheit"
 	ns.L["Shock and Awe"] = "Schockierende Ehrfurcht"
 	ns.L["Righteous Vengeance"] = "Rechtschaffene Vergeltung"
@@ -2608,10 +2608,32 @@ if ns.locale == "deDE" then
 	ns.L["Soul Warding"] = "Seelenwehr"
 	ns.L["Vampiric Touch"] = "Vampirberührung"
 	-- Rogue
+	ns.L["Atrophic Poison"] = "Atrophisches Gift"
+	ns.L["Blunderbuss"] = "Donnerbüchse"
+	ns.L["Crimson Tempest"] = "Blutroter Sturm"
+	ns.L["Cutthroat"] = "Halsabscheider"
+	ns.L["Fan of Knives"] = "Dolchfächer"
+	ns.L["Numbing Poison"] = "Betäubendes Gift"
+	ns.L["Occult Poison I"] = "Okkultes Gift I"
+	ns.L["Sebacious Poison"] = "Zähes Gift"
 	-- Shaman
+	ns.L["Coherence"] = "Kohärenz"
+	ns.L["Feral Spirit"] = "Wildgeist"
+	ns.L["Greater Ghost Wolf"] = "Großer Geisterwolf"
+	ns.L["Storm, Earth, and Fire"] = "Sturm, Erde und Feuer"
 	-- Warlock
+	ns.L["Decimation"] = "Dezimierung"
+	ns.L["Fel Armor"] = "Teufelsrüstung"
+	ns.L["Infernal Armor"] = "Höllische Rüstung"
+	ns.L["Mark of Chaos"] = "Mal des Chaos"
 	-- Warrior
+	ns.L["Fresh Meat"] = "Frischfleisch"
+	ns.L["Shockwave"] = "Schockwelle"
+	ns.L["Sudden Death"] = "Plötzlicher Tod"
+	
 elseif ns.locale == "esES" or ns.locale == "esMX" then
+	ns.L["Ring"] = "Anillo"
+	ns.L["Rings"] = "Anillos"
 	-- Druid
 	ns.L["Improved Swipe"] = "Flagelo mejorado"
 	ns.L["Starfall"] = "Lluvia de estrellas"
@@ -2622,6 +2644,7 @@ elseif ns.locale == "esES" or ns.locale == "esMX" then
 	ns.L["Hit and Run"] = "Ataque fugaz"
 	ns.L["Improved Volley"] = "Salva mejorada"
 	ns.L["Rapid Killing"] = "Matanza rápida"
+	ns.L["Raptor Fury"] = "Furia de raptor"
 	ns.L["Resourcefulness"] = "Ingenio"
 	ns.L["T.N.T."] = "TNT"
 	ns.L["Wyvern Strike"] = "Golpe de dracoleón"
@@ -2633,6 +2656,7 @@ elseif ns.locale == "esES" or ns.locale == "esMX" then
 	ns.L["Aura Mastery"] = "Maestría de aura"
 	ns.L["Divine Light"] = "Luz divina"
 	ns.L["Hallowed Ground"] = "Suelo sacralizado"
+	ns.L["Malleable Protection"] = "Protección maleable"
 	ns.L["Shield of Righteousness"] = "Escudo de rectitud"
 	ns.L["Shock and Awe"] = "Conmoción y terror"
 	ns.L["Righteous Vengeance"] = "Venganza recta"
@@ -2641,10 +2665,32 @@ elseif ns.locale == "esES" or ns.locale == "esMX" then
 	ns.L["Soul Warding"] = "Amparo de alma"
 	ns.L["Vampiric Touch"] = "Toque vampírico"
 	-- Rogue
+	ns.L["Atrophic Poison"] = "Veneno atrófico"
+	ns.L["Blunderbuss"] = "Trabuco"
+	ns.L["Crimson Tempest"] = "Tempestad carmesí"
+	ns.L["Cutthroat"] = "Degollador"
+	ns.L["Fan of Knives"] = "Abanico de cuchillos"
+	ns.L["Numbing Poison"] = "Veneno entumecedor"
+	ns.L["Occult Poison I"] = "Veneno oculto I"
+	ns.L["Sebacious Poison"] = "Veneno sebáceo"
 	-- Shaman
+	ns.L["Coherence"] = "Coherencia"
+	ns.L["Feral Spirit"] = "Espíritu feral"
+	ns.L["Greater Ghost Wolf"] = "Lobo fantasmal superior"
+	ns.L["Storm, Earth, and Fire"] = "Tormenta, Tierra y Fuego"
 	-- Warlock
+	ns.L["Decimation"] = "Exterminio"
+	ns.L["Fel Armor"] = "Armadura vil"
+	ns.L["Infernal Armor"] = "Armadura infernal"
+	ns.L["Mark of Chaos"] = "Marca de caos"
 	-- Warrior
+	ns.L["Fresh Meat"] = "Carne fresca"
+	ns.L["Shockwave"] = "Ola de choque"
+	ns.L["Sudden Death"] = "Muerte súbita"
+
 elseif ns.locale == "frFR" then
+	ns.L["Ring"] = "Anneau"
+	ns.L["Rings"] = "Anneaux"
 	-- Druid
 	ns.L["Improved Swipe"] = "Balayage amélioré"
 	ns.L["Starfall"] = "Météores"
@@ -2655,6 +2701,7 @@ elseif ns.locale == "frFR" then
 	ns.L["Hit and Run"] = "Attaque éclair"
 	ns.L["Improved Volley"] = "Salve améliorée"
 	ns.L["Rapid Killing"] = "Tueur rapide"
+	ns.L["Raptor Fury"] = "Fureur du raptor"
 	ns.L["Resourcefulness"] = "Ingéniosité"
 	ns.L["Wyvern Strike"] = "Frappe de wyverne"
 	-- Mage
@@ -2665,6 +2712,7 @@ elseif ns.locale == "frFR" then
 	ns.L["Aura Mastery"] = "Maîtrise des auras"
 	ns.L["Divine Light"] = "Lumière divine"
 	ns.L["Hallowed Ground"] = "Sol sacré"
+	ns.L["Malleable Protection"] = "Protection malléable"
 	ns.L["Shield of Righteousness"] = "Bouclier de piété"
 	ns.L["Shock and Awe"] = "Retentissement"
 	ns.L["Righteous Vengeance"] = "Vengeance vertueuse"
@@ -2673,10 +2721,32 @@ elseif ns.locale == "frFR" then
 	ns.L["Soul Warding"] = "Protection de l’âme"
 	ns.L["Vampiric Touch"] = "Toucher vampirique"
 	-- Rogue
+	ns.L["Atrophic Poison"] = "Poison atrophiant"
+	ns.L["Blunderbuss"] = "Tromblon"
+	ns.L["Crimson Tempest"] = "Tempête cramoisie"
+	ns.L["Cutthroat"] = "Coupe-gorge"
+	ns.L["Fan of Knives"] = "Éventail de couteaux"
+	ns.L["Numbing Poison"] = "Poison ankylosant"
+	ns.L["Occult Poison I"] = "Poison occulte I"
+	ns.L["Sebacious Poison"] = "Poison sébacé"
 	-- Shaman
+	ns.L["Coherence"] = "Cohérence"
+	ns.L["Feral Spirit"] = "Esprit farouche"
+	ns.L["Greater Ghost Wolf"] = "Loup fantôme supérieur"
+	ns.L["Storm, Earth, and Fire"] = "Tempête, terre et feu"
 	-- Warlock
+	ns.L["Decimation"] = "Décimation"
+	ns.L["Fel Armor"] = "Gangrarmure"
+	ns.L["Infernal Armor"] = "Armure infernale"
+	ns.L["Mark of Chaos"] = "Marque du chaos"
 	-- Warrior
+	ns.L["Fresh Meat"] = "Viande fraîche"
+	ns.L["Shockwave"] = "Onde de choc"
+	ns.L["Sudden Death"] = "Mort soudaine"
+	
 elseif ns.locale == "koKR" then
+	ns.L["Ring"] = "반지"
+	ns.L["Rings"] = "반지"
 	-- Druid
 	ns.L["Improved Swipe"] = "휘둘러치기 연마"
 	ns.L["Starfall"] = "별똥별"
@@ -2687,6 +2757,7 @@ elseif ns.locale == "koKR" then
 	ns.L["Hit and Run"] = "치고 빠지기"
 	ns.L["Improved Volley"] = "연발 사격 연마"
 	ns.L["Rapid Killing"] = "신속한 사냥"
+	ns.L["Raptor Fury"] = "랩터의 격노"
 	ns.L["Resourcefulness"] = "뛰어난 계략"
 	ns.L["T.N.T."] = "강력한 폭탄"
 	ns.L["Wyvern Strike"] = "비룡의 일격"
@@ -2698,6 +2769,7 @@ elseif ns.locale == "koKR" then
 	ns.L["Aura Mastery"] = "오라 숙련"
 	ns.L["Divine Light"] = "천상의 빛"
 	ns.L["Hallowed Ground"] = "신성화된 땅"
+	ns.L["Malleable Protection"] = "유연한 보호"
 	ns.L["Shield of Righteousness"] = "정의의 방패"
 	ns.L["Shock and Awe"] = "충격과 공포"
 	ns.L["Righteous Vengeance"] = "정의의 복수"
@@ -2706,10 +2778,32 @@ elseif ns.locale == "koKR" then
 	ns.L["Soul Warding"] = "영혼의 수호"
 	ns.L["Vampiric Touch"] = "흡혈의 손길"
 	-- Rogue
+	ns.L["Atrophic Poison"] = "위축의 독"
+	ns.L["Blunderbuss"] = "나팔총"
+	ns.L["Crimson Tempest"] = "혈폭풍"
+	ns.L["Cutthroat"] = "극악무도"
+	ns.L["Fan of Knives"] = "칼날 부채"
+	ns.L["Numbing Poison"] = "마취 독"
+	ns.L["Occult Poison I"] = "사술 독 I"
+	ns.L["Sebacious Poison"] = "피부 독"
 	-- Shaman
+	ns.L["Coherence"] = "일관성"
+	ns.L["Feral Spirit"] = "야수 정령"
+	ns.L["Greater Ghost Wolf"] = "상급 늑대 정령"
+	ns.L["Storm, Earth, and Fire"] = "폭풍과 대지와 불"
 	-- Warlock
+	ns.L["Decimation"] = "죽음의 예언"
+	ns.L["Fel Armor"] = "마의 갑옷"
+	ns.L["Infernal Armor"] = "지옥불 갑옷"
+	ns.L["Mark of Chaos"] = "혼돈의 징표"
 	-- Warrior
+	ns.L["Fresh Meat"] = "신선한 고기"
+	ns.L["Shockwave"] = "충격파"
+	ns.L["Sudden Death"] = "급살"
+	
 elseif ns.locale == "ptBR" or ns.locale == "ptPT" then
+	ns.L["Ring"] = "Anel"
+	ns.L["Rings"] = "Anéis"
 	-- Druid
 	ns.L["Improved Swipe"] = "Patada Aprimorada"
 	ns.L["Starfall"] = "Chuva Estelar"
@@ -2720,6 +2814,7 @@ elseif ns.locale == "ptBR" or ns.locale == "ptPT" then
 	ns.L["Hit and Run"] = "Bater e Correr"
 	ns.L["Improved Volley"] = "Salva Aprimorada"
 	ns.L["Rapid Killing"] = "Matança Veloz"
+	ns.L["Raptor Fury"] = "Fúria do Raptor"
 	ns.L["Resourcefulness"] = "Desenvoltura"
 	ns.L["Wyvern Strike"] = "Golpe da Mantícora"
 	-- Mage
@@ -2730,6 +2825,7 @@ elseif ns.locale == "ptBR" or ns.locale == "ptPT" then
 	ns.L["Aura Mastery"] = "Proficiência em Auras"
 	ns.L["Divine Light"] = "Luz Divina"
 	ns.L["Hallowed Ground"] = "Solo Consagrado"
+	ns.L["Malleable Protection"] = "Proteção Maleável"
 	ns.L["Shield of Righteousness"] = "Escudo de Retidão"
 	ns.L["Shock and Awe"] = "Choque e Admiração"
 	ns.L["Righteous Vengeance"] = "Vingança Íntegra"
@@ -2738,10 +2834,32 @@ elseif ns.locale == "ptBR" or ns.locale == "ptPT" then
 	ns.L["Soul Warding"] = "Proteção Anímica"
 	ns.L["Vampiric Touch"] = "Toque Vampírico"
 	-- Rogue
+	ns.L["Atrophic Poison"] = "Veneno Atrófico"
+	ns.L["Blunderbuss"] = "Bacamarte"
+	ns.L["Crimson Tempest"] = "Tempestade Carmesim"
+	ns.L["Cutthroat"] = "Perfídia"
+	ns.L["Fan of Knives"] = "Leque de Facas"
+	ns.L["Numbing Poison"] = "Veneno Entorpecente"
+	ns.L["Occult Poison I"] = "Veneno Oculto I"
+	ns.L["Sebacious Poison"] = "Veneno Sebáceo"
 	-- Shaman
+	ns.L["Coherence"] = "Coerência"
+	ns.L["Feral Spirit"] = "Espírito Feral"
+	ns.L["Greater Ghost Wolf"] = "Lobo Fantasma Maior"
+	ns.L["Storm, Earth, and Fire"] = "Tempestade, Terra e Fogo"
 	-- Warlock
+	ns.L["Decimation"] = "Dizimação"
+	ns.L["Fel Armor"] = "Armadura Vil"
+	ns.L["Infernal Armor"] = "Armadura Infernal"
+	ns.L["Mark of Chaos"] = "Marca do Caos"
 	-- Warrior
+	ns.L["Fresh Meat"] = "Carne Fresca"
+	ns.L["Shockwave"] = "Onda de Choque"
+	ns.L["Sudden Death"] = "Morte Súbita"
+	
 elseif ns.locale == "ruRU" then
+	ns.L["Ring"] = "Кольцо"
+	ns.L["Rings"] = "Кольца"
 	-- Druid
 	ns.L["Improved Swipe"] = "Улучшенный размах"
 	ns.L["Starfall"] = "Звездопад"
@@ -2752,6 +2870,7 @@ elseif ns.locale == "ruRU" then
 	ns.L["Hit and Run"] = "Бей и беги"
 	ns.L["Improved Volley"] = "Улучшенный град стрел"
 	ns.L["Rapid Killing"] = "Быстрые убийства"
+	ns.L["Raptor Fury"] = "Неистовство ящера"
 	ns.L["Resourcefulness"] = "Находчивость"
 	ns.L["T.N.T."] = "Тротил"
 	ns.L["Wyvern Strike"] = "Удар виверны"
@@ -2763,6 +2882,7 @@ elseif ns.locale == "ruRU" then
 	ns.L["Aura Mastery"] = "Владение аурами"
 	ns.L["Divine Light"] = "Божественный свет"
 	ns.L["Hallowed Ground"] = "Благословенная земля"
+	ns.L["Malleable Protection"] = "Гибкая защита"
 	ns.L["Shield of Righteousness"] = "Щит праведности"
 	ns.L["Shock and Awe"] = "Шок и трепет"
 	ns.L["Righteous Vengeance"] = "Праведная месть"
@@ -2771,10 +2891,32 @@ elseif ns.locale == "ruRU" then
 	ns.L["Soul Warding"] = "Оберег души"
 	ns.L["Vampiric Touch"] = "Прикосновение вампира"
 	-- Rogue
+	ns.L["Atrophic Poison"] = "Атрофический яд"
+	ns.L["Blunderbuss"] = "Мушкетон"
+	ns.L["Crimson Tempest"] = "Кровавый вихрь"
+	ns.L["Cutthroat"] = "Горлорез"
+	ns.L["Fan of Knives"] = "Веер клинков"
+	ns.L["Numbing Poison"] = "Замедляющий яд"
+	ns.L["Occult Poison I"] = "Оккультный яд I"
+	ns.L["Sebacious Poison"] = "Подкожный яд"
 	-- Shaman
+	ns.L["Coherence"] = "Слаженность"
+	ns.L["Feral Spirit"] = "Дух дикого волка"
+	ns.L["Greater Ghost Wolf"] = "Улучшенный призрачный волк"
+	ns.L["Storm, Earth, and Fire"] = "Буря, земля и огонь"
 	-- Warlock
+	ns.L["Decimation"] = "Истребление"
+	ns.L["Fel Armor"] = "Доспех Скверны"
+	ns.L["Infernal Armor"] = "Инфернальная броня"
+	ns.L["Mark of Chaos"] = "Метка хаоса"
 	-- Warrior
+	ns.L["Fresh Meat"] = "Свежее мясо"
+	ns.L["Shockwave"] = "Ударная волна"
+	ns.L["Sudden Death"] = "Внезапная смерть"
+	
 elseif ns.locale == "zhCN" then
+	ns.L["Ring"] = "戒指"
+	ns.L["Rings"] = "戒指"
 	-- Druid
 	ns.L["Improved Swipe"] = "强化横扫"
 	ns.L["Starfall"] = "星辰坠落"
@@ -2785,6 +2927,7 @@ elseif ns.locale == "zhCN" then
 	ns.L["Hit and Run"] = "一击脱离"
 	ns.L["Improved Volley"] = "强化乱射"
 	ns.L["Rapid Killing"] = "疾速杀戮"
+	ns.L["Raptor Fury"] = "猛禽之怒"
 	ns.L["Resourcefulness"] = "游刃有余"
 	ns.L["Wyvern Strike"] = "翼龙打击"
 	-- Mage
@@ -2795,6 +2938,7 @@ elseif ns.locale == "zhCN" then
 	ns.L["Aura Mastery"] = "光环掌握"
 	ns.L["Divine Light"] = "神圣之光"
 	ns.L["Hallowed Ground"] = "神圣之地"
+	ns.L["Malleable Protection"] = "灵活防护"
 	ns.L["Shield of Righteousness"] = "正义盾击"
 	ns.L["Shock and Awe"] = "震慑"
 	ns.L["Righteous Vengeance"] = "正义复仇"
@@ -2803,10 +2947,32 @@ elseif ns.locale == "zhCN" then
 	ns.L["Soul Warding"] = "灵魂守护"
 	ns.L["Vampiric Touch"] = "吸血鬼之触"
 	-- Rogue
+	ns.L["Atrophic Poison"] = "萎缩毒药"
+	ns.L["Blunderbuss"] = "短枪射击"
+	ns.L["Crimson Tempest"] = "猩红风暴"
+	ns.L["Cutthroat"] = "割喉"
+	ns.L["Fan of Knives"] = "刀扇"
+	ns.L["Numbing Poison"] = "迟钝毒药"
+	ns.L["Occult Poison I"] = "玄秘毒药 I"
+	ns.L["Sebacious Poison"] = "解离毒药"
 	-- Shaman
+	ns.L["Coherence"] = "连贯链条"
+	ns.L["Feral Spirit"] = "野性狼魂"
+	ns.L["Greater Ghost Wolf"] = "强效幽魂之狼"
+	ns.L["Storm, Earth, and Fire"] = "风火雷电"
 	-- Warlock
+	ns.L["Decimation"] = "灭杀"
+	ns.L["Fel Armor"] = "邪甲术"
+	ns.L["Infernal Armor"] = "地狱火护甲"
+	ns.L["Mark of Chaos"] = "混沌标记"
 	-- Warrior
+	ns.L["Fresh Meat"] = "新鲜血肉"
+	ns.L["Shockwave"] = "震荡波"
+	ns.L["Sudden Death"] = "猝死"
+	
 elseif ns.locale == "zhTW" then
+	ns.L["Ring"] = "戒指"
+	ns.L["Rings"] = "戒指"
 	-- Druid
 	ns.L["Improved Swipe"] = "強化橫掃"
 	ns.L["Starfall"] = "星辰墜落"
@@ -2817,6 +2983,7 @@ elseif ns.locale == "zhTW" then
 	ns.L["Hit and Run"] = "一擊脫離"
 	ns.L["Improved Volley"] = "強化亂射"
 	ns.L["Rapid Killing"] = "疾速殺戮"
+	ns.L["Raptor Fury"] = "猛禽之怒"
 	ns.L["Resourcefulness"] = "游刃有餘"
 	ns.L["Wyvern Strike"] = "翼龍打擊"
 	-- Mage
@@ -2827,6 +2994,7 @@ elseif ns.locale == "zhTW" then
 	ns.L["Aura Mastery"] = "光環掌握"
 	ns.L["Divine Light"] = "神聖之光"
 	ns.L["Hallowed Ground"] = "神聖之地"
+	ns.L["Malleable Protection"] = "靈活防護"
 	ns.L["Shield of Righteousness"] = "正義盾擊"
 	ns.L["Shock and Awe"] = "震懾"
 	ns.L["Righteous Vengeance"] = "正義復仇"
@@ -2835,9 +3003,28 @@ elseif ns.locale == "zhTW" then
 	ns.L["Soul Warding"] = "靈魂守護"
 	ns.L["Vampiric Touch"] = "吸血鬼之觸"
 	-- Rogue
+	ns.L["Atrophic Poison"] = "萎縮毒藥"
+	ns.L["Blunderbuss"] = "短槍射擊"
+	ns.L["Crimson Tempest"] = "猩紅風暴"
+	ns.L["Cutthroat"] = "割喉"
+	ns.L["Fan of Knives"] = "刀扇"
+	ns.L["Numbing Poison"] = "遲鈍毒藥"
+	ns.L["Occult Poison I"] = "玄秘毒藥 I"
+	ns.L["Sebacious Poison"] = "解離毒藥"
 	-- Shaman
+	ns.L["Coherence"] = "連貫鏈條"
+	ns.L["Feral Spirit"] = "野性狼魂"
+	ns.L["Greater Ghost Wolf"] = "強效幽魂之狼"
+	ns.L["Storm, Earth, and Fire"] = "風火雷電"
 	-- Warlock
+	ns.L["Decimation"] = "滅殺"
+	ns.L["Fel Armor"] = "邪甲術"
+	ns.L["Infernal Armor"] = "地獄火護甲"
+	ns.L["Mark of Chaos"] = "混沌標記"
 	-- Warrior
+	ns.L["Fresh Meat"] = "新鮮血肉"
+	ns.L["Shockwave"] = "震盪波"
+	ns.L["Sudden Death"] = "猝死"
 end
 
 -- Ring runes spells added v2.23
@@ -3281,8 +3468,50 @@ if ns.class == "MAGE" then
 	end
 end
 
--- Textures
+-- Emblems from Phase 5 - v2.32
+if ns.locale == "deDE" then
+	ns.L["Emblem of Dishonor"] = "Emblem der Ehrlosigkeit" 
+	ns.L["Emblem of the Violet Eye"] = "Emblem des Violetten Auges"
+	ns.L["Emblem of the Wild Gods"] = "Emblem der wilden Götter"
+	ns.L["Emblem of the Worldcore"] = "Emblem des Weltenkerns"
+elseif ns.locale == "esES" or ns.locale == "esMX" then
+	ns.L["Emblem of Dishonor"] = "Emblema del deshonor" 
+	ns.L["Emblem of the Violet Eye"] = "Emblema del Ojo Violeta"
+	ns.L["Emblem of the Wild Gods"] = "Emblema de los dioses salvajes"
+	ns.L["Emblem of the Worldcore"] = "Emblema del núcleo del mundo"
+elseif ns.locale == "frFR" then
+	ns.L["Emblem of Dishonor"] = "Emblème de déshonneur" 
+	ns.L["Emblem of the Violet Eye"] = "Emblème de l’Œil pourpre"
+	ns.L["Emblem of the Wild Gods"] = "Emblème des dieux sauvages"
+	ns.L["Emblem of the Worldcore"] = "Emblème du cœur du monde"
+elseif ns.locale == "koKR" then
+	ns.L["Emblem of Dishonor"] = "불명예의 문장" 
+	ns.L["Emblem of the Violet Eye"] = "보랏빛 눈의 문장"
+	ns.L["Emblem of the Wild Gods"] = "야생 신의 문장"
+	ns.L["Emblem of the Worldcore"] = "세계핵의 문장"
+elseif ns.locale == "ptBR" or ns.locale == "ptPT" then
+	ns.L["Emblem of Dishonor"] = "Emblema da Desonra" 
+	ns.L["Emblem of the Violet Eye"] = "Emblema do Olho Violeta"
+	ns.L["Emblem of the Wild Gods"] = "Emblema dos Deuses Selvagens"
+	ns.L["Emblem of the Worldcore"] = "Emblema do Núcleo"
+elseif ns.locale == "ruRU" then
+	ns.L["Emblem of Dishonor"] = "Эмблема бесчестия" 
+	ns.L["Emblem of the Violet Eye"] = "Эмблема Аметистового Ока"
+	ns.L["Emblem of the Wild Gods"] = "Эмблема Диких богов"
+	ns.L["Emblem of the Worldcore"] = "Эмблема ядра мира"
+elseif ns.locale == "zhCN" then
+	ns.L["Emblem of Dishonor"] = "耻辱纹章" 
+	ns.L["Emblem of the Violet Eye"] = "紫罗兰之眼纹章"
+	ns.L["Emblem of the Wild Gods"] = "荒野之神纹章"
+	ns.L["Emblem of the Worldcore"] = "世界之核纹章"
+elseif ns.locale == "zhTW" then
+	ns.L["Emblem of Dishonor"] = "恥辱紋章" 
+	ns.L["Emblem of the Violet Eye"] = "紫羅蘭之眼紋章"
+	ns.L["Emblem of the Wild Gods"] = "荒野之神紋章"
+	ns.L["Emblem of the Worldcore"] = "世界之核紋章"
+end
 
+-- Textures
 if ns.locale == "deDE" then
 	ns.L["Adrenaline"] = "Adrenalin"
 	ns.L["Arcane"] = "Arkane"
@@ -3445,7 +3674,6 @@ st.dalaranQuestName = { st.dalaranRelic .."Curious)", st.dalaranRelic .."Glitter
 -- v2.??+ Quest Names translated (where possible). This code is not live for players
 -- Anyone looking here: Blizzard translations seem patchy for some languages...
 -- Dilemma. Not sure if I'll continue with this. Time better spent elsewhere?
-
 if ns.locale == nil then -- Kill/live logic
 --if ns.locale then -- Kill/live logic
 	if ns.locale == "deDE" then

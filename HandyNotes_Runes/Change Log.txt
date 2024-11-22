@@ -1,10 +1,78 @@
-* Old Skill Book dungeon pins still hanging around - actually still possible to ge them this way?
+To Do / Ideas
+=============
+* Old Skill Book dungeon pins still hanging around - actually still possible to get them this way?
 * Priest racial ability guide?
-* Mage books - show the four separate quests somehow - I think no space on the screen which is why i removed?
-* Translations for all new added quests
-* Translations addendum from previous phases plus miscellany from p4/5
+* Translations for all new added quests - but I never switched this live for quests per se
+    Did Blizzard finally do their translations fully?
 * special priest guide for Cassandra's tome?
-* Demon Fall Canyon attunement would be nice to do
+* Demon Fall Canyon attunement would be nice to do - Chests AddOn?
+* translations are present but not always / consistently used (for display I mean, not checking)
+* "Mage Book(s)" translation would be nice. Confident that new section is fully translated
+* I noticed a mage ring pin chain in Searing gorge - several on the continent.
+		ideally like normal pins: just the first one with extras suppressed
+* Translation for Tally
+* Priest 10, 11, 14. Also 26 - colourising runs up against Blizzard's substitution limit
+* Rogue 10, 11, 14.
+	
+== v3.00 - 22nd November 2024
+* Format of the Mage Book related pin Tooltips is vastly improved. Wanted to do this for a long time
+* Improved code in the Tooltip generating area. Better consistency, flexible and resistant to null fields
+* Pixi Pilfershard (Warlocks) coordinates tweaked at Chillwind Point
+* Mage manual at Gallows' Corner in Alterac improved
+* Removed passed level parm from ShowPinForThisClassQuest - never got used
+   (at design time thinking to just show relevant quests in the player's level vicinity)
+* Description for option to hide on completion was updated
+* Layout in the Options panel improved
+* Also added a Mage Book show/hide/select slider to the options panel
+* Mage Books are their own special un-numbered pin now
+* Name space of Data and Core files is now shared
+* Maladath (Oce) server added for translations for gray/grey lol
+
+== v2.31 - 21st November 2024
+* Fix for Rings not showing completion
+* Added that same fix to Spell Books
+* Removed unused local function ShowPinForThisClassSpellID( spellID, forceCheck ) to avoid using it again lol
+* Blackrat in Dun Morogh adjusted slightly
+* Gnomish Tome in Dun Morogh adjusted slightly
+* Healing Specialization ring coordinates improved vastly
+* Translations for all four Emblems
+* Small adjustment to Ring summary pin position
+* 6 x Rune Brokers added
+* Now properly checking faction for the newer pin types
+
+== v2.30 - 20th November 2024
+* Rings now have their own summary pin - icon matches the map icon
+* Hunter Steady Shot pin in Arathi fixed
+* Rogue Cutthroat guide fixed
+* As per above two fixes... Tooltip code for tips/guides is now more robust, nil check etc
+* All runes purchaseable from Pix Xizzix in Booty Bay: 4 new pins down there at BB
+* Spelling of existing Xizzix pin corrected 
+* Warrior Frenzied Assault pins in Tirisfal overlapped - now combined. Same building anyway
+* Warlock P5 Meditation Specialization ring added
+* Shaman P4/P5 Frost, Healing, Meditation rings added
+* Level requirements added for the purchasable Skill Books
+* Coords for Zor Lonetree and Milton Sheaf adjusted slightly
+* TOC update to 1.15.5
+
+== v2.29 - 19th November 2024
+* Warrior P4/P5 added
+* Warrior Gladiator Stance changed from gloves to boots
+* Warrior Wrecking Crew changed from helm to wrist
+* Warrior Rampage spell ID changed from 427081 to 426940
+
+== v2.28 - 18th November 2024
+* Warlocks added for P4/P5!
+* Warlock Vengeance spell ID changed from 426470 to 426469
+* Warlock new Skill Book Fel Armor
+* Corenr typo fixed to corner
+* nextto -> next to typo
+
+== v2.27 - 17th November 2024
+* Ring/Rings, Malleable Protection, all Rogue/Shaman translations added
+* Shaman Tidal Waves changed from bracers to helm
+* Shaman Greater Ghost Wolf spell ID changed from 415813 to 425341
+* Shaman Static Shock spellID changed from 432235 to 432237
+* World Map summary pins moved - were intruding upon Eastern Kingdoms
 
 == v2.26 - 16th November 2024
 * Everything Rogue. Translations missing
