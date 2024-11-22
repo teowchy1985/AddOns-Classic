@@ -3,7 +3,7 @@
 
 <Script file="libs\LibDataBroker-1.1\LibDataBroker-1.1.lua"/>
 <Script file="libs\LibMapButton-1.1\LibMapButton-1.1.lua"/>
+<Script file="libs\LibEnhanceDDMenu-1.0\LibEnhanceDDMenu-1.0.lua"/>
 <Script file="libs\LibRealDispel-1.0\LibRealDispel-1.0.lua"/>
-<Script file="libs\BEDropDownMenu\BEDropDownMenu.lua"/>
 
 </Ui>

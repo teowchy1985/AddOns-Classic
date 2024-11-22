@@ -1,4 +1,4 @@
-﻿local IUF = InvenUnitFrames
+local IUF = InvenUnitFrames
 
 local _G = _G
 local type = _G.type
@@ -30,7 +30,7 @@ local objectMenuHandler = {
 	party3 = "PartyMemberFrame3",
 	party4 = "PartyMemberFrame4",
 }
---~ local LEDDM = LibStub("LibEnhanceDDMenu-1.0")
+local LEDDM = LibStub("LibEnhanceDDMenu-1.0")
 
 local objectValueStorage = {}
 
@@ -181,6 +181,7 @@ function IUF:CreateObject(unit, parent)
 	local frameParent = (parent and self.units[parent]) and self.units[parent] or self
 	local object = CreateFrame("Button", frameName, frameParent, "SecureUnitButtonTemplate,SecureHandlerStateTemplate")
 	tinsert(self.objectOrder, unit)
+	if Clique then  Clique:RegisterFrame(object) end
 	object.buff, object.debuff = { filters = {} }, { filters = {} }
 	object.values = setmetatable({ parent = object }, valuesMetaTable)
 	objectValueStorage[object.values] = {}
@@ -191,7 +192,7 @@ function IUF:CreateObject(unit, parent)
 	object:RegisterForClicks("AnyUp")
 	object.SetSafeAttribute = setSafeAttribute
 	object.SetManyAttributes = setManyAttributes
-	object:SetManyAttributes("unit", unit, "*type1", "target", "realunit", unit,"*type2","togglemenu")
+	object:SetManyAttributes("unit", unit, "*type1", "target", "realunit", unit ,"*type2","togglemenu")
 	object.unit = unit
 	object.realunit = unit
 	object.objectType = unit:gsub("(%d+)", "")
@@ -217,7 +218,7 @@ function IUF:CreateObject(unit, parent)
 		object:SetAttribute("_onstate-vehicleui", "self:SetAttribute('unit', self:GetAttribute(newstate == 'vehicle' and 'vehicleunit' or 'realunit'))")
 		RegisterStateDriver(object, "vehicleui", "[@"..unit..",unithasvehicleui]vehicle;none")
 		object.petunit = object:GetAttribute("vehicleunit")
-		object:SetAttribute("_onstate-hideraid", "self:SetAttribute('unitsuffix', newstate == 'hide' and 'none' or nil) if newstate=='hide' then self:Hide() else self:Show() end")
+		object:SetAttribute("_onstate-hideraid", "self:SetAttribute('unitsuffix', newstate == 'hide' and 'none' or nil)")
 	elseif object.objectType == "partypet" then
 		-- 파티원이 탈것 탑승시 펫 프레임 숨김
 		object:SetAttribute("vehicleunit", unit:gsub("pet", "") or nil)
@@ -238,14 +239,11 @@ function IUF:CreateObject(unit, parent)
 	self:RegisterFocusKey(object)
 	self.units[unit] = object
 	object.SetLocation = objectSetLocation
-	
-   	if unit == "player" or unit == "pet" or unit == "target" or unit == "focus" then
-		if objectMenuHandler[unit] then
-			object:SetManyAttributes("*type2", "macro", "*macrotext2", "/click "..objectMenuHandler[unit].." RightButton Up")--~ 			LEDDM:RegisterNewPoint(_G[objectMenuHandler[unit].."DropDown"], nil, nil, "cursor")
-			objectMenuHandler[unit] = nil
-		end
-   	end
-
+	if objectMenuHandler[unit] then
+		object:SetManyAttributes("*type2", "macro", "*macrotext2", "/click "..objectMenuHandler[unit].." RightButton Up")
+		LEDDM:RegisterNewPoint(_G[objectMenuHandler[unit].."DropDown"], nil, nil, "cursor")
+		objectMenuHandler[unit] = nil
+	end
 	return object
 end
 
@@ -254,27 +252,17 @@ function IUF:SetActiveObject(object)
 		if self.db.units[object.objectType].active then
 			object.watch = true
 			RegisterUnitWatch(object)
-
 			if object.objectType == "party" then
-
-				if self.db.hidePartyFrame == true then
-					RegisterStateDriver(object, "hideraid", "hide")
+				RegisterStateDriver(object, "hideraid", self.db.hideInRaid and "[@raid1,exists]hide;show" or "show")
+				if self.db.hideInRaid and IsInGroup() and IsInRaid() then
 					object:SetAttribute("unitsuffix", "none")
 					object:Hide()
 				else
-					RegisterStateDriver(object, "hideraid", self.db.hideInRaid and "[@raid1,exists]hide;show" or "show")
-					if self.db.hideInRaid and IsInGroup() and IsInRaid() then
-
-						object:SetAttribute("unitsuffix", "none")
-
-						object:Hide()
+					object:SetAttribute("unitsuffix", nil)
+					if UnitExists(object:GetAttribute("unit") or "") then
+						object:Show()
 					else
-						object:SetAttribute("unitsuffix", nil)
-						if UnitExists(object:GetAttribute("unit") or "") then
-							object:Show()
-						else
-							object:Hide()
-						end
+						object:Hide()
 					end
 				end
 			elseif UnitExists(object:GetAttribute("unit") or "") then
@@ -438,25 +426,23 @@ local castingBarBackdrop = { bgFile = "Interface\\Tooltips\\UI-Tooltip-Backgroun
 
 local function castingBarOnUpdate(bar)
 	if bar.startTime then
-		ctime = GetTime() * 1000
+		ctime = GetTime()
 		if ctime > bar.endTime then
 			bar:GetParent():SetAlpha(0)
 		else
 			if bar.isChannel then
-				bar:SetValue(bar.endTime - ctime)
+				bar:SetValue(bar.startTime + bar.endTime - ctime)
 			else
-				bar:SetValue(ctime - bar.startTime)
+				bar:SetValue(ctime)
 			end
 			if bar.time:IsShown() then
-				local nTime = (bar.endTime - ctime)
-				bar.time:SetFormattedText("%.1f", nTime and nTime / 1000 or 0)
+				bar.time:SetFormattedText("%.1f", bar.endTime - ctime)
 			end
 		end
 	end
 end
 
 function IUF:CreateCastingBar(object)
-
 	object.castingBar = CreateFrame("Frame", nil, object, BackdropTemplateMixin and "BackdropTemplate")
 	object.castingBar:Hide()
 	object.castingBar:SetBackdrop(castingBarBackdrop)
@@ -563,7 +549,9 @@ function IUF:UpdateUnitTooltip(object)
 			GameTooltip:AddLine("Alt+드래그로 이동 가능")
 		end
 		GameTooltip:Show()
-		object.highlight:Show()
+		if object.highlight then	-- add 3.4.0 에서 nil 나옴
+			object.highlight:Show()
+		end
 	else
 		IUF:HideUnitTooltip(object)
 	end
@@ -571,7 +559,7 @@ end
 
 function IUF:HideUnitTooltip(object)
 	GameTooltip:Hide()
-	if object and object.highlight then
+	if object.highlight then	-- add 3.4.0 에서 nil 나옴
 		object.highlight:Hide()
 	end
 end

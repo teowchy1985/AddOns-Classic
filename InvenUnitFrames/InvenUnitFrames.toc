@@ -1,8 +1,8 @@
-## Interface: 110002, 110005
+## Interface: 11505, 40401
 ## Title: I|cffa2e665nven|r Unit Frames
 ## Notes: 인벤 유닛 프레임
 ## Author: Inven - InTheBlue
-## Version: 2.2.4(52l2)
+## Version: 2.2.4(23d)
 ## SavedVariables: InvenUnitFramesDB
 ## SavedVariablesPerCharacter: InvenUnitFramesCharDB
 ## OptionalDeps: LibSharedMedia-3.0
@@ -15,19 +15,18 @@
 
 libs.xml
 
-Core.lua
+Core_KR.lua
 Core_EN.lua
 Config.lua
 Media.lua
 Prototype.lua
 Moving.lua
 Handler.lua
-Unit.lua
+Unit_KR.lua
 Unit_EN.lua
 Elements.lua
 Modules.lua
 Aura.lua
 ClassBar.lua
-ReadyCheck.lua
 
 Skins.xml

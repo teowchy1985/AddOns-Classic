@@ -1326,6 +1326,25 @@ D["HidingBar"] = {
         callback = function(cfg, v, loading) SlashCmdList["HIDDINGBAR"]("") end,
     },
 };
+D["InvenUnitFrames"] = {
+    defaultEnable = 0,
+	tags = { "UNITFRAME" },
+	title = "IUF 頭像",
+	desc = "喜歡傳統風格頭像的玩家不要錯過! 提供多種外觀樣式可供選擇，還有豐富的自訂選項。`",
+	modifier = "彩虹ui",
+    {
+        text = "設定選項",
+        callback = function() SlashCmdList["INVENUNITFRAMES"]("") end,
+    },
+	{
+		type = "text",
+		text = "|cffFF2D2D啟用插件後需要重新載入介面。|r",
+	},
+	{
+		type = "text",
+        text = "更改外觀: 設定選項>整體>基本>外觀主題，選擇外觀。|n|n移動位置：設定選項>整體>基本>鎖定框架，取消打勾。|n|n(不是使用編輯模式移動!)|n",
+    },
+};
 D["Immersion"] = {
     defaultEnable = 0,
 	title = "任務對話 (對話頭像)",

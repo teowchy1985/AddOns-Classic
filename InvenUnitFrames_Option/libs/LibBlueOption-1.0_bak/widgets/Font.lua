@@ -60,12 +60,18 @@ local function createFontFrame()
 		menu = LBO:CreateDropDownMenu(widget, "DIALOG")
 		menu:SetWidth(150)
 		menu:SetHeight(230)
-		menu.attributeList = { "無", "外框", "粗外框" }
+		menu.attributeList = { "없음", "외곽선", "굵은 외곽선", "예리하게", "예리한 외곽선", "예리한 굵은 외곽선" }
 		menu.attributeSet = {
 			["외곽선"] = "OUTLINE",
-			["OUTLINE"] = "外框",
+			["OUTLINE"] = "외곽선",
 			["굵은 외곽선"] = "THICKOUTLINE",
-			["THICKOUTLINE"] = "粗外框",
+			["THICKOUTLINE"] = "굵은 외곽선",
+			["예리하게"] = "MONOCHROME",
+			["MONOCHROME"] = "예리하게",
+			["예리한 외곽선"] = "OUTLINE,MONOCHROME",
+			["OUTLINE,MONOCHROME"] = "예리한 외곽선",
+			["예리한 굵은 외곽선"] = "THICKOUTLINE,MONOCHROME",
+			["THICKOUTLINE,MONOCHROME"] = "예리한 굵은 외곽선",
 		}
 		menu.info = {}
 		local function hidden(key)
@@ -107,16 +113,16 @@ local function createFontFrame()
 			)
 			update(menu.parent)
 		end
-		menu.fontFile = LBO:CreateWidget("Media", menu, "字體", "設定字體。", hidden, nil, nil, function() return menu.info.file, "font" end, set, "file")
+		menu.fontFile = LBO:CreateWidget("Media", menu, "글꼴", "글꼴 모양을 설정합니다.", hidden, nil, nil, function() return menu.info.file, "font" end, set, "file")
 		menu.fontFile:SetWidth(120)
 		menu.fontFile:SetPoint("TOP", 0, -15)
-		menu.fontSize = LBO:CreateWidget("Slider", menu, "大小", "設定文字大小。", hidden, nil, nil, function() return menu.info.size, 7, 34, 1, "點" end, set, "size")
+		menu.fontSize = LBO:CreateWidget("Slider", menu, "크기", "글꼴 크기를 설정합니다.", hidden, nil, nil, function() return menu.info.size, 7, 34, 1, "포인트" end, set, "size")
 		menu.fontSize:SetWidth(120)
 		menu.fontSize:SetPoint("TOP", menu.fontFile, "BOTTOM", 0, -5)
-		menu.fontAttribute = LBO:CreateWidget("DropDown", menu, "樣式", "設定文字樣式。", hidden, nil, nil, function() return menu.attributeSet[menu.info.attribute or ""] or "無", menu.attributeList end, set, "attribute")
+		menu.fontAttribute = LBO:CreateWidget("DropDown", menu, "속성", "글꼴 속성을 설정합니다.", hidden, nil, nil, function() return menu.attributeSet[menu.info.attribute or ""] or "없음", menu.attributeList end, set, "attribute")
 		menu.fontAttribute:SetWidth(120)
 		menu.fontAttribute:SetPoint("TOP", menu.fontSize, "BOTTOM", 0, -5)
-		menu.fontShadow = LBO:CreateWidget("CheckBox", menu, "陰影", "設定文字陰影。", hidden, nil, nil, function() return menu.info.shadow end, set, "shadow")
+		menu.fontShadow = LBO:CreateWidget("CheckBox", menu, "그림자", "글꼴의 그림자를 설정합니다.", hidden, nil, nil, function() return menu.info.shadow end, set, "shadow")
 		menu.fontShadow:SetWidth(120)
 		menu.fontShadow:SetPoint("TOP", menu.fontAttribute, "BOTTOM", 0, 0)
 		menu.fontOkay = LBO:CreateWidget("Button", menu, OKAY, nil, hidden, nil, nil,

@@ -571,15 +571,6 @@ function Option:CreateBasicMenu(menu, parent)
 	)
 	menu.hideInRaid:SetPoint("TOP", menu.mapButtonShown, "BOTTOM", 0, 0)
 
-	menu.hidePartyFrame = LBO:CreateWidget("CheckBox", parent, "總是隱藏隊伍框架", "總是隱藏隊伍框架。", nil , nil, true,
-		function() return IUF.db.hidePartyFrame end,
-		function(v)
-			IUF.db.hidePartyFrame = v
-			setCoreValue("party", "SetActiveObject")
-		end
-	)
-	menu.hidePartyFrame:SetPoint("TOP", menu.hideInRaid, "BOTTOM", 0, 0)
-
 	local aggroBorderList = { "顯示", "閃爍", "不顯示" }
 
 	menu.aggorBorder = LBO:CreateWidget("DropDown", parent, "獲得仇恨邊框", "設定獲得仇恨時在頭像周圍顯示的紅色邊框。", nil, nil, nil,
@@ -594,7 +585,7 @@ function Option:CreateBasicMenu(menu, parent)
 			end
 		end
 	)
-	menu.aggorBorder:SetPoint("TOP", menu.hidePartyFrame, "BOTTOM", 0, 0)
+	menu.aggorBorder:SetPoint("TOP", menu.hideInRaid, "BOTTOM", 0, 0)
 end
 
 function Option:CreateProfileMenu(menu, parent)
@@ -1157,16 +1148,14 @@ function Option:CreateBlizzardMenu(menu, parent)
 		function(v)
 			unitsdb.player.hiddenBlizzardCastingBar = v
 			if v then
-				PlayerCastingBarFrame.showCastbar = nil
+				CastingBarFrame.showCastbar = nil
 				PetCastingBarFrame.showCastbar = nil
 			else
-				PlayerCastingBarFrame.showCastbar = true
+				CastingBarFrame.showCastbar = true
 				PetCastingBarFrame.showCastbar = true
 			end
-			--CastingBarFrame_UpdateIsShown(PlayerCastingBarFrame)
-			--CastingBarFrame_UpdateIsShown(PetCastingBarFrame)
-			PlayerCastingBarFrame:UpdateIsShown()
-			PetCastingBarFrame:UpdateIsShown()
+			CastingBarFrame_UpdateIsShown(CastingBarFrame)
+			CastingBarFrame_UpdateIsShown(PetCastingBarFrame)
 		end
 	)
 	menu.hiddenBlizzard:SetPoint("TOPLEFT", 5, -5)
@@ -1704,16 +1693,14 @@ function Option:CreateUnitCastingBarMenu(menu, parent)
 		function(v)
 			unitsdb[Option.unit].hiddenBlizzardCastingBar = v
 			if v then
-				PlayerCastingBarFrame.showCastbar = nil
+				CastingBarFrame.showCastbar = nil
 				PetCastingBarFrame.showCastbar = nil
 			else
-				PlayerCastingBarFrame.showCastbar = true
+				CastingBarFrame.showCastbar = true
 				PetCastingBarFrame.showCastbar = true
 			end
-			--CastingBarFrame_UpdateIsShown(PlayerCastingBarFrame)
-			--CastingBarFrame_UpdateIsShown(PetCastingBarFrame)				
-			PlayerCastingBarFrame:UpdateIsShown()
-			PetCastingBarFrame:UpdateIsShown()
+			CastingBarFrame_UpdateIsShown(CastingBarFrame)
+			CastingBarFrame_UpdateIsShown(PetCastingBarFrame)
 		end
 	)
 	menu.hiddenBlizzard:SetPoint("TOPRIGHT", -5, -5)
@@ -2479,17 +2466,18 @@ function Option:CreateClassBarMenu(menu, parent)
 		end
 	)
 	menu.texture:SetPoint("TOPRIGHT", -5, -39)
-
+--[[
 	menu.blizzard = LBO:CreateWidget("CheckBox", parent, "顯示遊戲內建的職業資源條", "使用魔獸世界預設框架的職業資源條，而不是 InvenUnitFrames 的職業資源條。 如果其他插件也包含變更職業資源條位置的功能，可能會發生衝突。", nil, notActive, nil,
 		function()
 			return IUF.db.classBar.useBlizzard
 		end,
 		function(v)
-			IUF.db.classBar.useBlizzard = v
+			IUF.db.classBar.useBlizzard = false --비활성화
 			updateClassBar()
 		end
 	)
 	menu.blizzard:SetPoint("TOP", menu.pos, "BOTTOM", 0, -10)
+--]]
 -- 추가된 내용	
 	menu.druidMana = LBO:CreateWidget("CheckBox", parent, "德魯伊野性變身時隱藏法力值", "當使用非消耗法力的變身形態時，不顯示法力值。", nil, nil, nil,
 		function() return IUF.db.classBar.druidManaDisible end,
@@ -2499,5 +2487,5 @@ function Option:CreateClassBarMenu(menu, parent)
 			updateClassBar()
 		end
 	)
-	menu.druidMana:SetPoint("TOP", menu.blizzard, "BOTTOM", 0, -10)
+	menu.druidMana:SetPoint("TOP", menu.texture, "BOTTOM", 0, -10)
 end

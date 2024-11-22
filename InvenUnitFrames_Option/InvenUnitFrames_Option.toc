@@ -1,4 +1,4 @@
-## Interface: 110002, 110005
+## Interface: 11505, 40401
 ## Title: I|cffa2e665nven|r Unit Frames: Option
 ## Notes: 인벤 유닛 프레임: 옵션 창
 ## Dependencies: InvenUnitFrames
@@ -13,8 +13,8 @@
 
 libs\LibBlueOption-1.0\LibBlueOption-1.0.xml
 
-Core.lua
+Core_KR.lua
 Core_EN.lua
 Skin.lua
-Preview.lua
+Preview_KR.lua
 Preview_EN.lua
