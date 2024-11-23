@@ -2683,7 +2683,7 @@ points[ 1429 ] = { -- Elwynn Forest
 					guide={ ns.warlock.grace ..ns.warlock.graceEF, ns.warrior.devastate ..ns.warrior.devastateVik },
 					spell={ "Demonic Grace", "Devastate" }, tip={ "Gnoll Blood", "Severed Gnoll Head"} },
 	[30608820] = { npc=100, name="Gruff Swiftbite", class={ "WARRIOR" }, faction="Alliance",
-					spell={ "Furious Thunder" }, guide={ ns.warrior.furiousThunder } }, class={ "ROGUE" }, 
+					spell={ "Furious Thunder" }, guide={ ns.warrior.furiousThunder } },
 	[31205720] = { npc=116, name="Defias Bandit", faction="Alliance", class={ "ROGUE" }, spell={ "Quick Draw" }, 
 					tip="Pick Pocket or kill. Top-Left Map Piece", guide={ ns.rogue.quickDraw ..ns.rogue.quickDrawEF } },
 	[31443441] = { npc=203226, name="Viktoria Woods", class={ "WARRIOR" }, faction="Alliance",

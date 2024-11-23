@@ -14,6 +14,9 @@ To Do / Ideas
 * Priest 10, 11, 14. Also 26 - colourising runs up against Blizzard's substitution limit
 * Rogue 10, 11, 14.
 	
+== v3.01 - 22nd November 2024
+* Extra Elwynn Forest fix for the fix of the Please report message
+
 == v3.00 - 22nd November 2024
 * Format of the Mage Book related pin Tooltips is vastly improved. Wanted to do this for a long time
 * Improved code in the Tooltip generating area. Better consistency, flexible and resistant to null fields
