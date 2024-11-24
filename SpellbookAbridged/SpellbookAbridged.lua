@@ -192,10 +192,10 @@ function SpellBookAbridged_OnEvent(self, event, ...)
 	if (event == "PLAYER_LOGIN") then
 		-- Clique initializes on demand, so the Spellbook Buttons are not available after addons load.
 		-- Therefore, I must force Clique to initialize its CliqueSpellButtons so I can process a simple change.
-		if Clique then
-			CliqueConfig:OnShow();
-			CliqueConfig:OnHide();
-		end
+--		if Clique then
+--			CliqueConfig:OnShow();
+--			CliqueConfig:OnHide();
+--		end
 		-- Set Frame Level of any child that inherited Button at some point of SpellBookFrame's SpellButtonXX 1 higher than SpellBookAbridged's Action button
 		
 
