@@ -283,7 +283,6 @@ data["Ragefire"] = {
 	AtlasMapID = "Ragefire",
 	AtlasMapFile = "RagefireChasm",
 	ContentType = DUNGEON_CONTENT,
-	LoadDifficulty = NORMAL_DIFF,
 	LevelRange = GetForVersion({10, 13, 18}, {8, 13, 16}),
 	items = {
 		{ -- RFCTaragaman
@@ -322,7 +321,6 @@ data["WailingCaverns"] = {
 	AtlasMapFile = {"CL_WailingCaverns", "CL_WailingCavernsEnt"},
 	AtlasMapFile_AL = {"WailingCaverns", "WailingCavernsEnt"},
 	ContentType = DUNGEON_CONTENT,
-	LoadDifficulty = NORMAL_DIFF,
 	LevelRange = GetForVersion({10, 17, 24}, {10, 17, 21}),
 	items = {
 		{ -- WCLordCobrahn
@@ -454,7 +452,6 @@ data["TheDeadmines"] = {
 	AtlasMapFile_AL = {"TheDeadmines", "TheDeadminesEnt"},
 	AtlasMapFile = {"CL_TheDeadmines", "CL_TheDeadminesEnt"},
 	ContentType = DUNGEON_CONTENT,
-	LoadDifficulty = NORMAL_DIFF,
 	LevelRange = GetForVersion({10, 17, 26}, {10, 18, 22}),
 	items = {
 		{	--DMRhahkZor
@@ -594,7 +591,6 @@ data["ShadowfangKeep"] = {
 	AtlasMapFile = "CL_ShadowfangKeep",
 	AtlasMapFile_AL = "ShadowfangKeep",
 	ContentType = DUNGEON_CONTENT,
-	LoadDifficulty = NORMAL_DIFF,
 	LevelRange = GetForVersion({11, 22, 30}, {14, 18, 21}),
 	items = {
 		{ -- SFKRethilgore
@@ -797,7 +793,6 @@ data["TheStockade"] = {
 	AtlasMapFile = "CL_TheStockade",
 	AtlasMapFile_AL = "TheStockade",
 	ContentType = DUNGEON_CONTENT,
-	LoadDifficulty = NORMAL_DIFF,
 	LevelRange = GetForVersion({15, 24, 32}, {15, 23, 29}),
 	items = {
 		{ -- SWStKamDeepfury
@@ -1373,7 +1368,6 @@ data["RazorfenKraul"] = {
 	AtlasMapFile = "CL_RazorfenKraul",
 	AtlasMapFile_AL = "RazorfenKraul",
 	ContentType = DUNGEON_CONTENT,
-	LoadDifficulty = NORMAL_DIFF,
 	LevelRange = GetForVersion({25, 29, 38},{17, 24, 27}),
 	items = {
 		{ -- RFKAggem
@@ -1497,7 +1491,6 @@ data["ScarletMonasteryGraveyard"] = {
 	AtlasMapFile = {"CL_SMGraveyard", "CL_ScarletMonasteryEnt"},
 	AtlasMapFile_AL = {"SMGraveyard", "SMEnt"},
 	ContentType = DUNGEON_CONTENT,
-	LoadDifficulty = NORMAL_DIFF,
 	LevelRange = GetForVersion({20, 26, 36},{20, 30, 32}),
 	items = {
 		-- Graveyard
@@ -1660,7 +1653,6 @@ data["ScarletMonasteryLibrary"] = {
 	AtlasMapFile = {"CL_SMLibrary", "CL_ScarletMonasteryEnt"},
 	AtlasMapFile_AL = {"SMLibrary", "SMEnt"},
 	ContentType = DUNGEON_CONTENT,
-	LoadDifficulty = NORMAL_DIFF,
 	LevelRange = GetForVersion({20, 29, 39},{20, 33, 35}),
 	items = {
 		-- Library
@@ -1779,7 +1771,6 @@ data["ScarletMonasteryArmory"] = {
 	AtlasMapFile = {"CL_SMArmory", "CL_ScarletMonasteryEnt"},
 	AtlasMapFile_AL = {"SMArmory", "SMEnt"},
 	ContentType = DUNGEON_CONTENT,
-	LoadDifficulty = NORMAL_DIFF,
 	LevelRange = GetForVersion({20, 32, 42},{20, 35, 37}),
 	items = {
 		-- Armory
@@ -1841,7 +1832,6 @@ data["ScarletMonasteryCathedral"] = {
 	AtlasMapFile = {"CL_SMCathedral", "CL_ScarletMonasteryEnt"},
 	AtlasMapFile_AL = {"SMCathedral", "SMEnt"},
 	ContentType = DUNGEON_CONTENT,
-	LoadDifficulty = NORMAL_DIFF,
 	LevelRange = GetForVersion({20, 35, 45},{20, 36, 40}),
 	items = {
 		-- Cathedral
@@ -1970,7 +1960,6 @@ data["RazorfenDowns"] = {
 	AtlasMapFile = "CL_RazorfenDowns",
 	AtlasMapFile_AL = "RazorfenDowns",
 	ContentType = DUNGEON_CONTENT,
-	LoadDifficulty = NORMAL_DIFF,
 	LevelRange = GetForVersion({35, 37, 46},{25, 34, 37}),
 	items = {
 			{ -- RFDTutenkash
@@ -2140,7 +2129,6 @@ data["Uldaman"] = {
 	AtlasModule = ATLAS_MODULE_NAME,
 	AtlasMapID = "Uldaman",
 	ContentType = DUNGEON_CONTENT,
-	LoadDifficulty = NORMAL_DIFF,
 	AtlasMapFile = {"CL_Uldaman", "CL_UldamanEnt"},
 	AtlasMapFile_AL = {"Uldaman", "UldamanEnt"},
 	LevelRange = GetForVersion({30, 41, 51},{30, 36, 40}),
@@ -2383,7 +2371,6 @@ data["Zul'Farrak"] = {
 	AtlasMapFile = "CL_ZulFarrak",
 	AtlasMapFile_AL = "ZulFarrak",
 	ContentType = DUNGEON_CONTENT,
-	LoadDifficulty = NORMAL_DIFF,
 	LevelRange = GetForVersion({39, 44, 54},{35, 42, 46}),
 	items = {
 		{ -- ZFAntusul
@@ -2632,7 +2619,6 @@ data["Maraudon"] = {
 	AtlasMapFile = {"CL_Maraudon", "CL_MaraudonEnt"},
 	AtlasMapFile_AL = {"Maraudon", "MaraudonEnt"},
 	ContentType = DUNGEON_CONTENT,
-	LoadDifficulty = NORMAL_DIFF,
 	LevelRange = GetForVersion({25, 46, 55},{30, 43, 48}),
 	items = {
 		{ -- MaraKhanVeng
@@ -3254,7 +3240,6 @@ data["BlackrockDepths"] = {
 	AtlasMapFile = {"CL_BlackrockDepths", "CL_BlackrockMountainEnt"},
 	AtlasMapFile_AL = {"BlackrockDepths", "BlackrockMountainEnt"},
 	ContentType = DUNGEON_CONTENT,
-	LoadDifficulty = NORMAL_DIFF,
 	LevelRange = GetForVersion({42, 52, 60},{40, 48, 56}),
 	items = {
 		{ -- BRDLordRoccor
@@ -3993,7 +3978,6 @@ data["LowerBlackrockSpire"] = {
 	AtlasMapFile = {"CL_BlackrockSpireLower", "CL_BlackrockMountainEnt"},
 	AtlasMapFile_AL = {"BlackrockSpireLower", "BlackrockMountainEnt"},
 	ContentType = DUNGEON_CONTENT,
-	LoadDifficulty = NORMAL_DIFF,
 	LevelRange = GetForVersion({48, 55, 60}, {45, 54, 60}),
 	items = {
 		{ -- LBRSFelguard
@@ -4413,7 +4397,6 @@ data["UpperBlackrockSpire"] = {
 	AtlasMapFile = {"CL_BlackrockSpireUpper", "CL_BlackrockMountainEnt"},
 	AtlasMapFile_AL = {"BlackrockSpireUpper", "BlackrockMountainEnt"},
 	ContentType = DUNGEON_CONTENT,
-	LoadDifficulty = NORMAL_DIFF,
 	LevelRange = GetForVersion({48, 55, 60}, {45, 58, 60}),
 	items = {
 		{ -- UBRSEmberseer
@@ -4748,7 +4731,6 @@ data["DireMaulEast"] = {
 	AtlasMapID = "DireMaul",
 	AtlasMapFile = {"DireMaulEast", "DireMaulEnt"},
 	ContentType = DUNGEON_CONTENT,
-	LoadDifficulty = NORMAL_DIFF,
 	LevelRange = {31, 55, 60},
 	items = {
 		{ -- DMEPusillin
@@ -4925,7 +4907,6 @@ data["DireMaulWest"] = {
 	AtlasMapID = "DireMaul",
 	AtlasMapFile = {"DireMaulWest", "DireMaulEnt"},
 	ContentType = DUNGEON_CONTENT,
-	LoadDifficulty = NORMAL_DIFF,
 	LevelRange = {31, 58, 60},
 	items = {
 		{ -- DMWTendrisWarpwood
@@ -5161,7 +5142,6 @@ data["DireMaulNorth"] = {
 	AtlasMapID = "DireMaulNorth",
 	AtlasMapFile = {"DireMaulNorth", "DireMaulEnt"},
 	ContentType = DUNGEON_CONTENT,
-	LoadDifficulty = NORMAL_DIFF,
 	LevelRange = {31, 58, 60},
 	items = {
 		{ -- DMNGuardMoldar
@@ -5491,7 +5471,6 @@ data["Scholomance"] = {
 	AtlasMapFile = "CL_Scholomance",
 	AtlasMapFile_AL = "Scholomance",
 	ContentType = DUNGEON_CONTENT,
-	LoadDifficulty = NORMAL_DIFF,
 	LevelRange = {45, 58, 60},
 	items = {
 		{ -- SCHOLOBlood
@@ -6240,7 +6219,6 @@ data["Stratholme"] = {
 	AtlasMapFile = "CL_Stratholme",
 	AtlasMapFile_AL = "Stratholme",
 	ContentType = DUNGEON_CONTENT,
-	LoadDifficulty = NORMAL_DIFF,
 	LevelRange = GetForVersion({37, 58, 60}, {45, 58, 60}),
 	items = {
 		{ -- STRATSkull
@@ -6921,7 +6899,6 @@ data["WorldBosses2"] = {
 	name = AL["World Bosses"],
 	AtlasMapFile = "Azuregos",
 	ContentType = RAID_CONTENT,
-	LoadDifficulty = NORMAL_DIFF,
 	LevelRange = GetForVersion({60, 60, 60},{60, 60, 60}),
 	ContentPhase = 2,
 	items = {
@@ -7971,7 +7948,6 @@ data["DemonFallCanyon"] = {
 	MapID = 15475,
 	InstanceID = 15540,
 	ContentType = DUNGEON_CONTENT,
-	LoadDifficulty = NORMAL_DIFF,
 	LevelRange = {60, 60, 60},
 	items = {
 		{ -- DFCGrimroot
@@ -9095,7 +9071,6 @@ data["BlackwingLair"] = {
 	AtlasMapFile = "CL_BlackwingLair",
 	AtlasMapFile_AL = "BlackwingLair",
 	ContentType = RAID_CONTENT,
-	LoadDifficulty = NORMAL_DIFF,
 	LevelRange = GetForVersion({60, 60, 60},{60, 60, 60}),
 	ContentPhase = 3,
 	items = {
