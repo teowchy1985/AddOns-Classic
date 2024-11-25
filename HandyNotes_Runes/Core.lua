@@ -3,7 +3,7 @@
 
                                                 Runes
 
-                                     v3.02 - 22nd November 2024
+                                     v3.03 - 24th November 2024
                                 Copyright (C) Taraezor / Chris Birch
                                          All Rights Reserved
 
@@ -813,6 +813,20 @@ function pluginHandler:Refresh()
 end
 
 LibStub("AceAddon-3.0"):NewAddon(pluginHandler, "HandyNotes_RunesDB", "AceEvent-3.0")
+
+-- ---------------------------------------------------------------------------------------------------------------------------------
+
+ns.eventFrame = CreateFrame( "Frame" )
+ns.timeSinceLastUpdate, ns.curTime = 0, 0
+
+local function OnUpdate()
+	ns.curTime = GetTime()
+	if ns.curTime - ns.timeSinceLastUpdate <= 3 then return end
+	ns.timeSinceLastUpdate = ns.curTime
+	pluginHandler:Refresh()
+end
+
+ns.eventFrame:SetScript( "OnUpdate", OnUpdate )
 
 -- ---------------------------------------------------------------------------------------------------------------------------------
 

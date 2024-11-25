@@ -6,14 +6,18 @@ To Do / Ideas
     Did Blizzard finally do their translations fully?
 * special priest guide for Cassandra's tome?
 * Demon Fall Canyon attunement would be nice to do - Chests AddOn?
-* translations are present but not always / consistently used (for display I mean, not checking)
 * "Mage Book(s)" translation would be nice. Confident that new section is fully translated
 * I noticed a mage ring pin chain in Searing gorge - several on the continent.
 		ideally like normal pins: just the first one with extras suppressed
 * Translation for Tally
-* Priest 10, 11, 14. Also 26 - colourising runs up against Blizzard's substitution limit
-* Rogue 10, 11, 14.
 	
+== v3.03 - 24th November 2024
+* Minimap pins now disappear/appear around the same time as they do on the World Map
+  I arbitrarily set the timer to checking every 3 seconds - to avoid FPS / DPS hits
+  If show/hide via the options panel then that's instant
+  If in combat then I rely wholly on the HandyNotes engine to avoid taint errors
+  (a main reason I moved to the HN ecosystem years ago)
+  
 == v3.02 - 22nd November 2024
 * Fix for two missing textures
 
