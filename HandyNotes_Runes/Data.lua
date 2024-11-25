@@ -893,10 +893,10 @@ ns.warrior.shockwave = "前往塔納利斯的最南部，\n在標記處尋找半
 -- Common Phase 1			
 ns.agon = "你需要殺死阿貢，一隻野豬。只有一個人可以獲得掉落物，單刷或組隊。\n重生很快，2-3 分鐘"
 ns.allClass = { "DRUID", "HUNTER", "MAGE", "PALADIN", "PRIEST", "ROGUE", "SHAMAN", "WARLOCK", "WARRIOR" }
-ns.allSpellG = { "適者生存", "孤狼", "倒轉時間", "神聖犧牲", "意外之財", "主副手",
-			"雙持武器專精", "惡魔契約", "戰爭使者" }
-ns.allSpellACA = { "顱骨猛擊", "毒蛇散播", "奧術奔騰", "光明指引", "精神鞭撻", "只是皮肉傷",
-			"治療之雨", "永恆折磨", "一心一意之怒" }
+ns.allSpellG = { "Survival of the Fittest", "Lone Wolf", "Rewind Time", "Divine Sacrifice", "Serendipity", "Main Gauche",
+			"Dual Wield Specialization", "Demonic Pact", "Warbringer" }
+ns.allSpellACA = { "Skull Bash", "Serpent Spread", "Arcane Surge", "Beacon of Light", "Mind Sear", "Just a Flesh Wound",
+			"Healing Rain", "Everlasting Affliction", "Single-Minded Fury" }
 ns.duskwoodCrypts = "地圖標記了要先進入哪個墓穴。\n\n在第一個墓穴向左轉。點擊佈滿灰塵的\n"
 			.."箱子並抓住破舊的護魂匣。離開\n\n在第二個墓穴向右轉進入王座\n"
 			.."房間。對\n沉睡的骨骸使用護魂匣。\n\n你剛剛喚醒了一個 25 級的巫妖。拾取戰利品！"
@@ -960,8 +960,8 @@ ns.enragedVoidWalkerStart = "塔納利斯加吉贊東南部，你將在那裡刷
 ns.felPortals = "\n地獄之火傳送門：灰谷、黑海岸、荒蕪之地、紅脊山脈、銀松森林、悲傷沼澤、貧瘠之地、西瀑田。"
 ns.getCGM = "\n地點太多。使用 Taraezor 的插件「寶箱、裝備和更多」來查看所有已知位置，\n"
 			.."還有其他很酷的東西！"
-ns.emeraldSpell = { "兇猛撕咬", "炸藥", "熔岩護甲", "進階懲擊之錘", "虛空區域", "直奔主題",
-					"燃燒", "不穩定折磨", "盾牌掌握" }
+ns.emeraldSpell = { "Gore", "T.N.T.", "Molten Armor", "Improved Hammer of Wrath", "Void Zone", "Cut to the Chase",
+					"Burn", "Unstable Affliction", "Shield Mastery" }
 ns.emeraldWardens = "可以在灰谷、暮色森林、\n費伍德、辛特蘭的友好聲望翡翠守護者軍需官處購買。通過在相同區域的傳送門進行團隊/單人任務來獲得聲望。"
 ns.nightmareIncursions = "暮色森林：23 級以上，灰谷：37 級以上，費伍德：47 級以上，辛特蘭：47 級以上\n\n"
 			.."前往標記位置並與一名野戰隊長交談。完成任務後，需要擊敗\n"
@@ -991,8 +991,8 @@ ns.wildGods = "在費伍德南部的翡翠聖殿找到影牙使者。接受「�
 			.."前往瑟拉德拉斯公主那裡。附近有一個幽靈迅猛龍。\n\n"
 			..colourHighlight .."祖爾法拉克： " ..colourPlaintext .."除了加茲里拉以外的任何三個首領。\n"
 			.."在水池區域尋找一隻幽靈蜘蛛。"
-ns.wildGodsSpells = { "進階狂暴再生", "裝填", "進階護甲", "進階庇護",
-			"神聖庇護", "戰鬥效力", "激流", "復仇", "劍與盾" }
+ns.wildGodsSpells = { "Improved Frenzied Regeneration", "Lock and Load", "Advanced Warding", "Improved Sanctuary",
+			"Divine Aegis", "Combat Potency", "Riptide", "Vengeance", "Sword and Board" }
 ns.wildGodsStart = "首先與費伍德南部翡翠聖殿的影牙使者交談"
 -- Common Phase 4
 ns.purchaseSkillBook = "從奧格瑪智慧之谷的佐爾·隆特里（部落）或暴風城要塞圖書館的米爾頓·希夫（聯盟）處購買"
