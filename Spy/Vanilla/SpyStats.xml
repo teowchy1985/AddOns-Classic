@@ -289,7 +289,7 @@
                 <FontString name="SpyStatsHonorKillsText" font="GameFontNormal">
                     <Anchors>
                         <Anchor point="BOTTOMLEFT">
-                            <Offset x="640" y="16" />
+                            <Offset x="680" y="16" />
                         </Anchor>
                     </Anchors>
                     <Color r="1" g="1" b="1" a="1" />
@@ -297,7 +297,7 @@
                 <FontString name="SpyStatsPvPDeathsText" font="GameFontNormal">
                     <Anchors>
                         <Anchor point="BOTTOMLEFT">
-                            <Offset x="800" y="16" />
+                            <Offset x="840" y="16" />
                         </Anchor>
                     </Anchors>
                     <Color r="1" g="1" b="1" a="1" />
@@ -333,7 +333,7 @@
             <Button name="$parentTopCloseButton" inherits="UIPanelCloseButton">
                 <Anchors>
                     <Anchor point="TOPRIGHT">
-                        <Offset x="-8" y="-6" />
+                        <Offset x="-6" y="-8" />
                     </Anchor>
                 </Anchors>
                 <Scripts>
@@ -374,10 +374,11 @@
 							</OnClick>
 						</Scripts>
                     </Button>
-                    <Button name="SpyStatsRefreshButton" inherits="OptionsButtonTemplate" text="REFRESH">
+                    <Button name="SpyStatsRefreshButton" inherits="UIPanelButtonTemplate" text="REFRESH">
+						<Size x="104" y="22"/>
                         <Anchors>
 							<Anchor point="BOTTOMRIGHT">
-								<Offset x="-6" y="-23" />
+								<Offset x="-2" y="-23" />
 							</Anchor>
                         </Anchors>
                         <Scripts>
@@ -400,7 +401,7 @@
                             </Anchor>
                             <Anchor point="BOTTOMRIGHT"></Anchor>
                         </Anchors>
-                        <Backdrop bgFile="Interface\Tooltips\UI-Tooltip-Background" edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
+<!--                    <Backdrop bgFile="Interface\Tooltips\UI-Tooltip-Background" edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
                             <EdgeSize>
                                 <AbsValue val="16"></AbsValue>
                             </EdgeSize>
@@ -410,7 +411,7 @@
                             <BackgroundInsets>
                                 <AbsInset left="4" right="4" top="4" bottom="4" />
                             </BackgroundInsets>
-                        </Backdrop>
+                        </Backdrop> -->
                         <Scripts>
                             <OnLoad>
 <!--							self:SetBackdropColor(0,0,0,.65)  -->
@@ -758,13 +759,13 @@
                 </FontString>
                 <TextInsets left="6" right="6" top="6" bottom="6" />
             </EditBox>
-            <CheckButton name="SpyStatsKosCheckbox" inherits="OptionsCheckButtonTemplate">
+            <CheckButton name="SpyStatsKosCheckbox" inherits="SettingsCheckBoxTemplate">
                 <Size>
                     <AbsDimension x="24" y="24" />
                 </Size>
                 <Anchors>
                     <Anchor point="LEFT" relativeTo="$parentShowOnlyText" relativePoint="RIGHT">
-                        <Offset x="4" y="-2" />
+                        <Offset x="4" y="0" />
                     </Anchor>
                 </Anchors>
                 <HitRectInsets>
@@ -777,13 +778,13 @@
                     </OnClick>
                 </Scripts>
             </CheckButton>
-            <CheckButton name="SpyStatsRealmCheckbox" inherits="OptionsCheckButtonTemplate">
+            <CheckButton name="SpyStatsRealmCheckbox" inherits="SettingsCheckBoxTemplate">
                 <Size>
                     <AbsDimension x="24" y="24" />
                 </Size>
                 <Anchors>
-                    <Anchor point="LEFT" relativeTo="SpyStatsKosCheckboxText" relativePoint="RIGHT">
-                        <Offset x="4" y="-2" />
+                    <Anchor point="LEFT" relativeTo="SpyStatsKosCheckbox" relativePoint="RIGHT">
+                        <Offset x="40" y="0" />
                     </Anchor>
                 </Anchors>
                 <HitRectInsets>
@@ -796,13 +797,13 @@
                     </OnClick>
                 </Scripts>
             </CheckButton>
-            <CheckButton name="SpyStatsWinsLosesCheckbox" inherits="OptionsCheckButtonTemplate">
+            <CheckButton name="SpyStatsWinsLosesCheckbox" inherits="SettingsCheckBoxTemplate">
                 <Size>
                     <AbsDimension x="24" y="24" />
                 </Size>
                 <Anchors>
-					<Anchor point="LEFT" relativeTo="SpyStatsRealmCheckboxText" relativePoint="RIGHT">
-                        <Offset x="12" y="-1" />
+					<Anchor point="LEFT" relativeTo="SpyStatsRealmCheckbox" relativePoint="RIGHT">
+                        <Offset x="70" y="0" />
                     </Anchor>
                 </Anchors>
                 <HitRectInsets>
@@ -815,13 +816,13 @@
                     </OnClick>
                 </Scripts>
             </CheckButton>
-            <CheckButton name="SpyStatsReasonCheckbox" inherits="OptionsCheckButtonTemplate">
+            <CheckButton name="SpyStatsReasonCheckbox" inherits="SettingsCheckBoxTemplate">
                 <Size>
                     <AbsDimension x="24" y="24" />
                 </Size>
                 <Anchors>
-					<Anchor point="LEFT" relativeTo="SpyStatsWinsLosesCheckboxText" relativePoint="RIGHT">
-                        <Offset x="12" y="-1" />
+					<Anchor point="LEFT" relativeTo="SpyStatsWinsLosesCheckbox" relativePoint="RIGHT">
+                        <Offset x="70" y="0" />
                     </Anchor>
                 </Anchors>
                 <HitRectInsets>
@@ -835,6 +836,40 @@
                 </Scripts>
             </CheckButton>
         </Frames>
+        <Layers>
+			<Layer level="ARTWORK">
+				<FontString name="SpyStatsKosCheckboxText" text="L_KOS" justifyH="LEFT" inherits="GameFontHighlight">
+					<Size x="70" y="32"/>
+					<Anchors>
+						<Anchor point="Left" relativeTo="SpyStatsKosCheckbox" x="25" y="0"/>
+					</Anchors>
+				</FontString>
+			</Layer>
+			<Layer level="ARTWORK">
+				<FontString name="SpyStatsRealmCheckboxText" text="L_Realm" justifyH="LEFT" inherits="GameFontHighlight">
+					<Size x="70" y="32"/>
+					<Anchors>
+						<Anchor point="Left" relativeTo="SpyStatsRealmCheckbox" x="25" y="0"/>
+					</Anchors>
+				</FontString>
+			</Layer>
+			<Layer level="ARTWORK">
+				<FontString name="SpyStatsWinsLosesCheckboxText" text="L_Won/Lost" justifyH="LEFT" inherits="GameFontHighlight">
+					<Size x="70" y="32"/>
+					<Anchors>
+						<Anchor point="Left" relativeTo="SpyStatsWinsLosesCheckbox" x="25" y="0"/>
+					</Anchors>
+				</FontString>
+			</Layer>
+			<Layer level="ARTWORK">
+				<FontString name="SpyStatsReasonCheckboxText" text="L_Reason" justifyH="LEFT" inherits="GameFontHighlight">
+					<Size x="70" y="32"/>
+					<Anchors>
+						<Anchor point="Left" relativeTo="SpyStatsReasonCheckbox" x="25" y="0"/>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
         <Scripts>
             <OnLoad>
 				if BackdropTemplateMixin then
