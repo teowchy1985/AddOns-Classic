@@ -19,15 +19,6 @@ local function print(...)
 end
 addonTable.print = print
 
-local function GetSpellName(id)
-  if C_Spell.GetSpellName then
-    return C_Spell.GetSpellName(id)
-  end
-  local spellName = GetSpellInfo(id)
-  return spellName
-end
-addonTable.GetSpellName = GetSpellName
-
 local ITEM_SIZE = 24
 
 local DefaultDB = {
@@ -382,15 +373,14 @@ function ReforgeLite:ValidateWoWSimsString(importStr)
       local simItemInfo = wowsims.player.equipment.items[slot] or {}
       local equippedItemInfo = self.itemData[slot]
       if simItemInfo.id ~= equippedItemInfo.itemId then
-        local _, importItemLink = C_Item.GetItemInfo(simItemInfo.id)
+        local importItemLink = Item:CreateFromItemID(simItemInfo.id):GetItemLink()
         return L["%s does not match your currently equipped %s. ReforgeLite only supports equipped items."]:format(importItemLink or ("item:"..simItemInfo.id), equippedItemInfo.item)
       end
-      item.reforge = nil
       if simItemInfo.reforging then
-        item.reforge = simItemInfo.reforging - self.REFORGE_TABLE_BASE
-        item.src, item.dst = unpack(self.reforgeTable[item.reforge])
+        item.src, item.dst = unpack(self.reforgeTable[simItemInfo.reforging - self.REFORGE_TABLE_BASE])
+      else
+        item.src, item.dst = nil, nil
       end
-      item.stats = nil
     end
     return newItems
   end
@@ -398,7 +388,7 @@ end
 
 function ReforgeLite:ApplyWoWSimsImport(newItems)
   self.pdb.method.items = newItems
-  self:UpdateMethodStats(self.pdb.method)
+  self:FinalizeReforge(self.pdb)
   self:UpdateMethodCategory()
 end
 
@@ -1130,11 +1120,11 @@ function ReforgeLite:UpdateStatWeightList ()
   end
   if self.pdb.tankingModel then
     self.statWeights.buffs = {}
-    self.statWeights.buffs.kings = GUI:CreateCheckButton (self.statWeights, GetSpellName(20217), self.pdb.buffs.kings, function (val)
+    self.statWeights.buffs.kings = GUI:CreateCheckButton (self.statWeights, C_Spell.GetSpellName(20217), self.pdb.buffs.kings, function (val)
       self.pdb.buffs.kings = val
       self:RefreshMethodStats ()
     end)
-    self.statWeights.buffs.strength = GUI:CreateCheckButton (self.statWeights, GetSpellName(57330), self.pdb.buffs.strength, function (val)
+    self.statWeights.buffs.strength = GUI:CreateCheckButton (self.statWeights, C_Spell.GetSpellName(57330), self.pdb.buffs.strength, function (val)
       self.pdb.buffs.strength = val
       self:RefreshMethodStats ()
     end)
@@ -2073,7 +2063,7 @@ function ReforgeLite:CreateMethodWindow()
     self.methodWindow.items[i].reforge:SetText ("")
 
     self.methodWindow.items[i].check = GUI:CreateCheckButton (self.methodWindow.itemTable, "", false,
-      function (val) self.methodOverride[i] = (val and 1 or -1) self:UpdateMethodChecks () end)
+      function (val) self.methodOverride[i] = (val and 1 or -1) self:UpdateMethodChecks () end, true)
     self.methodWindow.itemTable:SetCell (i, 1, self.methodWindow.items[i].check)
   end
   self.methodWindow.reforge = GUI:CreatePanelButton (self.methodWindow, REFORGE, function(btn) self:DoReforge() end)
