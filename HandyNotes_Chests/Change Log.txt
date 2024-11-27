@@ -1,3 +1,13 @@
+== v1.17 - 26th November 2024
+* Added new Fel Rift specific tip to Fel Rifts
+	
+== v1.16 - 20th November 2024
+* TOC update to 1.15.5
+
+== v1.15 - 17th November 2024
+* Fel Rifts added for Warlocks, including the single Large one and the Growing ones
+* Fel Portals changed to Fel Portal in the title field in the data file
+
 == v1.14 - 8th October 2024
 * TOC updated to 1.15.4
 
