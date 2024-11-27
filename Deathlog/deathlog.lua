@@ -55,7 +55,6 @@ local deathlog_minimap_button = LibStub("LibDataBroker-1.1"):NewDataObject(addon
 		if btn == "LeftButton" then
 			deathlogShowMenu(deathlog_data, general_stats, log_normal_params)
 		else
-			InterfaceAddOnsList_Update()
 			Settings.OpenToCategory(Deathlog_L.death_log)
 		end
 	end,
@@ -67,13 +66,13 @@ local deathlog_minimap_button = LibStub("LibDataBroker-1.1"):NewDataObject(addon
 })
 local function initMinimapButton()
 	deathlog_minimap_button_stub = LibStub("LibDBIcon-1.0", true)
-	if deathlog_minimap_button_stub:IsRegistered("Deathlog") then
+	if deathlog_minimap_button_stub:IsRegistered(addonName) then
 		return
 	end
-	deathlog_minimap_button_stub:Register("Deathlog", deathlog_minimap_button, deathlog_minimap_button_info)
+	deathlog_minimap_button_stub:Register(addonName, deathlog_minimap_button, deathlog_minimap_button_info)
 
 	if deathlog_settings["show_minimap"] ~= nil and deathlog_settings["show_minimap"] == false then
-		deathlog_minimap_button_stub:Hide("Deathlog")
+		deathlog_minimap_button_stub:Hide(addonName)
 	end
 end
 
@@ -228,9 +227,9 @@ local options = {
 				deathlog_settings["show_minimap"] = not deathlog_settings["show_minimap"]
 
 				if deathlog_settings["show_minimap"] then
-					deathlog_minimap_button_stub:Show("Deathlog")
+					deathlog_minimap_button_stub:Show(addonName)
 				else
-					deathlog_minimap_button_stub:Hide("Deathlog")
+					deathlog_minimap_button_stub:Hide(addonName)
 				end
 			end,
 		},
@@ -252,8 +251,8 @@ local options = {
 	},
 }
 
-LibStub("AceConfig-3.0"):RegisterOptionsTable("Deathlog", options)
-optionsFrame = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("Deathlog", Deathlog_L.death_log, nil)
+LibStub("AceConfig-3.0"):RegisterOptionsTable(addonName, options)
+optionsFrame = LibStub("AceConfigDialog-3.0"):AddToBlizOptions(addonName, Deathlog_L.death_log, nil)
 
 local function newEntry(_player_data, _checksum, num_peer_checks, in_guild)
 	local realmName = GetRealmName()
