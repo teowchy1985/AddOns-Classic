@@ -1,49 +1,52 @@
-tag 525e1f891ed53b42b70af5f002f74b567a424cc0 v1.9.8
+tag de2880da67f4ed7aa8d15d0cd8c764300afc2e15 v1.9.9
 Author:	skyler-code <skylerh15@github.com>
-Date:	Sat Nov 16 03:06:20 2024 -0600
+Date:	Tue Nov 26 12:21:25 2024 -0600
 
-commit b14fde3b4ac64c2c9948d3e9215ffd1b53c7ee36
+commit 2c2449fbb6ca2ac84a809de04427cd01232c8ed1
 Author: skyler-code <skylerh15@github.com>
-Date:   Sat Nov 16 02:49:22 2024 -0600
+Date:   Tue Nov 26 12:21:09 2024 -0600
 
-    attempts to fix recommending spirit to prot pals
-
-commit f5712fca4ef5eeff5fab87a46f04780945ecdfe9
-Author: skyler-code <skylerh15@github.com>
-Date:   Fri Nov 15 00:56:09 2024 -0600
-
-    Adjust capitalization for category titles
-
-commit c95474b5cfb60b3bfbf84518e6bbc8dce46c8874
-Author: skyler-code <skylerh15@github.com>
-Date:   Fri Nov 15 00:48:23 2024 -0600
-
-    Highlight Reforged Stats in Tooltip
+    Revert "masterfrost wants melee hit cap now"
     
-    Closes #35
-    Credit for idea: @orionshock
+    This reverts commit f01b04ae1f25d9426f04b48a786ad8e10c2ac20b.
 
-commit 30e00e83a40f8c922edfcfde3e3e208c09f36f51
+commit 167cd2fb77f70a0ae0a37435dbac785b7c20b965
 Author: skyler-code <skylerh15@github.com>
-Date:   Tue Nov 12 21:26:33 2024 -0600
+Date:   Tue Nov 26 12:19:01 2024 -0600
 
-    return recycled frames to our pool
+    Fix #37
+    
+    No reason to use recycled checkboxes for method window when it's checkboxes will never be returned to the unused pool
 
-commit fc765b2386eea6bb0681e80511087d8105325d4e
+commit 3adf3132a8c0d31b99246c7d81ef4b2073894364
 Author: skyler-code <skylerh15@github.com>
-Date:   Mon Nov 11 10:34:18 2024 -0600
+Date:   Tue Nov 26 11:55:49 2024 -0600
 
-    nil check
+    small change to make debugging easier
 
-commit a3cbae843a7bcad9326299745d5b238506e90e7d
+commit d6b42ee7fa903ace5153d14d441c41719945563f
 Author: skyler-code <skylerh15@github.com>
-Date:   Sat Nov 9 20:05:19 2024 -0600
+Date:   Tue Nov 26 11:55:30 2024 -0600
 
-    cleanup
+    WowSims import data consistency fixes
+    
+    Should address #36
 
-commit 73dd81ad0bb1c2a5694a994005a4705b407bf250
+commit 95e29f9645d55013ca23865e389c8fe680c97ce4
 Author: skyler-code <skylerh15@github.com>
-Date:   Sat Nov 9 19:43:58 2024 -0600
+Date:   Tue Nov 26 10:41:39 2024 -0600
 
-    recycling fix
+    removed ptr compatibility function
+
+commit 741dcbeda9664f8ca29bf34e3db3349a20b4b2f1
+Author: skyler-code <skylerh15@github.com>
+Date:   Tue Nov 26 10:37:34 2024 -0600
+
+    small change to prevent error if this function is ever called before RFL has been opened
+
+commit f01b04ae1f25d9426f04b48a786ad8e10c2ac20b
+Author: skyler-code <skylerh15@github.com>
+Date:   Wed Nov 20 08:11:19 2024 -0600
+
+    masterfrost wants melee hit cap now
 
