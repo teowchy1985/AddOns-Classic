@@ -115,7 +115,7 @@ local defaults = {
 
 		modulesOrder = KT.BLIZZARD_MODULES,
 
-		addonQuestie = true,
+		addonQuestie = false, -- 更改預設值
 	},
 	char = {
 		collapsed = false,
