@@ -1,5 +1,5 @@
-local VERSION_TEXT = "v0.5.2";
-local VERSION_DATE = 1731000000;
+local VERSION_TEXT = "v0.5.4";
+local VERSION_DATE = 1732600000;
 
 
 local addonName, addon = ...
@@ -36,12 +36,14 @@ local DefaultValues = {
     CameraMovement2MaintainPosition = true,
     CameraMovementMountedCamera = true,
     CameraMovementDisableInstance = false,
+    CameraZoomMultiplier = 1,                   --The smaller the further
 
     InputDevice = 1,                            --1:K&M  2:XBOX  3.PS  4.Mobile
     PrimaryControlKey = 1,                      --1: Space  2:Interact Key
     ScrollDownThenAcceptQuest = false,
     RightClickToCloseUI = true,
     CycleRewardHotkeyEnabled = false,           --Press Tab to cycle through choosable rewards
+    DisableHotkeyForTeleport = false,           --Disable gossip hotkey when select teleportation
     EmulateSwipe = true,
     MobileDeviceMode = false,
 
@@ -50,8 +52,9 @@ local DefaultValues = {
     QuestItemDisplay = false,
         QuestItemDisplayHideSeen = false,
         QuestItemDisplayDynamicFrameStrata = false,
+    QuickSlotQuestReward = false,
     AutoCompleteQuest = false,
-        PressKeyToOpenContainer = true,
+        QuickSlotUseHotkey = true,
     AutoSelectGossip = false,
     ForceGossip = false,
     ShowDialogHint = true,

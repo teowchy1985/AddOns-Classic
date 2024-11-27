@@ -935,6 +935,7 @@ local function SortFunc_GossipPrioritizeQuest(a, b)
 
 	return a.orderIndex < b.orderIndex;
 end
+addon.SortFunc_GossipPrioritizeQuest = SortFunc_GossipPrioritizeQuest;
 
 local function SortFunc_PrioritizeCompleteQuest(a, b)
     if a.isComplete ~= b.isComplete then
@@ -1028,45 +1029,46 @@ function DUIDialogBaseMixin:IsGossipHandledExternally()
     return false
 end
 
-function DUIDialogBaseMixin:HandleGossip()
-    if self:IsGossipHandledExternally() then return false end;
+local function HandleAutoSelect(options, activeQuests, availableQuests, anyOption, anyActiveQuest, anyAvailableQuest, numAvailableQuests)
+    --If returning true, the main UI should not be shown
 
-    local availableQuests = GetAvailableQuests();
-    local activeQuests = GetActiveQuests();
+    if anyOption == nil then
+        anyOption = options and #options > 0;
+    end
 
-    local options = GetOptions();
-    tsort(options, SortFunc_GossipPrioritizeQuest);
+    if anyActiveQuest == nil then
+        anyActiveQuest = activeQuests and #activeQuests > 0;
+    end
 
-    local anyActiveQuest = activeQuests and #activeQuests > 0;
-    local anyAvailableQuest = availableQuests and #availableQuests > 0;
-    local anyQuest = anyActiveQuest or anyAvailableQuest;
-    local anyOption = options and #options > 0;
-
-    self.hasActiveGossipQuests = anyActiveQuest;
-    self.numAvailableQuests = availableQuests and #availableQuests or 0;
-
-    if (not(anyQuest or anyOption)) and NameplateGossip:ShouldUseNameplate() then
-        --debug
-        local success = addon.NameplateGossip:RequestDisplayGossip();
-        if success then
-            self.keepGossipHistory = false;
-            return false
-        end
+    if anyAvailableQuest == nil then
+        numAvailableQuests = availableQuests and #availableQuests
+        anyAvailableQuest = numAvailableQuests and numAvailableQuests > 0;
     end
 
     local autoSelectGossip = GetDBBool("AutoSelectGossip");
+    local autoCompleteQuest = GetDBBool("AutoCompleteQuest");
+
+    if (autoSelectGossip or autoCompleteQuest) and (not anyOption) and (not anyActiveQuest) and (numAvailableQuests == 1) then
+        local firstQuestID = availableQuests[1].questID;
+        if GossipDataProvider:ShouldAutoAcceptQuest(firstQuestID) then
+            C_GossipInfo.SelectAvailableQuest(firstQuestID);
+            API.PrintMessage(L["Auto Select"], availableQuests[1].title);
+            return true
+        end
+    end
+
     local onlyOption = #options == 1;
 
-    if (not GetDBBool("ForceGossip")) and (not anyQuest) and (onlyOption) and (not ForceGossip()) then
+    if (not GetDBBool("ForceGossip")) and (not (anyActiveQuest or anyAvailableQuest)) and (onlyOption) and (not ForceGossip()) then
         if options[1].selectOptionWhenOnlyOption then
             C_GossipInfo.SelectOptionByIndex(options[1].orderIndex);
-            return false
+            return true
         end
 
         if autoSelectGossip and IsAutoSelectOption(options[1].gossipOptionID, true) then
             C_GossipInfo.SelectOption(options[1].gossipOptionID);
             API.PrintMessage(L["Auto Select"], options[1].name);
-            return false
+            return true
         end
     end
 
@@ -1075,9 +1077,56 @@ function DUIDialogBaseMixin:HandleGossip()
             if IsAutoSelectOption(data.gossipOptionID, onlyOption) then
                 C_GossipInfo.SelectOption(data.gossipOptionID);
                 API.PrintMessage(L["Auto Select"], data.name);
-                return false
+                return true
             end
         end
+    end
+
+    return false
+end
+addon.DialogueHandleAutoSelect = HandleAutoSelect;
+
+function DUIDialogBaseMixin:HandleGossip()
+    if self:IsGossipHandledExternally() then
+        if self:IsShown() then
+            CallbackRegistry:Trigger("PlayerInteraction.ShowUI", true);
+            self.interactionIsContinuing = true;
+            self:Hide();
+        else
+            self.interactionIsContinuing = nil;
+        end
+        return false
+    end
+
+    local availableQuests = GetAvailableQuests();
+    local activeQuests = GetActiveQuests();
+    local options = GetOptions() or {};
+
+    tsort(options, SortFunc_GossipPrioritizeQuest);
+
+    local numAvailableQuests = availableQuests and #availableQuests or 0;
+    local anyActiveQuest = activeQuests and #activeQuests > 0;
+    local anyAvailableQuest = numAvailableQuests > 0;
+    local anyQuest = anyActiveQuest or anyAvailableQuest;
+    local anyOption = options and #options > 0;
+
+    self.hasActiveGossipQuests = anyActiveQuest;
+    self.numAvailableQuests = numAvailableQuests;
+
+    --[[    --NameplateGossip isn't in use
+    if (not(anyQuest or anyOption)) and NameplateGossip:ShouldUseNameplate() then
+        local success = addon.NameplateGossip:RequestDisplayGossip();
+        if success then
+            self.keepGossipHistory = false;
+            return false
+        end
+    end
+    --]]
+
+    local autoCompleteQuest = GetDBBool("AutoCompleteQuest");
+
+    if HandleAutoSelect(options, activeQuests, availableQuests, anyOption, anyActiveQuest, anyAvailableQuest, numAvailableQuests) then
+        return false
     end
 
     local fromOffsetY = 0;
@@ -1123,11 +1172,18 @@ function DUIDialogBaseMixin:HandleGossip()
     local hotkeyIndex = 0;
     local hotkey;
 
+    local enableGossipHotkey = anyOption and (not INPUT_DEVICE_GAME_PAD);
+    if GetDBBool("DisableHotkeyForTeleport") then
+        enableGossipHotkey = enableGossipHotkey and GossipDataProvider:IsGossipHotkeyEnabled();
+    end
+
     local anyNewOrCompleteQuest = anyAvailableQuest;
-    for i, questInfo in ipairs(activeQuests) do
-        if questInfo.isComplete then
-            anyNewOrCompleteQuest = true;
-            break
+    if not anyNewOrCompleteQuest then
+        for i, questInfo in ipairs(activeQuests) do
+            if questInfo.isComplete then
+                anyNewOrCompleteQuest = true;
+                break
+            end
         end
     end
 
@@ -1151,7 +1207,11 @@ function DUIDialogBaseMixin:HandleGossip()
         if hintGossipData then
             hotkeyIndex = hotkeyIndex + 1;
             button = self:AcquireOptionButton();
-            hotkey = KeyboardControl:SetKeyButton(hotkeyIndex, button);
+            if enableGossipHotkey then
+                hotkey = KeyboardControl:SetKeyButton(hotkeyIndex, button);
+            else
+                hotkey = nil;
+            end
             button:SetGossipHint(hintGossipData, hotkey);
             local spacing = -PARAGRAPH_SPACING;
             button:SetPoint("TOPLEFT", lastObject, "BOTTOMLEFT", 0, spacing);
@@ -1161,7 +1221,11 @@ function DUIDialogBaseMixin:HandleGossip()
         for i, data in ipairs(options) do
             hotkeyIndex = hotkeyIndex + 1;
             button = self:AcquireOptionButton();
-            hotkey = KeyboardControl:SetKeyButton(hotkeyIndex, button);
+            if enableGossipHotkey then
+                hotkey = KeyboardControl:SetKeyButton(hotkeyIndex, button);
+            else
+                hotkey = nil;
+            end
             button:SetGossip(data, hotkey);
 
             if i == 1 and not hintGossipData then
@@ -1192,8 +1256,6 @@ function DUIDialogBaseMixin:HandleGossip()
         questInfo.index = i;
         quests[questIndex] = questInfo;
     end
-
-    local autoCompleteQuest = GetDBBool("AutoCompleteQuest");
 
     for i, questInfo in ipairs(activeQuests) do
         questIndex = questIndex + 1;
@@ -1263,7 +1325,11 @@ function DUIDialogBaseMixin:HandleGossip()
         if hintGossipData then
             hotkeyIndex = hotkeyIndex + 1;
             button = self:AcquireOptionButton();
-            hotkey = KeyboardControl:SetKeyButton(hotkeyIndex, button);
+            if enableGossipHotkey then
+                hotkey = KeyboardControl:SetKeyButton(hotkeyIndex, button);
+            else
+                hotkey = nil;
+            end
             button:SetGossipHint(hintGossipData, hotkey);
             local spacing = (anyQuest and -PARAGRAPH_BUTTON_SPACING) or -PARAGRAPH_SPACING;
             button:SetPoint("TOPLEFT", lastObject, "BOTTOMLEFT", 0, spacing);
@@ -1273,7 +1339,11 @@ function DUIDialogBaseMixin:HandleGossip()
         for i, data in ipairs(options) do
             hotkeyIndex = hotkeyIndex + 1;
             button = self:AcquireOptionButton();
-            hotkey = KeyboardControl:SetKeyButton(hotkeyIndex, button);
+            if enableGossipHotkey then
+                hotkey = KeyboardControl:SetKeyButton(hotkeyIndex, button);
+            else
+                hotkey = nil;
+            end
             button:SetGossip(data, hotkey);
 
             if i == 1 and not hintGossipData then
@@ -1344,7 +1414,7 @@ function DUIDialogBaseMixin:HandleQuestDetail(playFadeIn)
     end
 
 
-    local fs, text;
+    local text;
 
     --Title
     local offsetY = self:UpdateQuestTitle("Detail");
@@ -1395,7 +1465,6 @@ function DUIDialogBaseMixin:HandleQuestDetail(playFadeIn)
     else
         self.FrontFrame.QuestPortrait:FadeOut();
     end
-
 
     --Rewards
     local rewardList;
@@ -1596,7 +1665,7 @@ function DUIDialogBaseMixin:HandleQuestComplete(playFadeIn)
     if GetDBBool("AutoCompleteQuest") and (not self.chooseItems) then
         local questID = GetQuestID();
         local title = GetQuestTitle();
-        if GossipDataProvider:ShouldAutoCompleteQuest(questID, title) and GetQuestReward then
+        if GossipDataProvider:ShouldAutoCompleteQuest(questID, title) then
             local questData = {
                 questID = questID,
                 title = title,
@@ -1604,9 +1673,9 @@ function DUIDialogBaseMixin:HandleQuestComplete(playFadeIn)
                 rewards = rewardList,
             };
 
-            CallbackRegistry:Trigger("TriggerQuestFinished");   --In some cases game doesn't fire QUEST_FINISHED after completing a quest?
+            local isAutoComplete = true;
+            API.CompleteCurrentQuest(0, isAutoComplete);
             addon.QuestFlyout:SetQuestData(questData);
-            GetQuestReward(0);
 
             return false
         end
@@ -1695,7 +1764,6 @@ function DUIDialogBaseMixin:HandleQuestGreeting()
 
 
     local numActiveQuests = GetNumActiveQuests();
-    local autoCompleteQuest = GetDBBool("AutoCompleteQuest");
 
     for i = 1, numActiveQuests do
         questIndex = questIndex + 1;
@@ -1969,7 +2037,7 @@ function DUIDialogBaseMixin:RequestItemUpgrade()
     if self.isRequestingItemLevel then return end;
     self.isRequestingItemLevel = true;
 
-    After(0.25, function()
+    After(0.33, function()
         self.isRequestingItemLevel = nil;
         local playAnimation = self:IsChoosingReward();
         self.itemButtonPool:ProcessActiveObjects(function(button)
@@ -2094,7 +2162,7 @@ function DUIDialogBaseMixin:PlayIntroAnimation()
     self:SetScript("OnUpdate", ActiveAnimIntro);
 end
 
-local Handler = {
+local DialogHandlers = {
     ["GOSSIP_SHOW"] = "HandleGossip",
     ["QUEST_DETAIL"] = "HandleQuestDetail",         --See the details of an available quest
     ["QUEST_PROGRESS"] = "HandleQuestProgress",     --Show status of a taken quest. "Continue" button
@@ -2116,15 +2184,19 @@ function DUIDialogBaseMixin:ShowUI(event, ...)
     end
 
     local shouldShowUI;
-
-    if Handler[event] then
-        self.handler = Handler[event];
+    local handler = DialogHandlers[event];
+    if handler then
+        local playFadeIn = self.handler and self.handler ~= handler;    --Since 11.0.5? QUEST_DETAIL can fire repeatedly even though there is no real update
+        self.handler = handler;
         self.handlerArgs = { ... };
-        local playFadeIn = true;
-        shouldShowUI = self[ Handler[event] ](self, playFadeIn);
+        shouldShowUI = self[handler](self, playFadeIn);
     end
 
-    if not shouldShowUI then return end;
+    if not shouldShowUI then
+        self.handler = nil;
+        self.handlerArgs = nil;
+        return
+    end
 
     if not self:IsShown() then
         CameraUtil:InitiateInteraction();
@@ -2175,16 +2247,16 @@ function DUIDialogBaseMixin:OnShow()
 end
 
 function DUIDialogBaseMixin:CloseDialogInteraction()
+    if self.interactionIsContinuing then
+        self.interactionIsContinuing = nil;
+        return
+    end
+
     CloseQuest();
     CloseGossipInteraction();
 
     --Classic:
     --HideUI will cause ClassTrainerFrame to not processing events (Blizzard_TrainerUI/Blizzard_TrainerUI.lua#72)
-end
-
-function DUIDialogBaseMixin:SetInteractionIsContinuing(interactionIsContinuing)
-    --Not used
-	self.interactionIsContinuing = true;    --?
 end
 
 function DUIDialogBaseMixin:OnHide()
@@ -3205,6 +3277,7 @@ do
     CallbackRegistry:Register("SettingChanged.ForceGossip", GenericOnSettingsChanged);
     CallbackRegistry:Register("SettingChanged.AutoSelectGossip", GenericOnSettingsChanged);
     CallbackRegistry:Register("SettingChanged.ShowDialogHint", GenericOnSettingsChanged);
+    CallbackRegistry:Register("SettingChanged.DisableHotkeyForTeleport", GenericOnSettingsChanged);
 
 
     local function SettingsUI_Show()

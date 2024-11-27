@@ -4,6 +4,7 @@
 local _, addon = ...
 local API = addon.API;
 local Clipboard = addon.Clipboard;
+local SecureButtonContainer = addon.SecureButtonContainer;
 
 
 local DEFAULT_CONTROL_KEY = "SPACE";
@@ -127,9 +128,15 @@ end
 KeyboardControl:SetScript("OnShow", KeyboardControl.OnShow);
 
 function KeyboardControl:OnKeyDown(key, fromGamePad)
+    local inCombat = InCombatLockdown();
+
+    if SecureButtonContainer:IsActionKey(key) and not inCombat then
+        KeyboardControl:SetPropagateKeyboardInput(true);
+        return
+    end
+
     local valid = false;
     local processed = false;
-    local inCombat = InCombatLockdown();
 
     if key == GAMEPAD_CONFIRM then
         valid = KeyboardControl.parent:ClickFocusedObject();
@@ -295,6 +302,11 @@ do  --GamePad/Controller
     function KeyboardControl:OnGamePadButtonDown(button)
         self:StopRepeatingAction();
 
+        local inCombat = InCombatLockdown();
+        if SecureButtonContainer:IsActionKey(button) and not inCombat then
+            KeyboardControl:SetPropagateKeyboardInput(true);
+            return
+        end
 
         if button == "PADRTRIGGER" then --Debug Console
             DEBUG_SHOW_GAMEPAD_BUTTON = not DEBUG_SHOW_GAMEPAD_BUTTON;
@@ -303,7 +315,7 @@ do  --GamePad/Controller
             else
                 addon.DevTool:PrintText("|cffffd100No Longer Display Pressed Buttons|r");
             end
-            if not InCombatLockdown() then
+            if not inCombat then
                 KeyboardControl:SetPropagateKeyboardInput(false);
             end
             return
@@ -312,7 +324,7 @@ do  --GamePad/Controller
         if button == "PADLTRIGGER" then
             if TTS_HOTKEY_ENABLED then
                 addon.TTSUtil:ToggleSpeaking();
-                if not InCombatLockdown() then
+                if not inCombat then
                     KeyboardControl:SetPropagateKeyboardInput(false);
                 end
                 return
@@ -436,4 +448,24 @@ do  --Settings
         TTS_HOTKEY_ENABLED = dbValue == true
     end
     addon.CallbackRegistry:Register("SettingChanged.TTSUseHotkey", Settings_TTSUseHotkey);
+end
+
+
+do  --Error Prevention Disable Hotkey
+    function KeyboardControl:DisableGossipHotkeys()
+        local anyChange;
+
+        if self.keyActions then
+            for key, v in pairs(self.keyActions) do
+                if v.obj and v.obj.type == "gossip" then
+                    self.keyActions[key] = nil;
+                    anyChange = true;
+                end
+            end
+        end
+
+        if anyChange then
+            
+        end
+    end
 end

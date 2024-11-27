@@ -31,6 +31,10 @@ local NUMBER_FONT_FILE = {
     russian = "Interface/AddOns/DialogueUI/Fonts/ARIALN.ttf",
 };
 
+local DEFAULT_BOOK_TITLE_FONT_FILE = {
+    roman = "Interface/AddOns/DialogueUI/Fonts/TrajanPro3SemiBold.ttf",
+};
+
 local HEIGHT_1 = {10, 12, 14, 16, 24};
 local HEIGHT_2 = {8, 10, 12, 14, 20};
 
@@ -120,6 +124,11 @@ function FontUtil:GetDefaultFont()
     return DEFAULT_FONT_FILE[alphabet];
 end
 
+function FontUtil:GetDefaultTitleFont()
+    local alphabet = self:GetAlphabetForCurrentClient();
+    return DEFAULT_BOOK_TITLE_FONT_FILE[alphabet] or DEFAULT_FONT_FILE[alphabet]
+end
+
 function FontUtil:GetUserFont()
     if GetDBValue("FontText") == "default" then
         return self:GetDefaultFont();
@@ -196,6 +205,14 @@ function FontUtil:GetFontNameByFile(fontFile)
     return fontName
 end
 
+function FontUtil:SetupFontStringByFontObjectName(fontString, fontObjectName)
+    --Temp fix for the following issue:
+    --SetFont may break the link between fontString and its fontObject (see https://github.com/Stanzilla/WoWUIBugs/issues/581)
+    local font, height, style = _G[fontObjectName]:GetFont();
+    local r, g, b = _G[fontObjectName]:GetTextColor();
+    fontString:SetFont(font, height, style);
+    fontString:SetTextColor(r, g, b);
+end
 
 do  --Auto Downsize Font To Fit Into Region (Derivative of AutoScalingFontStringMixin, Blizzard_SharedXML/SecureUtil)
     local Round = API.Round;
@@ -338,10 +355,9 @@ do
         end
 
         if GetDBValue("FontText") == "default" then
-            _G.DUIFont_Book_Title:SetFont("Interface/AddOns/DialogueUI/Fonts/TrajanPro3SemiBold.ttf", 18, "");
-        else
-            _G.DUIFont_Book_Title:SetFont(textFontFile, 18, "");
+            textFontFile = self:GetDefaultTitleFont();
         end
+        _G.DUIFont_Book_Title:SetFont(textFontFile, 18, "");
 
         addon.CallbackRegistry:Trigger("FontSizeChanged", DEFAULT_FONT_SIZE, FONT_SIZE_ID);
     end
