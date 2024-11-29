@@ -266,16 +266,16 @@ function EngraverOptionsFrameMixin:CreateSettingsInitializers()
 	do -- Discord
 		CreateInitializer(self, "SettingsSelectableTextTemplate", 
 		{
-			name = "Community Discord",
-			tooltip = "If you have any questions, suggestions, or comments please post in the Community Discord.",
-			text = "https://discord.gg/xwkZnnKfsC"
+			name = "Discord",
+			tooltip = "如果你有任何問題、建議或意見，請貼在 Discord。",
+			text = "https://discord.gg/QgDbJe5Nma"
 		})
 	end -- Discord
 	do -- Github
 		CreateInitializer(self, "SettingsSelectableTextTemplate", 
 		{
 			name = "Github",
-			tooltip = "If encounter a bug please check if your issue is already posted. If it isn't then go ahead and open a new issue.",
+			tooltip = "如果遇到 bug，請先查看是否已經有人回報過，如果沒有的話請開新的問題回報單。",
 			text = "https://github.com/mcd8604/wowengraver/issues?q="
 		})
 	end -- Github
