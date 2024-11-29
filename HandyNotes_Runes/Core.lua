@@ -3,7 +3,7 @@
 
                                                 Runes
 
-                                     v3.03 - 24th November 2024
+                                     v3.04 - 28th November 2024
                                 Copyright (C) Taraezor / Chris Birch
                                          All Rights Reserved
 
@@ -30,7 +30,7 @@ ns.colour.plaintext = "\124cFFFFB2D0" -- Powder Pink
 ns.colour.daily		= "\124cFF1E90FF" -- Dodger Blue
 
 ns.defaults = { profile = { iconScale = 2.5, iconAlpha = 1, showCoords = false,
-							hideIfRuneLearnt = true, hideRuneName = true, selfShow = true,
+							hideIfRuneLearnt = true, hideRuneName = false, selfShow = true,
 							skillBook = 20, ring=19, mageBook=18,
 							phase1 = 15, phase2 = 16, phase3 = 17, phase4 = 18, 
 							rune101 = 6, rune102 = 6, rune103 = 6, rune104 = 6, rune105 = 6,
@@ -177,15 +177,18 @@ local function PinGuide( guide, index )
 	if type( guide ) == "table" then
 		if index then
 			if guide[ index ] ~= nil then
-				GameTooltip:AddLine( "\n" ..ns.colour.highlight .."Guide\n\n" ..ns.colour.plaintext ..guide[ index ] )
+				GameTooltip:AddLine( "\n" ..ns.colour.highlight ..ns.L["Guide\n\n"] ..ns.colour.plaintext 
+						..guide[ index ], nil, nil, nil, true )
 				return
 			end
 		end
 		if guide[ 1 ] ~= nil then
-			GameTooltip:AddLine( "\n" ..ns.colour.highlight .."Guide\n\n" ..ns.colour.plaintext ..guide[ 1 ] )
+			GameTooltip:AddLine( "\n" ..ns.colour.highlight ..ns.L["Guide\n\n"] ..ns.colour.plaintext
+					..guide[ 1 ], nil, nil, nil, true )
 		end
 	else
-		GameTooltip:AddLine( "\n" ..ns.colour.highlight .."Guide\n\n" ..ns.colour.plaintext ..guide )
+		GameTooltip:AddLine( "\n" ..ns.colour.highlight ..ns.L["Guide\n\n"] ..ns.colour.plaintext
+				..guide, nil, nil, nil, true )
 	end
 end
 
@@ -195,15 +198,15 @@ local function PinTip( tip, index )
 	if type( tip ) == "table" then
 		if index then
 			if tip[ index ] ~= nil then
-				GameTooltip:AddLine( "\n" ..ns.colour.plaintext ..tip[ index ] )
+				GameTooltip:AddLine( "\n" ..ns.colour.plaintext ..tip[ index ], nil, nil, nil, true )
 				return
 			end
 		end
 		if tip[ 1 ] ~= nil then
-			GameTooltip:AddLine( "\n" ..ns.colour.plaintext ..tip[ 1 ] )
+			GameTooltip:AddLine( "\n" ..ns.colour.plaintext ..tip[ 1 ], nil, nil, nil, true )
 		end
 	else
-		GameTooltip:AddLine( "\n" ..ns.colour.plaintext ..tip )
+		GameTooltip:AddLine( "\n" ..ns.colour.plaintext ..tip, nil, nil, nil, true )
 	end
 end
 
@@ -214,7 +217,7 @@ function pluginHandler:OnEnter(mapFile, coord)
 		GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
 	end
 
-	local completed, quests, questsNames, justTheName, preRunes;
+	local completed, quests, questsNames, justTheName, preRunes, runeName;
 	local pin = ns.points[mapFile] and ns.points[mapFile][coord]
 	local spaceBeforeQuests, spaceBeforePreRunes, spaceBeforeTitle = false, false, false
 	
@@ -231,18 +234,22 @@ function pluginHandler:OnEnter(mapFile, coord)
 							completed = not ShowPinForThisClassRune( s, true )
 							GameTooltip:AddDoubleLine( ns.colour.prefix ..r .. ".  " ..ns.L[ s ] .."   (" ..v[s].level .."+)",
 								 CompletedText( completed ) .."     " ..ns.slotColour[ v[s].slot ] ..ns.slotList[ v[s].slot ] )
-							GameTooltip:AddLine( ns.colour.highlight ..v[s].rune )
-							GameTooltip:AddLine( ns.colour.plaintext ..v[s].start )
+							if ns.db.hideRuneName == false then
+								GameTooltip:AddLine( ns.colour.highlight ..v[s].rune )
+							end
+							GameTooltip:AddLine( ns.colour.plaintext ..v[s].start, nil, nil, nil, true )
 						end
 					end
 					if pin.phase == 4 then
 						GameTooltip:AddLine( "\n" ..ns.colour.class ..ns.L["Skill Books"] ..":" )
 						for _,s in ipairs( v.skillBooks ) do
 							completed = not ShowPinForThisClassRune( s, true )
-							GameTooltip:AddDoubleLine( ns.colour.prefix ..ns.L[ s ], CompletedText( completed ) )
-							GameTooltip:AddDoubleLine( ns.colour.highlight ..v[s].skillBook,
-									ns.colour.highlight ..ns.L[ "Requires" ] ..": " ..ns.L[ "Level" ] .." " ..v[s].level )
-							GameTooltip:AddLine( ns.colour.plaintext ..v[s].start )
+							GameTooltip:AddDoubleLine( ns.colour.prefix ..ns.L[ s ] .."   (" ..v[s].level .."+)",
+								CompletedText( completed ) )
+							if ns.db.hideRuneName == false then
+								GameTooltip:AddLine( ns.colour.highlight ..v[s].skillBook )
+							end
+							GameTooltip:AddLine( ns.colour.plaintext ..v[s].start, nil, nil, nil, true )
 						end
 					end
 				elseif pin.ring ~= nil then
@@ -251,8 +258,10 @@ function pluginHandler:OnEnter(mapFile, coord)
 					for _,s in ipairs( v.rings ) do
 						completed = not ShowPinForThisClassRune( s, true )
 						GameTooltip:AddDoubleLine( ns.colour.prefix ..ns.L[ s ], CompletedText( completed ) )
-						GameTooltip:AddLine( ns.colour.highlight ..ns.runes[ "RINGS" ][ s ].rune )
-						GameTooltip:AddLine( ns.colour.plaintext ..ns.runes[ "RINGS" ][ s ].start )
+						if ns.db.hideRuneName == false then
+							GameTooltip:AddLine( ns.colour.highlight ..ns.runes[ "RINGS" ][ s ].rune )
+						end
+						GameTooltip:AddLine( ns.colour.plaintext ..ns.runes[ "RINGS" ][ s ].start, nil, nil, nil, true )
 					end
 				end
 			end
@@ -263,7 +272,7 @@ function pluginHandler:OnEnter(mapFile, coord)
 			-- If to here then the player wants to see something. That much we already know from checking
 			-- But we dump the lot nevertheless as we at least got past a "total non-display" situation to even get here
 			-- Thus not checking player selected options here
-			GameTooltip:AddDoubleLine( ns.colour.class ..ns.L[ "Mage Books" ] )
+			GameTooltip:SetText( ns.colour.class ..ns.L[ "Mage Books" ], nil, nil, nil, nil, true )
 			for _,s in ipairs( pin.spell ) do
 				completed = not ShowPinForThisClassRune( s, true )
 				CompletedText( completed )
@@ -272,7 +281,7 @@ function pluginHandler:OnEnter(mapFile, coord)
 			GameTooltip:AddLine( "\n" )
 			-- Pin might be displaying all quests, just a book quest or every book
 			-- Ultimately, they are all quests! Design is that always a table
-			local justTheName, other, tally = "", "", 0
+			local justTheName, other, progress = "", "", 0
 			for i,q in ipairs( pin.quest ) do
 				-- pin.quest is assumed to be a one level table with >= 1 members
 				completed = IsQuestFlaggedCompleted( q )
@@ -285,12 +294,12 @@ function pluginHandler:OnEnter(mapFile, coord)
 					GameTooltip:AddDoubleLine( ns.colour.highlight ..ns.L[ pin.questName[ i ] ], CompletedText( completed ) )
 				end
 			end
-			if pin.tip and pin.tip == "Tally" then -- of 40
+			if pin.tip and pin.tip == "Progress" then -- of 40
 				for _,b in ipairs( ( ns.faction == "Horde" ) and ns.mage.booksQuestIDsH or ns.mage.booksQuestIDsA ) do
 					completed = IsQuestFlaggedCompleted( b )
-					tally = tally + ( (completed == true) and 1 or 0 )
+					progress = progress + ( (completed == true) and 1 or 0 )
 				end
-				GameTooltip:AddLine( ns.colour.class ..ns.L[ "Tally" ] ..": " ..tally .."/40" )
+				GameTooltip:AddLine( ns.colour.class ..ns.L[ "Progress" ] ..": " ..progress .."/40" )
 			else	
 				PinTip( pin.tip )
 			end
@@ -308,11 +317,14 @@ function pluginHandler:OnEnter(mapFile, coord)
 					end
 					
 					if pin.ring then
-						GameTooltip:AddDoubleLine( ns.colour.prefix ..ns.L[ pin.spell[ 1 ] ] ..ns.colour.highlight .."\n(" 
-									..ns.runes[ "RINGS" ][ pin.spell[ 1 ] ].rune ..")", ns.colour.class ..ns.classLocal )
+						runeName = ( ns.db.hideRuneName == true ) and ""
+								or "\n(" ..ns.runes[ "RINGS" ][ pin.spell[ 1 ] ].rune ..")"
+						GameTooltip:AddDoubleLine( ns.colour.prefix ..ns.L[ pin.spell[ 1 ] ] ..ns.colour.highlight ..runeName, ns.colour.class ..ns.classLocal )
 					else
-						GameTooltip:AddDoubleLine( ns.colour.prefix ..ns.L[ pin.spell[ i ] ] ..ns.colour.highlight .."\n(" 
-									..(ns.runes[ v ][ pin.spell[ i ] ].rune or ns.runes[ v ][ pin.spell[ i ] ].skillBook ) ..")",
+						runeName = ( ns.db.hideRuneName == true ) and ""
+								or ( "\n(" ..(ns.runes[ v ][ pin.spell[ i ] ].rune or
+									ns.runes[ v ][ pin.spell[ i ] ].skillBook ) ..")" )
+						GameTooltip:AddDoubleLine( ns.colour.prefix ..ns.L[ pin.spell[ i ] ] ..ns.colour.highlight ..runeName,
 									ns.colour.class ..ns.classLocal )
 					end
 					GameTooltip:AddLine( ns.colour.highlight ..pin.name .."\n" )
@@ -415,8 +427,9 @@ local function CheckAndShow( coord, pin )
 					return
 				end
 			else
-				print("HN Runes. Please report error: Null class for n=" ..(pin.name or "nil") .." t=" ..(pin.tip or "nil")
-						.." c="..coord.." m="..ns.mapID)
+				print( "c=" ..coord .." m=" ..ns.mapID)
+		--		print("HN Runes. Please report error: Null class for n=" ..(pin.name or "nil") .." t=" ..(pin.tip or "nil")
+		--				.." c="..coord.." m="..ns.mapID)
 			end
 		end
 		return
@@ -715,12 +728,11 @@ ns.options = {
 			args = {
 				hideIfRuneLearnt = { type = "toggle", name = ns.L["Hide if learnt"], width = 1.2, arg = "hideIfRuneLearnt",
 								desc = ns.L["Will also hide completed Mage Books, Rings, Skill Books"], order = 71, },
-				hideRuneName = { type = "toggle", name = ns.L["TO DO - not sure about it"], width = 1.2, arg = "hideRuneName",
-	--			hideRuneName = { type = "toggle", name = ns.L["Hide the rune name"], width = 1.2, arg = "hideRuneName",
-								desc = "This is the object/book/reward item you must acquire. "
+				hideRuneName = { type = "toggle", name = ns.L["Hide the rune name"], width = 1.2, arg = "hideRuneName",
+								desc = ns.L["This is the object/book/reward item you must acquire. "
 									.."It's not necessarily the same as the learnt spell name. "
 									.."It is typically the second line of a Tooltip. Hide this "
-									.."for less text clutter / better readability", order = 72, },
+									.."for less text clutter / better readability"], order = 72, },
 				separator1 = { type = "header", name = "", order = 73, },
 				skillBook = { type = "range", name = ns.L["Skill Book"], width = 0.8, min = 0, max = 20, step = 1, 
 								arg = "skillBook", order = 74, desc = ns.iconStandardNoPin, },

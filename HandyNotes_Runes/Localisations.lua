@@ -341,6 +341,9 @@ elseif ns.locale == "zhTW" then
 	ns.L["Left"] = "左"
 	ns.L["Right"] = "右"
 	ns.L["Try later"] = "目前無法，請稍後再試"
+	
+	-- 自行加入
+	ns.L["Guide\n\n"] = "指南\n\n"
 
 else
 	ns.L["Character"] = "Character"
@@ -376,6 +379,9 @@ else
 	ns.L["Left"] = "Left"
 	ns.L["Right"] = "Right"
 	ns.L["Try later"] = "Not possible at this time. Try later"
+	
+	-- 自行加入
+	ns.L["Guide\n\n"] = "Guide\n\n"
 end
 
 -- Translations specific to the Runes AddOn
@@ -2309,8 +2315,10 @@ elseif ns.locale == "zhTW" then
 	ns.L["Skill Books"] = "技能書"
 	
 	--自行加入
-	L["Useful to quickly toggle on/off ALL pins"] = "快速開/關所有地圖圖示"
-	L["Will also hide completed Mage Books, Rings, Skill Books"] = "也會隱藏已完成的法師書籍、戒指、技能書"
+	ns.L["Useful to quickly toggle on/off ALL pins"] = "快速開/關所有地圖圖示"
+	ns.L["Will also hide completed Mage Books, Rings, Skill Books"] = "也會隱藏已完成的法師書籍、戒指、技能書"
+	ns.L["Hide the rune name"] = "隱藏符文名稱"
+	ns.L["This is the object/book/reward item you must acquire. It's not necessarily the same as the learnt spell name. It is typically the second line of a Tooltip. Hide this for less text clutter / better readability"] = "這是你必須取得的物品/書籍/獎勵物品，它不一定與習得的法術名稱相同，通常是說明文字的第二行。隱藏此資訊以減少文字雜亂/提高可讀性。"
 	
 	-- Druid Phase 1
 	ns.L["Fury of Stormrage"] = "怒風之怒"
@@ -2579,8 +2587,11 @@ else
 	ns.L["Hide if learnt"] = "Hide if the rune was learnt"
 end
 
--- Phase 4 and 5 spells v2.23 to v2.29
+-- Phase 4 and 5 spells v2.23 to v3.02
 if ns.locale == "deDE" then
+	ns.L["Mage Book"] = "Magierbuch"
+	ns.L["Mage Books"] = "Magierbücher"
+	ns.L["Progress"] = "Fortschritt"
 	ns.L["Ring"] = "Ring"
 	ns.L["Rings"] = "Ringe"
 	-- Druid
@@ -2637,6 +2648,9 @@ if ns.locale == "deDE" then
 	ns.L["Sudden Death"] = "Plötzlicher Tod"
 	
 elseif ns.locale == "esES" or ns.locale == "esMX" then
+	ns.L["Mage Book"] = "Libro de magos"
+	ns.L["Mage Books"] = "Libros de magos"
+	ns.L["Progress"] = "Progreso"
 	ns.L["Ring"] = "Anillo"
 	ns.L["Rings"] = "Anillos"
 	-- Druid
@@ -2694,6 +2708,9 @@ elseif ns.locale == "esES" or ns.locale == "esMX" then
 	ns.L["Sudden Death"] = "Muerte súbita"
 
 elseif ns.locale == "frFR" then
+	ns.L["Mage Book"] = "Livre des mages"
+	ns.L["Mage Books"] = "Livres de mages"
+	ns.L["Progress"] = "Progression"
 	ns.L["Ring"] = "Anneau"
 	ns.L["Rings"] = "Anneaux"
 	-- Druid
@@ -2750,6 +2767,9 @@ elseif ns.locale == "frFR" then
 	ns.L["Sudden Death"] = "Mort soudaine"
 	
 elseif ns.locale == "koKR" then
+	ns.L["Mage Book"] = "마법사의 책"
+	ns.L["Mage Books"] = "마법사 책"
+	ns.L["Progress"] = "진행률"  
 	ns.L["Ring"] = "반지"
 	ns.L["Rings"] = "반지"
 	-- Druid
@@ -2807,6 +2827,9 @@ elseif ns.locale == "koKR" then
 	ns.L["Sudden Death"] = "급살"
 	
 elseif ns.locale == "ptBR" or ns.locale == "ptPT" then
+	ns.L["Mage Book"] = "Livro do Mago"
+	ns.L["Mage Books"] = "Livros de Magos"
+	ns.L["Progress"] = "Progresso"
 	ns.L["Ring"] = "Anel"
 	ns.L["Rings"] = "Anéis"
 	-- Druid
@@ -2863,6 +2886,9 @@ elseif ns.locale == "ptBR" or ns.locale == "ptPT" then
 	ns.L["Sudden Death"] = "Morte Súbita"
 	
 elseif ns.locale == "ruRU" then
+	ns.L["Mage Book"] = "Книга Мага"
+	ns.L["Mage Books"] = "Книги Магов"
+	ns.L["Progress"] = "Прогресс"
 	ns.L["Ring"] = "Кольцо"
 	ns.L["Rings"] = "Кольца"
 	-- Druid
@@ -2920,6 +2946,9 @@ elseif ns.locale == "ruRU" then
 	ns.L["Sudden Death"] = "Внезапная смерть"
 	
 elseif ns.locale == "zhCN" then
+	ns.L["Mage Book"] = "魔法书"
+	ns.L["Mage Books"] = "法师书籍"
+	ns.L["Progress"] = "进度"
 	ns.L["Ring"] = "戒指"
 	ns.L["Rings"] = "戒指"
 	-- Druid
@@ -2976,6 +3005,9 @@ elseif ns.locale == "zhCN" then
 	ns.L["Sudden Death"] = "猝死"
 	
 elseif ns.locale == "zhTW" then
+	ns.L["Mage Book"] = "魔法書"
+	ns.L["Mage Books"] = "法師書籍"
+	ns.L["Progress"] = "進度"
 	ns.L["Ring"] = "戒指"
 	ns.L["Rings"] = "戒指"
 	-- Druid
@@ -3679,6 +3711,7 @@ st.dalaranQuestName = { st.dalaranRelic .."Curious)", st.dalaranRelic .."Glitter
 -- v2.??+ Quest Names translated (where possible). This code is not live for players
 -- Anyone looking here: Blizzard translations seem patchy for some languages...
 -- Dilemma. Not sure if I'll continue with this. Time better spent elsewhere?
+-- Checked 1.15.5 - still a dogs dinner from Blizzard's end
 if ns.locale == nil then -- Kill/live logic
 --if ns.locale then -- Kill/live logic
 	if ns.locale == "deDE" then
@@ -3706,7 +3739,7 @@ if ns.locale == nil then -- Kill/live logic
 	elseif ns.locale == "esES" or ns.locale == "esMX" then
 		ns.L["A Hunter's Strength"] = "La fuerza de un cazador"
 		ns.L["A Lesson in Literacy"] = "Una lección sobre escritura"
-	--	ns.L["A Lost Brother"] = ""
+		ns.L["A Lost Brother"] = "Un hermano perdido"
 	--	ns.L["A Quick Grocery Run"] = ""
 	--	ns.L["A Second Opinion"] = ""
 	--	ns.L["A Simple Container"] = ""
