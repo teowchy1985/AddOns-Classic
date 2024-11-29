@@ -1,10 +1,10 @@
-lightweight tag 2428fa3e23ddd28c045592b3d99c59735bf48e32 v1.16.7
+lightweight tag 138f611d3381d5dc9a08e9372be9b8f2e7b60a2c v1.16.8
 Author:	GitHub <noreply@github.com>
-Date:	Thu Nov 21 04:22:52 2024 -0500
+Date:	Thu Nov 28 12:48:04 2024 -0500
 
-commit 2428fa3e23ddd28c045592b3d99c59735bf48e32
+commit 138f611d3381d5dc9a08e9372be9b8f2e7b60a2c
 Author: Mike D <mcd8604@users.noreply.github.com>
-Date:   Thu Nov 21 04:22:52 2024 -0500
+Date:   Thu Nov 28 12:48:04 2024 -0500
 
-    Update Engraver.toc
+    Update EngraverOptions.lua
 
