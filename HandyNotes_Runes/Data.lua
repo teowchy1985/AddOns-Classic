@@ -13,168 +13,168 @@ local colourPlaintext	= ns.colour.plaintext
 ns.druid={} ns.hunter={} ns.mage={} ns.paladin={} ns.priest={} ns.rogue={} ns.shaman={}
 ns.warlock={} ns.warrior={} ns.ring={}
 
-ns.timbermaw = "Note that going to Winterspring, you'll\npass through Timbermaw Hold. This is a\n"
-			.."dilemma: killing the mobs lowers your rep\nwith that faction. Decide first if you\n"
+ns.timbermaw = "Note that going to Winterspring, you'll pass through Timbermaw Hold. This is a "
+			.."dilemma: killing the mobs lowers your rep with that faction. Decide first if you "
 			.."indeed want to first become Friendly"
 ns.timbermawRep = "Note: These are Timbermaw Hold rep mobs!"
 
 -- Druid Phase 1
-ns.druid.ferocious = "Obtained from numerous Riverpaw mobs in Westfall,\nThe Den Mother in Darkshore, Grimson the Pale in\n"
-			.."Silverpine Forest and three centaur chests in The\nBarrens.\n\nAfter obtaining and equipping, deal 20 x bleeding\n"
-			.."damage to humanoids. Click on the Idol again to\nfinally activate"
-ns.druid.ursineRage = "Alliance may kill Rageclaw in Teldrassil.\nHorde may kill The Venture Co Supervisor or\n"
-			.."the Bristleback Interloper in Mulgore.\n\nBoth factions may farm the Flatland Prowler,\n"
-			.."Prairie Wolf Alpha, Taloned Swoop, and the\nWindfury Matriarch and Sorceress.\n\n"
+ns.druid.ferocious = "Obtained from numerous Riverpaw mobs in Westfall, The Den Mother in Darkshore, Grimson the Pale in "
+			.."Silverpine Forest and three centaur chests in The Barrens.\n\nAfter obtaining and equipping, deal 20 x bleeding "
+			.."damage to humanoids. Click on the Idol again to finally activate"
+ns.druid.ursineRage = "Alliance may kill Rageclaw in Teldrassil. Horde may kill The Venture Co Supervisor or "
+			.."the Bristleback Interloper in Mulgore.\n\nBoth factions may farm the Flatland Prowler, "
+			.."Prairie Wolf Alpha, Taloned Swoop, and the Windfury Matriarch and Sorceress.\n\n"
 			.."Look at the Idol's tooltip. Maintain rage!"
-ns.druid.idolWild = "Just loot the mobs. Then equip / right click.\nDo 10 x direct heals on friendly mobs.\n"
+ns.druid.idolWild = "Just loot the mobs. Then equip / right click. Do 10 x direct heals on friendly mobs. "
 			.."Now click the idol again"
-ns.druid.lunarIdolA = "Get the Relics of Kaldorei quest from\nMardant Strongoak at level 4+.\n\n"
-			.."Kill the Grellkins for a Lunar Idol. Equip.\n\nNow kill 6 x mobs affected by\nMoonfire. Now click the idol again"
-ns.druid.lunarIdolH = "Go to Brambleblade Ravine.\n\nLoot the chest and equip\n\nNow kill 6 x mobs affected by\n"
+ns.druid.lunarIdolA = "Get the Relics of Kaldorei quest from Mardant Strongoak at level 4+.\n\n"
+			.."Kill the Grellkins for a Lunar Idol. Equip.\n\nNow kill 6 x mobs affected by Moonfire. Now click the idol again"
+ns.druid.lunarIdolH = "Go to Brambleblade Ravine.\n\nLoot the chest and equip\n\nNow kill 6 x mobs affected by "
 			.."Moonfire. Now click the idol again"
-ns.druid.naturalPotential = "Collect 3 x Prairie Flowers from Mulgore (H),\n3 x Glade Flowers from Teldrassil (A).\n\n"
+ns.druid.naturalPotential = "Collect 3 x Prairie Flowers from Mulgore (H), 3 x Glade Flowers from Teldrassil (A).\n\n"
 			.."Combine to make a Prairie/Glade Crown.\n\nGo to (37.60,49.50) (H) or (66.90,57.70) (A).\n\n"
-			.."Wait for the Wooden Effigy to spawn.\nUse the Crown on it. Kill the Spirit. Loot"
-ns.druid.lacerate = "Alliance are best to go to Khara Deepwater at\nthe lake's edge in Loch Modan. Buy some\n"
-			.."Rainbow Fin Albacore Chum (5s) then feed it to\na Young Threshadon in the lake.\n\n"
-			.."Horde should go to The Barrens and look for an\nAbandoned Snapjaw Nest. Grab the egg and\n"
-			.."then deposit it in an Empty Snapjaw Nest. Wait,\nthen click on the Hatchlings for your lewt!\n\n"
-			.."Both factions can head to Darkshore. Farm the\nBlackwood mobs for Crab Treats or fish them\n"
-			.."up. Then feed to a Young Reef Crawler (crab).\n\nAlternatively head to Westfall and farm the\n"
-			.."Defias mobs for Magic Pumpkin Seeds. Plant\na seed. Kill the Aggressive Squashling. Profit!\n\n"
-			.."Also the Moonrage Whitescalps and the\nDarkrunner in Silverpine Forest drop an\n"
-			.."Unbalanced Idol. Read its Tooltip. You need\n5 x stacks of the three buffs. Use your\n"
-			.."Moonfire, Healing Touch or Regrowth, and\nshapeshift, all while killing"
-ns.druid.runeOfStars = "Locate Grugimdern, under a little bridge.\nThen go to the stump. Only at the stump\n"
+			.."Wait for the Wooden Effigy to spawn. Use the Crown on it. Kill the Spirit. Loot"
+ns.druid.lacerate = "Alliance are best to go to Khara Deepwater at the lake's edge in Loch Modan. Buy some "
+			.."Rainbow Fin Albacore Chum (5s) then feed it to a Young Threshadon in the lake.\n\n"
+			.."Horde should go to The Barrens and look for an Abandoned Snapjaw Nest. Grab the egg and "
+			.."then deposit it in an Empty Snapjaw Nest. Wait, then click on the Hatchlings for your lewt!\n\n"
+			.."Both factions can head to Darkshore. Farm the Blackwood mobs for Crab Treats or fish them "
+			.."up. Then feed to a Young Reef Crawler (crab).\n\nAlternatively head to Westfall and farm the "
+			.."Defias mobs for Magic Pumpkin Seeds. Plant a seed. Kill the Aggressive Squashling. Profit!\n\n"
+			.."Also the Moonrage Whitescalps and the Darkrunner in Silverpine Forest drop an "
+			.."Unbalanced Idol. Read its Tooltip. You need 5 x stacks of the three buffs. Use your "
+			.."Moonfire, Healing Touch or Regrowth, and shapeshift, all while killing"
+ns.druid.runeOfStars = "Locate Grugimdern, under a little bridge. Then go to the stump. Only at the stump "
 			.."should you eat the 'shroom. The rest follows.\n\nAchieveable early with help or spirit runs"
-ns.druid.runeOfTheSun = "Horde go to Mulgore and cast Moonfire on three Lunar\n"
-			.."Stones, all nearby. Alliance must go to Teldrassil\n"
-			.."and note that two of the Stones are in a tree branch.\nNow click on the Lunar Chest. Yes, an easy one!"
-ns.druid.swim = "Start at the EASTERN statue/map pin.\n(You'll understand why if you analyse\n"
-			.."the topography). In aquatic form swim\nto the western statue, climb up and click\n"
-			.."for your reward. With aquatic form, east\nto west you'll have plenty of spare time"
-ns.druid.wildGrowth = "At about level 21+, go to Loganaar, your\nTrainer in Moonglade. Start Trial of The Owls.\n"
-			.."Note: You can obtain the three owls before\nyou pickup the quest. 1st Owl: Ashenvale,\n"
-			.."2nd Owl: Duskwood, 3rd Owl: Hillsbrad.\nSimply hand in for your Rune!"
+ns.druid.runeOfTheSun = "Horde go to Mulgore and cast Moonfire on three Lunar "
+			.."Stones, all nearby. Alliance must go to Teldrassil "
+			.."and note that two of the Stones are in a tree branch. Now click on the Lunar Chest. Yes, an easy one!"
+ns.druid.swim = "Start at the EASTERN statue/map pin. (You'll understand why if you analyse "
+			.."the topography). In aquatic form swim to the western statue, climb up and click "
+			.."for your reward. With aquatic form, east to west you'll have plenty of spare time"
+ns.druid.wildGrowth = "At about level 21+, go to Loganaar, your Trainer in Moonglade. Start Trial of The Owls. "
+			.."Note: You can obtain the three owls before you pickup the quest. 1st Owl: Ashenvale, "
+			.."2nd Owl: Duskwood, 3rd Owl: Hillsbrad. Simply hand in for your Rune!"
 -- Druid Phase 2
-ns.druid.berserk = "Use Challenging Roar (level 28) at the Zai'enki/\nBeastly Effigy location. Kill and profit."
-ns.druid.dreamstate = "Kill the Kolkar Centaurs (Level 30-31)\nuntil they drop a Desiccated Seed Pod.\n\n"
-			.."Head south and swim in any pond until it\nbecomes rehydrated -> Satyrweed Bulb.\n\n"
-			.."Now head north to the Sargeron ruins and\nplant the bulb in the Sandy Loam mound.\n"
+ns.druid.berserk = "Use Challenging Roar (level 28) at the Zai'enki/ Beastly Effigy location. Kill and profit."
+ns.druid.dreamstate = "Kill the Kolkar Centaurs (Level 30-31) until they drop a Desiccated Seed Pod.\n\n"
+			.."Head south and swim in any pond until it becomes rehydrated -> Satyrweed Bulb.\n\n"
+			.."Now head north to the Sargeron ruins and plant the bulb in the Sandy Loam mound. "
 			.."Click on it for your phat lewt rune!"
-ns.druid.nourish = "Kill a Rotting Ancient, level 40, to obtain a\nRotten Seed and start \"The Lost Ancient\".\n\n"
-			.."You must now speak to Orokai in Moonglade.\n\nCareful as the followup quest has a 1 hour timer\n"
-			.."and you may not die, hearth, teleport, accept\na mage portal, etc at any time.\n\n((Boats/Zeps/flight\n"
-			.."paths are okay but restricted on PvP servers))\n\nYou must water an Ancient Sapling in the Alterac\n"
-			.."Mountains, Arathi Highlands, Swamp of Sorrows,\nand Stranglethorn Vale, in any order. Optimally\n"
-			.."Stranglethorn is best for last as you must\nthen return to Orokai"
+ns.druid.nourish = "Kill a Rotting Ancient, level 40, to obtain a Rotten Seed and start \"The Lost Ancient\".\n\n"
+			.."You must now speak to Orokai in Moonglade.\n\nCareful as the followup quest has a 1 hour timer "
+			.."and you may not die, hearth, teleport, accept a mage portal, etc at any time.\n\n((Boats/Zeps/flight "
+			.."paths are okay but restricted on PvP servers))\n\nYou must water an Ancient Sapling in the Alterac "
+			.."Mountains, Arathi Highlands, Swamp of Sorrows, and Stranglethorn Vale, in any order. Optimally "
+			.."Stranglethorn is best for last as you must then return to Orokai"
 -- Druid Phase 3
-ns.druid.efflorescence = "Pick up \"Wisdom of the Guardians\" (L45) from Tyrisius\n"
+ns.druid.efflorescence = "Pick up \"Wisdom of the Guardians\" (L45) from Tyrisius "
 			.."in Feralas. You must now visit three guardian spirits.\n\n"
-			.."Azshara: Kill the Child of Apa'ro, who roams. Immune to\n"
-			.."spells so physical beat down in Bear/Cat form. Offer the\n"
-			.."heart drop at the Shrine of the Beast. Summon and kill\nWhisperwing.\n\n"
-			.."Feralas: Use Remove Curse and Cure Poison on yourself.\n"
-			.."Fight the ogres and stinglashers for this. Once done you'll\n"
+			.."Azshara: Kill the Child of Apa'ro, who roams. Immune to "
+			.."spells so physical beat down in Bear/Cat form. Offer the "
+			.."heart drop at the Shrine of the Beast. Summon and kill Whisperwing.\n\n"
+			.."Feralas: Use Remove Curse and Cure Poison on yourself. "
+			.."Fight the ogres and stinglashers for this. Once done you'll "
 			.."get a Mark of the Warden buff. At the shrine kill Blightbark.\n\n"
-			.."The Hinterlands: At the Moonkin Avatar cast Tranquility\n"
+			.."The Hinterlands: At the Moonkin Avatar cast Tranquility "
 			.."and then Hurricane on yourself. Sagefeather will spawn. Kill."
-ns.druid.elunesFires = "Go to the broken temple at the top of a hill\nat the Haldarr Encampment in western Azshara.\n\n"
-			.."Loot the Traveller's Knapsack: Keldara's\nLog and a Mortar & Pestle.\n\n"
-			.."Get 3 x Satyrweed Samples from the temple\ngrounds. Use the Mortar & Pestle -> Tincture.\n\n"
-			.."Cast Hibernate on a corrupted (green) Hippogryph,\nfound to the north-west. Now use the Tincture.\n\n"
+ns.druid.elunesFires = "Go to the broken temple at the top of a hill at the Haldarr Encampment in western Azshara.\n\n"
+			.."Loot the Traveller's Knapsack: Keldara's Log and a Mortar & Pestle.\n\n"
+			.."Get 3 x Satyrweed Samples from the temple grounds. Use the Mortar & Pestle -> Tincture.\n\n"
+			.."Cast Hibernate on a corrupted (green) Hippogryph, found to the north-west. Now use the Tincture.\n\n"
 			.."Check your bags for lewt"
-ns.druid.improvedBarkskin = "With Barksin (L44) learnt, go to the\nsouth-west corner of Tanaris and farm\n"
-			.."the Thistleshrub Dew Collectors (L47-48)\nfor an Idol of Raging Shambler.\n\n"
-			.."Equip the Idol. Defeat 5 enemies while\nbuffed with Barkskin. This puts five\n"
+ns.druid.improvedBarkskin = "With Barksin (L44) learnt, go to the south-west corner of Tanaris and farm "
+			.."the Thistleshrub Dew Collectors (L47-48) for an Idol of Raging Shambler.\n\n"
+			.."Equip the Idol. Defeat 5 enemies while buffed with Barkskin. This puts five "
 			.."charges onto the Idol. Right click it"
 -- Druid Phase 3
-ns.druid.impSwipe = "From Tanaris, enter Un'Goro, kill the\nRavasaur mobs until the Idol of the\nHuntress drops. Equip it.\n\n"
-			.."While in Cat Form, Hibernate five\nmobs. Kill them.\n\nRight click the Idol again ftw!"
-ns.druid.treeOfLife = "Encounter the Vengeful Wisp, north-west\nof Irontree Woods. Continue north-west to\n"
-			.."Jadefire Run.\n\nGrind the Jadefire satyrs until you\nreceive a Shimmering Light buff.\n\n"
-			.."Speak to your Wisp friend and it'll\ndrop a gift. That's your phat lewt!"
+ns.druid.impSwipe = "From Tanaris, enter Un'Goro, kill the Ravasaur mobs until the Idol of the Huntress drops. Equip it.\n\n"
+			.."While in Cat Form, Hibernate five mobs. Kill them.\n\nRight click the Idol again ftw!"
+ns.druid.treeOfLife = "Encounter the Vengeful Wisp, north-west of Irontree Woods. Continue north-west to "
+			.."Jadefire Run.\n\nGrind the Jadefire satyrs until you receive a Shimmering Light buff.\n\n"
+			.."Speak to your Wisp friend and it'll drop a gift. That's your phat lewt!"
 
 -- Hunter Phase 1
-ns.hunter.beastMastery = "Farm Goretusk Haunch from the numerous Goretusks\nin Westfall then use it to spawn Silverspur. Kill\n"
-			.."and loot FTW, Westfall; or Darkshore Furbolgs for\nCrab Treats. Then feed it to a Young Reef Crawler\n"
+ns.hunter.beastMastery = "Farm Goretusk Haunch from the numerous Goretusks in Westfall then use it to spawn Silverspur. Kill "
+			.."and loot FTW, Westfall; or Darkshore Furbolgs for Crab Treats. Then feed it to a Young Reef Crawler "
 			.."on the coast (A);\n\n"
-			.."Horde must kill Ferocious Grizzled Bears until a\nGrizzled Protector spawns, Silverpine. Kill, loot;\n"
-			.."Trap a patrolling cheetah in The Barrens, north of\nCamp Taurajo. You may now kill it. Phat lewt! (H)"
-ns.hunter.carve = "Obtain Rabbit Musk from Gol'Bar Quarry Rockjaw\nTroggs in Dun Morogh then use the Musk on a\n"
-			.."Rabbit critter. Now tame it. Speak to Toby,\nAmberstill Ranch, DunMorogh for your reward;\n\n"
-			.."In Teldrassil it's Gnarlpine mobs for Deer\nMusk. Use on Deer. Tame. Speak to Relaeron in\n"
-			.."Darnassus (A); Durotar for Adder Pheromone\nfrom Razormane mobs. Razzil in Razor Hill;\n"
-			.."Mulgore is Prairie Dog Musk from Palemane\nmobs. Takoda Sunmane in Bloodhoof Village (H).\n\n"
-			.."Note that when you tame your critter you do\nNOT need to abandon your current companion"
-ns.hunter.cobraStrikes = "Buy Freshwater Snapper Bait from Zixil, who \nwanders between Southshore and Tarren Mill.\n\n"
-			.."Now at the small boat on the lake south of\nTarren Mill... Use the boat. Koartul spawns!"
-ns.hunter.explosiveShot = "Fyodi, Edan the Howler, Mangeclaw, Old Icebeard,\n"
-			.."Timber, Vagash, Dun Morogh; Rageclaw at the bottom\n"
-			.."of Ban'ethil Barrow, Teldrassil (A); heavily camped\nSarkoth, Valley of the Trials; Arra'chea, Ghost Howl,\n"
+			.."Horde must kill Ferocious Grizzled Bears until a Grizzled Protector spawns, Silverpine. Kill, loot; "
+			.."Trap a patrolling cheetah in The Barrens, north of Camp Taurajo. You may now kill it. Phat lewt! (H)"
+ns.hunter.carve = "Obtain Rabbit Musk from Gol'Bar Quarry Rockjaw Troggs in Dun Morogh then use the Musk on a "
+			.."Rabbit critter. Now tame it. Speak to Toby, Amberstill Ranch, DunMorogh for your reward;\n\n"
+			.."In Teldrassil it's Gnarlpine mobs for Deer Musk. Use on Deer. Tame. Speak to Relaeron in "
+			.."Darnassus (A); Durotar for Adder Pheromone from Razormane mobs. Razzil in Razor Hill; "
+			.."Mulgore is Prairie Dog Musk from Palemane mobs. Takoda Sunmane in Bloodhoof Village (H).\n\n"
+			.."Note that when you tame your critter you do NOT need to abandon your current companion"
+ns.hunter.cobraStrikes = "Buy Freshwater Snapper Bait from Zixil, who  wanders between Southshore and Tarren Mill.\n\n"
+			.."Now at the small boat on the lake south of Tarren Mill... Use the boat. Koartul spawns!"
+ns.hunter.explosiveShot = "Fyodi, Edan the Howler, Mangeclaw, Old Icebeard, "
+			.."Timber, Vagash, Dun Morogh; Rageclaw at the bottom "
+			.."of Ban'ethil Barrow, Teldrassil (A); heavily camped Sarkoth, Valley of the Trials; Arra'chea, Ghost Howl, "
 			.."Mazzranache, The Rake, Mulgore (H)"
-ns.hunter.flankingStrike = "Jorul, cave, eastern side of Iceflow Lake, Dun Morogh;\n"
-			.."Mowgh, cave, eastern side of the Oracle Glade river (A);\n"
-			.."Raluk, northern isle of the Echo Isles, Durotar; Mokwa,\nwest north-west of Bloodhoof Village, Mulgore (H)\n\n"
-			.."To spawn the rare you must farm its food. See Tooltips\n\nThese rares are cross faction. Rune is received on a\n"
-			.."kill or tame (level 10). The bear (A) and cat (H) skills\nand stats are just average."
-ns.hunter.heartLion = "Carrodin, rear of the Thelgen\nRock Cave, Wetlands (A/H)"
-ns.hunter.killCommand = "The process is centred around Jixo Madrocket\nin Stonetalon Mountains, on the path towards\n"
+ns.hunter.flankingStrike = "Jorul, cave, eastern side of Iceflow Lake, Dun Morogh; "
+			.."Mowgh, cave, eastern side of the Oracle Glade river (A); "
+			.."Raluk, northern isle of the Echo Isles, Durotar; Mokwa, west north-west of Bloodhoof Village, Mulgore (H)\n\n"
+			.."To spawn the rare you must farm its food. See Tooltips\n\nThese rares are cross faction. Rune is received on a "
+			.."kill or tame (level 10). The bear (A) and cat (H) skills and stats are just average."
+ns.hunter.heartLion = "Carrodin, rear of the Thelgen Rock Cave, Wetlands (A/H)"
+ns.hunter.killCommand = "The process is centred around Jixo Madrocket in Stonetalon Mountains, on the path towards "
 			.."Windshear Crag.\n\n"
-			.."The first quest needs you to kill Mutanus the\nDevourer, who's at the end of the Wailing\n"
-			.."Caverns. Mutanous drops the Hypnotic Crystal.\nThe WC dungeon is in The Barrens.\n\n"
-			.."You also need a Gnarled Wand of Wild Magic. Buy\na Greater Wagic Wand off the AH / Enchanter\n"
-			.."friend. Combine with a Wild Magic Essence which\ndrops off Ashenvale Furbolg mobs.\n\n"
-			.."The second quest requires you to witness Jixo\ntame a Wyvern. Easy peazy lemon squeezy!\n\n"
-			.."The bonus for Hunters is we get a Wyvern Taming\nWand which allows us to tame Young Pridewings\n"
+			.."The first quest needs you to kill Mutanus the Devourer, who's at the end of the Wailing "
+			.."Caverns. Mutanous drops the Hypnotic Crystal. The WC dungeon is in The Barrens.\n\n"
+			.."You also need a Gnarled Wand of Wild Magic. Buy a Greater Wagic Wand off the AH / Enchanter "
+			.."friend. Combine with a Wild Magic Essence which drops off Ashenvale Furbolg mobs.\n\n"
+			.."The second quest requires you to witness Jixo tame a Wyvern. Easy peazy lemon squeezy!\n\n"
+			.."The bonus for Hunters is we get a Wyvern Taming Wand which allows us to tame Young Pridewings "
 			.."in Stonetalon Maountains. I've marked them too!"
-ns.hunter.masterMark = "Use Hunter's Mark on the Rustling Bush.\nA Poacher will spawn. Unlife it. Lewt it"
-ns.hunter.sniper = "Paxnozz, west of the Ruins of Mathystra, Darkshore;\nDefias Scout, Sentinel Hill, Westfall; Kackle, The\n"
+ns.hunter.masterMark = "Use Hunter's Mark on the Rustling Bush. A Poacher will spawn. Unlife it. Lewt it"
+ns.hunter.sniper = "Paxnozz, west of the Ruins of Mathystra, Darkshore; Defias Scout, Sentinel Hill, Westfall; Kackle, The "
 			.."Loch, Loch Modan (A).\n\nBruuz off the coast of Ratchet, The Barrens (H)"
 -- Hunter Phase 2
 ns.hunter.dualWield = "At this location you'll receive a \"Danger!\" buff.\n\n"
-			.."Wander around this area, using your \"Flare\" (L32)\n"
-			.."until you find the Bloodscalp Guerrilla (L34).\nUse also Track Hidden.\n\nKill and loot"
-ns.hunter.expose = "Farm the ogres and troggs until a Primitive Drawing\ndrops. Then travel to Hemet Nesingwary's camp in\n"
-			.."northern Stranglethorn. He'll send you right back to\nthe Badlands and give you a cage.\n\n"
-			.."Prior to the next encounter, catch any critter.\n\nBack in the Badlands, locate the Large Next and\n"
-			.."summon Gharrick, a L40 bird. Tame or defeat to\nobtain a Crimson Trophy Quill. Return to Hemet"
+			.."Wander around this area, using your \"Flare\" (L32) "
+			.."until you find the Bloodscalp Guerrilla (L34). Use also Track Hidden.\n\nKill and loot"
+ns.hunter.expose = "Farm the ogres and troggs until a Primitive Drawing drops. Then travel to Hemet Nesingwary's camp in "
+			.."northern Stranglethorn. He'll send you right back to the Badlands and give you a cage.\n\n"
+			.."Prior to the next encounter, catch any critter.\n\nBack in the Badlands, locate the Large Next and "
+			.."summon Gharrick, a L40 bird. Tame or defeat to obtain a Crimson Trophy Quill. Return to Hemet"
 -- Hunter Phase 3
-ns.hunter.calefactus = "Track Beasts is your friend. Tameable (L50).\nA green Molten Core style Core Hound!\n"
+ns.hunter.calefactus = "Track Beasts is your friend. Tameable (L50). A green Molten Core style Core Hound! "
 			.."For the quest, must kill :("
-ns.hunter.catlike = "Locate the infant in a rear upper level corner\nof the Yeti cave. Feed it Tel'Abim Banana or Soft\n"
-			.."Banana Bread.\n\nYou have ten minutes to escort the infant to its\n"
-			.."nearby mother. The infant is agressive so expect\nfighting along the way.\n\n"
+ns.hunter.catlike = "Locate the infant in a rear upper level corner of the Yeti cave. Feed it Tel'Abim Banana or Soft "
+			.."Banana Bread.\n\nYou have ten minutes to escort the infant to its "
+			.."nearby mother. The infant is agressive so expect fighting along the way.\n\n"
 			.."The mother is outside on a small mound"
-ns.hunter.focusFire = "Near the map location is a bridge and near to\nthat is a tree branch with a nest. Loot the egg.\n\n"
+ns.hunter.focusFire = "Near the map location is a bridge and near to that is a tree branch with a nest. Loot the egg.\n\n"
 			.."Kill the Enraged Stormcrow that spawns. Loot -> profit"
-ns.hunter.rapidKilling = "Enter the Firewatch Ridge cave, north-west corner\nof the Searing Gorge. Upper middle section.\n"
-			.."Interact with a Weathered Etching on a pillar.\n\nNow head to the Blasted Lands to meet Lynnore.\n"
-			.."She's at the far north Swamp of Sorrows path end,\non the Dreadmaul Hold side.\n\n"
-			.."For her first task, avoid the Shadowsworn ritualists\nto her south-west as they are tougher.\n\n"
-			.."Calefactus is a unique Core Hound model you'll also\nwant to tame while you are doing Brought to Heel.\n\n"
-			.."Note that you receive a great trinket that specifically\nassists with taming Molten Core Core Hounds. BoPU"
+ns.hunter.rapidKilling = "Enter the Firewatch Ridge cave, north-west corner of the Searing Gorge. Upper middle section. "
+			.."Interact with a Weathered Etching on a pillar.\n\nNow head to the Blasted Lands to meet Lynnore. "
+			.."She's at the far north Swamp of Sorrows path end, on the Dreadmaul Hold side.\n\n"
+			.."For her first task, avoid the Shadowsworn ritualists to her south-west as they are tougher.\n\n"
+			.."Calefactus is a unique Core Hound model you'll also want to tame while you are doing Brought to Heel.\n\n"
+			.."Note that you receive a great trinket that specifically assists with taming Molten Core Core Hounds. BoPU"
 -- Hunter Phase 4
-ns.hunter.hitAndRun = "The Escaped Core Hounds (L60)\ndrop the Rune of the Guerrilla"
-ns.hunter.resourceful = "The entirety of this rune occurs in the\nEastern Plaguelands.\n\n"
-			.."Kill slimes and Plagued Swine for Bubbling\nGreen Ichor and Tainted Boar Meat respectively.\n\n"
-			.."Combine one of each to produce a Rancid Hunk\nof Flesh and feed that to one of the numerous\n"
-			.."Carrion Grubs.\n\nIt will vomit up a Regurgitated Skeleton and\nwithin that skeleton is your rune!"
-ns.hunter.volley = "Grind any mobs in Silithus for a Busted Gizmo.\n\nNow visit Edwi Copperbolt in the far south of\n"
-			.."Silithus nad he'll give you a Desert Sonar.\n\nWith this you are looking for Sandworms (L60e),\n"
+ns.hunter.hitAndRun = "The Escaped Core Hounds (L60) drop the Rune of the Guerrilla"
+ns.hunter.resourceful = "The entirety of this rune occurs in the Eastern Plaguelands.\n\n"
+			.."Kill slimes and Plagued Swine for Bubbling Green Ichor and Tainted Boar Meat respectively.\n\n"
+			.."Combine one of each to produce a Rancid Hunk of Flesh and feed that to one of the numerous "
+			.."Carrion Grubs.\n\nIt will vomit up a Regurgitated Skeleton and within that skeleton is your rune!"
+ns.hunter.volley = "Grind any mobs in Silithus for a Busted Gizmo.\n\nNow visit Edwi Copperbolt in the far south of "
+			.."Silithus nad he'll give you a Desert Sonar.\n\nWith this you are looking for Sandworms (L60e), "
 			.."pinned on your map. Kill for phat lewt."
 
 -- Mage
-ns.mage.books = "There are many books to be discovered across Azeroth. At 10, 20, 25 and then 35 books collected you'll\n"
+ns.mage.books ="There are many books to be discovered across Azeroth. At 10, 20, 25 and then 35 books collected you'll "
 			.."receive a trivial completion quest to directly award you a rune.\n\n"
-			.."Bring several or one by one of the books to Garion Wendell in the SW Mage Tower (A) or Owen Thadd in the\n"
+			.."Bring several or one by one of the books to Garion Wendell in the SW Mage Tower (A) or Owen Thadd in the "
 			.."Undercity Mage Quarter (H). He'll record your progress (and this AddOn too!)"
 ns.mage.bookRunes = { "Icy Veins", "Spell Power", "Deep Freeze", "Arcane Barrage", }
 ns.mage.bookQuestIDs = { 78150, 79536, 82208, 84394, }
 ns.mage.bookQuestNames = { "Friend of the Library", "Greater Friend of the Library", "Greater Friend of the Library",
 							"Greater Friend of the Library", }
-ns.mage.bookStart = " books across Azeroth, too numerous to list here, but...\n"
-			.."see my detailed guide at: Garion Wendell in the Stormwind Mage Tower\n"
+ns.mage.bookStart = " books across Azeroth, too numerous to list here, but... "
+			.."see my detailed guide at: Garion Wendell in the Stormwind Mage Tower "
 			.."portal room (A) or Owen Thadd in the Mages Quarter of Undercity (H)"
 ns.mage.booksQuestIDsA = { 79953, 81955, 84398, 79949, 78145, 79091, 79092, 79535, 79097, 78142, 81956, 78147, 79948,
 						79950, 81952, 78149, 79947, 78146, 81949, 84396, 79951, 78124, 84402, 79093, 78148, 79952,
@@ -255,734 +255,734 @@ ns.mage.booksQuestNamesH = {
 			"Undead Potatoes" ..colourPlaintext .."    Upstairs, in a farmhouse",
 			"Venomous Journeys" ..colourPlaintext .."    Behind a brown wall, The Hinterlands", }
 -- Mage Phase 1
-ns.mage.enlightenment = "Alliance should head as far east as Ridgepoint\nTower in Elwynn Forest, although anywhere there\n"
-			.."are critters is possible. If the critter has a\nWild Polymorph debuff ( and it will look \"out\n"
-			.."of place\" too) then Polymorph it. As the person\nwalks away you will see a sparkling object.\n\n"
-			.."Horde need to look for Odd Melons around any\nfarm in Tirisfal Glades, and Polymorph it too.\n\n"
-			.."The object's Tooltip will say how many you need.\nCombine them together (Use one of them). Voilà!"
-ns.mage.arcaneBlast = "A Naga Manuscript will drop from Wrathtail\nSorceress and Sea Witch.\n\n"
-			.."Cast Arcane explosion at three pink/purple\nShards as marked on  your map.\n\nChicken dinner, you're a winner!"
-ns.mage.fingers = "Alliance need a drop from a rogue's gallery of\npopular old favourites. Timber, Mangeclaw, Bjarm,\n"
-			.."Edan the Howler, Old Icebeard, Hammerspine, Vagash\nand introducing Fyodi. All Dun Morogh. And Hogger!\n\n"
-			.."Horde get Gazz'uz, the the cave to the left as\nyou exit Orgrimmar. Zalazane on the Echo Isles is\n"
-			.."convenient for Trolls. Introducing Gillgar just\nnorth of Deathknell.\n\nJust loot and comprehend! <3"
-ns.mage.livingBomb = "A Chewed Spell Note will drop from mobs in the \nStonesplitter caves to the far south of Thelsamar\n"
-			.."in Loch Modan. The same Seers populate the\nnorthern most lake of Loch Modan.\n\n"
-			.."Horde have the option of completing a few quests\nin Silverpine Forest for a guaranteed reward.\n"
-			.."The problem is that you need a very low drop\nrate \"A Talking Head\" to drop while you are\n"
-			.."questing on Fenris Island, in order to start the\nquest chain.\n\nWorth it? 3% drop. I'd rather mow the lawn."
-ns.mage.livingFlame = "Frostmane Shadowcasters (A) and Frostmane\nSeers (A/H) in Dun Morogh will drop the\n"
-			.."Spell Notes. They are on the western side\nof the map and have been pinned.\n\n"
-			.."The Kobold Geomancers (A) in and around\nthe Jasperlode Mine in Elwynn Forest are\nalso possible.\n\n"
-			.."In Tirisfal Glades the Scarlet Warriors,\nMissionaries and Zealots (all A/H) have\nbeen pinned.\n\n"
-			.."Durotar is all Horde with Burning Blade\nmobs even located just out the front of\nOrgrimmar.\n\n"
+ns.mage.enlightenment = "Alliance should head as far east as Ridgepoint Tower in Elwynn Forest, although anywhere there "
+			.."are critters is possible. If the critter has a Wild Polymorph debuff ( and it will look \"out "
+			.."of place\" too) then Polymorph it. As the person walks away you will see a sparkling object.\n\n"
+			.."Horde need to look for Odd Melons around any farm in Tirisfal Glades, and Polymorph it too.\n\n"
+			.."The object's Tooltip will say how many you need. Combine them together (Use one of them). Voilà!"
+ns.mage.arcaneBlast = "A Naga Manuscript will drop from Wrathtail Sorceress and Sea Witch.\n\n"
+			.."Cast Arcane explosion at three pink/purple Shards as marked on  your map.\n\nChicken dinner, you're a winner!"
+ns.mage.fingers = "Alliance need a drop from a rogue's gallery of popular old favourites. Timber, Mangeclaw, Bjarm, "
+			.."Edan the Howler, Old Icebeard, Hammerspine, Vagash and introducing Fyodi. All Dun Morogh. And Hogger!\n\n"
+			.."Horde get Gazz'uz, the the cave to the left as you exit Orgrimmar. Zalazane on the Echo Isles is "
+			.."convenient for Trolls. Introducing Gillgar just north of Deathknell.\n\nJust loot and comprehend! <3"
+ns.mage.livingBomb = "A Chewed Spell Note will drop from mobs in the  Stonesplitter caves to the far south of Thelsamar "
+			.."in Loch Modan. The same Seers populate the northern most lake of Loch Modan.\n\n"
+			.."Horde have the option of completing a few quests in Silverpine Forest for a guaranteed reward. "
+			.."The problem is that you need a very low drop rate \"A Talking Head\" to drop while you are "
+			.."questing on Fenris Island, in order to start the quest chain.\n\nWorth it? 3% drop. I'd rather mow the lawn."
+ns.mage.livingFlame = "Frostmane Shadowcasters (A) and Frostmane Seers (A/H) in Dun Morogh will drop the "
+			.."Spell Notes. They are on the western side of the map and have been pinned.\n\n"
+			.."The Kobold Geomancers (A) in and around the Jasperlode Mine in Elwynn Forest are also possible.\n\n"
+			.."In Tirisfal Glades the Scarlet Warriors, Missionaries and Zealots (all A/H) have been pinned.\n\n"
+			.."Durotar is all Horde with Burning Blade mobs even located just out the front of Orgrimmar.\n\n"
 			.."It's the usual, loot and comprehend!"
-ns.mage.regeneration = "Horde can farm Dalaran Apprentice, southern\nSilverpine Forest.\n\n"
-			.."In theory, both A/H can: Farm Kolkar centaur\nmobs in The Barrens for a key to unlock one\n"
-			.."of two chests in the area; inspect a Pile of\nStolen Books on the north island of Loch\n"
-			.."Modan; kill Defias Renegade Mages in the\nsouth of Westfall. Loot and Comprehend!"
+ns.mage.regeneration = "Horde can farm Dalaran Apprentice, southern Silverpine Forest.\n\n"
+			.."In theory, both A/H can: Farm Kolkar centaur mobs in The Barrens for a key to unlock one "
+			.."of two chests in the area; inspect a Pile of Stolen Books on the north island of Loch "
+			.."Modan; kill Defias Renegade Mages in the south of Westfall. Loot and Comprehend!"
 -- Mage Phase 2
-ns.mage.chronostatic = "3 or 4 mages must cast frost spells on three different\n"
-			.."mobs in Thousand Needles in order to cause them to\n"
-			.."receive a \"Cooling Down\" debuff. Kill and loot.\n\nNote that the Cougar is caged and requires a key that\n"
-			.."drops off Galak Mauler centaur mobs.\n\nAll three mobs drop Partial Spell Notes which must be\n"
+ns.mage.chronostatic = "3 or 4 mages must cast frost spells on three different "
+			.."mobs in Thousand Needles in order to cause them to "
+			.."receive a \"Cooling Down\" debuff. Kill and loot.\n\nNote that the Cougar is caged and requires a key that "
+			.."drops off Galak Mauler centaur mobs.\n\nAll three mobs drop Partial Spell Notes which must be "
 			.."combined"
-ns.mage.hotStreak = "At the Strahnbrad blacksmith forge, ignite the\ntwo bellows by using a fire spell.\n\n"
+ns.mage.hotStreak = "At the Strahnbrad blacksmith forge, ignite the two bellows by using a fire spell.\n\n"
 			.."An Ancient Fire Elemental will spawn. Kill and loot"
 ns.mage.fireAndFrost = "Kill Skullsplitter Mystics in Stranglethorn Vale"
 -- Mage Phase 3
-ns.mage.booksBM = "Proceed into Blackrock Mountain as you would to\nrun through Blackrock Depths or Molten Core.\n\n"
+ns.mage.booksBM = "Proceed into Blackrock Mountain as you would to run through Blackrock Depths or Molten Core.\n\n"
 			.."The book is in Franclorn Forgewright's altar room.\n\nYou don't need to be dead to see the book! ;)"
-ns.mage.temporal = "Collect 1 x Pristine Owlbeast Quill from\nOwlbeasts in The Hinterlands, 5 x Zukk'ash\n"
-			.."Resin from Silithids in south-east Feralas,\nand 8 x Farraki Papyrus from Zul'Farrak zombies.\n\n"
-			.."Extra reward is a Personal Spellbook. Finally,\nyou can conjure Comprehension Charms!!!"
+ns.mage.temporal = "Collect 1 x Pristine Owlbeast Quill from Owlbeasts in The Hinterlands, 5 x Zukk'ash "
+			.."Resin from Silithids in south-east Feralas, and 8 x Farraki Papyrus from Zul'Farrak zombies.\n\n"
+			.."Extra reward is a Personal Spellbook. Finally, you can conjure Comprehension Charms!!!"
 -- Mage Phase 4
-ns.mage.frozenOrb = "Farm the Deadwood mobs until a Mysterious\nDarnassian Scroll drops.\n\n"
-			.."As usual, use your Comprehension Charm.\n\nSouth-east now to Calyx Greenglow and use\n"
-			.."the scroll on him! Accept the quest.\n\nDown south now, grind those Irontree mobs\n"
-			.."until an Unusual Flask drops.\n\nHead over to Winterspring and seek out\n"
-			.."Calyx again, conveniently near the exit\nof the Timbermaw Hold. Kill\n"
+ns.mage.frozenOrb = "Farm the Deadwood mobs until a Mysterious Darnassian Scroll drops.\n\n"
+			.."As usual, use your Comprehension Charm.\n\nSouth-east now to Calyx Greenglow and use "
+			.."the scroll on him! Accept the quest.\n\nDown south now, grind those Irontree mobs "
+			.."until an Unusual Flask drops.\n\nHead over to Winterspring and seek out "
+			.."Calyx again, conveniently near the exit of the Timbermaw Hold. Kill "
 			.."The shade of Calyx. Loot. Profit!\n\n" ..ns.timbermaw
-ns.mage.magmaLarva = "Lothos Riftwaker is at the entrance to the Blackrock\n"
-			.."Depths cavern, deep down and almost at the larva level\n"
+ns.mage.magmaLarva = "Lothos Riftwaker is at the entrance to the Blackrock "
+			.."Depths cavern, deep down and almost at the larva level "
 			.."and in the very centre of Blackrock Mountain cavern.\n\n"
 			.."Proceed past him to Franclorn Forgewright's altar room.\n\n"
-			.."Go on and you are now in the Blackrock Depths cavern.\nJust inside this cavern you'll see the book on a ledge."
-ns.mage.overheat = "At EACH of the four locations you'll\nencounter a frozen Novie Frost Mage.\n\n"
+			.."Go on and you are now in the Blackrock Depths cavern. Just inside this cavern you'll see the book on a ledge."
+ns.mage.overheat = "At EACH of the four locations you'll encounter a frozen Novie Frost Mage.\n\n"
 			.."Unfreeze him by using fire spells.\n\nStill alive, use Remove Lesser Curse.\n\n"
 			.."EACH mage will drop a Torn Spell Notes.\n\nCombine all four for your Phat lewt!\n\n"
-			.."Okay... how to NOT kill... Alternate\nrank 1 Fireball and rank 1 scorch.\n"
-			.."It's slow but it does work. Respawn is\nunder a minute btw"
+			.."Okay... how to NOT kill... Alternate rank 1 Fireball and rank 1 scorch. "
+			.."It's slow but it does work. Respawn is under a minute btw"
 
 -- Paladin Phase 1
-ns.paladin.banishment = "Target the Defias Enchanters, Defias Night Blades\n"
-			.."and Defias Night Runners along the southern edge of\nDuskwood. Easy grind.\n\n"
-			.."Equip the Libram when it drops.\n\nCast Turn Undead on five enemies and kill them with\nExorcism.\n\n"
+ns.paladin.banishment = "Target the Defias Enchanters, Defias Night Blades "
+			.."and Defias Night Runners along the southern edge of Duskwood. Easy grind.\n\n"
+			.."Equip the Libram when it drops.\n\nCast Turn Undead on five enemies and kill them with Exorcism.\n\n"
 			.."Click on the Libram again"
-ns.paladin.blessings = "Go to the Thelsamar Tavern in Loch Modan.\nIt's sitting on a table there. Or else go\n"
-			.."to Westfall and kill Undying Laborers in the\nJangolode Mine or the Gold Coast Quarry\n\n"
+ns.paladin.blessings = "Go to the Thelsamar Tavern in Loch Modan. It's sitting on a table there. Or else go "
+			.."to Westfall and kill Undying Laborers in the Jangolode Mine or the Gold Coast Quarry\n\n"
 			.."Follow the Libram's Tooltip instructions. Done!"
 ns.paladin.divineStorm = "You'll find an Orb at the top of the Athalaxx Tower in northern Darkshore. Starts a quest.\n\n"
 			.."Seek out Delgren the Purifier at Maestra's Post in Ashenvale.\n\n"
-			.."As instructed, go to Katherine the Pure in the Stormwind Cathedral who'll send you to speak to\n"
+			.."As instructed, go to Katherine the Pure in the Stormwind Cathedral who'll send you to speak to "
 			.."Ursula Deline at the back of the Mages Quarter.\n\n"
 			.."Ursula sends you to Redridge to collect her Salt. It has a low drop rate QQ. Return to her.\n\n"
 			.."Ursula now needs Motes from Ashenvale.\n\n"
-			.."After collecting the Motes take them to the Altar of Mannoroth. It's big and purple. Click on\n"
+			.."After collecting the Motes take them to the Altar of Mannoroth. It's big and purple. Click on "
 			.."the ground to turn the Motes in. A Shattered Orb appears. Take it to Delgren. Finally!"
-ns.paladin.judgement = "Dwarves visit Bromos Grummner at the Anvilmar\nentrance and humans speak to Brother Sammuel\n"
-			.."in the Hall of Arms in the Northsire Abbey.\n\nYou're now tasked with dispatching Frostmane\n"
-			.."Troll Whelps in Coldridge Valley or the Defias\nThugs in the vineyard to the east of the Abbey.\n\n"
-			.."When the Libram drops, read the instructions.\nSelect a Seal spell, cast Judgement on 10 x foes.\n\n"
+ns.paladin.judgement = "Dwarves visit Bromos Grummner at the Anvilmar entrance and humans speak to Brother Sammuel "
+			.."in the Hall of Arms in the Northsire Abbey.\n\nYou're now tasked with dispatching Frostmane "
+			.."Troll Whelps in Coldridge Valley or the Defias Thugs in the vineyard to the east of the Abbey.\n\n"
+			.."When the Libram drops, read the instructions. Select a Seal spell, cast Judgement on 10 x foes.\n\n"
 			.."Click on your Libram for your reward"
-ns.paladin.justice = "Farm the Libram in a Stonesplitter Cave in\nLoch Modan or from the Defias Drones in\n"
-			.."the far south-east corner of Westfall.\n\nNow follow the Libram's Tooltip: Slam\n"
-			.."10 x foes that have been stunned with your\nHammer of Justice.\n\nClick on the Libram again FTW!"
-ns.paladin.runeOfAegis = "Go to the entrance to Gnomeregan, far west from\nIronforge, and speak to a Wounded Adventurer.\n\n"
-			.."Or find the Wounded Adventurer at the far end\nof the Jasperlode Mines in Elwynn Forest.\n\n"
+ns.paladin.justice = "Farm the Libram in a Stonesplitter Cave in Loch Modan or from the Defias Drones in "
+			.."the far south-east corner of Westfall.\n\nNow follow the Libram's Tooltip: Slam "
+			.."10 x foes that have been stunned with your Hammer of Justice.\n\nClick on the Libram again FTW!"
+ns.paladin.runeOfAegis = "Go to the entrance to Gnomeregan, far west from Ironforge, and speak to a Wounded Adventurer.\n\n"
+			.."Or find the Wounded Adventurer at the far end of the Jasperlode Mines in Elwynn Forest.\n\n"
 			.."Either way, cast Purify (level 8+) and done!"
-ns.paladin.martyrdom = "Speak to Brother Romulus in Stormwind.\n\nFollow his instructions, taking the\n"
-			.."western starircase to the crypts.\n\nYou may need to wait for the note to spawn.\n"
-			.."It's next to the candle at the bottom.\n\nAda is at the river junction of Westfall,\n"
+ns.paladin.martyrdom = "Speak to Brother Romulus in Stormwind.\n\nFollow his instructions, taking the "
+			.."western starircase to the crypts.\n\nYou may need to wait for the note to spawn. "
+			.."It's next to the candle at the bottom.\n\nAda is at the river junction of Westfall, "
 			.."Duskwood, Elwynn Forest.\n\nShe has your rune. You know the score"
 -- Paladin Phase 2
 ns.paladin.guardedLight = "You must have learnt Divine Intervention (L30).\n\n"
-			.."Upon clicking the skeleton and looting the Dormant\n"
-			.."Holy Rune, cast Divine Intervention upon yourself\nand die. You may do this anywhere convenient.\n\n"
-			.."Another player must resurrect you, not necessarily\na Paladin. You will auto acquire the rune.\n\n"
+			.."Upon clicking the skeleton and looting the Dormant "
+			.."Holy Rune, cast Divine Intervention upon yourself and die. You may do this anywhere convenient.\n\n"
+			.."Another player must resurrect you, not necessarily a Paladin. You will auto acquire the rune.\n\n"
 			.."Note that Soulstones do not work for this"
-ns.paladin.malleable = "The Dark Iron Bombadiers and Suppliers have the best\n(albeit bad) drop rates for all three Tarnished\n"
-			.."Prayer Bead I/II/III.\n\nPurify I with Blessing of Might cast while in combat.\n"
-			.."Purify II with Divine Shield at <10% health.\nPurify III with Seal of Justice and Judgment while fleeing.\n\n"
-			.."Now combine -> Rosary of the Light. Take the Rosary to\nBrother Atticus in Stromgarde Keep"
+ns.paladin.malleable = "The Dark Iron Bombadiers and Suppliers have the best (albeit bad) drop rates for all three Tarnished "
+			.."Prayer Bead I/II/III.\n\nPurify I with Blessing of Might cast while in combat. "
+			.."Purify II with Divine Shield at <10% health. Purify III with Seal of Justice and Judgment while fleeing.\n\n"
+			.."Now combine -> Rosary of the Light. Take the Rosary to Brother Atticus in Stromgarde Keep"
 ns.paladin.sacredShield = "On a bench that's inside Brother Anton's building.\n\n"
-			.."Equip and then use Blessing of Freedom (L18) on\n"
-			.."other players/NPCs five times. MUST be movement\nimpairing roots. Not slows, for example.\n\n"
-			.."Nets are great - Murloc Netters in Westfall or the\nDragonmaw area of Wetlands, Magram Wranglers near\n"
+			.."Equip and then use Blessing of Freedom (L18) on "
+			.."other players/NPCs five times. MUST be movement impairing roots. Not slows, for example.\n\n"
+			.."Nets are great - Murloc Netters in Westfall or the Dragonmaw area of Wetlands, Magram Wranglers near "
 			.."Maraudon, Greymist netters in Darkshore, etc.\n\nCan be your same friend over and over again!"
-ns.paladin.sheathLight = "Must have obtained the Divine Storm rune. Later you'll need a Cathedral Wing key to\n"
+ns.paladin.sheathLight = "Must have obtained the Divine Storm rune. Later you'll need a Cathedral Wing key to "
 			.."Scarlet Monastery.\n\n"
 			.."At Mannoroc Cove loot an ornate warhammer which starts the quest \"The Broken Hammer\".\n\n"
-			.."Now farm the nearby Burning Blade Summoners (L38-39) for a Torn Letter. Go to Katherine\n"
+			.."Now farm the nearby Burning Blade Summoners (L38-39) for a Torn Letter. Go to Katherine "
 			.."the Pure (first room on the left) in the SW Cathedral. Listen to her for \"A Lost Brother\".\n\n"
 			.."Set your hearth to Stormwind then go to Menethil Harbor wharf, Wetlands and talk to Harold Riggs.\n\n"
-			.."Take an extremely long swim south to Newman's Landing. You'll see a building and a wharf.\n"
+			.."Take an extremely long swim south to Newman's Landing. You'll see a building and a wharf. "
 			.."This is the far south-west corner of Dun Morogh.\n\n"
 			.."You'll be ambushed. Loot the Orders and pickup the quest and hearth to SW. Speak to Katherine.\n\n"
-			.."Now defeat High Inquisitor Whtemane in the Cathedral Wing of Scarlet Monastery. Locate\n"
+			.."Now defeat High Inquisitor Whtemane in the Cathedral Wing of Scarlet Monastery. Locate "
 			.."Aeonas before you leave! Now hearth again and Katherine again and you're pretty much done."
 -- Paladin Phase 3
-ns.paladin.fanaticism = "Pick up the quest from Aeonis the Vindicated.\nHe's in the Stormwind Cathedral. Proceed to\n"
+ns.paladin.fanaticism = "Pick up the quest from Aeonis the Vindicated. He's in the Stormwind Cathedral. Proceed to "
 			.."Theramore and give Elrick a whooping.\n\nSpeak to the Stern-Faced Bar Patron.\n\n"
-			.."Back at Katherine the Pure in the Cathedral,\nand she'll reward you grandly"
-ns.paladin.hammerRighteous = "In Felwood you climb up the rope to reach Aeonis.\n"
+			.."Back at Katherine the Pure in the Cathedral, and she'll reward you grandly"
+ns.paladin.hammerRighteous = "In Felwood you climb up the rope to reach Aeonis. "
 			.."Next speak with Gregory and accept the quest.\n\n"
-			.."Go north and farm the Shatter Scale Vale for 3 x\nFiery Infernal Core. Next meet the Tauren Brave\n"
-			.."Stonetorch, to the north of Tarren Mill in the Hillsbrad\nFoothills. You'll obtain the Symbol of Faith.\n\n"
-			.."The Shimmering Grave Dust is from a Grave Mound,\nobtained after killing Princess Theradras in\nMaraudon.\n\n"
-			.."The Tripple-Brewed Molten Lager you purchase from\nPlugger Spazzring at the Grim Guzzler tavern, well\n"
-			.."into Blackrock Depths. That's one mighty series of\ncorpse runs for solo players.\n\n"
+			.."Go north and farm the Shatter Scale Vale for 3 x Fiery Infernal Core. Next meet the Tauren Brave "
+			.."Stonetorch, to the north of Tarren Mill in the Hillsbrad Foothills. You'll obtain the Symbol of Faith.\n\n"
+			.."The Shimmering Grave Dust is from a Grave Mound, obtained after killing Princess Theradras in Maraudon.\n\n"
+			.."The Tripple-Brewed Molten Lager you purchase from Plugger Spazzring at the Grim Guzzler tavern, well "
+			.."into Blackrock Depths. That's one mighty series of corpse runs for solo players.\n\n"
 			.."Return to Gregory for the hand in. Accept your Rune!"
-ns.paladin.lightsGrace = "You must travel to an inaccessible platform\nin Feralas. You may use a nearby teleporter,\n"
-			.."as marked or a different teleporter in Booty\nBay. The BB teleporter requires unlocking.\n\n"
-			.."The teleporter puts you near Wirdal Wondergear.\nLook across at the pin marked \"Frix Xizzix\".\n"
-			.."Go to him. You must do this via a knockback\nfrom a Tower Defense Automation (L57e) in the,\n"
-			.."same area as Wirdal. Set your Gadgetzan rep to\n\"At War\". Position yourself with the\n"
-			.."shortest distance to Frix and ensure you are\noptimally facing away from your flight path.\n\n"
-			.."Begin attacking and pray. Seriously. It's a\ngamble. Consider removing gear to save repair\n"
-			.."costs as you'll likely need a few attempts.\nThere's a nasty silence debuff, thus no bubbling.\n\n"
-			.."Now, speak to Frix and he'll send you to the Bay\nto speak to his brother. The rune is yours!"
-ns.paladin.wrath = "North of Quel'Danil Lodge in The Hinterlands is\nwhere Paladins will use their Sense Undead to\n"
-			.."locate a Vengeful Spirit (L45). Kill it.\n\nSpeak to Magister Falath in the Mystic Ward of\nIronforge. Enjoy!"
+ns.paladin.lightsGrace = "You must travel to an inaccessible platform in Feralas. You may use a nearby teleporter, "
+			.."as marked or a different teleporter in Booty Bay. The BB teleporter requires unlocking.\n\n"
+			.."The teleporter puts you near Wirdal Wondergear. Look across at the pin marked \"Frix Xizzix\". "
+			.."Go to him. You must do this via a knockback from a Tower Defense Automation (L57e) in the, "
+			.."same area as Wirdal. Set your Gadgetzan rep to \"At War\". Position yourself with the "
+			.."shortest distance to Frix and ensure you are optimally facing away from your flight path.\n\n"
+			.."Begin attacking and pray. Seriously. It's a gamble. Consider removing gear to save repair "
+			.."costs as you'll likely need a few attempts. There's a nasty silence debuff, thus no bubbling.\n\n"
+			.."Now, speak to Frix and he'll send you to the Bay to speak to his brother. The rune is yours!"
+ns.paladin.wrath = "North of Quel'Danil Lodge in The Hinterlands is where Paladins will use their Sense Undead to "
+			.."locate a Vengeful Spirit (L45). Kill it.\n\nSpeak to Magister Falath in the Mystic Ward of Ironforge. Enjoy!"
 -- Paladin Phase 4/5
-ns.paladin.avengingWrath = "You receive this spell book at the same time\nas you complete Shock and Awe!"
-ns.paladin.righteousness = "Kill a Slack-Jawed Ghoul, mostly south of the\nwestern end of the main east -west path.\n\n"
-			.."You are now accompanied by Orthas. You also\nare given the means to summon Orthas at will.\n\n"
-			.."Orthas's Hammer is on the upper level of the\nhouse at Corrin's Crossing.\n\n"
-			.."(Each step of the way you should summon Orthas.\n\nAs per the map look for abominations. You\n"
+ns.paladin.avengingWrath = "You receive this spell book at the same time as you complete Shock and Awe!"
+ns.paladin.righteousness = "Kill a Slack-Jawed Ghoul, mostly south of the western end of the main east -west path.\n\n"
+			.."You are now accompanied by Orthas. You also are given the means to summon Orthas at will.\n\n"
+			.."Orthas's Hammer is on the upper level of the house at Corrin's Crossing.\n\n"
+			.."(Each step of the way you should summon Orthas.\n\nAs per the map look for abominations. You "
 			.."want a Partially-Digested Plate Armor to drop.\n\nNext kill Maleki the Pallid in Stratholme.\n\n"
-			.."You'll travel next to the Undercroft to\nround out this quest chain\n\n"
-ns.paladin.shockAwe = "Follows straight after the Vengeance rune.\n\nA tip to level your Squire is to spam\nFlash of Light!"
-ns.paladin.vengeance = "Note: Two runes plus one spell book happen in\na linear manner. Vengeance -> Shock and Awe ->\n"
-			.."Avenging Wrath.\n\nThe quests are very straight forward and the\npin's in this \"hub\" have been numbered"
+			.."You'll travel next to the Undercroft to round out this quest chain\n\n"
+ns.paladin.shockAwe = "Follows straight after the Vengeance rune.\n\nA tip to level your Squire is to spam Flash of Light!"
+ns.paladin.vengeance = "Note: Two runes plus one spell book happen in a linear manner. Vengeance -> Shock and Awe -> "
+			.."Avenging Wrath.\n\nThe quests are very straight forward and the pin's in this \"hub\" have been numbered"
 
 -- Priest Phase 1
-ns.priest.circle = "Obtain Dark Insight from the Defias mobs\nthen use it at the secluded grave"
-ns.priest.citadel = "Frostmane mobs, Shimmer Ridge, Dun Morogh;\nDefias Rogue Wizard, Stonecairn Lake, Elwynn\n"
-			.."Forest, Sprites, Fel Rock Cave, Teldrassil (A);\nVarious Trolls, Gnolls, Harpies in Durotar;\n"
+ns.priest.circle = "Obtain Dark Insight from the Defias mobs then use it at the secluded grave"
+ns.priest.citadel = "Frostmane mobs, Shimmer Ridge, Dun Morogh; Defias Rogue Wizard, Stonecairn Lake, Elwynn "
+			.."Forest, Sprites, Fel Rock Cave, Teldrassil (A); Various Trolls, Gnolls, Harpies in Durotar; "
 			.."Scarlet mobs, Solliden Farmstead, Tirisfal Glades (H)"
-ns.priest.penanceMed = "\n\nRemember! Always have a Meditation buff\nactive when trying to learn runes. Initially,\n"
-			.."you MUST stick to your racial locations.\n\nHumans can use any sanctified location\n"
-			.."and Dwarves any Altar of the Light. Night\nElves may use any Moonwell! Horde side,\n"
-			.."Undead need go to any graveyard! Trolls may\nuse a Loa Altar, e.g. The Crossroads!\n\n"
-			.."At Level 17 you must complete a quest for\nobtaining a SECOND Meditation buff. This\n"
+ns.priest.penanceMed = "\n\nRemember! Always have a Meditation buff active when trying to learn runes. Initially, "
+			.."you MUST stick to your racial locations.\n\nHumans can use any sanctified location "
+			.."and Dwarves any Altar of the Light. Night Elves may use any Moonwell! Horde side, "
+			.."Undead need go to any graveyard! Trolls may use a Loa Altar, e.g. The Crossroads!\n\n"
+			.."At Level 17 you must complete a quest for obtaining a SECOND Meditation buff. This "
 			.."is necessary for learning harder runes.\n\nDetails marked on the map later at L16.\n\n"
-			.."Note: a second buff is possible via\nanother Priest:\n    Player 1: /kneel;\n"
-			.."    Player 2: /pray.\nNow swap roles. Voilà!\n\n(/pray will pass on ALL your Meditations!)"
-ns.priest.penanceDM = "\n\nBranstock Khalder tasks you with looting a\nRockjaw Footlocker. You'll obtain an inactive\n"
-			.."rune. Return to him.\n\nNear to him is an Altar of Light. /kneel.\nOnce buffed, click on your rune FTW!"
+			.."Note: a second buff is possible via another Priest:     Player 1: /kneel; "
+			.."    Player 2: /pray. Now swap roles. Voilà!\n\n(/pray will pass on ALL your Meditations!)"
+ns.priest.penanceDM = "\n\nBranstock Khalder tasks you with looting a Rockjaw Footlocker. You'll obtain an inactive "
+			.."rune. Return to him.\n\nNear to him is an Altar of Light. /kneel. Once buffed, click on your rune FTW!"
 			..ns.priest.penanceMed
-ns.priest.penanceDur = "Speak to Ken'jai and receive your inactive\nrune. Go to the Altar of Loa, which is\n"
-			.."a little to the north of Sen'jai Village\nand kneel before it. Once buffed, click\non your rune. Voilà!"
+ns.priest.penanceDur = "Speak to Ken'jai and receive your inactive rune. Go to the Altar of Loa, which is "
+			.."a little to the north of Sen'jai Village and kneel before it. Once buffed, click on your rune. Voilà!"
 			..ns.priest.penanceMed
-ns.priest.penanceEF = "\n\nSpecifically, human priests will visit\nPriestess Anetta in the Northshire Abbey.\n"
-			.."You then go to the Echo Ridge Mine and\nkill Kobold Laborers until a Memory of\n"
-			.."a Troubled Acolyte drops.\n\nReturn to the Abbey. \kneel. Once you\n"
-			.."receive a buff, click on the looted\nMemory to learn the rune!" ..ns.priest.penanceMed
-ns.priest.penanceTel = "\n\nShanda is located in the tree Aldrassil.\nSpeak to her and then go to the Moonwell\n"
-			.."north of Aldrassil and east of the cave.\n/kneel. Once buffed, click on your rune!" ..ns.priest.penanceMed
-ns.priest.penanceTG = "\n\nAfter speaking to Dark Cleric Duesten you'll\nneed to head to the graveyard just nearby.\n"
-			.."/kneel in the graveyard and once buffed\nyou need merely click on your rune!" ..ns.priest.penanceMed
-ns.priest.sharedPain = "Captain Beld & Hammerspine, Helm's Bed Lake,\nfar east Dun Morogh, Gibblewilt, far west Dun\n"
-			.."Morogh; Kobold mobs, Mother Fang, Ruklar the\nTrapper, Jasperlode Mine area, Elwynn Forest;\n"
-			.."Lord Melenas, Fel Rock Cave, Teldrassil (A).\n\nMakasgar, Zalazane, Kolkanis, Scornn, Gazz'uz\n"
-			.."- all in Durotar; Tirisfal Farmer mobs, Solliden\nFarmstead area, Tirisfal Glades (H)\n"
-ns.priest.strength = "Obtain Primal Insight from the Furbolg mobs\nthen climb a tree as marked on the map"
+ns.priest.penanceEF = "\n\nSpecifically, human priests will visit Priestess Anetta in the Northshire Abbey. "
+			.."You then go to the Echo Ridge Mine and kill Kobold Laborers until a Memory of "
+			.."a Troubled Acolyte drops.\n\nReturn to the Abbey. \kneel. Once you "
+			.."receive a buff, click on the looted Memory to learn the rune!" ..ns.priest.penanceMed
+ns.priest.penanceTel = "\n\nShanda is located in the tree Aldrassil. Speak to her and then go to the Moonwell "
+			.."north of Aldrassil and east of the cave. /kneel. Once buffed, click on your rune!" ..ns.priest.penanceMed
+ns.priest.penanceTG = "\n\nAfter speaking to Dark Cleric Duesten you'll need to head to the graveyard just nearby. "
+			.."/kneel in the graveyard and once buffed you need merely click on your rune!" ..ns.priest.penanceMed
+ns.priest.sharedPain = "Captain Beld & Hammerspine, Helm's Bed Lake, far east Dun Morogh, Gibblewilt, far west Dun "
+			.."Morogh; Kobold mobs, Mother Fang, Ruklar the Trapper, Jasperlode Mine area, Elwynn Forest; "
+			.."Lord Melenas, Fel Rock Cave, Teldrassil (A).\n\nMakasgar, Zalazane, Kolkanis, Scornn, Gazz'uz "
+			.."- all in Durotar; Tirisfal Farmer mobs, Solliden Farmstead area, Tirisfal Glades (H) "
+ns.priest.strength = "Obtain Primal Insight from the Furbolg mobs then climb a tree as marked on the map"
 ns.priest.twisted = "See the Quick Start guide for locations.\n\n"
-ns.priest.twistedBarr = "Farm the Razormane mobs for a Helping Hand.\nIt's Tooltip is the hint! With a RANK ONE\n"
-			.."Resurrection, revive a fallen adventurer.\nYou may also revive his/her pet too!"
-ns.priest.twistedDark = "Kill the Stormscale Naga until a Shatterspear\nOffering drops. Go to the nearby water, jump\n"
+ns.priest.twistedBarr = "Farm the Razormane mobs for a Helping Hand. It's Tooltip is the hint! With a RANK ONE "
+			.."Resurrection, revive a fallen adventurer. You may also revive his/her pet too!"
+ns.priest.twistedDark = "Kill the Stormscale Naga until a Shatterspear Offering drops. Go to the nearby water, jump "
 			.."in and click on the Shatterspear Idol. Voilà!"
-ns.priest.twistedLM = "Farm the Tunnel Rats in the Silverstream\nMine for an Offering Coin. Go to the exit\n"
-			.."but just before look right for an alcove.\nToss the coin into the well and you're...\n"
-			.."well done! Now delete this AddOn for such\na terrible pun"
-ns.priest.twistedSil = "The simplest version. Kill and loot\nSadly, a 15 minute respawn timer"
-ns.priest.twistedWest = "Kill the \"Undying\" Laborer, a skeleton\nBUT when it tries to reanimate you must\n"
+ns.priest.twistedLM = "Farm the Tunnel Rats in the Silverstream Mine for an Offering Coin. Go to the exit "
+			.."but just before look right for an alcove. Toss the coin into the well and you're... "
+			.."well done! Now delete this AddOn for such a terrible pun"
+ns.priest.twistedSil = "The simplest version. Kill and loot Sadly, a 15 minute respawn timer"
+ns.priest.twistedWest = "Kill the \"Undying\" Laborer, a skeleton BUT when it tries to reanimate you must "
 			.."kill it with any holy damage. Loot FTW!"
-ns.priest.voidPlague = "Leper Gnome/Gibblewit near Gnomeregan; Goldtooth\nin Elwynn Forest; Gnarlpine Cache, Ban'ethil\n"
-			.."Barrow Den, Teldrassil (A)\nKul Tiras mob, east of Razor Hill, Durotar; Gillgar,\n"
+ns.priest.voidPlague = "Leper Gnome/Gibblewit near Gnomeregan; Goldtooth in Elwynn Forest; Gnarlpine Cache, Ban'ethil "
+			.."Barrow Den, Teldrassil (A) Kul Tiras mob, east of Razor Hill, Durotar; Gillgar, "
 			.."north-west from Deathknell, Tirisfal GladeS (H)"
 -- Priest Phase 2
-ns.priest.dispersion = "Ask a Rogue to pickppocket a Mysterious\nTroll Scroll from any Bloodscalp troll. The\n"
-			.."Rogue must have the Mastery of Subtlety Rune\nand Jani's Charm. The Scroll may be on the AH.\n\n"
-			.."Ask a Mage to use a Comprehension Charm to\ndecipher the Scroll -> Deciphered Troll Scroll\n"
+ns.priest.dispersion = "Ask a Rogue to pickppocket a Mysterious Troll Scroll from any Bloodscalp troll. The "
+			.."Rogue must have the Mastery of Subtlety Rune and Jani's Charm. The Scroll may be on the AH.\n\n"
+			.."Ask a Mage to use a Comprehension Charm to decipher the Scroll -> Deciphered Troll Scroll "
 			.."or just buy on the AH.\n\nThis starts the quest \"The Troll Scroll\".\n\n"
-			.."Grab Holy Spring Water from the fountain as\nper the map. Go to the north-west corner and\n"
-			.."with TWO Meditation buffs use the Holy Water\non a fountain near to and at the rear of\n"
-			.."Gan'zulah (L41). Obtain your lewt!\n\nNote: The quest is shareable, allowing priests\n"
-			.."to skip the Rogue/Mage help. The Scrolls are\ntradeable / on the AH. Lord Sakrasis (L45re)\n"
-			.."might be up at the Holy Spring. Your Homonculi\n(L18 rune) can keep Gan'zulah busy or why not\n"
-			.."die and rez on top of the correct fountain!\nWith smarts you can go STRAIGHT TO the Gan'zulah\n"
+			.."Grab Holy Spring Water from the fountain as per the map. Go to the north-west corner and "
+			.."with TWO Meditation buffs use the Holy Water on a fountain near to and at the rear of "
+			.."Gan'zulah (L41). Obtain your lewt!\n\nNote: The quest is shareable, allowing priests "
+			.."to skip the Rogue/Mage help. The Scrolls are tradeable / on the AH. Lord Sakrasis (L45re) "
+			.."might be up at the Holy Spring. Your Homonculi (L18 rune) can keep Gan'zulah busy or why not "
+			.."die and rez on top of the correct fountain! With smarts you can go STRAIGHT TO the Gan'zulah "
 			.."step, skipping the quest and Mage/Rogue help!!!"
 ns.priest.empowered = "As simple as farming the indicated mobs"
-ns.priest.painSuppression = "Collect \"echos\" in the Swamp of Sorrows, Arathi\nHighlands and Dustwallow Marsh.\n\n"
-			.."Collect a fourth in the Scarlet Monastery Graveyard\nwing. Proceed to the SM Library wing and activate an\n"
-			.."Echo at each of the statues, in the following order:\n\n1) Warrior - Swamp Echo\n2) Mage - Arathi Echo\n"
-			.."3) Paladin - Theramore Echo\n4) Priest - Graveyard Echo\n\nA brilliant sphere appears. Click on it for phat lewt!"
-ns.priest.renewedHope = "Farm the Slitherblade naga mobs along the Desolace\ncoast until an Unsettling Vision drops.\n\n"
-			.."Now use Mind Control (L30) on a Slitherblade\nTide Priestess (L33-34). You must be no more\n"
+ns.priest.painSuppression = "Collect \"echos\" in the Swamp of Sorrows, Arathi Highlands and Dustwallow Marsh.\n\n"
+			.."Collect a fourth in the Scarlet Monastery Graveyard wing. Proceed to the SM Library wing and activate an "
+			.."Echo at each of the statues, in the following order:\n\n1) Warrior - Swamp Echo 2) Mage - Arathi Echo "
+			.."3) Paladin - Theramore Echo 4) Priest - Graveyard Echo\n\nA brilliant sphere appears. Click on it for phat lewt!"
+ns.priest.renewedHope = "Farm the Slitherblade naga mobs along the Desolace coast until an Unsettling Vision drops.\n\n"
+			.."Now use Mind Control (L30) on a Slitherblade Tide Priestess (L33-34). You must be no more "
 			.."than 2 levels below this mob for MC to work.\n\nNow use your Unsettling Vision to learn!"
 -- Priest Phase 3
-ns.priest.eyeOfVoid = "Collect seven eyes from around Azeroth: Blasted Lands,\n"
-			.."Felwood, Feralas, Searing Gorge, Stranglethorn Vale,\n"
-			.."Tanaris, and The Hinterlands.\n\nAfterwards go to the far north-east promontory of\n"
-			.."Azshara and locate the Shrine of the Watcher.\n\n/kneel to receive a quest. (Reload if bugged).\n"
+ns.priest.eyeOfVoid = "Collect seven eyes from around Azeroth: Blasted Lands, "
+			.."Felwood, Feralas, Searing Gorge, Stranglethorn Vale, "
+			.."Tanaris, and The Hinterlands.\n\nAfterwards go to the far north-east promontory of "
+			.."Azshara and locate the Shrine of the Watcher.\n\n/kneel to receive a quest. (Reload if bugged). "
 			.."Hand in for your phat reward"
-ns.priest.surgeLight = "Between the server hours of 9pm and 3am the\nEcho of a Lost Soul will spawn at: the Gadgetzan\n"
-			.."Graveyard in Tanaris, the Ruins of Alboraz in\nStranglethorn, the Graveyard south east of\n"
-			.."Stonard, the graveyard north west of Revantusk\nVillage.\n\nThe Echo is immune to most damage except Arcane.\n"
-			.."Kill and loot.\n\nRespawn is very fast so if you do not see the Echo\n"
+ns.priest.surgeLight = "Between the server hours of 9pm and 3am the Echo of a Lost Soul will spawn at: the Gadgetzan "
+			.."Graveyard in Tanaris, the Ruins of Alboraz in Stranglethorn, the Graveyard south east of "
+			.."Stonard, the graveyard north west of Revantusk Village.\n\nThe Echo is immune to most damage except Arcane. "
+			.."Kill and loot.\n\nRespawn is very fast so if you do not see the Echo "
 			.."then you are standing there at the wrong time"
 -- Priest Phase 4/5
-ns.priest.bindingHeal = "Go to your regular priestly rune quest giver,\nbe that Dietrich Praice in the VoS, Org (H)\n"
-			.."or High Priestess Laurena, Cath., SW (A).\n\nStart \"Lost Heirloom\" by heading to the\n"
-			.."Western Plaguelands. Obtain three relics\nfrom the Sorrow Hill Crypt. Hand in.\n\n"
-			.."You're now off to Hearthglen, north-west\nWestern Plaguelands. The ledger is on a\n"
-			.."podium in the Town Hall.\n\nNow Tyr's Hand, south-east corner of the\n"
-			.."Eastern Plaguelands. You'll find the\nCache on the top floor of the bell tower.\n\n"
-			.."The Puzzle Box you receive is locked so\nkill the scarlet mobs for a key.\n\n"
+ns.priest.bindingHeal = "Go to your regular priestly rune quest giver, be that Dietrich Praice in the VoS, Org (H) "
+			.."or High Priestess Laurena, Cath., SW (A).\n\nStart \"Lost Heirloom\" by heading to the "
+			.."Western Plaguelands. Obtain three relics from the Sorrow Hill Crypt. Hand in.\n\n"
+			.."You're now off to Hearthglen, north-west Western Plaguelands. The ledger is on a "
+			.."podium in the Town Hall.\n\nNow Tyr's Hand, south-east corner of the "
+			.."Eastern Plaguelands. You'll find the Cache on the top floor of the bell tower.\n\n"
+			.."The Puzzle Box you receive is locked so kill the scarlet mobs for a key.\n\n"
 			.."You'll finish up in Org/SW. Rune lewt!"
 ns.priest.soulWarding = "You'll need a cooperative group here, minimum of 3.\n\n"
-			.."The first mob you must kill is the Stratholme Courier (L57e),\n"
-			.."so proceed forward and at the fork turn a hard left. He'll\n"
-			.."drop three random mailbox keys. At the correct mailboxes\n"
+			.."The first mob you must kill is the Stratholme Courier (L57e), "
+			.."so proceed forward and at the fork turn a hard left. He'll "
+			.."drop three random mailbox keys. At the correct mailboxes "
 			.."use a key to obtain a total of three Shadow Jars.\n\n"
 			.."The Jars are unique so two others must help you here.\n\n"
-			.."Along the way to Balnazzar you'll see three pedestals. Read\n"
+			.."Along the way to Balnazzar you'll see three pedestals. Read "
 			.."them for clues as to which bosses you must process:\n\n"
-			..colourPlaintext .."\"Among the dead this mortal...\" " ..colourHighlight .."Maleki\n"
-			..colourPlaintext .."\"A specter cursed to guard...\" " ..colourHighlight .."Anastari\n"
-			..colourPlaintext .."\"The ancient kingdom ...\" " ..colourHighlight .."Nerub'enkan\n"
-			..colourPlaintext .."\"Built from flesh, a sin of...\" " ..colourHighlight .."Ramstein\n"
-			..colourPlaintext .."\"The people looked to him...\" " ..colourHighlight .."Barthilas\n"
-			..colourPlaintext .."\"A champion of wicked malice...\" " ..colourHighlight .."Rivendare\n"
-			..colourPlaintext .."\"Holy furor purges sin and...\" " ..colourHighlight .."Balnazzar\n"
-			..colourPlaintext .."\"The smell of brimstone...\" " ..colourHighlight .."Cannon Master Willey\n\n"
-			.."On that corpse you must use a jar to capture the boss echo.\n"
+			.."\"Among the dead this mortal...\" ---> Maleki\n"
+			.."\"A specter cursed to guard...\" ---> Anastari\n"
+			.."\"The ancient kingdom ...\" ---> Nerub'enkan\n"
+			.."\"Built from flesh, a sin of...\" ---> Ramstein\n"
+			.."\"The people looked to him...\" ---> Barthilas\n"
+			.."\"A champion of wicked malice...\" ---> Rivendare\n"
+			.."\"Holy furor purges sin and...\" ---> Balnazzar\n"
+			.."\"The smell of brimstone...\" ---> Cannon Master Willey\n\n"
+			.."On that corpse you must use a jar to capture the boss echo. "
 			.."Note that echoes have a two hour duration.\n\n"
-			.."Back at the pedestals you must use the echoes at the correct\n"
+			.."Back at the pedestals you must use the echoes at the correct "
 			.."pedestal. There will then be an orb to loot - rune loot!"
 
 -- Rogue Phase 1
-ns.rogue.bladeDance = "Cliffspring River Cave, Darkshore. Keys drops\noff Cliffspring mobs; Pp Dark Iron Dwarves in\n"
-			.."Loch Modan. Open the lockbox; Pick Pocket Defias\nmobs for a Discreet Envelope. Go to the back\n"
-			.."entrance of the Deadmines, Westfall (A).\n\nPp Southsea mobs for Buccaneer's Matchbox. Go\n"
-			.."up the nearby hill. Light the gunpowder bucket.\nKaboom! Voilà, your reward awaits! (H)"
-ns.rogue.deadlyBrew = "At L20 you'll receive a letter from \"C\". Ignore it. At L22 learn Vanish and Distract\n"
-			.."and have five points in Master of Deception (Tier 1 Subtlety). Camouflage (T2) is strongly\n"
+ns.rogue.bladeDance = "Cliffspring River Cave, Darkshore. Keys drops off Cliffspring mobs; Pp Dark Iron Dwarves in "
+			.."Loch Modan. Open the lockbox; Pick Pocket Defias mobs for a Discreet Envelope. Go to the back "
+			.."entrance of the Deadmines, Westfall (A).\n\nPp Southsea mobs for Buccaneer's Matchbox. Go "
+			.."up the nearby hill. Light the gunpowder bucket. Kaboom! Voilà, your reward awaits! (H)"
+ns.rogue.deadlyBrew = "At L20 you'll receive a letter from \"C\". Ignore it. At L22 learn Vanish and Distract "
+			.."and have five points in Master of Deception (Tier 1 Subtlety). Camouflage (T2) is strongly "
 			.."suggested. Another 5 points!\n\n"
 			.."At Pyrewood Village loot the chest in the little house/hut. Thus begins the first quest (above).\n\n"
 			.."(Don't go to Stonetalon Mountains. Noobs do that. Enter SFK alone ftw coz you my friend are l33t!)\n\n"
-			.."Stealth to Rethilgore. First boss in the first room. Go to your A/H cell nearby. Open the cell\n"
+			.."Stealth to Rethilgore. First boss in the first room. Go to your A/H cell nearby. Open the cell "
 			.."but quickly Vanish! Talk to the NPC to open the Courtyard Gate.\n\n"
-			.."You need to locate Gemela and Gefell. Stealth! You may luck out with a Pick Pocket resist. Be\n"
+			.."You need to locate Gemela and Gefell. Stealth! You may luck out with a Pick Pocket resist. Be "
 			.."ready to Vanish. Use Distract too as necessary.\n\n"
 			.."Gemela is in the Dining Room, near the Kitchen. Pp her to receive Sister's Half-Key.\n\n"
 			.."Gefell is upstairs, take a right. He drops the Brother's Half-Key.\n\n"
 			.."Combine the two for Twin Key but note that you'll need to Vanish again (or do it safely).\n\n"
 			.."Back to the Courtyard and the Stables. Use the key on the chest. You now have the Horn of Xelthos.\n\n"
-			.."Outside the dungeon, turn in at the little house. You must now wait for a second mail. It will tell\n"
+			.."Outside the dungeon, turn in at the little house. You must now wait for a second mail. It will tell "
 			.."you to come back to here for your reward!!!\n\n"
-			.."YMMV but reports are that you must go to a city to trigger the letter. But first try waiting 15 minutes\n"
+			.."YMMV but reports are that you must go to a city to trigger the letter. But first try waiting 15 minutes "
 			.."including a full Exit game. Might save a long walk!\n\n"
 			.."(The second quest (above) indicates if you have yet to \"hand in\" after the second letter)"
-ns.rogue.envenom = "Speak to Kris Legace. She's behind Durnholde\nKeep. There's no need to enter it.\n\n"
-			.."Buy \"Hot Tip\" from her. You'll need 75s.\n\nCheck your map. Follow the river east of Tarren\n"
-			.."Mill all the way into the Western Plaguelands.\n\nContinue right to the end - the waterfall. The\n"
+ns.rogue.envenom = "Speak to Kris Legace. She's behind Durnholde Keep. There's no need to enter it.\n\n"
+			.."Buy \"Hot Tip\" from her. You'll need 75s.\n\nCheck your map. Follow the river east of Tarren "
+			.."Mill all the way into the Western Plaguelands.\n\nContinue right to the end - the waterfall. The "
 			.."location of a Rusty Safe is marked on your map"
-ns.rogue.mutilate = "Pp Dark Iron Spies for Blackrat's Note, south of\nHelm's Bed Lake, far east Dun Morogh; Pp Garrick\n"
-			.."Padfoot for Cutty's Note, Northshire Vineyards;\nLord Melenas, Fel Rock Cave, Teldrassil (A).\n\n"
-			.."Pp Burning Blade mobs for Ba'kso's Note, Durotar;\nPp Captain Perrine, south of Brill, Tirisfal Glades (H)"
-ns.rogue.precision = "Loot from the Forlorn Cavern, Ironforge; Cutthroat\nAlley, Stormwind; Gnarlpine Stash, far south,\n"
+ns.rogue.mutilate = "Pp Dark Iron Spies for Blackrat's Note, south of Helm's Bed Lake, far east Dun Morogh; Pp Garrick "
+			.."Padfoot for Cutty's Note, Northshire Vineyards; Lord Melenas, Fel Rock Cave, Teldrassil (A).\n\n"
+			.."Pp Burning Blade mobs for Ba'kso's Note, Durotar; Pp Captain Perrine, south of Brill, Tirisfal Glades (H)"
+ns.rogue.precision = "Loot from the Forlorn Cavern, Ironforge; Cutthroat Alley, Stormwind; Gnarlpine Stash, far south, "
 			.."Teldrassil (A).\n\n"
-			.."Chest in The Drag, Orgrimmar; Shipwreck Cache,\neast of Garron's Haunt, Tirisfal Glades (H)"
-ns.rogue.quickDraw = "You need to piece together a Treasure Map that is in\n"
-			.."four segments. You cannot share segments across zones.\n"
+			.."Chest in The Drag, Orgrimmar; Shipwreck Cache, east of Garron's Haunt, Tirisfal Glades (H)"
+ns.rogue.quickDraw = "You need to piece together a Treasure Map that is in "
+			.."four segments. You cannot share segments across zones. "
 			.."Decide where you will be mostly spending your time. Pick Pocket.\n\n"
 ns.rogue.quickDrawDM = "Dun Morogh Treasure Map:\n"
-			.."    Top-Right: Frostmane mobs in Coldridge Valley and westerm Dun Morogh\n"
-			.."    Top-Left: Rockjaw mobs south/west of Helm's Bed Lake, far south-east Dun Morogh\n"
-			.."    Bottom-Right: Leper Gnome, Gates of Gnomeregan, far west Dun Morogh\n"
-			.."    Bottom-Left: Dark Iron Spy, south of Helm's Bed Lake, far south-east Dun Morogh\n"
-			.."    Final location: Under a bridge, road from Kharanos to Ironforge"
+			.."Top-Right: Frostmane mobs in Coldridge Valley and westerm Dun Morogh\n"
+			.."Top-Left: Rockjaw mobs south/west of Helm's Bed Lake, far south-east Dun Morogh\n"
+			.."Bottom-Right: Leper Gnome, Gates of Gnomeregan, far west Dun Morogh\n"
+			.."Bottom-Left: Dark Iron Spy, south of Helm's Bed Lake, far south-east Dun Morogh\n"
+			.."Final location: Under a bridge, road from Kharanos to Ironforge"
 ns.rogue.quickDrawEF = "Elwynn Treasure Map:\n"
-			.."    Top-Right: Kobold mobs at the entrance to the three mines\n"
-			.."    Top-Left: Defias Wizard middle of Stonecairn Lake, Bandits everywhere\n"
-			.."    Bottom-Right: Murloc Forager east side of Stonecairn Lake, south-east coast\n"
-			.."    Bottom-Left: Riverpaw Outrunner near Hogger or Stonecairn Lake\n"
-			.."    Final location: Near Ridgepoint Tower"
+			.."Top-Right: Kobold mobs at the entrance to the three mines\n"
+			.."Top-Left: Defias Wizard middle of Stonecairn Lake, Bandits everywhere\n"
+			.."Bottom-Right: Murloc Forager east side of Stonecairn Lake, south-east coast\n"
+			.."Bottom-Left: Riverpaw Outrunner near Hogger or Stonecairn Lake\n"
+			.."Final location: Near Ridgepoint Tower"
 ns.rogue.quickDrawTel = "Teldrassil Treasure Map:\n"
-			.."    Top-Right: Timberling mobs at the Orcale Glade river, lake south of Dolanaar\n"
-			.."    Top-Left: Gnarlinepine mobs, Ban'ethil Barrow Den\n"
-			.."    Bottom-Right: Harpies, Oracle Glade\n"
-			.."    Bottom-Left: Sprites, Fel Rock Cave\n"
-			.."    Final location: Hollow stump, Rut'theran Village"
+			.."Top-Right: Timberling mobs at the Orcale Glade river, lake south of Dolanaar\n"
+			.."Top-Left: Gnarlinepine mobs, Ban'ethil Barrow Den\n"
+			.."Bottom-Right: Harpies, Oracle Glade\n"
+			.."Bottom-Left: Sprites, Fel Rock Cave\n"
+			.."Final location: Hollow stump, Rut'theran Village"
 ns.rogue.quickDrawDur = "Durotar Treasure Map:\n"
-			.."    Top-Right: Kul Tiran mobs, east of Razor Hill\n"
-			.."    Top-Left: Burning Blade mobs. Approach via Razor Hill\n"
-			.."    Bottom-Right: Gnolls, central Durotar\n"
-			.."    Bottom-Left: Trolls, main Echo Isle\n"
-			.."    Final location: At the foot of a statue, southern Echo Isles"
+			.."Top-Right: Kul Tiran mobs, east of Razor Hill\n"
+			.."Top-Left: Burning Blade mobs. Approach via Razor Hill\n"
+			.."Bottom-Right: Gnolls, central Durotar\n"
+			.."Bottom-Left: Trolls, main Echo Isle\n"
+			.."Final location: At the foot of a statue, southern Echo Isles"
 ns.rogue.quickDrawTG = "Tirisfal Treasure Map:\n"
-			.."    Top-Right: Scarlet mobs all over, eg, towards the Monastery\n"
-			.."    Top-Left: Farmers north of Deathknell\n"
-			.."    Bottom-Left: Gnolls at Garren's Haunt\n"
-			.."    Bottom-Right: Vile Fin murlocs, coastal areas\n"
-ns.rogue.saberSlash = "Auberdine lighthouse, Darkshore; platform,\nStonewrought Dam, Loch Modan; hill behind\n"
-			.."the Sentinel Hill Inn, Westfall (A).\n\nstable roof, Northwatch Hold, The Barrens\n"
-			.."Rusty Chest on a platform at the entrance\nto Shadowfang Keep, Silverpine Forest (H)"
-ns.rogue.cutthroat = "First obtain an Engraved Gold Ring from Pick\nPocketing the Defias mobs along the southern\n"
+			.."Top-Right: Scarlet mobs all over, eg, towards the Monastery\n"
+			.."Top-Left: Farmers north of Deathknell\n"
+			.."Bottom-Left: Gnolls at Garren's Haunt\n"
+			.."Bottom-Right: Vile Fin murlocs, coastal areas\n"
+ns.rogue.saberSlash = "Auberdine lighthouse, Darkshore; platform, Stonewrought Dam, Loch Modan; hill behind "
+			.."the Sentinel Hill Inn, Westfall (A).\n\nstable roof, Northwatch Hold, The Barrens "
+			.."Rusty Chest on a platform at the entrance to Shadowfang Keep, Silverpine Forest (H)"
+ns.rogue.cutthroat = "First obtain an Engraved Gold Ring from Pick Pocketing the Defias mobs along the southern "
 			.."border of Duskwood.\n\n"
-			.."Then go up to the cemetary and /kneel at the\nstatue. Careful of the pats, choose your moment!"
-ns.rogue.slaughter = "Above the Inn, Kharanos, Dun Morogh; Roof of the\nspooky house north of Goldshire, Elwynn Forest;\n"
-			.."several cache locations inside the Ban'ethil Barrow\nDen, Teldrassil (A).\n\n"
-			.."Drygulch Ravine, Durotar - look for a pin north\nnorth-west of Razor Hill; Relic Coffer in the\n"
-			.."Agamand Crypts, Tirisfal Glades. The key drops off\nnearby mobs"
+			.."Then go up to the cemetary and /kneel at the statue. Careful of the pats, choose your moment!"
+ns.rogue.slaughter = "Above the Inn, Kharanos, Dun Morogh; Roof of the spooky house north of Goldshire, Elwynn Forest; "
+			.."several cache locations inside the Ban'ethil Barrow Den, Teldrassil (A).\n\n"
+			.."Drygulch Ravine, Durotar - look for a pin north north-west of Razor Hill; Relic Coffer in the "
+			.."Agamand Crypts, Tirisfal Glades. The key drops off nearby mobs"
 -- Rogue Phase 2
-ns.rogue.punches = "Simply pick the strongboxes within\nstrongboxes. The most difficult requires\n"
-			.."Level 55 Lockpicking. You may discard\nthe notes you'll find"
+ns.rogue.punches = "Simply pick the strongboxes within strongboxes. The most difficult requires "
+			.."Level 55 Lockpicking. You may discard the notes you'll find"
 ns.rogue.shadowstep = "At L20 you'll receive a letter from \"C\", assuming you've already obtained Deadly Brew.\n\n"
-			.."Once again, head to the Dead Drop location in Pyrewood Village in Silverpine and pickup \"The\n"
+			.."Once again, head to the Dead Drop location in Pyrewood Village in Silverpine and pickup \"The "
 			.."Eye of Bhossca\" part 2.\n\n"
-			.."The Supply Locker is near the stables in the Monastery grounds (Outside the instance).\n"
+			.."The Supply Locker is near the stables in the Monastery grounds (Outside the instance). "
 			.."Pick (100) and loot the disguise.\n\n"
-			.."Enter SC GY Wing solo, don the disguise and PP a Scarlet Scryer for a key. Enter the Lib wing\n"
-			.."and open the Personal Letterbox in the Athanaeum for a Confidential Message. Enter the\n"
+			.."Enter SC GY Wing solo, don the disguise and PP a Scarlet Scryer for a key. Enter the Lib wing "
+			.."and open the Personal Letterbox in the Athanaeum for a Confidential Message. Enter the "
 			.."GY Wing. /sit on a bench in the Forloin Cloister then cross the room and /sit on the other side.\n\n"
 			.."Now walk north and loot the Stone Coffer from a mausoleum niche for another Key.\n\n"
 			.."Go to the Gallery of Treasures in the Lib Wing and loot the Padlocked Reliquary -> Eye of Bhossca.\n\n"
-			.."Back in Pyrewood, place the Eye in the Dead Drop chest. Hearth to a MAJOR city. Check mail (relog).\n"
+			.."Back in Pyrewood, place the Eye in the Dead Drop chest. Hearth to a MAJOR city. Check mail (relog). "
 			.."Yup... back to the Dead Drop. Grab your phat lewt"
-ns.rogue.shurikenToss = "Near the marked chest spawn location will\nbe a Poison Dart trap. Use Disarm Trap (L30)\n"
+ns.rogue.shurikenToss = "Near the marked chest spawn location will be a Poison Dart trap. Use Disarm Trap (L30) "
 			.."or wait for another Rogue to do it for you.\n\nDon't walk in front of the trap!!!\n\n"
 			.."The Chest will appear, containing phat lewt!"
-ns.rogue.subtlety = "Enter the stone tower in the Kurzen compound\nand speak to Wendel Mathers.\n\n"
-			.."Kill Kurzen mobs in the cave to the north\nfor a Compound Cage Key. Free Mathers.\n\n"
-			.."At Booty Bay speak to Captain Aransas.\n\nNote that the cave also has a chest (125)\n"
+ns.rogue.subtlety = "Enter the stone tower in the Kurzen compound and speak to Wendel Mathers.\n\n"
+			.."Kill Kurzen mobs in the cave to the north for a Compound Cage Key. Free Mathers.\n\n"
+			.."At Booty Bay speak to Captain Aransas.\n\nNote that the cave also has a chest (125) "
 			.."that you can pick"
 -- Rogue Phase 3
-ns.rogue.honorThieves = "Upon receiving the quest you'll go to Ravenholdt\n"
-			.."Manor in Alterac Mountains. Fahrad there will send you\n"
-			.."to Zul'Farrak.\n\nEnter the Zul'Farrak SOLO. (It's a special version just\nfor Rogues doing this).\n\n"
-			.."Look in tents for two Vile Concoctions in Clay Vessels.\n"
-			.."Note that throwing the Concoctions into a cauldron will\n"
-			.."not break stealth.\n\nUse one near Antu'sul then loot the Offering of Bone from\n"
-			.."his bag. Likewise Witch Doctor Zum'rah for the Ward of\n"
-			.."the dead. Equip this trinket and you'll see a grave. Loot\n"
+ns.rogue.honorThieves = "Upon receiving the quest you'll go to Ravenholdt "
+			.."Manor in Alterac Mountains. Fahrad there will send you "
+			.."to Zul'Farrak.\n\nEnter the Zul'Farrak SOLO. (It's a special version just for Rogues doing this).\n\n"
+			.."Look in tents for two Vile Concoctions in Clay Vessels. "
+			.."Note that throwing the Concoctions into a cauldron will "
+			.."not break stealth.\n\nUse one near Antu'sul then loot the Offering of Bone from "
+			.."his bag. Likewise Witch Doctor Zum'rah for the Ward of "
+			.."the dead. Equip this trinket and you'll see a grave. Loot "
 			.."the Offering of Flesh from it.\n\nCombine both Offerings -> Blood Magic Essence.\n\n"
-			.."To the right of the \"Stair Event\" is a stone block.\nJump up. Walk to a balcony with a chest. Obtain the\n"
-			.."Hollow Emblem. Combine this with the Blood Essence ->\nEmblem of Blood Magic.\n\n"
-			.."At the top of the pyramid loot the War Chest for a\nTalisman of Kazdor. Well done. Return to Ravenholdt.\n\n"
-			.."Now take your Modified Talisman to the Pyrewood\nVillage Dead Drop. Now back to Ravenholdt where Fahrad\n"
+			.."To the right of the \"Stair Event\" is a stone block. Jump up. Walk to a balcony with a chest. Obtain the "
+			.."Hollow Emblem. Combine this with the Blood Essence -> Emblem of Blood Magic.\n\n"
+			.."At the top of the pyramid loot the War Chest for a Talisman of Kazdor. Well done. Return to Ravenholdt.\n\n"
+			.."Now take your Modified Talisman to the Pyrewood Village Dead Drop. Now back to Ravenholdt where Fahrad "
 			.."will reward you with your Rune AND a great Agility cloak!"
-ns.rogue.unfair = "Pickpocket the pirate mobs at the Cove in Tanaris\nuntil you score a Kidnapper's Coin Purse with a\n"
-			.."Precious Medallion.\n\nTake to Jabbey at the Steamwheedle Port and he'll\n"
+ns.rogue.unfair = "Pickpocket the pirate mobs at the Cove in Tanaris until you score a Kidnapper's Coin Purse with a "
+			.."Precious Medallion.\n\nTake to Jabbey at the Steamwheedle Port and he'll "
 			.."happily exchange it for a Rune of Foul Play!"
 -- Rogue Phase 4/5
-ns.rogue.blunderbuss = "Atypically, the pin numbering begins from 0.\n\nBegin by lock picking (min 250) the Footlockers\n"
-			.."until a Sending Sigil drops.\n\nNow go to the pins numbered 1 to 4 in that\n"
-			.."EXACT order. Note that each time you interact\nwith a pillar you will be teleported to one\n"
-			.."of the other pillars. If lucky, it's the correct\nnext pillar!\n\nAfter the fourth pillar you are transported\n"
+ns.rogue.blunderbuss = "Atypically, the pin numbering begins from 0.\n\nBegin by lock picking (min 250) the Footlockers "
+			.."until a Sending Sigil drops.\n\nNow go to the pins numbered 1 to 4 in that "
+			.."EXACT order. Note that each time you interact with a pillar you will be teleported to one "
+			.."of the other pillars. If lucky, it's the correct next pillar!\n\nAfter the fourth pillar you are transported "
 			.."to a final location. There's a chest there!"
-ns.rogue.crimson = "Farm the Scarlet Workers in Hearthglen\nfor a Toolbox Key. PP or kill works.\n\n"
-			.."Use it to open the Scarlet Toolbox.\n\nNow go to the Marked Crate and use\n"
-			.."the Rusty Crowbar from the Toolbox.\n\nAnother tower now and with your newly\n"
-			.."acquired Safe Box Key. Locate the\nBelavus' Safe Box. Your phat lewt!"
+ns.rogue.crimson = "Farm the Scarlet Workers in Hearthglen for a Toolbox Key. PP or kill works.\n\n"
+			.."Use it to open the Scarlet Toolbox.\n\nNow go to the Marked Crate and use "
+			.."the Rusty Crowbar from the Toolbox.\n\nAnother tower now and with your newly "
+			.."acquired Safe Box Key. Locate the Belavus' Safe Box. Your phat lewt!"
 
 -- Shaman Phase 1
-ns.shaman.dyadicIcon = "Troll/Orc: Meet Shikrik in the Valley of the Trials,\nTauren: Meela Dawnstrider in Camp Narache.\n\n"
-			.."Troll/Orc stay in their starting zone for the quest\nbut Tauren will need to kill Bristleback Shaman in\n"
-			.."the Brambleblade Ravine.\n\nEquip your Dyadic Icon. Note the Tooltip. The same\n"
-			.."quest mobs are okay here. At ten stacks click your\nequipped Icon. Turn in the quest for phat lewt"
-ns.shaman.earthenRune = "Two ways to obtian this. First is to\nfarm Desert Mirage in The Barrens. Great\n"
-			.."drop and spawn rate. Priests will also\nbe farming there. Level 15 mobs.\n\n"
-			.."Alternatively farm the Rot Hide Mystics\nin Silverpine Forest. Easier mobs but\n"
-			.."much poorer drop rate and you'll need\nto kill a second spawned mob.\n\nGo to The Barrens FTW!\n\n"
-			.."Apart from that it's a straight drop and\nlearn rune with no extra tasks"
-ns.shaman.galvanicIcon = "Head to Mulgore or Durotar and look\nand listen for lightning strikes.\n\n"
-			.."Mulgore locations are near The Barrens.\n\nRun to a \"lighting infused totem\" and\n"
+ns.shaman.dyadicIcon = "Troll/Orc: Meet Shikrik in the Valley of the Trials, Tauren: Meela Dawnstrider in Camp Narache.\n\n"
+			.."Troll/Orc stay in their starting zone for the quest but Tauren will need to kill Bristleback Shaman in "
+			.."the Brambleblade Ravine.\n\nEquip your Dyadic Icon. Note the Tooltip. The same "
+			.."quest mobs are okay here. At ten stacks click your equipped Icon. Turn in the quest for phat lewt"
+ns.shaman.earthenRune = "Two ways to obtian this. First is to farm Desert Mirage in The Barrens. Great "
+			.."drop and spawn rate. Priests will also be farming there. Level 15 mobs.\n\n"
+			.."Alternatively farm the Rot Hide Mystics in Silverpine Forest. Easier mobs but "
+			.."much poorer drop rate and you'll need to kill a second spawned mob.\n\nGo to The Barrens FTW!\n\n"
+			.."Apart from that it's a straight drop and learn rune with no extra tasks"
+ns.shaman.galvanicIcon = "Head to Mulgore or Durotar and look and listen for lightning strikes.\n\n"
+			.."Mulgore locations are near The Barrens.\n\nRun to a \"lighting infused totem\" and "
 			.."click and equip.\n\n"
 			.."Kill 10 x mobs with Lightning Strike.\n\nClick the slot"
-ns.shaman.kajaricIcon = "While grinding the shaman gnolls at the farm in\nthe south-east corner of the Hillsbrad Foothills,\n"
-			.."please avoid the Mudsnout Gnolls as they do\nNOT drop the Kajaric Icon. Only the Mudsnout\nShaman.\n\n"
-			.."Equip the (low drop rate) Kajaric Icon\n\nProceed to Orgrimmar and enter Ragefire\n"
-			.."Chasm. With care, play in the lava FTW, albeit\na little crispier"
-ns.shaman.lavaLash = "Meet Boarton Shadetotem on the main mesa of\nThunder Bluff. He's the Rogue trainer,\n"
-			.."seconded to deal with you, a mere Shaman.\n\nHe'll have three quests, for which the first\n"
-			.."you'll receive a rogue-style \"disguise\".\n\nThe Seaforium Charges are obtained from\n"
-			.."carts in the Venture Co mine as marked.\n\nHe let's you known soon enough that rogueish\n"
-			.."stuff is not your line. Fine.\n\nThe Windfury Cones are difficult to see\nbut I marked some for you.\n\n"
-			.."The last task requires fishing. I've marked\nthe trainer on the map.\n\n"
-			.."Voilà - a double banger. Dual Wielding and\nLava Lash!!!"
+ns.shaman.kajaricIcon = "While grinding the shaman gnolls at the farm in the south-east corner of the Hillsbrad Foothills, "
+			.."please avoid the Mudsnout Gnolls as they do NOT drop the Kajaric Icon. Only the Mudsnout Shaman.\n\n"
+			.."Equip the (low drop rate) Kajaric Icon\n\nProceed to Orgrimmar and enter Ragefire "
+			.."Chasm. With care, play in the lava FTW, albeit a little crispier"
+ns.shaman.lavaLash = "Meet Boarton Shadetotem on the main mesa of Thunder Bluff. He's the Rogue trainer, "
+			.."seconded to deal with you, a mere Shaman.\n\nHe'll have three quests, for which the first "
+			.."you'll receive a rogue-style \"disguise\".\n\nThe Seaforium Charges are obtained from "
+			.."carts in the Venture Co mine as marked.\n\nHe let's you known soon enough that rogueish "
+			.."stuff is not your line. Fine.\n\nThe Windfury Cones are difficult to see but I marked some for you.\n\n"
+			.."The last task requires fishing. I've marked the trainer on the map.\n\n"
+			.."Voilà - a double banger. Dual Wielding and Lava Lash!!!"
 ns.shaman.earthShield = "Kill Baron Aquanis in Blackfathom Deeps\n\nTake the Globe to Je'neu Sancrea at the Zoram Strand.\n\n"
-			.."Note that one of his tasks requires elixirs. These\nare not mob drops. You buy on the AH or craft them"
-ns.shaman.runeFury = "Simply kill the Primordial Anomaly.\n\nRoams around the Charred Vale in Stonetalon Mountains.\n"
-			.."Oscillates between three elemental forms. Elite mob but if\n"
-			.."you tailor your elemental attacks vs its elemental form\n"
+			.."Note that one of his tasks requires elixirs. These are not mob drops. You buy on the AH or craft them"
+ns.shaman.runeFury = "Simply kill the Primordial Anomaly.\n\nRoams around the Charred Vale in Stonetalon Mountains. "
+			.."Oscillates between three elemental forms. Elite mob but if "
+			.."you tailor your elemental attacks vs its elemental form "
 			.."then you can solo it. Drop and learn rune. Great drop rate"
-ns.shaman.sulfurousIcon = "Go to the Bael'Dun Digsite, south-west of Thunder\nBluff and loot the Bael'Dun Dwarves there for a\n"
-			.."locker key. Inside the box is your rune. Easy.\n\nIf you prefer pain then go to the east coast of\n"
-			.."Durotar, across from Razor Hill. The Frozen\nMakrura needs five sumultaneous firey debuffs.\n"
-			.."As Mages and Warlocks also go there then you\njust might get lucky.\n\n"
-			.."Do the usual, equip the Icon. Follow instructions.\n10 x mobs with Earth Shock. Click & learn. Winner!"
-ns.shaman.tempestIcon = "Choice of Grimson the Pale in Silverpine Forest\nor farming centaur in The Barrens for a key to\n"
+ns.shaman.sulfurousIcon = "Go to the Bael'Dun Digsite, south-west of Thunder Bluff and loot the Bael'Dun Dwarves there for a "
+			.."locker key. Inside the box is your rune. Easy.\n\nIf you prefer pain then go to the east coast of "
+			.."Durotar, across from Razor Hill. The Frozen Makrura needs five sumultaneous firey debuffs. "
+			.."As Mages and Warlocks also go there then you just might get lucky.\n\n"
+			.."Do the usual, equip the Icon. Follow instructions. 10 x mobs with Earth Shock. Click & learn. Winner!"
+ns.shaman.tempestIcon = "Choice of Grimson the Pale in Silverpine Forest or farming centaur in The Barrens for a key to "
 			.."chests. Essentially a Hobson's Choice.\n\nI guess the Kolkar chests in The Barrens.\n\n"
-			.."Equip when you get the drop. Then kill 10 x mobs,\nensuring, you've used nature, fire, frost attacks"
+			.."Equip when you get the drop. Then kill 10 x mobs, ensuring, you've used nature, fire, frost attacks"
 -- Shaman Phase 2
-ns.shaman.decoyTotem = "Farm for 10 Strong Harpy Feathers and\n3 Cloud Serpent Fangs in Thousand Needles.\n\n"
-			.."Purchase a Silken Thread from a trade supplier.\n\nAt the Altar of the Wind Spirit combine them\n"
-			.."together. You now have a 30 second buff\n\"Offering to the Wind Spirit\".\n\n"
+ns.shaman.decoyTotem = "Farm for 10 Strong Harpy Feathers and 3 Cloud Serpent Fangs in Thousand Needles.\n\n"
+			.."Purchase a Silken Thread from a trade supplier.\n\nAt the Altar of the Wind Spirit combine them "
+			.."together. You now have a 30 second buff \"Offering to the Wind Spirit\".\n\n"
 			.."Jump immediately off the mesa! Check your bags!"
-ns.shaman.fireNova = "North of Thunder Axe Fortress in Desolace\nyou'll fnd Flameseer Dubelen. Kill. Lot the\n"
-			.."Corrupted Fire Totem.\n\nTravel to Org and speak to Zor Lonetree in the\n"
-			.."Valley of Wisdom. Travel now to Maraudon, Desolace.\n\nYou do NOT need to enter the dungeons. You'll\n"
-			.."be looting a Tear of Theradras from the purple/\npink/left vestibule and the orange/red/right\n"
-			.."vestibule. The tears are a blue colour and hidden\nwithin the purple/orange crystal formations.\n\n"
-			.."Best is to use Reincarnation (L30) / corspe run.\n\nReturn to Zor Lonetree. Then visit Arch Shaman\n"
-			.."Hamuul Runetotem on the Elder Rise at Thunder\nBluff and then fly to Moonglade, with Tal's help.\n\n"
-			.."Speak to Keeper Remulos, Follow the directions,\nbox -> Vial -> Salve -> Cleanse -> Phat Lewt!"
-ns.shaman.maelstrom = "Defeat the final boss of RFK, Charlga Razorflank (L33e)\n"
+ns.shaman.fireNova = "North of Thunder Axe Fortress in Desolace you'll fnd Flameseer Dubelen. Kill. Lot the "
+			.."Corrupted Fire Totem.\n\nTravel to Org and speak to Zor Lonetree in the "
+			.."Valley of Wisdom. Travel now to Maraudon, Desolace.\n\nYou do NOT need to enter the dungeons. You'll "
+			.."be looting a Tear of Theradras from the purple/ pink/left vestibule and the orange/red/right "
+			.."vestibule. The tears are a blue colour and hidden within the purple/orange crystal formations.\n\n"
+			.."Best is to use Reincarnation (L30) / corspe run.\n\nReturn to Zor Lonetree. Then visit Arch Shaman "
+			.."Hamuul Runetotem on the Elder Rise at Thunder Bluff and then fly to Moonglade, with Tal's help.\n\n"
+			.."Speak to Keeper Remulos, Follow the directions, box -> Vial -> Salve -> Cleanse -> Phat Lewt!"
+ns.shaman.maelstrom = "Defeat the final boss of RFK, Charlga Razorflank (L33e) "
 			.."and obtain a Note. This commences \"Tattered Note\".\n\n"
-			.."Hand in to Rau Cliffrunner at Freewind Post and accept\n\"Elemental Aid\".\n\n"
-			.."Locate Bath'rah the Windwatcher in Alterac Mountains and\n"
+			.."Hand in to Rau Cliffrunner at Freewind Post and accept \"Elemental Aid\".\n\n"
+			.."Locate Bath'rah the Windwatcher in Alterac Mountains and "
 			.."\pray. You'll be offered three \"Power of...\" quests.\n\n"
-			.."The three quests require farming in Desolace, Badlands\nand Dustwallow Marsh. See the maps for information\n\n"
-			.."Return to Bath'rah, also bringing a Crystal Vial. He\noffers two follow-up quests, sending you back to Rau.\n\n"
-			.."You'll speak to Nyse and take a special flight, kill a\n"
+			.."The three quests require farming in Desolace, Badlands and Dustwallow Marsh. See the maps for information\n\n"
+			.."Return to Bath'rah, also bringing a Crystal Vial. He offers two follow-up quests, sending you back to Rau.\n\n"
+			.."You'll speak to Nyse and take a special flight, kill a "
 			.."Quillboar and then a Ravaging Tempest (L38e). Back to Rau.\n\n"
 			.."One more quest, yup, errand to Bath'rah. Finally, your rune!"
 ns.shaman.maelstromQ = { 79358, 79360, 79362, 79363, 79361, 79364, 79365, 79366, 79442 }
 ns.shaman.maelstromQN = { "Tattered Note", "Elemental Aid", "Power of da Earth", "Power of da Water", "Power of da Wind",
 			"A Simple Container", "With Wind Beneath Your Wings", "Calm Before the Storm", "Catching Up" }
-ns.shaman.powerSurge = "Kill Boulderfist Ogres until an Ogre Lightning\nRod drops. Plant it in the Soft Soil on top of\n"
-			.."the nearby hill. Cast Lightning Bolt on it 10\ntimes - Tam'kar (L37e) will spawn.\n\n"
-			.."Note: Tam'kar automatically dies after 30s so\nfocus on healing through all of his Bolts.\n\n"
+ns.shaman.powerSurge = "Kill Boulderfist Ogres until an Ogre Lightning Rod drops. Plant it in the Soft Soil on top of "
+			.."the nearby hill. Cast Lightning Bolt on it 10 times - Tam'kar (L37e) will spawn.\n\n"
+			.."Note: Tam'kar automatically dies after 30s so focus on healing through all of his Bolts.\n\n"
 			.."Make sure you tag! i.e. hit at least once. Lewt!"
-ns.shaman.spiritAlpha = "From the flight master, take the north\nbridge then walk across the lower bridge\n"
-			.."which turns back towards the Post.\n\nLooking down you'll see the chest. Jump\n"
+ns.shaman.spiritAlpha = "From the flight master, take the north bridge then walk across the lower bridge "
+			.."which turns back towards the Post.\n\nLooking down you'll see the chest. Jump "
 			.."down to it. Ghost Wolf might be useful.\n\nRune is in the chest"
 -- Shaman Phase 3
-ns.shaman.overcharged = "Azshara: Farm the Haldarr mobs for Waterlgged\nShaman's Notes, which begins a quest. Run to\n"
-			.."the Spirit Rock, drink the Murky Water Sapta\n(which appears in your bags), fight the Corrupt\n"
-			.."Manifestation of Water. Nearby, turn in your\nquest to the elemental. Pickup \"Answering\n"
-			.."Water's Call\". You'll hand in that one later.\n\nSearing Gorge / Tanaris / The Hinterlands:\n"
-			.."The same procedure, but with a fire, earth and\nair flavour respectively.\n\n"
-			.."You now have four \"Answering X Call\" quests\nplus 3 elemental fragments for each element.\n\n"
-			.."Feralas: Farm the water mobs for 12 x Elemental\nEssence, three per the elemental fragments you\n"
-			.."collected along the way. Combine as you farm.\n\nFeralas Four Pillars: Come here IF AND ONLY IF\n"
-			.."you have all the requirements AND you can beat\na L50 mob. Don't wanna waste your good work.\n\n"
-			.."Click the four fragments in your bags. Kapow!\n\nNOTE: It is possible to skip to this final fight\n"
-			.."if you meet a nice Shammy there. Flip some G\nhis/her way yeah!"
-ns.shaman.tidalWaves = "There's a small box outside a tent at the\nmarked location. You'll obtain an Old Key.\n\n"
-			.."In the nearby lake/waterfall, swim down to\na sunken boat and loot the Old Chest.\n\n"
-			.."Not so fast! Four Shimmering Elementals\nwill spawn (L41-42). Be ready to swim away!"
+ns.shaman.overcharged = "Azshara: Farm the Haldarr mobs for Waterlgged Shaman's Notes, which begins a quest. Run to "
+			.."the Spirit Rock, drink the Murky Water Sapta (which appears in your bags), fight the Corrupt "
+			.."Manifestation of Water. Nearby, turn in your quest to the elemental. Pickup \"Answering "
+			.."Water's Call\". You'll hand in that one later.\n\nSearing Gorge / Tanaris / The Hinterlands: "
+			.."The same procedure, but with a fire, earth and air flavour respectively.\n\n"
+			.."You now have four \"Answering X Call\" quests plus 3 elemental fragments for each element.\n\n"
+			.."Feralas: Farm the water mobs for 12 x Elemental Essence, three per the elemental fragments you "
+			.."collected along the way. Combine as you farm.\n\nFeralas Four Pillars: Come here IF AND ONLY IF "
+			.."you have all the requirements AND you can beat a L50 mob. Don't wanna waste your good work.\n\n"
+			.."Click the four fragments in your bags. Kapow!\n\nNOTE: It is possible to skip to this final fight "
+			.."if you meet a nice Shammy there. Flip some G his/her way yeah!"
+ns.shaman.tidalWaves = "There's a small box outside a tent at the marked location. You'll obtain an Old Key.\n\n"
+			.."In the nearby lake/waterfall, swim down to a sunken boat and loot the Old Chest.\n\n"
+			.."Not so fast! Four Shimmering Elementals will spawn (L41-42). Be ready to swim away!"
 -- Shaman Phase 4/5
-ns.shaman.coherence = "You need to farm the Greater Obsidian Elementals\n(L55-57) in the Burning Steppes until one of them\n"
+ns.shaman.coherence = "You need to farm the Greater Obsidian Elementals (L55-57) in the Burning Steppes until one of them "
 			.."drops a Molten Obsidian Core.\n\nYou're now on a 10 minute timer!\n\n"
-			.."Run/ride south to Redridge Mountains and stand\nin Lake Everstill. Or fly to a lake somewhere else.\n\n"
-			.."Your Core transforms into a Sooty Obsidian Core.\n\"Use\" it to polish it. Voilà, your rune!"
+			.."Run/ride south to Redridge Mountains and stand in Lake Everstill. Or fly to a lake somewhere else.\n\n"
+			.."Your Core transforms into a Sooty Obsidian Core. \"Use\" it to polish it. Voilà, your rune!"
 
 -- Warlock Phase 1
-ns.warlock.metamorphosis = "The first quest does NOT require you to enter the\nBFD Raid. You can loot the Soran'ruk Fragments\n"
-			.."from Twilight Acolytes in the ruins outside the\nRaid. You do need to enter SFK to loot the other\n"
-			.."Fragment off the Shadowfang Darksouls.\n\n(BFD is located on the north coast of Ashenvale\n"
-			.."and SFK is located south in Silverpine Forest)\n\n\"Rumors Abound\" sends you to the the Tower of\n"
-			.."Ilgalar in the far north east corner of Redridge\nMountains and to the Tower of Althalaxx in the far\n"
-			.."north of Darkshore.\n\nThe Conjuring is solved by heading to Felfire\n"
-			.."Canyon in the far east of Ashenvale. With the 10 x\nBlood you can activate the nearby Hellscream altar\n"
-			.."and defeat a few demon waves using Drain Soul\nWHILE standing inside the purple rune aura.\n\n"
+ns.warlock.metamorphosis = "The first quest does NOT require you to enter the BFD Raid. You can loot the Soran'ruk Fragments "
+			.."from Twilight Acolytes in the ruins outside the Raid. You do need to enter SFK to loot the other "
+			.."Fragment off the Shadowfang Darksouls.\n\n(BFD is located on the north coast of Ashenvale "
+			.."and SFK is located south in Silverpine Forest)\n\n\"Rumors Abound\" sends you to the the Tower of "
+			.."Ilgalar in the far north east corner of Redridge Mountains and to the Tower of Althalaxx in the far "
+			.."north of Darkshore.\n\nThe Conjuring is solved by heading to Felfire "
+			.."Canyon in the far east of Ashenvale. With the 10 x Blood you can activate the nearby Hellscream altar "
+			.."and defeat a few demon waves using Drain Soul WHILE standing inside the purple rune aura.\n\n"
 			.."Eventually the Mysterious Traveler appears.\n\nBack with Doan, accept the final quest. Profit!"
-ns.warlock.channeling = "Lots of options. For Alliance it's best\nto track down Greishan Ironstove, a\n"
-			.."merchant who wanders the long path in\nLoch Modan. He sells a Malevolant pie.\n"
-			.."Eat it, get a tummy ache and then check\nyour bags you winner!\n\nHorde are best to go down to the Altar\n"
-			.."of Thorns, south-west of Ratchet and\nuse Health Funnel until zero health.\nAlliance can come here too :o\n\n"
-			.."Horde also have the Sadistic Fiend in\nSilverpine as an option. You'll need\nto cast Curse of Recklessness.\n\n"
-			.."Alliance/Horde may also get a drop off\nDark Strand Fanatics at the Tower of\nAthalaxx in Darkshore.\n\n"
-			.."Another option is to farm Harvesters\nin Westfall. You're competing against\n"
-			.."regular questers and Mage engravers\ntoo. You'll combine a Spare Reaper\n"
-			.."Parts (from Watchers and Golems) and\nan Elemental Core from a Dust Devil to\n"
-			.."make a Prototype Engine item. Instal\nit into a Harvest Reaper Prototype.\n"
+ns.warlock.channeling = "Lots of options. For Alliance it's best to track down Greishan Ironstove, a "
+			.."merchant who wanders the long path in Loch Modan. He sells a Malevolant pie. "
+			.."Eat it, get a tummy ache and then check your bags you winner!\n\nHorde are best to go down to the Altar "
+			.."of Thorns, south-west of Ratchet and use Health Funnel until zero health. Alliance can come here too :o\n\n"
+			.."Horde also have the Sadistic Fiend in Silverpine as an option. You'll need to cast Curse of Recklessness.\n\n"
+			.."Alliance/Horde may also get a drop off Dark Strand Fanatics at the Tower of Athalaxx in Darkshore.\n\n"
+			.."Another option is to farm Harvesters in Westfall. You're competing against "
+			.."regular questers and Mage engravers too. You'll combine a Spare Reaper "
+			.."Parts (from Watchers and Golems) and an Elemental Core from a Dust Devil to "
+			.."make a Prototype Engine item. Instal it into a Harvest Reaper Prototype. "
 			.."This activates it. Defeat it. Lewt it!"
-ns.warlock.grace = "You need to obtain an Ominous Tome mob drop\nfrom: Darkeye Bonecasters in Agamand Mills in\n"
-			.."Tirisfal Glades or Voodoo/Hexed Trolls on the\nEcho Isles in Durotar (H) or Kobold Geomancers\n"
-			.."in FRONT of Jasperlode Mine or Defias Rogue\nWizards on Stonecairn Lake in Elwynn Forest (A).\n\n"
-ns.warlock.graceEF = "Obtain also Gnoll Blood. Good locations are\nHogger's camp but NOT Hogger and north-west of\n"
-			.."Stonecairn Lake is easy but not plentiful.\n\nAlso a Wolf Jawbone. North of Stonecairn Lake\n"
-			.."or south of Jasperlode Mine are easiest.\n\nGo to the Slaughtered Lamb Inn basement in SW\n"
+ns.warlock.grace = "You need to obtain an Ominous Tome mob drop from: Darkeye Bonecasters in Agamand Mills in "
+			.."Tirisfal Glades or Voodoo/Hexed Trolls on the Echo Isles in Durotar (H) or Kobold Geomancers "
+			.."in FRONT of Jasperlode Mine or Defias Rogue Wizards on Stonecairn Lake in Elwynn Forest (A).\n\n"
+ns.warlock.graceEF = "Obtain also Gnoll Blood. Good locations are Hogger's camp but NOT Hogger and north-west of "
+			.."Stonecairn Lake is easy but not plentiful.\n\nAlso a Wolf Jawbone. North of Stonecairn Lake "
+			.."or south of Jasperlode Mine are easiest.\n\nGo to the Slaughtered Lamb Inn basement in SW "
 			.."and Summon Soboz on the Summoning Cirle"
-ns.warlock.graceDM = "Obtain also Wendigo Blood. The Wendigo are\nbelow / west of Kharanos. The Wolf Jawbone is\n"
-			.."plentiful. So many wolves north of Kharanos\nbut also easy ones in Coldridge too. Go up to\n"
-			.."Shimmer Ridge where you'll find a summoning\ncircle. Summon and kill Soboz. Gratz!"
-ns.warlock.graceDur = "Some additional Durotar locations, closer to\nOrgrimmar, have also been marked as Ominous\n"
-			.."Tome drops.\n\nThe Makrura Legs drop from the crabs all\nalong the beaches. The Skulls however are in\n"
-			.."the Tiragarde Keep area. The Summoning Circle\nfor the ritual is in the south-east corner of\n"
+ns.warlock.graceDM = "Obtain also Wendigo Blood. The Wendigo are below / west of Kharanos. The Wolf Jawbone is "
+			.."plentiful. So many wolves north of Kharanos but also easy ones in Coldridge too. Go up to "
+			.."Shimmer Ridge where you'll find a summoning circle. Summon and kill Soboz. Gratz!"
+ns.warlock.graceDur = "Some additional Durotar locations, closer to Orgrimmar, have also been marked as Ominous "
+			.."Tome drops.\n\nThe Makrura Legs drop from the crabs all along the beaches. The Skulls however are in "
+			.."the Tiragarde Keep area. The Summoning Circle for the ritual is in the south-east corner of "
 			.."the main Echo Isle. Summon and kill Soboz!"
-ns.warlock.graceTG = "The Ominous Tome Drops from the Darkeye\nBonecasters in Agamand. The Gnoll Blood drops\n"
-			.."from the Rot Hide Gnolls in Garren's Haunt.\n\nThe Hound Jawbones (NOT wolf as you'll see\n"
-			.."online) are everywhere but I've thrown a few\npins that are between the Agamand/Garren's\nareas.\n\n"
-			.."When it's time to summon Soboz go to the\nUndercity sewer entrance. The Circle is\n"
+ns.warlock.graceTG = "The Ominous Tome Drops from the Darkeye Bonecasters in Agamand. The Gnoll Blood drops "
+			.."from the Rot Hide Gnolls in Garren's Haunt.\n\nThe Hound Jawbones (NOT wolf as you'll see "
+			.."online) are everywhere but I've thrown a few pins that are between the Agamand/Garren's areas.\n\n"
+			.."When it's time to summon Soboz go to the Undercity sewer entrance. The Circle is "
 			.."about halfway down. Summon. Kill. Gratz!"
-ns.warlock.firesWake = "Buy explosives from Zixil, who wanders\nbetween Southshore and Tarren Mill.\n\n"
-			.."Then head over to Durnholde Keep. Cross\nthe bridge and proceed up the path and\n"
-			.."turn left and then enter the old fort.\nLook to the right and there is a pile\nof rubble.\n\n"
-			.."Stand on top of it!!! You just spent 1\n%$@%$ gold! Use your explosives.\n\n"
-			.."Loot your rune from the Storage Locker.\nQuickly! Any douche can steal it! 5g!!!\n\n"
+ns.warlock.firesWake = "Buy explosives from Zixil, who wanders between Southshore and Tarren Mill.\n\n"
+			.."Then head over to Durnholde Keep. Cross the bridge and proceed up the path and "
+			.."turn left and then enter the old fort. Look to the right and there is a pile of rubble.\n\n"
+			.."Stand on top of it!!! You just spent 1 %$@%$ gold! Use your explosives.\n\n"
+			.."Loot your rune from the Storage Locker. Quickly! Any douche can steal it! 5g!!!\n\n"
 			.."Engrave it. Easy win, chicken din!"
-ns.warlock.shadowbolts = "Horde just need to go to Supervisor Lugwizzle\nat the Sludge Fen in The Barrens and right\n"
-			.."near to Orgrimmar. Use your Drain Soul. Take\nyour new Soul of Greed and use on the nearby\n"
+ns.warlock.shadowbolts = "Horde just need to go to Supervisor Lugwizzle at the Sludge Fen in The Barrens and right "
+			.."near to Orgrimmar. Use your Drain Soul. Take your new Soul of Greed and use on the nearby "
 			.."Hungry Idol. Gratz!\n\n"
-			.."Alternatively go to Silverpine Forest and\nget a Tortured Soul from the Ravenclaw mobs.\n"
-			.."Once acquired youmust firstly Life Tap. Now\nuse your Tortured Soul. Kill the Ghost. Win!\n\n"
-			.."Alliance might automatically get the Rune if\nthey are doing a certain quest in Darkshore.\n"
-			.."I've marked the location and quest status.\n\nAlliance are best going to Ironbands Excavation\n"
-			.."Site in Loch Modan. You'll see the Demonic\nRemains in the south-east corner. Attack it\n"
-			.."with a Shadow spell. Kill the mob that spawns!\n\nAlternatively, look for Old Murk-Eye along the\n"
-			.."southern coast of Westfall. Use your Drain Soul\nand receive a Soul of the Sea. Go to the Idol of\n"
-			.."the Sea on the coast. Use your Soul of the Sea\non it. Gratz!\n\n(I suspect that Horde can come here too)\n"
+			.."Alternatively go to Silverpine Forest and get a Tortured Soul from the Ravenclaw mobs. "
+			.."Once acquired youmust firstly Life Tap. Now use your Tortured Soul. Kill the Ghost. Win!\n\n"
+			.."Alliance might automatically get the Rune if they are doing a certain quest in Darkshore. "
+			.."I've marked the location and quest status.\n\nAlliance are best going to Ironbands Excavation "
+			.."Site in Loch Modan. You'll see the Demonic Remains in the south-east corner. Attack it "
+			.."with a Shadow spell. Kill the mob that spawns!\n\nAlternatively, look for Old Murk-Eye along the "
+			.."southern coast of Westfall. Use your Drain Soul and receive a Soul of the Sea. Go to the Idol of "
+			.."the Sea on the coast. Use your Soul of the Sea on it. Gratz!\n\n(I suspect that Horde can come here too) "
 			.."(I think Alliance can do the two Horde ones!)"
-ns.warlock.tactics = "Horde go to a Dead Acolyte in Tirisfal\nGlades. East of the lake and near the\n"
-			.."path to the Scarlet Monastery.\n\nAlliance in turn find the Dead Acolyte\nnorth of the Crystal Lake, Jasperlode\n"
-			.."Mine end, in Elwynn Forest.\n\nLoot the Dead Acolyte. Go to Rupert\n"
-			.."Boch, upstairs in Gallow's End, Brill (H) or\n"
-			.."Maximillian Crowe, downstairs in the\nLion's Pride Inn in Goldshire (A).\n\nYou'll be required to return to the\n"
-			.."Dead Acolyte.\n\nNext you'll have 10 minutes to get to\nCarendin Halgar in the Mages Quarter\n"
-			.."of Undercity (H) or Gakin the\nDarkbinder in the basement of the\nSlaughtered Lamb in the Mages Quarter\n"
+ns.warlock.tactics = "Horde go to a Dead Acolyte in Tirisfal Glades. East of the lake and near the "
+			.."path to the Scarlet Monastery.\n\nAlliance in turn find the Dead Acolyte north of the Crystal Lake, Jasperlode "
+			.."Mine end, in Elwynn Forest.\n\nLoot the Dead Acolyte. Go to Rupert "
+			.."Boch, upstairs in Gallow's End, Brill (H) or "
+			.."Maximillian Crowe, downstairs in the Lion's Pride Inn in Goldshire (A).\n\nYou'll be required to return to the "
+			.."Dead Acolyte.\n\nNext you'll have 10 minutes to get to Carendin Halgar in the Mages Quarter "
+			.."of Undercity (H) or Gakin the Darkbinder in the basement of the Slaughtered Lamb in the Mages Quarter "
 			.."of Stormwind.\n\nEnjoy your reward!"
-ns.warlock.soulSiphon = "Alliance must choose either Captain Beld in\nIronband's Compound to the far south-east of\n"
-			.."Dun Morogh or Hogger in Elwynn Forest.\n\nHorde will likewise choose Gazz'uz in Skull\n"
-			.."Rock cave which is outside Orgrimmar or else\nMaggot Eye in the house at Garren's Haunt in\nTirisfal Glades.\n\n"
-			.."Your objective is to Drain and obtain a\nTainted Soul Shard.\n\nYou'll also need to obtain a Pure Soul Shard\n"
-			.."from any critter.\n\nTake both Shards to Gaklik Voidtwist, south\nof Kharanos Inn or Damien Kane in the Lion's\n"
-			.."Pride Inn of Goldshire if you are Alliance.\n\nHorde will seek Darmak Bloodhowl in the Razor\n"
-			.."Hill barracks or Denton Bleakway in the Mages\nQuarter of Undercity.\n\nYou'll receive your Rune of Soul Siphon!"
+ns.warlock.soulSiphon = "Alliance must choose either Captain Beld in Ironband's Compound to the far south-east of "
+			.."Dun Morogh or Hogger in Elwynn Forest.\n\nHorde will likewise choose Gazz'uz in Skull "
+			.."Rock cave which is outside Orgrimmar or else Maggot Eye in the house at Garren's Haunt in Tirisfal Glades.\n\n"
+			.."Your objective is to Drain and obtain a Tainted Soul Shard.\n\nYou'll also need to obtain a Pure Soul Shard "
+			.."from any critter.\n\nTake both Shards to Gaklik Voidtwist, south of Kharanos Inn or Damien Kane in the Lion's "
+			.."Pride Inn of Goldshire if you are Alliance.\n\nHorde will seek Darmak Bloodhowl in the Razor "
+			.."Hill barracks or Denton Bleakway in the Mages Quarter of Undercity.\n\nYou'll receive your Rune of Soul Siphon!"
 -- Warlock Phase 2
-ns.warlock.dance = "Find a Reckless Warlock corpse in Alterac\nMountains,, Desolace, Stranglethorn Vale or\n"
-			.."Thousand Needles and loot a Brimstone Carving.\n\nNow use Hellfire (L30) on yourself. Random\n"
-			.."chance to \"transform\" the carving into a\nRune of Wickedness. Profit!"
-ns.warlock.invocation = "Obtain 10 Conjuror's Pendants off the\nStromgarde Keep Conjurors. Then go upstairs\n"
-			.."in the nearby house and combine the pendants\nat the Void Prism. A Void Seeker will spawn.\n"
+ns.warlock.dance = "Find a Reckless Warlock corpse in Alterac Mountains,, Desolace, Stranglethorn Vale or "
+			.."Thousand Needles and loot a Brimstone Carving.\n\nNow use Hellfire (L30) on yourself. Random "
+			.."chance to \"transform\" the carving into a Rune of Wickedness. Profit!"
+ns.warlock.invocation = "Obtain 10 Conjuror's Pendants off the Stromgarde Keep Conjurors. Then go upstairs "
+			.."in the nearby house and combine the pendants at the Void Prism. A Void Seeker will spawn. "
 			.."Kill and lewt"
-ns.warlock.shadowflame = "Stand at the Sacrifical Altar at Shadowbreak\nRavine in south-east Desolace and cast Shadow\n"
-			.."Ward, Sacrifice and Soul Link and then interact\nwith the Altar.\n\n"
-			.."At the end of the channel the Seductress Ceeyna\nwill appear. Kill and loot her"
-ns.warlock.synergy = "You must have obtained the Metamorphosis\nrune. If not, then speak to Doan Karhan in\n"
-			.."the southern Barrens.\n\nYou may have received mail. Regardless, go\n"
-			.."to Raszel Ander in the southern Barrens and\nstart \"A Solid Foundation\", which takes you\n"
-			.."to Bough Shadow in Ashenvale.\n\nYou return to Raszel and start \"Soul Vessel\"\n"
-			.."which requires a Soul Vessel (Engineering 205)\nand found on the AH. Turn in at the Mannoroc\n"
+ns.warlock.shadowflame = "Stand at the Sacrifical Altar at Shadowbreak Ravine in south-east Desolace and cast Shadow "
+			.."Ward, Sacrifice and Soul Link and then interact with the Altar.\n\n"
+			.."At the end of the channel the Seductress Ceeyna will appear. Kill and loot her"
+ns.warlock.synergy = "You must have obtained the Metamorphosis rune. If not, then speak to Doan Karhan in "
+			.."the southern Barrens.\n\nYou may have received mail. Regardless, go "
+			.."to Raszel Ander in the southern Barrens and start \"A Solid Foundation\", which takes you "
+			.."to Bough Shadow in Ashenvale.\n\nYou return to Raszel and start \"Soul Vessel\" "
+			.."which requires a Soul Vessel (Engineering 205) and found on the AH. Turn in at the Mannoroc "
 			.."Cavern in Desolace.\n\nA final quest, defeat Des'Altek (L40) -> rune"
 -- Warlock Phase 3
-ns.warlock.pandemic = "Locate a Grimtotem Chest, near a Dead\nDiseased Grimtotem Shaman. Loot.\n\n"
-			.."Go west and locate a ramp a little way\nnorth of the main east-west path. Go up\n"
-			.."and past the Woodpaw Den. Bearing north\nyou'll locate a Dead Diseased Woodpaw\n"
-			.."Mystic and a Woodpaw Bag. Loot.\n\nCombine to make a Diseased Nature Staff\n"
-			.."and use it to awaken the Diseased\nForest Walker to the east and south of\n"
+ns.warlock.pandemic = "Locate a Grimtotem Chest, near a Dead Diseased Grimtotem Shaman. Loot.\n\n"
+			.."Go west and locate a ramp a little way north of the main east-west path. Go up "
+			.."and past the Woodpaw Den. Bearing north you'll locate a Dead Diseased Woodpaw "
+			.."Mystic and a Woodpaw Bag. Loot.\n\nCombine to make a Diseased Nature Staff "
+			.."and use it to awaken the Diseased Forest Walker to the east and south of "
 			.."the main path. Kill. Obtain phat lewt!"
 -- Warlock Phase 4/5
-ns.warlock.decimation = "Go to a Fel Rift in the Eastern Plaguelands or\nthe Burning Steppes. Farm until a Legion Portal\n"
-			.."Tuner drops.\n\nHead now to a Fel Scar in the Blasted Lands,\n"
-			.."Feralas or Azshara. Use your new Tuner and\nthen send your Explorer Imp inside!\n\n"
-			.."Keep doing this until it returns with a\nPortal Tuner Tuner. Use it and your Legion\n"
-			.."Tuner becomes an Overcharged one.\n\nUsing the Overcharged Tuner on a Fel Scar,\n"
-			.."it will transform. Now's the time for your\nExplorer Imp to jump in again et voilà!\n\n"
-			.."The last transformation: Red- returns with\nthe Rune; Green- returns with no Rune.\n"
+ns.warlock.decimation = "Go to a Fel Rift in the Eastern Plaguelands or the Burning Steppes. Farm until a Legion Portal "
+			.."Tuner drops.\n\nHead now to a Fel Scar in the Blasted Lands, "
+			.."Feralas or Azshara. Use your new Tuner and then send your Explorer Imp inside!\n\n"
+			.."Keep doing this until it returns with a Portal Tuner Tuner. Use it and your Legion "
+			.."Tuner becomes an Overcharged one.\n\nUsing the Overcharged Tuner on a Fel Scar, "
+			.."it will transform. Now's the time for your Explorer Imp to jump in again et voilà!\n\n"
+			.."The last transformation: Red- returns with the Rune; Green- returns with no Rune. "
 			.."The Overhcarged Tuner has two only charges" 
-ns.warlock.felRift = "This pin is indicative. There are more locations\nin this zone. For a complete list, see Taraezor's\n"
-			.."excellent AddOn \"HandyNotes - Chests,\nGear and More\". Hey! It's by yours truly! <3"
+ns.warlock.felRift = "This pin is indicative. There are more locations in this zone. For a complete list, see Taraezor's "
+			.."excellent AddOn \"HandyNotes - Chests, Gear and More\". Hey! It's by yours truly! <3"
 ns.warlock.markChaos = "Farm the Skeletal Flayers for 3 x Plagued Soul Shard.\n\n"
-			.."Go to Pixie Pilfershard (A) at Chillwind or Prazik\nPilfershard at The Bulwark (H). Easy as"
+			.."Go to Pixie Pilfershard (A) at Chillwind or Prazik Pilfershard at The Bulwark (H). Easy as"
 
 -- Warrior Phase 1
 ns.warrior.bloodFrenzy = "Just a friendly duel. So just go pwn him!"
-ns.warrior.consumedRage = "At the back (of course) of the Thelgen Rock\nCave in The Wetlands. Level 25 but not\n"
+ns.warrior.consumedRage = "At the back (of course) of the Thelgen Rock Cave in The Wetlands. Level 25 but not "
 			.."especially tough. Hunters and Warriors (A/H)"
-ns.warrior.devastate = "Along the way you'll recieve the following loot.\nEach NPC requires three items. You may hand in\n"
-			.."separately or together.\n\nThe items drop in the same zone as the NPC.\n"
-			.."There is a little overlap between Horde NPCs.\n\nThe NPCs and locations are as follows:\n"
-			.."* Junni Steelpass, Kharanos; * Viktoria Woods, SW;\n* Delwynna, Darnassus; * Vahi Bonespliter, Razor Hill;\n"
+ns.warrior.devastate = "Along the way you'll recieve the following loot. Each NPC requires three items. You may hand in "
+			.."separately or together.\n\nThe items drop in the same zone as the NPC. "
+			.."There is a little overlap between Horde NPCs.\n\nThe NPCs and locations are as follows: "
+			.."* Junni Steelpass, Kharanos; * Viktoria Woods, SW; * Delwynna, Darnassus; * Vahi Bonespliter, Razor Hill; "
 			.."* Vateya Timberhoof, Bloodhoof; * Dorac Graves, UC.\n\n"
-ns.warrior.devastateDel = "Delwynna needs a Severed Tiger Head, Severed Owl\nHead and Severed Spider Head. ALL are plentiful,\n"
-			.."especially in the Starbreeze area south-east of\nDolanaar. Avoid the Oracle Glade for Webwoods.\n"
+ns.warrior.devastateDel = "Delwynna needs a Severed Tiger Head, Severed Owl Head and Severed Spider Head. ALL are plentiful, "
+			.."especially in the Starbreeze area south-east of Dolanaar. Avoid the Oracle Glade for Webwoods. "
 			.."The other mobs are named \"Saber\" and \"Strigid\".\n\nNONE have been marked on the map. Too many!"
-ns.warrior.devastateDor = "Dorac needs a Severed Bat Head from the\ninnumerable Duskbats all over Tirisfal\n"
-			.."(except for Agamand Mill) and NOT marked\non the map; a Severed Gnoll Head from any\n"
-			.."of the Rot Hides south of and at Garren's\nHaunt; and a Severed Murloc Head from any\nVile Fin along the coast"
-ns.warrior.devastateJunni = "Junni requires: Pristine Trogg Heart from Rockjaw\n"
-			.."mobs to the far south-east; Severed Troll Head,\n"
-			.."Frostmane mobs to the far south-west (mostly);\nSevered Wendigo Paw from the Wendigo at their cave"
-ns.warrior.devastateVah = "Vahi needs a Severed Centaur Head from the\nsouthern coast; Severed Harpy Head from the\n"
-			.."Dustwind Harpy enclave between Org/Razor and\nSevered Quillboar Heads from the Razormanes\nwest of Razor Hill"
-ns.warrior.devastateVat = "Vateya needs a Severed Quillboar head from the\nBristleback Interloppers to the north-east; the\n"
-			.."Severed Harpy Head from Harpies mostly around\nthe northern edge of Mulgore; and the Severed\n"
-			.."Gnoll Head from Palemane's, west and south of\nBloodhoof Village"
-ns.warrior.devastateVik = "Viktoria needs: Severed Kobold Head from the Troggs\n"
-			.."near either of the mines; Severed Murloc Head from\nthe Crystal Lake; Severed Gnoll Head from Gnolls,\n"
+ns.warrior.devastateDor = "Dorac needs a Severed Bat Head from the innumerable Duskbats all over Tirisfal "
+			.."(except for Agamand Mill) and NOT marked on the map; a Severed Gnoll Head from any "
+			.."of the Rot Hides south of and at Garren's Haunt; and a Severed Murloc Head from any Vile Fin along the coast"
+ns.warrior.devastateJunni = "Junni requires: Pristine Trogg Heart from Rockjaw "
+			.."mobs to the far south-east; Severed Troll Head, "
+			.."Frostmane mobs to the far south-west (mostly); Severed Wendigo Paw from the Wendigo at their cave"
+ns.warrior.devastateVah = "Vahi needs a Severed Centaur Head from the southern coast; Severed Harpy Head from the "
+			.."Dustwind Harpy enclave between Org/Razor and Severed Quillboar Heads from the Razormanes west of Razor Hill"
+ns.warrior.devastateVat = "Vateya needs a Severed Quillboar head from the Bristleback Interloppers to the north-east; the "
+			.."Severed Harpy Head from Harpies mostly around the northern edge of Mulgore; and the Severed "
+			.."Gnoll Head from Palemane's, west and south of Bloodhoof Village"
+ns.warrior.devastateVik = "Viktoria needs: Severed Kobold Head from the Troggs "
+			.."near either of the mines; Severed Murloc Head from the Crystal Lake; Severed Gnoll Head from Gnolls, "
 			.."plentiful around Hoggers area"
-ns.warrior.endlessRage = "Alliance have a choice of hunting down\nOld Murk-eye along the southern Westfall\n"
-			.."coast; battling elite ogres in the north-\neast corner of Loch Modan, or defeating\n"
-			.."Lady Sedorax, near your quest hub.\n\nHorde will need to grab an easy to see\n"
-			.."banner from beside The Crossroads Inn\nand then challenging Lieutenant\nStonebrew in Northwatch Hold or slaying\n"
-			.."a mob in the Skittering Dark Cave of\nSilverpine Forest.\n\nJust do what's convenient"
-ns.warrior.frenziedAssault = "Speak to one of: Zamja, The Drag, Orgrimmar;\nNetali Proudwind, The Spirit Rise, Thunder Bluff;\n"
-			.."Penny Hawkins, Brill Inn, Tirisfal Glades (H) or\nBruuk Barleybeard, Innkeeper in Ironforge, Liv\n"
-			.."Bradford, The Park, Stormwind; Innkeeper\nKeldamyr in Dolanaar, Teldrassil (A)\n\n"
+ns.warrior.endlessRage = "Alliance have a choice of hunting down Old Murk-eye along the southern Westfall "
+			.."coast; battling elite ogres in the north- east corner of Loch Modan, or defeating "
+			.."Lady Sedorax, near your quest hub.\n\nHorde will need to grab an easy to see "
+			.."banner from beside The Crossroads Inn and then challenging Lieutenant Stonebrew in Northwatch Hold or slaying "
+			.."a mob in the Skittering Dark Cave of Silverpine Forest.\n\nJust do what's convenient"
+ns.warrior.frenziedAssault = "Speak to one of: Zamja, The Drag, Orgrimmar; Netali Proudwind, The Spirit Rise, Thunder Bluff; "
+			.."Penny Hawkins, Brill Inn, Tirisfal Glades (H) or Bruuk Barleybeard, Innkeeper in Ironforge, Liv "
+			.."Bradford, The Park, Stormwind; Innkeeper Keldamyr in Dolanaar, Teldrassil (A)\n\n"
 			.."They'll ask you to bounce someone. Easy!"
 ns.warrior.furiousThunder = "Hogger in Elwynn Forest (A/H).\n\n"
-			.."Edan the Howler, Fyodi, Old Icebeard, Vagash and\nVejrek, Dun Morogh; Goldtooth, Gruff Swiftbite,\n"
-			.."Elwynn Forest; Gnarlpine Caches, Teldrassil (A)\n\nDeath Flayer, Lightning Hide mobs, Durotar;\n"
-			.."Felweaver Scornn (rare), Gazz'uz, Skull Rock Cave,\nDurotar; Sarkoth, Valley of Trials, Durotar;\n"
-			.."Arra'chea mobs, Lurkmane, Snagglespear, The Rake,\nSister Hatelash, Mulgore; Gillgar, Tirisfal (H).\n\n"
+			.."Edan the Howler, Fyodi, Old Icebeard, Vagash and Vejrek, Dun Morogh; Goldtooth, Gruff Swiftbite, "
+			.."Elwynn Forest; Gnarlpine Caches, Teldrassil (A)\n\nDeath Flayer, Lightning Hide mobs, Durotar; "
+			.."Felweaver Scornn (rare), Gazz'uz, Skull Rock Cave, Durotar; Sarkoth, Valley of Trials, Durotar; "
+			.."Arra'chea mobs, Lurkmane, Snagglespear, The Rake, Sister Hatelash, Mulgore; Gillgar, Tirisfal (H).\n\n"
 			.."Whew! Loot & Learn!"
-ns.warrior.harenTip = "When a Battle Totem drops from any of the Mo'grosh\nogres, use it to challenge Haren Swifthoof, who\n"
+ns.warrior.harenTip = "When a Battle Totem drops from any of the Mo'grosh ogres, use it to challenge Haren Swifthoof, who "
 			.."runs close to The Loch, to a duel"
-ns.warrior.quickStrike = "Horde should go to Kilxx @ Ratchet, buy a\nFishing Harpoon and then swim out to snare\n"
-			.."Bruuz with the Harpoon.\n\nAlliance options include, similarly, besting\n"
-			.."Paxnozz with a Gnarled Harpoon. Location is\nwest of the Ruins of Mathystra, Darkshore\n"
+ns.warrior.quickStrike = "Horde should go to Kilxx @ Ratchet, buy a Fishing Harpoon and then swim out to snare "
+			.."Bruuz with the Harpoon.\n\nAlliance options include, similarly, besting "
+			.."Paxnozz with a Gnarled Harpoon. Location is west of the Ruins of Mathystra, Darkshore "
 			.."but loot from a dead turtle's head first.\n\n"
-			.."Alliance can also obtain a Gillsbane from any\nDefias mob in Westfall, use it to kill Murlocs\n"
-			.."along the SOUTH coast to obtain a Soul of the\nsea then go to the Medusa statue, then kill\nthe next mob.\n\n"
-			.."Simpler are the Troggs west of Thelsamar in\nLoch Modan. They'll drop a Geode. Best to see\n"
+			.."Alliance can also obtain a Gillsbane from any Defias mob in Westfall, use it to kill Murlocs "
+			.."along the SOUTH coast to obtain a Soul of the sea then go to the Medusa statue, then kill the next mob.\n\n"
+			.."Simpler are the Troggs west of Thelsamar in Loch Modan. They'll drop a Geode. Best to see "
 			.."the tooltips I provided"
-ns.warrior.ragingBlow = "Three items to fetch. The Helm is found in\nShadowfang Keep, a level 22-30 dungeon in\n"
-			.."southern Silverpine Forest. It's on a bench\nbehind Commander Springvale, the 4th boss.\n\n"
-			.."The \"Dark Iron Entrepreneur\" sells the\nLance. He's located in Dun Modr, The Wetlands,\n"
-			.."right near the Arathi Highlands border.\n\nThe shield is conveniently hanging on a wall,\n"
-			.."behind Gath'ilzogg in Stonewatch Keep in the\nRedridge Mountains. Horde should rez once the\n"
+ns.warrior.ragingBlow = "Three items to fetch. The Helm is found in Shadowfang Keep, a level 22-30 dungeon in "
+			.."southern Silverpine Forest. It's on a bench behind Commander Springvale, the 4th boss.\n\n"
+			.."The \"Dark Iron Entrepreneur\" sells the Lance. He's located in Dun Modr, The Wetlands, "
+			.."right near the Arathi Highlands border.\n\nThe shield is conveniently hanging on a wall, "
+			.."behind Gath'ilzogg in Stonewatch Keep in the Redridge Mountains. Horde should rez once the "
 			.."alliance have tagged the mobs, lol."
 -- Warrior Phase 2
-ns.warrior.bloodSurge = "After obtaining the Illegible Recipe from the\nBoulderfist (Arathi) or Crushridge (Alterac) mobs,\n"
-			.."go to Skonk in the Arathi Highlands.\n\nSkonk will task you with finding victuals in the\n"
-			.."Arathi Highlands, Baqdlands, Hillsbrad Foothills,\nand the Swamp of Sorrows.\n\n"
+ns.warrior.bloodSurge = "After obtaining the Illegible Recipe from the Boulderfist (Arathi) or Crushridge (Alterac) mobs, "
+			.."go to Skonk in the Arathi Highlands.\n\nSkonk will task you with finding victuals in the "
+			.."Arathi Highlands, Baqdlands, Hillsbrad Foothills, and the Swamp of Sorrows.\n\n"
 			.."Return to Skonk and defeat him for your phat lewt.\n\nYou'll also receive a blue 1H mace!"
-ns.warrior.focusedRage = "Firstly slay the Witherbark mobs (L32-35) until\nthe Witherbark Mallet drops. Now enter the nearby\n"
-			.."cave and head to the Witherbark Gong. Use the\nmallet on the gong. This spawns a Witherbark\n"
+ns.warrior.focusedRage = "Firstly slay the Witherbark mobs (L32-35) until the Witherbark Mallet drops. Now enter the nearby "
+			.."cave and head to the Witherbark Gong. Use the mallet on the gong. This spawns a Witherbark "
 			.."Goliath (L35). Kill. Lewt"
-ns.warrior.intervene = "There are three combat dummies. You must use\nExecute (L24) on the first dummy, Taunt (L10)\n"
+ns.warrior.intervene = "There are three combat dummies. You must use Execute (L24) on the first dummy, Taunt (L10) "
 			.."on the second, Shield Bash (L12) on the third.\n\nA chest will magically appear. Phat lewt inside!\n\n"
-			.."Easiest to commence with sword and board. It's not\na race, but just complete it smoothly to be sure."
-ns.warrior.rallyingCry = "Quite a large area to search. You may group\nbut ensure you are all nearby when starting"
+			.."Easiest to commence with sword and board. It's not a race, but just complete it smoothly to be sure."
+ns.warrior.rallyingCry = "Quite a large area to search. You may group but ensure you are all nearby when starting"
 -- Warrior Phase 3
-ns.warrior.gladiator = "Pick up the first quest from Fizbuz Mithril\nin Gadgetzan. You'll then travel to Kajind in\n"
-			.."Azshara. You'll have to defeat the blue drake\nCeruleos (L50), also in Azshara. Return to Gadgetzan\n"
-			.."and your last task is to defeat Kajind in the\nGadgetzan Arena. Turn in for your phat lewt"
-ns.warrior.tasteForBlood = "Collect the four construction pieces as\nmarked on the map. Go all the way east to\n"
+ns.warrior.gladiator = "Pick up the first quest from Fizbuz Mithril in Gadgetzan. You'll then travel to Kajind in "
+			.."Azshara. You'll have to defeat the blue drake Ceruleos (L50), also in Azshara. Return to Gadgetzan "
+			.."and your last task is to defeat Kajind in the Gadgetzan Arena. Turn in for your phat lewt"
+ns.warrior.tasteForBlood = "Collect the four construction pieces as marked on the map. Go all the way east to "
 			.."to assemble/summon Iodax the Obliterator (L50).\n\nBetter to group up but soloable at L50.\n\n"
-			.."Reports say that you can skip the collection and\njust group up at Iodax ftw ;)"
+			.."Reports say that you can skip the collection and just group up at Iodax ftw ;)"
 -- Warrior Phase 4/5
-ns.warrior.suddenDeath = "You must use a targetting macro:\n/tar Wandering Swordsman\n\n"
-			.."Could be anywhere really in Silithus,\nbut the targetting macro helps a ton!\n\n"
-			.."Talk to him, select \"Easy\" (choice\naffects the difficulty, not a reward).\n\n"
-			.."You'll be teleported onto a platform\nat AQ. Watch the painted zones during\n"
-			.."fight! Red: location of his cleave.\nPurple: you'll get pushed off the\n"
-			.."platform and die. There are adds too.\n\nThe idea is to just survive and take\n"
-			.."down the adds - eventually you'll be\ngranted a large damage buff.\n\n"
+ns.warrior.suddenDeath = "You must use a targetting macro: /tar Wandering Swordsman\n\n"
+			.."Could be anywhere really in Silithus, but the targetting macro helps a ton!\n\n"
+			.."Talk to him, select \"Easy\" (choice affects the difficulty, not a reward).\n\n"
+			.."You'll be teleported onto a platform at AQ. Watch the painted zones during "
+			.."fight! Red: location of his cleave. Purple: you'll get pushed off the "
+			.."platform and die. There are adds too.\n\nThe idea is to just survive and take "
+			.."down the adds - eventually you'll be granted a large damage buff.\n\n"
 			.."The quest just happens along the way"
-ns.warrior.shockwave = "Head down to the far far south of Tanaris,\nlooking for a Half-Buried Mech at the pin.\n\n"
-			.."Click it twice. That's the first quest done\nand a useful Guided Buoyancy Accelerant.\n\n"
-			.."With the second quest quickly look for\nSpike Lakeman. Whatever, just swim due\n"
-			.."south to a secret island. As fast as\npossible.\n\nOn the new island speak to the Mad\n"
-			.."Doctor and... now look for Numi in\nEverlook in Winterspring.\n\nNow, in the Burning Steppes follow the\n"
-			.."map pins. Do the killing collecting.\n\nAnd... this time you're with Jurgens again.\n"
-			.."Hooray... a teleporter.\n\nThe Harvest Golem V000-A is tough! You'll\n"
-			.."need a group. Don't forget to kite it so\nthe armour stacks will expire. And Disarm\n"
-			.."and Demoralizing Shout and Shield Bash/\nPummel while it's casting"
+ns.warrior.shockwave = "Head down to the far far south of Tanaris, looking for a Half-Buried Mech at the pin.\n\n"
+			.."Click it twice. That's the first quest done and a useful Guided Buoyancy Accelerant.\n\n"
+			.."With the second quest quickly look for Spike Lakeman. Whatever, just swim due "
+			.."south to a secret island. As fast as possible.\n\nOn the new island speak to the Mad "
+			.."Doctor and... now look for Numi in Everlook in Winterspring.\n\nNow, in the Burning Steppes follow the "
+			.."map pins. Do the killing collecting.\n\nAnd... this time you're with Jurgens again. "
+			.."Hooray... a teleporter.\n\nThe Harvest Golem V000-A is tough! You'll "
+			.."need a group. Don't forget to kite it so the armour stacks will expire. And Disarm "
+			.."and Demoralizing Shout and Shield Bash/ Pummel while it's casting"
 
 -- Common Phase 1			
-ns.agon = "You need to kill Agon, a wild boar. Only\none person gets the drop, solo or grouped.\nRespawn is quick, 2-3 minutes"
+ns.agon = "You need to kill Agon, a wild boar. Only one person gets the drop, solo or grouped. Respawn is quick, 2-3 minutes"
 ns.allClass = { "DRUID", "HUNTER", "MAGE", "PALADIN", "PRIEST", "ROGUE", "SHAMAN", "WARLOCK", "WARRIOR" }
 ns.allSpellG = { "Survival of the Fittest", "Lone Wolf", "Rewind Time", "Divine Sacrifice", "Serendipity", "Main Gauche",
 			"Dual Wield Specialization", "Demonic Pact", "Warbringer" }
 ns.allSpellACA = { "Skull Bash", "Serpent Spread", "Arcane Surge", "Beacon of Light", "Mind Sear", "Just a Flesh Wound",
 			"Healing Rain", "Everlasting Affliction", "Single-Minded Fury" }
-ns.duskwoodCrypts = "The the map pins for which Crypt to enter first.\n\nIn the 1st Crypt turn left. Click on the Dusty\n"
-			.."Coffer and grab the Decrepit Phylactery. Exit\n\nIn the 2nd Crypt turn right into the throne\n"
-			.."room. Use the Phylactery on the\nSlumbering Bones.\n\nYou've just awakened a level 25 Lich. Loot!"
-ns.frozen = "Horde go to a Frozen Markrura east of Razor Hill\nor to a Frozen Murloc north-west of Brightwater\n"
-			.."Lake in Tirisfal Glades\n\nAlliance also seek a Frozen Murloc, at the\n"
-			.."Stonecairn Lake in Elwynn Forest or they'll go\nto Frozen Trogg at Gol'bar Quarry in Dun Morogh.\n\n"
-			.."These need to be defrosted and you'll need help\napplying enough firey debuffs"
-ns.grizzby = "Grizzby at Ratchet has three tasks at level 20+.\nThen you may purchase the rune.\n\n"
-			.."The first task sends you to Stonetalon Mountains.\nDrop rate about 2/3rds, or Ashenvale (A).\n\n"
-			.."Go to the Wetlands for the second quest.\n\nThe final task is Fish Oil. Obtainable from all over\n"
-			.."Azeroth. I marked Feralas, Swamp of Sorrows,\nDesolace and Stranglethorn Vale. All above 40%\n"
+ns.duskwoodCrypts = "The the map pins for which Crypt to enter first.\n\nIn the 1st Crypt turn left. Click on the Dusty "
+			.."Coffer and grab the Decrepit Phylactery. Exit\n\nIn the 2nd Crypt turn right into the throne "
+			.."room. Use the Phylactery on the Slumbering Bones.\n\nYou've just awakened a level 25 Lich. Loot!"
+ns.frozen = "Horde go to a Frozen Markrura east of Razor Hill or to a Frozen Murloc north-west of Brightwater "
+			.."Lake in Tirisfal Glades\n\nAlliance also seek a Frozen Murloc, at the "
+			.."Stonecairn Lake in Elwynn Forest or they'll go to Frozen Trogg at Gol'bar Quarry in Dun Morogh.\n\n"
+			.."These need to be defrosted and you'll need help applying enough firey debuffs"
+ns.grizzby = "Grizzby at Ratchet has three tasks at level 20+. Then you may purchase the rune.\n\n"
+			.."The first task sends you to Stonetalon Mountains. Drop rate about 2/3rds, or Ashenvale (A).\n\n"
+			.."Go to the Wetlands for the second quest.\n\nThe final task is Fish Oil. Obtainable from all over "
+			.."Azeroth. I marked Feralas, Swamp of Sorrows, Desolace and Stranglethorn Vale. All above 40% "
 			.."drops. Or if you are rich then trade or the AH!"
-ns.livAndStuart = "Stuart usually stands at the foot of the stairs. Speak\n"
-			.."to Liv Bradford first if you haven't already done so.\n"
+ns.livAndStuart = "Stuart usually stands at the foot of the stairs. Speak "
+			.."to Liv Bradford first if you haven't already done so. "
 			.."Fast respawn. Both are in the unnamed Inn"
-ns.secretCoven = " in the \"secret\" Warlock coven in \nthe basement of The Slaughtered Lamb"
-ns.starterZoneClass = "All of the locations are in your starting zone,\nfrom your class trainer. You can't possibly miss it!\n"
+ns.secretCoven = " in the \"secret\" Warlock coven in  the basement of The Slaughtered Lamb"
+ns.starterZoneClass = "All of the locations are in your starting zone, from your class trainer. You can't possibly miss it! "
 			.."Objectives marked too."
-ns.supplyFaction = "Reach Friendly with Azeroth Commerce\nAuthority (A) or Durotar Supply and\n"
-			.."Logistics (H). You may now purchase\nthe Rune!\n\n(Quests require level 8/9)"
-ns.woundedAdventurer = "Go to the Grizzled Den, Dun Morogh; hill east\nof Jerod's Landing, Elwynn Forest; east of the\n"
-			.."Oracle Glade, Teldrassil (A)\n\nLedge via the northern exit of the Venture Co.\n"
-			.."Mine, Mulgore; Kolkar Crag, west of Sen'jin\n"
-			.."Village, Durotar\n\nClick on the skeleton. The other person\nclicks on the summoning portal.\n\n"
+ns.supplyFaction = "Reach Friendly with Azeroth Commerce Authority (A) or Durotar Supply and "
+			.."Logistics (H). You may now purchase the Rune!\n\n(Quests require level 8/9)"
+ns.woundedAdventurer = "Go to the Grizzled Den, Dun Morogh; hill east of Jerod's Landing, Elwynn Forest; east of the "
+			.."Oracle Glade, Teldrassil (A)\n\nLedge via the northern exit of the Venture Co. "
+			.."Mine, Mulgore; Kolkar Crag, west of Sen'jin "
+			.."Village, Durotar\n\nClick on the skeleton. The other person clicks on the summoning portal.\n\n"
 			.."Click on the spirit for loot"
-ns.zixil = "He has the most extensive list of\nlimited stock items in all of Azeroth.\nBest to stock up now!"
+ns.zixil = "He has the most extensive list of limited stock items in all of Azeroth. Best to stock up now!"
 
 -- Common Phase 2
-ns.amaryllis = "First go to Amaryllis Webb in the Swamp of Sorrows\nwhere you'll purchase an Entomology Starter Kit, 50s.\n\n"
-			.."In any order, catch an Arbor Tarantula, east and\nsouth-east of the Lake Nazferiti logging camp in\n"
-			.."Stranglethorn Vale; a Hay Weevil from a barn or\nstables in the Arathi Highlands; a Flesh Picker from\n"
+ns.amaryllis = "First go to Amaryllis Webb in the Swamp of Sorrows where you'll purchase an Entomology Starter Kit, 50s.\n\n"
+			.."In any order, catch an Arbor Tarantula, east and south-east of the Lake Nazferiti logging camp in "
+			.."Stranglethorn Vale; a Hay Weevil from a barn or stables in the Arathi Highlands; a Flesh Picker from "
 			.."the kodo bone graveyard in Desolace.\n\nReturn to Amaryllis for phat lewt"
-ns.dalaranAgent = "Go to Ariden's Camp in Deadwind Pass. It's\nclose to the Swamp of Sorrows path.\n\n"
-			.."Speak to the Dalaran Agent and obtain\nAriden's Sigil from her. Equip it. You must\n"
-			.."now locate and kill 7 Dark Riders (L 41)\nand loot their relics.\n\n"
-			.."You'll receive a Dark Presence buff when a\nDark Rider is close by.\n\n"
-			.."The zones are: Arathi Highlands, Badlands\nDeadwind Pass, Desolace, Duskwood, Swamp of\n"
-			.."Sorrows and The Barrens.\n\nWhen done, return to the Dalaran Agent and\n"
-			.."hand in each \"quest\". A final quest will\nreward you with the Rune of the Jungle King.\n\n"
+ns.dalaranAgent = "Go to Ariden's Camp in Deadwind Pass. It's close to the Swamp of Sorrows path.\n\n"
+			.."Speak to the Dalaran Agent and obtain Ariden's Sigil from her. Equip it. You must "
+			.."now locate and kill 7 Dark Riders (L 41) and loot their relics.\n\n"
+			.."You'll receive a Dark Presence buff when a Dark Rider is close by.\n\n"
+			.."The zones are: Arathi Highlands, Badlands Deadwind Pass, Desolace, Duskwood, Swamp of "
+			.."Sorrows and The Barrens.\n\nWhen done, return to the Dalaran Agent and "
+			.."hand in each \"quest\". A final quest will reward you with the Rune of the Jungle King.\n\n"
 			.."Dark Riders are on a 5 minute respawn timer"
 ns.dalaranRelic = "Curious Dalaran Relic ("
 ns.dalaranSpeakTo = "Speak to the Dalaran Agent @ Ariden's Camp in Deadwind Pass"
@@ -991,61 +991,61 @@ ns.dalaranQuestName = { ns.dalaranRelic .."Curious)", ns.dalaranRelic .."Glitter
 						ns.dalaranRelic .."Whirring)", ns.dalaranRelic .."Odd)", 
 						ns.dalaranRelic .."Heavy)", ns.dalaranRelic .."Creepy)", 
 						ns.dalaranRelic .."Slippery)", "A Service to Dalaran" }
-ns.dungeonDrops = "Drops from all bosses in Razorfen Downs,\nUldaman, Scarlet Monastery (all wings)"					
-ns.pillaged = "Find the pillaged campfire, north-west\nof the Kodo Graveyard. Accept the quest\n"
-			.."and go to Bibbly F'utzbuckle who is near\nKormek's Hut. He'll give you \"On the Lam\"\nto complete.\n\n"
-			.."The hint sends you to Tokal in Booty Bay\nat the Salty Sailor Tavern bar. She'll\n"
-			.."have you complete \"Cherry for your thoughts\".\n"
-			.."Buy the Cherry Grog from the bartender and\npickup \"No Honor among Thieves\".\n\n"
-			.."You need to go to the bridge leading into the\nWetlands from Arathi Highlands. Cross the\n"
-			.."small rope bridge nearby and walk down to the\nwater. Board the boat (click on it).\n\n"
-			.."You've been teleported to the far eastern\nshore. Speak to Illari Duskfeather, level 40.\n"
-			.."She'll run away / be killed, leaving a Dropped\nPouch which contains a key to her Loot Cache.\n"
-			.."Take the Jewel Encrusted Box and open it to\nreceive your rune!"
+ns.dungeonDrops = "Drops from all bosses in Razorfen Downs, Uldaman, Scarlet Monastery (all wings)"					
+ns.pillaged = "Find the pillaged campfire, north-west of the Kodo Graveyard. Accept the quest "
+			.."and go to Bibbly F'utzbuckle who is near Kormek's Hut. He'll give you \"On the Lam\" to complete.\n\n"
+			.."The hint sends you to Tokal in Booty Bay at the Salty Sailor Tavern bar. She'll "
+			.."have you complete \"Cherry for your thoughts\". "
+			.."Buy the Cherry Grog from the bartender and pickup \"No Honor among Thieves\".\n\n"
+			.."You need to go to the bridge leading into the Wetlands from Arathi Highlands. Cross the "
+			.."small rope bridge nearby and walk down to the water. Board the boat (click on it).\n\n"
+			.."You've been teleported to the far eastern shore. Speak to Illari Duskfeather, level 40. "
+			.."She'll run away / be killed, leaving a Dropped Pouch which contains a key to her Loot Cache. "
+			.."Take the Jewel Encrusted Box and open it to receive your rune!"
 -- Common Phase 3
-ns.enragedVoidWalker = "Farm for Coded Warlock Notes from Wastewander\nShadow Mages and a Wastewander Cipher from the\n"
-			.."Wastewander Thieves. South-east of Gadgetzan.\n\nCombine -> Deciphered Warlock Notes. Proceed to\n"
-			.."the Cryptic Scroll of Summoning nearby and use\nthe Notes. Smash the Enraged Voidwalker (L43e)\n"
-			.."and loot ftw!\n\nIf grouped then only one person needs to have\n"
+ns.enragedVoidWalker = "Farm for Coded Warlock Notes from Wastewander Shadow Mages and a Wastewander Cipher from the "
+			.."Wastewander Thieves. South-east of Gadgetzan.\n\nCombine -> Deciphered Warlock Notes. Proceed to "
+			.."the Cryptic Scroll of Summoning nearby and use the Notes. Smash the Enraged Voidwalker (L43e) "
+			.."and loot ftw!\n\nIf grouped then only one person needs to have "
 			.."the two items and they can be bought on the AH.\n\n"
-			.."Priests and Shaman both need this so don't be\nsurprised to see the other class there"
-ns.enragedVoidWalkerStart = "South-east of Gadgetzan, Tanaris, is where you'll be farming\n"
+			.."Priests and Shaman both need this so don't be surprised to see the other class there"
+ns.enragedVoidWalkerStart = "South-east of Gadgetzan, Tanaris, is where you'll be farming "
 			.."Wastewander mobs. Later, a L43e appears"
-ns.felPortals = "\nFel Portals: Ashenvale, Darkshore, Desolace, Redridge, Silverpine, Swamp of Sorrows, The Barrens, Westfall."
-ns.getCGM = "\nToo many locations. Use Taraezor's AddOn \"Chests, Gear and More\" for all the known locations,\n"
+ns.felPortals = " Fel Portals: Ashenvale, Darkshore, Desolace, Redridge, Silverpine, Swamp of Sorrows, The Barrens, Westfall."
+ns.getCGM = " Too many locations. Use Taraezor's AddOn \"Chests, Gear and More\" for all the known locations, "
 			.."plus other cool stuff!"
 ns.emeraldSpell = { "Gore", "T.N.T.", "Molten Armor", "Improved Hammer of Wrath", "Void Zone", "Cut to the Chase",
 					"Burn", "Unstable Affliction", "Shield Mastery" }
-ns.emeraldWardens = "Purchasable from an Emerald Warden Quartermaster at Friendly rep in Ashenvale, Duskwood,\n"
+ns.emeraldWardens = "Purchasable from an Emerald Warden Quartermaster at Friendly rep in Ashenvale, Duskwood, "
 			.."Feralas, The Hinterlands. Obtain rep through group/solo questing via portals in the same zones."
 ns.nightmareIncursions = "Duskwood: Level 23+, Ashenvale: 37+, Feralas: 47+, The Hinterlands: 47+\n\n"
-			.."Go to the marked location and speak to a Field Captain.\nAfter completing the quests, which require defeating\n"
-			.."demonic creatures near to portals as well as speaking\nto an agent, you'll progress to entering the portal to\n"
-			.."complete a variety of challenges. All of this rewards\nEmerald Wardens reputation.\n\n"
-			.."The quests may be shared with up to four people. It is\n"
-			.."strongly recommended to group up and share quests. Thus,\n"
+			.."Go to the marked location and speak to a Field Captain. After completing the quests, which require defeating "
+			.."demonic creatures near to portals as well as speaking to an agent, you'll progress to entering the portal to "
+			.."complete a variety of challenges. All of this rewards Emerald Wardens reputation.\n\n"
+			.."The quests may be shared with up to four people. It is "
+			.."strongly recommended to group up and share quests. Thus, "
 			.."the group will complete several tasks at the same time.\n\n"
-ns.leylineGuide = "Visit four Leyline Confluxes in each of Azshara, Feralas,\nThe Hinterlands and Searing Gorge.\n\n"
-			.."Use either a Warlock's Worldcore Fragment (from Imp\nexplorations) or a Mage's Scroll of Geomancy.\n\n"
-			.."An Enraged Leywalker (L47e) will spawn. Immune to arcane\n"
+ns.leylineGuide = "Visit four Leyline Confluxes in each of Azshara, Feralas, The Hinterlands and Searing Gorge.\n\n"
+			.."Use either a Warlock's Worldcore Fragment (from Imp explorations) or a Mage's Scroll of Geomancy.\n\n"
+			.."An Enraged Leywalker (L47e) will spawn. Immune to arcane "
 			.."damage. It will drop a Leycryst. Combine all four. Voilà!\n\n"
 			.."Paladins/Priests must group up to do this"
-ns.leylineSummary = "At Azshara, Feralas, The Hinterlands and Searing Gorge you must \"attune\" to a leyline with\n"
+ns.leylineSummary = "At Azshara, Feralas, The Hinterlands and Searing Gorge you must \"attune\" to a leyline with "
 			.."a Scroll of Geomancy (Mage decipher) or Worldcore Fragments (Warlock Imp explorations)"
-ns.leylineSummaryExtra = ".\nPaladins and Priests must group with one or more Mages/Warlocks"
-ns.wildGods = "Find the Shadowtooth Emissary @ the Emerald\nSanctuary, southern Felwood. Accept \"The Wild Gods\".\n\n"
-			.."Kill Vilebranch mobs (L45e-51e) @ Jinth'Alor, south-\neast Hinterlands, to obtain a Wildwhisper Draught.\n\n"
-			.."In Razorfen Downs (far south Barrens), do a full clear\nof the last boss. Drink the Draught. Speak to the\n"
-			.."Spirit of Agamaggan and hand in / pick up parts 1 & 2\nof \"The Wild Gods\". You'll receive Agamaggan's Roar.\n\n"
-			.."Proceed now to one of these dungeons. When the kill\ncondition has been satisfied, you'll receive a message\n"
-			.."that \"You feel a shadowed presence\". Go to a newly\nspawned Ghostly beast and use your Agamaggan's Roar.\n"
-			.."This summons a Delirious Ancient (L52e). Kill & loot.\nYou'll receive 1 x Wild Offering. When you have three,\n"
+ns.leylineSummaryExtra = ". Paladins and Priests must group with one or more Mages/Warlocks"
+ns.wildGods = "Find the Shadowtooth Emissary @ the Emerald Sanctuary, southern Felwood. Accept \"The Wild Gods\".\n\n"
+			.."Kill Vilebranch mobs (L45e-51e) @ Jinth'Alor, south- east Hinterlands, to obtain a Wildwhisper Draught.\n\n"
+			.."In Razorfen Downs (far south Barrens), do a full clear of the last boss. Drink the Draught. Speak to the "
+			.."Spirit of Agamaggan and hand in / pick up parts 1 & 2 of \"The Wild Gods\". You'll receive Agamaggan's Roar.\n\n"
+			.."Proceed now to one of these dungeons. When the kill condition has been satisfied, you'll receive a message "
+			.."that \"You feel a shadowed presence\". Go to a newly spawned Ghostly beast and use your Agamaggan's Roar. "
+			.."This summons a Delirious Ancient (L52e). Kill & loot. You'll receive 1 x Wild Offering. When you have three, "
 			.."return to the Shadowtooth Emissary for your rune.\n\n"
-			..colourHighlight .."Blackrock Depths: " ..colourPlaintext .."Defeat Gerstahn, Grebmar and the\n"
-			.."Ring of Law. Head to the Highway and hunt down and\nblow your horn on the Ghostly Basilisk.\n\n"
-			..colourHighlight .."Maraudon: " ..colourPlaintext .."Any three bosses. When you get the message,\n"
+			..colourHighlight .."Blackrock Depths: " ..colourPlaintext .."Defeat Gerstahn, Grebmar and the "
+			.."Ring of Law. Head to the Highway and hunt down and blow your horn on the Ghostly Basilisk.\n\n"
+			..colourHighlight .."Maraudon: " ..colourPlaintext .."Any three bosses. When you get the message, "
 			.."go to Princess Theradras. A Ghostly Raptor is nearby.\n\n"
-			..colourHighlight .."Zul'Farrak: " ..colourPlaintext .."Any three bosses excluding Gahz'rilla.\n"
+			..colourHighlight .."Zul'Farrak: " ..colourPlaintext .."Any three bosses excluding Gahz'rilla. "
 			.."Look for a Ghostly Spider in the pool area."
 ns.wildGodsSpells = { "Improved Frenzied Regeneration", "Lock and Load", "Advanced Warding", "Improved Sanctuary",
 			"Divine Aegis", "Combat Potency", "Riptide", "Vengeance", "Sword and Board" }
@@ -1054,26 +1054,26 @@ ns.wildGodsStart = "Begin by talking to the Shadowtooth Emissary at the Emerald 
 ns.purchaseSkillBook = "Purchase from Zor Lonetree, Org. Valley of Wisdom (H) or Milton Sheaf, SW Keep Library (A)"
 ns.skillBookVendor = "Skill Books may be purchased from this librarian"
 -- Common Rings Phase 4/5
-ns.ring.defense = "From Searing Gorge (or perhaps Burning Steppes)\nwalk down the round path inside the cavern of\n"
-			.."Blackrock Mountain until you reach the BRS\nmeeting stone.\n\nTurn into that hallway. Then the first right\n"
-			.."into a small room. There are two copies of\nthe book on the floor. You only need to loot\none for your phat lewt"
-ns.ring.defenseTip = "Lowbies can corpse run and loot this as one\nof the books may be looted while out of agro/\n"
+ns.ring.defense = "From Searing Gorge (or perhaps Burning Steppes) walk down the round path inside the cavern of "
+			.."Blackrock Mountain until you reach the BRS meeting stone.\n\nTurn into that hallway. Then the first right "
+			.."into a small room. There are two copies of the book on the floor. You only need to loot one for your phat lewt"
+ns.ring.defenseTip = "Lowbies can corpse run and loot this as one of the books may be looted while out of agro/ "
 			.."sight of the mob"
-ns.ring.fire = "From Thorium Point go south-east. Locate\na hole in the ground. Jump in.\n\n"
-			.."Turn and go north and up the ramp.\n\nAt the fork bear left. Book is on\na bench in the alcove"
-ns.ring.sword = "Walk around to the back of Karazhan and locate\nthe correct entrance to the Master's Cellar, as\n"
-			.."per the pin.\n\nThe stair down lead into the catacombs. Now go\nright, following the path around. You're at\n"
-			.."a downhill passage, leading to a central rise.\n\nTo the left of this platform are two pillars,\n"
+ns.ring.fire = "From Thorium Point go south-east. Locate a hole in the ground. Jump in.\n\n"
+			.."Turn and go north and up the ramp.\n\nAt the fork bear left. Book is on a bench in the alcove"
+ns.ring.sword = "Walk around to the back of Karazhan and locate the correct entrance to the Master's Cellar, as "
+			.."per the pin.\n\nThe stair down lead into the catacombs. Now go right, following the path around. You're at "
+			.."a downhill passage, leading to a central rise.\n\nTo the left of this platform are two pillars, "
 			.."with the book between them. Loot FTW!"
 -- Common Phase 5
-ns.purchaseForAlt = "Once obtained, this rune may be purchased for\nan alt. You do this by visiting Pix Xizzix in Booty\n"
-			.."Bay and purchasing an emblem, which you\nthen mail to that toon. With the emblem, your\n"
-			.."alt visits a Rune Broker in SW/IF/TB/Org. BoA\n\nThe currency for these Emblems drops from\n"
-			.."level 55+ dungeon bosses.\n\nShe's standing on crates @ (28.52,75.87),\n"
-			.."next to Auctioneer Graves and at the side of\nThe Old Port Authority building"
-ns.runeBroker = "Bring your Emblem to this vendor. Your\ncharacter will be able to purchase a rune.\n\n"
-			.."The Emblem would have been purchased by\nanother of your characters from Pix Xizzix\n"
-			.."in Booty Bay, using currency obtained from\nlevel 55+ dungeon boss kills."
+ns.purchaseForAlt = "Once obtained, this rune may be purchased for an alt. You do this by visiting Pix Xizzix in Booty "
+			.."Bay and purchasing an emblem, which you then mail to that toon. With the emblem, your "
+			.."alt visits a Rune Broker in SW/IF/TB/Org. BoA\n\nThe currency for these Emblems drops from "
+			.."level 55+ dungeon bosses.\n\nShe's standing on crates @ (28.52,75.87), "
+			.."next to Auctioneer Graves and at the side of The Old Port Authority building"
+ns.runeBroker = "Bring your Emblem to this vendor. Your character will be able to purchase a rune.\n\n"
+			.."The Emblem would have been purchased by another of your characters from Pix Xizzix "
+			.."in Booty Bay, using currency obtained from level 55+ dungeon boss kills."
 
 --=======================================================================================================
 --
@@ -1082,9 +1082,9 @@ ns.runeBroker = "Bring your Emblem to this vendor. Your\ncharacter will be able 
 --=======================================================================================================
 
 ns.dungeonSummary = "Drops from named elites / bosses in the Scarlet Monastery, Razorfen Downs and Uldaman" -- Deprecated P4
-ns.supplyFactionStart = "Elaine Compton, \"Azeroth Commerce Authority Vendor\", Stormwind (A),\n"
+ns.supplyFactionStart = "Elaine Compton, \"Azeroth Commerce Authority Vendor\", Stormwind (A), "
 			.."Jornah, \"Durotar Supply and Logistics Vendor\", Orgrimmar (H)"
-ns.twoPlusHealers = "2+ Players - Healers. First step: Find Adventurer's Remains/Spirit: \n"
+ns.twoPlusHealers = "2+ Players - Healers. First step: Find Adventurer's Remains/Spirit:  "
 
 		-- SLOT=
 		-- 1 = "Head"			 8 = "Feet"			15 = "Back"
@@ -1152,7 +1152,7 @@ ns.runes = {
 		["Wild Strikes"]={ rune="Idol of the Wild", phase=1, spellID=407977, level=14, icon=6, slot=5,
 				start="Grimtotem mobs, south-east entrance/exit of Stonetalon Mountains" },
 		["Lacerate"]={ rune="Rune of Lacerate", phase=1, spellID=414644, level=15, icon=7, slot=7,
-				start="Khara Deepwater, The Loch, Loch Modan (A)\n"
+				start="Khara Deepwater, The Loch, Loch Modan (A) "
 					.."Crab Treats from coastal Furlbogs, Darkshore; Abandoned Snapjaw Nest, Forgotten Pools, The Barrens" },
 		["Skull Bash"]={ rune="Rune of Skull Bash", phase=1, spellID=410176, level=15, icon=8, slot=10,
 				start=ns.supplyFactionStart },
@@ -1219,30 +1219,30 @@ ns.runes = {
 	["HUNTER"] = {
 		-- Phase 1
 		["Chimera Shot"]={ rune="Rune of Chimera", phase=1, spellID=409433, level=2, icon=1, slot=10,
-				start="Thorgas Grimson, Anvilmar, Coldridge Valley; Ayanna Everstride, Aldrassil, Shadowglen (A).\n"
+				start="Thorgas Grimson, Anvilmar, Coldridge Valley; Ayanna Everstride, Aldrassil, Shadowglen (A). "
 					.."Jen'Shan, Valley of the Trials; Lanka Farshot, Red Cloud Mesa (H)" },
 		["Explosive Shot"]={ rune="Rune of Explosive Shot", phase=1, spellID=409552, level=5, icon=2, slot=10,
 				start="Various Elites/Rares in Dun Morogh (A) and Mulgore (H); Rageclaw, in the Ban'ethil Barrow Den, "
 				.."Teldrassil (A)" },
 		["Master Marksman"]={ rune="Rune of Marksmanshi", phase=1, spellID=409428, level=6, icon=3, slot=5,
-				start="Rustling Bush: off the path towards Oracle Grove, Teldrassil; south of Brewnall Village, Dun Morogh (A)\n"
+				start="Rustling Bush: off the path towards Oracle Grove, Teldrassil; south of Brewnall Village, Dun Morogh (A) "
 					.."West from Razor Hill, veering south; east of Bloodhoof Village, near the lake, Mulgore (H)" },
 		["Flanking Strike"]={ rune="Rune of Flanking", phase=1, spellID=415320, level=8, icon=4, slot=7,
 				start="Jorul, east of Brewnall Village, near the cave, Dun Morogh; Mowgh, northern Teldrassil, opposite the "
-				.."Glade (A)\nRaul, northern Echo Isles, Durotar; Mokwa, north-west of Bloodhoof Village, Mulgore" },
+				.."Glade (A) Raul, northern Echo Isles, Durotar; Mokwa, north-west of Bloodhoof Village, Mulgore" },
 		["Carve"]={ rune="Rune of Carve", phase=1, spellID=425711, level=10, icon=5, slot=10,
-				start="Tame animals with reagent: Amberstill Ranch, Dun Morogh; Relaeron, Darnassus (A)\n"
+				start="Tame animals with reagent: Amberstill Ranch, Dun Morogh; Relaeron, Darnassus (A) "
 					.."Razzil, Razor Hill, Durotar; Takoda Sunmane, Bloodhoof Village, Mulgore (H)" },
 		["Beast Mastery"]={ rune="Rune of Beast Mastery", phase=1, spellID=409368, level=15, icon=6, slot=5,
 				start="Furbolg camp, Darkshore; Farstrider Lodge, Loch Modan; Silverspur, north of Gold Coast Quarry, Westfall "
-				.."(A)\nFerocious Grizzled Bear, northern Silverpine Forest; Patrolling Cheetah, north of Taurajo, The "
+				.."(A) Ferocious Grizzled Bear, northern Silverpine Forest; Patrolling Cheetah, north of Taurajo, The "
 				.."Barrens (H)" },
 		["Serpent Spread"]={ rune="Rune of Serpent Spread", phase=1, spellID=425738, level=15, icon=7, slot=7,
 				start=ns.supplyFactionStart },
 		["Kill Shot"]={ rune="Rune of Kill Command", phase=1, spellID=409974, level=20, icon=8, slot=7,
 				start="Jixo Madrocket, near Sun Rock Retreat, Stonetalon Mountains (A/H)" },
 		["Sniper Training"]={ rune="Rune of the Sniper", phase=1, spellID=415399, level=20, icon=9, slot=7,
-				start="Gnarled Harpoon, west of the Ruins of Mathystra, Darkshore; Kackle, in The Loch (south), Loch Modan;\n"
+				start="Gnarled Harpoon, west of the Ruins of Mathystra, Darkshore; Kackle, in The Loch (south), Loch Modan; "
 					.."Defias Scout, Sentinel Hill, Westfall (A); Kilxx, Ratchet, The Barrens (H)" },		
 		["Lone Wolf"]={ rune="Rune of Lone wolf", phase=1, spellID=415370, level=20, icon=10, slot=5,
 				start="Grizzby @ Ratchet, The Barrens" },
@@ -1307,28 +1307,28 @@ ns.runes = {
 	["MAGE"] = {
 		-- Phase 1
 		["Ice Lance"]={ rune="Spell Notes: Ice Lance (CALE ENCI)", phase=1, spellID=400640, level=2, icon=1, slot=10,
-				start="Marryk Nurrbit, back of Anvilmar, Dun Morogh; Khelden Bremen, Northshire Abbey, Elwynn Forest (A)\n"
+				start="Marryk Nurrbit, back of Anvilmar, Dun Morogh; Khelden Bremen, Northshire Abbey, Elwynn Forest (A) "
 					.."Mai'ah, Valley of Trials, Durotar; Isabella, Deathknell, Tirisfal Glades (H)" },
 		["Living Flame"]={ rune="Spell Notes: Living Flame (MILEGIN VALF)", phase=1, spellID=401556, level=8, icon=2, slot=7,
-				start="Kobold mobs near Jasperlode Mine, Elwynn Forest; Frostmane mobs north-west of Kharanos, Dun Morogh (A)\n"
+				start="Kobold mobs near Jasperlode Mine, Elwynn Forest; Frostmane mobs north-west of Kharanos, Dun Morogh (A) "
 					.."Burning Blade mobs, Skull Rock, Durotar; Scarlet mobs, Solliden Farm, Tirisfal Glades (H)" },
 		["Enlightenment"]={ rune="Spell Notes: Enlightenment", phase=1, spellID=412324, level=8, icon=3, slot=5,
-				start="Any critter in Elwynn Forest but near Ridgepoint Tower is suggested.\n"
+				start="Any critter in Elwynn Forest but near Ridgepoint Tower is suggested. "
 					.."Or Odd Melons you see around any farm in Tirisfal Glades" },
 		["Burnout"]={ rune="Spell Notes: Burnout", phase=1, spellID=412286, level=9, icon=4, slot=5,
-				start="Frozen: Trogg, Gol'bolar quarry, Dun Morogh; Murloc, Stonecairn Lake, Elwynn Forest (A)\n"
+				start="Frozen: Trogg, Gol'bolar quarry, Dun Morogh; Murloc, Stonecairn Lake, Elwynn Forest (A) "
 					.."Makrura, east of Razor Hill, Durotar; Murloc, north-west of Brightwater Lake, Tirisfal Glades (H)" },
 		["Fingers of Frost"]={ rune="Spell Notes: Fingers of Frost (RING SEFF OSTROF)", phase=1, spellID=400647, level=10,
-				icon=5, slot=5, start="Several elite/rares in Dun Morogh; Hogger Elwynn Forest (A),\n"
+				icon=5, slot=5, start="Several elite/rares in Dun Morogh; Hogger Elwynn Forest (A), "
 					.."Zalazane, Echo Isles, Duratar; Gazz'uz, cave near Orgrimmar, Durotar; Gillgar, Tirisfal Glades (H)" },
 		["Living Bomb"]={ rune="Spell Notes: BIVOLG NIMB", phase=1, spellID=400613, level=12, icon=6, slot=10,
-				start="Stonesplitter caves and northern lake, Loch Modan (A/H);\nExtra reward from a small quest chain. "
+				start="Stonesplitter caves and northern lake, Loch Modan (A/H); Extra reward from a small quest chain. "
 				.."Begin: \"A Talking Head\" mob drop on Fenris Isle, Silverpine (H)" },
 		["Arcane Surge"]={ rune="Spell Notes: Arcane Surge", phase=1, spellID=425124, level=15, icon=7, slot=7,
 				start=ns.supplyFactionStart },
 		["Regeneration"]={ rune="Spell Notes: Regeneration (TENGI RONEERA)", phase=1, spellID=401417, level=15, icon=8, slot=5,
 				start="Stack of books in the south hut of the northern island, The Loch, Loch Modan; Defias Pillager, Westfall "
-				.."(A)\nDalaran Apprentice, Silverpine Forest; Kolkar's Booty in centaur camps, The Barrens (H)" },
+				.."(A) Dalaran Apprentice, Silverpine Forest; Kolkar's Booty in centaur camps, The Barrens (H)" },
 		["Arcane Blast"]={ rune="Spell Notes: Arcane Blast", phase=1, spellID=400574, level=18, icon=9, slot=10,
 				start="Naga Manuscript from Wrathtail Naga, Zoram Strand, north coast of Ashenvale (A/H)" },
 		["Icy Veins"]={ rune="Icy Veins", phase=1, spellID=425121, level=20, icon=10, slot=7,
@@ -1345,8 +1345,8 @@ ns.runes = {
 		["Hot Streak"]={ rune="Spell Notes: Hot Streak", phase=2, spellID=400624, level=33, icon=15, slot=1,
 				start="Kill the Ancient Fire Elemental (L34/35) in the Alterac Mountains" },
 		["Spell Power"]={ rune="Spell Power", phase=2, spellID=412322, level=33, icon=16, slot=8, 
-				start="Collect 20 books across Azeroth, too numerous to list here, but...\n"
-					.."see my detailed guide at: Garion Wendell in the Stormwind Mage Tower\n"
+				start="Collect 20 books across Azeroth, too numerous to list here, but... "
+					.."see my detailed guide at: Garion Wendell in the Stormwind Mage Tower "
 					.."portal room (A) or Owen Thadd in the Mages Quarter of Undercity (H)" },
 		["Frostfire Bolt"]={ rune="Spell Notes: Frostfire Bolt (TROFF IRESTBOL)", phase=2, spellID=401502, level=37, icon=17,
 				slot=6, start="Drops from Skullsplitter Mystics, Stranglethorn Vale" },
@@ -1411,7 +1411,7 @@ ns.runes = {
 		["Divine Sacrifice"]={ rune="Rune of Sacrifice", phase=1, spellID=462853, level=20, icon=9, slot=7,
 				start="Grizzby @ Ratchet, The Barrens" },
 		["Avenger's Shield"]={ rune="Rune of the Avenger", phase=1, spellID=407669, level=23, icon=10, slot=7,
-				start="Dro'zem the Blasphemous, Redridge Mountians. Well south of the\n",
+				start="Dro'zem the Blasphemous, Redridge Mountians. Well south of the ",
 			"Tower of Althalaxx, northern Darkshore" },
 		["Divine Storm"]={ rune="Divine Storm Rune", phase=1, spellID=407778, level=25, icon=11, slot=5,
 				start="Top of the Tower of Althalaxx, northern Darkshore" },
@@ -1440,7 +1440,7 @@ ns.runes = {
 		["Improved Hammer of Wrath"]={ rune="Rune of the Hammer", phase=3, spellID=429152, level="23/37/47", icon=19, slot=9,
 				start=ns.emeraldWardens },
 		["Wrath"]={ rune="Rune of Wrath", phase=3, spellID=429139, level=42, icon=20, slot=1,
-				start="With Sense Undead learnt, go to north of Quel'Danil Lodge, The Hinterlands, between 9pm and 3am\n"
+				start="With Sense Undead learnt, go to north of Quel'Danil Lodge, The Hinterlands, between 9pm and 3am "
 					.."server time. Kill a Vengeful Spirit (L45). Go to the Mystic Ward in Ironforge for the turn in" },
 		["Improved Sanctuary"]={ rune="Improved Sanctuary", phase=3, spellID=429133, level=40, icon=21, slot=1,
 				start=ns.wildGodsStart },
@@ -1449,7 +1449,7 @@ ns.runes = {
 		["Purifying Power"]={ rune="Rune of Purifying Power", phase=3, spellID=429144, level=47, icon=23, slot=9,
 				start=ns.leylineSummary ..ns.leylineSummaryExtra },		
 		["Hammer of the Righteous"]={ rune="Hammer of the Righteous", phase=3, spellID=409922, level=50, icon=24, slot=9,
-				start="Learn Fanaticism prior. Speak to Aeonas the Vindicated at the Bloodvenom Falls, Felwood. Must be L44.\n"
+				start="Learn Fanaticism prior. Speak to Aeonas the Vindicated at the Bloodvenom Falls, Felwood. Must be L44. "
 					.."Along the way you'll go to the Grim Guzzler, inside Blackrock Depths, and Maraudon (group for that)" },
 		["Light's Grace"]={ rune="Rune of Grace", phase=3, spellID=428909, level=50, icon=25, slot=9,
 				start="Head to the Lower Wilds of Feralas, south east of Camp Mojache." },
@@ -1484,30 +1484,30 @@ ns.runes = {
 		-- Phase 1
 		["Penance"]={ rune="Memory of a Troubled Acolyte", phase=1, spellID=402174, level=2, icon=1, slot=10,
 				start= "Branstock Khalder, Anvilmar, Coldridge Valley; Priestess Anetta, Northshire Abbey; Shanda, "
-				.."Shadowglen (A)\nKen'Jai, Valley of Trials; Dark Cleric Duesten, Deathknell" },
+				.."Shadowglen (A) Ken'Jai, Valley of Trials; Dark Cleric Duesten, Deathknell" },
 		["Prayer of Mending"]={ rune="Reciprocal Epiphany", phase=1, spellID=401859, level=7, icon=2, slot=7,
 				start=ns.twoPlusHealers
-				.."Grizzled Den, Dun Morogh; east of Jarod's Landing, southern Elwynn Forest; Oracle Glade, Teldrassil (A)\n"
+				.."Grizzled Den, Dun Morogh; east of Jarod's Landing, southern Elwynn Forest; Oracle Glade, Teldrassil (A) "
 				.."South of and outside of the Valley of Trials, Durotar; near northern exit, Venture Co cave, Mulgore (H)" },
 		["Void Plague"]={ rune="Memory of a Dark Purpose", phase=1, spellID=425204, level=7, icon=3, slot=5,
 				start="Leper Gnome/Gibblewit near Gnomeregan; Goldtooth in Elwynn Forest; Gnarlpine Cache, Ban'ethil Barrow "
-				.."Den, Teldrassil (A)\nKul Tiras mob, east of Razor Hill, Durotar; Gillgar, north-west from Deathknell, "
+				.."Den, Teldrassil (A) Kul Tiras mob, east of Razor Hill, Durotar; Gillgar, north-west from Deathknell, "
 				.."Tirisfal GladeS (H)" },
 		["Homunculi"]={ rune="Prophecy of a Desecrated Citadel", phase=1, spellID=402799, level=8, icon=4, slot=7,
 				start="Shimmer Ridge, Dun Morogh; Defias Rogue Wizard, Elwynn Forest; Rascal Sprite, Fel Rock Cave, Teldrassil "
-					.."(A);\nVoodoo Troll, Echo Isle, Duratar; Scarlet mobs near Solliden Farmstead, Tirisfal Glades (H)\n"
+					.."(A); Voodoo Troll, Echo Isle, Duratar; Scarlet mobs near Solliden Farmstead, Tirisfal Glades (H) "
 					.."Needs two Meditations" },
 		["Shared Pain"]={ rune="Memory of an Imprisoned Saviour", phase=1, spellID=401969, level=8, icon=5, slot=7,
 				start="Defeat Captain Beld, far south-east Dun Morogh; Kobold mobs, mines, Elwynn Forest; Lord Melenas, "
-				.."Teldrassil (A)\nGazz'uz or Makasgar, Mulgore; Tirisfal Farmer mobs, Tirisfal Glades (H)" },
+				.."Teldrassil (A) Gazz'uz or Makasgar, Mulgore; Tirisfal Farmer mobs, Tirisfal Glades (H)" },
 		["Mind Sear"]={ rune="Tenebrous Epiphany", phase=1, spellID=413259, level=15, icon=6, slot=10,
 				start=ns.supplyFactionStart },
 		["Twisted Faith"]={ rune="Memory of a Devout Champion", phase=1, spellID=425198, level=15, icon=7, slot=5,
-				start="Naga mobs, Ruins of Mathystra, Darkshore; Silverstream Mine, Loch Modan; Gold Coast Quarry and\n"
+				start="Naga mobs, Ruins of Mathystra, Darkshore; Silverstream Mine, Loch Modan; Gold Coast Quarry and "
 				.."Jangolode Mine, Westfall (A). Wailing Spirit, southern Silverpine Forest; Razormane mobs, The Barrens (H)" },
 		["Shadow Word: Death"]={ rune="Prophecy of a King's Demise", phase=1, spellID=401955, level=20, icon=8, slot=10,
-				start="Orb, coast, Darkshore; Mo'grosh Stronghold, Loch Modan (A)\n"
-					.."Thule Ravenclaw, Fenris Isle, Silverpine Forest; Desert Mirage, The Barrens (H)\n"
+				start="Orb, coast, Darkshore; Mo'grosh Stronghold, Loch Modan (A) "
+					.."Thule Ravenclaw, Fenris Isle, Silverpine Forest; Desert Mirage, The Barrens (H) "
 					.."Needs two Meditations" },
 		["Serendipity"]={ rune="Harmonious Epiphany", phase=1, spellID=413248, level=20, icon=9, slot=5,
 				start="Grizzby @ Ratchet, The Barrens" },
@@ -1541,7 +1541,7 @@ ns.runes = {
 		["Void Zone"]={ rune="Nihilist Epiphany", phase=3, spellID=431681, level="23/37/47", icon=19, slot=9,
 				start=ns.emeraldWardens },
 		["Surge of Light"]={ rune="Prophecy of the Lost Tribe", phase=3, spellID=431664, level=40, icon=20, slot=9,
-				start="Between 9pm and 3am server time, an Echo of a Lost Soul will appear in the Swamp of Sorrows, Stranglethorn\n"
+				start="Between 9pm and 3am server time, an Echo of a Lost Soul will appear in the Swamp of Sorrows, Stranglethorn "
 					.."Vale, Tanaris, The Hinterlands. Must be killed with Arcane damage although Holy might eventually work" },
 		["Divine Aegis"]={ rune="Resolute Epiphany", phase=3, spellID=431622, level=40, icon=21, slot=1, start=ns.wildGodsStart },
 		["Pain and Suffering"]={ rune="Prophecy of the Verdant Winter", phase=3, spellID=413251, level=43, icon=22, slot=1,
@@ -1549,7 +1549,7 @@ ns.runes = {
 		["Despair"]={ rune="Despair", phase=3, spellID=431670, level=47, icon=23, slot=9,
 				start=ns.leylineSummary ..ns.leylineSummaryExtra },		
 		["Eye of the Void"]={ rune="Prophecy of Awakened Chaos", phase=3, spellID=402789, level=47, icon=24, slot=1,
-				start="Collect seven eyes from around Azeroth: Blasted Lands, Felwood, Feralas, Searing Gorge,\n"
+				start="Collect seven eyes from around Azeroth: Blasted Lands, Felwood, Feralas, Searing Gorge, "
 					.."Stranglethorn Vale, Tanaris, The Hinterlands. Afterwards go to Azshara for the hand in" },
 		-- Phase 4
 		["Binding Heal"]={ rune="Jubilant Epiphany", phase=4, spellID=401937, level=55, icon=25, slot=15,
@@ -1558,7 +1558,7 @@ ns.runes = {
 		["Soul Warding"]={ rune="Oneiric Epiphany", phase=4, spellID=402000, level=60, icon=26, slot=15,
 				start="Go to Stratholme Live Side (Main Entrance), Eastern Plaguelands. Follow the guide precisely (L58-62e)" },
 		["Vampiric Touch"]={ rune="Aperitive Epiphany", phase=4, spellID=402668, level=60, icon=27, slot=15,
-				start="Drops from Hellscream's Phantom (L62e), last boss in Demon Fall Canyon, Ashenvale but...\n"
+				start="Drops from Hellscream's Phantom (L62e), last boss in Demon Fall Canyon, Ashenvale but... "
 					.."You need to unlock the dungeon. Speak to the Shadowtooth Emissary in Emerald Santuary, Felwood" },
 
 		spells={ "Penance", "Prayer of Mending", "Void Plague", "Homunculi", "Shared Pain", "Mind Sear",
@@ -1575,29 +1575,29 @@ ns.runes = {
 	["ROGUE"] = {
 		-- Phase 1
 		["Shadowstrike"]={ rune="Rune of Shadowstrike", phase=1, spellID=399985, level=2, icon=1, slot=10,
-				start="Solm Hargrin, Anvilmar, Coldridge Valley; Jorik Kerridan, behind the Northshire Abbey, Northshire\n"
+				start="Solm Hargrin, Anvilmar, Coldridge Valley; Jorik Kerridan, behind the Northshire Abbey, Northshire "
 					.."Frahun Shadewhisper, Shadowglen (A). Rwag, Valley of Trials; David Trias, Deathknell (H)" },
 		["Quick Draw"]={ rune="Rune of Quick Draw", phase=1, spellID=398196, level=8, icon=2, slot=5,
-				start="Loot/Pp four segments of a map. See the Tooltip at the turn-in location for details: Dun Morogh: Under\n"
-					.."a bridge between Kharanos and Ironforge; Ridgepoint Tower, Elwynn; Rut'theran Village, Teldrassil (A)\n"
+				start="Loot/Pp four segments of a map. See the Tooltip at the turn-in location for details: Dun Morogh: Under "
+					.."a bridge between Kharanos and Ironforge; Ridgepoint Tower, Elwynn; Rut'theran Village, Teldrassil (A) "
 					.."Far South, Echo Isles, Durotar; West of Brill, under the bridge, west side, Tirisfal Glades (H)" },
 		["Slaughter from the Shadows"]={ rune="Rune of Slaughter", phase=1, spellID=424925, level=8, icon=3, slot=5,
 				start="Chest above Kharanos Inn, Dun Morogh; above the spooky house north of Goldshire, Elwynn; "
-				.."Gnarlpine Chache,\nBarrow Den, Teldrassil (A); Chest at Drygulch Ravine, Durotar; Relic Coffer, "
+				.."Gnarlpine Chache, Barrow Den, Teldrassil (A); Chest at Drygulch Ravine, Durotar; Relic Coffer, "
 				.."Agamand Crypts, Tirisfal (H)" },
 		["Mutilate"]={ rune="Rune of Mutilation", phase=1, spellID=399960, level=8, icon=4, slot=10,
-				start="Pickpocket Dark Iron mobs, far south-east of Dun Morogh; Pp Garrick Padfoot, Northshire (A); Pp Captain\n"
+				start="Pickpocket Dark Iron mobs, far south-east of Dun Morogh; Pp Garrick Padfoot, Northshire (A); Pp Captain "
 				.."Perrine, west of Unercity (H). Kill Lord Melenas, Teldrassil (A); Speak to Ba'so, south of Razer Hill (H)" },
 		["Between the Eyes"]={ rune="Rune of Precision", phase=1, spellID=400009, level=10, icon=5, slot=7,
-				start="Dusty Chest, Forlorn Cavern, IF; Dusty Chest, Dwarven District, SW; Gnarlpine Stash key from Gnarlines,\n"
+				start="Dusty Chest, Forlorn Cavern, IF; Dusty Chest, Dwarven District, SW; Gnarlpine Stash key from Gnarlines, "
 					.."Teldrassil (A); Dusty Chest, The Drag, Org; Shipwreck Cache, Tirisfal (H). See Tooltips for details" },
 		["Saber Slash"]={ rune="Rune of Saber Slash", phase=1, spellID=424785, level=15, icon=6, slot=10,
 				start="Auberdine Lighthouse, Darkshore; Stonewrought Dam, Loch Modan; Defias Scout, Sentinel Hill, "
-				.."Westfall (A);\nNorthwatch Hold, The Barrens; entrance of SFK, Silverpine Forest. Lots more details. "
+				.."Westfall (A); Northwatch Hold, The Barrens; entrance of SFK, Silverpine Forest. Lots more details. "
 				.."See tooltips" },
 		["Blade Dance"]={ rune="Rune of Blade Dance", phase=1, spellID=400012, level=15, icon=7, slot=7,
 				start="Kill Naga at Cliffspring River Cave, Darkshore; Pp Dark Iron Dwarves, Loch Modan; Pp Defias, "
-				.."Westfall (A)\nPp Southsea Pirates, south of Ratchet, The Barrens (H). Lots more details,. See tooltips" },
+				.."Westfall (A) Pp Southsea Pirates, south of Ratchet, The Barrens (H). Lots more details,. See tooltips" },
 		["Just a Flesh Wound"]={ rune="Rune of Teasing", phase=1, spellID=400014, level=15, icon=8, slot=5,
 				start=ns.supplyFactionStart },
 		["Envenom"]={ rune="Rune of Venom", phase=1, spellID=399963, level=20, icon=9, slot=7,
@@ -1638,14 +1638,14 @@ ns.runes = {
 		["Combat Potency"]={ rune="Rune of Potency", phase=3, spellID=432259, level=40, icon=23, slot=1,
 				start=ns.wildGodsStart },
 		["Honor Among Thieves"]={ rune="Rune of the Coterie", phase=3, spellID=432264, level=45, icon=24, slot=1,
-				start="You need to have visited Ravenholdt previously and to have completed the Pyrewood Dead Drop quests/runes.\nThen at L45 you'll receive a letter sending you back to Ravenholdt Manor" },
+				start="You need to have visited Ravenholdt previously and to have completed the Pyrewood Dead Drop quests/runes. Then at L45 you'll receive a letter sending you back to Ravenholdt Manor" },
 		-- Phase 4
 		["Fan of Knives"]={ rune="Rune of Knives", phase=4, spellID=409240, level=1, icon=25, slot=15,
 				start="Loot a wooden chest in Winterfall Village, Winterspring (L55-59" },
 		["Crimson Tempest"]={ rune="Rune of the Crimson Tempest", phase=4, spellID=412096, level=55, icon=26, slot=15,
 				start="A run-around in Hearthglen - chests plus pp/kill. Start with Scarlet Workers (L55-57) " },
 		["Blunderbuss"]={ rune="Rune of the Swashbuckler", phase=4, spellID=436610, level=57, icon=27, slot=15,
-				start="Begin by lockpicking Scarlet Footlockers @ Tyr's Hand in the Eastern Plaguelands,\n"
+				start="Begin by lockpicking Scarlet Footlockers @ Tyr's Hand in the Eastern Plaguelands, "
 					.."(Min LP 250, 275+ better) (L53-57e + L61e)" },
 		-- Phase 4 Skill Books
 		["Atropic Poison"]={ skillBook="Manual of Atropic Poison", spellID=439503, level=60, start=ns.purchaseSkillBook },
@@ -1712,16 +1712,16 @@ ns.runes = {
 		-- Phase 3
 		["Burn"]={ rune="Rune of Burn", phase=3, spellID=415231, level="23/37/47", icon=20, slot=1, start=ns.emeraldWardens },
 		["Tidal Waves"]={ rune="Rune of Tidal Waves", phase=3, spellID=432042, level=37, icon=21, slot=1,
-				start="Look for a crate and an empty tent past the lakes south of Camp Mojache in Feralas.\n"
+				start="Look for a crate and an empty tent past the lakes south of Camp Mojache in Feralas. "
 				.."Fighting not necessary" },
 		["Static Shock"]={ rune="Rune of Static Shock", phase=3, spellID=432237, level=42, icon=22, slot=9,
 				start="Two players, both of whom can ideally deliver nature damage, are essential. Not "
-				.."necessarily\nanother Shammy. Proceed to the southern ogre area of Feralas" },
+				.."necessarily another Shammy. Proceed to the southern ogre area of Feralas" },
 		["Riptide"]={ rune="Rune of Riptide", phase=3, spellID=409954, level=40, icon=23, slot=9, start=ns.wildGodsStart },
 		["Mental Dexterity"]={ rune="Rune of Mental Dexterity", phase=3, spellID=415140, level=43, icon=24, slot=1,
 				start=ns.enragedVoidWalkerStart },
 		["Rolling Thunder"]={ rune="Rune of Rolling Thunder", phase=3, spellID=432235, level=43, icon=25, slot=9,
-				start="Abyssal Sands, Tanaris. Simple mob run through... except you have a 50% damage\ntaken debuff. "
+				start="Abyssal Sands, Tanaris. Simple mob run through... except you have a 50% damage taken debuff. "
 				.."Mobs are L43-45" },
 		["Overcharged"]={ rune="Rune of Overcharged", phase=3, spellID=432240, level=45, icon=26, slot=9,
 				start="Fetch quests in Azshara, Searing Gorge, Tanaris & The Hinterlands. Final hand in is in Feralas" },
@@ -1750,22 +1750,22 @@ ns.runes = {
 	["WARLOCK"] = {
 		-- Phase 1
 		["Haunt"]={ rune="Rune of Haunting", phase=1, spellID=403501, level=2, icon=1, slot=10,
-				start="Speak to Alamar Grimm, Anvilmar, Coldridge Valley; Drusilla La Salle, Northshire (A).\n"
+				start="Speak to Alamar Grimm, Anvilmar, Coldridge Valley; Drusilla La Salle, Northshire (A). "
 					.."Nartok, Valley of Trials; Maximillion, Deathknell (H)" },
 		["Chaos Bolt"]={ rune="Rune of Chaos Bolt", phase=1, spellID=403629, level=6, icon=2, slot=10,
-				start="Frozen: Trogg, Gol'bolar quarry, Dun Morogh; Murloc, Stonecairn Lake, Elwynn Forest (A)\n"
+				start="Frozen: Trogg, Gol'bolar quarry, Dun Morogh; Murloc, Stonecairn Lake, Elwynn Forest (A) "
 					.."Makrura, east of Razor Hill, Durotar; Murloc, north-west of Brightwater Lake, Tirisfal Glades (H)" },
 		["Demonic Grace"]={ rune="Rune of Grace", phase=1, spellID=425463, level=8, icon=3, slot=7,
-				start="Ominous Tome drops from: Frostmane Shadowcaster, cave west of Brewnall, Dun Morogh; Lasperlode Mine Kobolds,\n"
+				start="Ominous Tome drops from: Frostmane Shadowcaster, cave west of Brewnall, Dun Morogh; Lasperlode Mine Kobolds, "
 					.."Elwynn Forest (A). Voodoo Doll on Echo Isles, Durotar; Darkeye Bonecaster, Agamand Mills, Tirisfal (H)" },
 		["Demonic Tactics"]={ rune="Rune of Tactics", phase=1, spellID=412727, level=8, icon=4, slot=5,
-				start="Dead Acolyte near Jasperlode Mine, Elwynn Forest (A);\n"
+				start="Dead Acolyte near Jasperlode Mine, Elwynn Forest (A); "
 					.."Dead Acolyte, towards the Monastery, Tirisfal Glades (H)" },
 		["Soul Siphon"]={ rune="Rune of Soul Siphon", phase=1, spellID=403511, level=10, icon=5, slot=15,
-				start="Use Drain Soul twice. See these tooltips: Captain Beld, far south-east Dun Morogh; Hogger, Elwynn Forest (A)\n"
+				start="Use Drain Soul twice. See these tooltips: Captain Beld, far south-east Dun Morogh; Hogger, Elwynn Forest (A) "
 					.."Gazz'uz, cave outside Orgrimmar; Maggot Eye, Garren's Haunt, Tirisfal Glades (H)" },
 		["Master Channeler"]={ rune="Rune of Channeling", phase=1, spellID=403668, level=12, icon=6, slot=5,
-				start="Greishan Ironstove, long path, Loch Modan; Dark Strand Fanatics, Tower of Athalaxx, Darkshore (A)\n"
+				start="Greishan Ironstove, long path, Loch Modan; Dark Strand Fanatics, Tower of Athalaxx, Darkshore (A) "
 					.."Altar of Thorns, Thorn Hill, The Barrens; Sadistic Fiend, Deep Elm Mine, Silverpine Forest (H)" },
 		["Everlasting Affliction"]={ rune="Rune of Everlasting Affliction", phase=1, spellID=412689, level=15, icon=7, slot=7,
 				start=ns.supplyFactionStart },
@@ -1773,7 +1773,7 @@ ns.runes = {
 				start="Zixil, wanders between Tarren Mill and Southshore, Hillsbrad Foothills (A/H)" },
 		["Shadow Bolt Volley"]={ rune="Rune of Shadowbolts", phase=1, spellID=403628, level=20, icon=9, slot=10,
 				start="Delmanis the Hated, Tower of Athalaxx, Darkshore; Demonic Remains, Ironbands Excavation, "
-					.."Loch Modan (A)\n"
+					.."Loch Modan (A) "
 					.."Supervisor Lugwizzle, Sludge Fen, The Barrens; Ravenclaw mobs, Beren's Peril cave, "
 					.."Silverpine Forest (H)" },
 		["Demonic Pact"]={ rune="Rune of the Pact", phase=1, spellID=425464, level=20, icon=10, slot=7,
@@ -1801,7 +1801,7 @@ ns.runes = {
 		["Soul Harvesting"]={ skillBook="Grimoire of Soul Harvesting", spellID=437032, level=25, start=ns.purchaseSkillBook },
 		-- Phase 3
 		["Summon Felguard"]={ rune="Rune of the Felguard", phase=3, spellID=427733, level=10, icon=19, slot=9,
-				start="Acquire an Explorer Imp, randomly after using Drain Soul (L10). Stand near a Fel Portal\n"
+				start="Acquire an Explorer Imp, randomly after using Drain Soul (L10). Stand near a Fel Portal "
 					.."Summon and send your Imp through. Loot bag has a chance to contain the rune." ..ns.felPortals
 					..ns.getCGM },
 		["Unstable Affliction"]={ rune="Rune of Affliction", phase=3, spellID=427717, level="23/37/47", icon=20, slot=9,
@@ -1840,22 +1840,22 @@ ns.runes = {
 		["Blood Frenzy"]={ rune="Rune of Blood Frenzy", phase=1, spellID=412507, level=7, icon=2, slot=5,
 				start="Wandering Swordsman: Westbrook Garrison, Elwynn Forest (A); Bladescar Highlands, Durotar (H). Other locations" },
 		["Furious Thunder"]={ rune="Rune of Furious Thunder", phase=1, spellID=403219, level=7, icon=3, slot=7,
-				start="Various Elites/Rares in Dun Morogh (A) and Durotar, Mulgore (H); Goldtooth, Mother Fang in Elwynn Forest (A)\n"
+				start="Various Elites/Rares in Dun Morogh (A) and Durotar, Mulgore (H); Goldtooth, Mother Fang in Elwynn Forest (A) "
 				.."Gnarlpine Cache, Ban'ethil Barrow Den, Teldrassil (A); Gillgar, west of Soliden Farmstead, Tirisfal (H)" },
 		["Devastate"]={ rune="Rune of Devastate", phase=1, spellID=403196, level=8, icon=4, slot=10,
-				start="Junni Steelpass, Kharanos; Viktoria Woods, SW; Delwynna, Darn; Vahi Bonespliter, Razor Hill;\n"
-				.."Vateya Timberhoof, Bloodhoof; Dorac Graves, UC. Each one will accept three items you'll\n"
-				.."loot as you quest normally. Alliance side there's no overlap, Horde - a little overlap.\n"
+				start="Junni Steelpass, Kharanos; Viktoria Woods, SW; Delwynna, Darn; Vahi Bonespliter, Razor Hill; "
+				.."Vateya Timberhoof, Bloodhoof; Dorac Graves, UC. Each one will accept three items you'll "
+				.."loot as you quest normally. Alliance side there's no overlap, Horde - a little overlap. "
 				.."Check each NPC above for complete, localised, details as way too many too list here" },
 		["Frenzied Assault"]={ rune="Rune of Frenzied Assault", phase=1, spellID=425412, level=10, icon=5, slot=7,
 				start="Simply help one of six people, mostly Innkeepers, one in each main city" },
 		["Single-Minded Fury"]={ rune="Rune of Single-Minded Fury", phase=1, spellID=413404, level=15, icon=6, slot=10,
 				start=ns.supplyFactionStart },
 		["Endless Rage"]={ rune="Rune of Endless Rage", phase=1, spellID=403218, level=20, icon=7, slot=1,
-				start="Old Murk-eye, southern coast, Westfall; Lady Sedorax, Darkshore (A);\n"
+				start="Old Murk-eye, southern coast, Westfall; Lady Sedorax, Darkshore (A); "
 				.."Horde Warbanner, The Crossroads; Skittering Dark Cave, Silverpine Forest (H)" },
 		["Quick Strike"]={ rune="Rune of Quick Strike", phase=1, spellID=429765, level=20, icon=8, slot=10,
-				start="Paxnozz, Mathystra, Darkshore; Defias in Westfall (A); Kilxx @ Ratchet (H);\n"
+				start="Paxnozz, Mathystra, Darkshore; Defias in Westfall (A); Kilxx @ Ratchet (H); "
 				.."Troggs west of Thelsamar, Loch Modan" },
 		["Warbringer"]={ rune="Rune of the Warbringer", phase=1, spellID=425421, level=20, icon=9, slot=5,
 				start="Grizzby @ Ratchet, The Barrens" },
@@ -1934,9 +1934,9 @@ points[ 1416 ] = { -- Alterac Mountains
 					tip="On a crate, just inside the tower at Gallows' Corner",
 					quest={ 79948, }, questName={ "Defensive Magics 101" }, },
 	[51004020] = { name="Crushridge ogres (various)", class={ "PRIEST" }, spell={ "Empowered Renew" },
-					tip="Farming Grimtotem mobs in Thousand\nNeedles is much easier", guide={ ns.priest.empowered }, },
+					tip="Farming Grimtotem mobs in Thousand Needles is much easier", guide={ ns.priest.empowered }, },
 	[51605640] = { name="Crushridge ogres (various)", class={ "PRIEST" }, spell={ "Empowered Renew" },
-					tip="Farming Grimtotem mobs in Thousand\nNeedles is much easier", guide={ ns.priest.empowered }, },
+					tip="Farming Grimtotem mobs in Thousand Needles is much easier", guide={ ns.priest.empowered }, },
 	[54604940] = { npc=217620, name="Reckless Warlock", class={ "WARLOCK" }, spell={ "Dance of the Wicked" },
 					guide={ ns.warlock.dance }, tip="At the back of the cave" },
 	[61004760] = { npc=217305, name="Ancient Fire Elemental", class={ "MAGE" }, spell={ "Hot Streak" }, guide={ ns.mage.hotStreak } },
@@ -1950,18 +1950,18 @@ points[ 1416 ] = { -- Alterac Mountains
 }
 points[ 1417 ] = { -- Arathi Highlands
 	[21508390] = { object=422911, name="Sealed Barrel", spell={ "Blood Surge" }, guide={ ns.warrior.bloodSurge },
-					tip="Lowest level of the boat. Nearby\nnaga (L40) can root you for 10s.\nLoot the Smuggler's Spice Blend",
+					tip="Lowest level of the boat. Nearby naga (L40) can root you for 10s. Loot the Smuggler's Spice Blend",
 					class={ "WARRIOR" }, quest={ { 79624, 79677, 79678 } },
 					questName={ { "Anyone Can Cook", "A Quick Grocery Run", "Taste Testing" } } },
 	[22206760] = { name="Boulderfist mobs (Various)", spell={ "Blood Surge" }, guide={ ns.warrior.bloodSurge },
 					class={ "WARRIOR" }, quest={ { 79624, 79677, 79678 } },
 					questName={ { "Anyone Can Cook", "A Quick Grocery Run", "Taste Testing" } } },
 	[26006360] = { npc=2590, name="Syndicate Conjuror", class={ "WARLOCK" },
-					tip="you need 10 x Conjuror's Pendant.\nYou may safely group with other warlocks",
+					tip="you need 10 x Conjuror's Pendant. You may safely group with other warlocks",
 					spell={ "Invocation" }, guide={ ns.warlock.invocation } },
 	[34128047] = { object=499987, name="Spellbook", spell={ "Healing Specialization" }, ring=true, 
 					class={ "DRUID", "MAGE", "PALADIN", "PRIEST", "SHAMAN", },
-					guide="You'll see the book on a crate near a\nbonfire in the pirate cove. Easy as!", },
+					guide="You'll see the book on a crate near a bonfire in the pirate cove. Easy as!", },
 	[53009100] = { object=420055, name="Rowboat", class={ "DRUID", "HUNTER", "MAGE", "PALADIN", "PRIEST", "ROGUE",
 					"SHAMAN", "WARLOCK", "WARRIOR" }, spell={ "Eclipse", "Trap Launcher", "Brain Freeze", "The Art of War",
 					"Mind Spike", "Poisoned Knife", "Ancestral Awakening", "Shadow and Flame", "Enraged Regeneration" },
@@ -1996,7 +1996,7 @@ points[ 1417 ] = { -- Arathi Highlands
 					guide={ ns.warrior.focusedRage } },
 	[73606520] = { object=423897, name="Scrolls", class={ "MAGE" },
 					spell=ns.mage.bookRunes, guide=ns.mage.books, mageBook=true,
-					tip="Just to the right of a tent entrance at\nWinterbark Village, Arathi Highlands",
+					tip="Just to the right of a tent entrance at Winterbark Village, Arathi Highlands",
 					quest={ 79949, }, questName={ "A Web of Lies: Debunking Myths and Legends" }, },
 	[93807160] = { npc=215655, name="Illari Duskfeather", class={ "DRUID", "HUNTER", "MAGE", "PALADIN", "PRIEST", "ROGUE",
 					"SHAMAN", "WARLOCK", "WARRIOR" }, spell={ "Eclipse", "Trap Launcher", "Brain Freeze", "The Art of War",
@@ -2025,7 +2025,7 @@ points[ 1418 ] = { -- Badlands
 	[27206960] = { npc=218273, name="Wandering Swordsman", class={ "WARRIOR" },
 					spell={ "Rallying Cry" }, guide={ ns.warrior.rallyingCry } },
 	[30805760] = { name="Dustbelcher (Various), Stonevault (Various)", class={ "HUNTER" }, spell={ "Expose Weaknesss" },
-					tip="Farm until the Primitive Drawing drops.\nDustbelcher Ogres/Brutes have the\n"
+					tip="Farm until the Primitive Drawing drops. Dustbelcher Ogres/Brutes have the "
 					.."far better drop rate (1 in 8)", guide={ ns.hunter.expose }, quest={ { 78823, 78830 } },
 					questName={ { "Terror of the Desert Skies", "Terror of the Desert Skies" } } },
 	[33606800] = { npc=218273, name="Wandering Swordsman", class={ "WARRIOR" },
@@ -2033,7 +2033,7 @@ points[ 1418 ] = { -- Badlands
 	[35805840] = { npc=218273, name="Wandering Swordsman", class={ "WARRIOR" },
 					spell={ "Rallying Cry" }, guide={ ns.warrior.rallyingCry } },
 	[41502810] = { object=422919, name="Tapped Shadowforge Keg", class={ "WARRIOR" }, guide={ ns.warrior.bloodSurge },
-					spell={ "Blood Surge" }, tip="Descend to the basement of Angor Fortress.\nLoot the Balmy Brew",
+					spell={ "Blood Surge" }, tip="Descend to the basement of Angor Fortress. Loot the Balmy Brew",
 					quest={ { 79624, 79677, 79678 } },
 					questName={ { "Anyone Can Cook", "A Quick Grocery Run", "Taste Testing" } } },
 	[43007860] = { name="Rock Elementals (Various)", class={ "SHAMAN" }, spell={ "Maelstrom Weapon" },
@@ -2055,7 +2055,7 @@ points[ 1418 ] = { -- Badlands
 					tip="Approach via the path to the south. Inside the crypt",
 					quest={ 79951, }, questName={ "Mummies: A Guide to the Unsavory Undead" }, },
 	[63207000] = { name="Dustbelcher (Various), Stonevault (Various)", class={ "HUNTER" }, spell={ "Expose Weaknesss" },
-					tip="Farm until the Primitive Drawing drops.\nDustbelcher Ogres/Brutes have the\n"
+					tip="Farm until the Primitive Drawing drops. Dustbelcher Ogres/Brutes have the "
 					.."far better drop rate (1 in 8)", guide={ ns.hunter.expose }, quest={ { 78823, 78830 } },
 					questName={ { "Terror of the Desert Skies", "Terror of the Desert Skies" } } },
 	[65504330] = { name="Skillbooks", tip="Uldaman Back Entrance", skillBook=true, guide={ ns.dungeonDrops }, 
@@ -2068,12 +2068,12 @@ points[ 1418 ] = { -- Badlands
 points[ 1419 ] = { -- Blasted Lands
 	[33604870] = { object=457089, name="The Shadow Connection", spell={ "Shadow Specialization" }, ring=true, 
 					class={ "PRIEST", "WARLOCK", },
-					guide="To get here you head far south-west. Then\nturn north and in the far top corner of the\n"
-					.."Tainted Scar is a large altar. The book is\nbehind it. Phat lewt!", },
+					guide="To get here you head far south-west. Then turn north and in the far top corner of the "
+					.."Tainted Scar is a large altar. The book is behind it. Phat lewt!", },
 	[44303300] = { npc=222698, name="Fel Scar", class={ "WARLOCK" },
 					spell={ "Decimation" }, guide={ ns.warlock.decimation }, tip=ns.warlock.felRift, },
 	[45301640] = { object=442405, name="Abandoned Cache", class={ "ROGUE" }, spell={ "Carnage" },
-					guide={ "Climb the tower, lockpick the chest.\nSurprise! A Murderous Lost One (L46).\nKill for your "
+					guide={ "Climb the tower, lockpick the chest. Surprise! A Murderous Lost One (L46). Kill for your "
 					.."phat lewt!" }, },
 	[45405420] = { npc=221740, name="Calefactus the Unleashed", class={ "HUNTER" }, spell={ "Rapid Killing" },
 					questName={ { "The Burning Beast", "Chains That Bind", "Brought to Heel" } },
@@ -2095,11 +2095,11 @@ points[ 1419 ] = { -- Blasted Lands
 					questName={ { "The Burning Beast", "Chains That Bind", "Brought to Heel" } },
 					quest={ { 81900, 81917, 81919 } }, guide={ ns.hunter.rapidKilling }, tip={ "These are L51-53" } },
 	[66003100] = { name="Shadowsworn mobs (various)", class={ "WARLOCK" }, spell={ "Infernal Armor" },
-					guide={ "Farm the Shadowsworn mobs in the vicinity until\na Shadowsworn Note drops.\n\n"
-					.."Adjacent to the east is a cave. Go to the altar\nat the back, hugging the left.\n\n"
-					.."Oh, it's chockas with L53 mobs...\n\nVoidwalker up. Equip Greater Spellstone. Use.\n"
-					.."Sacrifice -> Shadow Ward -> Click the altar.\n\nHighly recommended: A Healer friend if your\n"
-					.."gear, level or ability are low. It is the altar\ndamage that will likely kill you.\n\n"
+					guide={ "Farm the Shadowsworn mobs in the vicinity until a Shadowsworn Note drops.\n\n"
+					.."Adjacent to the east is a cave. Go to the altar at the back, hugging the left.\n\n"
+					.."Oh, it's chockas with L53 mobs...\n\nVoidwalker up. Equip Greater Spellstone. Use. "
+					.."Sacrifice -> Shadow Ward -> Click the altar.\n\nHighly recommended: A Healer friend if your "
+					.."gear, level or ability are low. It is the altar damage that will likely kill you.\n\n"
 					.."Kill Heliath (L56e). Grab your phat lewt.\n\nCurse Blizzard. Plenty of online QQ for this" }, },
 	[66603120] = { npc=7506, name="Shadowsworn mobs (Various)", class={ "HUNTER" }, spell={ "Rapid Killing" },
 					questName={ { "The Burning Beast", "Chains That Bind", "Brought to Heel" } },
@@ -2124,20 +2124,20 @@ points[ 1428 ] = { -- Burning Steppes
 	[37006040] = { npc=7032, name="Greater Obsidian Elemental", class={ "SHAMAN" }, spell={ "Coherence" },
 					guide={ ns.shaman.coherence }, tip="These are more locations", },
 	[39603380] = { name="Blackrock mobs (various)", class={ "WARRIOR" }, spell={ "Fresh Meat" },
-					tip="Reference to the first warrior Indalamar of\nthe Nurfed guild. He was also a Blizzard dev\n"
-					.."and in fact designed the warriors. He released\na video during WoW beta that showed him clean-\n"
-					.."ing house in Blackrock Stronghold. So OP!\nBlizzard reacted by nerfing Warriors hard!\n"
-					.."Travis Day R.I.P.\n\nExtra trivia: his brother was GM and you know\n"
-					.."Noktyn who got the first/only Legendary amy,\nthe Talisman of Binding Shard? Same guild!\n"
-					.."Hayven Games (also R.I.P.) has an excellent\nvideo about the amulet", quest={ { 84124 } },
-					questName={ { "Legacy of Valor" } }, guide={ "Kill five mobs with Execute. Just ensure\n"
-						.."they really die from Execute.\n\nYou'll know you're done when you gain the\n"
-						.."\"Rhythm of War\" buff.\n\nHead behind the Keep to the Altar of\nReverence. /salute it.\n\n"
-						.."Up pops the Revered Champion (L58-60e).\nKill it, get the quest. Turn in at the\n"
+					tip="Reference to the first warrior Indalamar of the Nurfed guild. He was also a Blizzard dev "
+					.."and in fact designed the warriors. He released a video during WoW beta that showed him clean- "
+					.."ing house in Blackrock Stronghold. So OP! Blizzard reacted by nerfing Warriors hard! "
+					.."Travis Day R.I.P.\n\nExtra trivia: his brother was GM and you know "
+					.."Noktyn who got the first/only Legendary amy, the Talisman of Binding Shard? Same guild! "
+					.."Hayven Games (also R.I.P.) has an excellent video about the amulet", quest={ { 84124 } },
+					questName={ { "Legacy of Valor" } }, guide={ "Kill five mobs with Execute. Just ensure "
+						.."they really die from Execute.\n\nYou'll know you're done when you gain the "
+						.."\"Rhythm of War\" buff.\n\nHead behind the Keep to the Altar of Reverence. /salute it.\n\n"
+						.."Up pops the Revered Champion (L58-60e). Kill it, get the quest. Turn in at the "
 						.."Altar et voilà! (Hits real hard!)" }, },
 	[40203450] = { object=457101, name="The Rites of Mak'Gora", class={ "HUNTER", "PALADIN", "SHAMAN", "WARRIOR" },
 					spell={ "Axe Specialization" }, ring=true,
-					guide="On a ledge in the central pit of\nthe Blackrock Stronghold. Loot FTW!", },
+					guide="On a ledge in the central pit of the Blackrock Stronghold. Loot FTW!", },
 	[40606060] = { npc=227746, name="Escaped Core Hound", class={ "HUNTER" },
 					spell={ "Hit and Run" }, guide={ ns.hunter.hitAndRun }, tip="These are L60", },
 	[44204360] = { npc=7032, name="Greater Obsidian Elemental", class={ "SHAMAN" }, spell={ "Coherence" },
@@ -2233,10 +2233,10 @@ points[ 1426 ] = { -- Dun Morogh
 					questName={ "Relics of the Light", {}, "The Lost Rune" },
 					guide={ ns.paladin.judgement, ns.rogue.quickDraw ..ns.rogue.quickDrawDM, ns.starterZoneClass } },
 	[27603700] = { npc=1211, name="Leper Gnome", class={ "PRIEST", "ROGUE" }, faction="Alliance",
-					tip={ nil, "Pick pocket\nand kill. Bottom-Right Map Piece" }, spell={ "Void Plague", "Quick Draw" }, 
+					tip={ nil, "Pick pocket and kill. Bottom-Right Map Piece" }, spell={ "Void Plague", "Quick Draw" }, 
 					guide={ ns.priest.voidPlague, ns.rogue.quickDraw .. ns.rogue.quickDrawDM } },
 	[27607560] = { npc=6113, name="Vejrek", class={ "WARRIOR" }, faction="Alliance",
-					tip="The quest is a normal levelling quest, for your convenience.\n"
+					tip="The quest is a normal levelling quest, for your convenience. "
 						.."Obtain from Muren Stormpike, Military Wing, Ironforge",
 					quest={ 1679 }, questName={ "Vejrek" }, spell={ "Furious Thunder" }, guide={ ns.warrior.furiousThunder } },
 	[28376751] = { npc=916, name="Solm Hargrin", class={ "ROGUE" }, faction="Alliance", tip="Inside Anvlimar",
@@ -2413,8 +2413,8 @@ points[ 1426 ] = { -- Dun Morogh
 					spell={ "Fingers of Frost" }, guide={ ns.mage.fingers } },
 	[62723345] = { npc=5570, name="Bruuk Barleybeard", class={ "WARRIOR" }, faction="Alliance",					
 					spell={ "Frenzied Assault" }, guide={ ns.warrior.frenziedAssault },
-					tip="Speak to Bruuk first, and then\nspeak to Bruart, who is nearby.\n"
-						.."They are in the inn Bruuk's\nCorner, to the left of the\n"
+					tip="Speak to Bruuk first, and then speak to Bruart, who is nearby. "
+						.."They are in the inn Bruuk's Corner, to the left of the "
 						.."entrance to the Military Wing" },
 	[63282278] = { object=386691, name="Library Book", class={ "MAGE" }, faction="Alliance",
 					spell=ns.mage.bookRunes, guide=ns.mage.books, mageBook=true,
@@ -2464,12 +2464,12 @@ points[ 1431 ] = { -- Duskwood
 	[16702850] = { object=409735, name="Spellbook", class={ "MAGE" },
 					spell=ns.mage.bookRunes, guide=ns.mage.books, mageBook=true,
 					quest={ 78147, }, questName={ "Crimes Against Anatomy", },
-					tip="In the last room of the Dawning Wood\nCatacombs. The western building" },
+					tip="In the last room of the Dawning Wood Catacombs. The western building" },
 	[17603740] = { object=411328, name="Slumbering Bones", class={ "MAGE", "WARRIOR" },
 					spell={ "Mass Regeneration", "Flagellation" }, guide={ ns.duskwoodCrypts },
 					tip="This Crypt second" },
 	[19904550] = { npc=215, name="Statue", class={ "ROGUE" },
-					tip="/kneel here at the statue, after\nyou obtain an Engraved Gold Ring",
+					tip="/kneel here at the statue, after you obtain an Engraved Gold Ring",
 					spell={ "Cutthroat" }, guide=ns.rogue.cutthroat },
 	[21804640] = { npc=218931, name="Dark Rider", tip="Seen throughout the Raven Hill cemetary",
 					class={ "DRUID", "HUNTER", "MAGE", "PALADIN", "PRIEST", "ROGUE",
@@ -2509,13 +2509,13 @@ points[ 1431 ] = { -- Duskwood
 }
 points[ 1423 ] = { -- Eastern Plaguelands
 	[14753050] = { object=856874, name="Sending Pillar", class={ "ROGUE" }, spell={ "Blunderbuss" },
-					guide={ ns.rogue.blunderbuss }, tip="Step (4) The fourth pillar.\nAbove the spider cave entrance" },
+					guide={ ns.rogue.blunderbuss }, tip="Step (4) The fourth pillar. Above the spider cave entrance" },
 	[18203320] = { npc=16117, name="Plagued Swine", class={ "HUNTER" }, spell={ "Resourcefulness" },
 					guide={ ns.hunter.resourceful }, tip="You want 1 x Tainted Boar Meat" },
 	[26307470] = { object=457090, name="Famous (and Infamous) Rangers of Azeroth", spell={ "Ranged Weapon Specialization" }, 
 					class={ "HUNTER", "ROGUE", "WARRIOR", },  ring=true,
-					guide="Left of the doorway at Marris Stead in\nEastern Plaguelands.\n\n"
-					.."Nathanos Blightcaller (L62e) and his two\nBlighthounds (L58-59e) are Horde friendly", },
+					guide="Left of the doorway at Marris Stead in Eastern Plaguelands.\n\n"
+					.."Nathanos Blightcaller (L62e) and his two Blighthounds (L58-59e) are Horde friendly", },
 	[27608600] = { npc=229018, name="Rotting Dwarf Corpse", class={ "PALADIN", }, spell={ "Shield of Righteousness" },
 					guide={ ns.paladin.righteousness }, quest={ { 84318, 84319, 84330, 84414, 84332 } },
 					tip="Step (5) Undercroft",
@@ -2526,11 +2526,11 @@ points[ 1423 ] = { -- Eastern Plaguelands
 					questName={ { "Oil", "Oh No Ye Don't!", "A Wee Bit O' Necromancy", "Send Me On Me Way!",
 					"A Thane's Gratitude" } }, },
 	[30103290] = { npc=222288, name="Fel Rift", class={ "WARLOCK" },
-					tip="6 ring the outer limits of the Plaguewood.\n" ..ns.warlock.felRift, 
+					tip="6 ring the outer limits of the Plaguewood. " ..ns.warlock.felRift, 
 					spell={ "Decimation" }, guide={ ns.warlock.decimation }, },
 	[31002000] = { npc=10438, name="Maleki the Pallid", class={ "PALADIN", }, spell={ "Shield of Righteousness" },
 					guide={ ns.paladin.righteousness }, quest={ { 84318, 84319, 84330, 84414, 84332 } },
-					tip="Step (4) Inside Stratholme.\n5th boss - Service Gate wing",
+					tip="Step (4) Inside Stratholme. 5th boss - Service Gate wing",
 					questName={ { "Oil", "Oh No Ye Don't!", "A Wee Bit O' Necromancy", "Send Me On Me Way!",
 					"A Thane's Gratitude" } }, },
 	[35803560] = { name="Abominations/Stitched Horrors", class={ "PALADIN", }, spell={ "Shield of Righteousness" },
@@ -2543,7 +2543,7 @@ points[ 1423 ] = { -- Eastern Plaguelands
 					"A Thane's Gratitude" } }, },
 	[40009200] = { object=856876, name="Sending Pillar", class={ "ROGUE" }, spell={ "Blunderbuss" },
 					guide={ ns.rogue.blunderbuss },
-					tip="Step (2) The second pillar.\nIt's on a small hill near the wrecked building" },
+					tip="Step (2) The second pillar. It's on a small hill near the wrecked building" },
 	[42007960] = { npc=228620, name="Slack-Jawed Ghoul", class={ "PALADIN", }, spell={ "Shield of Righteousness" },
 					guide={ ns.paladin.righteousness }, quest={ { 84318, 84319, 84330, 84414, 84332 } }, tip="Step (1)",
 					questName={ { "Oil", "Oh No Ye Don't!", "A Wee Bit O' Necromancy", "Send Me On Me Way!",
@@ -2571,7 +2571,7 @@ points[ 1423 ] = { -- Eastern Plaguelands
 	[62200750] = { object=456883, name="Adon's Trunk", class={ "ROGUE" }, spell={ "Blunderbuss" },
 					guide={ ns.rogue.blunderbuss }, tip="Step (5) Grab your phat lewt!" },
 	[66606660] = { npc=8603, name="Carrion Grub", class={ "HUNTER" }, spell={ "Resourcefulness" },
-					guide={ ns.hunter.resourceful }, tip="They are literally everywhere.\nThis is just one example" },
+					guide={ ns.hunter.resourceful }, tip="They are literally everywhere. This is just one example" },
 	[70003500] = { object=856874, name="Sending Pillar", class={ "ROGUE" }, spell={ "Blunderbuss" },
 					guide={ ns.rogue.blunderbuss }, tip="Step (3) The third pillar" },
 	[76006060] = { name="Living Decay / Rotting Sludge", class={ "HUNTER" }, spell={ "Resourcefulness" },
@@ -2595,20 +2595,20 @@ points[ 1423 ] = { -- Eastern Plaguelands
 					questName={ { "Lost Heirloom", "Relic of Light", "Scarlet Research", "The Prize Within", } }, },
 	[83607820] = { object=457094, name="The True Nature of the Light", spell={ "Holy Specialization" }, ring=true, 
 					class={ "PALADIN", "PRIEST", },
-					guide="As per the pin, enter the Abbey and turn left,\nmaking for the library wing.\n\n"
-					.."The book is on top of a bookshelf which is\nnext to a staircase.\n\n"
-					.."Note that if you die and rez on the first\nlanding, you'll be out of LoS of the mobs\n"
+					guide="As per the pin, enter the Abbey and turn left, making for the library wing.\n\n"
+					.."The book is on top of a bookshelf which is next to a staircase.\n\n"
+					.."Note that if you die and rez on the first landing, you'll be out of LoS of the mobs "
 					.."for an easy loot and hearth!", },
 	[83607930] = { object=179498, name="Scarlet Footlocker", class={ "ROGUE" }, spell={ "Blunderbuss" },
-					guide={ ns.rogue.blunderbuss }, tip="Step (0) pick these until a Sending Sigil drops\n"
+					guide={ ns.rogue.blunderbuss }, tip="Step (0) pick these until a Sending Sigil drops "
 						.."There might be 2 or 3 in this area" },
 	[85004070] = { npc=222288, name="Fel Rift", class={ "WARLOCK" },
-					tip="5 are in this area.\n" ..ns.warlock.felRift, 
+					tip="5 are in this area. " ..ns.warlock.felRift, 
 					spell={ "Decimation" }, guide={ ns.warlock.decimation }, },
 	[86603960] = { npc=227985, name="Arkonos the Cursed", class={ "PALADIN", "PALADIN", },
 					spell={ "Shock and Awe", "Avenging Wrath" },
 					guide={ ns.paladin.shockAwe, ns.paladin.avengingWrath },
-					tip="The Scourge Shadow Scalpel will drop from\nthe Shadowmage and Dread Weaver mobs",
+					tip="The Scourge Shadow Scalpel will drop from the Shadowmage and Dread Weaver mobs",
 					quest={ { 83936, 83823, 84008, 84017, 84125, 84126 }, { 84126 } },
 					questName={ { "Dalton's Quest", "A Lesson in Violence", "A Lesson in Grace", "A Time to Kill", 
 						"Close Enough to Touch", "Finish the Fight" }, { "Finish the Fight" }, }, },
@@ -2621,8 +2621,8 @@ points[ 1429 ] = { -- Elwynn Forest
 					guide={ ns.livAndStuart, ns.warrior.frenziedAssault .."\n\n" ..ns.livAndStuart } },
 	[14184463] = { npc=204070, name="Soboz", class={ "WARLOCK" }, faction="Alliance",
 					spell={ "Demonic Grace" }, guide={ ns.warlock.grace ..ns.warlock.graceEF },
-					tip="He's" ..ns.secretCoven ..".\n\nTake the ramp next to Gakin and descend\n"
-						.."into the crypts. Take the first right turn and\ngo down. Now the first left turn down. Voilà!\n\n"
+					tip="He's" ..ns.secretCoven ..".\n\nTake the ramp next to Gakin and descend "
+						.."into the crypts. Take the first right turn and go down. Now the first left turn down. Voilà!\n\n"
 						.."Stand on the magenta rune and summon!" },
 	[14234510] = { npc=6122, name="Gakin the Darkbinder", class={ "WARLOCK" }, faction="Alliance",
 					spell={ "Soul Siphon" }, guide={ ns.warlock.soulSiphon }, tip="He's" ..ns.secretCoven },
@@ -2676,7 +2676,7 @@ points[ 1429 ] = { -- Elwynn Forest
 	[28009580] = { npc=100, name="Gruff Swiftbite", class={ "WARRIOR" }, faction="Alliance",
 					spell={ "Furious Thunder" }, guide={ ns.warrior.furiousThunder } },
 	[28362596] = { object=386777, name="Dusty Chest", class={ "ROGUE" }, faction="Alliance", guide={ ns.rogue.precision },
-					spell={ "Slaughter from the Shadows" }, tip="Upper level of the house in\nCutthroat Alley, Stormwind" },
+					spell={ "Slaughter from the Shadows" }, tip="Upper level of the house in Cutthroat Alley, Stormwind" },
 	[29807480] = { npc=203079, name="Wandering Swordsman", class={ "WARRIOR" },
 					spell={ "Blood Frenzy" }, guide={ ns.warrior.bloodFrenzy } },
 	[30608300] = { name="Riverpaw Runt/Outrunner", class={ "WARLOCK", "WARRIOR" }, faction="Alliance",
@@ -2710,14 +2710,14 @@ points[ 1429 ] = { -- Elwynn Forest
 					guide={ ns.priest.voidPlague, ns.warrior.furiousThunder, ns.warrior.devastate ..ns.warrior.devastateVik } },
 	[44096632] = { npc=204256, name="Damien Kane", class={ "WARLOCK" }, faction="Alliance",
 					spell={ "Soul Siphon" }, guide={ ns.warlock.soulSiphon },
-					tip= "Basement of the Lion's Pride, hiding behind barrels.\nOr go upstairs for ERP. "
+					tip= "Basement of the Lion's Pride, hiding behind barrels. Or go upstairs for ERP. "
 						.."Truly a Season of Discovery! :O" },
 	[44396624] = { npc=906, name="Maximillian Crowe", class={ "WARLOCK" }, faction="Alliance",
-					tip="Basement of the Lion's Pride,\nvia the kitchen backroom",
+					tip="Basement of the Lion's Pride, via the kitchen backroom",
 					spell={ "Demonic Tactics" }, guide={ ns.warlock.tactics } },
 	[46176213] = { object=387466, name="Rusty Lockbox", class={ "ROGUE" }, faction="Alliance",
 					spell={ "Slaughter from the Shadows" }, guide={ ns.rogue.slaughter },
-					tip="On the roof of the spooky house north of Goldshire.\nNext to the chimney so can be difficult to see.\n"
+					tip="On the roof of the spooky house north of Goldshire. Next to the chimney so can be difficult to see. "
 						.."Use the crates at the side of the house to jump" },
 	[46807460] = { npc=116, name="Defias Bandit", faction="Alliance", tip="Pick Pocket or kill. Top-Left Map Piece",
 					class={ "ROGUE" }, spell={ "Quick Draw" }, guide={ ns.rogue.quickDraw ..ns.rogue.quickDrawEF } },
@@ -2729,28 +2729,28 @@ points[ 1429 ] = { -- Elwynn Forest
 	[49206560] = { name="Crystal Lake Murlocs (Various)", faction="Alliance", class={ "WARRIOR" }, tip="Severed Murloc Head",
 					spell={ "Devastate" }, guide={ ns.warrior.devastate ..ns.warrior.devastateVik } },
 	[49663941] = { npc=198, name="Khelden Bremen", class={ "MAGE" }, faction="Alliance",
-					tip="Enter the Abbey and bear left.\nHe is upstairs in the Library Wing",
+					tip="Enter the Abbey and bear left. He is upstairs in the Library Wing",
 					spell={ "Ice Lance" }, guide={ ns.starterZoneClass }, quest={ 77620 }, questName={ "Spell Research" } },
 	[49874265] = { npc=459, name="Drusilla La Salle", class={ "WARLOCK" }, faction="Alliance",
 					spell={ "Haunt" }, guide={ ns.starterZoneClass }, quest={ 77621 },
 					questName={ "Stolen Power" } },
 	[49985201] = { npc=201854, name="Cutty", class={ "ROGUE" }, faction="Alliance",
-					tip="Stealthed. Outside of and leaning\nagainst the Northshire wall. Far\neastern edge, past the river",
+					tip="Stealthed. Outside of and leaning against the Northshire wall. Far eastern edge, past the river",
 					spell={ "Mutilate" }, guide={ ns.rogue.mutilate } },
 	[49813949] = { npc=915, name="Priestess Anetta", class={ "PRIEST" }, faction="Alliance", spell={ "Penance" },
-					tip="Enter the Abbey and bear left. Enter the\nLibrary Wing and she's in the back room", quest={ 77619 }, 
+					tip="Enter the Abbey and bear left. Enter the Library Wing and she's in the back room", quest={ 77619 }, 
 					guide={ ns.starterZoneClass ..ns.priest.penanceEF }, questName={ "Meditation on the Light" } },
 	[50003500] = { npc=257, name="Kobold Worker", faction="Alliance", class={ "ROGUE" }, spell={ "Quick Draw" }, 
 					tip="Pick Pocket or kill. Top-Right Map Piece", guide={ ns.rogue.quickDraw ..ns.rogue.quickDrawEF } },
 	[50406100] = { name="Crystal Lake Murlocs (Various)", faction="Alliance", class={ "WARRIOR" }, tip="Severed Murloc Head",
 					spell={ "Devastate" }, guide={ ns.warrior.devastate ..ns.warrior.devastateVik } },
 	[50434212] = { npc=925, name="Brother Sammuel", class={ "PALADIN" }, faction="Alliance",
-					tip="Enter the Abbey and bear right.\nIn the Hall of Arms, a back room",
+					tip="Enter the Abbey and bear right. In the Hall of Arms, a back room",
 					spell={ "Crusader Strike" }, quest={ 77617 }, questName={ "Relics of the Light" },
 					guide={ ns.paladin.judgement } },
 	[50642727] = { object=397987, name="Kobold Stashbox", class={ "WARRIOR" }, faction="Alliance",
 					spell={ "Victory Rush" }, guide={ ns.starterZoneClass }, 
-					tip="Go to the very back.\nBattered Chest can spawn nearby!", },
+					tip="Go to the very back. Battered Chest can spawn nearby!", },
 	[50313992] = { npc=915, name="Jorik Kerridan", class={ "ROGUE" }, faction="Alliance",
 					tip="Skulking behind the Abbey in the stables",
 					spell={ "Shadowstrike" }, guide={ ns.starterZoneClass }, quest={ 77618 }, questName={ "Thrice stolen" } },
@@ -2784,7 +2784,7 @@ points[ 1429 ] = { -- Elwynn Forest
 	[56806220] = { name="Crystal Lake Murlocs (Various)", faction="Alliance", class={ "WARRIOR" }, tip="Severed Murloc Head",
 					spell={ "Devastate" }, guide={ ns.warrior.devastate ..ns.warrior.devastateVik } },
 	[57514826] = { npc=103, name="Garrick Proudfoot", class={ "ROGUE" }, faction="Alliance", 
-					tip="At a shack. East of the Vineyards.\nBeware, extremely fast respawn.\nBattered chest can spawn nearby",
+					tip="At a shack. East of the Vineyards. Beware, extremely fast respawn. Battered chest can spawn nearby",
 					spell={ "Mutilate" }, guide={ ns.rogue.mutilate } },
 	[58006840] = { name="Crystal Lake Murlocs (Various)", faction="Alliance", class={ "WARRIOR" }, tip="Severed Murloc Head",
 					spell={ "Devastate" }, guide={ ns.warrior.devastate ..ns.warrior.devastateVik } },
@@ -2814,7 +2814,7 @@ points[ 1429 ] = { -- Elwynn Forest
 					spell={ "Demonic Grace" }, guide={ ns.warlock.grace ..ns.warlock.graceEF }, tip="Wolf Jawbone" },
 	[65467007] = { object=386759, name="Library Book", class={ "MAGE" }, faction="Alliance",
 					spell=ns.mage.bookRunes, guide=ns.mage.books, mageBook=true,
-					tip="Halfway up the Tower of Azora. Sparkles, you can't miss it.\nContinue up to click on the "
+					tip="Halfway up the Tower of Azora. Sparkles, you can't miss it. Continue up to click on the "
 						.."Eye of Azora. Harmless fun!\n\nOverall a very safe book to collect early. Nothing to fight",
 					quest={ 79092, }, questName={ "Archmage Theocritus's Research Journal", } },
 	[65608400] = { npc=46, name="Murloc Forager", faction="Alliance", class={ "ROGUE" },
@@ -2871,7 +2871,7 @@ points[ 1429 ] = { -- Elwynn Forest
 					spell={ "Quick Draw" }, guide={ ns.rogue.quickDraw ..ns.rogue.quickDrawTel } },
 	[84607960] = { name="Critters with Wild Polymorph debuff", class={ "MAGE" },
 					spell={ "Enlightenment" }, guide={ ns.mage.enlightenment },
-					tip="Reports of plenty at Ridgepoint\nTower but they can be anywhere" },
+					tip="Reports of plenty at Ridgepoint Tower but they can be anywhere" },
 	[89607800] = { npc=116, name="Defias Bandit", faction="Alliance", class={ "ROGUE" },
 					tip="Pick Pocket or kill. Top-Left Map Piece",
 					spell={ "Quick Draw" }, guide={ ns.rogue.quickDraw ..ns.rogue.quickDrawEF } },
@@ -2907,7 +2907,7 @@ points[ 1424 ] = { -- Hillsbrad Foothills
 					spell={ "Lava Burst" }, guide={ ns.shaman.kajaricIcon } },
 	[67601500] = { npc=214529, name="Brave Stonetorch", class={ "PALADIN" }, preRune={ { "Fanaticism" } },
 					quest={ { 81790 } }, questName={ { "Materials of Significance" } }, spell={ "Hammer of the Righteous" },
-					tip="Yes, a Tauren Paladin. Nice\nlead in to Horde Paladins!", guide={ ns.paladin.hammerRighteous } },
+					tip="Yes, a Tauren Paladin. Nice lead in to Horde Paladins!", guide={ ns.paladin.hammerRighteous } },
 	[78603860] = { name="Wild Gryphon/Kurdros/Granistad", class={ "WARRIOR" }, spell={ "Blood Surge" },
 					guide={ ns.warrior.bloodSurge }, quest={ { 79624, 79677, 79678 } },
 					questName={ { "Anyone Can Cook", "A Quick Grocery Run", "Taste Testing" } } },
@@ -2915,7 +2915,7 @@ points[ 1424 ] = { -- Hillsbrad Foothills
 					spell={ "Lake of Fire" }, guide={ ns.warlock.firesWake }, 
 					tip="Aim carefully or bye bye 5 gold... QQ" },
 	[80003900] = { npc=3536, name="Kris Legace", class={ "ROGUE" },
-					tip="She sells a range of limited supply / rare leathers\nMaybe for you or the AH!",
+					tip="She sells a range of limited supply / rare leathers Maybe for you or the AH!",
 					spell={ "Envenom" }, guide={ ns.rogue.envenom } },
 	[88604120] = { name="Wild Gryphon/Kurdros/Granistad", class={ "WARRIOR" }, spell={ "Blood Surge" },
 					guide={ ns.warrior.bloodSurge }, tip="Loot a Hybrid Haunch", quest={ { 79624, 79677, 79678 } },
@@ -2927,19 +2927,19 @@ points[ 1455 ] = { -- Ironforge
 	[27601120] = { npc=221827, name="Magister Falath", class={ "PALADIN" }, spell={ "Wrath" },
 					guide={ ns.paladin.wrath }, },
 	[51901360] = { object=405946, name="Dusty Chest", class={ "ROGUE" }, faction="Alliance", guide={ ns.rogue.precision },
-					tip="In an alcove to the right of the stairs", spell={ "Slaughter from the Shadows" } },
+					tip="In an alcove to the right of the stairs", spell={ "Between the Eyes" } },
 	[53861403] = { npc=233335, name="Rune Broker", skillBook=true, guide=ns.runeBroker, faction="Alliance",
-					tip="In the Forlorn Cavern in a nook on the left\nside of the stairs to the Rogue Trainer and\n"
+					tip="In the Forlorn Cavern in a nook on the left side of the stairs to the Rogue Trainer and "
 						.."the Shady Dealer", },
 	[72537696] = { npc=5570, name="Bruuk Barleybeard", class={ "WARRIOR" }, faction="Alliance",					
 					spell={ "Frenzied Assault" }, guide={ ns.warrior.frenziedAssault },
-					tip="Speak to Bruuk first, and then\nspeak to Bruart, who is nearby.\n"
-						.."They are in the inn Bruuk's\nCorner, to the left of the\n"
+					tip="Speak to Bruuk first, and then speak to Bruart, who is nearby. "
+						.."They are in the inn Bruuk's Corner, to the left of the "
 						.."entrance to the Military Wing" },
 	[72417361] = { npc=209004, name="Bruart", class={ "WARRIOR" }, faction="Alliance",
 					spell={ "Frenzied Assault" }, guide={ ns.warrior.frenziedAssault },
-					tip="Speak to Bruuk first, and then\nspeak to Bruart, who is nearby.\n"
-						.."They are in the inn Bruuk's\nCorner, to the left of the\n"
+					tip="Speak to Bruuk first, and then speak to Bruart, who is nearby. "
+						.."They are in the inn Bruuk's Corner, to the left of the "
 						.."entrance to the Military Wing" },
 	[75971056] = { object=386691, name="Library Book", class={ "MAGE" }, faction="Alliance",
 					spell=ns.mage.bookRunes, guide=ns.mage.books, mageBook=true,
@@ -2953,13 +2953,13 @@ points[ 1432 ] = { -- Loch Modan
 					spell={ "Master Channeler" }, guide={ ns.warlock.channeling } },
 	[27004660] = { name="Stonesplitter Scout/Trogg", class={ "WARRIOR" },
 					spell={ "Quick Strike" }, guide={ ns.warrior.quickStrike },
-					tip="Skull-Shaped Geode. Then get hit by a\nStonesplitter Skullthumper in the caves" },				
+					tip="Skull-Shaped Geode. Then get hit by a Stonesplitter Skullthumper in the caves" },				
 	[27205100] = { name="Stonesplitter Scout/Trogg", class={ "WARRIOR" },
 					spell={ "Quick Strike" }, guide={ ns.warrior.quickStrike },
-					tip="Skull-Shaped Geode. Then get hit by a\nStonesplitter Skullthumper in the caves" },				
+					tip="Skull-Shaped Geode. Then get hit by a Stonesplitter Skullthumper in the caves" },				
 	[27605480] = { name="Stonesplitter Scout/Trogg", class={ "WARRIOR" },
 					spell={ "Quick Strike" }, guide={ ns.warrior.quickStrike },
-					tip="Skull-Shaped Geode. Then get hit by a\nStonesplitter Skullthumper in the caves" },				
+					tip="Skull-Shaped Geode. Then get hit by a Stonesplitter Skullthumper in the caves" },				
 	[29008500] = { npc=1166, name="Stonesplitter Seer", class={ "MAGE" },
 					spell={ "Living Bomb" }, guide={ ns.mage.livingBomb } },
 	[29206080] = { npc=3291, name="Greishan Ironstove", class={ "WARLOCK" }, faction="Alliance",
@@ -2971,22 +2971,22 @@ points[ 1432 ] = { -- Loch Modan
 					spell={ "Master Channeler" }, guide={ ns.warlock.channeling } },
 	[30208200] = { name="Stonesplitter Scout/Trogg", class={ "WARRIOR" },
 					spell={ "Quick Strike" }, guide={ ns.warrior.quickStrike },
-					tip="Skull-Shaped Geode. Then get hit by a\nStonesplitter Skullthumper in the caves" },				
+					tip="Skull-Shaped Geode. Then get hit by a Stonesplitter Skullthumper in the caves" },				
 	[30404710] = { npc=3291, name="Greishan Ironstove", class={ "WARLOCK" }, faction="Alliance",
 					spell={ "Master Channeler" }, guide={ ns.warlock.channeling } },
 	[30407520] = { name="Stonesplitter Scout/Trogg", class={ "WARRIOR" },
 					spell={ "Quick Strike" }, guide={ ns.warrior.quickStrike },
-					tip="Skull-Shaped Geode. Then get hit by a\nStonesplitter Skullthumper in the caves" },				
+					tip="Skull-Shaped Geode. Then get hit by a Stonesplitter Skullthumper in the caves" },				
 	[31705420] = { npc=3291, name="Greishan Ironstove", class={ "WARLOCK" }, faction="Alliance",
 					spell={ "Master Channeler" }, guide={ ns.warlock.channeling } },
 	[33607140] = { name="Stonesplitter Scout/Trogg", class={ "WARRIOR" },
 					spell={ "Quick Strike" }, guide={ ns.warrior.quickStrike },
-					tip="Skull-Shaped Geode. Then get hit by a\nStonesplitter Skullthumper in the caves" },				
+					tip="Skull-Shaped Geode. Then get hit by a Stonesplitter Skullthumper in the caves" },				
 	[34204760] = { npc=3291, name="Greishan Ironstove", class={ "WARLOCK" }, faction="Alliance",
 					spell={ "Master Channeler" }, guide={ ns.warlock.channeling } },
 	[34807640] = { name="Stonesplitter Scout/Trogg", class={ "WARRIOR" },
 					spell={ "Quick Strike" }, guide={ ns.warrior.quickStrike },
-					tip="Skull-Shaped Geode. Then get hit by a\nStonesplitter Skullthumper in the caves" },				
+					tip="Skull-Shaped Geode. Then get hit by a Stonesplitter Skullthumper in the caves" },				
 	[35008100] = { npc=1166, name="Stonesplitter Seer", class={ "MAGE" },
 					spell={ "Living Bomb" }, guide={ ns.mage.livingBomb } },
 	[35509060] = { npc=1166, name="Stonesplitter Seer", class={ "MAGE" },
@@ -3007,7 +3007,7 @@ points[ 1432 ] = { -- Loch Modan
 					spell={ "Twisted Faith" }, guide={ ns.priest.twisted ..ns.priest.twistedLM } },
 	[36809160] = { object=407850, name="Sunken Reliquary", class={ "PALADIN" }, faction="Alliance",
 					spell={ "Hand of Reckoning" }, guide={ ns.paladin.justice },
-					tip="Hug the left side of the cave.\nGo to the very back.\nAt the bottom of the waterfall" },
+					tip="Hug the left side of the cave. Go to the very back. At the bottom of the waterfall" },
 	[37208560] = { npc=1166, name="Stonesplitter Seer", class={ "MAGE" },
 					spell={ "Living Bomb" }, guide={ ns.mage.livingBomb } },
 	[39403920] = { npc=1684, name="Khara Deepwater", class={ "DRUID" }, faction="Alliance",
@@ -3056,7 +3056,7 @@ points[ 1432 ] = { -- Loch Modan
 	[56201420] = { npc=1178, name="Haren Swifthoof", class={ "WARRIOR" }, faction="Alliance", tip=ns.warrior.harenTip,
 					spell={ "Endless Rage" }, guide={ ns.warrior.endlessRage } },
 	[56601420] = { name="Dark Iron mobs (Various)", class={ "ROGUE" }, faction="Alliance",
-					tip="Eventually you'll score a\nDark Iron Lockbox from Pp.",
+					tip="Eventually you'll score a Dark Iron Lockbox from Pp.",
 					spell={ "Blade Dance" }, guide={ ns.rogue.bladeDance } },
 	[57804280] = { npc=1224, name="Young Threshadon", class={ "DRUID" }, faction="Alliance",
 					spell={ "Lacerate" }, guide={ ns.druid.lacerate } },
@@ -3203,7 +3203,7 @@ points[ 1433 ] = { -- Redridge Mountains
 	[72808060] = { npc=214456, name="Dro'zem the Blasphemous", class={ "PALADIN" },
 					faction="Alliance", spell={ "Avenger's Shield" }, guide={ "50% drop chance" } },
 	[74008220] = { npc=214519, name="Incinerator Gar'im", class={ "WARLOCK" },
-					spell={ "Incinerate" }, tip="Loot and learn. Level 23\nElite with lots of adds" },
+					spell={ "Incinerate" }, tip="Loot and learn. Level 23 Elite with lots of adds" },
 	[74607360] = { npc=214456, name="Dro'zem the Blasphemous", class={ "PALADIN" },
 					faction="Alliance", spell={ "Avenger's Shield" }, guide={ "50% drop chance" } },
 	[75407780] = { npc=214456, name="Dro'zem the Blasphemous", class={ "PALADIN" },
@@ -3213,14 +3213,14 @@ points[ 1433 ] = { -- Redridge Mountains
 	[77607400] = { npc=214456, name="Dro'zem the Blasphemous", class={ "PALADIN" },
 					faction="Alliance", spell={ "Avenger's Shield" }, guide={ "50% drop chance" } },
 	[77608660] = { npc=214519, name="Incinerator Gar'im", class={ "WARLOCK" },
-					spell={ "Incinerate" }, tip="Loot and learn. Level 23\nElite with lots of adds" },
+					spell={ "Incinerate" }, tip="Loot and learn. Level 23 Elite with lots of adds" },
 	[78006960] = { npc=214456, name="Dro'zem the Blasphemous", class={ "PALADIN" },
 					faction="Alliance", spell={ "Avenger's Shield" }, guide={ "50% drop chance" } },
 	[80007000] = { npc=214456, name="Dro'zem the Blasphemous", class={ "PALADIN" },
 					faction="Alliance", spell={ "Avenger's Shield" }, guide={ "50% drop chance" } },
 	[80204950] = { item=210765, name="Orb of Des", class={ "WARLOCK" },
 					spell={ "Metamorphosis" }, guide={ ns.warlock.metamorphosis },
-					tip="Top of the Tower of Ilgalar,\nin a Demonic Reliquary",
+					tip="Top of the Tower of Ilgalar, in a Demonic Reliquary",
 					quest={ { 1740, 78680, 78681, 78684, 78702 } }, questName={ { "The Orb of Soran'ruk", "Rumors Abound",
 						"The Conjuring", "The Mysterious Traveler", "Raszel Ander" } } },
 }
@@ -3276,7 +3276,7 @@ points[ 1427 ] = { -- Searing Gorge
 points[ 1421 ] = { -- Silverpine Forest
 	[34800780] = { npc=210802, name="Webbed Victim", class={ "WARRIOR" }, faction="Horde",
 					spell={ "Endless Rage" }, guide={ ns.warriorEndlessRage },
-					tip="In the Skittering Dark Cave you'll easily\nsee the vicitms. Click on then and defeat\n"
+					tip="In the Skittering Dark Cave you'll easily see the vicitms. Click on then and defeat "
 						.."the crazed Lost Adventurer.\n\nBut so many spiders to contend with" },
 	[43402260] = { npc=1773, name="Rot Hide Mystic", class={ "SHAMAN" }, faction="Horde",
 					spell={ "Way of Earth" }, guide={ ns.shaman.earthenRune } },
@@ -3342,7 +3342,7 @@ points[ 1421 ] = { -- Silverpine Forest
 					spell={ "Shadow Bolt Volley" }, guide={ ns.warlock.shadowbolts } },
 	[58204520] = { npc=212763, name="Sadistic Fiend", class={ "WARLOCK" }, faction="Horde",
 					spell={ "Master Channeler" }, guide={ ns.warlock.channeling },
-					tip= "In the same cave as Grimson the Pale so\nit'll be busy with rune engravers. This\n"
+					tip= "In the same cave as Grimson the Pale so it'll be busy with rune engravers. This "
 						.."helps with clearing the cave of trash" },
 	[59307210] = { npc=212809, name="Wailing Spirit", class={ "PRIEST" },
 					spell={ "Twisted Faith" }, guide={ ns.priest.twisted ..ns.priest.twistedSil } },
@@ -3400,8 +3400,8 @@ points[ 1453 ] = { -- Stormwind City
 					spell={ "Soul Siphon" }, guide={ ns.warlock.soulSiphon }, tip="He's" ..ns.secretCoven },
 	[25127738] = { npc=204070, name="Soboz", class={ "WARLOCK" }, faction="Alliance",
 					spell={ "Demonic Grace" }, guide={ ns.warlock.grace ..ns.warlock.graceEF },
-					tip="He's" ..ns.secretCoven ..".\n\nTake the ramp next to Gakin and descend\n"
-						.."into the crypts. Take the first right turn and\ngo down. Now the first left turn down. Voilà!\n\n"
+					tip="He's" ..ns.secretCoven ..".\n\nTake the ramp next to Gakin and descend "
+						.."into the crypts. Take the first right turn and go down. Now the first left turn down. Voilà!\n\n"
 						.."Stand on the magenta rune and summon!" },
 	[26127723] = { npc=5495, name="Ursula Deline", class={ "PALADIN" }, faction="Alliance",
 					spell={ "Divine Storm" }, quest={ { 78088, 78089, 78090, 78091, 78092, 78093 } }, tip="She's" ..ns.secretCoven,
@@ -3422,7 +3422,7 @@ points[ 1453 ] = { -- Stormwind City
 					questName={ { "Lost Heirloom", "Relic of Light", "Scarlet Research", "The Prize Within", } }, },
 	[34708050] = { npc=211033, name="Garion Wendell", class={ "MAGE", }, faction="Alliance", mageBook=true,
 					spell=ns.mage.bookRunes, quest=ns.mage.bookQuestIDs, questName=ns.mage.bookQuestNames, 
-					guide=ns.mage.books, tip="Tally", },
+					guide=ns.mage.books, tip="Progress", },
 	[39708050] = { npc=211033, name="Garion Wendell", class={ "MAGE" }, faction="Alliance", mageBook=true,
 					spell=ns.mage.bookRunes, quest=ns.mage.booksQuestIDsA, questName=ns.mage.booksQuestNamesA, 
 					guide=ns.mage.books, },
@@ -3437,9 +3437,9 @@ points[ 1453 ] = { -- Stormwind City
 	[56692985] = { name="Cutthroat Alley", class={ "ROGUE" }, faction="Alliance", guide={ ns.rogue.precision },
 					spell={ "Slaughter from the Shadows" }, tip="Begin by entering this empty shop" },
 	[57442684] = { npc=233335, name="Rune Broker", skillBook=true, guide=ns.runeBroker, faction="Alliance",
-					tip="In Cut-Throat Alley. Access via the Canals,\nthrough an empty unnamed shop", },
+					tip="In Cut-Throat Alley. Access via the Canals, through an empty unnamed shop", },
 	[61732920] = { object=386777, name="Dusty Chest", class={ "ROGUE" }, faction="Alliance", guide={ ns.rogue.precision },
-					spell={ "Slaughter from the Shadows" }, tip="Upper level of the house in\nCutthroat Alley, Stormwind" },
+					spell={ "Between the Eyes" }, tip="Upper level of the house in Cutthroat Alley" },
 	[69695102] = { npc=203226, name="Viktoria Woods", class={ "WARRIOR" }, faction="Alliance",
 					spell={ "Devastate" }, guide={ ns.warrior.devastate ..ns.warrior.devastateVik }, },
 	[74180746] = { npc=1440, name="Milton Sheaf", tip="Skill Books vendor", skillBook=true, guide={ ns.skillBookVendor }, 
@@ -3455,10 +3455,10 @@ points[ 1434 ] = { -- Stranglethorn Vale
 	[27607660] = { npc=218229,name="CaptainAransas", class={ "ROGUE" }, spell={ "Master of Subtlety" },
 					guide={ ns.rogue.subtlety } },
 	[27607740] = { name="Teleporter", class={ "PALADIN" }, spell={ "Light's Grace" },
-					tip="This teleporter is only available on completion\n"
-						.."of the above quest. That quest is part of the\n"
+					tip="This teleporter is only available on completion "
+						.."of the above quest. That quest is part of the "
 						.."Phase 2 / Gnomeregan profession gear quest line.\n\n"
-						.."If you do use this portal then consider setting\n"
+						.."If you do use this portal then consider setting "
 						.."your hearth here as you'll need to return",
 					guide={ ns.paladin.lightsGrace }, quest={ 79984 }, questName={ "Quadrangulation" } },
 	[23007700] = { npc=214954, name="Pix Xizzix", class=ns.allClass, guide=ns.purchaseForAlt,
@@ -3499,7 +3499,7 @@ points[ 1434 ] = { -- Stranglethorn Vale
 	[37002460] = { name="Murkgill Mobs (Various)", class=ns.allClass, spell=ns.allSpellG,
 					guide=ns.grizzby, quest={ 78265 }, questName={ "Fish Oil" } },
 	[40705850] = { npc=223591, name="Echo of a Lost Soul", class={ "PRIEST" }, spell={ "Surge of Light" },
-					tip="Outside these hours the Lost Soul might be seen on\nthe beach at the end of the Blood Moon "
+					tip="Outside these hours the Lost Soul might be seen on the beach at the end of the Blood Moon "
 					.."PvP event. YMMV", guide={ ns.priest.surgeLight } },
 	[41505090] = { object=421526, name="Research Notes", class={ "MAGE" },
 					spell=ns.mage.bookRunes, guide=ns.mage.books, mageBook=true,
@@ -3535,7 +3535,7 @@ points[ 1435 ] = { -- Swamp of Sorrows
 					questName={ { "Anyone Can Cook", "A Quick Grocery Run", "Taste Testing" } } },
 	[61602240] = { object=423901, name="Book", class={ "MAGE" },
 					spell=ns.mage.bookRunes, guide=ns.mage.books, mageBook=true,
-					tip="Farm nearby Lost Ones for a Rusted\nCage Key to open the Rusted Cage",
+					tip="Farm nearby Lost Ones for a Rusted Cage Key to open the Rusted Cage",
 					quest={ 79953, }, questName={ "A Ludite's Guide to Caring for Your Demonic Pet" }, },
 	[62308350] = { name="Marsh Mobs (Various Murlocs)", class=ns.allClass, spell=ns.allSpellG,
 					guide={ ns.grizzby }, quest={ 78265 }, questName={ "Fish Oil" } },
@@ -3564,13 +3564,13 @@ points[ 1435 ] = { -- Swamp of Sorrows
 }
 points[ 1425 ] = { -- The Hinterlands
 	[24605780] = { name="Witherbark Mobs (Various)", class={ "WARRIOR" }, spell={ "Wrecking Crew" },
-					guide={ "Far west The Hinterlands is where you'll be\nfarming any Witherbark troll mobs for a Geode\n"
-						.."Hammer.\n\nEquip and continue pwning the mobs. The Hammer\nwill break. Right click for phat profit!\n\n"
-						.."Don't go east to Shadra'Alor as the Sadists\nthere are much tougher. Stay south of Aerie Peak" } },
+					guide={ "Far west The Hinterlands is where you'll be farming any Witherbark troll mobs for a Geode "
+						.."Hammer.\n\nEquip and continue pwning the mobs. The Hammer will break. Right click for phat profit!\n\n"
+						.."Don't go east to Shadra'Alor as the Sadists there are much tougher. Stay south of Aerie Peak" } },
 	[28606120] = { name="Owlbeast Mobs (Various)", class={ "MAGE" }, spell={ "Temporal Anomaly" },
 					guide={ ns.mage.temporal }, quest={ 82082 }, questName={ "A Lesson in Literacy" } },
 	[33004400] = { npc=221828, name="Vengeful Spirit", class={ "PALADIN" }, spell={ "Wrath" },
-					guide={ ns.paladin.wrath }, tip="Use Sense Undead to see.\nRespawn is about 10 minutes" },
+					guide={ ns.paladin.wrath }, tip="Use Sense Undead to see. Respawn is about 10 minutes" },
 	[36007270] = { object=441252, name="Book", class={ "MAGE" },
 					spell=ns.mage.bookRunes, guide=ns.mage.books, mageBook=true, tip="Behind a wall",
 					quest={ 81954, }, questName={ "Venomous Journeys" }, },
@@ -3603,7 +3603,7 @@ points[ 1425 ] = { -- The Hinterlands
 	[72506870] = { npc=223591, name="Echo of a Lost Soul", class={ "PRIEST" }, spell={ "Surge of Light" },
 					guide={ ns.priest.surgeLight } },
 	[72605280] = { npc=222695, name="Vilebranch Mask", class={ "ROGUE" }, spell={ "Focused Attacks" }, 
-					guide={ "Use Blind (L34). Loot the chest\nThere are stealthed wolves in the area" } },
+					guide={ "Use Blind (L34). Loot the chest. There are stealthed wolves in the area" } },
 }
 points[ 1420 ] = { -- Tirisfal Glades
 	[24705945] = { object=406736, name="Lost Stash", class={ "WARLOCK", "WARRIOR" }, faction="Horde",
@@ -3618,7 +3618,7 @@ points[ 1420 ] = { -- Tirisfal Glades
 					spell={ "Quick Draw", "Between the Eyes", "Devastate" },
 					guide={ ns.rogue.quickDraw ..ns.rogue.quickDrawTG, ns.rogue.precision, 
 						ns.warrior.devastate ..ns.warrior.devastateDor },
-					tip={ "Bottom-Right Map Piece (Drop or Pickpocketing).\nShipwreck Cache Key (mostly) Pickpocketing",
+					tip={ "Bottom-Right Map Piece (Drop or Pickpocketing). Shipwreck Cache Key (mostly) Pickpocketing",
 							"Key for the Cache", "Severed Murloc Head" } },
 	[29804600] = { npc=208196, name="Gillgar", class={ "MAGE", "PRIEST", "WARRIOR" }, faction="Horde",
 					spell={ "Fingers of Frost", "Void Plague", "Furious Thunder" },
@@ -3632,7 +3632,7 @@ points[ 1420 ] = { -- Tirisfal Glades
 	[31004620] = { npc=1535, name="Scarlet Warrior", class={ "MAGE" },
 					spell={ "Living Flame" }, guide={ ns.mage.livingFlame } },
 	[31006600] = { npc=2123, name="Dark Cleric Duesten", class={ "PRIEST" }, faction="Horde",
-					tip="After picking up the quest, go to the Graveyard\njust next door and /kneel. Check your bag. Done",
+					tip="After picking up the quest, go to the Graveyard just next door and /kneel. Check your bag. Done",
 					spell={ "Penance" }, guide={ ns.starterZoneClass ..ns.priest.penanceTG }, 
 					quest={ 77670 }, questName={ "Meditation on Undeath" } },
 	[32604860] = { npc=1535, name="Scarlet Warrior", faction="Horde", class={ "ROGUE" }, spell={ "Quick Draw" }, 
@@ -3649,7 +3649,7 @@ points[ 1420 ] = { -- Tirisfal Glades
 					spell={ "Quick Draw", "Between the Eyes", "Devastate" },
 					guide={ ns.rogue.quickDraw ..ns.rogue.quickDrawTG, ns.rogue.precision, 
 						ns.warrior.devastate ..ns.warrior.devastateDor }, 
-					tip={ "Bottom-Right Map Piece (Drop or Pickpocketing).\nShipwreck Cache Key (mostly) Pickpocketing",
+					tip={ "Bottom-Right Map Piece (Drop or Pickpocketing). Shipwreck Cache Key (mostly) Pickpocketing",
 							nil, "Severed Murloc Head" } },
 	[35604750] = { npc=208712, name="Odd Melon", class={ "MAGE" }, faction="Horde",
 					spell={ "Enlightenment" }, guide={ ns.mage.enlightenment } },
@@ -3659,7 +3659,7 @@ points[ 1420 ] = { -- Tirisfal Glades
 					spell={ "Quick Draw", "Between the Eyes", "Devastate" },
 					guide={ ns.rogue.quickDraw ..ns.rogue.quickDrawTG, ns.rogue.precision, 
 						ns.warrior.devastate ..ns.warrior.devastateDor }, 
-					tip={ "Bottom-Right Map Piece (Drop or Pickpocketing).\nShipwreck Cache Key (mostly) Pickpocketing",
+					tip={ "Bottom-Right Map Piece (Drop or Pickpocketing). Shipwreck Cache Key (mostly) Pickpocketing",
 							"Key for the Cache", "Severed Murloc Head" } },
 	[36805100] = { npc=208712, name="Odd Melon", class={ "MAGE" }, faction="Horde",
 					spell={ "Enlightenment" }, guide={ ns.mage.enlightenment } },
@@ -3723,19 +3723,19 @@ points[ 1420 ] = { -- Tirisfal Glades
 	[51407000] = { npc=1537, name="Scarlet Zealot", class={ "MAGE" },
 					spell={ "Living Flame" }, guide={ ns.mage.livingFlame } },
 	[51806740] = { npc=1662, name="Captain Perrine", class={ "ROGUE" }, faction="Horde", spell={ "Mutilate" },
-					tip="Pick Pocket Captain Perrine for his Signet Ring.\nThen go to the Brill Town Hall and make a forged \n"
+					tip="Pick Pocket Captain Perrine for his Signet Ring. Then go to the Brill Town Hall and make a forged  "
 						.."document. Hand it to Jamie Nore nearby", guide={ ns.rogue.mutilate } },
 	[52502580] = { object=404941, name="Relic Coffer", class={ "ROGUE" }, faction="Horde",
 					spell={ "Slaughter from the Shadows" }, guide={ ns.rogue.slaughter },
-					tip="Obtain the key from any of the Rot Hide Gnolls\nand named Undead, Shambling Horror, etc" },
+					tip="Obtain the key from any of the Rot Hide Gnolls and named Undead, Shambling Horror, etc" },
 	[52905400] = { name="Rune of Quick Draw", faction="Horde", class={ "ROGUE" }, 
-					tip="Final location West of Brill,\nunder the bridge west side",
+					tip="Final location West of Brill, under the bridge west side",
 					spell={ "Quick Draw" }, guide={ ns.rogue.quickDraw ..ns.rogue.quickDrawTG } },
 	[53404380] = { name="Rot Hide (Various)", class={ "ROGUE", "ROGUE", "WARLOCK", "WARRIOR" }, faction="Horde",
 					spell={ "Quick Draw", "Slaughter from the Shadows", "Demonic Grace", "Devastate" },
 					guide={ ns.rogue.quickDraw ..ns.rogue.quickDrawTG, ns.rogue.slaughter, 
 						ns.warlock.grace ..ns.warlock.graceTG, ns.warrior.devastate ..ns.warrior.devastateDor },
-					tip={ "Bottom-Left Map Piece\nAgamand Relic Coffer Key\n(Drop or Pickpocketing)",
+					tip={ "Bottom-Left Map Piece Agamand Relic Coffer Key (Drop or Pickpocketing)",
 							nil, "Gnoll Blood", "Severed Gnoll Head" } },
 	[53606800] = { npc=1537, name="Scarlet Zealot", class={ "MAGE" },
 					spell={ "Living Flame" }, guide={ ns.mage.livingFlame } },
@@ -3751,19 +3751,19 @@ points[ 1420 ] = { -- Tirisfal Glades
 					spell={ "Quick Draw", "Slaughter from the Shadows", "Demonic Grace", "Devastate" },
 					guide={ ns.rogue.quickDraw ..ns.rogue.quickDrawTG, ns.rogue.slaughter, 
 						ns.warlock.grace ..ns.warlock.graceTG, ns.warrior.devastate ..ns.warrior.devastateDor },
-					tip={ "Bottom-Left Map Piece\nAgamand Relic Coffer Key\n(Drop or Pickpocketing)",
+					tip={ "Bottom-Left Map Piece Agamand Relic Coffer Key (Drop or Pickpocketing)",
 							nil, "Gnoll Blood", "Severed Gnoll Head" } },
 	[56604660] = { name="Rot Hide (Various)", class={ "ROGUE", "ROGUE", "WARLOCK", "WARRIOR" }, faction="Horde",
 					spell={ "Quick Draw", "Slaughter from the Shadows", "Demonic Grace", "Devastate" },
 					guide={ ns.rogue.quickDraw ..ns.rogue.quickDrawTG, ns.rogue.slaughter, 
 						ns.warlock.grace ..ns.warlock.graceTG, ns.warrior.devastate ..ns.warrior.devastateDor },
-					tip={ "Bottom-Left Map Piece\nAgamand Relic Coffer Key\n(Drop or Pickpocketing)",
+					tip={ "Bottom-Left Map Piece Agamand Relic Coffer Key (Drop or Pickpocketing)",
 							nil, "Gnoll Blood", "Severed Gnoll Head" } },
 	[57003400] = { name="Rot Hide (Various)", class={ "ROGUE", "ROGUE", "WARLOCK", "WARRIOR" }, faction="Horde",
 					spell={ "Quick Draw", "Slaughter from the Shadows", "Demonic Grace", "Devastate" },
 					guide={ ns.rogue.quickDraw ..ns.rogue.quickDrawTG, ns.rogue.slaughter, 
 						ns.warlock.grace ..ns.warlock.graceTG, ns.warrior.devastate ..ns.warrior.devastateDor },
-					tip={ "Bottom-Left Map Piece\nAgamand Relic Coffer Key\n(Drop or Pickpocketing)",
+					tip={ "Bottom-Left Map Piece Agamand Relic Coffer Key (Drop or Pickpocketing)",
 							nil, "Gnoll Blood", "Severed Gnoll Head" } },
 	[57205540] = { npc=212252, name="Harvest Golem V000-A", class={ "WARRIOR" }, spell={ "Shockwave" }, faction="Horde",
 					tip="Does NOT reset, so keep running back!",
@@ -3774,24 +3774,24 @@ points[ 1420 ] = { -- Tirisfal Glades
 					spell={ "Quick Draw", "Between the Eyes", "Devastate" },
 					guide={ ns.rogue.quickDraw ..ns.rogue.quickDrawTG, ns.rogue.precision, 
 						ns.warrior.devastate ..ns.warrior.devastateDor }, 
-					tip={ "Bottom-Right Map Piece (Drop or Pickpocketing).\nShipwreck Cache Key (mostly) Pickpocketing",
+					tip={ "Bottom-Right Map Piece (Drop or Pickpocketing). Shipwreck Cache Key (mostly) Pickpocketing",
 							"Key for the Cache", "Severed Murloc Head" } },
 	[57803700] = { name="Rot Hide (Various)", class={ "ROGUE", "ROGUE", "WARLOCK", "WARRIOR" }, faction="Horde",
 					spell={ "Quick Draw", "Slaughter from the Shadows", "Demonic Grace", "Devastate" },
 					guide={ ns.rogue.quickDraw ..ns.rogue.quickDrawTG, ns.rogue.slaughter, 
 						ns.warlock.grace ..ns.warlock.graceTG, ns.warrior.devastate ..ns.warrior.devastateDor },
-					tip={ "Bottom-Left Map Piece\nAgamand Relic Coffer Key\n(Drop or Pickpocketing)",
+					tip={ "Bottom-Left Map Piece Agamand Relic Coffer Key (Drop or Pickpocketing)",
 							nil, "Gnoll Blood", "Severed Gnoll Head" } },
 	[58003600] = { npc=208712, name="Odd Melon", class={ "MAGE" }, faction="Horde",
 					spell={ "Enlightenment" }, guide={ ns.mage.enlightenment } },
 	[58503050] = { npc=1753, name="Maggot Eye", class={ "WARLOCK" }, faction="Horde",
 					spell={ "Soul Siphon" }, guide={ ns.warlock.soulSiphon },
-					tip="It's level 10. Two classes need it!\nInside the house in Garren's Haunt" },
+					tip="It's level 10. Two classes need it! Inside the house in Garren's Haunt" },
 	[59204440] = { name="Rot Hide (Various)", class={ "ROGUE", "ROGUE", "WARLOCK", "WARRIOR" }, faction="Horde",
 					spell={ "Quick Draw", "Slaughter from the Shadows", "Demonic Grace", "Devastate" },
 					guide={ ns.rogue.quickDraw ..ns.rogue.quickDrawTG, ns.rogue.slaughter, 
 						ns.warlock.grace ..ns.warlock.graceTG, ns.warrior.devastate ..ns.warrior.devastateDor },
-					tip={ "Bottom-Left Map Piece\nAgamand Relic Coffer Key\n(Drop or Pickpocketing)",
+					tip={ "Bottom-Left Map Piece Agamand Relic Coffer Key (Drop or Pickpocketing)",
 							nil, "Gnoll Blood", "Severed Gnoll Head" } },
 	[59505230] = { object=405879, name="Apothecary Society Primer", class={ "MAGE" }, faction="Horde",
 					spell=ns.mage.bookRunes, guide=ns.mage.books, mageBook=true,
@@ -3805,31 +3805,31 @@ points[ 1420 ] = { -- Tirisfal Glades
 					spell={ "Quick Draw", "Slaughter from the Shadows", "Demonic Grace", "Devastate" },
 					guide={ ns.rogue.quickDraw ..ns.rogue.quickDrawTG, ns.rogue.slaughter, 
 						ns.warlock.grace ..ns.warlock.graceTG, ns.warrior.devastate ..ns.warrior.devastateDor },
-					tip={ "Bottom-Left Map Piece\nAgamand Relic Coffer Key\n(Drop or Pickpocketing)",
+					tip={ "Bottom-Left Map Piece Agamand Relic Coffer Key (Drop or Pickpocketing)",
 							nil, "Gnoll Blood", "Severed Gnoll Head" } },
 	[60605060] = { npc=2310, name="Jamie Nore", class={ "ROGUE" }, faction="Horde", spell={ "Mutilate" },
-					tip="Pick Pocket Captain Perrine for a Signet Ring.\nThen go to the Brill Town Hall and make a forged\n"
+					tip="Pick Pocket Captain Perrine for a Signet Ring. Then go to the Brill Town Hall and make a forged "
 						.."document. Hand it to Jamie Nore nearby", guide={ ns.rogue.mutilate } },
 	[60803580] = { name="Rot Hide (Various)", class={ "ROGUE", "ROGUE", "WARLOCK", "WARRIOR" }, faction="Horde",
 					spell={ "Quick Draw", "Slaughter from the Shadows", "Demonic Grace", "Devastate" },
 					guide={ ns.rogue.quickDraw ..ns.rogue.quickDrawTG, ns.rogue.slaughter, 
 						ns.warlock.grace ..ns.warlock.graceTG, ns.warrior.devastate ..ns.warrior.devastateDor },
-					tip={ "Bottom-Left Map Piece\nAgamand Relic Coffer Key\n(Drop or Pickpocketing)",
+					tip={ "Bottom-Left Map Piece Agamand Relic Coffer Key (Drop or Pickpocketing)",
 							nil, "Gnoll Blood", "Severed Gnoll Head" } },
 	[61602800] = {  name="Vile Fin mobs (Various)", class={ "ROGUE", "ROGUE", "WARRIOR" }, faction="Horde",
 					spell={ "Quick Draw", "Between the Eyes", "Devastate" },
 					guide={ ns.rogue.quickDraw ..ns.rogue.quickDrawTG, ns.rogue.precision, 
 						ns.warrior.devastate ..ns.warrior.devastateDor }, 
-					tip={ "Bottom-Right Map Piece (Drop or Pickpocketing).\nShipwreck Cache Key (mostly) Pickpocketing",
+					tip={ "Bottom-Right Map Piece (Drop or Pickpocketing). Shipwreck Cache Key (mostly) Pickpocketing",
 							"Key for the Cache", "Severed Murloc Head" } },
 	[61605240] = { npc=2127, name="Rupert Boch", class={ "WARLOCK" }, faction="Horde",
 					spell={ "Demonic Tactics" }, guide={ ns.warlock.tactics } },
 	[61805180] = { name="Penny Hawkins & Blueheart", class={ "WARRIOR" }, faction="Horde",
 					spell={ "Frenzied Assault" }, guide={ ns.warrior.frenziedAssault },
-					tip="Speak to Penny Hawkins first, and then speak\nto Blueheart, who is in the basement", },
+					tip="Speak to Penny Hawkins first, and then speak to Blueheart, who is in the basement", },
 	[58507650] = { npc=211022, name="Owen Thadd", class={ "MAGE", }, faction="Horde", mageBook=true,
 					spell=ns.mage.bookRunes, quest=ns.mage.bookQuestIDs, questName=ns.mage.bookQuestNames, 
-					guide=ns.mage.books, tip="Tally", },
+					guide=ns.mage.books, tip="Progress", },
 	[62507650] = { npc=211022, name="Owen Thadd", class={ "MAGE" }, faction="Horde", mageBook=true,
 					spell=ns.mage.bookRunes, quest=ns.mage.booksQuestIDsH, questName=ns.mage.booksQuestNamesH, 
 					guide=ns.mage.books, },
@@ -3840,7 +3840,7 @@ points[ 1420 ] = { -- Tirisfal Glades
 					spell={ "Quick Draw", "Between the Eyes", "Devastate" },
 					guide={ ns.rogue.quickDraw ..ns.rogue.quickDrawTG, ns.rogue.precision, 
 						ns.warrior.devastate ..ns.warrior.devastateDor }, 
-					tip={ "Bottom-Right Map Piece (Drop or Pickpocketing).\nShipwreck Cache Key (mostly) Pickpocketing",
+					tip={ "Bottom-Right Map Piece (Drop or Pickpocketing). Shipwreck Cache Key (mostly) Pickpocketing",
 							"Key for the Cache", "Severed Murloc Head" } },
 	[66204000] = { npc=202060, name="Frozen Murloc", class={ "MAGE", "WARLOCK" }, faction="Horde",
 					tip="Needs about five separate Fire debuffs to defrost",
@@ -3852,13 +3852,13 @@ points[ 1420 ] = { -- Tirisfal Glades
 					spell={ "Quick Draw", "Between the Eyes", "Devastate" },
 					guide={ ns.rogue.quickDraw ..ns.rogue.quickDrawTG, ns.rogue.precision, 
 						ns.warrior.devastate ..ns.warrior.devastateDor }, 
-					tip={ "Bottom-Right Map Piece (Drop or Pickpocketing).\nShipwreck Cache Key (mostly) Pickpocketing",
+					tip={ "Bottom-Right Map Piece (Drop or Pickpocketing). Shipwreck Cache Key (mostly) Pickpocketing",
 							"Key for the Cache", "Severed Murloc Head" } },
 	[73802680] = {  name="Vile Fin mobs (Various)", class={ "ROGUE", "ROGUE", "WARRIOR" }, faction="Horde",
 					spell={ "Quick Draw", "Between the Eyes", "Devastate" },
 					guide={ ns.rogue.quickDraw ..ns.rogue.quickDrawTG, ns.rogue.precision, 
 						ns.warrior.devastate ..ns.warrior.devastateDor }, 
-					tip={ "Bottom-Right Map Piece (Drop or Pickpocketing).\nShipwreck Cache Key (mostly) Pickpocketing",
+					tip={ "Bottom-Right Map Piece (Drop or Pickpocketing). Shipwreck Cache Key (mostly) Pickpocketing",
 							"Key for the Cache", "Severed Murloc Head" } },
 	[74506160] = { npc=208712, name="Odd Melon", class={ "MAGE" }, faction="Horde",
 					spell={ "Enlightenment" }, guide={ ns.mage.enlightenment } },
@@ -3899,7 +3899,7 @@ points[ 1458 ] = { -- Undercity
 					class=ns.allClass, spell=ns.allSpellACA, guide={ ns.supplyFaction } },
 	[70103450] = { npc=211022, name="Owen Thadd", class={ "MAGE", }, faction="Horde", mageBook=true,
 					spell=ns.mage.bookRunes, quest=ns.mage.bookQuestIDs, questName=ns.mage.bookQuestNames, 
-					guide=ns.mage.books, tip="Tally", },
+					guide=ns.mage.books, tip="Progress", },
 	[74103450] = { npc=211022, name="Owen Thadd", class={ "MAGE" }, faction="Horde", mageBook=true,
 					spell=ns.mage.bookRunes, quest=ns.mage.booksQuestIDsH, questName=ns.mage.booksQuestNamesH, 
 					guide=ns.mage.books, },
@@ -3933,7 +3933,7 @@ points[ 1422 ] = { -- Western Plaguelands
 					guide={ ns.warlock.markChaos }, faction="Alliance" },
 	[44604660] = { npc=227519, name="Fallen Knight", class={ "PALADIN", "PALADIN", "PALADIN" },
 					spell={ "Righteous Vengeance", "Shock and Awe", "Avenging Wrath" },
-					tip="(1) Begin here\n(4) You MUST select \"burn\"",
+					tip="(1) Begin here (4) You MUST select \"burn\"",
 					guide={ ns.paladin.vengeance, ns.paladin.shockAwe, ns.paladin.avengingWrath },
 					quest={ { 83808, 83935, 83822, }, { 83936, 83823, 84008, 84017, 84125, 84126 }, { 84126 } },
 					questName={ { "In a Bind", "Clearing the Path", "The Fallen Knight", }, { "Dalton's Quest", 
@@ -3944,7 +3944,7 @@ points[ 1422 ] = { -- Western Plaguelands
 	[45105190] = { name="Novice Frost Mage", class={ "MAGE" }, spell={ "Overheat" }, guide={ ns.mage.overheat } },
 	[45801260] = { npc=1883, name="Scarlet Worker", class={ "ROGUE" }, spell={ "Crimson Tempest" }, guide={ ns.rogue.crimson } },
 	[45801830] = { object=461632, name="Marked Crate", class={ "ROGUE" }, spell={ "Crimson Tempest" }, guide={ ns.rogue.crimson,
-					tip="This is the middle tower of Hearthglen,\ntop floor. Safe Box Key is inside the crate" } },
+					tip="This is the middle tower of Hearthglen, top floor. Safe Box Key is inside the crate" } },
 	[45705390] = { object=455812, name="Squire Cuthbert's Sword", class={ "PALADIN", "PALADIN", "PALADIN" },
 					spell={ "Righteous Vengeance", "Shock and Awe", "Avenging Wrath" }, tip="(3) of the chain",
 					guide={ ns.paladin.vengeance, ns.paladin.shockAwe, ns.paladin.avengingWrath },
@@ -3954,10 +3954,10 @@ points[ 1422 ] = { -- Western Plaguelands
 						"Finish the Fight" },{ "Finish the Fight" }, }, },
 	[46301460] = { object=461633, name="Belavus' Safe Box", class={ "ROGUE" }, spell={ "Crimson Tempest" },
 					guide={ ns.rogue.crimson,
-					tip="This is the middle tower of Hearthglen,\ntop floor. Safe Box Key is inside the crate" } },
+					tip="This is the middle tower of Hearthglen, top floor. Safe Box Key is inside the crate" } },
 	[47301370] = { object=457102, name="Elements for Dummies Volume III: Arcane", class={ "DRUID", "HUNTER", "MAGE" },
-					spell={ "Arcane Specialization" }, ring=true, guide="Locate a tower in Hearthglen, north-western\n"
-					.."Western Plaguelands. Top floor of the tower.\nThe book is leaning against a bookshelf. Loot!", },
+					spell={ "Arcane Specialization" }, ring=true, guide="Locate a tower in Hearthglen, north-western "
+					.."Western Plaguelands. Top floor of the tower. The book is leaning against a bookshelf. Loot!", },
 	[47805060] = { npc=227672, name="Squire Cuthbert", class={ "PALADIN", "PALADIN", "PALADIN" },
 					spell={ "Righteous Vengeance", "Shock and Awe", "Avenging Wrath" }, tip="(2) His location for this step",
 					guide={ ns.paladin.vengeance, ns.paladin.shockAwe, ns.paladin.avengingWrath },
@@ -3993,7 +3993,7 @@ points[ 1436 ] = { -- Westfall
 	[26006950] = { object=408799, name="Idol of the Deep", class={ "WARLOCK", "WARRIOR" }, faction="Alliance",
 					spell={ "Shadow Bolt Volley", "Quick Strike" },
 					guide={ ns.warlock.shadowbolts, ns.warrior.quickStrike },
-					tip={ "Must use Soul of the Sea", "You must have killed a nearby\nmurloc with your Gillsbane" } },				
+					tip={ "Must use Soul of the Sea", "You must have killed a nearby murloc with your Gillsbane" } },				
 	[26206320] = { npc=391, name="Old Murk-Eye", class={ "WARLOCK", "WARRIOR" }, faction="Alliance",
 					spell={ "Shadow Bolt Volley", "Endless Rage" },
 					guide={ ns.warlock.shadowbolts, ns.starterZoneClass },
@@ -4013,7 +4013,7 @@ points[ 1436 ] = { -- Westfall
 	[29505150] = { name="Defias Mobs (Various)", class={ "DRUID", "ROGUE", "WARRIOR" }, faction="Alliance",
 					guide={ ns.druid.lacerate, ns.rogue.bladeDance, ns.warrior.quickStrike },
 					spell={ "Lacerate", "Blade Dance", "Quick Strike" },
-					tip={ "Magic Pumpkin Seed", "Pp for Discrete Envelope\nand Equipment Stash Key", "Gillsbane" } },
+					tip={ "Magic Pumpkin Seed", "Pp for Discrete Envelope and Equipment Stash Key", "Gillsbane" } },
 	[29807920] = { npc=391, name="Old Murk-Eye", class={ "WARLOCK", "WARRIOR" }, faction="Alliance",
 					spell={ "Shadow Bolt Volley", "Endless Rage" },
 					guide={ ns.warlock.shadowbolts, ns.starterZoneClass },
@@ -4024,7 +4024,7 @@ points[ 1436 ] = { -- Westfall
 	[31604460] = { name="Defias Mobs (Various)", class={ "DRUID", "ROGUE", "WARRIOR" }, faction="Alliance",
 					guide={ ns.druid.lacerate, ns.rogue.bladeDance, ns.warrior.quickStrike },
 					spell={ "Lacerate", "Blade Dance", "Quick Strike" },
-					tip={ "Magic Pumpkin Seed", "Pp for Discrete Envelope\nand Equipment Stash Key", "Gillsbane" } },
+					tip={ "Magic Pumpkin Seed", "Pp for Discrete Envelope and Equipment Stash Key", "Gillsbane" } },
 	[31604680] = { npc=832, name="Dust Devil", class={ "WARLOCK" },
 					spell={ "Master Channeler" }, guide={ ns.warlock.channeling } },
 	[31607260] = { name="Riverpaw Mobs (Various Gnolls)", class={ "DRUID" },
@@ -4038,7 +4038,7 @@ points[ 1436 ] = { -- Westfall
 	[32803420] = { name="Defias Mobs (Various)", class={ "DRUID", "ROGUE", "WARRIOR" }, faction="Alliance",
 					guide={ ns.druid.lacerate, ns.rogue.bladeDance, ns.warrior.quickStrike },
 					spell={ "Lacerate", "Blade Dance", "Quick Strike" },
-					tip={ "Magic Pumpkin Seed", "Pp for Discrete Envelope\nand Equipment Stash Key", "Gillsbane" } },
+					tip={ "Magic Pumpkin Seed", "Pp for Discrete Envelope and Equipment Stash Key", "Gillsbane" } },
 	[33207000] = { npc=832, name="Dust Devil", class={ "WARLOCK" },
 					spell={ "Master Channeler" }, guide={ ns.warlock.channeling } },
 	[33805320] = { npc=832, name="Dust Devil", class={ "WARLOCK" },
@@ -4055,9 +4055,9 @@ points[ 1436 ] = { -- Westfall
 					spell={ "Master Channeler" }, guide={ ns.warlock.channeling } },
 	[35003960] = { npc=210533, name="Silverspur", class={ "HUNTER" },
 					spell={ "Beast Mastery" }, guide={ ns.hunter.beastMastery},
-					tip= "You must farm Young Goretusk (to the north and east\nof here) or Goretusk (to the south and east "
-						.."of here).\nThey are far too numerous to mark with pins. You are\nwanting to loot Goretusk Haunch. "
-						.."Bring it to here to\nspawn Silverspur.\n\n" },
+					tip= "You must farm Young Goretusk (to the north and east of here) or Goretusk (to the south and east "
+						.."of here). They are far too numerous to mark with pins. You are wanting to loot Goretusk Haunch. "
+						.."Bring it to here to spawn Silverspur.\n\n" },
 	[35405100] = { name="Watchers & Golems", class={ "WARLOCK" },
 					spell={ "Master Channeler" }, guide={ ns.warlock.channeling } },
 	[35505690] = { name="Riverpaw Mobs (Various Gnolls)", class={ "DRUID" },
@@ -4069,7 +4069,7 @@ points[ 1436 ] = { -- Westfall
 	[36005370] = { name="Defias Mobs (Various)", class={ "DRUID", "ROGUE", "WARRIOR" }, faction="Alliance",
 					guide={ ns.druid.lacerate, ns.rogue.bladeDance, ns.warrior.quickStrike },
 					spell={ "Lacerate", "Blade Dance", "Quick Strike" },
-					tip={ "Magic Pumpkin Seed", "Pp for Discrete Envelope\nand Equipment Stash Key", "Gillsbane" } },
+					tip={ "Magic Pumpkin Seed", "Pp for Discrete Envelope and Equipment Stash Key", "Gillsbane" } },
 	[36008600] = { npc=391, name="Old Murk-Eye", class={ "WARLOCK", "WARRIOR" }, faction="Alliance",
 					spell={ "Shadow Bolt Volley", "Endless Rage" },
 					guide={ ns.warlock.shadowbolts, ns.starterZoneClass },
@@ -4097,7 +4097,7 @@ points[ 1436 ] = { -- Westfall
 					spell={ "Master Channeler" }, guide={ ns.warlock.channeling } },
 	[40808020] = { objext=408718, name="Equipment Stash", class={ "ROGUE" }, faction="Alliance",
 					guide={ ns.rogue.bladeDance }, spell={ "Blade Dance" },
-					tip={ "Location of the Equipment Stash.\nMust have Pp the key" } },
+					tip={ "Location of the Equipment Stash. Must have Pp the key" } },
 	[41004060] = { npc=832, name="Dust Devil", class={ "WARLOCK" },
 					spell={ "Master Channeler" }, guide={ ns.warlock.channeling } },
 	[41004980] = { name="Watchers & Golems", class={ "WARLOCK" },
@@ -4109,7 +4109,7 @@ points[ 1436 ] = { -- Westfall
 	[41604400] = { name="Defias Mobs (Various)", class={ "DRUID", "ROGUE", "WARRIOR" }, faction="Alliance",
 					guide={ ns.druid.lacerate, ns.rogue.bladeDance, ns.warrior.quickStrike },
 					spell={ "Lacerate", "Blade Dance", "Quick Strike" },
-					tip={ "Magic Pumpkin Seed", "Pp for Discrete Envelope\nand Equipment Stash Key", "Gillsbane" } },
+					tip={ "Magic Pumpkin Seed", "Pp for Discrete Envelope and Equipment Stash Key", "Gillsbane" } },
 	[41606160] = { npc=832, name="Dust Devil", class={ "WARLOCK" },
 					spell={ "Master Channeler" }, guide={ ns.warlock.channeling } },
 	[42002360] = { npc=832, name="Dust Devil", class={ "WARLOCK" },
@@ -4117,7 +4117,7 @@ points[ 1436 ] = { -- Westfall
 	[42206940] = { name="Defias Mobs (Various)", class={ "DRUID", "ROGUE", "WARRIOR" }, faction="Alliance",
 					guide={ ns.druid.lacerate, ns.rogue.bladeDance, ns.warrior.quickStrike },
 					spell={ "Lacerate", "Blade Dance", "Quick Strike" },
-					tip={ "Magic Pumpkin Seed", "Pp for Discrete Envelope\nand Equipment Stash Key", "Gillsbane" } },
+					tip={ "Magic Pumpkin Seed", "Pp for Discrete Envelope and Equipment Stash Key", "Gillsbane" } },
 	[42403660] = { name="Watchers & Golems", class={ "WARLOCK" },
 					spell={ "Master Channeler" }, guide={ ns.warlock.channeling } },
 	[43001500] = { name="Riverpaw Mobs (Various Gnolls)", class={ "DRUID" },
@@ -4133,14 +4133,14 @@ points[ 1436 ] = { -- Westfall
 	[44601940] = { name="Defias Mobs (Various)", class={ "DRUID", "ROGUE", "WARRIOR" }, faction="Alliance",
 					guide={ ns.druid.lacerate, ns.rogue.bladeDance, ns.warrior.quickStrike },
 					spell={ "Lacerate", "Blade Dance", "Quick Strike" },
-					tip={ "Magic Pumpkin Seed", "Pp for Discrete Envelope\nand Equipment Stash Key", "Gillsbane" } },
+					tip={ "Magic Pumpkin Seed", "Pp for Discrete Envelope and Equipment Stash Key", "Gillsbane" } },
 	[44602480] = { object=210537, name="Undying Laborer", class={ "PALADIN", "PRIEST" }, faction="Alliance",
 					spell={ "Hallowed Ground", "Twisted Faith" },
 					guide={ ns.paladin.blessings, ns.priest.twisted ..ns.priest.twistedWest } },
 	[44802780] = { name="Defias Mobs (Various)", class={ "DRUID", "ROGUE", "WARRIOR" }, faction="Alliance",
 					guide={ ns.druid.lacerate, ns.rogue.bladeDance, ns.warrior.quickStrike },
 					spell={ "Lacerate", "Blade Dance", "Quick Strike" },
-					tip={ "Magic Pumpkin Seed", "Pp for Discrete Envelope\nand Equipment Stash Key", "Gillsbane" } },
+					tip={ "Magic Pumpkin Seed", "Pp for Discrete Envelope and Equipment Stash Key", "Gillsbane" } },
 	[45003980] = { name="Watchers & Golems", class={ "WARLOCK" },
 					spell={ "Master Channeler" }, guide={ ns.warlock.channeling } },
 	[45004080] = { npc=210501, name="Harvest Reaper Prototype", class={ "WARLOCK" },
@@ -4150,21 +4150,21 @@ points[ 1436 ] = { -- Westfall
 	[45407050] = { object=409562, name="Spellbook", class={ "MAGE" },
 					spell=ns.mage.bookRunes, guide=ns.mage.books, mageBook=true,
 					quest={ 78142, }, questName={ "Bewitchments and Glamours", },
-					tip="In the first hut on the left as you enter Moonbrook.\nRed book on the bottom of a bookshelf" },
+					tip="In the first hut on the left as you enter Moonbrook. Red book on the bottom of a bookshelf" },
 	[45603900] = { npc=210501, name="Harvest Reaper Prototype", class={ "WARLOCK" },
 					spell={ "Master Channeler" }, guide={ ns.warlock.channeling } },
 	[45806680] = { name="Defias Mobs (Various)", class={ "DRUID", "ROGUE", "WARRIOR" }, faction="Alliance",
 					guide={ ns.druid.lacerate, ns.rogue.bladeDance, ns.warrior.quickStrike },
 					spell={ "Lacerate", "Blade Dance", "Quick Strike" },
-					tip={ "Magic Pumpkin Seed", "Pp for Discrete Envelope\nand Equipment Stash Key", "Gillsbane" } },
+					tip={ "Magic Pumpkin Seed", "Pp for Discrete Envelope and Equipment Stash Key", "Gillsbane" } },
 	[46603760] = { name="Defias Mobs (Various)", class={ "DRUID", "ROGUE", "WARRIOR" }, faction="Alliance",
 					guide={ ns.druid.lacerate, ns.rogue.bladeDance, ns.warrior.quickStrike },
 					spell={ "Lacerate", "Blade Dance", "Quick Strike" },
-					tip={ "Magic Pumpkin Seed", "Pp for Discrete Envelope\nand Equipment Stash Key", "Gillsbane" } },
+					tip={ "Magic Pumpkin Seed", "Pp for Discrete Envelope and Equipment Stash Key", "Gillsbane" } },
 	[46805220] = { name="Defias Mobs (Various)", class={ "DRUID", "ROGUE", "WARRIOR" }, faction="Alliance",
 					guide={ ns.druid.lacerate, ns.rogue.bladeDance, ns.warrior.quickStrike },
 					spell={ "Lacerate", "Blade Dance", "Quick Strike" },
-					tip={ "Magic Pumpkin Seed", "Pp for Discrete Envelope\nand Equipment Stash Key", "Gillsbane" } },
+					tip={ "Magic Pumpkin Seed", "Pp for Discrete Envelope and Equipment Stash Key", "Gillsbane" } },
 	[47005160] = { npc=832, name="Dust Devil", class={ "WARLOCK" },
 					spell={ "Master Channeler" }, guide={ ns.warlock.channeling } },
 	[47603560] = { name="Watchers & Golems", class={ "WARLOCK" },
@@ -4172,13 +4172,13 @@ points[ 1436 ] = { -- Westfall
 	[47802360] = { name="Defias Mobs (Various)", class={ "DRUID", "ROGUE", "WARRIOR" }, faction="Alliance",
 					guide={ ns.druid.lacerate, ns.rogue.bladeDance, ns.warrior.quickStrike },
 					spell={ "Lacerate", "Blade Dance", "Quick Strike" },
-					tip={ "Magic Pumpkin Seed", "Pp for Discrete Envelope\nand Equipment Stash Key", "Gillsbane" } },
+					tip={ "Magic Pumpkin Seed", "Pp for Discrete Envelope and Equipment Stash Key", "Gillsbane" } },
 	[49401920] = { name="Watchers & Golems", class={ "WARLOCK" },
 					spell={ "Master Channeler" }, guide={ ns.warlock.channeling } },
 	[50001840] = { name="Defias Mobs (Various)", class={ "DRUID", "ROGUE", "WARRIOR" }, faction="Alliance",
 					guide={ ns.druid.lacerate, ns.rogue.bladeDance, ns.warrior.quickStrike },
 					spell={ "Lacerate", "Blade Dance", "Quick Strike" },
-					tip={ "Magic Pumpkin Seed", "Pp for Discrete Envelope\nand Equipment Stash Key", "Gillsbane" } },
+					tip={ "Magic Pumpkin Seed", "Pp for Discrete Envelope and Equipment Stash Key", "Gillsbane" } },
 	[50201500] = { name="Riverpaw Mobs (Various Gnolls)", class={ "DRUID" },
 					spell={ "Savage Roar" }, guide={ ns.druid.ferocious } },
 	[50201740] = { npc=210501, name="Harvest Reaper Prototype", class={ "WARLOCK" },
@@ -4193,11 +4193,11 @@ points[ 1436 ] = { -- Westfall
 	[50904720] = { name="Defias Mobs (Various)", class={ "DRUID", "ROGUE", "WARRIOR" }, faction="Alliance",
 					guide={ ns.druid.lacerate, ns.rogue.bladeDance, ns.warrior.quickStrike },
 					spell={ "Lacerate", "Blade Dance", "Quick Strike" },
-					tip={ "Magic Pumpkin Seed", "Pp for Discrete Envelope\nand Equipment Stash Key", "Gillsbane" } },
+					tip={ "Magic Pumpkin Seed", "Pp for Discrete Envelope and Equipment Stash Key", "Gillsbane" } },
 	[51204080] = { name="Defias Mobs (Various)", class={ "DRUID", "ROGUE", "WARRIOR" }, faction="Alliance",
 					guide={ ns.druid.lacerate, ns.rogue.bladeDance, ns.warrior.quickStrike },
 					spell={ "Lacerate", "Blade Dance", "Quick Strike" },
-					tip={ "Magic Pumpkin Seed", "Pp for Discrete Envelope\nand Equipment Stash Key", "Gillsbane" } },
+					tip={ "Magic Pumpkin Seed", "Pp for Discrete Envelope and Equipment Stash Key", "Gillsbane" } },
 	[51205500] = { npc=210501, name="Defias Scout", class={ "HUNTER", "ROGUE" },
 					tip={ "Pick Pocket, don't kill her. Use stealth to approach", nil }, faction="Alliance",
 					spell={ "Sniper Training", "Saber Slash" }, guide={ ns.hunter.sniper, ns.rogue.saberSlash } },
@@ -4265,7 +4265,7 @@ points[ 1437 ] = { -- Wetlands
 	[08205860] = { npc=3179, name="Harold Riggs", class={ "PALADIN" },
 					spell={ "Sheath of Light" }, guide={ ns.paladin.sheathLight },
 					quest={ { 79939, 79940, 79945, 79970 } },
-					tip="After Harold you'll need to swim south to Dun Morogh\nto an area otherwise (almost) inaccessible",
+					tip="After Harold you'll need to swim south to Dun Morogh to an area otherwise (almost) inaccessible",
 					questName={ { "The Broken Hammer", "A Lost Brother", "Orders from the Grand Crusader",
 						"Aeonas the Vindicated" } } },
 	[31271830] = { name="Vodyanoi / Stump", class={ "DRUID" },
@@ -4298,12 +4298,12 @@ points[ 1437 ] = { -- Wetlands
 					guide={ ns.grizzby }, quest={ 78266 }, questName={ "Dark Iron Ordinance" } },
 	[74106910] = { object=457093, name="Blunt Justice: A Dwarf's Tale", spell={ "Mace Specialization" }, ring=true,
 					class={ "DRUID", "PALADIN", "PRIEST", "ROGUE", "SHAMAN", "WARRIOR", },
-					guide="Huge walk/run from Menethil. If your map\nis fogged then look for a path east in the\n"
-					.."central Wetlands and follow it is at curves\ndown south. Ascend Grim Batol\n\n"
-					.."Lots of normal mobs along the way. After\nthe third gate there are no more mobs.\n\n"
-					.."At the final Grim Batol door, the book\nis on a barrel in the right corner",
-					tip="If you have Aragriar's Whimsical World Warper\nthen you are a winner! Four hour cooldown so\n"
-					.."with planning you'll eventually be transported\nright to the Grim Batol door!!! Nevermind the\n"
+					guide="Huge walk/run from Menethil. If your map is fogged then look for a path east in the "
+					.."central Wetlands and follow it is at curves down south. Ascend Grim Batol\n\n"
+					.."Lots of normal mobs along the way. After the third gate there are no more mobs.\n\n"
+					.."At the final Grim Batol door, the book is on a barrel in the right corner",
+					tip="If you have Aragriar's Whimsical World Warper then you are a winner! Four hour cooldown so "
+					.."with planning you'll eventually be transported right to the Grim Batol door!!! Nevermind the "
 					.."inconvenience of the other dud locations..." },
 }
 
@@ -4349,9 +4349,9 @@ points[ 1440 ] = { -- Ashenvale
 					guide={ ns.hunter.killCommand, ns.priest.strength }, tip={ "Drops Wild Magic Essence", nil },
 					quest={ { 78114, 78121 }, {} }, questName={ { "Wild Wyvern Wrangling", "Wrangling a Wild Wyvern" }, {} } },
 	[38002600] = { name="This way to the Dream Catcher", class={ "PRIEST" },
-					tip= "Go north through a large Wooden Gate,\nveering a little east as you go north.\n"
-						.."straight through a stone gate. Up the\ntree and go right at the first fork.\n"
-						.."Now take the left branch. Obscured by\nleaves, you'll eventually find some\n"
+					tip= "Go north through a large Wooden Gate, veering a little east as you go north. "
+						.."straight through a stone gate. Up the tree and go right at the first fork. "
+						.."Now take the left branch. Obscured by leaves, you'll eventually find some "
 						.."dreamcatchers. Use your Primal Insight",
 					spell={ "Strength of Soul" }, guide={ ns.priest.strength } },
 	[40003280] = { name="Thistlefur Shaman/Totemic", class={ "HUNTER", "PRIEST" },
@@ -4464,7 +4464,7 @@ points[ 1440 ] = { -- Ashenvale
 						"It Must Be Destroyed", "Return to Delgren" }, { "The Orb of Soran'ruk", "Rumors Abound",
 						"The Conjuring", "The Mysterious Traveler", "Raszel Ander" } } },
 	[84507500] = { name="Demon Fall Canyon", class={ "PRIEST" }, spell={ "Vampiric Touch" },
-					guide={ "Drops off Hellscream's Phantom,\nthe final boss. Drop rate?" }, },
+					guide={ "Drops off Hellscream's Phantom, the final boss. Drop rate?" }, },
 	[84607060] = { name="Mannoroc Lasher + (Infernals, Felguards, Hounds)", class={ "PALADIN", "WARLOCK" },
 					faction="Alliance",
 					spell={ "Divine Storm", "Metamorphosis" }, guide={ ns.paladin.divineStorm, ns.warlock.metamorphosis },
@@ -4492,15 +4492,15 @@ points[ 1440 ] = { -- Ashenvale
 					guide={ ns.grizzby }, quest={ 78267 }, questName={ "Shredder Turbochargers" } },
 	[86954316] = { item=210044, name="Symbol of the First Owl", class={ "DRUID" },
 					spell={ "Wild Growth" }, guide={ ns.druid.wildGrowth },
-					tip="You need to \"channel\" the statue. Then three\nwaves appear. Enough delay between each wave to\n"
-						.."eat, whatever. You'll have a wisp which tries to\nhelp you. It basically tanks. You can't heal it\n"
+					tip="You need to \"channel\" the statue. Then three waves appear. Enough delay between each wave to "
+						.."eat, whatever. You'll have a wisp which tries to help you. It basically tanks. You can't heal it "
 						.."so you may need to go bear and taunt" },
 	[88405680] = { npc=11684, name="Warsong Shredder", class=ns.allClass, spell=ns.allSpellG,
 					guide={ ns.grizzby }, quest={ 78267 }, questName={ "Shredder Turbochargers" } },
 	[89205420] = { npc=11684, name="Warsong Shredder", class=ns.allClass, spell=ns.allSpellG,
 					guide={ ns.grizzby }, quest={ 78267 }, questName={ "Shredder Turbochargers" } },
 	[89604040] = { name="Quartermaster Kyleen / Field Captain Hannalah", class=ns.allClass, spell=ns.emeraldSpell,
-					tip="Pin also used by the CGM AddOn so one\nmay be mostly overlapping the other",
+					tip="Pin also used by the CGM AddOn so one may be mostly overlapping the other",
 					guide={ ns.nightmareIncursions } },
 	[89507700] = { object=409315, name="Shattered Orb", class={ "PALADIN" },
 					faction="Alliance", tip="Click below the weapons",
@@ -4508,13 +4508,13 @@ points[ 1440 ] = { -- Ashenvale
 					questName={ { "A Strange Artifact", "Advice from Stormwind", "A Second Opinion", "Earning Your Salt", 
 						"It Must Be Destroyed", "Return to Delgren" } }, guide={ ns.paladin.divineStorm } },
 	[92504040] = { object=414197, name="Bough of Shadows", class={ "WARLOCK" },
-					tip="Three possible locations. it's\na purple tree with sparkles.\nUse your Invisibility Potion.\n"
-						.."You will receive a nasty debuff.\nUsing Shadow Ward will help",
+					tip="Three possible locations. it's a purple tree with sparkles. Use your Invisibility Potion. "
+						.."You will receive a nasty debuff. Using Shadow Ward will help",
 					spell={ "Grimoire of Synergy" }, guide={ ns.warlock.synergy },
 					quest={ { 78994, 78914, 79298 } }, questName={ { "A Solid Foundation", "Soul Vessel", "Tempting Fate" } } },
 	[94003840] = { name="Dreampyre Imp, Emberspark Dreamsworn, Dreamhunter Hound", class={ "WARLOCK" },
-					spell={ "Immolation Aura" }, guide={ "Farm Dreampyre Imps for a Dreampyre Fire,\n"
-						.."Emberspark Dreamsworn for a Dreamsworn Horn,\nDreamhunter Hound for a Dreamhunter Fang.\n\n"
+					spell={ "Immolation Aura" }, guide={ "Farm Dreampyre Imps for a Dreampyre Fire, "
+						.."Emberspark Dreamsworn for a Dreamsworn Horn, Dreamhunter Hound for a Dreamhunter Fang.\n\n"
 						.."Combine and Voilà!" } },
 }
 points[ 1447 ] = { -- Azshara
@@ -4530,7 +4530,7 @@ points[ 1447 ] = { -- Azshara
 					questName={ { "Cleansing Water", "Answering Water's Call", "Purifying Fire", "Answering Fire's Call",
 						"Purging Earth", "Answering Earth's Call", "Clarifying Air", "Answering Air's Call" } } },
 	[20606197] = { object=441865, name="Traveller's Knapsack", class={ "DRUID" }, spell={ "Elune's Fires" },
-					guide={ ns.druid.elunesFires }, tip="Don't forget to loot two items:\nKeldara's Log and the Mortar & Pestle" },
+					guide={ ns.druid.elunesFires }, tip="Don't forget to loot two items: Keldara's Log and the Mortar & Pestle" },
 	[20806200] = { object=441250, name="Book", class={ "MAGE" }, tip="On a crate in the Haldarr Encampment",
 					spell=ns.mage.bookRunes, guide=ns.mage.books, mageBook=true,
 					quest={ 81952, }, questName={ "Everyday Etiquette" }, },
@@ -4558,7 +4558,7 @@ points[ 1447 ] = { -- Azshara
 	[76834429] = { object=457091, name="Chen's Training Manual", spell={ "Nature Specialization" }, ring=true, 
 					class={ "DRUID", "HUNTER", "MAGE", "PALADIN", "PRIEST", "SHAMAN", "WARLOCK", "WARRIOR", },
 					tip="The first mention of Pandaren and/or Chen in Classic?",
-					guide="It's on the ground floor of the Temple\nof Arkkoran, next to a small pool", },
+					guide="It's on the ground floor of the Temple of Arkkoran, next to a small pool", },
 	[89003300] = { npc=223590, name="Shrine of the Watcher", class={ "PRIEST" }, spell={ "Eye of the Void" },
 					quest={ { 82316 } }, questName={ { "Seven Eyes I Seek..." } }, guide={ ns.priest.eyeOfVoid } },
 }
@@ -4566,7 +4566,7 @@ points[ 1439 ] = { -- Darkshore
 	[30404800] = { npc=414646, name="Remnant", class={ "PRIEST" }, faction="Alliance", 
 					spell={ "Shadow Word: Death" }, guide={ "Just click the glowing orb already!" } },
 	[32803710] = { object=414624, name="Lighthouse Stash", class={ "ROGUE" }, faction="Alliance",
-					tip="Between the roots of a large tree\non a small island with a lighthouse",
+					tip="Between the roots of a large tree on a small island with a lighthouse",
 					spell={ "Saber Slash" }, guide={ ns.rogue.saberSlash } },
 	[37005360] = { npc=2234, name="Young Reef Crawler", class={ "DRUID", "HUNTER" },
 					spell={ "Lacerate", "Beast Mastery" }, guide={ ns.druid.lacerate, ns.hunter.beastMastery } },
@@ -4613,7 +4613,7 @@ points[ 1439 ] = { -- Darkshore
 					quest={ { 1740, 78680, 78681, 78684, 78702 } }, questName={ { "The Orb of Soran'ruk", "Rumors Abound",
 						"The Conjuring", "The Mysterious Traveler", "Raszel Ander" } } },
 	[56303890] = { object=414532, name="Cliffspring Chest", class={ "ROGUE" }, faction="Alliance",
-					tip= "On a ledge with a few mobs and the chest at\nthe back of the cave. The Cliffspring mobs\n"
+					tip= "On a ledge with a few mobs and the chest at the back of the cave. The Cliffspring mobs "
 						.."will drop the necessary Cliffspring Key",
 					spell={ "Blade Dance" }, guide={ ns.rogue.bladeDance } },
 	[57202600] = { npc=3662, name="Delmanis the Hated", class={ "WARLOCK" },
@@ -4714,12 +4714,12 @@ points[ 1411 ] = { -- Durotar
 					spell={ "Carve", "Quick Draw", "Devastate" },
 					guide={ ns.hunter.carve, ns.rogue.quickDraw ..ns.rogue.quickDrawDur, 
 						ns.warrior.devastate ..ns.warrior.devastateVah },
-					tip={ "Adder Pheromone", "Bottom-Right Map Piece\n(Drop or Pickpocketing)", "Severed Quillboar Head" } },
+					tip={ "Adder Pheromone", "Bottom-Right Map Piece (Drop or Pickpocketing)", "Severed Quillboar Head" } },
 	[40605200] = { npc=208179, name="Rustling Bush", class={ "HUNTER" }, faction="Horde",
 					spell={ "Master Marksman" }, guide={ ns.hunter.masterMark } },
 	[40606760] = { npc=3281, name="Sarkoth", class={ "HUNTER", "WARRIOR" }, faction="Horde",
 					spell={ "Explosive Shot", "Furious Thunder" },
-					tip="Sarkoth is strongly suggested for your rune.\nNo travelling - in the Valley of Trials!",
+					tip="Sarkoth is strongly suggested for your rune. No travelling - in the Valley of Trials!",
 					guide={ ns.hunter.explosiveShot, ns.warrior.furiousThunder } },
 	[40656851] = { npc=3156, name="Nartok", class={ "WARLOCK" }, faction="Horde",
 					spell={ "Haunt" }, guide={ ns.starterZoneClass }, quest={ 77586 },
@@ -4727,8 +4727,8 @@ points[ 1411 ] = { -- Durotar
 	[40716506] = { object=404911, name="Hidden Cache", class={ "ROGUE", "WARRIOR" }, faction="Horde",
 					spell={ "Shadowstrike", "Victory Rush" }, guide={ ns.starterZoneClass },
 					quest={ 77583, ( ( ns.class == "TROLL" ) and 77588 or 77582 ) }, questName={ "Atop the Cliffs", "A Trial of Fitness" },
-					tip= "Cut through this pass but beware of Sarkoth.\n\nLook at your Minimap. Run towards\nthe pin for Rwag, below.\n\n"
-							.."Then run towards the pin for the Cache!\nYou'll figure out how to jump down!" },
+					tip= "Cut through this pass but beware of Sarkoth.\n\nLook at your Minimap. Run towards the pin for Rwag, below.\n\n"
+							.."Then run towards the pin for the Cache! You'll figure out how to jump down!" },
 	[40806400] = { npc=3124, name="Scorpid Worker", class={ "HUNTER", "SHAMAN" }, faction="Horde",
 					spell={ "Chimera Shot", "Overload" }, 
 					guide={ ns.starterZoneClass, ns.shaman.dyadicIcon },
@@ -4742,7 +4742,7 @@ points[ 1411 ] = { -- Durotar
 					spell={ "Shadowstrike" }, guide={ ns.starterZoneClass } },
 	[42002660] = { name="Burning Blade mobs (Various)", class={ "MAGE", "ROGUE" }, faction="Horde",
 					spell={ "Living Flame", "Mutilate" },
-					tip="Ignore the map. To get to here, exit\nfrom Razor Hill and take the eastern\npath that goes up and north"
+					tip="Ignore the map. To get to here, exit from Razor Hill and take the eastern path that goes up and north"
 						..( ( ns.class == "ROGUE" ) and "\n\nPick Pocket. Don't need to kill" or "" ),					
 					guide={ ns.mage.livingFlame, ns.rogue.mutilate } },
 	[42366882] = { npc=3707, name="Ken'jai", class={ "PRIEST" }, faction="Horde",
@@ -4766,16 +4766,16 @@ points[ 1411 ] = { -- Durotar
 					spell={ "Ice Lance", "Haunt" },
 					guide={ ns.starterZoneClass }, quest={ { 77643 }, { 77586 } },
 					questName={ { "Spell Research" }, { "Stolen Power" } },
-					tip="Deep in the pond at the foot of the waterfall.\nThere are several ponds/waterfalls. Trust in\n"
+					tip="Deep in the pond at the foot of the waterfall. There are several ponds/waterfalls. Trust in "
 						.."the accuracy of this pin" },
 	[43206960] = { object=404911, name="Hidden Cache", class={ "ROGUE", "WARRIOR" }, faction="Horde",
 					spell={ "Shadowstrike", "Victory Rush" },
 					quest={ 77583, ( ( ns.class == "TROLL" ) and 77588 or 77582 ) }, questName={ "Atop the Cliffs", "A Trial of Fitness" },
 					guide={ ns.starterZoneClass  },
-					tip= "High up on a ledge. To appreciate the location,\nrun north from here back to about where Kaltunk\n"
-						.."is standing. Now, you'll noticed a ledge that's\nslightly higher and to the right of the Cache.\n"
-						.."You'll jump down onto that ledge.\n\nFrom Kaltunk, look north north-east. Run in\n"
-						.."that direction and then turn left and keep\nbearing left. Effectively a U-turn." },
+					tip= "High up on a ledge. To appreciate the location, run north from here back to about where Kaltunk "
+						.."is standing. Now, you'll noticed a ledge that's slightly higher and to the right of the Cache. "
+						.."You'll jump down onto that ledge.\n\nFrom Kaltunk, look north north-east. Run in "
+						.."that direction and then turn left and keep bearing left. Effectively a U-turn." },
 	[43616620] = { object=404911, name="Hidden Cache", class={ "ROGUE", "WARRIOR" }, faction="Horde",
 					spell={ "Shadowstrike", "Victory Rush" },
 					quest={ 77583, ( ( ns.class == "TROLL" ) and 77588 or 77582 ) }, questName={ "Atop the Cliffs", "A Trial of Fitness" },
@@ -4789,7 +4789,7 @@ points[ 1411 ] = { -- Durotar
 					spell={ "Carve", "Quick Draw", "Devastate" },
 					guide={ ns.hunter.carve, ns.rogue.quickDraw ..ns.rogue.quickDrawDur, 
 						ns.warrior.devastate ..ns.warrior.devastateVah }, 
-					tip={ "Adder Pheromone", "Bottom-Right Map Piece\n(Drop or Pickpocketing)", "Severed Quillboar Head" } },
+					tip={ "Adder Pheromone", "Bottom-Right Map Piece (Drop or Pickpocketing)", "Severed Quillboar Head" } },
 	[44203920] = { npc=3113, name="Razormane Dustrunner", class={ "PRIEST" }, faction="Horde",
 					spell={ "Homunculi" }, guide={ ns.priest.citadel } },
 	[45603000] = { name="Dustwind harpies (Various)", class={ "WARRIOR" }, faction="Horde",
@@ -4811,7 +4811,7 @@ points[ 1411 ] = { -- Durotar
 					spell={ "Carve", "Quick Draw", "Devastate" },
 					guide={ ns.hunter.carve, ns.rogue.quickDraw ..ns.rogue.quickDrawDur, 
 						ns.warrior.devastate ..ns.warrior.devastateVah }, 
-					tip={ "Adder Pheromone", "Bottom-Right Map Piece\n(Drop or Pickpocketing)", "Severed Quillboar Head" } },
+					tip={ "Adder Pheromone", "Bottom-Right Map Piece (Drop or Pickpocketing)", "Severed Quillboar Head" } },
 	[48007960] = { npc=204827, name="Adventurer's Remains", class={ "DRUID", "PALADIN", "PRIEST", "SHAMAN" }, faction="Horde",
 					spell={ "Lifebloom", "Inspiration Exemplar", "Prayer of Mending", "Ancestral Guidance" }, guide={ ns.woundedAdventurer } },
 	[48603300] = { name="Dustwind harpies (Various)", class={ "WARRIOR" }, faction="Horde",
@@ -4837,22 +4837,22 @@ points[ 1411 ] = { -- Durotar
 	[51910959] = { npc=3204, name="Gazz'uz", class={ "MAGE", "PRIEST", "WARLOCK", "WARRIOR" }, faction="Horde",
 					spell={ "Fingers of Frost", "Shared Pain", "Soul Siphon", "Furious Thunder" },
 					guide={ ns.mage.fingers, ns.priest.sharedPain, ns.warlock.soulSiphon, ns.warrior.furiousThunder },
-					tip="He's level 14 and has a Voidwalker.\nSeveral classes need him!" },
+					tip="He's level 14 and has a Voidwalker. Several classes need him!" },
 	[52005840] = { npc=208036, name="Ba'so", class={ "ROGUE" }, faction="Horde", spell={ "Mutilate" },
 					tip="West of Tiragarde Keep, at the hills", guide={ ns.rogue.mutilate } },
 	[52164401] = { npc=208184, name="Razzil", class={ "HUNTER" }, spell={ "Carve" },
 					guide={ ns.hunter.carve } },					
 	[52202680] = { name="Burning Blade mobs (Various)", class={ "MAGE", "ROGUE", "ROGUE" }, faction="Horde",
 					spell={ "Living Flame", "Mutilate", "Quick Draw" },
-					tip={ "Ignore the map. To get to here, exit\nfrom Razor Hill and take the eastern\npath that goes up and north",
+					tip={ "Ignore the map. To get to here, exit from Razor Hill and take the eastern path that goes up and north",
 						"Pick Pocket. Don't need to kill", nil },					
 					guide={ ns.mage.livingFlame, ns.rogue.mutilate, ns.rogue.quickDraw ..ns.rogue.quickDrawDur } },
 	[52408260] = { name="Kolkar centaurs (Various)", class={ "WARRIOR" }, faction="Horde",
 					spell={ "Devastate" }, guide={ ns.warrior.devastate ..ns.warrior.devastateVah },
 					tip="Severed Centaur Head" },
 	[52600880] = { npc=5822, name="Felweaver Scornn", class={ "PRIEST", "WARRIOR" }, faction="Horde",
-					tip="Rare spawn. Huge clear needed to get to the\nlocation and then... likely not there. Whatever,\n"
-						.."your call. Take the right side path and always\ngo upwards",
+					tip="Rare spawn. Huge clear needed to get to the location and then... likely not there. Whatever, "
+						.."your call. Take the right side path and always go upwards",
 					spell={ "Shared Pain", "Furious Thunder" }, guide={ ns.priest.sharedPain, ns.warrior.furiousThunder } },
 	[52607640] = { name="Kolkar centaurs (Various)", class={ "WARRIOR" }, faction="Horde",
 					spell={ "Devastate" }, guide={ ns.warrior.devastate ..ns.warrior.devastateVah },
@@ -4874,14 +4874,14 @@ points[ 1411 ] = { -- Durotar
 					tip="Severed Harpy Head" },
 	[53742714] = { object=387466, name="Rusty Lockbox", class={ "ROGUE" }, faction="Horde",
 					spell={ "Slaughter from the Shadows" }, guide={ ns.rogue.slaughter },
-					tip= "Approach from Razor Hill: Go north but veer right and up.\n"
-							.."When you get to a clearing/plateau you'll see a cave in\n"
-							.."the distance. Veer to the right of the cave. You'll come\n"
-							.."to smoother textured rocks. Jump across for your lewt!\n"
+					tip= "Approach from Razor Hill: Go north but veer right and up. "
+							.."When you get to a clearing/plateau you'll see a cave in "
+							.."the distance. Veer to the right of the cave. You'll come "
+							.."to smoother textured rocks. Jump across for your lewt! "
 							.."Trust the pin location - it's very precise!\n\n"
-							.."Directly below is a passage back to the central road\n"
-							.."between Razor Hill and Orgrimmar. But when you do jump\n"
-							.."down off the Lockbox ledge, you'll need to run away\n"
+							.."Directly below is a passage back to the central road "
+							.."between Razor Hill and Orgrimmar. But when you do jump "
+							.."down off the Lockbox ledge, you'll need to run away "
 							.."from level 10 harpies" },
 	[54002360] = { name="Dustwind harpies (Various)", class={ "WARRIOR" }, faction="Horde",
 					spell={ "Devastate" }, guide={ ns.warrior.devastate ..ns.warrior.devastateVah },
@@ -4946,7 +4946,7 @@ points[ 1411 ] = { -- Durotar
 	[67608780] = { npc=3205, name="Zalazane", class={ "MAGE", "PRIEST" }, faction="Horde",
 					spell={ "Fingers of Frost", "Shared Pain" }, guide={ ns.mage.fingers, ns.priest.sharedPain } },
 	[67458782] = { npc=204070, name="Soboz", class={ "WARLOCK" }, faction="Horde",
-					tip="The circle is on a rise that's to\nthe south side of Zalazane's camp",
+					tip="The circle is on a rise that's to the south side of Zalazane's camp",
 					spell={ "Demonic Grace" }, guide={ ns.warlock.grace ..ns.warlock.graceDur } },
 	[68608280] = { name="Hexed/Voodoo Trolls", class={ "WARLOCK" }, faction="Horde",
 					spell={ "Demonic Grace" }, guide={ ns.warlock.grace ..ns.warlock.graceDur }, tip="Ominous Tome" },
@@ -4966,7 +4966,7 @@ points[ 1445 ] = { -- Dustwallow Marsh
 					guide={ ns.shaman.maelstrom }, quest={ ns.shaman.maelstromQ }, questName={ ns.shaman.maelstromQN } },
 	[57202080] = { object=423900, name="Waterlogged Book", class={ "MAGE" },
 					spell=ns.mage.bookRunes, guide=ns.mage.books, mageBook=true,
-					tip="Discarded on the ground on the\neastern side of the murloc camp",
+					tip="Discarded on the ground on the eastern side of the murloc camp",
 					quest={ 79952, }, questName={ "RwlRwlRwlRwl!" }, },
 	[63704250] = { object=424264, name="Grave", class={ "PRIEST" }, tip="Theramore Echo",
 					spell={ "Pain Suppression" }, guide={ ns.priest.painSuppression } },
@@ -4983,7 +4983,7 @@ points[ 1448 ] = { -- Felwood
 	[42601780] = { npc=228596, name="Jadefire mobs (various)", class={ "DRUID" }, spell={ "Tree of Life" },
 					guide={ ns.druid.treeOfLife }, tip="L49-53" },
 	[43005700] = { name="Rope / Aeonus", class={ "PALADIN" }, preRune={ { "Fanaticism" } },
-					tip="Reports indicate that Aeonus' horse is interactive\nand located at the Emerald Santuary to the south",
+					tip="Reports indicate that Aeonus' horse is interactive and located at the Emerald Santuary to the south",
 					quest={ { 81790 } }, questName={ { "Materials of Significance" } }, spell={ "Hammer of the Righteous" },
 					guide={ ns.paladin.hammerRighteous } },
 	[44605200] = { npc=221636, name="Gregory", class={ "PALADIN" }, preRune={ { "Fanaticism" } },
@@ -5000,11 +5000,11 @@ points[ 1448 ] = { -- Felwood
 					quest={ { 84369 } }, questName={ { "Healing the Healer" } }, guide={ ns.mage.frozenOrb }, },
 	[62400920] = { npc=7158, name="Deadwood Shaman", class={ "SHAMAN" }, spell={ "Storm, Earth and Fire" },
 					tip=ns.timbermawRep, guide={ "Kill the Deadwood Shaman until a Voltaic Icon drops.\n\n"
-						.."Next step, and ideally in your favourite low level\nzone, is to round up three mobs. Get them to low\n"
+						.."Next step, and ideally in your favourite low level zone, is to round up three mobs. Get them to low "
 						.."health (not dead). Cast Chain Lightning. Voilà!" }, },
 	[62800750] = { object=457092, name="The Fury of Stormrage", spell={ "Nature Specialization" }, ring=true, 
 					class={ "DRUID", "HUNTER", "ROGUE", "SHAMAN", }, tip=ns.timbermawRep,
-					guide="Far north-east of Felwood in Felpaw Village.\nAt the foot of a large totem, on a basket", },
+					guide="Far north-east of Felwood in Felpaw Village. At the foot of a large totem, on a basket", },
 	[63000900] = { name="Deadwood mobs (various)", class={ "MAGE" }, spell={ "Frozen Orb" },
 					quest={ { 84369 } }, questName={ { "Healing the Healer" } }, guide={ ns.mage.frozenOrb }, },
 }
@@ -5040,7 +5040,7 @@ points[ 1444 ] = { -- Feralas
 					guide={ ns.nightmareIncursions } },
 	[50631568] = { object=441249, name="Book", class={ "MAGE" },
 					spell=ns.mage.bookRunes, guide=ns.mage.books, mageBook=true,
-					tip="You MUST be in the Nightmare /\nEmerald Dream version of Feralas",
+					tip="You MUST be in the Nightmare / Emerald Dream version of Feralas",
 					quest={ 81951, }, questName={ "The Liminal and the Arcane" }, },
 	[57006000] = { item=221317, name="Feralas Leycryst", class={ "MAGE", "PALADIN", "PRIEST", "WARLOCK" },
 					spell={ "Displacement", "Purifying Power", "Despair", "Backdraft" }, guide={ ns.leylineGuide },
@@ -5057,13 +5057,13 @@ points[ 1444 ] = { -- Feralas
 	[59135852] = { npc=222406, name="Groddoc Matriarch", class={ "HUNTER" }, spell={ "Catlike Reflexes" },
 					guide={ ns.hunter.catlike } },
 	[60006680] = { npc=223061, name="Charged Totem", class={ "SHAMAN" }, spell={ "Static Shock" },
-					guide={ "Both of you must stand close to the Charged Totem\nso that it may \"arc\" to you. activate it. Kill\n"
-						.."the nearby mobs with Nature damage so that you\nbuild up Static Buildup buffs. Stay close to the\n"
-						.."Totem!\n\nEventually a Whirling Tempest (L44) will spawn.\nKill. Loot. Profit" } },
+					guide={ "Both of you must stand close to the Charged Totem so that it may \"arc\" to you. activate it. Kill "
+						.."the nearby mobs with Nature damage so that you build up Static Buildup buffs. Stay close to the "
+						.."Totem!\n\nEventually a Whirling Tempest (L44) will spawn. Kill. Loot. Profit" } },
 	[66405090] = { object=443728, name="Woodpaw Bag", class={ "WARLOCK" }, spell={ "Pandemic" },
 					guide={ ns.warlock.pandemic } },
 	[66603840] = { npc=222286, name="Namida Grimtotem", class={ "DRUID" }, spell={ "Gale Winds" },
-					guide={ "Kill and loot. L43e. At the top\nof a trail, in a large hut" } },
+					guide={ "Kill and loot. L43e. At the top of a trail, in a large hut" } },
 	[69604330] = { object=443727, name="Grimtotem Chest", class={ "WARLOCK" }, spell={ "Pandemic" },
 					guide={ ns.warlock.pandemic } },
 	[71905900] = { npc=222698, name="Fel Scar", class={ "WARLOCK" },
@@ -5071,7 +5071,7 @@ points[ 1444 ] = { -- Feralas
 	[72605080] = { npc=223123, name="Diseased Forest Walker", class={ "WARLOCK" }, spell={ "Pandemic" },
 					guide={ ns.warlock.pandemic } },
 	[74802490] = { npc=222233, name="Ohk'zi", class={ "WARRIOR" }, spell={ "Rampage" },
-					guide={ "From Camp Majache go north and through the\nGordunni Ogre mobs (L40-43) and enter a cave.\n"
+					guide={ "From Camp Majache go north and through the Gordunni Ogre mobs (L40-43) and enter a cave. "
 						.."Kill Ohk'zi. Loot. Voilà!" } },
 	[76604800] = { object=442688, name="Old Crate", class={ "SHAMAN" }, spell={ "Tidal Waves" },
 					guide={ ns.shaman.tidalWaves } },
@@ -5084,9 +5084,9 @@ points[ 1444 ] = { -- Feralas
 	[81604240] = { npc=220930, name="Frix Xizzix", class={ "PALADIN" }, spell={ "Light's Grace" },
 					guide={ ns.paladin.lightsGrace }, quest={ 79984 }, questName={ "Quadrangulation" } },
 	[83004360] = { name="Teleporter", class={ "PALADIN" }, spell={ "Light's Grace" },
-					tip="This teleporter is always available for this\n"
-						.."rune. There's another portal in Booty Bay\n"
-						.."but it requires the quest above to have\nbeen completed",
+					tip="This teleporter is always available for this "
+						.."rune. There's another portal in Booty Bay "
+						.."but it requires the quest above to have been completed",
 					guide={ ns.paladin.lightsGrace }, quest={ 79984 }, questName={ "Quadrangulation" } },
 	[84204380] = { npc=218237, name="Wirdal Wondergear", class={ "PALADIN" }, spell={ "Light's Grace" },
 					guide={ ns.paladin.lightsGrace }, quest={ 79984 }, questName={ "Quadrangulation" } },
@@ -5101,7 +5101,7 @@ points[ 1412 ] = { -- Mulgore
 	[29472353] = { name="Windfury Cones", class={ "SHAMAN" }, faction="Horde",
 					spell={ "Lava Lash" }, guide={ ns.shaman.lavaLash }, quest={ { 76156, 76160, 76240 } },
 					questName={ { "Stalk With The Earthmother", "Stalk With The Earthmother", "Stalk With The Earthmother" } },
-					tip="Use Taraezor's \"Ground Clutter\" AddOn\nto smoothly toggle GC on/off FTW!" },
+					tip="Use Taraezor's \"Ground Clutter\" AddOn to smoothly toggle GC on/off FTW!" },
 	[29802080] = { npc=2965, name="Windfury Matriarch", class={ "WARRIOR" }, faction="Horde",
 					spell={ "Devastate" }, guide={ ns.warrior.devastate ..ns.warrior.devastateVat }, tip="Severed Harpy Head" },
 	[30402360] = { npc=5785, name="Sister Hatelash", class={ "WARRIOR" }, faction="Horde",
@@ -5134,7 +5134,7 @@ points[ 1412 ] = { -- Mulgore
 	[34204300] = { name="Windfury mobs (Various)", class={ "WARRIOR" }, faction="Horde",
 					spell={ "Devastate" }, guide={ ns.warrior.devastate ..ns.warrior.devastateVat }, tip="Severed Harpy Head" },
 	[34411941] = { npc=233428, name="Rune Broker", skillBook=true, guide=ns.runeBroker, faction="Horde",
-					tip="At the very back of The Pools of Vision\non The Spirit Rise mesa", },
+					tip="At the very back of The Pools of Vision on The Spirit Rise mesa", },
 	[34804640] = { name="Bael'dun Digger/Appraiser", class={ "SHAMAN" }, faction="Horde",
 					spell={ "Molten Blast" }, guide={ ns.shaman.sulfurousIcon }, tip="Drops the storage key" },
 	[35126955] = { npc=207577, name="Lunar Stone", class={ "DRUID" }, faction="Horde",
@@ -5148,7 +5148,7 @@ points[ 1412 ] = { -- Mulgore
 					spell={ "Sunfire" }, guide={ ns.druid.runeOfTheSun } },
 	[35652049] = { npc=207743, name="Netali Proudwind", class={ "WARRIOR" }, faction="Horde",
 					spell={ "Frenzied Assault" }, guide={ ns.warrior.frenziedAssault },
-					tip="Speak to Netali first, and\nthen speak to Mooart, nearby" },
+					tip="Speak to Netali first, and then speak to Mooart, nearby" },
 	[35704160] = { name="Mazzranache / Ghost Howl", class={ "HUNTER" },
 					spell={ "Explosive Shot" }, guide={ ns.hunter.explosiveShot } },
 	[36005700] = { npc=205382, name="Mokwa", class={ "HUNTER" }, spell={ "Flanking Strike" },
@@ -5186,7 +5186,7 @@ points[ 1412 ] = { -- Mulgore
 	[41212627] = { npc=3028, name="Kah Mistrunner", class={ "SHAMAN" }, faction="Horde",
 					spell={ "Lava Lash" }, guide={ ns.shaman.lavaLash }, quest={ { 76156, 76160, 76240 } },
 					questName={ { "Stalk With The Earthmother", "Stalk With The Earthmother", "Stalk With The Earthmother" } },
-					tip="If you need to learn fishing. You do of\ncourse use my Cod Do Batter fishing AddOn?" },
+					tip="If you need to learn fishing. You do of course use my Cod Do Batter fishing AddOn?" },
 	[41366326] = { item=206469, name="Prairie Flower", class={ "DRUID" }, faction="Horde",
 					spell={ "Living Seed" }, tip="Various locations", guide={ ns.druid.naturalPotential } },
 	[42201480] = { npc=2979, name="Venture Co Supervisor", class={ "DRUID" }, faction="Horde",
@@ -5253,7 +5253,7 @@ points[ 1412 ] = { -- Mulgore
 	[53480937] = { name="Windfury Cones", class={ "SHAMAN" }, faction="Horde",
 					spell={ "Lava Lash" }, guide={ ns.shaman.lavaLash }, quest={ { 76156, 76160, 76240 } },
 					questName={ { "Stalk With The Earthmother", "Stalk With The Earthmother", "Stalk With The Earthmother" } },
-					tip="Use Taraezor's \"Ground Clutter\" AddOn\nto smoothly toggle GC on/off FTW!" },
+					tip="Use Taraezor's \"Ground Clutter\" AddOn to smoothly toggle GC on/off FTW!" },
 	[54601540] = { npc=3058, name="Arra'chea / Sister Hatelash", class={ "HUNTER", "WARRIOR" },
 					spell={ "Explosive Shot", "Furious Thunder" },
 					guide={ ns.hunter.explosiveShot, ns.warrior.furiousThunder } },
@@ -5271,7 +5271,7 @@ points[ 1412 ] = { -- Mulgore
 					tip="Severed Gnoll Head" },
 	[56003300] = { name="Flatland Prowler/Taloned Swoop/Prairie Wolf Alpha", class={ "DRUID" },
 					spell={ "Mangle" }, guide={ ns.druid.ursineRage } },
-	[56001550] = { name="Windfury Matriarch / Sorceress / Flatland Prowler /\nTaloned Swoop / Prairie Wolf Alpha",
+	[56001550] = { name="Windfury Matriarch / Sorceress / Flatland Prowler / Taloned Swoop / Prairie Wolf Alpha",
 					class={ "DRUID" }, spell={ "Mangle" }, guide={ ns.druid.ursineRage } },
 	[58885118] = { item=206469, name="Prairie Flower", class={ "DRUID" }, faction="Horde",
 					spell={ "Living Seed" }, tip="Various locations", guide={ ns.druid.naturalPotential } },
@@ -5290,7 +5290,7 @@ points[ 1412 ] = { -- Mulgore
 	[60802040] = { name="Bristleback Interloper / Windfury Matriarch", class={ "WARRIOR" }, faction="Horde",
 					spell={ "Devastate" }, guide={ ns.warrior.devastate ..ns.warrior.devastateVat },
 					tip="Severed Quillboar Head" },
-	[60902500] = { npc=3232, name="Bristleback Interloper / Flatland Prowler/\nTaloned Swoop / Prairie Wolf Alpha",
+	[60902500] = { npc=3232, name="Bristleback Interloper / Flatland Prowler/ Taloned Swoop / Prairie Wolf Alpha",
 					class={ "DRUID" }, faction="Horde", spell={ "Mangle" }, guide={ ns.druid.ursineRage } },
 	[61004700] = { item=206157, name="Seaforium Mining Charges", class={ "SHAMAN" }, faction="Horde",
 					spell={ "Lava Lash" }, guide={ ns.shaman.lavaLash }, quest={ { 76156, 76160, 76240 } },
@@ -5325,7 +5325,7 @@ points[ 1454 ] = { -- Orgrimmar
 					questName={ { "Lost Heirloom", "Relic of Light", "Scarlet Research", "The Prize Within", } }, },
 	[38707840] = { object=405149, name="Mural of Ta'zo", class={ "MAGE" }, faction="Horde", mageBook=true,
 					spell=ns.mage.bookRunes, guide=ns.mage.books, quest={ 79094, }, questName={ "The Lessons of Ta'zo", },
-					tip="It's a large rock tablet with red writing, leaning against the wall.\n"
+					tip="It's a large rock tablet with red writing, leaning against the wall. "
 						.."Valley of Spirits. On the left side as you approach the Mage trainers" },
 	[38923840] = { npc=4047, name="Zor Lonetree", tip="Skill Books vendor", skillBook=true, guide={ ns.skillBookVendor }, 
 					faction="Horde", },
@@ -5334,19 +5334,19 @@ points[ 1454 ] = { -- Orgrimmar
 	[51646370] = { npc=214070, name="Jornah", faction="Horde",
 					class=ns.allClass, spell=ns.allSpellACA, guide={ ns.supplyFaction } },
 	[55864491] = { object=404830, name="Dusty Chest", class={ "ROGUE" }, faction="Horde",
-					spell={ "Slaughter from the Shadows" }, guide={ ns.rogue.precision },
-					tip="The Drag, across from The\nValley of Honor archway" },
+					spell={ "Between the Eyes" }, guide={ ns.rogue.precision },
+					tip="The Drag, across from The Valley of Honor archway" },
 	[57395395] = { npc=3399, name="Zamja", class={ "WARRIOR" }, faction="Horde",
 					spell={ "Frenzied Assault" }, guide={ ns.warrior.frenziedAssault },
-					tip="Speak to Zamja first, and then speak to\nGru'ark who is just outside" },
+					tip="Speak to Zamja first, and then speak to Gru'ark who is just outside" },
 	[58085119] = { npc=208023, name="Gru'ark", class={ "WARRIOR" }, faction="Horde", spell={ "Frenzied Assault" },
 					guide={ ns.warrior.frenziedAssault }, tip= "Upper level - same level as Zamja" },
 }
 points[ 1451 ] = { -- Silithus
 	[20108510] = { object=457100, name="Renzik's Thoughts on \"Fair\" Fighting", spell={ "Dagger Specialization" }, ring=true, 
 					class={ "DRUID", "HUNTER", "MAGE", "PRIEST", "ROGUE", "SHAMAN", "WARLOCK", "WARRIOR" },
-					guide="Inside a tent in a Twilight Outpost, the\nlast such outpost before the Gates, in\n"
-					.."South-western Silithus. There's a camp\nfire and a wheelbarrow outside the tent.\n", },
+					guide="Inside a tent in a Twilight Outpost, the last such outpost before the Gates, in "
+					.."South-western Silithus. There's a camp fire and a wheelbarrow outside the tent. ", },
 	[20602940] = { npc=228611, name="Wandering Swordsman", class={ "WARRIOR" }, spell={ "Sudden Death" },
 					quest={ { 84317 } }, questName={ { "Infinite Midnight" } }, guide={ ns.warrior.suddenDeath }, },
 	[21601660] = { npc=228611, name="Wandering Swordsman", class={ "WARRIOR" }, spell={ "Sudden Death" },
@@ -5470,18 +5470,18 @@ points[ 1442 ] = { -- Stonetalon Mountains
 	[59405100] = { npc=214129, name="Venture Co. Light Shredder", class=ns.allClass, spell=ns.allSpellG,
 					guide={ ns.grizzby }, quest={ 78267 }, questName={ "Shredder Turbochargers" } },
 	[61006020] = { npc=4011, name="Young Pridewing", class={ "HUNTER" }, spell={ "Kill Shot" },
-					guide={ ns.hunter.killCommand }, tip="After both quests are completed\nyou may tame these. Not too shabby!",
+					guide={ ns.hunter.killCommand }, tip="After both quests are completed you may tame these. Not too shabby!",
 					quest={ 78114, 78121 }, questName={ "Wild Wyvern Wrangling", "Wrangling a Wild Wyvern" } },
 	[61206760] = { npc=4011, name="Young Pridewing", class={ "HUNTER" }, spell={ "Kill Shot" },
-					guide={ ns.hunter.killCommand }, tip="After both quests are completed\nyou may tame these. Not too shabby!",
+					guide={ ns.hunter.killCommand }, tip="After both quests are completed you may tame these. Not too shabby!",
 					quest={ 78114, 78121 }, questName={ "Wild Wyvern Wrangling", "Wrangling a Wild Wyvern" } },
 	[61605020] = { npc=4011, name="Young Pridewing", class={ "HUNTER" }, spell={ "Kill Shot" },
-					guide={ ns.hunter.killCommand }, tip="After both quests are completed\nyou may tame these. Not too shabby!",
+					guide={ ns.hunter.killCommand }, tip="After both quests are completed you may tame these. Not too shabby!",
 					quest={ 78114, 78121 }, questName={ "Wild Wyvern Wrangling", "Wrangling a Wild Wyvern" } },
 	[62605280] = { npc=214129, name="Venture Co. Light Shredder", class=ns.allClass, spell=ns.allSpellG,
 					guide={ ns.grizzby }, quest={ 78267 }, questName={ "Shredder Turbochargers" } },
 	[65205760] = { npc=4011, name="Young Pridewing", class={ "HUNTER" }, spell={ "Kill Shot" },
-					guide={ ns.hunter.killCommand }, tip="After both quests are completed\nyou may tame these. Not too shabby!",
+					guide={ ns.hunter.killCommand }, tip="After both quests are completed you may tame these. Not too shabby!",
 					quest={ 78114, 78121 }, questName={ "Wild Wyvern Wrangling", "Wrangling a Wild Wyvern" } },
 	[66604760] = { npc=214129, name="Venture Co. Light Shredder", class=ns.allClass, spell=ns.allSpellG,
 					guide={ ns.grizzby }, quest={ 78267 }, questName={ "Shredder Turbochargers" } },
@@ -5501,10 +5501,10 @@ points[ 1442 ] = { -- Stonetalon Mountains
 	[76609080] = { npc=11913, name="Grimtotem Sorcerer", class={ "DRUID" },
 					spell={ "Wild Strikes" }, tip="Various locations", guide={ ns.druid.idolWild } },
 	[77004340] = { npc=4011, name="Young Pridewing", class={ "HUNTER" }, spell={ "Kill Shot" },
-					guide={ ns.hunter.killCommand }, tip="After both quests are completed\nyou may tame these. Not too shabby!",
+					guide={ ns.hunter.killCommand }, tip="After both quests are completed you may tame these. Not too shabby!",
 					quest={ 78114, 78121 }, questName={ "Wild Wyvern Wrangling", "Wrangling a Wild Wyvern" } },
 	[77805260] = { npc=4011, name="Young Pridewing", class={ "HUNTER" }, spell={ "Kill Shot" },
-					guide={ ns.hunter.killCommand }, tip="After both quests are completed\nyou may tame these. Not too shabby!",
+					guide={ ns.hunter.killCommand }, tip="After both quests are completed you may tame these. Not too shabby!",
 					quest={ 78114, 78121 }, questName={ "Wild Wyvern Wrangling", "Wrangling a Wild Wyvern" } },
 	[79608580] = { npc=11913, name="Grimtotem Sorcerer", class={ "DRUID" },
 					spell={ "Wild Strikes" }, tip="Various locations", guide={ ns.druid.idolWild } },
@@ -5519,10 +5519,10 @@ points[ 1446 ] = { -- Tanaris
 	[30006540] = { npc=5481, name="Thistleshrub Dew Collector", class={ "DRUID" }, spell={ "Improved Barkskin" },
 					guide={ ns.druid.improvedBarkskin } },
 	[43004120] = { npc=222856, name="Odd Totem (south-west)", class={ "SHAMAN" }, spell={ "Rolling Thunder" },
-					guide={ "Click on the Odd Totem (southern) which is at\none end of the huge skeleton. You'll receive a\n"
-						.."Ghost Wolf 40% speed buff but also a +50% damage\ntaken debuff.\n\n"
-						.."You must run quickly to the other end of the\nskeleton and click the Odd Totem there. A chest\n"
-						.."will spawn. Open it, loot, profit!\n\nBring friends to distract if you must. Otherwise\n"
+					guide={ "Click on the Odd Totem (southern) which is at one end of the huge skeleton. You'll receive a "
+						.."Ghost Wolf 40% speed buff but also a +50% damage taken debuff.\n\n"
+						.."You must run quickly to the other end of the skeleton and click the Odd Totem there. A chest "
+						.."will spawn. Open it, loot, profit!\n\nBring friends to distract if you must. Otherwise "
 						.."just preclear ftw!" } },
 	[43803200] = { npc=222243, name="Zopilote", class={ "HUNTER" }, spell={ "Raptor Fury" }, guide={ "Kill Zopilote" } },
 	[51602760] = { npc=220984, name="Fizbuz Mithril", class={ "WARRIOR" }, spell={ "Gladiator Stance" },
@@ -5538,8 +5538,8 @@ points[ 1446 ] = { -- Tanaris
 	[59003650] = { name="Cryptic Scroll of Summoning", class={ "PRIEST", "SHAMAN" },
 					spell={ "Pain and Suffering", "Mental Dexterity" }, guide={ ns.enragedVoidWalker } },
 	[59209150] = { object=456682, name="Half-Buried Mech & Spike Lakeman", class={ "WARRIOR" }, spell={ "Shockwave" },
-					tip="Spike Lakeman will directly swim south. Never\nmind if you can't see him, just head straight\n"
-					.."to the Mad Doctor, Sebastian Jurgens. DUE SOUTH\n.Use the Guided Buoyancy Accelerant (4 charges)",
+					tip="Spike Lakeman will directly swim south. Never mind if you can't see him, just head straight "
+					.."to the Mad Doctor, Sebastian Jurgens. DUE SOUTH .Use the Guided Buoyancy Accelerant (4 charges)",
 					quest={ { 84135, 84137, 84138, 84146, 84211, 84212, 84213,  } }, guide={ ns.warrior.shockwave },
 					questName={ { "Beach Bot", "Mechanical Romance", "Frosty Favors", "Red Bag Blues", "Poacher's Den", 
 						"Nookin' it Back", "Rift Away", } }, },
@@ -5627,7 +5627,7 @@ points[ 1438 ] = { -- Teldrassil
 					questName={ "Amidst the Shadowed Webs" } },
 	[55605980] = { npc=6736, name="Innkeeper Keldamyr", class={ "WARRIOR" }, faction="Alliance",
 					spell={ "Frenzied Assault" }, guide={ ns.warrior.frenziedAssault },
-					tip="Speak to Keldamyr first, and then\nspeak to Syllart, who is upstairs" },
+					tip="Speak to Keldamyr first, and then speak to Syllart, who is upstairs" },
 	[56202480] = { npc=1986, name="Webwood Spider", class={ "WARRIOR" }, faction="Alliance",
 					spell={ "Victory Rush" }, guide={ ns.starterZoneClass }, quest={ 77575 },
 					questName={ "Amidst the Shadowed Webs" } },
@@ -5636,7 +5636,7 @@ points[ 1438 ] = { -- Teldrassil
 					spell={ "Chimera Shot" }, guide={ ns.starterZoneClass } },
 	[56605780] = { npc=209872, name="Syllart", class={ "WARRIOR" }, faction="Alliance",
 					spell={ "Frenzied Assault" }, guide={ ns.warrior.frenziedAssault },
-					tip= "He'll be wandering around upstairs. Speak to Inkeeper\nKeldamyr first if you haven't already done so" },
+					tip= "He'll be wandering around upstairs. Speak to Inkeeper Keldamyr first if you haven't already done so" },
 	[57006500] = { item=208609, name="Glade Flower", class={ "DRUID" }, faction="Alliance",
 					spell={ "Living Seed" }, tip="Various locations", guide={ ns.druid.naturalPotential } },
 	[57602900] = { npc=1986, name="Webwood Spider", class={ "WARRIOR" }, faction="Alliance",
@@ -5659,7 +5659,7 @@ points[ 1438 ] = { -- Teldrassil
 					tip="/kneel and wait a bit", quest={ 77574 }, questName={ "Meditation on Elune" },
 					spell={ "Penance" }, guide={ ns.starterZoneClass ..ns.priest.penanceTel } },
 	[59174044] = { npc=3595, name="Shanda", class={ "PRIEST" }, faction="Alliance",
-					tip="Inside Aldrassil Inn. Take the ramp at the entrance.\nShe's at the back",
+					tip="Inside Aldrassil Inn. Take the ramp at the entrance. She's at the back",
 					quest={ 77574 }, questName={ "Meditation on Elune" },
 					spell={ "Penance" }, guide={ ns.starterZoneClass ..ns.priest.penanceTel } },
 	[59643844] = { npc=3593, name="Alyissia", class={ "WARRIOR" }, faction="Alliance", tip="Back room of the Aldrassil Inn, ground level", 
@@ -5702,7 +5702,7 @@ points[ 1413 ] = { -- The Barrens
 	[46203440] = { item=209846, name="Secrets of the Dreamers", class={ "MAGE" },
 					spell=ns.mage.bookRunes, guide=ns.mage.books, mageBook=true,
 					quest={ 78143, }, questName={ "Secrets of the Dreamers", },
-					tip="Go to the same cavern with the Wailing Caverns\nentrance portal. The scroll is on the opposite side" },
+					tip="Go to the same cavern with the Wailing Caverns entrance portal. The scroll is on the opposite side" },
 	[48204020] = { name="Oasis Snapjaw Nest/Hatchling", class={ "DRUID" }, faction="Horde",
 					spell={ "Lacerate" }, guide={ ns.druid.lacerate } },
 	[49009600] = { name="Skillbooks", tip="Razorfen Downs", skillBook=true, guide={ ns.dungeonDrops }, 
@@ -5738,7 +5738,7 @@ points[ 1413 ] = { -- The Barrens
 	[56300880] = { object=409700, name="Manual", class={ "MAGE" },
 					spell=ns.mage.bookRunes, guide=ns.mage.books, mageBook=true,
 					quest={ 78145, }, questName={ "Arcanic Systems Manual", },
-					tip="Control room at the top of the\noil rig in The Sludge Fen" },
+					tip="Control room at the top of the oil rig in The Sludge Fen" },
 	[57080973] = { object=407312, name="Hungry Idol", class={ "WARLOCK" },
 					spell={ "Shadow Bolt Volley" }, guide={ ns.warlock.shadowbolts }, tip="Must use the Soul of Greed" },
 	[57603560] = { npc=209742, name="Desert Mirage", class={ "SHAMAN" }, faction="Horde",
@@ -5749,9 +5749,9 @@ points[ 1413 ] = { -- The Barrens
 					spell={ "Master Channeler" }, guide={ ns.warlock.channeling } },
 	[61405480] = { npc=209607, name="Lieutenant Stonebrew", class={ "WARRIOR" }, faction="Horde",
 					spell={ "Endless Rage" }, guide={ ns.warrior.endlessRage },
-					tip="Only come here if you obtained the Horde Warbanner\n"
-						.."from The Crossroads. Then at Northwatch Hold, replace\n"
-						.."the Alliance banner with yours. When Lieutenant\n"
+					tip="Only come here if you obtained the Horde Warbanner "
+						.."from The Crossroads. Then at Northwatch Hold, replace "
+						.."the Alliance banner with yours. When Lieutenant "
 						.."Stonebrew arrives... do what you will FTW!" },
 	[61005480] = { name="Crate", class={ "ROGUE" }, faction="Horde",
 					tip="In a chest on the Northwatch Hold's stable's roof",
@@ -5761,7 +5761,7 @@ points[ 1413 ] = { -- The Barrens
 					questName={ { "Shredder Turbochargers", "Dark Iron Ordinance", "Fish Oil" } } },
 	[62604620] = { name="Southsea Mobs (Various)", class={ "ROGUE" },
 					guide={ ns.rogue.bladeDance }, spell={ "Blade Dance" },
-					tip={ "Pp for Buccaneer's Matchbox. Now climb the\nhill nearby. Explode the gunpowder!" } },
+					tip={ "Pp for Buccaneer's Matchbox. Now climb the hill nearby. Explode the gunpowder!" } },
 	[62703630] = { object=211033, name="Goblin Tome", class={ "MAGE" },
 					spell=ns.mage.bookRunes, guide=ns.mage.books, mageBook=true,
 					quest={ 79097, }, questName={ "Baxtan: On Destructive Magics", },
@@ -5773,11 +5773,11 @@ points[ 1413 ] = { -- The Barrens
 	[63603840] = { npc=209797, name="Bruuz", class={ "HUNTER", "WARRIOR" }, faction="Horde",
 					spell={ "Sniper Training", "Quick Strike" },
 					guide={ ns.hunter.sniper, ns.warrior.quickStrike },
-					tip="Swimming near the boat. Throw the\nharpoon you bought from Kilxx" },
+					tip="Swimming near the boat. Throw the harpoon you bought from Kilxx" },
 	[65203960] = { npc=209797, name="Bruuz", class={ "HUNTER", "WARRIOR" }, faction="Horde",
 					spell={ "Sniper Training", "Quick Strike" },
 					guide={ ns.hunter.sniper, ns.warrior.quickStrike },
-					tip="Swimming near the boat. Throw the\nharpoon you bought from Kilxx" },
+					tip="Swimming near the boat. Throw the harpoon you bought from Kilxx" },
 }
 points[ 1441 ] = { -- Thousand Needles
 	[10803990] = { npc=217703, name="Singed Highperch Consort", class={ "MAGE" },
@@ -5789,7 +5789,7 @@ points[ 1441 ] = { -- Thousand Needles
 					spell={ "Decoy Totem" }, guide={ ns.shaman.decoyTotem }, },
 	[23802340] = { npc=217711, name="Seared Needles Cougar", class={ "MAGE" },
 					spell={ "Chronostatic Preservation" }, guide={ ns.mage.chronostatic },
-					tip="The cougar is caged. You must first\nobtain a key from a Galak Mauler", },
+					tip="The cougar is caged. You must first obtain a key from a Galak Mauler", },
 	[24602720] = { npc=4118, name="Venomous Cloud Serpent", class={ "SHAMAN" }, tip="3 x Cloud Serpent Fangs",
 					spell={ "Decoy Totem" }, guide={ ns.shaman.decoyTotem }, },
 	[26704700] = { npc=217669, name="Scorched Screeching Roguefeather", class={ "MAGE" },
@@ -5822,7 +5822,7 @@ points[ 1441 ] = { -- Thousand Needles
 	[46805350] = { object=421568, name="Weathered Cache", class={ "SHAMAN" },
 					spell={ "Spirit of the Alpha" }, guide={ ns.shaman.spiritAlpha }, },
 	[55004200] = { npc=216474, name="Ravaging Tempest", class={ "SHAMAN" }, spell={ "Maelstrom Weapon" },
-					tip="Hits hard, has knockback and helpers.\nIf you die, you MUST ask to be sent back.\n"
+					tip="Hits hard, has knockback and helpers. If you die, you MUST ask to be sent back. "
 						.."Loot his rare gem and then go to Rau, not Bath'rah",
 					guide={ ns.shaman.maelstrom }, quest={ ns.shaman.maelstromQ }, questName={ ns.shaman.maelstromQN } },
 	[56605020] = { npc=4119, name="Elder Cloud Serpent", class={ "SHAMAN" }, tip="3 x Cloud Serpent Fangs",
@@ -5832,18 +5832,18 @@ points[ 1441 ] = { -- Thousand Needles
 					spell={ "Berserk" }, guide={ ns.druid.berserk }, },
 	[80107710] = { object=499988, name="Spellbook", spell={ "Meditation Specialization" }, ring=true, 
 					class={ "DRUID", "HUNTER", "MAGE", "PALADIN", "PRIEST", "SHAMAN", "WARLOCK", },
-					guide="In the hut, by the right side\nof the door on a side-bench", },
+					guide="In the hut, by the right side of the door on a side-bench", },
 }
 points[ 1456 ] = { -- Thunder Bluff
 	[22671260] = { npc=233428, name="Rune Broker", skillBook=true, guide=ns.runeBroker, faction="Horde",
-					tip="At the very back of The Pools of Vision\non The Spirit Rise mesa", },
+					tip="At the very back of The Pools of Vision on The Spirit Rise mesa", },
 	[26191866] = { npc=207754, name="Mooart", class={ "WARRIOR" }, faction="Horde",
 					spell={ "Frenzied Assault" },
 					guide={ ns.warrior.frenziedAssault },
-					tip= "Speak to Netali first if you\nhaven't already done so" },
+					tip= "Speak to Netali first if you haven't already done so" },
 	[28761792] = { npc=207743, name="Netali Proudwind", class={ "WARRIOR" }, faction="Horde",
 					spell={ "Frenzied Assault" }, guide={ ns.warrior.frenziedAssault },
-					tip="Speak to Netali first, and\nthen speak to Mooart, nearby" },
+					tip="Speak to Netali first, and then speak to Mooart, nearby" },
 	[39446584] = { npc=205729, name="Boarton Shadetotem", class={ "SHAMAN" }, faction="Horde",
 					spell={ "Lava Lash" }, guide={ ns.shaman.lavaLash }, quest={ { 76156, 76160, 76240 } },
 					questName={ { "Stalk With The Earthmother", "Stalk With The Earthmother", "Stalk With The Earthmother" } },
@@ -5853,7 +5853,7 @@ points[ 1456 ] = { -- Thunder Bluff
 	[56144638] = { npc=3028, name="Kah Mistrunner", class={ "SHAMAN" }, faction="Horde",
 					spell={ "Lava Lash" }, guide={ ns.shaman.lavaLash }, quest={ { 76156, 76160, 76240 } },
 					questName={ { "Stalk With The Earthmother", "Stalk With The Earthmother", "Stalk With The Earthmother" } },
-					tip="If you need to learn fishing. You do of\ncourse use my Cod Do Batter fishing AddOn?" },
+					tip="If you need to learn fishing. You do of course use my Cod Do Batter fishing AddOn?" },
 }
 points[ 1449 ] = { -- Un'Goro Crater
 	[60007000] = { name="Ravasaur mobs (various)", class={ "DRUID" }, spell={ "Improved Swipe" },
@@ -5866,18 +5866,18 @@ points[ 1452 ] = { -- Winterspring
 					quest={ { 84369 } }, questName={ { "Healing the Healer" } }, guide={ ns.mage.frozenOrb }, },
 	[49000800] = { object=457098, name="Finding Your Inner Feline: A Guide to Modern Druidism", 
 					spell={ "Feral Combat Specialization" }, ring=true, 
-					class={ "DRUID", }, guide="The book is sitting in a stone hearth, to\nthe right of the Frostsaber Rock structure", },
+					class={ "DRUID", }, guide="The book is sitting in a stone hearth, to the right of the Frostsaber Rock structure", },
 	[59005900] = { object=457095, name="Elements for Dummies Volume I: Frost", spell={ "Frost Specialization" }, ring=true, 
 					class={ "HUNTER", "MAGE", "SHAMAN", },
-					guide="Under a table in a ransacked camp site\nas per the pin. Easy as, except for mobs", },
+					guide="Under a table in a ransacked camp site as per the pin. Easy as, except for mobs", },
 	[61203700] = { npc=228216, name="Numi", class={ "WARRIOR" }, spell={ "Shockwave" },
 					quest={ { 84135, 84137, 84138, 84146, 84211, 84212, 84213,  } }, guide={ ns.warrior.shockwave },
 					questName={ { "Beach Bot", "Mechanical Romance", "Frosty Favors", "Red Bag Blues", "Poacher's Den", 
 						"Nookin' it Back", "Rift Away", } }, },
 	[63001800] = { name="Ravasaur mobs (various)", class={ "DRUID" }, spell={ "Starfall" }, tip="Kill and loot. Nuf said! L59e.",
-					guide={ "If you go around and climb the mountain\nyou can drop down, avoiding the mobs.\n\n" ..ns.timbermaw }, },
+					guide={ "If you go around and climb the mountain you can drop down, avoiding the mobs.\n\n" ..ns.timbermaw }, },
 	[67703540] = { object=462432, name="Wooden Chest", class={ "ROGUE" }, spell={ "Fan of Knives" },
-					guide={ "Locate the chest in Winterfall Village. You must\nenter this code: Frostsaber, Owl, Bear, Owl"}, },
+					guide={ "Locate the chest in Winterfall Village. You must enter this code: Frostsaber, Owl, Bear, Owl"}, },
 	[70203880] = { npc=226982, name="Frijidar", class={ "SHAMAN" }, spell={ "Feral Spirit" },
 					guide={ "Speak to Frijidar... be ready to fight!" }, },
 }
@@ -5931,8 +5931,8 @@ ns.textures[15] = "Interface\\AddOns\\HandyNotes_Runes\\Textures\\Adrenaline"
 ns.textures[16] = "Interface\\AddOns\\HandyNotes_Runes\\Textures\\Arcane"
 ns.textures[17] = "Interface\\AddOns\\HandyNotes_Runes\\Textures\\Demonic"
 ns.textures[18] = "Interface\\AddOns\\HandyNotes_Runes\\Textures\\Duty"
-ns.textures[19] = "Interface\\AddOns\\HandyNotes_Chests\\Textures\\Frozen"
-ns.textures[20] = "Interface\\AddOns\\HandyNotes_Chests\\Textures\\Metamorphosis"
+ns.textures[19] = "Interface\\AddOns\\HandyNotes_Runes\\Textures\\Frozen"
+ns.textures[20] = "Interface\\AddOns\\HandyNotes_Runes\\Textures\\Metamorphosis"
 
 ns.scaling[1] = 0.41
 ns.scaling[2] = 0.41

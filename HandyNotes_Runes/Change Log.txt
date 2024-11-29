@@ -2,15 +2,21 @@ To Do / Ideas
 =============
 * Old Skill Book dungeon pins still hanging around - actually still possible to get them this way?
 * Priest racial ability guide?
-* Translations for all new added quests - but I never switched this live for quests per se
-    Did Blizzard finally do their translations fully?
 * special priest guide for Cassandra's tome?
 * Demon Fall Canyon attunement would be nice to do - Chests AddOn?
-* "Mage Book(s)" translation would be nice. Confident that new section is fully translated
+* translations are present but not always / consistently used (for display I mean, not checking)
 * I noticed a mage ring pin chain in Searing gorge - several on the continent.
 		ideally like normal pins: just the first one with extras suppressed
-* Translation for Tally
 	
+== v3.04 - 28th November 2024
+* Option to not show the rune name - assists readability / declutter the popup
+    (usually the second line of a general Azeroth pin popup Tooltip)
+* Tooltip now uses Blizzard's API to word wrap. Previously I word wrapped manually
+* Tally changed to progress and translated
+* "Mage Book(s)" translated
+* Rogue Between the Eyes pin did not appear in IF/SW
+* Rogue Focused Attacks - "." added - punctuation
+
 == v3.03 - 24th November 2024
 * Minimap pins now disappear/appear around the same time as they do on the World Map
   I arbitrarily set the timer to checking every 3 seconds - to avoid FPS / DPS hits
