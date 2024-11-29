@@ -159,7 +159,7 @@ function Deathlog_DeathAlertPlay(entry)
 	if deathlog_settings[widget_name]["guild_only"] then
 		local guildName, guildRankName, guildRankIndex = GetGuildInfo("player")
 
-		if entry["guild"] ~= guildName or _guild_members[entry["name"]] ~= nil then
+		if entry["guild"] ~= guildName or _guild_members[entry["name"]] == nil then
 			return
 		end
 	end

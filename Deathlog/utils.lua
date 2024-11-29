@@ -895,50 +895,60 @@ deathlog_record_econ_stats = deathlog_record_econ_stats or {}
 local record_econ_handler = nil
 local record_econ_timer = nil
 local record_econ_start_time = GetServerTime()
-C_Timer.After(3, function()
+
+-- Only enable recording if guild opts in, e.g. :M:Hardcore:
+local function registerRecorders()
 	local guild_info_text = GetGuildInfoText()
 	if guild_info_text then
-		local _, m, _ = string.split("|", guild_info_text)
-
-		if m then
+		local _, g, k = string.split(":", guild_info_text)
+		if g and g == "M" and k then
 			record_econ_handler = CreateFrame("Frame")
 			local start_gold = GetMoney()
-			local g, k = string.split(":", m)
-			if g and g == "M" and k then
-				local _v = IsAddOnLoaded(k)
-				if _v == false then
-					deathlog_record_econ_stats[GetServerTime() .. "general"] = UnitName("player")
-						.. ": Logged without "
-						.. k
-						.. "."
-					record_econ_handler:RegisterEvent("MAIL_SHOW") -- Using mailbox
-					record_econ_handler:RegisterEvent("CHAT_MSG_LOOT") -- Using mailbox
-					record_econ_handler:RegisterEvent("TRADE_SHOW") -- Trade opened
-					record_econ_handler:RegisterEvent("AUCTION_BIDDER_LIST_UPDATE") -- Using Auction house
+			local _v = IsAddOnLoaded(k)
+			if _v == false then
+				deathlog_record_econ_stats[GetServerTime() .. "general"] = UnitName("player")
+					.. ": Logged without "
+					.. k
+					.. "."
+				record_econ_handler:RegisterEvent("MAIL_SHOW") -- Using mailbox
+				record_econ_handler:RegisterEvent("CHAT_MSG_LOOT") -- Using mailbox
+				record_econ_handler:RegisterEvent("TRADE_SHOW") -- Trade opened
+				record_econ_handler:RegisterEvent("AUCTION_BIDDER_LIST_UPDATE") -- Using Auction house
 
-					record_econ_handler:SetScript("OnEvent", function(self, event, arg)
-						if event == "MAIL_SHOW" then
-							deathlog_record_econ_stats[GetServerTime() .. "mail"] = UnitName("player")
-								.. ": Opened mail"
-						elseif event == "CHAT_MSG_LOOT" then
-							deathlog_record_econ_stats[GetServerTime() .. "gained"] = UnitName("player") .. ": " .. arg
-						elseif event == "TRADE_SHOW" then
-							deathlog_record_econ_stats[GetServerTime() .. "trade"] = UnitName("player") .. ": Traded"
-						elseif event == "AUCTION_BIDDER_LIST_UPDATE" then
-							deathlog_record_econ_stats[GetServerTime() .. "AH"] = UnitName("player") .. ": Used AH"
-						end
-					end)
+				record_econ_handler:SetScript("OnEvent", function(self, event, arg)
+					if event == "MAIL_SHOW" then
+						deathlog_record_econ_stats[GetServerTime() .. "mail"] = UnitName("player") .. ": Opened mail"
+					elseif event == "CHAT_MSG_LOOT" then
+						deathlog_record_econ_stats[GetServerTime() .. "gained"] = UnitName("player") .. ": " .. arg
+					elseif event == "TRADE_SHOW" then
+						deathlog_record_econ_stats[GetServerTime() .. "trade"] = UnitName("player") .. ": Traded"
+					elseif event == "AUCTION_BIDDER_LIST_UPDATE" then
+						deathlog_record_econ_stats[GetServerTime() .. "AH"] = UnitName("player") .. ": Used AH"
+					end
+				end)
 
-					C_Timer.NewTicker(5, function()
-						deathlog_record_econ_stats[record_econ_start_time .. "session_stats"] = UnitName("player")
-							.. ": Duration: "
-							.. (GetServerTime() - record_econ_start_time)
-							.. "s. Gold Difference: "
-							.. (GetMoney() - start_gold)
-							.. "c"
-					end)
-				end
+				C_Timer.NewTicker(5, function()
+					deathlog_record_econ_stats[record_econ_start_time .. "session_stats"] = UnitName("player")
+						.. ": Duration: "
+						.. (GetServerTime() - record_econ_start_time)
+						.. "s. Gold Difference: "
+						.. (GetMoney() - start_gold)
+						.. "c"
+				end)
 			end
 		end
+	end
+end
+
+local attempts = 0
+C_Timer.NewTicker(1, function(self)
+	local guild_info_text = GetGuildInfoText()
+	if guild_info_text ~= nil and guild_info_text ~= "" then
+		registerRecorders()
+		self:Cancel()
+	end
+	attempts = attempts + 1
+	if attempts > 10 then
+		self:Cancel()
 	end
 end)
