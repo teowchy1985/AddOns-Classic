@@ -7,7 +7,7 @@ local fonts = SM:List("font")
 local _
 
 Spy = LibStub("AceAddon-3.0"):NewAddon("Spy", "AceConsole-3.0", "AceEvent-3.0", "AceComm-3.0", "AceTimer-3.0")
-Spy.Version = "4.0.1"
+Spy.Version = "4.0.2"
 Spy.DatabaseVersion = "1.1"
 Spy.Signature = "[Spy]"
 Spy.ButtonLimit = 15
@@ -164,7 +164,7 @@ Spy.options = {
 						["Area 52"] = L["Area 52"],
 						["Dalaran"] = L["Dalaran"],
 						["Bogpaddle"] = L["Bogpaddle"],
---						["Dalaran (Northrend)"] = L["Dalaran (Northrend)"],						
+--						["Dalaran (Northrend)"] = L["Dalaran (Northrend)"],
 --						["The Vindicaar"] = L["The Vindicaar"],
 --						["Krasus' Landing"] = L["Krasus' Landing"],
 --						["The Violet Gate"] = L["The Violet Gate"],
@@ -1681,8 +1681,10 @@ end
 
 function Spy:ShowConfig()
 	-- Opens the profile tab first so the menu expands
-	InterfaceOptionsFrame_OpenToCategory(self.optionsFrames.Profiles)
-	InterfaceOptionsFrame_OpenToCategory(self.optionsFrames.Spy)
+--	InterfaceOptionsFrame_OpenToCategory(self.optionsFrames.Profiles)
+	Settings.OpenToCategory('Profiles')
+--	InterfaceOptionsFrame_OpenToCategory(self.optionsFrames.Spy)
+	Settings.OpenToCategory('Spy')
 end
 
 function Spy:OnEnable(first)
