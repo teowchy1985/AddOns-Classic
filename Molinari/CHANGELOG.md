@@ -1,5 +1,5 @@
-### Changes in 110000.124-Release:
+### Changes in 110000.126-Release:
 
-- Fixed: Addon blocked error
-- Fixed: Error on login on cataclysm
+- Changed: Update Interface version (classic)
+- Changed: Updated item database (classic)
 
