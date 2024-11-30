@@ -1,6 +1,7 @@
 # Syndicator
 
-## [136](https://github.com/Baganator/Syndicator/tree/136) (2024-11-24)
-[Full Changelog](https://github.com/Baganator/Syndicator/compare/135...136) 
+## [139](https://github.com/Baganator/Syndicator/tree/139) (2024-11-29)
+[Full Changelog](https://github.com/Baganator/Syndicator/compare/138...139) 
 
-- Fix guild name being removed from current character during some loading screens  
+- Split WuE and just Warbound tooltip constants properly  
+- Retail: Ignore undiscovered currencies when caching currency data for character  
