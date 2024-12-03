@@ -150,6 +150,7 @@ L["Library"] = true
 L["Link Recipe"] = true
 L["LINKCRAFTABLEREAGENTSDESC"] = "If you can create a reagent needed for the current recipe, clicking the reagent will take you to its recipe."
 L["LINKCRAFTABLEREAGENTSNAME"] = "Make reagents clickable"
+L["List Reagents"] = true
 L["Load"] = true
 L["Lock/Unlock"] = true
 L["Market"] = true
