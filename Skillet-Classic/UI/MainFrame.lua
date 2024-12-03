@@ -2275,17 +2275,36 @@ function Skillet:SkillButton_OnReceiveDrag(button)
 	end
 end
 
+function Skillet:SkillButton_ListReagents()
+	DA.DEBUG(0,"SkillButton_ListReagents()")
+	local skill = Skillet.menuButton.skill
+	if skill and skill.skillIndex then
+		Skillet:ReagentsLinkOnClick(menuButton, skill.skillIndex, false)
+	else
+		DA.DEBUG(0,"SkillButton_ListReagents: skill= "..DA.DUMP1(skill))
+		return
+	end
+end
+
 function Skillet:SkillButton_LinkRecipe()
 	DA.DEBUG(0,"SkillButton_LinkRecipe()")
 	local skill = Skillet.menuButton.skill
 	local spellLink
 	if skill and skill.skillIndex then
-		if Skillet.isCraft then
+		if Skillet.isCraft and GetCraftItemLink then
 			spellLink = GetCraftItemLink(skill.skillIndex)
-		else
+		elseif (not Skillet.isCraft) and GetTradeSkillRecipeLink then 
 			spellLink = GetTradeSkillRecipeLink(skill.skillIndex)
 		end
-		ChatEdit_InsertLink(spellLink)
+	else
+		DA.DEBUG(0,"SkillButton_LinkRecipe: skill= "..DA.DUMP1(skill))
+		return
+	end
+	DA.DEBUG(0,"SkillButton_LinkRecipe: recipeID= "..tostring(skill.recipeID)..", skillIndex= "..tostring(skill.skillIndex))
+	if spellLink then
+		if not ChatEdit_InsertLink(spellLink) then
+			DA.DEBUG(0,"SkillButton_LinkRecipe: spellLink= "..DA.PLINK(spellLink))
+		end
 	end
 end
 
@@ -3145,28 +3164,18 @@ local function SkillMenuList(SkilletSkillMenu, rootDescription)
 		end
 		rootDescription:CreateTitle(title);
 	end
-	rootDescription:CreateButton(L["Link Recipe"], function() Skillet:SkillButton_LinkRecipe() end);
-	rootDescription:CreateButton(L["Wowhead URL"], function() Skillet:SkillButton_WowheadURL() end);
-	if Skillet.isLocked then
-		rootDescription:CreateButton(L["Add to Ignore Materials"], function()
-			local skill = Skillet.menuButton.skill
-			if skill and skill.recipeID then
-				local recipeID = skill.recipeID
-				local spellLink = C_TradeSkillUI.GetRecipeLink(skill.recipeID)
-				Skillet.db.realm.userIgnoredMats[Skillet.currentPlayer][recipeID] = spellLink
-				if Skillet.ignoreList and Skillet.ignoreList:IsVisible() then
-					Skillet:UpdateIgnoreListWindow()
-				end
-			end
-		end);
+	if isClassic then
+		rootDescription:CreateButton(L["List Reagents"], function() Skillet:SkillButton_ListReagents() end);
+	else
+		rootDescription:CreateButton(L["Link Recipe"], function() Skillet:SkillButton_LinkRecipe() end);
 	end
+	rootDescription:CreateButton(L["Wowhead URL"], function() Skillet:SkillButton_WowheadURL() end);
 	if not Skillet.isLocked then
 		local submenu1 = rootDescription:CreateButton(L["Ignore"]);
 			submenu1:CreateButton(L["Add Recipe to Ignored List"], function()
 				local index = Skillet.menuButton:GetID()
 				local skillDB = Skillet.db.realm.skillDB[Skillet.currentPlayer][Skillet.currentTrade][index]
 				local recipeID = string.sub(skillDB,2)
-				local print=(tostring(index)..", "..tostring(skillDB)..", "..tostring(recipeID))
 				Skillet.db.realm.userIgnoredMats[Skillet.currentPlayer][recipeID] = Skillet.currentTrade
 				if Skillet.ignoreList and Skillet.ignoreList:IsVisible() then
 					Skillet:UpdateIgnoreListWindow()
@@ -3176,7 +3185,6 @@ local function SkillMenuList(SkilletSkillMenu, rootDescription)
 				local index = Skillet.menuButton:GetID()
 				local skillDB = Skillet.db.realm.skillDB[Skillet.currentPlayer][Skillet.currentTrade][index]
 				local recipeID = string.sub(skillDB,2)
-				local print=(tostring(index)..", "..tostring(skillDB)..", "..tostring(recipeID))
 				Skillet.db.realm.userIgnoredMats[Skillet.currentPlayer][recipeID] = nil
 				if Skillet.ignoreList and Skillet.ignoreList:IsVisible() then
 					Skillet:UpdateIgnoreListWindow()

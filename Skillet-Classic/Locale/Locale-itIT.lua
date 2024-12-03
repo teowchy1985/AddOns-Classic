@@ -173,6 +173,8 @@ L["Library"] = "Libreria"
 L["Link Recipe"] = "Link Recipe"
 L["LINKCRAFTABLEREAGENTSDESC"] = "Se puoi creare un reagente necessario alla ricetta, cliccando il reagente ti portera' alla sua ricetta"
 L["LINKCRAFTABLEREAGENTSNAME"] = "Rendi reagenti clickabili"
+--[[Translation missing --]]
+L["List Reagents"] = "List Reagents"
 L["Load"] = "Carica"
 L["Lock/Unlock"] = "Lock/Unlock"
 L["Market"] = "Market"

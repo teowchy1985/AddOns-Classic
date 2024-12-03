@@ -176,6 +176,8 @@ L["Library"] = "라이브러리"
 L["Link Recipe"] = "레시피 링크"
 L["LINKCRAFTABLEREAGENTSDESC"] = "현재 제조법에 필요한 재료를 만들 수 있는 경우, 재료를 클릭하면 해당 제조법으로 이동합니다."
 L["LINKCRAFTABLEREAGENTSNAME"] = "재료 클릭 가능케 함"
+--[[Translation missing --]]
+L["List Reagents"] = "List Reagents"
 L["Load"] = "불러옴"
 L["Lock/Unlock"] = "고정/고정해제"
 L["Market"] = "시장가"

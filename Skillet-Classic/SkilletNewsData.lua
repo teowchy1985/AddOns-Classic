@@ -26,6 +26,22 @@ local isCata = WOW_PROJECT_ID == WOW_PROJECT_CATACLYSM_CLASSIC
 
 Skillet.NewsName = "Skillet-Classic News"
 Skillet.NewsData = {
+	{	version = "2.05",
+		data = {
+			{	name = "Fixes",
+				data = {
+					{ header = "Plugins", body = "Fix Auctionator sorting errors" },
+					{ header = "Combat", body = "Add another check for in combat" },
+				},
+			},
+			{	name = "Changes",
+				data = {
+					{ header = "Recipes", body = "Remove 'Link Recipe' from Classic Era right-click menu" },
+					{ header = "Recipes", body = "Add 'List Reagents' to Classic Era right-click menu" },
+				},
+			},
+		},
+	},
 	{	version = "2.04",
 		data = {
 			{	name = "Fixes",

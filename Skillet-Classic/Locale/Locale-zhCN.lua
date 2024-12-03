@@ -178,6 +178,8 @@ L["Library"] = "函数库"
 L["Link Recipe"] = "链接配方"
 L["LINKCRAFTABLEREAGENTSDESC"] = "如果你可以制造配方所需材料, 点击那个材料会显示材料的配方."
 L["LINKCRAFTABLEREAGENTSNAME"] = "使材料可点击"
+--[[Translation missing --]]
+L["List Reagents"] = "List Reagents"
 L["Load"] = "载入"
 L["Lock/Unlock"] = "锁定/解锁"
 L["Market"] = "市场"

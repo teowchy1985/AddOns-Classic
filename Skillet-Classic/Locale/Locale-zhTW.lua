@@ -155,6 +155,8 @@ L["Library"] = "函式庫"
 L["Link Recipe"] = "配方連結"
 L["LINKCRAFTABLEREAGENTSDESC"] = "如果你能夠製作目前配方所需的材料，點一下材料會顯示其配方。"
 L["LINKCRAFTABLEREAGENTSNAME"] = "開啟點擊追蹤材料"
+--[[Translation missing --]]
+L["List Reagents"] = "List Reagents"
 L["Load"] = "載入"
 L["Lock/Unlock"] = "鎖定/取消鎖定"
 L["Market"] = "市場"

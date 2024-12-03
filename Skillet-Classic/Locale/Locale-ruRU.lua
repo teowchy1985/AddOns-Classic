@@ -157,6 +157,8 @@ L["Library"] = "Библиотека"
 L["Link Recipe"] = "Ссылка на рецепт"
 L["LINKCRAFTABLEREAGENTSDESC"] = "Если Вы можете создать реагент, необходимый для текущего рецепта, кликнув по реагенту Вы перейдёте к его рецепту."
 L["LINKCRAFTABLEREAGENTSNAME"] = "Сделать реагенты кликабельными"
+--[[Translation missing --]]
+L["List Reagents"] = "List Reagents"
 L["Load"] = "Загрузка"
 L["Lock/Unlock"] = "Закрепить/Открепить"
 L["Market"] = "Торговля"

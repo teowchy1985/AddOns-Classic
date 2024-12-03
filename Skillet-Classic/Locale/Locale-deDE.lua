@@ -176,6 +176,8 @@ L["Library"] = "Bibliothek"
 L["Link Recipe"] = "Rezept verlinken"
 L["LINKCRAFTABLEREAGENTSDESC"] = "Wenn ein Material für das aktuelle Rezept hergestellt werden kann, führt ein Klick auf das Material zu dessen Rezept."
 L["LINKCRAFTABLEREAGENTSNAME"] = "Materialien anklickbar machen"
+--[[Translation missing --]]
+L["List Reagents"] = "List Reagents"
 L["Load"] = "Laden"
 L["Lock/Unlock"] = "Sperren/Entsperren"
 L["Market"] = "Markt"
