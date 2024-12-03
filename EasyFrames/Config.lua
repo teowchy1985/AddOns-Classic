@@ -96,6 +96,7 @@ local portrait = {
 local frames = {
     ["player"] = L["Player"],
     ["target"] = L["Target"],
+    ["focus"] = L["Focus"],
 }
 
 local MIN_RANGE = 6
@@ -4841,7 +4842,7 @@ local bossOptions = {
 }
 
 function EasyFrames:ChatCommand(input)
-    Settings.OpenToCategory(L["Easy Frames"]) -- 暫時修正
+    Settings.OpenToCategory(L["Easy Frames"])
 end
 
 function EasyFrames:SetupOptions()
