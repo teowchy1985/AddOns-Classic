@@ -355,16 +355,15 @@ end
     end)
     ]]
 
-    local loader = CreateFrame('Frame', nil, SettingsPanel or InterfaceOptionsFrame)
+    local loader = CreateFrame('Frame', nil, SettingsPanel)
         loader:SetScript('OnShow', function(self)
             self:SetScript('OnShow', nil)
 
             if not f.optionsPanel then
                 f.optionsPanel = f:CreateGUI("ClassicAuraDurations")
-                -- InterfaceOptions_AddCategory(f.optionsPanel);
-				local category = Settings.RegisterCanvasLayoutCategory(f.optionsPanel, f.optionsPanel.name)
-				category.ID = f.optionsPanel.name
-				Settings.RegisterAddOnCategory(category)
+                f.optionsPanel.category = Settings.RegisterCanvasLayoutCategory(f.optionsPanel, f.optionsPanel.name)
+                f.optionsPanel.category.ID = f.optionsPanel.name
+                Settings.RegisterAddOnCategory(f.optionsPanel.category)
             end
         end)
 end
@@ -447,7 +446,7 @@ local function AddTooltip(widget, tooltipText)
 end
 
 function f:CreateGUI(name, parent)
-    local frame = CreateFrame("Frame", nil, InterfaceOptionsFrame)
+    local frame = CreateFrame("Frame")
     frame:Hide()
 
     frame.parent = parent
