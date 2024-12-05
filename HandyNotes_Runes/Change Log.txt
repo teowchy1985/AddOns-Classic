@@ -8,6 +8,9 @@ To Do / Ideas
 * I noticed a mage ring pin chain in Searing gorge - several on the continent.
 		ideally like normal pins: just the first one with extras suppressed
 	
+== v3.05 - 1st December 2024
+* Now possible to show/hide pins by Phase
+
 == v3.04 - 28th November 2024
 * Option to not show the rune name - assists readability / declutter the popup
     (usually the second line of a general Azeroth pin popup Tooltip)
@@ -17,7 +20,7 @@ To Do / Ideas
 * Rogue Between the Eyes pin did not appear in IF/SW
 * Rogue Focused Attacks - "." added - punctuation
 
-== v3.03 - 24th November 2024
+== v3.03 - 25th November 2024
 * Minimap pins now disappear/appear around the same time as they do on the World Map
   I arbitrarily set the timer to checking every 3 seconds - to avoid FPS / DPS hits
   If show/hide via the options panel then that's instant
