@@ -32,7 +32,7 @@
 ## X-Curse-Project-ID: 16442
 ## X-WoWI-ID: 11700
 ## X-Wago-ID: 7x61xpN1
-## Version: r762
+## Version: r763
 
 localization.en.lua
 localization.tw.lua
@@ -44,6 +44,9 @@ localization.fr.lua
 localization.kr.lua
 localization.mx.lua
 localization.ru.lua
+
+# Temporary, will be moved to Core
+Blocks\Gtfo.lua
 
 AQ40\AQ40Trash.lua
 AQ40\Skeram.lua
