@@ -2305,7 +2305,7 @@ elseif ns.locale == "zhTW" then
 	ns.L["Hide if learnt"] = "如果學習了符文則隱藏"
 	ns.L["Magenta"] = "洋紅"
 	ns.L["Map Pin"] = "地圖圖示"
-	ns.L["No Map Pin"] = "無地圖圖示"
+	ns.L["No Map Pin"] = "不顯示圖示"
 	ns.L["Phase"] = "階段"
 	ns.L["Rune"] = "符文"
 	ns.L["Runes"] = "符文"

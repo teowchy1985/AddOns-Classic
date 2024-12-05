@@ -27,7 +27,7 @@
 ## RequiredDeps: HandyNotes
 ## SavedVariablesPerCharacter: HandyNotes_RunesDB
 
-## Title-zhTW: |cff4DFF4D[地圖]|r 地圖標記-符文
+## Title-zhTW: |cff4DFF4D[地圖]|r 地圖標記-探索賽季符文
 ## Notes-zhTW: HandyNotes: Runes |n|n在地圖上顯示探索賽季的符文位置，還有更多!。
 ## X-Category-zhTW: 地圖
 ## DefaultState: disabled
