@@ -386,7 +386,6 @@ if ns.locale == "deDE" then
 	ns.L["Best Hunter Pets"] = "Beste Jägerhaustiere"
 	ns.L["Chest Rank"] = "Der Rang der Truhe: "
 	ns.L["Cozy Sleeping Bag"] = "Gemütlicher Schlafsack"
-	ns.L["Fel Portal"] = "Teufelsportal "
 	ns.L["Nightmare"] = "Alptraum"
 	ns.L["Priest"] = "Priester"
 	ns.L["Void Touched"] = "Leerenberührte"
@@ -398,7 +397,6 @@ elseif ns.locale == "esES" or ns.locale == "esMX" then
 	ns.L["Best Hunter Pets"] = "Mascotas de cazador"
 	ns.L["Chest Rank"] = "Rango de cofre: "
 	ns.L["Cozy Sleeping Bag"] = "Saco de dormir acogedor"
-	ns.L["Fel Portal"] = "Portal vil"
 	ns.L["Nightmare"] = "Pesadilla"
 	ns.L["Priest"] = "Sacerdote"
 	ns.L["Void Touched"] = "Tocados por el Vacío"
@@ -410,7 +408,6 @@ elseif ns.locale == "frFR" then
 	ns.L["Best Hunter Pets"] = "Meilleurs mascotte de cazador"
 	ns.L["Chest Rank"] = "Rang du coffre: "
 	ns.L["Cozy Sleeping Bag"] = "Sac de couchage douillet"
-	ns.L["Fel Portal"] = "Portail gangrené"
 	ns.L["Nightmare"] = "Cauchemar"
 	ns.L["Priest"] = "Prêtre"
 	ns.L["Void Touched"] = "Touché par le Vide"
@@ -422,7 +419,6 @@ elseif ns.locale == "koKR" then
 	ns.L["Best Hunter Pets"] = "최고의 사냥꾼 야수"
 	ns.L["Chest Rank"] = "가슴 순위: "
 	ns.L["Cozy Sleeping Bag"] = "아늑한 침낭"
-	ns.L["Fel Portal"] = "지옥 차원문"
 	ns.L["Gnomeregan"] = "놈리건"
 	ns.L["Nightmare"] = "악몽"
 	ns.L["Priest"] = "사제"
@@ -434,7 +430,6 @@ elseif ns.locale == "ptBR" or ns.locale == "ptPT" then
 	ns.L["Battered Chest"] = "Baú Desgastado"
 	ns.L["Best Hunter Pets"] = "Os melhores Ajudante de Caçador"
 	ns.L["Chest Rank"] = "Classificação do baú: "
-	ns.L["Fel Portal"] = "Portal Vil"
 	ns.L["Gnomeregan"] = "Гномреган"
 	ns.L["Nightmare"] = "Pesadelo"
 	ns.L["Priest"] = "Sacerdote"
@@ -447,7 +442,6 @@ elseif ns.locale == "ruRU" then
 	ns.L["Best Hunter Pets"] = "Лучшие питомцы для охотников"
 	ns.L["Chest Rank"] = "Ранг Сундука: "
 	ns.L["Cozy Sleeping Bag"] = "Уютный спальный мешок"
-	ns.L["Fel Portal"] = "Портал Скверны"
 	ns.L["Gnomeregan"] = "Гномреган"
 	ns.L["Nightmare"] = "Кошмар"
 	ns.L["Priest"] = "Жрец"
@@ -459,7 +453,6 @@ elseif ns.locale == "zhCN" then
 	ns.L["Battered Chest"] = "破损的箱子"
 	ns.L["Best Hunter Pets"] = "最佳猎人宠物"
 	ns.L["Chest Rank"] = "宝箱的等级: "
-	ns.L["Fel Portal"] = "邪能传送门"
 	ns.L["Gnomeregan"] = "诺莫瑞根"
 	ns.L["Nightmare"] = "恶梦"
 	ns.L["Priest"] = "牧师"
@@ -471,7 +464,6 @@ elseif ns.locale == "zhTW" then
 	ns.L["Battered Chest"] = "破損的箱子"
 	ns.L["Best Hunter Pets"] = "最佳獵人寵物"
 	ns.L["Chest Rank"] = "寶箱的等級: "
-	ns.L["Fel Portal"] = "邪能傳送門"
 	ns.L["Gnomeregan"] = "諾莫瑞根"
 	ns.L["Nightmare"] = "惡夢"
 	ns.L["Priest"] = "牧師"
@@ -482,6 +474,68 @@ else
 	ns.L["AoPD"] = "Aura of Paralyzing Dread"
 	ns.L["Chest Rank"] = "Chest Rank: "
 	ns.L["Void Touched"] = "Void-Touched"
+end
+
+-- Fel Portal translations v1.15
+
+if ns.locale == "deDE" then
+	ns.L["Fel Crack"] = "Teufelsbruch"
+	ns.L["Fel Portal"] = "Teufelsportal "
+	ns.L["Fel Rift"] = "Teufelsriss"
+	ns.L["Fel Scar"] = "Teufelsnarbe"
+	ns.L["Fel Sliver"] = "Teufelssplitter"
+	ns.L["Fel Tear"] = "Teufelsträne"
+--	ns.L["Growing Fel Rift"] = " "
+--	ns.L["Large Fel Rift"] = " "
+elseif ns.locale == "esES" or ns.locale == "esMX" then
+	ns.L["Fel Crack"] = "Grieta vil"
+	ns.L["Fel Portal"] = "Portal vil"
+	ns.L["Fel Rift"] = "Falla vil"
+	ns.L["Fel Scar"] = "Cicatriz vil"
+	ns.L["Fel Sliver"] = "Esquirla vil"
+	ns.L["Fel Tear"] = "Lágrima vil"
+elseif ns.locale == "frFR" then
+	ns.L["Fel Crack"] = "Gangrefaille"
+	ns.L["Fel Portal"] = "Portail gangrené"
+	ns.L["Fel Rift"] = "Faille gangrenée"
+	ns.L["Fel Scar"] = "Cicatrice gangrenée"
+	ns.L["Fel Sliver"] = "Esquille gangrenée"
+	ns.L["Fel Tear"] = "Déchirure gangrenée"
+elseif ns.locale == "koKR" then
+	ns.L["Fel Crack"] = "지옥 균열"
+	ns.L["Fel Portal"] = "지옥 차원문"
+	ns.L["Fel Rift"] = "지옥 균열"
+	ns.L["Fel Scar"] = "지옥 상흔"
+	ns.L["Fel Sliver"] = "지옥 편린"
+	ns.L["Fel Tear"] = "지옥 눈물"
+elseif ns.locale == "ptBR" or ns.locale == "ptPT" then
+	ns.L["Fel Crack"] = "Fratura Vil" -- unofficial
+	ns.L["Fel Portal"] = "Portal Vil"
+	ns.L["Fel Rift"] = "Fissura Vil"
+	ns.L["Fel Scar"] = "Cicatriz Vil"
+	ns.L["Fel Sliver"] = "Estilha Vil"
+	ns.L["Fel Tear"] = "Rasgo Vil"
+elseif ns.locale == "ruRU" then
+	ns.L["Fel Crack"] = "Трещина Скверны" -- Unofficial
+	ns.L["Fel Portal"] = "Портал Скверны"
+	ns.L["Fel Rift"] = "Провал Скверны"
+	ns.L["Fel Scar"] = "Шрам Скверны"
+	ns.L["Fel Sliver"] = "Излучина Скверны"
+	ns.L["Fel Tear"] = "Разрыв Скверны"
+elseif ns.locale == "zhCN" then
+	ns.L["Fel Crack"] = "邪能崩口"
+	ns.L["Fel Portal"] = "邪能传送门"
+	ns.L["Fel Rift"] = "邪能裂隙"
+	ns.L["Fel Scar"] = "邪能之疤"
+	ns.L["Fel Sliver"] = "邪能裂片"
+	ns.L["Fel Tear"] = "邪能裂痕"
+elseif ns.locale == "zhTW" then
+	ns.L["Fel Crack"] = "邪能崩口"
+	ns.L["Fel Portal"] = "邪能傳送門"
+	ns.L["Fel Rift"] = "邪能裂隙"
+	ns.L["Fel Scar"] = "邪能之疤"
+	ns.L["Fel Sliver"] = "邪能裂片"
+	ns.L["Fel Tear"] = "邪能裂痕"
 end
 
 -- Textures

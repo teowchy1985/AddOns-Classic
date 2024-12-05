@@ -3,7 +3,7 @@
 
                                         Chests, Gear and More
 
-                                     v1.17 - 26th November 2024
+                                      v1.18 - 3rd December 2024
                                 Copyright (C) Taraezor / Chris Birch
                                          All Rights Reserved
 
@@ -59,11 +59,11 @@ function pluginHandler:OnEnter(mapFile, coord)
 
 	local pin = ns.points[mapFile] and ns.points[mapFile][coord]
 	
-	GameTooltip:SetText( ns.colour.prefix ..pin.title )
+	GameTooltip:SetText( ns.colour.prefix ..ns.L[ pin.title ] )
 	if pin.icon < 4 then
 		GameTooltip:AddLine( ns.colour.highlight ..ns.L["Chest Rank"] ..pin.icon )
 	else
-		GameTooltip:AddLine( ns.colour.highlight ..pin.name )
+		GameTooltip:AddLine( ns.colour.highlight ..ns.L[ pin.name ] )
 	end
 	
 	if pin.quest then
