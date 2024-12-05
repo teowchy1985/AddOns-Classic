@@ -1,3 +1,8 @@
+== v1.18 - 3rd December 2024
+* Pin title and name fields now support translation, if it exists!
+* Translations added for the various fel portal types
+    (Note: Growing and Large not included as Blizzard did not translate them (yet))
+
 == v1.17 - 26th November 2024
 * Added new Fel Rift specific tip to Fel Rifts
 	
