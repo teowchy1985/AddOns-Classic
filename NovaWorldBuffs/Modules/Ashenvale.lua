@@ -45,13 +45,6 @@ calcStart = calcStart + 30;
 --G["calcStart"] = calcStart;
 
 
---3h intervalls, include an extra 27h interval on the end just incase things doens't line up exactly right at midnight and we go over 86400 seconds.
-local intervals = {10800, 21600, 32400, 43200, 54000, 64800, 75600, 86400, 97200};
---Easier to just adjust the numbers by 2h for copy paste reasons across mdoules.
-for k, v in pairs(intervals) do
-	intervals[k] = v - 7200;
-end
-
 local getTimeLeft;
 if (not isUS) then
 	function getTimeLeft()
@@ -80,6 +73,12 @@ if (not isUS) then
 		end
 	end
 else
+	--3h intervalls, include an extra 27h interval on the end just incase things doens't line up exactly right at midnight and we go over 86400 seconds.
+	local intervals = {10800, 21600, 32400, 43200, 54000, 64800, 75600, 86400, 97200};
+	--Easier to just adjust the numbers by 2h for copy paste reasons across mdoules.
+	for k, v in pairs(intervals) do
+		intervals[k] = v - 7200;
+	end
 	function getTimeLeft()
 		local hours, minutes = GetGameTime();
 		local seconds = (hours * 3600) + (minutes * 60);

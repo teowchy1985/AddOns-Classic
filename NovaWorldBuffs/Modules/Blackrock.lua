@@ -75,12 +75,12 @@ if (not isUS) then
 		end
 	end
 else
+	local intervals = {7200, 14400, 21600, 28800, 36000, 43200, 50400, 57600, 72000, 79200, 86400, 93600};
 	function getTimeLeft()
 		local hours, minutes = GetGameTime();
 		local seconds = (hours * 3600) + (minutes * 60);
 		local timestamp = GetServerTime() + seconds;
 		--3h intervalls, include an extra 27h interval on the end just incase things doens't line up exactly right at midnight and we go over 86400 seconds.
-		local intervals = {10800, 21600, 32400, 43200, 54000, 64800, 75600, 86400, 97200};
 		local timeLeft = 0;
 		local type;
 		for k, v in ipairs(intervals) do
