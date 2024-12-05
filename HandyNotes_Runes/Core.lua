@@ -3,7 +3,7 @@
 
                                                 Runes
 
-                                     v3.04 - 28th November 2024
+                                      v3.05 - 1st December 2024
                                 Copyright (C) Taraezor / Chris Birch
                                          All Rights Reserved
 
@@ -473,24 +473,17 @@ local function CheckAndShow( coord, pin )
 						end
 					end				
 				elseif pin.spell then
-					-- By design this must be a rune
-					-- Note that if here then by design I don't check for player level
-					-- This so that players can see all "upcoming" spells/runes
-					-- pin.spell is English language
-					ns.icon = ns.runes[ v ][ pin.spell[ i ] ].icon
-					ns.runeDB = ns.db[ "rune1" ..format( "%02d", ns.icon ) ]
-					
-		--			if ns.runeDB == 1 then
-		--				print(pin.spell[i])
-		--			end
-					
-					-- This will be null for the Paladin Avenging Wrath hybrid rune / skill book
-					if ( ns.runeDB ~= nil ) and ( ns.runeDB > 1 ) and ShowPinForThisClassRune( pin.spell[ i ], false ) then
-						ns.passed.texture = ns.texturesNum ..tostring( ns.icon ) .."-"  ..ns.texturesNumCode[ ns.runeDB ]
-						ns.passed.scale = ns.db.iconScale * ns.scalingNum
+					if ns.db[ "phase" ..ns.runes[ v ][ pin.spell[ i ] ].phase ] > 0 then
+						ns.icon = ns.runes[ v ][ pin.spell[ i ] ].icon
+						ns.runeDB = ns.db[ "rune1" ..format( "%02d", ns.icon ) ]
+						-- This will be null for the Paladin Avenging Wrath hybrid rune / skill book
+						if ( ns.runeDB ~= nil ) and ( ns.runeDB > 1 ) and ShowPinForThisClassRune( pin.spell[ i ], false ) then
+							ns.passed.texture = ns.texturesNum ..tostring( ns.icon ) .."-"  ..ns.texturesNumCode[ ns.runeDB ]
+							ns.passed.scale = ns.db.iconScale * ns.scalingNum
+						end
 					end
 				else
-					print("HN Runes: Please report error: name="..(pin.name or "nil").." tip="..(pin.tip or "nil")..
+					print("HN Runes: Unknown pin type: name="..(pin.name or "nil").." tip="..(pin.tip or "nil")..
 							" coord="..coord.." m="..ns.mapID)
 				end
 			end
@@ -503,6 +496,7 @@ local function ShowDynamic( coord, pin )
 	if pin.summary then
 		if pin.phase then
 			local phase = ns.db[ "phase" ..tostring( pin.phase ) ]
+			phase = ( phase == 0 ) and ns.defaults.profile[ "phase" ..pin.phase ] or phase
 			ns.passed.texture = ns.textures[ phase ]
 			ns.passed.scale = ns.db.iconScale * ns.scaling[ phase ] * 2
 		else
@@ -602,7 +596,7 @@ local function SetupDynamicContinent( mapID )
 												if ns.zonePins[ map.mapID ][ "1" ][ s ] ~= nil then break end
 											end				
 										end				
-									else
+									elseif ns.db[ "phase" ..tostring( ns.runes[ v ][ pin.spell[ i ] ].phase ) ] > 0 then
 									--	print("i="..i.." s="..pin.spell[ i ].." m="..map.mapID.." c="..coord)
 										ns.icon = ns.runes[ v ][ pin.spell[ i ] ].icon
 										ns.runeDB = ns.db[ "rune1" ..format( "%02d", ns.icon ) ]
@@ -709,14 +703,14 @@ ns.options = {
 		},
 		phases = { type = "group", name = ns.L["Season"].."/"..ns.L["Phase"], inline = true, order = 20,
 			args = { 
-				phase1 = { type = "range", name = ns.L["Phase"].." 1", desc = ns.iconStandard, width = 0.8, min = 1, max = 20,
-							step = 1, arg = "phase1", order = 21, },
-				phase2 = { type = "range", name = ns.L["Phase"].." 2", desc = ns.iconStandard, width = 0.8, min = 1, max = 20,
-							step = 1, arg = "phase2", order = 22, },
-				phase3 = { type = "range", name = ns.L["Phase"].." 3", desc = ns.iconStandard, width = 0.8, min = 1, max = 20,
-							step = 1, arg = "phase3", order = 23, },
-				phase4 = { type = "range", name = ns.L["Phase"].." 4/5", desc = ns.iconStandard, width = 0.8, min = 1, max = 20,
-							step = 1, arg = "phase4", order = 24, },
+				phase1 = { type = "range", name = ns.L["Phase"].." 1", desc = ns.iconStandardNoPin,
+							width = 0.8, min = 0, max = 20, step = 1, arg = "phase1", order = 21, },
+				phase2 = { type = "range", name = ns.L["Phase"].." 2", desc = ns.iconStandardNoPin,
+							width = 0.8, min = 0, max = 20, step = 1, arg = "phase2", order = 22, },
+				phase3 = { type = "range", name = ns.L["Phase"].." 3", desc = ns.iconStandardNoPin,
+							width = 0.8, min = 0, max = 20, step = 1, arg = "phase3", order = 23, },
+				phase4 = { type = "range", name = ns.L["Phase"].." 4/5", desc = ns.iconStandardNoPin,
+							width = 0.8, min = 0, max = 20, step = 1, arg = "phase4", order = 24, },
 				spacer = { type = "description", name = " ", desc = "", width = 0.28, order = 40, },
 				classIcon = { type = "description", name = " ", desc = ns.class, image = ns.texturesNum ..ns.class,
 								width = 0.25, order = 41, },
