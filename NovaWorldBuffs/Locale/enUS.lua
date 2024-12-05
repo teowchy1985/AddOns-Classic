@@ -1056,3 +1056,5 @@ L["chronoboonReleasedNoCooldown"] = "You have chronoboon released a Darkmoon Fai
 
 L["skipDmfCookieTitle"] = "Skip Fortune Cookie";
 L["skipDmfCookieDesc"] = "Enable this to skip getting the Fortune Cookie after you get DMF buff.";
+
+L["No layers found yet."] = "No layers found yet.";
