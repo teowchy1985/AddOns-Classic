@@ -890,4 +890,5 @@ L["Dalaran"] = "達拉然"
 L["Shadowmoon Valley"] = "影月谷"
 L["Jade Forest"] = "翠玉林"
 L["Wrath of the Lich King Classic"] = "巫妖王之怒經典版"
+L["Icons"] = "圖示"
 end

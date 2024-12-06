@@ -896,4 +896,6 @@ L["If checked, zone and dungeon levels will be shown."] = "勾選時，會顯示
 L["If checked, quest objectives will be shown."] = "勾選時，會顯示任務目標。"
 L["Show digsites"] = "顯示挖掘場"
 L["If checked, archaeology digsites will be shown."] = "勾選時，會顯示考古學挖掘場。"
+L["Icons"] = "圖示"
+L["Show objectives"] = "顯示任務目標"
 end
