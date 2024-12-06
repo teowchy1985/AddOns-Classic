@@ -340,7 +340,7 @@ end
 
 StaticPopupDialogs["GBB_CREATE_CATEGORY"] = {
     text = ENTER_FILTER_NAME,
-    button1 = CREATE,
+    button1 = NEW,
     button2 = CANCEL,
     OnButton1 = function(self, data)
         PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON);
@@ -692,7 +692,7 @@ local FilterSettingsPool = {
         local createBtn = self.create 
             or CreateFrame("Button", "$parentCreateFilter", parent, "UIPanelButtonTemplate");
         ---@cast createBtn UIPanelButtonTemplate
-        createBtn:SetText(CREATE)
+        createBtn:SetText(NEW)
         createBtn:FitToText()
         createBtn:SetScript("OnClick", function()
             StaticPopup_Show("GBB_CREATE_CATEGORY", nil, nil, {panel = parent})
