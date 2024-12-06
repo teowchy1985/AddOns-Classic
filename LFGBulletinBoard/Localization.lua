@@ -73,6 +73,69 @@ local preLocalizedFallbacks = {
 	["CboxTagsSpanish"] = LFG_LIST_LANGUAGE_ESES,
 }
 
+-- localized strings keyed by string identifier key
+local localizedAddonDisplayStrings = {
+	JOIN_REQUEST_HEADER = {
+        enUS = "Alt+Click to Request to Join Group",
+        deDE = "Alt+Klick, um Beitritt zur Gruppe anzufragen",
+        esMX = "Alt+clic para solicitar unirse al grupo",
+        frFR = "Alt+clic pour demander à rejoindre le groupe",
+        ptBR = "Alt+Clique para solicitar entrada no grupo",
+        ruRU = "Alt+щелчок, чтобы отправить запрос на вступление в группу",
+        zhCN = "按住Alt+点击以申请加入队伍",
+        zhTW = "按住Alt+鍵點擊以申請加入團隊",
+    },
+	JOIN_REQUEST_REPLACEMENTS_TIP = {
+        enUS = "Available replacements:|n%role - Role |n%class - Class |n%level - Level |n%dungeon - Dungeon",
+		deDE = "Verfügbare Ersetzungen:|n%role - Rolle |n%class - Klasse |n%level - Stufe |n%dungeon - Dungeon",
+        esMX = "Sustituciones disponibles:|n%role - Función |n%class - Clase |n%level - Nivel |n%dungeon - Calabozo",
+        frFR = "Remplacements disponibles:|n%role - Rôle |n%class - Classe |n%level - Niveau |n%dungeon - Donjon",
+        ptBR = "Substituições disponíveis:|n%role - Função |n%class - Classe |n%level - Nível |n%dungeon - Masmorra",
+        ruRU = "Доступные замены:|n%role - Роль |n%class - Класс |n%level - Уровень |n%dungeon - Подземелье",
+        zhCN = "可用替换：|n%role - 职责 |n%class - 职业 |n%level - 等级 |n%dungeon - 地下城",
+        zhTW = "適用的替代項目：|n%role - 角色類型 |n%class - 職業 |n%level - 等級 |n%dungeon - 地城",
+	},
+	WORLD_BOSSES = {
+		enUS = "World Bosses",
+        deDE = "Weltbosse",
+        esMX = "Jefes de mundo",
+        frFR = "Boss hors instance",
+        ptBR = "Chefes Mundiais",
+        ruRU = "Боссы вне подземелий",
+        zhCN = "世界首领们",
+        zhTW = "世界首領們",
+	},
+	LORD_KAZZAK = {
+		enUS = "Lord Kazzak",
+		deDE = "Lord Kazzak",
+		esMX = "Lord Kazzak",
+		frFR = "Seigneur Kazzak",
+		ptBR = "Lorde Kazzak",
+		ruRU = "Владыка Каззак",
+		zhCN = "卡扎克",
+		zhTW = "卡札克領主",
+	},
+	AZUREGOS = {
+		enUS = "Azuregos",
+		deDE = "Azuregos",
+		esMX = "Azuregos",
+		frFR = "Azuregos",
+		ptBR = "Azuregos",
+		ruRU = "Азурегос",
+		zhCN = "艾索雷葛斯",
+		zhTW = "艾索雷苟斯",
+	},
+	THUNDERAAN = {
+		enUS = "Prince Thunderaan",
+		deDE = "Prinz Donneraan",
+		esMX = "Príncipe Thunderaan",
+		frFR = "Prince Tonneraan",
+		ptBR = "Príncipe Trovejardus",
+		ruRU = "Принц Громораан",
+		zhCN = "桑德兰王子",
+		zhTW = "桑德蘭王子",
+	},
+}
 ---Localized addon strings, keyed by locale
 GBB.locales = {
 	enGB = {
@@ -100,8 +163,7 @@ GBB.locales = {
 		["normalAbr"]="N",
 		["raidAbr"]="R",
 		["msgFontSize"] = "Font Size (Requires /reload)",
-		["msgLeaderOutbound"]="Please invite for %s, I am a %s.",
-		
+		["JOIN_REQUEST_MESSAGE"]="Please invite for %dungeon. Level %level %class %role.",
 		-- option panel
 		
 		["HeaderSettings"]="Settings",
@@ -504,7 +566,12 @@ GBB.locales.enUS=GBB.locales.enGB
 function GBB.LocalizationInit()
 	local locale = GetLocale()
 	local localizedStrings = GBB.locales[locale] or {};
-	
+	for key, l10nTable in pairs(localizedAddonDisplayStrings) do
+		l10nTable.esES = l10nTable.esES or l10nTable.esMX
+		if localizedStrings[key] == nil then
+			localizedStrings[key] = l10nTable[locale] or l10nTable.enUS
+		end
+	end
 	if GroupBulletinBoardDB
 	and type(GroupBulletinBoardDB.CustomLocales) == "table"
 	then

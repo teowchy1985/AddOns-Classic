@@ -169,7 +169,17 @@ local function GenerateExpansionPanel(expansionID)
 	for _, key in pairs(raids) do
 		tinsert(filters, CheckBoxFilter(key, enabled))
 	end
-
+	if isClassicEra then -- World Bosses
+		local bosses = GBB.GetSortedDungeonKeys(expansionID, GBB.Enum.DungeonType.WorldBoss)
+		if #bosses > 0 then
+			GBB.OptionsBuilder.Indent(-10)
+			GBB.OptionsBuilder.AddHeaderToCurrentPanel(GBB.L.WORLD_BOSSES)
+			GBB.OptionsBuilder.Indent(10)
+			for _, key in pairs(bosses) do
+				tinsert(filters, CheckBoxFilter(key, enabled))
+			end
+		end
+	end
 	-- Battlegrounds (bg are all consider part of latest expansion atm)
 	if #bgs > 0 then
 		if isCurrentXpac and not isClassicEra then
@@ -371,8 +381,41 @@ function GBB.OptionsInit ()
 	CheckBox("DontTrunicate",false)
 	CheckBox("EnableShowOnly",false)		
 	GBB.OptionsBuilder.Indent(30)
-	CreateEditBoxNumber("ShowOnlyNb",4,50)	
+	CreateEditBoxNumber("ShowOnlyNb", 4, 50)
 	GBB.OptionsBuilder.Indent(-30)
+	GBB.OptionsBuilder.AddSpacerToPanel(0.4)
+	do
+		local checkbox = GBB.OptionsBuilder.AddCheckBoxToCurrentPanel(GBB.DB, "EnableJoinRequestMessage",
+			true, GBB.L.JOIN_REQUEST_HEADER
+		)
+		GBB.OptionsBuilder.AddSpacerToPanel(0.1)
+		local editbox = GBB.OptionsBuilder.AddEditBoxToCurrentPanel(GBB.DB, "JoinRequestMessage",
+			GBB.L.JOIN_REQUEST_MESSAGE, '', 450, 0, false, GBB.L.JOIN_REQUEST_REPLACEMENTS_TIP, GBB.L.JOIN_REQUEST_MESSAGE
+		)
+		editbox:SetText(editbox:GetSavedValue())
+		local onFocusChanged = function(self) ---@cast self EditBox
+			local isFocused = self:HasFocus()
+			checkbox.Text:SetText(isFocused and GBB.L.SAVE_ON_ENTER or GBB.L.JOIN_REQUEST_HEADER)
+			checkbox.Text:SetTextColor((isFocused and RED_FONT_COLOR or NORMAL_FONT_COLOR):GetRGB())
+		end
+		editbox:HookScript("OnEditFocusGained", onFocusChanged)
+		editbox:HookScript("OnEditFocusLost", onFocusChanged)
+		editbox:OnSavedVarUpdate(function(value) ---@cast value string?
+			if not value or strlenutf8(value) == 0 then
+				editbox:SetSavedValue(GBB.L.JOIN_REQUEST_MESSAGE)
+				editbox:SetText(GBB.L.JOIN_REQUEST_MESSAGE)
+			end
+		end)
+		local ogCheckboxFunc = checkbox.updateFunc -- save reference since overwriting with OnSavedVarUpdate call.
+		local updateWidgets = function(value)
+			if ogCheckboxFunc then ogCheckboxFunc(value) end
+			editbox:SetEnabled(value)
+			editbox:SetTextColor((value and WHITE_FONT_COLOR or GRAY_FONT_COLOR):GetRGB())
+			checkbox.Text:SetTextColor((value and NORMAL_FONT_COLOR or GRAY_FONT_COLOR):GetRGB())
+		end
+		updateWidgets(checkbox:GetSavedValue())
+		checkbox:OnSavedVarUpdate(updateWidgets)
+	end
 	GBB.OptionsBuilder.AddColorSwatchToCurrentPanel(GBB.DB,"EntryColor",{r=1,g=1,b=1,a=1},GBB.L["BtnEntryColor"])
 	GBB.OptionsBuilder.AddColorSwatchToCurrentPanel(GBB.DB,"HeroicDungeonColor",{r=1,g=0,b=0,a=1},GBB.L["BtnHeroicDungeonColor"])
 	GBB.OptionsBuilder.AddColorSwatchToCurrentPanel(GBB.DB,"NormalDungeonColor",{r=0,g=1,b=0,a=1},GBB.L["BtnNormalDungeonColor"])
@@ -478,18 +521,20 @@ function GBB.OptionsInit ()
 	saveText:SetAlpha(0.75)
 	GBB.OptionsBuilder.AddSpacerToPanel()
 	local locales= GBB.locales.enGB
-	local t={}
-	for key, _ in pairs(locales) do 
-		table.insert(t,key)
+	local displayStrKeys = {}
+	for key, _ in pairs(locales) do
+		table.insert(displayStrKeys, key)
 	end
-	table.sort(t)
-	for _,key in ipairs(t) do 
-		
-		local col=GBB.L[key]~=nil and "|cffffffff" or "|cffff4040"
-		local txt=GBB.L[key.."_org"]~="["..key.."_org]" and GBB.L[key.."_org"] or GBB.L[key]
-				
-		GBB.OptionsBuilder.AddEditBoxToCurrentPanel(GBB.DB.CustomLocales,key,"",col.."["..key.."]",450,200,false,locales[key],txt)
-		
+	table.sort(displayStrKeys)
+	for _,key in ipairs(displayStrKeys) do
+		-- _org suffix is used for saving the original value if changed by user.
+		if not key:find("_org") then
+			local labelTxt = WrapTextInColorCode(('[%s]'):format(key), GBB.L[key]~=nil and "ffffffff" or "ffff4040")
+			local sampleTxt = (GBB.L[key] and GBB.L[key]~="") and GBB.L[key] or GBB.L[key.."_org"]
+			GBB.OptionsBuilder.AddEditBoxToCurrentPanel(GBB.DB.CustomLocales, key,
+				"", labelTxt, 450, 200, false,locales[key], sampleTxt
+			)
+		end
 	end
 	--locales dungeons
 	GBB.OptionsBuilder.AddSpacerToPanel()

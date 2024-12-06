@@ -1,7 +1,7 @@
 ## Interface: 11505, 40401
 ## Title: LFG Bulletin Board
 ## Notes: Sort LFG/LFM Messages
-## Version: 3.40
+## Version: 3.41
 ## Author: Vyscî-Whitemane
 ## DefaultState: enabled
 ## SavedVariables: GroupBulletinBoardDB
@@ -21,8 +21,8 @@ Localization.lua
 dungeons/classic.lua
 dungeons/cata.lua
 CustomCategories.lua
-Dungeons.lua
 Tags.lua
+Dungeons.lua
 RequestList.lua
 Options.lua
 GroupList.Lua
