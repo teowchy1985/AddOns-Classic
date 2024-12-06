@@ -1,5 +1,5 @@
 local tocName,
-    ---@class Addon_DungeonData
+    ---@class Addon_DungeonData: Addon_Localization
     addon = ...;
 
 if WOW_PROJECT_ID ~= WOW_PROJECT_CLASSIC then return end
@@ -29,6 +29,7 @@ local DungeonType = {
     Raid = 2,
     None = 4,
     Battleground = 5, -- in classic, 5 is used for BGs
+    WorldBoss = 6,
 }
 
 ---@enum ExpansionID
@@ -40,6 +41,11 @@ local Expansions = {
 }
 
 local isSoD = C_Seasons and (C_Seasons.GetActiveSeason() == Enum.SeasonID.SeasonOfDiscovery)
+
+-- hacky way to get the localization table. rework in the future
+-- side-effects:
+-- custom users set translatiosn in the `Localization` settings panel will not apply to strings used in this file.
+local L = addon.LocalizationInit()
 
 local debug = false
 local print = function(...) if debug then print(tocName, ...) end end
@@ -88,12 +94,11 @@ local LFGActivityIDs = {
     ["AB"] = 930,  -- Arathi Basin [926-930]
     ["AV"] = 932,  -- Alterac Valley
     -- SoD Specific
-    ["WB"] = isSoD and 6969 or nil,  -- World Bosses (Used to group Azuregoes/Kazzak) *spoofed*
     ["DFC"] = isSoD and 1607 or nil, -- Demon Fall Canyon
-    -- ["AZGS"] = isSoD and 1608 or nil, -- Storm Cliffs (Azuregoes)
-    -- ["KAZK"] = isSoD and 1609 or nil, -- Tainted Scar (Kazzak)
+    ["AZGS"] = isSoD and 1608 or nil, -- Storm Cliffs (Azuregoes)
+    ["KAZK"] = isSoD and 1609 or nil, -- Tainted Scar (Kazzak)
     ["CRY"] = isSoD and 1611 or nil, -- Crystal Vale (Thunderaan)
-    -- ["NMG"] = isSoD and 1610 or nil, -- Nightmare Grove (Emerald Dragons)
+    ["NMG"] = isSoD and 1610 or nil, -- Nightmare Grove (Emerald Dragons)
 }
 --see https://wago.tools/db2/GroupFinderCategory?build=1.15.2.54332
 local activityCategoryTypeID  = {
@@ -105,23 +110,16 @@ local idToDungeonKey = tInvert(LFGActivityIDs)
 
 --- Any info that needs to be overridden/spoofed for a specific instances should be done here.
 local infoOverrides = {
-    -- todo: add the localized boss name, to the parsed dungeon name for the SoD instanced world bosses.
-    -- ex: https://wago.tools/db2/DungeonEncounter?build=1.15.5.57638&sort[Name_lang]=asc&filter[ID]=3079
-    CRY = isSoD and {
-        name = "Crystal Vale - Prince Thunderaan",
-    },
+    CRY = isSoD and { name = L.THUNDERAAN, typeID = DungeonType.WorldBoss },
+    AZGS = { name = L.AZUREGOS, typeID = DungeonType.WorldBoss },
+    KAZK = { name = L.LORD_KAZZAK, typeID = DungeonType.WorldBoss },
+    NMG = isSoD and { typeID = DungeonType.WorldBoss },
     -- Strat is split into "Main"/"Service" Gates between 2 IDs. We use just the plain zone name.
     STR = { name = GetRealZoneText(329) },
     -- GetActivityInfoTable has unique entries for each BG level bracket. We however use a single entry.
     WSG = { minLevel = 10, maxLevel = 60 },
     AB = { minLevel = 20, maxLevel = 60 },
     -- Note: Following entries for are completely spoofed. hardcoded info here.
-    WB = isSoD and {
-        name = "World Bosses",
-        minLevel = 60,
-        maxLevel = 60,
-        typeID = DungeonType.Raid,
-    },
     SM2 = {
         name = GetRealZoneText(189),
         minLevel = 30, -- SMG min
