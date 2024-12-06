@@ -1,7 +1,8 @@
 # Baganator
 
-## [519](https://github.com/Baganator/Baganator/tree/519) (2024-12-03)
-[Full Changelog](https://github.com/Baganator/Baganator/compare/518...519) 
+## [527](https://github.com/Baganator/Baganator/tree/527) (2024-12-05)
+[Full Changelog](https://github.com/Baganator/Baganator/compare/526...527) 
 
-- [Fixes #229, Fixes #332] Combine stacks when transferring items into banks  
-- [Fixes #363] Fix occasional error when dropping item into warband bank  
+- Ensure ItemRack equipment set names are sorted  
+- Categories: Persist empty slots in collapsed sections  
+- Categories: Keep section visible when only empty slots there from removing items  

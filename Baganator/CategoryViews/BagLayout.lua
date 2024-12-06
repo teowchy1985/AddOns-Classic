@@ -143,7 +143,9 @@ function addonTable.CategoryViews.BagLayoutMixin:SettingChanged(settingName)
     self.ItemsPreparation:ResetCaches()
     self.CategoryFilter:ResetCaches()
   end
-  self.composed = nil
+  if settingName ~= addonTable.Config.Options.CATEGORY_SECTION_TOGGLED then
+    self.composed = nil
+  end
 end
 
 -- Called in response to the ContentRefreshRequired event triggered when items
@@ -248,12 +250,10 @@ function addonTable.CategoryViews.BagLayoutMixin:Display(bagWidth, bagIndexes, b
         end
       end
       details.results = entries
-      details.any = #entries > 0 and not hidden[details.source] -- used to determine showing section headers
       if hidden[details.source] or sectionToggled[details.section] then
         for _, entry in ipairs(details.results) do
           table.insert(self.notShown, entry)
         end
-        details.results = {}
       end
     end
   end
@@ -264,7 +264,8 @@ function addonTable.CategoryViews.BagLayoutMixin:Display(bagWidth, bagIndexes, b
     local anyNew = false
     for index, old in ipairs(oldComposed.details) do
       local current = composed.details[index]
-      if current == nil or old.source ~= current.source or (current.source and not old.emptySlots and old.oldLength and old.oldLength < #current.results) then
+      if (current.source and (current.source ~= addonTable.CategoryViews.Constants.RecentItemsCategory)
+          and not old.emptySlots and old.oldLength and old.oldLength < #current.results) then
         anyNew = true
         break
       end
@@ -278,17 +279,14 @@ function addonTable.CategoryViews.BagLayoutMixin:Display(bagWidth, bagIndexes, b
         if old.results then
           local current = composed.details[index]
           current.oldLength = #current.results
-          if #old.results > #current.results and not old.emptySlots then
+          if #old.results > #current.results and not old.emptySlots and (#current.results > 0 or current.source ~= addonTable.CategoryViews.Constants.RecentItemsCategory) then
             for index, info in ipairs(old.results) do
               if #current.results >= #old.results then
                 break
               end
-              if info.bagID and info.slotID and not C_Item.DoesItemExist({bagID = info.bagID, slotIndex = info.slotID}) then
-                if not info.key or not old.isGrouping or not FindInTableIf(current.results, function(a) return a.key == info.key end) then
-                  table.insert(current.results, index, {bagID = info.bagID, slotID = info.slotID, itemCount = 0, keyLink = typeMap[info.bagID], bagType = typeMap[info.bagID]})
-                  if splitEmpty then
-                    table.remove(splitEmpty, (FindInTableIf(splitEmpty, function(a) return a.bagID == info.bagID and a.slotID == info.slotID end)))
-                  end
+              if info.bagID and info.slotID then
+                if not current.results[index] or current.results[index].key ~= info.key then
+                  table.insert(current.results, index, {bagID = info.bagID, slotID = info.slotID, isDummy = true, dummyType = "empty"})
                 end
               end
             end
@@ -318,7 +316,11 @@ function addonTable.CategoryViews.BagLayoutMixin:Display(bagWidth, bagIndexes, b
       if details.results and #details.results > 0 then
         local layout = FindValueInTableIf(container.LiveLayouts, function(a) return a.sourceKey == details.sourceKey end)
         if layout then
-          layout:DeallocateUnusedButtons(details.results)
+          if hidden[details.source] or sectionToggled[details.section] then
+            layout:DeallocateUnusedButtons({})
+          else
+            layout:DeallocateUnusedButtons(details.results)
+          end
         end
       end
     end
@@ -362,7 +364,7 @@ function addonTable.CategoryViews.BagLayoutMixin:Display(bagWidth, bagIndexes, b
           local d = composed.details[i]
           if d.section ~= details.label then
             break
-          elseif d.type == "category" and d.any then
+          elseif d.type == "category" and #d.results > 0 and not hidden[d.source] then
             any = true
             break
           end
@@ -388,7 +390,7 @@ function addonTable.CategoryViews.BagLayoutMixin:Display(bagWidth, bagIndexes, b
         table.insert(layoutsShown, {}) -- {} causes the packing code to ignore this
       end
     elseif details.type == "category" then
-      if #details.results > 0 then
+      if #details.results > 0 and not hidden[details.source] and not sectionToggled[details.section] then
         local searchResults = details.results
         local layout = FindValueInTableIf(activeLayouts, function(a) return a.sourceKey == details.sourceKey end)
         if not layout then
