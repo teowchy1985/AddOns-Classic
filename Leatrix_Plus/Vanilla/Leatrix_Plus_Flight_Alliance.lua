@@ -117,6 +117,7 @@
 				["0.51:0.75:0.43:0.67:0.51:0.49:0.51:0.57"] = 365, -- Darkshire, Stormwind, Ironforge, Thorium Point
 				["0.51:0.75:0.43:0.67:0.51:0.49:0.48:0.30"] = 549, -- Darkshire, Stormwind, Ironforge, Southshore
 				["0.51:0.75:0.43:0.67:0.58:0.65:0.51:0.57"] = 322, -- Darkshire, Stormwind, Morgan's Vigil, Thorium Point
+				["0.51:0.75:0.43:0.67:0.51:0.49:0.57:0.32"] = 543, -- Darkshire, Stormwind, Ironforge, Refuge Pointe
 
 				-- Alliance: Ironforge (Dun Morogh)
 				["0.51:0.49:0.43:0.67:0.43:0.93"] = 440, -- Ironforge, Stormwind, Booty Bay
@@ -157,13 +158,14 @@
 				["0.56:0.70:0.43:0.67:0.51:0.49:0.49:0.44:0.48:0.30"] = 542, -- Lakeshire, Stormwind, Ironforge, Menethil Harbor, Southshore
 				["0.56:0.70:0.43:0.67:0.51:0.49:0.59:0.52"] = 416, -- Lakeshire, Stormwind, Ironforge, Thelsamar
 				["0.56:0.70:0.43:0.67:0.51:0.49"] = 358, -- Lakeshire, Stormwind, Ironforge
-				["0.56:0.70:0.43:0.67:0.51:0.49:0.49:0.44"] = 442, -- Lakeshire, Stormwind, Ironforge, Menethil Harbor
+				["0.56:0.70:0.43:0.67:0.51:0.49:0.49:0.44"] = 442, -- Lakeshire, Stormwind, Ironforge, Menethil Harbor (crabby supreme reported 458)
 				["0.56:0.70:0.41:0.75:0.43:0.93"] = 317, -- Lakeshire, Sentinel Hill, Booty Bay
 				["0.56:0.70:0.43:0.67:0.51:0.49:0.49:0.44:0.57:0.32"] = 549, -- Lakeshire, Stormwind, Ironforge, Menethil Harbor, Refuge Pointe
 				["0.56:0.70:0.43:0.67:0.51:0.49:0.55:0.25"] = 606, -- Lakeshire, Stormwind, Ironforge, Aerie Peak
 				["0.56:0.70:0.43:0.67:0.51:0.49:0.52:0.22"] = 605, -- Lakeshire, Stormwind, Ironforge, Chillwind Camp
 				["0.56:0.70:0.43:0.67:0.51:0.49:0.51:0.57"] = 390, -- Lakeshire, Stormwind, Ironforge, Thorium Point
 				["0.56:0.70:0.43:0.67:0.43:0.93"] = 343, -- Lakeshire, Stormwind, Booty Bay
+				["0.56:0.70:0.43:0.67:0.51:0.49:0.48:0.30"] = 573, -- Lakeshire, Stormwind, Ironforge, Southshore
 
 				-- Alliance: Light's Hope Chapel (Eastern Plaguelands)
 				["0.70:0.16:0.51:0.49:0.43:0.67:0.43:0.93"] = 771, -- Light's Hope Chapel, Ironforge, Stormwind, Booty Bay
@@ -300,7 +302,7 @@
 				["0.41:0.75:0.51:0.75"] = 97, -- Sentinel Hill, Darkshire
 				["0.41:0.75:0.56:0.70"] = 130, -- Sentinel Hill, Lakeshire
 				["0.41:0.75:0.56:0.70:0.58:0.65"] = 191, -- Sentinel Hill, Lakeshire, Morgan's Vigil
-				["0.41:0.75:0.43:0.67"] = 86, -- Sentinel Hill, Stormwind (Aleksey Lapshov reported 102)
+				["0.41:0.75:0.43:0.67"] = 86, -- Sentinel Hill, Stormwind (Aleksey Lapshov reported 102, marko vejic reported 139)
 				["0.41:0.75:0.56:0.70:0.58:0.65:0.51:0.57"] = 282, -- Sentinel Hill, Lakeshire, Morgan's Vigil, Thorium Point
 				["0.41:0.75:0.43:0.67:0.51:0.49:0.59:0.52"] = 389, -- Sentinel Hill, Stormwind, Ironforge, Thelsamar (Sigurd Wilhelmsen reported 180)
 				["0.41:0.75:0.43:0.67:0.51:0.49"] = 331, -- Sentinel Hill, Stormwind, Ironforge
@@ -345,7 +347,7 @@
 				["0.43:0.67:0.41:0.75"] = 78, -- Stormwind, Sentinel Hill (Galleon Brinton reported 102, Eino Virtanen and wy1337@gmx.de reported 113)
 				["0.43:0.67:0.51:0.75"] = 116, -- Stormwind, Darkshire
 				["0.43:0.67:0.61:0.78"] = 176, -- Stormwind, Nethergarde Keep
-				["0.43:0.67:0.56:0.70"] = 113, -- Stormwind, Lakeshire
+				["0.43:0.67:0.56:0.70"] = 113, -- Stormwind, Lakeshire (Taylor Mcphun reported 142)
 				["0.43:0.67:0.58:0.65"] = 157, -- Stormwind, Morgan's Vigil
 				["0.43:0.67:0.58:0.65:0.51:0.57"] = 247, -- Stormwind, Morgan's Vigil, Thorium Point
 				["0.43:0.67:0.51:0.49:0.59:0.52"] = 317, -- Stormwind, Ironforge, Thelsamar (Andrei O. reported 333)
@@ -668,6 +670,7 @@
 				["0.50:0.76:0.42:0.79:0.31:0.69:0.43:0.25:0.55:0.21"] = 876, -- Marshal's Refuge, Cenarion Hold, Feathermoon, Auberdine, Moonglade
 				["0.50:0.76:0.42:0.79:0.31:0.69:0.43:0.25:0.46:0.40"] = 902, -- Marshal's Refuge, Cenarion Hold, Feathermoon, Auberdine, Astranaar
 				["0.50:0.76:0.42:0.79:0.31:0.69:0.43:0.25:0.55:0.21:0.65:0.23"] = 1006, -- Marshal's Refuge, Cenarion Hold, Feathermoon, Auberdine, Moonglade, Everlook
+				["0.50:0.76:0.60:0.81:0.64:0.67:0.40:0.51:0.39:0.40:0.46:0.40"] = 856, -- Marshal's Refuge, Gadgetzan, Theramore, Nijel's Point, Stonetalon Peak, Astranaar
 
 				-- Alliance: Moonglade (Moonglade)
 				["0.55:0.21:0.43:0.25:0.31:0.69"] = 614, -- Moonglade, Auberdine, Feathermoon
@@ -723,7 +726,7 @@
 				["0.40:0.51:0.64:0.67:0.61:0.55"] = 422, -- Nijel's Point, Theramore, Ratchet
 				["0.40:0.51:0.39:0.40:0.46:0.40:0.61:0.40"] = 421, -- Nijel's Point, Stonetalon Peak, Astranaar, Talrendis Point
 				["0.40:0.51:0.39:0.40:0.46:0.40"] = 273, -- Nijel's Point, Stonetalon Peak, Astranaar
-				["0.40:0.51:0.39:0.40"] = 120, -- Nijel's Point, Stonetalon Peak
+				["0.40:0.51:0.39:0.40"] = 120, -- Nijel's Point, Stonetalon Peak (Şeref Emre Aktuğ reported 137)
 				["0.40:0.51:0.43:0.25"] = 282, -- Nijel's Point, Auberdine
 				["0.40:0.51:0.43:0.25:0.42:0.16"] = 367, -- Nijel's Point, Auberdine, Rut'theran Village
 				["0.40:0.51:0.43:0.25:0.55:0.21:0.65:0.23"] = 563, -- Nijel's Point, Auberdine, Moonglade, Everlook
@@ -954,7 +957,7 @@
 				["0.64:0.67:0.61:0.55"] = 115, -- Theramore, Ratchet
 				["0.64:0.67:0.61:0.40"] = 235, -- Theramore, Talrendis Point
 				["0.64:0.67:0.61:0.40:0.46:0.40"] = 387, -- Theramore, Talrendis Point, Astranaar
-				["0.64:0.67:0.40:0.51"] = 334, -- Theramore, Nijel's Point
+				["0.64:0.67:0.40:0.51"] = 334, -- Theramore, Nijel's Point (christian starr reported 359)
 				["0.64:0.67:0.40:0.51:0.39:0.40"] = 454, -- Theramore, Nijel's Point, Stonetalon Peak (Was 801 but Nikolas Beckel, Scott Wilson, Sean Flattery, Martin Sodoma, Othman Arnaout, Tor Eivind Grevstad reported 454)
 				["0.64:0.67:0.43:0.25"] = 620, -- Theramore, Auberdine
 				["0.64:0.67:0.61:0.40:0.46:0.40:0.43:0.25:0.42:0.16"] = 619, -- Theramore, Talrendis Point, Astranaar, Auberdine, Rut'theran Village
