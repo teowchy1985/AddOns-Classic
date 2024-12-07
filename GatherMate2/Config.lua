@@ -1181,26 +1181,13 @@ local faqOptions = {
 local acr = LibStub("AceConfigRegistry-3.0")
 local acd = LibStub("AceConfigDialog-3.0")
 
-local function findPanel(name, parent)
-	for i, button in next, InterfaceOptionsFrameAddOns.buttons do
-		if button.element then
-			if name and button.element.name == name then return button
-			elseif parent and button.element.parent == parent then return button
-			end
-		end
-	end
-end
 function Config:OnInitialize()
 	db = GatherMate.db.profile
 
 	self.importHelper = ImportHelper
 
 	acr:RegisterOptionsTable("GatherMate 2", generalOptions)
-	local options = acd:AddToBlizOptions("GatherMate 2", L["GatherMate 2"])
-	-- options:HookScript("OnShow", function()
-	--	local p = findPanel(L["GatherMate 2"])
-	--	if p and p.element.collapsed then OptionsListButtonToggle_OnClick(p.toggle) end
-	-- end)
+	acd:AddToBlizOptions("GatherMate 2", L["GatherMate 2"])
 
 	acr:RegisterOptionsTable("GM2/Minimap", minimapOptions)
 	acd:AddToBlizOptions("GM2/Minimap", L["Minimap"], L["GatherMate 2"])
@@ -1279,7 +1266,7 @@ function Config:CheckAutoImport()
 		if verline and v["autoImport"] then
 			local dataVersion = tonumber(verline:match("%d+"))
 			if dataVersion and dataVersion > v["lastImport"] then
-				local loaded, reason = LoadAddOn(k)
+				local loaded, reason = C_AddOns.LoadAddOn(k)
 				if loaded then
 					local addon = LibStub("AceAddon-3.0"):GetAddon(k)
 					local filter = nil
