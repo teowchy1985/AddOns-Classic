@@ -266,9 +266,9 @@ function EngraverOptionsFrameMixin:CreateSettingsInitializers()
 	do -- Discord
 		CreateInitializer(self, "SettingsSelectableTextTemplate", 
 		{
-			name = "Discord",
-			tooltip = "如果你有任何問題、建議或意見，請貼在 Discord。",
-			text = "https://discord.gg/QgDbJe5Nma"
+			name = "Discord 社群",
+			tooltip = "如果你有任何問題、建議或意見，請貼在 Discord 社群。",
+			text = "https://discord.gg/xwkZnnKfsC"
 		})
 	end -- Discord
 	do -- Github
