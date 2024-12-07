@@ -1,11 +1,12 @@
 # DBM - Vanilla and Season of Discovery
 
-## [r763](https://github.com/DeadlyBossMods/DBM-Vanilla/tree/r763) (2024-12-04)
-[Full Changelog](https://github.com/DeadlyBossMods/DBM-Vanilla/compare/r762...r763) [Previous Releases](https://github.com/DeadlyBossMods/DBM-Vanilla/releases)
+## [r764](https://github.com/DeadlyBossMods/DBM-Vanilla/tree/r764) (2024-12-07)
+[Full Changelog](https://github.com/DeadlyBossMods/DBM-Vanilla/compare/r763...r764) [Previous Releases](https://github.com/DeadlyBossMods/DBM-Vanilla/releases)
 
-- BWL/Broodlord: Add warning for Tactical Charge target  
-    Season of Mastery stuff that I missed earlier.  
-- Add a "block" for Gtfo warnings  
-    Blocks are a new experimental thing to reduce repetitive code for recurring patterns in mods. I'll be using the Geddon mod as a first example as it has two common patterns: Gtfo warnings and bombs on players.  
-    As a side-effect this fixes a bug about a Gtfo warning not working properly in SoD  
-- Push trash timer stop tweak  
+- AQ20/Buru: Fix trigger for Pursue warning  
+    It's used as a regex, hence the %s doesn't work as expected, just use the main part of the string as it's an in-combat event anyways  
+- SoD/Emerald Dragons: Update for SoD  
+    * Add encounter IDs  
+    * Add creature IDs  
+    * Add timer, warning, and yell for the new Ysondre soaking mechanic  
+    * Filter the sleep fog warning to only show once  
