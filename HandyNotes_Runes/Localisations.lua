@@ -2589,6 +2589,7 @@ end
 
 -- Phase 4 and 5 spells v2.23 to v3.02
 if ns.locale == "deDE" then
+	ns.L["Class"] = "Klasse"
 	ns.L["Mage Book"] = "Magierbuch"
 	ns.L["Mage Books"] = "Magierbücher"
 	ns.L["Progress"] = "Fortschritt"
@@ -2648,6 +2649,7 @@ if ns.locale == "deDE" then
 	ns.L["Sudden Death"] = "Plötzlicher Tod"
 	
 elseif ns.locale == "esES" or ns.locale == "esMX" then
+	ns.L["Class"] = "Clase"
 	ns.L["Mage Book"] = "Libro de magos"
 	ns.L["Mage Books"] = "Libros de magos"
 	ns.L["Progress"] = "Progreso"
@@ -2708,6 +2710,7 @@ elseif ns.locale == "esES" or ns.locale == "esMX" then
 	ns.L["Sudden Death"] = "Muerte súbita"
 
 elseif ns.locale == "frFR" then
+	ns.L["Class"] = "Classe"
 	ns.L["Mage Book"] = "Livre des mages"
 	ns.L["Mage Books"] = "Livres de mages"
 	ns.L["Progress"] = "Progression"
@@ -2767,6 +2770,7 @@ elseif ns.locale == "frFR" then
 	ns.L["Sudden Death"] = "Mort soudaine"
 	
 elseif ns.locale == "koKR" then
+	ns.L["Class"] = "직업"
 	ns.L["Mage Book"] = "마법사의 책"
 	ns.L["Mage Books"] = "마법사 책"
 	ns.L["Progress"] = "진행률"  
@@ -2827,6 +2831,7 @@ elseif ns.locale == "koKR" then
 	ns.L["Sudden Death"] = "급살"
 	
 elseif ns.locale == "ptBR" or ns.locale == "ptPT" then
+	ns.L["Class"] = "Classe"
 	ns.L["Mage Book"] = "Livro do Mago"
 	ns.L["Mage Books"] = "Livros de Magos"
 	ns.L["Progress"] = "Progresso"
@@ -2886,6 +2891,7 @@ elseif ns.locale == "ptBR" or ns.locale == "ptPT" then
 	ns.L["Sudden Death"] = "Morte Súbita"
 	
 elseif ns.locale == "ruRU" then
+	ns.L["Class"] = "Класс"
 	ns.L["Mage Book"] = "Книга Мага"
 	ns.L["Mage Books"] = "Книги Магов"
 	ns.L["Progress"] = "Прогресс"
@@ -2946,6 +2952,7 @@ elseif ns.locale == "ruRU" then
 	ns.L["Sudden Death"] = "Внезапная смерть"
 	
 elseif ns.locale == "zhCN" then
+	ns.L["Class"] = "职业"
 	ns.L["Mage Book"] = "魔法书"
 	ns.L["Mage Books"] = "法师书籍"
 	ns.L["Progress"] = "进度"
@@ -3005,6 +3012,7 @@ elseif ns.locale == "zhCN" then
 	ns.L["Sudden Death"] = "猝死"
 	
 elseif ns.locale == "zhTW" then
+	ns.L["Class"] = "職業"
 	ns.L["Mage Book"] = "魔法書"
 	ns.L["Mage Books"] = "法師書籍"
 	ns.L["Progress"] = "進度"

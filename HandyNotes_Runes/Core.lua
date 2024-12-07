@@ -3,7 +3,7 @@
 
                                                 Runes
 
-                                      v3.05 - 1st December 2024
+                                      v3.07 - 6th December 2024
                                 Copyright (C) Taraezor / Chris Birch
                                          All Rights Reserved
 
@@ -415,19 +415,23 @@ local function CheckAndShow( coord, pin )
 	if pin.class == nil then
 		if ( pin.faction == nil ) or ( pin.faction == ns.faction ) then
 			if pin.skillBook ~= nil then
-				if ns.db.skillBook < 21 and ns.db.skillBook > 0 then
-					ns.passed.texture = ns.textures[ ns.db.skillBook ]
-					ns.passed.scale = ns.db.iconScale * ns.scaling[ ns.db.skillBook ]
-					return
+				if ns.db.skillBook > 0 then
+					for _,s in ipairs( ns.runes[ ns.class ].skillBooks ) do
+						if ShowPinForThisClassRune( ns.runes[ ns.class ][ s ].spellID, true ) == true then
+							ns.passed.texture = ns.textures[ ns.db.skillBook ]
+							ns.passed.scale = ns.db.iconScale * ns.scaling[ ns.db.skillBook ]
+							return
+						end
+					end
 				end
 			elseif pin.ring ~= nil then
-				if ns.db.ring < 21 and ns.db.ring > 0 then
+				if ns.db.ring > 0 then
 					ns.passed.texture = ns.textures[ ns.db.ring ]
 					ns.passed.scale = ns.db.iconScale * ns.scaling[ ns.db.ring ]
 					return
 				end
 			else
-				print( "c=" ..coord .." m=" ..ns.mapID)
+--				print( "c=" ..coord .." m=" ..ns.mapID)
 		--		print("HN Runes. Please report error: Null class for n=" ..(pin.name or "nil") .." t=" ..(pin.tip or "nil")
 		--				.." c="..coord.." m="..ns.mapID)
 			end
@@ -438,15 +442,8 @@ local function CheckAndShow( coord, pin )
 	for i,v in ipairs( pin.class ) do
 		if ns.class == v then
 			if ( pin.faction == nil ) or ( pin.faction == ns.faction ) then
-				if pin.skillBook then
-					if ns.db.skillBook < 21 and ns.db.skillBook > 0 then
-						if ShowPinForThisClassRune( pin.spell[ i ], false ) then
-							ns.passed.texture = ns.textures[ ns.db.skillBook ]
-							ns.passed.scale = ns.db.iconScale * ns.scaling[ ns.db.skillBook ]
-						end
-					end
-				elseif pin.ring then
-					if ns.db.ring < 21 and ns.db.ring > 0 then
+				if pin.ring then
+					if ns.db.ring > 0 then
 						if ShowPinForThisClassRune( pin.spell[ 1 ], false ) then
 							ns.passed.texture = ns.textures[ ns.db.ring ]
 							ns.passed.scale = ns.db.iconScale * ns.scaling[ ns.db.ring ]
@@ -472,19 +469,16 @@ local function CheckAndShow( coord, pin )
 							if ns.passed.texture ~= nil then break end
 						end
 					end				
-				elseif pin.spell then
+				elseif pin.spell and ns.runes[ v ][ pin.spell[ i ] ].phase then
+					-- Phase will be null for the Paladin Avenging Wrath hybrid rune / skill book
 					if ns.db[ "phase" ..ns.runes[ v ][ pin.spell[ i ] ].phase ] > 0 then
 						ns.icon = ns.runes[ v ][ pin.spell[ i ] ].icon
 						ns.runeDB = ns.db[ "rune1" ..format( "%02d", ns.icon ) ]
-						-- This will be null for the Paladin Avenging Wrath hybrid rune / skill book
 						if ( ns.runeDB ~= nil ) and ( ns.runeDB > 1 ) and ShowPinForThisClassRune( pin.spell[ i ], false ) then
 							ns.passed.texture = ns.texturesNum ..tostring( ns.icon ) .."-"  ..ns.texturesNumCode[ ns.runeDB ]
 							ns.passed.scale = ns.db.iconScale * ns.scalingNum
 						end
 					end
-				else
-					print("HN Runes: Unknown pin type: name="..(pin.name or "nil").." tip="..(pin.tip or "nil")..
-							" coord="..coord.." m="..ns.mapID)
 				end
 			end
 		end
@@ -548,6 +542,8 @@ local function SetupDynamicContinent( mapID )
 
 	local children = GetMapChildrenInfo( mapID, nil, true )
 		-- Returns a table of map tables of zones belonging to the continent
+		-- Interestingly, perhaps due to parameters, cave etc maps in the zone are not returned
+		-- But child.mapType == Enum.UIMapType.Zone would fix that
 	for _, map in next, children do
 		if ns.points[ map.mapID ] then
 			-- It's one of our maps
@@ -555,22 +551,25 @@ local function SetupDynamicContinent( mapID )
 			ns.zonePins[ map.mapID ][ "1" ] = {}
 			-- Above and below: future expansion in mind, hence the "1" above and below - show multiple classes perhaps
 			for coord, pin in next, ns.points[ map.mapID ] do
-				if pin.class then
+				if pin.skillBooks then
+					if ( pin.faction == nil ) or ( pin.faction == ns.faction ) then
+						for _,s in ipairs( ns.runes[ ns.class ].skillBooks ) do
+							if ShowPinForThisClassRune( ns.runes[ ns.class ][ s ].spellID, true ) == true then
+								ns.zonePins[ map.mapID ][ "1" ][ pin.name ] = true
+								AddToDynamicContinent( coord, pin, mapID,  map.mapID )
+							end
+						end
+					end
+				
+				elseif pin.class then
 					for i,v in ipairs( pin.class ) do
 						-- v is a capitalised class. We must compare with a numerical index for the player and a
 						-- numerical radio button with offset 1 for extra classes (when and if I code multiple classes ;) )
 						if v == ns.class then
 							if ( pin.faction == nil ) or ( pin.faction == ns.faction ) then
 								if ns.zonePins[ map.mapID ][ "1" ][ pin.spell[ i ] ] == nil then
-									if pin.skillBook then
-										if ns.db.skillBook < 21 and ns.db.skillBook > 0 then
-											if ShowPinForThisClassRune( pin.spell[ i ], false ) then
-												ns.zonePins[ map.mapID ][ "1" ][ pin.spell[ i ] ] = true
-												AddToDynamicContinent( coord, pin, mapID,  map.mapID )
-											end
-										end
-									elseif pin.ring then
-										if ns.db.ring < 21 and ns.db.ring > 0 then
+									if pin.ring then
+										if ns.db.ring > 0 then
 											if ShowPinForThisClassRune( pin.spell[ 1 ], false ) then
 												ns.zonePins[ map.mapID ][ "1" ][ pin.spell[ 1 ] ] = true
 												AddToDynamicContinent( coord, pin, mapID,  map.mapID )
@@ -596,37 +595,31 @@ local function SetupDynamicContinent( mapID )
 												if ns.zonePins[ map.mapID ][ "1" ][ s ] ~= nil then break end
 											end				
 										end				
-									elseif ns.db[ "phase" ..tostring( ns.runes[ v ][ pin.spell[ i ] ].phase ) ] > 0 then
-									--	print("i="..i.." s="..pin.spell[ i ].." m="..map.mapID.." c="..coord)
-										ns.icon = ns.runes[ v ][ pin.spell[ i ] ].icon
-										ns.runeDB = ns.db[ "rune1" ..format( "%02d", ns.icon ) ]
-										-- This will be null for the Paladin Avenging Wrath hybrid rune / skill book
-										if ( ns.runeDB ~= nil ) and  ( ns.runeDB > 1 ) and
-												ShowPinForThisClassRune( pin.spell[ i ], false ) then
-											if pin.alsoTestQuest then
-												if ShowPinForThisClassQuest( pin.quest[ i ], false ) then
+									elseif ns.runes[ v ][ pin.spell[ i ] ].phase then
+										-- Phase will be null for the Paladin Avenging Wrath hybrid rune / skill book
+										--	print("i="..i.." s="..pin.spell[ i ].." m="..map.mapID.." c="..coord)
+										if ns.db[ "phase" ..tostring( ns.runes[ v ][ pin.spell[ i ] ].phase ) ] > 0 then
+											ns.icon = ns.runes[ v ][ pin.spell[ i ] ].icon
+											ns.runeDB = ns.db[ "rune1" ..format( "%02d", ns.icon ) ]
+											if ( ns.runeDB ~= nil ) and  ( ns.runeDB > 1 ) and
+													ShowPinForThisClassRune( pin.spell[ i ], false ) then
+												if pin.alsoTestQuest then
+													if ShowPinForThisClassQuest( pin.quest[ i ], false ) then
+														ns.zonePins[ map.mapID ][ "1" ][ pin.spell[ i ] ] = true
+														AddToDynamicContinent( coord, pin, mapID,  map.mapID )
+													end
+												else
 													ns.zonePins[ map.mapID ][ "1" ][ pin.spell[ i ] ] = true
 													AddToDynamicContinent( coord, pin, mapID,  map.mapID )
 												end
-											else
-												ns.zonePins[ map.mapID ][ "1" ][ pin.spell[ i ] ] = true
-												AddToDynamicContinent( coord, pin, mapID,  map.mapID )
+												-- Yes, possible for the pin at coord to have more than one rune for a class but it's
+												-- impossible to show multiple runes on one pin. So we grab the first. Subsequent ones
+												-- that were missed will usually/hopefully have other coords in the same zone
 											end
-											-- Yes, possible for the pin at coord to have more than one rune for a class but it's
-											-- impossible to show multiple runes on one pin. So we grab the first. Subsequent ones
-											-- that were missed will usually/hopefully have other coords in the same zone
 										end
 									end
 								end
 							end
-						end
-					end
-				elseif ( pin.faction == nil ) or ( pin.faction == ns.faction ) then
-					-- Prior to Phase 4, all the pins had class and spell data
-					if pin.skillBook then
-						if ns.db.skillBook < 21 and ns.db.skillBook > 0 then
-							ns.zonePins[ map.mapID ][ "1" ][ pin.name ] = true
-							AddToDynamicContinent( coord, pin, mapID,  map.mapID )
 						end
 					end
 				end
@@ -641,12 +634,6 @@ local function iterator(t, prev)
 	
 	if ns.db[ "selfShow" ] == false then return end
 
-	-- Temp code to convert to new DB value for "no pin" selection
-	-- I'll keep this for one complete weekend of updates - that'll cover the vast majority
-	-- of active players, before I then start using 21+ for new textures I have made
-	if ns.db.skillBook then if ns.db.skillBook == 21 then ns.db.skillBook = 0 end end
-	if ns.db.ring then if ns.db.ring == 21 then ns.db.ring = 0 end end
-
 	while coord do
 		if ( ns.continents[ ns.mapID ] == nil ) then
 			CheckAndShow( coord, pin )
@@ -660,8 +647,8 @@ local function iterator(t, prev)
 		coord, pin = next(t, coord)
 	end
 end
-	
-function pluginHandler:GetNodes2( mapID )
+
+function pluginHandler:GetNodes2( mapID, minimap )
 	ns.mapID = mapID
 	if ( ns.continents[ mapID ] ~= nil ) then SetupDynamicContinent( mapID ) end
 	return iterator, ns.points[ mapID ], nil
@@ -704,13 +691,13 @@ ns.options = {
 		phases = { type = "group", name = ns.L["Season"].."/"..ns.L["Phase"], inline = true, order = 20,
 			args = { 
 				phase1 = { type = "range", name = ns.L["Phase"].." 1", desc = ns.iconStandardNoPin,
-							width = 0.8, min = 0, max = 20, step = 1, arg = "phase1", order = 21, },
+							width = 0.8, min = 0, max = 21, step = 1, arg = "phase1", order = 21, },
 				phase2 = { type = "range", name = ns.L["Phase"].." 2", desc = ns.iconStandardNoPin,
-							width = 0.8, min = 0, max = 20, step = 1, arg = "phase2", order = 22, },
+							width = 0.8, min = 0, max = 21, step = 1, arg = "phase2", order = 22, },
 				phase3 = { type = "range", name = ns.L["Phase"].." 3", desc = ns.iconStandardNoPin,
-							width = 0.8, min = 0, max = 20, step = 1, arg = "phase3", order = 23, },
+							width = 0.8, min = 0, max = 21, step = 1, arg = "phase3", order = 23, },
 				phase4 = { type = "range", name = ns.L["Phase"].." 4/5", desc = ns.iconStandardNoPin,
-							width = 0.8, min = 0, max = 20, step = 1, arg = "phase4", order = 24, },
+							width = 0.8, min = 0, max = 21, step = 1, arg = "phase4", order = 24, },
 				spacer = { type = "description", name = " ", desc = "", width = 0.28, order = 40, },
 				classIcon = { type = "description", name = " ", desc = ns.class, image = ns.texturesNum ..ns.class,
 								width = 0.25, order = 41, },
