@@ -2038,12 +2038,12 @@ points[ 1418 ] = { -- Badlands
 					questName={ { "Anyone Can Cook", "A Quick Grocery Run", "Taste Testing" } } },
 	[43007860] = { name="Rock Elementals (Various)", class={ "SHAMAN" }, spell={ "Maelstrom Weapon" },
 					guide={ ns.shaman.maelstrom }, quest={ ns.shaman.maelstromQ }, questName={ ns.shaman.maelstromQN } },
-	[44001600] = { name="Skillbooks", tip="Uldaman", skillBook=true, guide={ ns.dungeonDrops }, 
-					class={ "DRUID", "DRUID", "DRUID", "HUNTER", "MAGE", "PALADIN", "PRIEST", "PRIEST", "ROGUE", "SHAMAN",
-						"WARLOCK", "WARLOCK", "WARRIOR" },	
-					spell={ "Deeper Wilds", "Enhanced Restoration", "Revive", "Aspect of the Viper", "Expanded Intellect",
-							"Enhanced Blessings", "Increased Fortitude", "Shadowfiend", "Redirect", "Totemic Projection",
-							"Portal Summoning", "Soul Harvesting", "Commanding Shout" }, },
+--	[44001600] = { name="Skillbooks", tip="Uldaman", skillBook=true, guide={ ns.dungeonDrops }, 
+--					class={ "DRUID", "DRUID", "DRUID", "HUNTER", "MAGE", "PALADIN", "PRIEST", "PRIEST", "ROGUE", "SHAMAN",
+--						"WARLOCK", "WARLOCK", "WARRIOR" },	
+--					spell={ "Deeper Wilds", "Enhanced Restoration", "Revive", "Aspect of the Viper", "Expanded Intellect",
+--							"Enhanced Blessings", "Increased Fortitude", "Shadowfiend", "Redirect", "Totemic Projection",
+--							"Portal Summoning", "Soul Harvesting", "Commanding Shout" }, },
 	[56405540] = { npc=218931, name="Dark Rider", tip="Search this area",
 					class={ "DRUID", "HUNTER", "MAGE", "PALADIN", "PRIEST", "ROGUE",
 					"SHAMAN", "WARLOCK", "WARRIOR" }, spell={ "King of the Jungle", "Melee Specialist", "Missile Barrage",
@@ -2058,12 +2058,12 @@ points[ 1418 ] = { -- Badlands
 					tip="Farm until the Primitive Drawing drops. Dustbelcher Ogres/Brutes have the "
 					.."far better drop rate (1 in 8)", guide={ ns.hunter.expose }, quest={ { 78823, 78830 } },
 					questName={ { "Terror of the Desert Skies", "Terror of the Desert Skies" } } },
-	[65504330] = { name="Skillbooks", tip="Uldaman Back Entrance", skillBook=true, guide={ ns.dungeonDrops }, 
-					class={ "DRUID", "DRUID", "DRUID", "HUNTER", "MAGE", "PALADIN", "PRIEST", "PRIEST", "ROGUE", "SHAMAN",
-						"WARLOCK", "WARLOCK", "WARRIOR" },	
-					spell={ "Deeper Wilds", "Enhanced Restoration", "Revive", "Aspect of the Viper", "Expanded Intellect",
-							"Enhanced Blessings", "Increased Fortitude", "Shadowfiend", "Redirect", "Totemic Projection",
-							"Portal Summoning", "Soul Harvesting", "Commanding Shout" }, },
+--	[65504330] = { name="Skillbooks", tip="Uldaman Back Entrance", skillBook=true, guide={ ns.dungeonDrops }, 
+--					class={ "DRUID", "DRUID", "DRUID", "HUNTER", "MAGE", "PALADIN", "PRIEST", "PRIEST", "ROGUE", "SHAMAN",
+--						"WARLOCK", "WARLOCK", "WARRIOR" },	
+--					spell={ "Deeper Wilds", "Enhanced Restoration", "Revive", "Aspect of the Viper", "Expanded Intellect",
+--							"Enhanced Blessings", "Increased Fortitude", "Shadowfiend", "Redirect", "Totemic Projection",
+--							"Portal Summoning", "Soul Harvesting", "Commanding Shout" }, },
 }
 points[ 1419 ] = { -- Blasted Lands
 	[33604870] = { object=457089, name="The Shadow Connection", spell={ "Shadow Specialization" }, ring=true, 
@@ -3882,12 +3882,12 @@ points[ 1420 ] = { -- Tirisfal Glades
 					quest={ { 78699,78676 } }, questName={ { "The Eye of Bhossca (Dead Drop)", "The Eye of Bhossca (SM)" } } },
 	[83007250] = { npc=226797, name="Prazik Pilfershard", class={ "WARLOCK" }, spell={ "Mark of Chaos" },
 					guide={ ns.warlock.markChaos }, faction="Horde" },
-	[84002900] = { name="Skillbooks", tip="Scarlet Monastery", skillBook=true, guide={ ns.dungeonDrops }, 
-					class={ "DRUID", "DRUID", "DRUID", "HUNTER", "MAGE", "PALADIN", "PRIEST", "PRIEST", "ROGUE", "SHAMAN",
-						"WARLOCK", "WARLOCK", "WARRIOR" },	
-					spell={ "Deeper Wilds", "Enhanced Restoration", "Revive", "Aspect of the Viper", "Expanded Intellect",
-							"Enhanced Blessings", "Increased Fortitude", "Shadowfiend", "Redirect", "Totemic Projection",
-							"Portal Summoning", "Soul Harvesting", "Commanding Shout" }, },
+--	[84002900] = { name="Skillbooks", tip="Scarlet Monastery", skillBook=true, guide={ ns.dungeonDrops }, 
+--					class={ "DRUID", "DRUID", "DRUID", "HUNTER", "MAGE", "PALADIN", "PRIEST", "PRIEST", "ROGUE", "SHAMAN",
+--						"WARLOCK", "WARLOCK", "WARRIOR" },	
+--					spell={ "Deeper Wilds", "Enhanced Restoration", "Revive", "Aspect of the Viper", "Expanded Intellect",
+--							"Enhanced Blessings", "Increased Fortitude", "Shadowfiend", "Redirect", "Totemic Projection",
+--							"Portal Summoning", "Soul Harvesting", "Commanding Shout" }, },
 }
 points[ 1458 ] = { -- Undercity
 	[24004160] = { npc=204070, name="Soboz", class={ "WARLOCK" }, faction="Horde",
@@ -5705,12 +5705,12 @@ points[ 1413 ] = { -- The Barrens
 					tip="Go to the same cavern with the Wailing Caverns entrance portal. The scroll is on the opposite side" },
 	[48204020] = { name="Oasis Snapjaw Nest/Hatchling", class={ "DRUID" }, faction="Horde",
 					spell={ "Lacerate" }, guide={ ns.druid.lacerate } },
-	[49009600] = { name="Skillbooks", tip="Razorfen Downs", skillBook=true, guide={ ns.dungeonDrops }, 
-					class={ "DRUID", "DRUID", "DRUID", "HUNTER", "MAGE", "PALADIN", "PRIEST", "PRIEST", "ROGUE", "SHAMAN",
-						"WARLOCK", "WARLOCK", "WARRIOR" },	
-					spell={ "Deeper Wilds", "Enhanced Restoration", "Revive", "Aspect of the Viper", "Expanded Intellect",
-							"Enhanced Blessings", "Increased Fortitude", "Shadowfiend", "Redirect", "Totemic Projection",
-							"Portal Summoning", "Soul Harvesting", "Commanding Shout" }, },
+--	[49009600] = { name="Skillbooks", tip="Razorfen Downs", skillBook=true, guide={ ns.dungeonDrops }, 
+--					class={ "DRUID", "DRUID", "DRUID", "HUNTER", "MAGE", "PALADIN", "PRIEST", "PRIEST", "ROGUE", "SHAMAN",
+--						"WARLOCK", "WARLOCK", "WARRIOR" },	
+--					spell={ "Deeper Wilds", "Enhanced Restoration", "Revive", "Aspect of the Viper", "Expanded Intellect",
+--							"Enhanced Blessings", "Increased Fortitude", "Shadowfiend", "Redirect", "Totemic Projection",
+--							"Portal Summoning", "Soul Harvesting", "Commanding Shout" }, },
 	[49205720] = { npc=6247, name="Doan Karhan", class={ "WARLOCK" },
 					spell={ "Metamorphosis" }, guide={ ns.warlock.metamorphosis },
 					quest={ { 1740, 78680, 78681, 78684, 78702 } }, questName={ { "The Orb of Soran'ruk", "Rumors Abound",
@@ -5807,12 +5807,12 @@ points[ 1441 ] = { -- Thousand Needles
 					spell={ "Decoy Totem" }, guide={ ns.shaman.decoyTotem }, },
 	[40003480] = { npc=4117, name="Cloud Serpent", class={ "SHAMAN" }, tip="3 x Cloud Serpent Fangs",
 					spell={ "Decoy Totem" }, guide={ ns.shaman.decoyTotem }, },
-	[43403080] = { name="Skillbooks", tip="Razorfen Downs", skillBook=true, guide={ ns.dungeonDrops }, 
-					class={ "DRUID", "DRUID", "DRUID", "HUNTER", "MAGE", "PALADIN", "PRIEST", "PRIEST", "ROGUE", "SHAMAN",
-						"WARLOCK", "WARLOCK", "WARRIOR" },	
-					spell={ "Deeper Wilds", "Enhanced Restoration", "Revive", "Aspect of the Viper", "Expanded Intellect",
-							"Enhanced Blessings", "Increased Fortitude", "Shadowfiend", "Redirect", "Totemic Projection",
-							"Portal Summoning", "Soul Harvesting", "Commanding Shout" }, },
+--	[43403080] = { name="Skillbooks", tip="Razorfen Downs", skillBook=true, guide={ ns.dungeonDrops }, 
+--					class={ "DRUID", "DRUID", "DRUID", "HUNTER", "MAGE", "PALADIN", "PRIEST", "PRIEST", "ROGUE", "SHAMAN",
+--						"WARLOCK", "WARLOCK", "WARRIOR" },	
+--					spell={ "Deeper Wilds", "Enhanced Restoration", "Revive", "Aspect of the Viper", "Expanded Intellect",
+--							"Enhanced Blessings", "Increased Fortitude", "Shadowfiend", "Redirect", "Totemic Projection",
+--							"Portal Summoning", "Soul Harvesting", "Commanding Shout" }, },
 	[46005160] = { npc=4722, name="Rau Cliffrunner", class={ "SHAMAN" },
 					spell={ "Maelstrom Weapon" }, guide={ ns.shaman.maelstrom },
 					quest={ { 79358, 79360, 79362, 79363, 79361, 79364, 79365, 79366, 79442 } },
@@ -5933,6 +5933,7 @@ ns.textures[17] = "Interface\\AddOns\\HandyNotes_Runes\\Textures\\Demonic"
 ns.textures[18] = "Interface\\AddOns\\HandyNotes_Runes\\Textures\\Duty"
 ns.textures[19] = "Interface\\AddOns\\HandyNotes_Runes\\Textures\\Frozen"
 ns.textures[20] = "Interface\\AddOns\\HandyNotes_Runes\\Textures\\Metamorphosis"
+ns.textures[21] = "Interface\\AddOns\\HandyNotes_Runes\\Textures\\" ..( string.lower( ns.class ):gsub( "^%l", string.upper ) )
 
 ns.scaling[1] = 0.41
 ns.scaling[2] = 0.41
@@ -5954,3 +5955,4 @@ ns.scaling[17] = 0.33
 ns.scaling[18] = 0.33
 ns.scaling[19] = 0.33
 ns.scaling[20] = 0.33
+ns.scaling[21] = 0.33
