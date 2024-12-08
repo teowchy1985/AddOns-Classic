@@ -1,12 +1,25 @@
 # DBM - Vanilla and Season of Discovery
 
-## [r764](https://github.com/DeadlyBossMods/DBM-Vanilla/tree/r764) (2024-12-07)
-[Full Changelog](https://github.com/DeadlyBossMods/DBM-Vanilla/compare/r763...r764) [Previous Releases](https://github.com/DeadlyBossMods/DBM-Vanilla/releases)
+## [r765](https://github.com/DeadlyBossMods/DBM-Vanilla/tree/r765) (2024-12-07)
+[Full Changelog](https://github.com/DeadlyBossMods/DBM-Vanilla/compare/r764...r765) [Previous Releases](https://github.com/DeadlyBossMods/DBM-Vanilla/releases)
 
-- AQ20/Buru: Fix trigger for Pursue warning  
-    It's used as a regex, hence the %s doesn't work as expected, just use the main part of the string as it's an in-combat event anyways  
-- SoD/Emerald Dragons: Update for SoD  
-    * Add encounter IDs  
-    * Add creature IDs  
-    * Add timer, warning, and yell for the new Ysondre soaking mechanic  
-    * Filter the sleep fog warning to only show once  
+- Huhuran: Fix LuaLS errors, remove duplicate options  
+- Twin Emps: Add SoD spell ID for teleport, timer seems to be exact in SoD  
+- Skeram: Add SoD creature ID  
+- Huhuran: Add SoD spell IDs and add warning for Frenzy which can be dispelled by tranq shot in SoD (according to spell metadata)  
+    Confusingly I found logs that use both the old and new spell IDs within the same fight.  
+- CThun: Add SoD support for Eye Beam targets  
+- AQ40 Trash: Update creature ID for SoD  
+- Chromaggus: Avoid incorrect wipe detection on the first pull  
+- Update koKR (#263)  
+    * Update koKR (Classic)  
+    * Update koKR (BCVanilla)  
+    * Update koKR (Vanilla)  
+    * Update koKR (BCVanilla)  
+    * Update koKR  
+    * Update koKR  
+    * Update koKR  
+    * Update koKR  
+    * Update koKR  
+    * Update koKR  
+    * Update koKR  
