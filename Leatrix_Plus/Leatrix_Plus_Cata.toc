@@ -6,13 +6,13 @@
 ## Notes: Quality of life addon.
 ## Notes-zhCN: 哆啦A梦的百宝袋
 
-## Version: 4.0.35
+## Version: 4.0.37
 ## Author: Leatrix
 ## SavedVariables: LeaPlusDB
 
 ## OptionalDeps: Leatrix_enUS, ElvUI
 
-## X-Curse-Project-ID: 463863
+## X-Curse-Project-ID: 94855
 
 ## Title-zhTW: |cff0099FF[介面]|r 功能百寶箱
 ## Notes-zhTW: Leatrix Plus |n|n讓生活更美好的插件，提供多種各式各樣的遊戲功能設定。|n|n|cffffd200使用方法: |r點小地圖按鈕的藍色閃電開啟設定。|n|n|cffFF2D2D特別注意: |r請勿使用功能百寶箱 "框架相關" 裡面功能和遊戲內建的編輯模式來調整同一個框架，會發生衝突。
