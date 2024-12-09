@@ -272,16 +272,23 @@ end
 
 Baganator.API.Skins = {}
 
-function Baganator.API.Skins.GetAllFrames()
-  return addonTable.Skins.allFrames
+function Baganator.API.Skins.GetCurrentSkin()
+  return addonTable.Config.Get(addonTable.Config.Options.CURRENT_SKIN)
 end
 
 function Baganator.API.Skins.RegisterListener(callback)
-  if not addonTable.Skins.skinListeners then
-    addonTable.Skins.skinListeners = {}
-  end
   table.insert(addonTable.Skins.skinListeners, callback)
   if addonTable.WagoAnalytics then
-    addonTable.WagoAnalytics:Switch("UsingSkin", true)
+    addonTable.WagoAnalytics:Switch("UsingSkinRaw", true)
+  end
+end
+
+local blockedSkins = {
+  "Baganator-ElvUI", "Baganator-GW2UI", "Baganator-NDui", "Baganator-Simple"
+}
+for _, skin in ipairs(blockedSkins) do
+  if C_AddOns.DoesAddOnExist(skin) then
+    addonTable.Utilities.Message(BAGANATOR_L_LEGACY_SKIN .. RED_FONT_COLOR:WrapTextInColorCode(skin) .. BAGANATOR_L_NO_LONGER_NEEDED)
+    C_AddOns.DisableAddOn(skin)
   end
 end
