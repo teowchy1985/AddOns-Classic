@@ -434,7 +434,7 @@ function func:InteractIcon(nameplate)
     if nameplate and data.isRetail then
         local unitFrame = nameplate.unitFrame;
         local interactIcon = nameplate.UnitFrame and nameplate.UnitFrame.SoftTargetFrame and nameplate.UnitFrame.SoftTargetFrame.Icon;
-        local auras = unitFrame and unitFrame.auras.list and (unitFrame.auras.list[1]);
+        local auras = unitFrame and unitFrame.auras and unitFrame.auras.list and (unitFrame.auras.list[1]); -- 暫時修正
         local resourceOnTarget = data.cvars.nameplateResourceOnTarget;
 
         if interactIcon then
