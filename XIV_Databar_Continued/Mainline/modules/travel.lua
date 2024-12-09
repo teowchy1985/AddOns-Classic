@@ -228,11 +228,20 @@ function TravelModule:RegisterFrameEvents()
         end)
     end
 
-    self.hearthButton:SetScript('OnEnter',
-                                function() TravelModule:SetHearthColor() end)
+    self.hearthButton:SetScript('OnEnter', function()
+        self:SetHearthColor()
+        if InCombatLockdown() then return end
+        self:ShowTooltip()
+    end)
 
-    self.hearthButton:SetScript('OnLeave',
-                                function() TravelModule:SetHearthColor() end)
+    self.hearthButton:SetScript('OnLeave', function()
+        self:SetHearthColor()
+        if self.tooltipTimer then
+            self.tooltipTimer:Cancel()
+            self.tooltipTimer = nil
+        end
+        GameTooltip:Hide()
+    end)
 
     self.portButton:SetScript('OnEnter', function()
         TravelModule:SetPortColor()
@@ -242,6 +251,10 @@ function TravelModule:RegisterFrameEvents()
 
     self.portButton:SetScript('OnLeave', function()
         TravelModule:SetPortColor()
+        if self.tooltipTimer then
+            self.tooltipTimer:Cancel()
+            self.tooltipTimer = nil
+        end
         GameTooltip:Hide()
     end)
 
@@ -254,12 +267,45 @@ function TravelModule:RegisterFrameEvents()
         TravelModule:SetMythicColor()
         GameTooltip:Hide()
     end)
+
+    self.portButton:SetScript('OnEnter', function()
+        TravelModule:SetPortColor()
+        if InCombatLockdown() then return end
+        self:ShowTooltip()
+    end)
+
+    self.portButton:SetScript('OnLeave', function()
+        TravelModule:SetPortColor()
+        if self.tooltipTimer then
+            self.tooltipTimer:Cancel()
+            self.tooltipTimer = nil
+        end
+        GameTooltip:Hide()
+    end)
+
+    self.hearthButton:SetScript('OnEnter', function()
+        self:SetHearthColor()
+        if InCombatLockdown() then return end
+        self:ShowTooltip()
+    end)
+
+    self.hearthButton:SetScript('OnLeave', function()
+        self:SetHearthColor()
+        if self.tooltipTimer then
+            self.tooltipTimer:Cancel()
+            self.tooltipTimer = nil
+        end
+        GameTooltip:Hide()
+    end)
 end
 
 function TravelModule:UpdatePortOptions()
     if not self.portOptions then self.portOptions = {} end
     if IsUsableItem(128353) and not self.portOptions[128353] then
-        self.portOptions[128353] = {portId = 128353, text = GetItemInfo(128353)} -- admiral's compass
+        self.portOptions[128353] = {
+            portId = 128353, 
+            text = GetItemInfo(128353)
+        } -- admiral's compass
     end
     if PlayerHasToy(140192) and not self.portOptions[140192] then
         self.portOptions[140192] = {
@@ -354,7 +400,7 @@ function TravelModule:SetHearthColor()
 
     for i, v in ipairs(usedHearthstones) do
         if IsUsableItem(v) then
-            if GetItemCooldown(v) == 0 then
+            --if GetItemCooldown(v) == 0 then
                 local name, _ = GetItemInfo(v)
                 hearthName = name
                 if hearthName ~= nil then
@@ -368,10 +414,10 @@ function TravelModule:SetHearthColor()
                         break
                     end
                 end
-            end
+            --end
         end -- if toy/item
         if PlayerHasToy(v) then
-            if GetItemCooldown(v) == 0 then
+            --if GetItemCooldown(v) == 0 then
                 local _, name, _, _, _, _ = C_ToyBox.GetToyInfo(v)
                 hearthName = name
                 if hearthName ~= nil then
@@ -385,25 +431,24 @@ function TravelModule:SetHearthColor()
                         break
                     end
                 end
-            end
+            --end
         end -- if toy/item
         if IsPlayerSpell(v) then
-            -- if GetSpellCooldown(v) == 0 then
-			local spellCooldownInfo = C_Spell.GetSpellCooldown(v)
-            if spellCooldownInfo and spellCooldownInfo.startTime == 0 then
-                -- hearthName, _ = GetSpellInfo(v)
-				local hearthName = C_Spell.GetSpellName(v)
-                if hearthName then
-					if xb.db.profile.randomizeHs then
-						table.insert(keyset, i)
-						self.availableHearthstones[v] = {name = hearthName}
-					else
-						hearthActive = true
-						self.hearthButton:SetAttribute("macrotext",
-													   "/cast " .. hearthName)
-					end
-				end
-            end
+            local start, duration = GetSpellCooldown(v)
+            --if start == 0 then
+                local spellInfo = GetSpellInfo(v)
+                if spellInfo then
+                    hearthName = spellInfo.name
+                    if xb.db.profile.randomizeHs then
+                        table.insert(keyset, i)
+                        self.availableHearthstones[v] = {name = hearthName}
+                    else
+                        hearthActive = true
+                        self.hearthButton:SetAttribute("macrotext",
+                                                       "/cast " .. hearthName)
+                    end
+                end
+            --end
         end -- if is spell
     end -- for hearthstones
 
@@ -452,8 +497,20 @@ function TravelModule:SetPortColor()
         local hearthname = ''
         local hearthActive = false
 
+        if IsPlayerSpell(v) then
+            local start, duration = GetSpellCooldown(v)
+            --if start == 0 then
+                local spellInfo = GetSpellInfo(v)
+                if spellInfo then
+                    hearthName = spellInfo.name
+                    hearthActive = true
+                    self.portButton:SetAttribute("macrotext",
+                                                 "/cast " .. hearthName)
+                end
+            --end
+        end -- if is spell
         if IsUsableItem(v) then
-            if GetItemCooldown(v) == 0 then
+            --if GetItemCooldown(v) == 0 then
                 local name, _ = GetItemInfo(v)
                 hearthName = name
                 if hearthName ~= nil then
@@ -461,10 +518,10 @@ function TravelModule:SetPortColor()
                     self.portButton:SetAttribute("macrotext",
                                                  "/cast " .. hearthName)
                 end
-            end
+            --end
         end -- if item
         if PlayerHasToy(v) then
-            if GetItemCooldown(v) == 0 then
+            --if GetItemCooldown(v) == 0 then
                 local _, name, _, _, _, _ = C_ToyBox.GetToyInfo(v)
                 hearthName = name
                 if hearthName ~= nil then
@@ -472,19 +529,8 @@ function TravelModule:SetPortColor()
                     self.portButton:SetAttribute("macrotext",
                                                  "/cast " .. hearthName)
                 end
-            end
+            --end
         end -- if toy
-        if IsPlayerSpell(v) then
-			local spellCooldownInfo = C_Spell.GetSpellCooldown(v)
-            if spellCooldownInfo and spellCooldownInfo.startTime == 0 then
-				hearthName = C_Spell.GetSpellName(v)
-                if hearthName ~= nil then
-                    hearthActive = true
-                    self.portButton:SetAttribute("macrotext",
-                                                 "/cast " .. hearthName)
-                end
-            end
-        end -- if is spell
 
         if not hearthActive then
             self.portIcon:SetVertexColor(db.color.inactive.r,
@@ -706,7 +752,7 @@ function TravelModule:CreateMythicPopup()
                     dungeonId = 1672 -- Freehold
                 },
                 [3] = {
-                    teleportId = 445418, -- Siege of Boralus Teleport
+                    teleportId = 464256, -- Siege of Boralus Teleport
                     dungeonId = 1700 -- Siege of Boralus
                 },
                 [4] = {
@@ -840,25 +886,27 @@ function TravelModule:CreateMythicPopup()
     -- Loop on each mythicTeleports item and check foreach if spell known, if known, add to new table
     local filteredTeleports = {}
     for mythicKey, mythicData in ipairs(mythicTeleports) do
-        if mythicData.teleports then
-            local newTeleports = {}
-            local i = 1
-            for index, spell in ipairs(mythicData.teleports) do
-                if IsSpellKnown(spell.teleportId) then
-                    self.noMythicTeleport = false
-                    newTeleports[i] = {
-                        teleportId = spell.teleportId,
-                        dungeonId = spell.dungeonId
-                    }
-                    i = i + 1
+        if (xb.db.profile.curSeasonOnly and mythicKey == 12) or not xb.db.profile.curSeasonOnly then
+            if mythicData.teleports then
+                local newTeleports = {}
+                local i = 1
+                for index, spell in ipairs(mythicData.teleports) do
+                    if IsSpellKnown(spell.teleportId) then
+                        self.noMythicTeleport = false
+                        newTeleports[i] = {
+                            teleportId = spell.teleportId,
+                            dungeonId = spell.dungeonId
+                        }
+                        i = i + 1
+                    end
                 end
-            end
-            if next(newTeleports) then
-                mythicData.teleports = newTeleports
+                if next(newTeleports) then
+                    mythicData.teleports = newTeleports
+                    table.insert(filteredTeleports, mythicData)
+                end
+            else
                 table.insert(filteredTeleports, mythicData)
             end
-        else
-            table.insert(filteredTeleports, mythicData)
         end
     end
 
@@ -896,15 +944,75 @@ function TravelModule:CreateMythicPopup()
         return button
     end
 
-    UIDropDownMenu_Initialize(self.mythicPopup, function(self, level, menuList)
-        if (level or 1) == 1 then
-            -- Title
+    if not xb.db.profile.curSeasonOnly then -- If not curSeasonOnly, show a 2 levels dropdown menu
+        UIDropDownMenu_Initialize(self.mythicPopup, function(self, level, menuList)
+            if (level or 1) == 1 then
+                -- Title
+                local info = UIDropDownMenu_CreateInfo()
+                local r, g, b, _ = unpack(xb:HoverColors())
+                info.text = '[|cFF' .. string.format('%02x', r * 255) ..
+                                string.format('%02x', g * 255) ..
+                                string.format('%02x', b * 255) ..
+                                L['Mythic+ Teleports'] .. '|r]'
+                info.notClickable, info.notCheckable = true, true
+                UIDropDownMenu_AddButton(info)
+
+                -- Separator
+                local separator = UIDropDownMenu_CreateInfo()
+                separator.text = ""
+                separator.disabled = true
+                separator.notClickable = true
+                separator.isTitle = true
+                separator.leftPadding = 10
+                separator.textHeight = 1 -- Makes the separator line thinner
+                separator.notCheckable = true
+                UIDropDownMenu_AddButton(separator, level)
+
+                -- Loop on each mythicTeleports item and check foreach if spell known, if not, don't show anything
+                for mythicKey, mythicData in ipairs(filteredTeleports) do
+                    if mythicData.teleports then
+                        local newTeleports = {}
+                        local i = 1
+                        for index, spell in ipairs(mythicData.teleports) do
+                            if IsSpellKnown(spell.teleportId) then
+                                self.noMythicTeleport = false
+                                newTeleports[i] = {
+                                    teleportId = spell.teleportId,
+                                    dungeonId = spell.dungeonId
+                                }
+                                i = i + 1
+                            end
+                        end
+                        if next(newTeleports) then
+                            mythicData.teleports = newTeleports
+                            local info = UIDropDownMenu_CreateInfo()
+                            info.text, info.checked = mythicData.name, false
+                            info.menuList, info.hasArrow = mythicData.teleports, true
+                            info.notCheckable = true
+                            info.value = mythicData.teleports
+                            UIDropDownMenu_AddButton(info)
+                        end
+                    end
+                end
+            else
+                for key, value in ipairs(menuList) do
+                    local spellName = C_Spell.GetSpellName(value.teleportId)
+
+                    local info = UIDropDownMenu_CreateInfo()
+
+                    info.customFrame = CreateTeleportButton(value, spellName)
+                    UIDropDownMenu_AddButton(info, level)
+                end
+            end
+        end, 'MENU')
+    else -- If curSeasonOnly, only show a single-level dropdown menu
+        UIDropDownMenu_Initialize(self.mythicPopup, function(self, level, menuList)
             local info = UIDropDownMenu_CreateInfo()
             local r, g, b, _ = unpack(xb:HoverColors())
             info.text = '[|cFF' .. string.format('%02x', r * 255) ..
                             string.format('%02x', g * 255) ..
                             string.format('%02x', b * 255) ..
-                            L["Mythic+ Portals"] .. '|r]'
+                            L['Mythic+ Teleports'] .. '|r]'
             info.notClickable, info.notCheckable = true, true
             UIDropDownMenu_AddButton(info)
 
@@ -918,33 +1026,19 @@ function TravelModule:CreateMythicPopup()
             separator.textHeight = 1 -- Makes the separator line thinner
             separator.notCheckable = true
             UIDropDownMenu_AddButton(separator, level)
-
-            -- Loop on each mythicTeleports item and check foreach if spell known, if not, don't show anything
+                
             for mythicKey, mythicData in ipairs(filteredTeleports) do
-                if mythicData.teleports then
-                    if mythicData.name == L["Current season"] then
-                        UIDropDownMenu_AddButton(separator, level)
-                    end
+                for key, value in ipairs(mythicData.teleports) do
+                    local spellName = C_Spell.GetSpellName(value.teleportId)
 
                     local info = UIDropDownMenu_CreateInfo()
-                    info.text, info.checked = mythicData.name, false
-                    info.menuList, info.hasArrow = mythicData.teleports, true
-                    info.notCheckable = true
-                    info.value = mythicData.teleports
-                    UIDropDownMenu_AddButton(info)
+
+                    info.customFrame = CreateTeleportButton(value, spellName)
+                    UIDropDownMenu_AddButton(info, level)
                 end
             end
-        else
-            for key, value in ipairs(menuList) do
-                local spellName = C_Spell.GetSpellName(value.teleportId)
-
-                local info = UIDropDownMenu_CreateInfo()
-
-                info.customFrame = CreateTeleportButton(value, spellName)
-                UIDropDownMenu_AddButton(info, level)
-            end
-        end
-    end, 'MENU')
+        end, 'MENU')
+    end
 
     for i = 1, UIDROPDOWNMENU_MAXBUTTONS do
         local button = _G["DropDownList1Button" .. i]
@@ -1036,11 +1130,11 @@ function TravelModule:Refresh()
 
     if (xb.db.profile.enableMythicPortals) then
         self.mythicText:SetFont(xb:GetFont(db.text.fontSize))
-        self.mythicText:SetText('M+ Portals')
+        self.mythicText:SetText(L['M+ Teleports'])
 
         self.mythicButton:SetSize(self.mythicText:GetWidth() + iconSize +
                                       db.general.barPadding, xb:GetHeight())
-        self.mythicButton:SetPoint("LEFT", -(db.general.barPadding), 0)
+        self.mythicButton:SetPoint("RIGHT", self.portButton, "LEFT", -(db.general.barPadding), 0)
 
         self.mythicText:SetPoint("RIGHT")
 
@@ -1105,31 +1199,62 @@ function TravelModule:ShowTooltip()
         GameTooltip:SetOwner(self.portButton, 'ANCHOR_' .. xb.miniTextPosition)
         GameTooltip:ClearLines()
         local r, g, b, _ = unpack(xb:HoverColors())
-        GameTooltip:AddLine("|cFFFFFFFF[|r" .. L['Travel Cooldowns'] ..
-                                "|cFFFFFFFF]|r", r, g, b)
-        for i, v in pairs(self.portOptions) do
-            if IsUsableItem(v.portId) or IsPlayerSpell(v.portId) then
-                if IsUsableItem(v.portId) then
-                    local startTime, cd, _ = GetItemCooldown(v.portId)
-                    local remainingCooldown = (startTime + cd - GetTime())
-                    local cdString = self:FormatCooldown(remainingCooldown)
-                    GameTooltip:AddDoubleLine(v.text, cdString, r, g, b, 1, 1, 1)
-                end
-                if IsPlayerSpell(v.portId) then
-                    local cd = C_Spell.GetSpellCooldown(v.portId)
-                    if cd then
-	                    local remainingCooldown =
-	                        (cd.startTime + cd.duration - GetTime())
-	                    local cdString = self:FormatCooldown(remainingCooldown)
-	                    GameTooltip:AddDoubleLine(v.text, cdString, r, g, b, 1, 1, 1)
-	                end
+        GameTooltip:AddLine("|cFFFFFFFF[|r" .. L['Travel Cooldowns'] .. "|cFFFFFFFF]|r", r, g, b)
+        
+        -- Show hearthstone cooldown
+        local hearthstoneId = 6948 -- Regular Hearthstone ID
+        if C_Item.DoesItemExistByID(hearthstoneId) then
+            local startTime, duration = GetItemCooldown(hearthstoneId)
+            local remainingCooldown = (startTime + duration - GetTime())
+            local cdString = self:FormatCooldown(remainingCooldown)
+            GameTooltip:AddDoubleLine(L['Hearthstone'], cdString, r, g, b, 1, 1, 1)
+        end
+
+        -- Show teleport cooldowns
+        if self.portOptions then
+            for i, v in pairs(self.portOptions) do
+                if v and v.portId and v.text then
+                    if PlayerHasToy(v.portId) or (IsUsableItem(v.portId) and not IsSpellKnown(v.portId)) then
+                        -- Handle items and toys
+                        local startTime, duration = GetItemCooldown(v.portId)
+                        local remainingCooldown = (startTime + duration - GetTime())
+                        local cdString = self:FormatCooldown(remainingCooldown)
+                        GameTooltip:AddDoubleLine(v.text, cdString, r, g, b, 1, 1, 1)
+                    else
+                        -- Handle spells (including class-specific teleports)
+                        if IsSpellKnown(v.portId) then
+                            local start, duration = GetSpellCooldown(v.portId)
+                            
+                            -- Always show cooldown info
+                            local remainingCooldown = 0
+                            if start and duration then
+                                if duration > 0 then
+                                    remainingCooldown = start + duration - GetTime()
+                                end
+                            end
+                            local cdString = self:FormatCooldown(remainingCooldown)
+                            GameTooltip:AddDoubleLine(v.text, cdString, r, g, b, 1, 1, 1)
+                        end
+                    end
                 end
             end
         end
+        
         GameTooltip:AddLine(" ")
-        GameTooltip:AddDoubleLine('<' .. L['Right-Click'] .. '>',
-                                  L['Change Port Option'], r, g, b, 1, 1, 1)
+        GameTooltip:AddDoubleLine('<' .. L['Right-Click'] .. '>', L['Change Port Option'], r, g, b, 1, 1, 1)
         GameTooltip:Show()
+
+        -- Update the tooltip every second
+        if not self.tooltipTimer then
+            self.tooltipTimer = C_Timer.NewTicker(1, function()
+                if GameTooltip:IsOwned(self.portButton) then
+                    self:ShowTooltip()
+                else
+                    self.tooltipTimer:Cancel()
+                    self.tooltipTimer = nil
+                end
+            end)
+        end
     end
 end
 
@@ -1204,6 +1329,8 @@ function TravelModule:GetDefaultOptions()
     return 'travel', {
         enabled = true,
         enableMythicPortals = true,
+        curSeasonOnly = false,
+        randomizeHs = false
     }
 end
 
@@ -1222,7 +1349,7 @@ function TravelModule:GetConfig()
         args = {
             enable = {
                 name = ENABLE,
-                order = 0,
+                order = 10,
                 type = "toggle",
                 get = function()
                     return xb.db.profile.modules.travel.enabled;
@@ -1237,9 +1364,14 @@ function TravelModule:GetConfig()
                 end,
                 width = "full"
             },
+            mythicHeader = {
+                order = 18,
+                name = L['Mythic+ Teleports'],
+                type = 'header',
+            },
             enableMythicPortals = {
-                name = L['Show Mythic+ Portals'],
-                order = 1,
+                name = L['Show Mythic+ Teleports'],
+                order = 20,
                 type = "toggle",
                 get = function()
                     return xb.db.profile.enableMythicPortals;
@@ -1250,9 +1382,27 @@ function TravelModule:GetConfig()
                 end,
                 width = "full"
             },
+            curSeasonOnly = {
+                name = L['Only show current season'],
+                order = 25,
+                type = "toggle",
+                get = function()
+                    return xb.db.profile.curSeasonOnly;
+                end,
+                set = function(_, val)
+                    xb.db.profile.curSeasonOnly = val;
+                    self:Refresh();
+                end,
+                width = "full"
+            },
+            hearthstoneHeader = {
+                order = 28,
+                name = L["Hearthstones"],
+                type = 'header',
+            },
             randomizeHs = {
                 name = L['Use Random Hearthstone'],
-                order = 2,
+                order = 30,
                 type = "toggle",
                 get = function()
                     return xb.db.profile.randomizeHs;
@@ -1265,11 +1415,11 @@ function TravelModule:GetConfig()
             },
             information = {
                 name = L['Empty Hearthstones List'],
-                order = 3,
+                order = 40,
                 type = "description"
             },
             selectedHearthstones = {
-                order = 4,
+                order = 50,
                 name = L['Hearthstones Select'],
                 desc = L['Hearthstones Select Desc'],
                 type = "multiselect",
