@@ -485,6 +485,9 @@ L["North"] = "北";
 L["Upper"] = "上";
 L["Lower"] = "下";
 
+L["lootTheItem"] = "拾取%s"; --Example: Loot the Tarnished Undermine Real
+L["Qiraji Lord's Insignia"] = "其拉領主徽記";
+
 --增加
 L["Nova Instance Tracker"] = "Nova 副本進度追蹤";
 L["NovaInstanceTracker"] = "副本-進度";
