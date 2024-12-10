@@ -28,7 +28,8 @@ ns.cozySleepingBag = "Step One: " ..( ( ns.faction == "Alliance" ) and "Go to Al
 			.."via a broken cart.\n Keep climbing and you'll find a hall and a bag.\n\n"
 			.."Note: This quest chain rewards you with 8 pieces of Student\nFodder. Currently the only way to obtain this rested XP boon!"
 ns.felPortals = "Used by the Warlock Explorer Imp,\nMages for their Balefire Bolt rune, etc"
-ns.felRift = "Does NOT reward a Mage Balefire Bolt Spell Note,\nnor a Warlock Rune of the Spellguard"
+ns.felRift = "Does NOT reward a Mage Balefire Bolt Spell Note,\nnor a Warlock Rune of the Spellguard.\n"
+			.."Source of Felcloth and Demonic/Dark Runes"
 ns.gnomeregan = "(1) Loot a Grime-Encrusted Salvage from any\nGnomer trash or the Dark Iron Ambassador.\n\n"
 			.."(2) At the Dormitory, insert it plus 30s into the\nSalvagematic 9000. You need to be L40.\n\n"
 			.."Ziri nearby offers to help with repairs, with you\nproviding 10 x mithril bars (AH), 5 x Greater\n"
@@ -301,22 +302,22 @@ points[ 1424 ] = { -- Hillsbrad Foothills
 					questName={ ( ( ns.race == "Undead" ) and "Secrets of the Loa (1)" or "" ), 
 							( ( ns.race == "Undead" ) and "Secrets of the Loa (2)" or "" ) } },
 
-	[50514971] = { npc=3537, name="Zixil", title=ns.voidTouchedTitle, icon=4, guide=ns.voidTouched,
+	[50844945] = { npc=3537, name="Zixil", title=ns.voidTouchedTitle, icon=4, guide=ns.voidTouched,
 					tip="Alchemists may purchase an Elixir\nof Coalesced Regret recipe",
 					quest={ 78909 }, questName={ "Shifting Scale Talisman" } },
-	[52714131] = { npc=3537, name="Zixil", title=ns.voidTouchedTitle, icon=4, guide=ns.voidTouched,
+	[51593922] = { npc=3537, name="Zixil", title=ns.voidTouchedTitle, icon=4, guide=ns.voidTouched,
 					tip="Alchemists may purchase an Elixir\nof Coalesced Regret recipe",
 					quest={ 78909 }, questName={ "Shifting Scale Talisman" } },
-	[55511881] = { npc=3537, name="Zixil", title=ns.voidTouchedTitle, icon=4, guide=ns.voidTouched,
+	[55702030] = { npc=3537, name="Zixil", title=ns.voidTouchedTitle, icon=4, guide=ns.voidTouched,
 					tip="Alchemists may purchase an Elixir\nof Coalesced Regret recipe",
 					quest={ 78909 }, questName={ "Shifting Scale Talisman" } },
-	[55612661] = { npc=3537, name="Zixil", title=ns.voidTouchedTitle, icon=4, guide=ns.voidTouched,
+	[55752740] = { npc=3537, name="Zixil", title=ns.voidTouchedTitle, icon=4, guide=ns.voidTouched,
 					tip="Alchemists may purchase an Elixir\nof Coalesced Regret recipe",
 					quest={ 78909 }, questName={ "Shifting Scale Talisman" }, continent=true },
-	[55613461] = { npc=3537, name="Zixil", title=ns.voidTouchedTitle, icon=4, guide=ns.voidTouched,
+	[57013427] = { npc=3537, name="Zixil", title=ns.voidTouchedTitle, icon=4, guide=ns.voidTouched,
 					tip="Alchemists may purchase an Elixir\nof Coalesced Regret recipe",
 					quest={ 78909 }, questName={ "Shifting Scale Talisman" } },
-	[60712021] = { npc=3537, name="Zixil", title=ns.voidTouchedTitle, icon=4, guide=ns.voidTouched,
+	[60712068] = { npc=3537, name="Zixil", title=ns.voidTouchedTitle, icon=4, guide=ns.voidTouched,
 					tip="Alchemists may purchase an Elixir\nof Coalesced Regret recipe",
 					quest={ 78909 }, questName={ "Shifting Scale Talisman" } },
 	[88557351] = { name="Shadowy Figure / Shard of Pure Light", title=ns.voidTouchedTitle, icon=4, guide=ns.voidTouched,

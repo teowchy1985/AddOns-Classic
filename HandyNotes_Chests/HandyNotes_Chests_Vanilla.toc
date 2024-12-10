@@ -1,5 +1,5 @@
 ## Interface: 11505
-## Version: 1.18
+## Version: 1.19
 ## Author: Taraezor
 ## IconTexture: Interface\Icons\inv_crate_05
 ## Title: Chests
