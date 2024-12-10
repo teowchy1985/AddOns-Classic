@@ -607,3 +607,6 @@ L["West"] = "West";
 L["North"] = "North";
 L["Upper"] = "Upper";
 L["Lower"] = "Lower";
+
+L["lootTheItem"] = "Loot the %s"; --Example: Loot the Tarnished Undermine Real
+L["Qiraji Lord's Insignia"] = "Qiraji Lord's Insignia";

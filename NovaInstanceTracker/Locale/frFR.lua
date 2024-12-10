@@ -584,3 +584,22 @@ L["West"] = "Ouest";
 L["North"] = "Nord";
 L["Upper"] = "Supérieur";
 L["Lower"] = "Inférieur";
+
+L["Not Killed"] = "Pas tué";
+L["Loot Reminder List"] = "Liste de rappel de butin";
+L["Check your daily reals status"] = "Vérifiez votre statut quotidien de réaux";
+L["Bosses Looted"] = "Boss dépouillés";
+L["Total today"] = "Total aujourd'hui";
+L["Total Reals"] = "Réaux totaux";
+
+L["Reminder"] = "Rappel";
+L["missingArgentDawnTrinket"] = "Rappel : le bijou %s n'est pas équipé."; --Argent Dawn trinket reminder [Rune of the Dawn] isn't equipped.
+
+L["argentDawnTrinketReminderTitle"] = "Rappel du bijou de l'Aube d'argent";
+L["argentDawnTrinketReminderDesc"] = "Rappel du bijou de l'Aube d'argent dans la discussion si vous entrez dans Scholomance/Stratholme avec le bijou dans les sacs et si vous n'êtes pas exalté.";
+
+L["skipRealMsgIfCappedTitle"] = "Pas de message si plafonné";
+L["skipRealMsgIfCappedDesc"] = "Ignore le message de butin des Réaux de Terremine ternis si vous avez atteint le plafond de 150 bijoux.";
+
+L["lootTheItem"] = "Fouille %s"; --Example: Loot the Tarnished Undermine Real
+L["Qiraji Lord's Insignia"] = "Insigne de seigneur qiraji";

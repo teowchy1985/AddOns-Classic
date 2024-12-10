@@ -380,3 +380,5 @@ L["Inscription"] = "銘文學";
 L["First Aid"] = "急救";
 
 L["Tarnished Undermine Real"] = "黯淡的幽坑城真幣";
+
+L["Qiraji Lord's Insignia"] = "Qiraji Lord's Insignia";

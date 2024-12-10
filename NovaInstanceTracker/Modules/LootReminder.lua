@@ -437,6 +437,26 @@ local turBossesNoRecordEncounter = {
 	[3079] = {name = "Prince Thunderaan"},
 };
 
+local qirajiBossesNoRecordEncounter = {
+	--AQ20.
+	[718] = {name = "Kurinnaxx"},
+	[719] = {name = "General Rajaxx"},	
+	[720] = {name = "Moam"}, --Does this drop?
+	[721] = {name = "Buru the Gorger"},	
+	[722] = {name = "Ayamiss the Hunter"}, 	
+	[723] = {name = "Ossirian the Unscarred"},
+	--AQ40.
+	[709] = {name = "The Prophet Skeram"},
+	[710] = {name = "Silithid Royalty"},
+	[711] = {name = "Battleguard Sartura"},
+	[712] = {name = "Fankriss the Unyielding"},
+	[713] = {name = "Viscidus"},
+	[714] = {name = "Princess Huhuran"},
+	[715] = {name = "Twin Emperors"},
+	[716] = {name = "Ouro"},
+	[717] = {name = "C'Thun"},
+};
+
 local function getTotalDailyReals()
 	local reals = 0;
 	for k, v in pairs(turBosses) do
@@ -624,6 +644,8 @@ local function chatMsgLoot(...)
 						end
 						lastLootNpcID = nil;
 					end
+				elseif (itemID == 21229) then
+	    			hideMiddleMsg();
 	    		end
 	    	end
     	end
@@ -678,7 +700,15 @@ end
 local function encounterEndSuccess(encounterID)
 	if (turBossesNoRecordEncounter[encounterID]) then
 		if (not skipRealMsgIfCapped()) then
-			addMsg(L["Loot the Tarnished Undermine Real"] .. "!", 10);
+			addMsg(string.format(L["lootTheItem"], L["Tarnished Undermine Real"]) .. "!", 10);
+		end
+	elseif (qirajiBossesNoRecordEncounter[encounterID]) then
+		if (not skipRealMsgIfCapped()) then
+			local _, _, standing = GetFactionInfoByID(910); --Brood of Nozdormu.
+			local _, _, standing2 = GetFactionInfoByID(609); --Cenarion Circle.
+			if ((standing and standing < 8 and standing ~= 0) or (standing2 and standing2 < 8 and standing2 ~= 0)) then
+				addMsg(string.format(L["lootTheItem"], L["Qiraji Lord's Insignia"]) .. "!", 10);
+			end
 		end
 	end
 end

@@ -391,3 +391,5 @@ L["Inscription"] = "주문각인";
 L["First Aid"] = "응급치료";
 
 L["Tarnished Undermine Real"] = "빛바랜 언더마인화";
+
+L["Qiraji Lord's Insignia"] = "퀴라지 군주의 휘장";

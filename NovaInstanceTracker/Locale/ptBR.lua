@@ -587,3 +587,22 @@ L["West"] = "Oeste";
 L["North"] = "Norte";
 L["Upper"] = "Superior";
 L["Lower"] = "Inferior";
+
+L["Not Killed"] = "Não morto";
+L["Loot Reminder List"] = "Lista de lembrete de saque";
+L["Check your daily reals status"] = "Verifique seu status diário de reais";
+L["Bosses Looted"] = "Chefes saqueados";
+L["Total today"] = "Total hoje";
+L["Total Reals"] = "Reais totais";
+
+L["Reminder"] = "Lembrete";
+L["missingArgentDawnTrinket"] = "Lembrete: o berloque %s não está equipado."; --Argent Dawn trinket reminder [Rune of the Dawn] isn't equipped.
+
+L["argentDawnTrinketReminderTitle"] = "Lembrete do berloque da Aurora Argêntea";
+L["argentDawnTrinketReminderDesc"] = "Lembrete do berloque da Aurora Argêntea no bate-papo se você entrar em Scholomance/Stratholme com o berloque na bolsa e se você não for exaltado.";
+
+L["skipRealMsgIfCappedTitle"] = "Sem mensagem se no limite";
+L["skipRealMsgIfCappedDesc"] = "Pule a mensagem de saque de Real da Inframina Desgastado se você já tiver o limite de 150.";
+
+L["lootTheItem"] = "Saquea %s"; --Example: Loot the Tarnished Undermine Real
+L["Qiraji Lord's Insignia"] = "Insígnia do Lorde Qiraji";

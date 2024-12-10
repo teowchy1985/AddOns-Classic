@@ -589,4 +589,23 @@ L["East"] = "Este";
 L["West"] = "Oeste";
 L["North"] = "Norte";
 L["Upper"] = "Superior";
-L["Lower"] = "Inferior"; 
+L["Lower"] = "Inferior";
+
+L["Not Killed"] = "No matado";
+L["Loot Reminder List"] = "Lista de recordatorio de botín";
+L["Check your daily reals status"] = "Revisa tu estado diario de reales";
+L["Bosses Looted"] = "Jefes despojados";
+L["Total today"] = "Total hoy";
+L["Total Reals"] = "Reales totales";
+
+L["Reminder"] = "Recordatorio";
+L["missingArgentDawnTrinket"] = "Recordatorio: el abalorio %s no está equipado."; --Argent Dawn trinket reminder [Rune of the Dawn] isn't equipped.
+
+L["argentDawnTrinketReminderTitle"] = "Recordatorio de abalorio de El Alba Argenta";
+L["argentDawnTrinketReminderDesc"] = "Recordatorio del abalorio de El Alba Argenta en el chat si entras a Scholomance/Stratholme con el abalorio en bolsas y no estás exaltado.";
+
+L["skipRealMsgIfCappedTitle"] = "Sin mensaje si está al máximo";
+L["skipRealMsgIfCappedDesc"] = "Omite el mensaje de botín de Real deslustrado de Minahonda si ya tienes el máximo de 150.";
+
+L["lootTheItem"] = "Despoja %s"; --Example: Loot the Tarnished Undermine Real
+L["Qiraji Lord's Insignia"] = "Insignia Qiraji de Lord";

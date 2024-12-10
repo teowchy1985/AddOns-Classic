@@ -589,3 +589,5 @@ L["missingArgentDawnTrinket"] = "%s trinket reminder %s isn't equipped." --Argen
 
 L["argentDawnTrinketReminderTitle"] = "Argent Dawn Trinket Reminder";
 L["argentDawnTrinketReminderDesc"] = "Argent Dawn trinket reminder in chat if you enter Scholomance/Stratholme with the trinket in bags and not exalted.";
+
+L["Qiraji Lord's Insignia"] = "Insignien des Qirajilords";
