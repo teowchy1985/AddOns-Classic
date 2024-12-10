@@ -9,7 +9,7 @@ end
 local mod	= DBM:NewMod("Huhuran", "DBM-Raids-Vanilla", catID)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20241207165339")
+mod:SetRevision("20241207183046")
 mod:SetCreatureID(15509)
 mod:SetEncounterID(714)
 mod:SetModelID(15739)
@@ -91,11 +91,14 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif args:IsSpell(26053, 1215752) and args:IsPlayer() then
 		timerPoison:Start()
 	elseif args:IsSpell(26051, 1215755) then
-		warnEnrage:Show()
 		timerEnrage:Start()
 		timerEnrageCD:Start()
-		specWarnFrenzy:Show(args.destName)
-		specWarnFrenzy:Play("trannow")
+		if self.Options.SpecWarn26051dispel then
+			specWarnFrenzy:Show(args.destName)
+			specWarnFrenzy:Play("trannow")
+		else
+			warnEnrage:Show()
+		end
 	elseif args:IsSpell(26068, 1215885) then
 		warnBerserk:Show()
 		timerStingCD:Stop()

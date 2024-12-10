@@ -9,8 +9,8 @@ end
 local mod	= DBM:NewMod("Skeram", "DBM-Raids-Vanilla", catID)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20241207164657")
-mod:SetCreatureID(15263)
+mod:SetRevision("20241207183046")
+mod:SetCreatureID(DBM:IsSeasonal("SeasonOfDiscovery") and 176525 or 15263)
 mod:SetEncounterID(709)
 if not mod:IsClassic() then
 	mod:SetModelID(15345)
