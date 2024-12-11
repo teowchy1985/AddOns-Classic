@@ -1170,7 +1170,8 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {}, -- #1466
         },
         [2259] = {
-            [questKeys.exclusiveTo] = {2260, 2281}, -- #1825, #2476
+            [questKeys.exclusiveTo] = {2281}, -- #1825, #2476
+            [questKeys.preQuestSingle] = {},
         },
         [2260] = {
             [questKeys.preQuestSingle] = {},
@@ -1179,15 +1180,13 @@ function QuestieQuestFixes:Load()
         [2278] = {
             [questKeys.objectives] = {{{7172,"Learn what lore that the stone watcher has to offer"}}},
         },
-        [2281] = {
-            [questKeys.exclusiveTo] = {2299}, -- #1817
-        },
         [2298] = {
             [questKeys.preQuestSingle] = {},
             [questKeys.exclusiveTo] = {2281}, -- #1825
         },
         [2299] = {
             [questKeys.exclusiveTo] = {2281}, -- #1817
+            [questKeys.preQuestSingle] = {},
         },
         [2300] = {
             [questKeys.preQuestSingle] = {}, -- #1825
@@ -1932,6 +1931,7 @@ function QuestieQuestFixes:Load()
         [5211] = {
             [questKeys.preQuestSingle] = {}, -- #983
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Slay ghouls to free Darrowshire spirits"), 0, {{"monster", 8530}, {"monster", 8531}, {"monster", 8532}}}},
+            [questKeys.objectives] = {{{11064,nil,Questie.ICON_TYPE_TALK}}},
         },
         [5214] = {
             [questKeys.name] = "The Great Ezra Grimm",
@@ -2116,6 +2116,7 @@ function QuestieQuestFixes:Load()
         },
         [5721] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.EASTERN_PLAGUELANDS]={{38.8,91.2}}}, Questie.ICON_TYPE_EVENT, l10n("Place the Relic Bundle in the Town Square."),}},
+            [questKeys.objectives] = {{{10936,nil,Questie.ICON_TYPE_TALK}}},
         },
         -- Salve via Hunting/Mining/Gathering/Skinning/Disenchanting non repeatable quests
         -- Alliance
