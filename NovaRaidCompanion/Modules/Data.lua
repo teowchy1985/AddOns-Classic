@@ -1384,3 +1384,228 @@ end]]
 		end)
 	end
 end]]
+
+local NRCVersionFrame;
+function NRC:openVersionFrame()
+	if (not NRCVersionFrame) then
+		NRCVersionFrame =  NRC:createSimpleInputScrollFrame("NRCVersionFrame", 300, 450, 0, 100);
+		NRCVersionFrame:Hide();
+		NRCVersionFrame:SetToplevel(true);
+		NRCVersionFrame:SetMovable(true);
+		NRCVersionFrame:EnableMouse(true);
+		tinsert(UISpecialFrames, "NRCVersionFrame");
+		NRCVersionFrame:SetPoint("CENTER", UIParent, 0, 100);
+		NRCVersionFrame:SetBackdrop({bgFile = "Interface\\Buttons\\WHITE8x8",insets = {top = 0, left = 0, bottom = 0, right = 0}});
+		NRCVersionFrame:SetBackdropColor(0,0,0,.5);
+		NRCVersionFrame:SetFrameStrata("HIGH");
+		NRCVersionFrame.EditBox:SetAutoFocus(false);
+		NRCVersionFrame.EditBox:SetScript("OnKeyDown", function(self, arg)
+			--If control key is down keep focus for copy/paste to work.
+			--Otherwise remove focus so "enter" can be used to open chat and not have a stuck cursor on this edit box.
+			if (not IsControlKeyDown()) then
+				NRCVersionFrame.EditBox:ClearFocus();
+			end
+		end)
+		NRCVersionFrame.EditBox:SetScript("OnShow", function(self, arg)
+			NRCVersionFrame:SetVerticalScroll(0);
+		end)
+		local versionUpdateTime = 0;
+		NRCVersionFrame:HookScript("OnUpdate", function(self, arg)
+			--Only update once per second.
+			if (GetServerTime() - versionUpdateTime > 0 and self:GetVerticalScrollRange() == 0) then
+				NRC:recalcVersionFrame();
+				versionUpdateTime = GetServerTime();
+			end
+		end)
+		NRCVersionFrame.fs:SetText("|cFFFFFF00NRC Addon and Helper Versions|r");
+		
+		local NRCVersionDragFrame = CreateFrame("Frame", "NRCVersionDragFrame", NRCVersionFrame);
+		NRCVersionDragFrame:SetToplevel(true);
+		NRCVersionDragFrame:EnableMouse(true);
+		NRCVersionDragFrame:SetWidth(205);
+		NRCVersionDragFrame:SetHeight(38);
+		NRCVersionDragFrame:SetPoint("TOP", 0, 4);
+		NRCVersionDragFrame:SetFrameLevel(131);
+		NRCVersionDragFrame.tooltip = CreateFrame("Frame", "NRCVersionDragTooltip", NRCVersionDragFrame, "TooltipBorderedFrameTemplate");
+		NRCVersionDragFrame.tooltip:SetPoint("CENTER", NRCVersionDragFrame, "TOP", 0, 12);
+		NRCVersionDragFrame.tooltip:SetFrameStrata("TOOLTIP");
+		NRCVersionDragFrame.tooltip:SetFrameLevel(9);
+		NRCVersionDragFrame.tooltip:SetAlpha(.8);
+		NRCVersionDragFrame.tooltip.fs = NRCVersionDragFrame.tooltip:CreateFontString("NRCVersionDragTooltipFS", "ARTWORK");
+		NRCVersionDragFrame.tooltip.fs:SetPoint("CENTER", 0, 0.5);
+		NRCVersionDragFrame.tooltip.fs:SetFont(NRC.regionFont, 12);
+		NRCVersionDragFrame.tooltip.fs:SetText(L["Hold to drag"]);
+		NRCVersionDragFrame.tooltip:SetWidth(NRCVersionDragFrame.tooltip.fs:GetStringWidth() + 16);
+		NRCVersionDragFrame.tooltip:SetHeight(NRCVersionDragFrame.tooltip.fs:GetStringHeight() + 10);
+		NRCVersionDragFrame:SetScript("OnEnter", function(self)
+			NRCVersionDragFrame.tooltip:Show();
+		end)
+		NRCVersionDragFrame:SetScript("OnLeave", function(self)
+			NRCVersionDragFrame.tooltip:Hide();
+		end)
+		NRCVersionDragFrame.tooltip:Hide();
+		NRCVersionDragFrame:SetScript("OnMouseDown", function(self, button)
+			if (button == "LeftButton" and not self:GetParent().isMoving) then
+				self:GetParent().EditBox:ClearFocus();
+				self:GetParent():StartMoving();
+				self:GetParent().isMoving = true;
+				--self:GetParent():SetUserPlaced(false);
+			end
+		end)
+		NRCVersionDragFrame:SetScript("OnMouseUp", function(self, button)
+			if (button == "LeftButton" and self:GetParent().isMoving) then
+				self:GetParent():StopMovingOrSizing();
+				self:GetParent().isMoving = false;
+			end
+		end)
+		NRCVersionDragFrame:SetScript("OnHide", function(self)
+			if (self:GetParent().isMoving) then
+				self:GetParent():StopMovingOrSizing();
+				self:GetParent().isMoving = false;
+			end
+		end)
+	end
+	
+	NRCVersionFrame.fs:SetFont(NRC.regionFont, 14);
+	if (NRCVersionFrame:IsShown()) then
+		NRCVersionFrame:Hide();
+	else
+		NRCVersionFrame:SetHeight(300);
+		NRCVersionFrame:SetWidth(450);
+		local fontSize = false
+		NRCVersionFrame.EditBox:SetFont(NRC.regionFont, 14, "");
+		NRCVersionFrame.EditBox:SetWidth(NRCVersionFrame:GetWidth() - 30);
+		NRCVersionFrame:Show();
+		NRC:recalcVersionFrame();
+		--Changing scroll position requires a slight delay.
+		--Second delay is a backup.
+		C_Timer.After(0.05, function()
+			NRCVersionFrame:SetVerticalScroll(0);
+		end)
+		C_Timer.After(0.3, function()
+			NRCVersionFrame:SetVerticalScroll(0);
+		end)
+		--So interface options and this frame will open on top of each other.
+		if (InterfaceOptionsFrame and InterfaceOptionsFrame:IsShown()) then
+			NRCVersionFrame:SetFrameStrata("DIALOG");
+		elseif (SettingsPanel and SettingsPanel:IsShown()) then
+			NRCVersionFrame:SetFrameStrata("DIALOG");
+		else
+			NRCVersionFrame:SetFrameStrata("HIGH");
+		end
+	end
+end
+
+function NRC:recalcVersionFrame()
+	NRCVersionFrame.EditBox:SetText("\n\n");
+	local sorted, sortedHelper = {}, {};
+	local group = {};
+	local highestVersion, highestHelperVersion = 0, 0;
+	for i = 1, GetNumGroupMembers() do
+		local name = GetRaidRosterInfo(i);
+		if (not strmatch(name, "%-")) then
+			name =  name .. "-" .. GetNormalizedRealmName();
+		end
+		name = string.gsub(string.gsub(name, "'", ""), " ", "");
+		group[name] = true;
+	end
+	for k, v in pairs(NRC.hasAddon) do
+		v = tonumber(v);
+		if (v > highestVersion) then
+			highestVersion = v;
+		end
+	end
+	for k, v in pairs(NRC.hasAddonHelper) do
+		v = tonumber(v);
+		if (v > highestHelperVersion) then
+			highestHelperVersion = v;
+		end
+	end
+	local found;
+	for k, v in pairs(NRC.hasAddon) do
+		if (group[k]) then
+			v = tonumber(v);
+			if (not sorted[v]) then
+				sorted[v] = {};
+			end
+			local who, realm = strsplit("-", k, 2);
+			sorted[v][who] = true;
+			found = true;
+			group[k] = nil;
+		end
+	end
+	if (not sorted[NRC.version]) then
+		sorted[NRC.version] = {};
+	end
+	sorted[NRC.version][UnitName("player")] = true;
+	local foundHelper;
+	for k, v in pairs(NRC.hasAddonHelper) do
+		if (group[k]) then
+			v = tonumber(v);
+			if (not sorted[v]) then
+				sortedHelper[v] = {};
+			end
+			local who, realm = strsplit("-", k, 2);
+			sortedHelper[v][who] = true;
+			foundHelper = true;
+			group[k] = nil;
+		end
+	end
+	NRCVersionFrame.EditBox:Insert("|cFFFFAE42[Addon]|r\n");
+	for k, v in NRC:pairsByKeys(sorted) do		
+		for kk, vv in NRC:pairsByKeys(v) do
+			if (k > 0 or NRC.isDebug) then
+				local nameString;
+				local class = NRC:getClassFromName(kk);
+				if (class) then
+					local _, _, _, classHex = NRC.getClassColor(class);
+					nameString = "|c" .. classHex .. kk .. "|r";
+				else
+					nameString = kk;
+				end
+				if (k < highestVersion) then
+					NRCVersionFrame.EditBox:Insert("|cFFFF2222v" .. k .. "|r |cff9CD6DE" .. nameString .. "|r |cFFA1A1A1(out of date)|r\n");
+				else
+					NRCVersionFrame.EditBox:Insert("|cFF00FF00v" .. k .. "|r |cff9CD6DE" .. nameString .. "|r\n");
+				end
+			end
+		end
+	end
+	NRCVersionFrame.EditBox:Insert("\n|cFFFFAE42[Weakaura Helper (wago.io/sof4ehBA6)]|r\n");
+	for k, v in NRC:pairsByKeys(sortedHelper) do
+		for kk, vv in NRC:pairsByKeys(v) do
+			if (k > 0 or NRC.isDebug) then
+				local nameString;
+				local class = NRC:getClassFromName(kk);
+				if (class) then
+					local _, _, _, classHex = NRC.getClassColor(class);
+					nameString = "|c" .. classHex .. kk .. "|r";
+				else
+					nameString = kk;
+				end
+				if (k < highestHelperVersion) then
+					NRCVersionFrame.EditBox:Insert("|cFFFF2222v" .. k .. "|r |cff9CD6DE" .. nameString .. "|r |cFFA1A1A1(out of date)|r\n");
+				else
+					NRCVersionFrame.EditBox:Insert("|cFF00FF00v" .. k .. "|r |cff9CD6DE" .. nameString .. "|r\n");
+				end
+			end
+		end
+	end
+	if (not foundHelper) then
+		NRCVersionFrame.EditBox:Insert("No players in group with helper found.|r\n");
+	end
+	if (next(group)) then
+		NRCVersionFrame.EditBox:Insert("\n|cFFFFAE42[Nothing Installed]|r\n");
+		for k, v in NRC:pairsByKeys(group) do
+			local nameString;
+			--local class = NRC:getClassFromName(k);
+			--if (class) then
+			--	local _, _, _, classHex = NRC.getClassColor(class);
+			--	nameString = "|c" .. classHex .. k .. "|r";
+			--else
+			--	nameString = k;
+			--end
+			NRCVersionFrame.EditBox:Insert("|cff9CD6DE" .. k .. "|r\n");
+		end
+	end
+end

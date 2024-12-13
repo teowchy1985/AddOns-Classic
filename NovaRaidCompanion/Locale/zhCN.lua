@@ -557,7 +557,7 @@ L["maxTradesKeptTitle"] = "交易记录资料库大小";
 L["maxTradesKeptDesc"] = "Maximum amount of trades to keep in the database, increasing this to a very large number may caus lag when opening the trade log.";
 
 L["maxTradesShownTitle"] = "显示交易记录";
-L["maxTradesShownDesc"] = "Maximum amount of trades to show in the trade log? You can set this lower than records kept if you only want to view a certain amount but still keep higher amouns of data.";
+L["maxTradesShownDesc"] = "Maximum amount of trades to show in the trade log? You can set this lower than records kept if you only want to view a certain amount but still keep higher amounts of data.";
 L["showMoneyTradedChatTitle"] = "在聊天回复金币交易";
 L["showMoneyTradedChatDesc"] = "Show in trade when you give or receive gold from someone in the chat window? (Helps keep tack of who you have paid or received gold from in boost groups). |cFFFF0000WARNING: If you have Nova Instance Tracker installed already displaying trades in chat this won't work so you don't get duplicate msgs.|r";
 
@@ -982,3 +982,6 @@ L["otherTransferedDamageMyTricks"] = "%s 在我嫁祸期间获得了 %s 额外�
 L["otherTransferedDamageOtherTricks"] = "%s 从 %s 获得了 %s 额外伤害.";
 L["meTransferedThreatTricksWhisper"] = "你在我的嫁祸期间获得了 %s 额外伤害";
 L["otherTransferedDamageTricksMine"] = "你从 %s 嫁祸期间获得了 %s 额外伤害";
+
+L["Jungle Durian"] = "丛林榴莲";
+L["Stratholme Holy Water"] = "斯坦索姆圣水";

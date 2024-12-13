@@ -408,9 +408,34 @@ function NRC:getUnitFromName(name)
 	end
 end
 
+function NRC:getClassFromName(who)
+	if (who) then
+		if (who == UnitName("player")) then
+			local _, class = UnitClass("player");
+			return class;
+		end
+		local name, realm;
+		if (strmatch(who, "%-")) then
+			name, realm = strsplit(who, "-")'';
+		end
+		--Check full name-realm first (if realm specified).
+		for k, v in pairs(NRC.groupCache) do
+			if (k == who) then
+				return v.class;
+			end
+		end
+		--Check just name after if above fails.
+		for k, v in pairs(NRC.groupCache) do
+			if (k == name) then
+				return v.class;
+			end
+		end
+	end
+end
+
 function NRC:updateHealerCache(func)
 	local oldHealerCache = NRC.healerCache;
-	local newHealer;
+	local newHealer, removedHealer;
 	NRC.healerCache = {};
 	for k, v in pairs(NRC.talents) do
 		local _, _, specName, specIcon, _, _, class = NRC:getSpecFromTalentString(v);
@@ -450,11 +475,23 @@ function NRC:updateHealerCache(func)
 			NRC:debug("New healer found:", v.name);
 		end
 	end
+	for k, v in pairs(oldHealerCache) do
+		local found;
+		for kk, vv in pairs(NRC.healerCache) do
+			if (v.name == vv.name) then
+				found = true;
+			end
+		end
+		if (not found) then
+			removedHealer = true;
+			NRC:debug("Removed healer:", v.name);
+		end
+	end
 	table.sort(NRC.healingSpecs, function(a, b)
 		return a.class < b.class
 			or a.class == b.class and strcmputf8i(a.name, b.name) < 0;
 	end)
-	if (newHealer) then
+	if (newHealer or removedHealer) then
 		NRC:throddleEventByFunc("GROUP_ROSTER_UPDATE", 2, "loadTrackedManaChars", func or "updateHealerCache");
 	end
 	--NRC:debug("Healer Cache:", func);
@@ -496,12 +533,18 @@ f:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED");
 f:SetScript('OnEvent', function(self, event, ...)
 	if (event == "UNIT_SPELLCAST_SUCCEEDED") then
 		local unit, _, spellID = ...;
-		if (strfind(unit, "party") or strfind(unit, "raid")) then
+		if (strfind(unit, "party") or strfind(unit, "raid")  or unit == "player") then
 			--Spec change.
 			if (spellID == 63644 or spellID == 63645) then
-				local guid = UnitGUID(unit);
-				if (guid) then
-					NRC:inspect(guid);
+				if (unit == "player") then
+					C_Timer.After(1, function()
+						NRC:updateHealerCache("UNIT_SPELLCAST_SUCCEEDED");
+					end)
+				else
+					local guid = UnitGUID(unit);
+					if (guid) then
+						NRC:inspect(guid);
+					end
 				end
 			end
 			if (NRC.specialHealingSpells and NRC.specialHealingSpells[spellID]) then
@@ -668,12 +711,12 @@ end
 
 function NRC:receivedInspect(guid)
 	inspectFrameTalentsGUID = guid;
+	--NRC:debug("received inspect", guid);
 	if (not NRC:inOurGroup(guid)) then
 		return;
 	end
 	local name = UnitName(guid);
 	--local inspected = NRC:getGroupInspectCount() .. "/" .. GetNumGroupMembers();
-	--NRC:debug("received inspect", guid, inspected);
 	lastAttempt = 0;
 	for k, v in pairs(inspectQueue) do
 		if (v == guid) then
@@ -845,7 +888,7 @@ end
 
 local inspectTalentsCheckBox, inspectTalentsFrame;
 local function openInspectTalentsFrame()
-	if (not InspectFrame) then
+	if (not InspectFrame or not InspectFrame.unit) then
 		return;
 	end
 	if (not inspectTalentsFrame) then
@@ -863,7 +906,8 @@ local function openInspectTalentsFrame()
 		inspectTalentsFrame.fs:SetText("|cFFFFFF00Nova Raid Companion");
 		inspectTalentsFrame:ClearAllPoints();
 	end
-	local guid = inspectFrameTalentsGUID;
+	--local guid = inspectFrameTalentsGUID;
+	local guid = UnitGUID(InspectFrame.unit);
 	if (guid) then
 		if (InspectFrameCloseButton) then
 			inspectTalentsFrame:SetPoint("TOPLEFT", InspectFrameCloseButton, "TOPRIGHT", 20, -8);

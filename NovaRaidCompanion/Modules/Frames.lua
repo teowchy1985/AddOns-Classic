@@ -913,6 +913,7 @@ function NRC:createGridFrame(name, width, height, x, y, borderSpacing)
 	frame.updateGridData = function(data, updateLayout)
 		--Only update the frame layout if the data size has changed (players join/leave group etc).
 		if (updateLayout) then
+			frame.clearAllTextures();
 			local spacingV = data.spacingV;
 			local spacingH = data.spacingH;
 			local width, height = 0, 0;
@@ -1162,6 +1163,7 @@ function NRC:createGridFrame(name, width, height, x, y, borderSpacing)
 						subFrame.texture:SetTexture();
 						subFrame.fs:SetText(header.name);
 					end
+					subFrame.isHeader = true;
 				end
 				subFrame:ClearAllPoints();
 				if (data.columns[columnCount].customWidth) then
@@ -1212,6 +1214,35 @@ function NRC:createGridFrame(name, width, height, x, y, borderSpacing)
 					local t = _G[frame:GetName() .. "GridV" .. i];
 					if (t) then
 						t:Hide();
+					end
+				end
+			end
+		end
+	end
+	frame.clearAllTextures = function()
+		local textureCount = 4;
+		if (NRC.isClassic) then
+			textureCount = NRC.numWorldBuffs;
+			if (textureCount < 4) then
+				textureCount = 4;
+			end
+		end
+		for k, v in pairs(frame.subFrames) do
+			if (not v.isHeader) then
+				local texture = v.texture;
+				texture:SetTexture();
+				--texture:Hide();
+				if (texture.cooldown) then
+					texture.cooldown:Clear();
+					texture.swipeRunning = nil;
+				end
+				for i = 2, textureCount do
+					local texture = v["texture" .. i];
+					texture:SetTexture();
+					--texture:Hide();
+					if (texture.cooldown) then
+						texture.cooldown:Clear();
+						texture.swipeRunning = nil;
 					end
 				end
 			end
@@ -1524,7 +1555,64 @@ function NRC:createMainFrame(name, width, height, x, y, tabs)
 	--frame.removeButton:SetScript("OnClick", function(self, arg)
 		--Set this in the frame recalc.
 	--end)
-			
+
+	frame.filterFrame = NRC:createTextInputOnly("NRCRaidLogFilterFrame", 150, 70, frame);
+	frame.filterFrame.resetButton:SetPoint("LEFT", frame.filterFrame, "RIGHT", 15, -1);
+	frame.filterFrame.resetButton:SetSize(55, 18);
+	frame.filterFrame.resetButton:SetText(L["Reset"] .. " " .. L["Filter"]);
+	frame.filterFrame.resetButton:Show();
+	frame.filterFrame:ClearAllPoints();
+	frame.filterFrame.tooltip:SetPoint("BOTTOM", frame.filterFrame, "TOP", 20, -20);
+	frame.filterFrame.OnEnterPressed = function()
+		local text = frame.filterFrame:GetText();
+		if (text ~= "") then
+			frame.filterFrame.filterString = string.lower(text);
+			--frame.filterFrame:SetText("");
+			frame.filterFrame:ClearFocus();
+			frame.filterFrame.fs:Hide();
+			if (frame.filterFrame.updateFunction) then
+				frame.filterFrame.updateFunction();
+			end
+		else
+			frame.filterFrame.filterString = nil;
+			frame.filterFrame:ClearFocus();
+			frame.filterFrame.fs:Show();
+			if (frame.filterFrame.updateFunction) then
+				frame.filterFrame.updateFunction();
+			end
+		end
+	end
+	frame.filterFrame:SetScript("OnEnterPressed", frame.filterFrame.OnEnterPressed);
+	frame.filterFrame.OnTextChanged = function()
+		local text = frame.filterFrame:GetText();
+		if (text ~= "") then
+			frame.filterFrame.filterString = string.lower(text);
+			frame.filterFrame.fs:Hide();
+			if (frame.filterFrame.updateFunction) then
+				frame.filterFrame.updateFunction();
+			end
+		else
+			frame.filterFrame.filterString = nil;
+			frame.filterFrame.fs:Show();
+			if (frame.filterFrame.updateFunction) then
+				frame.filterFrame.updateFunction();
+			end
+		end
+	end
+	frame.filterFrame:SetScript("OnTextChanged", frame.filterFrame.OnTextChanged);
+	frame.filterFrame.resetButton:SetScript("OnClick", function(self, arg)
+		frame.filterFrame.filterString = nil;
+		frame.filterFrame:SetText("");
+		frame.filterFrame:ClearFocus();
+		frame.filterFrame.fs:Show();
+		if (frame.filterFrame.updateFunction) then
+			frame.filterFrame.updateFunction();
+		end
+	end)
+	frame.filterFrame.fs:SetText(L["Filter"]);
+	frame.filterFrame.fs:Show();
+	frame.filterFrame:Hide();
+	
 	local icon = frame:CreateTexture("$parentIcon", "OVERLAY", nil, -8);
 	icon:SetSize(60, 60);
 	icon:SetPoint("TOPLEFT", -5, 7);

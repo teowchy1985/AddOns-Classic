@@ -1322,7 +1322,7 @@ function NRC:updateRaidCooldowns()
 						lowestCD = endTime;
 					end
 					local timeLeft = endTime - GetServerTime();
-					if (isDead[guid] and showDead) then
+					if (isDead[guid] and showDead and spellData.spellName ~= "Reincarnation") then
 						if (timeLeft > 0) then
 							local minutes = string.format("%02.f", math.floor(timeLeft / 60));
 							local seconds = string.format("%02.f", math.floor(timeLeft - minutes * 60));

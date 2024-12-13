@@ -103,7 +103,6 @@ NRC.options = {
 		},
 		lockAllFrames = {
 			type = "toggle",
-			--name = "|cFFFF6900" .. L["lockAllFramesTitle"],
 			name = "|cFF3CE13F" .. L["lockAllFramesTitle"],
 			desc = L["lockAllFramesDesc"],
 			order = 3,
@@ -330,6 +329,34 @@ NRC.options = {
 					get = "getBlueShamans",
 					set = "setBlueShamans",
 					order = 114,
+				},
+				raidLogFrameWidth = {
+					type = "range",
+					name = L["raidLogFrameWidthTitle"],
+					desc = L["raidLogFrameWidthDesc"],
+					order = 115,
+					get = "getRaidLogFrameWidth",
+					set = "setRaidLogFrameWidth",
+					min = 824,
+					max = 1400,
+					softMin = 824,
+					softMax = 1400,
+					step = 1,
+					width = 1.3,
+				},
+				raidLogFrameHeight = {
+					type = "range",
+					name = L["raidLogFrameHeightTitle"],
+					desc = L["raidLogFrameHeightDesc"],
+					order = 116,
+					get = "getRaidLogFrameHeight",
+					set = "setRaidLogFrameHeight",
+					min = 568,
+					max = 1200,
+					softMin = 568,
+					softMax = 1200,
+					step = 1,
+					width = 1.3,
 				},
 			},
 		},
@@ -3787,6 +3814,15 @@ function NRC:loadExtraOptions()
 		end,
 		order = 5,
 	};
+	NRC.options.args.VersionCheck = {
+		type = "execute",
+		name = L["versionCheckTitle"],
+		desc = L["versionCheckDesc"],
+		func = function()
+			NRC:openVersionFrame();
+		end,
+		order = 6,
+	};
 	--[[NRC.options.args.raidCooldowns.args.testCooldownFrames = {
 		type = "execute",
 		name = function()
@@ -4719,6 +4755,8 @@ NRC.optionDefaults = {
 		maxTradesKept = 400,
 		maxTradesShown = 400,
 		timeStampFormat = 12,
+		raidLogFrameWidth = 824,
+		raidLogFrameHeight = 568,
 		--timeStampZone = nil,
 		--moneyString = nil,
 		lastVersionMsg = 0,
@@ -4969,7 +5007,7 @@ NRC.optionDefaults = {
 		raidManaShowSelf = true,
 		raidManaEnabledEverywhere = true,
 		raidManaEnabledRaid = true,
-		raidManaEnabledPvp = false,
+		raidManaEnabledPvP = false,
 		raidManaAverage = true,
 		raidManaResurrection = true,
 		raidManaHealers = true,
@@ -5313,6 +5351,10 @@ if (NRC.isClassic) then
 	NRC.optionDefaults.profile.raidStatusWorldBuffs = true;
 end
 
+function NRC:resetMinimapPosition()
+	NRC.db.global.minimapIcon = NRC.optionDefaults.global.minimapIcon;
+end
+
 --Raid cooldown options have be changed to a func that creates them from db.
 --At some point I'll remove all the static config funcs and locales for them.
 local function loadAllCooldownOptions()
@@ -5537,19 +5579,19 @@ local function loadNewVersionFrame()
 	frame.scrollChild.fs:SetText("|cFFFFFF00Nova Raid Companion");
 	frame.scrollChild.fs2:SetText("|cFFFFFF00New in version|r |cFFFF6900" .. string.format("%.2f", NRC.version));
 	frame:Hide();
-	linesVersion = 1.53;
+	linesVersion = 1.57;
 	local lines = {
 		--"|cFF00FF00[General Changes]|r",
-		"Added onyxia cloak equipped tracking during BWL raids, it shows in the raid status frame talents column if cloak is equipped (left click mini map button), must have this addon or the weakaura helper (wago.io/sof4ehBA6) installed to display equipped status.",
-		"Added new alliance rend buff \"Might of Stormwind\" to raid status window and chronoboon tracking (shows as original rend buff icon).",
-		"Added Chronoboon to raid log buff snapshots.",
-		"Added lowest item durability check on top of the average durability check when entering a instance, it now also shows which item has the lowest %.",
-		"Added some missing ZG textures to raid log.",
-		"Added transparency/alpha slider option for scrolling raid events.",
-		"Added warlock SoD rune cooldowns Infernal Armor/Vengeance/Demonic Howl.",
-		"Changed the 3 day reset timer on the minimap icon to bi-weekly for sod.",
-		"Fixed a bug with rend/ony/zan world buffs not showing if they wern't the unbooned versions.",
-		"Many other small bug fixes and performance updates.",
+		"Added a search filter box to the raid log loot window.",
+		"Reincarnate cooldowns will now show when the shaman is dead instead of being a skull icon.",
+		"Fixed the talents frame when inspecting a player, sometimes it would wrongly show a raid member instead of your inspect target.",
+		"Fixed pain sup cooldown to 3 minutes.",
+		"Fixed the boss specific loot button in raid log not showing for newer items added to the game.",
+		"Fixed the lockouts window so it shows characters on all realms and factions at the same time.",
+		"Added coffer keys to the loot log so you can see who looted.",
+		"Added sappers/dynamite/arcane bom to the consumes tracker, and also the new SoD bombs.",
+		"Added new SoD flasks/potions/food to the raid buffs window.",
+		"Added new SoD world buffs to the raid buffs window.",
 	};
 	local text = "";
 	--Seperator lines couldn't be used because the wow client won't render 1 pixel frames if they are in certain posotions.
@@ -5587,9 +5629,9 @@ function NRC:checkNewVersion()
 	--loadNewVersionFrame();
 	if (NRC.version and NRC.version ~= 9999) then
 		if (not NRC.db.global.versions[NRC.version]) then
-			if (NRC.isClassic) then
+			--if (NRC.isClassic) then
 				loadNewVersionFrame();
-			end
+			--end
 			--NRC:setLockAllFrames(nil, false);
 			--Wipe old data.
 			NRC.db.global.versions = {};
@@ -8458,4 +8500,24 @@ end
 
 function NRC:getDispelsIncludePlayers(info)
 	return self.config.dispelsIncludePlayers;
+end
+
+--Raid log width.
+function NRC:setRaidLogFrameWidth(info, value)
+	self.db.global.raidLogFrameWidth = value;
+	NRC:updateRaidLogFrameSize();
+end
+
+function NRC:getRaidLogFrameWidth(info)
+	return self.db.global.raidLogFrameWidth;
+end
+
+--Raid log height.
+function NRC:setRaidLogFrameHeight(info, value)
+	self.db.global.raidLogFrameHeight = value;
+	NRC:updateRaidLogFrameSize();
+end
+
+function NRC:getRaidLogFrameHeight(info)
+	return self.db.global.raidLogFrameHeight;
 end

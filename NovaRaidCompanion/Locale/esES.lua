@@ -3,6 +3,8 @@ if (not L) then
 	return;
 end
 
+--Spanish (EU)
+
 L["second"] = "second"; --Second (singular).
 L["seconds"] = "seconds"; --Seconds (plural).
 L["minute"] = "minute"; --Minute (singular).
@@ -454,7 +456,10 @@ L["sortRaidStatusByGroupsColorBackgroundTitle"] = "Colored Groups Background";
 L["sortRaidStatusByGroupsColorBackgroundDesc"] = "If you enable sort by groups and have colored enabled this will also color the background for the group.";
 
 L["maxRecordsShownTitle"] = "Raids Shown In Log";
-L["maxRecordsShownDesc"] = "Maximum amount of raids to show in the raid log? You can set this lower than records kept if you only want to view a certain amount but still keep higher amouns of data.";
+L["maxRecordsShownDesc"] = "Maximum amount of raids to show in the raid log? You can set this lower than records kept if you only want to view a certain amount but still keep higher amounts of data.";
 
 L["maxTradesShownTitle"] = "Trades Shown In Log";
-L["maxTradesShownDesc"] = "Maximum amount of trades to show in the trade log? You can set this lower than records kept if you only want to view a certain amount but still keep higher amouns of data.";
+L["maxTradesShownDesc"] = "Maximum amount of trades to show in the trade log? You can set this lower than records kept if you only want to view a certain amount but still keep higher amounts of data.";
+
+L["Jungle Durian"] = "Durian de la selva";
+L["Stratholme Holy Water"] = "Agua bendita de Stratholme";

@@ -25,6 +25,7 @@ local floor = floor;
 local UnitIsDead = UnitIsDead;
 local UnitIsGhost = UnitIsGhost;
 local UnitIsConnected = UnitIsConnected;
+local FindAuraByName = AuraUtil.FindAuraByName;
 
 function NRC:loadRaidManaFrame(loadOnly)
 	if (not NRC.config.raidManaEnabled and not testRunning and not loadOnly) then
@@ -86,7 +87,7 @@ function NRC:updateRaidManaState(func)
 			and not NRC:isPvp()) then
 		raidManaEnabled = true;
 	end
-	if (NRC.config.raidManaEnabledPvp and NRC:isPvp()) then
+	if (NRC.config.raidManaEnabledPvP and NRC:isPvp()) then
 		raidManaEnabled = true;
 	end
 	if (testRunning or raidManaFrame.firstRun or not raidManaFrame.locked) then
@@ -104,6 +105,7 @@ function NRC:updateRaidManaState(func)
 			raidManaFrame:Hide();
 		end
 	end
+	--print(raidManaEnabled)
 	NRC:loadTrackedManaChars(func or "updateRaidManaState");
 end
 
@@ -247,16 +249,31 @@ local function isCharTracked(name)
 	end
 end
 
-local drink = L["Drink"];
-local refreshment = L["Refreshment"];
+--local drink = L["Drink"];
+--local refreshment = L["Refreshment"];
+local drinks = {
+	[L["Drink"]] = true,
+	[L["Refreshment"]] = true,
+	[L["Jungle Durian"]] = true,
+	[L["Stratholme Holy Water"]] = true,
+};
 local function isDrinking(unit)
+	for k, v in pairs(drinks) do
+		local data = FindAuraByName(k, unit, "HELPFUL");
+		if (data) then
+			return true;
+		end
+	end
+end
+
+--[[local function isDrinking(unit)
 	for i = 1, 32 do
 		local name = UnitBuff(unit, i);
 		if (name and (name == drink or name == refreshment)) then
 			return true;
 		end
 	end
-end
+end]]
 
 function NRC:removeFromManaCache(who)
 	manaCache[who] = nil;
