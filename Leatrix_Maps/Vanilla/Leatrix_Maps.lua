@@ -1,6 +1,6 @@
 ﻿
 	----------------------------------------------------------------------
-	-- 	Leatrix Maps 1.15.64 (5th December 2024)
+	-- 	Leatrix Maps 1.15.66 (12th December 2024)
 	----------------------------------------------------------------------
 
 	-- 10:Func, 20:Comm, 30:Evnt, 40:Panl
@@ -12,7 +12,7 @@
 	local LeaMapsLC, LeaMapsCB, LeaDropList, LeaConfigList, LeaLockList = {}, {}, {}, {}, {}
 
 	-- Version
-	LeaMapsLC["AddonVer"] = "1.15.64"
+	LeaMapsLC["AddonVer"] = "1.15.66"
 
 	-- Get locale table
 	local void, Leatrix_Maps = ...
@@ -3128,7 +3128,7 @@
 	stopFrame.ft:SetVertexColor(0.5, 0.5, 0.5, 1.0)
 
 	LeaMapsLC:MakeTx(stopFrame, "Leatrix Maps", 16, -12)
-	LeaMapsLC:MakeWD(stopFrame, "A stop error has occurred but no need to worry.  It can happen from time to time.  Click the reload button to resolve it.", 16, -32, 338)
+	LeaMapsLC:MakeWD(stopFrame, "A stop error has occurred but no need to worry. It can happen from time to time. Click the reload button to resolve it.", 16, -32, 338)
 
 	-- Add reload UI Button
 	local stopRelBtn = LeaMapsLC:CreateButton("StopReloadButton", stopFrame, "Reload", "BOTTOMRIGHT", -16, 10, 25, "")
