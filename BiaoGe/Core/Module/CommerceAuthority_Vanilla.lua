@@ -1,3 +1,4 @@
+if BG.IsBlackListPlayer then return end
 if not BG.IsVanilla_Sod then return end
 
 local AddonName, ns = ...

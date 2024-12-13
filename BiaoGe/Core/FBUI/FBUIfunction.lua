@@ -1,4 +1,5 @@
 local _, ns = ...
+if BG.IsBlackListPlayer then return end
 
 local LibBG = ns.LibBG
 local L = ns.L

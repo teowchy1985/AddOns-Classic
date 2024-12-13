@@ -50,6 +50,7 @@
     <Script file="Core\Module\AuctionLog.lua"/>
     <Script file="Core\Module\ItemOutTime.lua"/>
     <Script file="Core\Module\Achievement.lua"/>
+    <Script file="Core\Module\InfoBar.lua"/>
     <Script file="Core\Module\Newbee.lua"/>
     <Script file="Core\Module\CommerceAuthority_Vanilla.lua"/>
 

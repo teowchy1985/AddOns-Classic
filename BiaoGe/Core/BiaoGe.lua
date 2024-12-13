@@ -1,3 +1,4 @@
+if BG.IsBlackListPlayer then return end
 local AddonName, ns = ...
 
 local LibBG = ns.LibBG
@@ -116,8 +117,8 @@ BG.Init(function()
 
                 BiaoGe.options.SearchHistory.firstOpenMainFrame = true
             end
-            -- 更新右下底部的角色总览条
-            BG.MoneyBannerUpdate()
+            -- -- 更新右下底部的角色总览条
+            -- BG.MoneyBannerUpdate()
 
             if BG.ButtonOnLineCount then
                 if BiaoGe.options["autoGetOnline"] == 1 then
@@ -1726,11 +1727,13 @@ BG.Init(function()
     ----------时光徽章价格----------
     do
         local function OnEnter(self)
-            GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT", 0, 0)
-            GameTooltip:ClearLines()
-            GameTooltip:AddLine(L["当前时光徽章"], 1, 1, 1, true)
-            GameTooltip:AddLine(self.currentPrice, 1, 0.82, 0, true)
-            GameTooltip:Show()
+            if self.currentPrice then
+                GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT", 0, 0)
+                GameTooltip:ClearLines()
+                GameTooltip:AddLine(L["当前时光徽章"], 1, 1, 1, true)
+                GameTooltip:AddLine(self.currentPrice, 1, 0.82, 0, true)
+                GameTooltip:Show()
+            end
         end
 
         local f = CreateFrame("Frame", nil, BG.MainFrame)
@@ -1740,9 +1743,6 @@ BG.Init(function()
         f.text:SetFont(STANDARD_TEXT_FONT, 13, "OUTLINE")
         f.text:SetPoint("LEFT")
         f.text:SetTextColor(1, 1, 1)
-        f.currentPrice = L["不可用"]
-        f.text:SetText(AddTexture(1120721) .. BG.STC_dis(L["不可用"]))
-        f:SetWidth(f.text:GetWidth() + 10)
         f:SetScript("OnEnter", OnEnter)
         f:SetScript("OnLeave", GameTooltip_Hide)
         BG.ButtonToken = f
@@ -1753,11 +1753,11 @@ BG.Init(function()
                     local currentPrice = GetMoneyString(C_WowTokenPublic.GetCurrentMarketPrice(), false)
                     f.currentPrice = currentPrice
                     f.text:SetText(AddTexture(1120721) .. currentPrice)
+                    f:SetWidth(f.text:GetWidth() + 10)
                 else
-                    f.currentPrice = L["不可用"]
-                    f.text:SetText(AddTexture(1120721) .. BG.STC_dis(L["不可用"]))
+                    f.text:SetText("")
+                    f:SetWidth(1)
                 end
-                f:SetWidth(f.text:GetWidth() + 10)
             end
             local frame = CreateFrame("Frame")
             frame:RegisterEvent("TOKEN_MARKET_PRICE_UPDATED")
@@ -1775,7 +1775,7 @@ BG.Init(function()
         end
     end
     ----------在线玩家数----------
-    if not BG.IsWLK then
+    if BG.IsVanilla_Sod or BG.IsCTM then
         BG.RegisterEvent("PLAYER_ENTERING_WORLD", function(self, even, isLogin, isReload)
             if not (isLogin or isReload) then return end
             if not IsAddOnLoaded("Blizzard_Communities") then
@@ -3481,7 +3481,7 @@ BG.Init(function()
             t:SetJustifyH("RIGHT")
             t:SetTextColor(1, .82, 0)
             t:SetText(L["清空表格时的金币： "])
-            f:SetWidth(t:GetUnboundedStringWidth())
+            f:SetWidth(t:GetUnboundedStringWidth() + 2)
             f.Text = t
             f:SetScript("OnEnter", OnEnter)
             f:SetScript("OnLeave", GameTooltip_Hide)
@@ -3731,6 +3731,7 @@ BG.Init(function()
         end)
     end
     BG.MainFrame.ErrorText:Hide()
+    -- abc:Hide()
 end)
 
 ----------刷新团队成员信息----------
@@ -4099,5 +4100,6 @@ end
 
 -- local tex = UIParent:CreateTexture()
 -- tex:SetPoint("CENTER")
--- tex:SetSize(310,100)
+-- tex:SetSize(100,100)
 -- tex:SetAtlas("bags-newitem")
+-- tex:SetTexture("Interface\\AddOns\\BiaoGe\\Media\\icon\\AFD")

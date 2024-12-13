@@ -1,3 +1,4 @@
+if BG.IsBlackListPlayer then return end
 local AddonName, ns = ...
 
 local LibBG = ns.LibBG
@@ -518,7 +519,7 @@ function BG.FilterClassItemUI()
         end
 
         local t = f:CreateFontString()
-        t:SetPoint("TOPLEFT", 25, -50)
+        t:SetPoint("TOPLEFT", 25, -40)
         t:SetFont(STANDARD_TEXT_FONT, 15, "OUTLINE")
         t:SetTextColor(RGB("FFD100"))
         t:SetText(L["名称："])
@@ -549,7 +550,7 @@ function BG.FilterClassItemUI()
         end
 
         local t = f:CreateFontString()
-        t:SetPoint("TOPLEFT", edit, "BOTTOMLEFT", 0, -20)
+        t:SetPoint("TOPLEFT", edit, "BOTTOMLEFT", 0, -12)
         t:SetFont(STANDARD_TEXT_FONT, 15, "OUTLINE")
         t:SetTextColor(RGB("FFD100"))
         t:SetText(L["图标："])

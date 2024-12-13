@@ -1,3 +1,4 @@
+if BG.IsBlackListPlayer then return end
 local AddonName, ns = ...
 
 local LibBG = ns.LibBG
@@ -897,7 +898,7 @@ BG.Init2(function()
                 end
             end)
 
-
+            -- 集结号活动右键菜单
             local oldFuc = Browser.CreateActivityMenu
             function Browser:CreateActivityMenu(activity)
                 local tbl = oldFuc(Browser, activity)
@@ -950,63 +951,56 @@ BG.Init2(function()
                 return tbl
             end
 
-            local function OnShow(...)
-                if BiaoGe.options["MeetingHorn_whisper"] ~= 1 then return end
-                if (UIDROPDOWNMENU_MENU_LEVEL > 1) then return end
-                local arg1, arg2, arg3, arg4, arg5 = ...
-                local which                        = arg2
-                -- pt(which)
-                local name, realm
-                if BG.IsNewUI then
-                    local contextData = arg3
-                    local unit = contextData.unit
-                    if unit then
-                        name = UnitNameUnmodified(unit)
-                        contextData.name = name
-                        contextData.server = realm
-                    else
-                        name = contextData.name
-                        if name then
-                            local name2, server2 = strmatch(name, "^([^-]+)-(.*)")
-                            if name2 then
-                                contextData.name = name2
-                                contextData.server = server2
-                            end
-                        end
+            -- 聊天框右键菜单
+            if BG.IsNewUI then
+                if BiaoGe.options["MeetingHorn_whisper"] == 1 then
+                    Menu.ModifyMenu("MENU_UNIT_FRIEND", function(owner, rootDescription, contextData)
+                        rootDescription:CreateDivider()
+                        -- rootDescription:CreateTitle("My Addon")
+                        rootDescription:CreateButton(L["密语模板"], function()
+                            SendWhisper(contextData.name)
+                        end)
+                    end)
+                    Menu.ModifyMenu("MENU_UNIT_FRIEND", function(owner, rootDescription, contextData)
+                        rootDescription:CreateButton(L["装等+职业"], function()
+                            SendWhisper(contextData.name, "onlylevel")
+                        end)
+                    end)
+                end
+            else
+                hooksecurefunc("UnitPopup_ShowMenu", function(arg1, which)
+                    if BiaoGe.options["MeetingHorn_whisper"] ~= 1 then return end
+                    if (UIDROPDOWNMENU_MENU_LEVEL > 1) then return end
+                    if which ~= "FRIEND" then return end
+                    local name        = arg1.name
+                    local info        = UIDropDownMenu_CreateInfo()
+                    info.text         = L["密语模板"]
+                    info.notCheckable = true
+                    info.tooltipTitle = L["使用密语模板"]
+                    local text        = GetWhisperText()
+                    if text ~= " " then
+                        text = text:sub(2)
+                        info.tooltipText = text
                     end
-                else
-                    name = arg1.name
-                end
-                if which ~= "FRIEND" then return end
-                local info = UIDropDownMenu_CreateInfo()
-                info.text = L["密语模板"]
-                info.notCheckable = true
-                info.tooltipTitle = L["使用密语模板"]
-                local text = GetWhisperText()
-                if text ~= " " then
-                    text = text:sub(2)
-                    info.tooltipText = text
-                end
-                info.func = function()
-                    SendWhisper(name)
-                end
-                UIDropDownMenu_AddButton(info)
+                    info.func = function()
+                        SendWhisper(name)
+                    end
+                    UIDropDownMenu_AddButton(info)
 
-                local info = UIDropDownMenu_CreateInfo()
-                info.text = L["装等+职业"]
-                info.notCheckable = true
-                info.tooltipTitle = L["装等+职业"]
-                local text = GetWhisperText("onlylevel")
-                if text ~= " " then
-                    text = text:sub(2)
-                    info.tooltipText = text
-                end
-                info.func = function()
-                    SendWhisper(name, "onlylevel")
-                end
-                UIDropDownMenu_AddButton(info)
+                    local info = UIDropDownMenu_CreateInfo()
+                    info.text = L["装等+职业"]
+                    info.notCheckable = true
+                    info.tooltipTitle = L["装等+职业"]
+                    local text = GetWhisperText("onlylevel")
+                    if text ~= " " then
+                        text = text:sub(2)
+                        info.tooltipText = text
+                    end
+                    info.func = function()
+                        SendWhisper(name, "onlylevel")
+                    end
+                    UIDropDownMenu_AddButton(info)
 
-                if BG.IsWLK then
                     -- 调整按钮位置，放在密语按钮后
                     local dropdownName = 'DropDownList' .. 1
                     local dropdown = _G[dropdownName]
@@ -1037,60 +1031,10 @@ BG.Init2(function()
                     if (IsAddOnLoaded("tdInspect") and not BG.IsVanilla) and not UnitIsUnit('player', Ambiguate(name, 'none')) then
                         dropdown:SetHeight(dropdown:GetHeight() + UIDROPDOWNMENU_BUTTON_HEIGHT)
                     end
-                end
-            end
-            if BG.IsNewUI then
-                hooksecurefunc(UnitPopupManager, "OpenMenu", OnShow)
-
-                do
-                    -- 密语模板
-                    UnitPopupButtonMixin_BiaoGeWhisper1 = CreateFromMixins(UnitPopupButtonBaseMixin);
-                    function UnitPopupButtonMixin_BiaoGeWhisper1:GetText(contextData)
-                        return L["密语模板"]
-                    end
-
-                    function UnitPopupButtonMixin_BiaoGeWhisper1:CanShow(contextData)
-                        return BiaoGe.options["MeetingHorn_whisper"] == 1
-                    end
-
-                    function UnitPopupButtonMixin_BiaoGeWhisper1:OnClick(contextData)
-                        SendWhisper(contextData.name)
-                    end
-
-                    -- 装等职业
-                    UnitPopupButtonMixin_BiaoGeWhisper2 = CreateFromMixins(UnitPopupButtonBaseMixin);
-                    function UnitPopupButtonMixin_BiaoGeWhisper2:GetText(contextData)
-                        return L["装等+职业"]
-                    end
-
-                    function UnitPopupButtonMixin_BiaoGeWhisper2:CanShow(contextData)
-                        return BiaoGe.options["MeetingHorn_whisper"] == 1
-                    end
-
-                    function UnitPopupButtonMixin_BiaoGeWhisper2:OnClick(contextData)
-                        SendWhisper(contextData.name, "onlylevel")
-                    end
-
-                    -- 插入条目
-                    local oldFuc = UnitPopupMenuFriend.GetEntries
-                    function UnitPopupMenuFriend:GetEntries()
-                        local tbl = oldFuc(UnitPopupMenuFriend)
-                        tinsert(tbl, 8, UnitPopupButtonMixin_BiaoGeWhisper1)
-                        tinsert(tbl, 9, UnitPopupButtonMixin_BiaoGeWhisper2)
-                        return tbl
-                    end
-
-                    -- local oldFuc = UnitPopupMenuPlayer.GetEntries
-                    -- function UnitPopupMenuPlayer:GetEntries()
-                    --     local tbl = oldFuc(UnitPopupMenuPlayer)
-                    --     tinsert(tbl, 1, UnitPopupButtonMixin_BiaoGeWhisper1)
-                    --     return tbl
-                    -- end
-                end
-            else
-                hooksecurefunc("UnitPopup_ShowMenu", OnShow)
+                end)
             end
 
+            -- 输入框右键菜单
             local edit = ChatEdit_ChooseBoxForSend()
             if edit then
                 local dropDown = LibBG:Create_UIDropDownMenu(nil, edit)

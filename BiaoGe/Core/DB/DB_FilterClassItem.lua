@@ -179,7 +179,7 @@ BG.Init(function()
             { name = "法术强度", name2 = L["法术强度"], value = L["所有法术和魔法效果所造成的伤害和治疗效果"], nothave = { ITEM_SPELL_TRIGGER_ONPROC }, onenter = L["法强+奶强"] },
             { name = "治疗强度", name2 = L["治疗强度"], value = { L["法术所造成的治疗效果"], L["法术治疗提高"], L["法术和效果造成的治疗提高"] }, nothave = { ITEM_SPELL_TRIGGER_ONPROC } },
         }
-        -- STAT_SPELLDAMAGE,
+        
         local t1 = { "5回法力值", "法术强度", "特定法术强度", "治疗强度", "法术命中", "法术暴击", } -- FZ, FQ
         local t3 = { "5回法力值", "法术强度", "特定法术强度", "治疗强度", "招架", "格挡值", "武器技能", "法术命中", "法术暴击", } -- 熊T
 
