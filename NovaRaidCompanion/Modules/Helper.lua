@@ -704,9 +704,11 @@ f:RegisterEvent("PLAYER_EQUIPMENT_CHANGED");
 f:SetScript('OnEvent', function(self, event, ...)
 	if (event == "PLAYER_EQUIPMENT_CHANGED") then
 		local slot = ...;
-		--Create a list of all slots that need updating and then send, so we don't spam send when a equip manager changes a bunch of slots at once.
-		slotsChangedCache[slot] = true;
-		NRCAH:throddleEventByFunc(event, 1, "sendEquipToShare", ...);
+		if (slot and shareEquip[slot]) then
+			--Create a list of all slots that need updating and then send, so we don't spam send when a equip manager changes a bunch of slots at once.
+			slotsChangedCache[slot] = true;
+			NRCAH:throddleEventByFunc(event, 1, "sendEquipToShare", ...);
+		end
 	end
 end)
 

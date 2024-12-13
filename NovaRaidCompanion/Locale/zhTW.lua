@@ -1246,7 +1246,12 @@ L["Gold Received"] = "收到金錢"
 L["Items Given"] = "給予物品"
 L["Items Received"] = "收到物品"
 L["Enchants"] = "附魔"
---
+
+L["Jungle Durian"] = "叢林榴槤";
+L["Stratholme Holy Water"] = "斯坦索姆聖水";
+
+
+-- 自行加入
 L["NovaRaidCompanion"] = "團隊-夥伴";
 L["NovaRaidCompanion "] = "NCR 團隊夥伴";
 L["Class Tools"] = "職業工具";

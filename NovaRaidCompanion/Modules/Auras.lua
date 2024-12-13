@@ -158,7 +158,7 @@ local function scanUnit(unit)
 						name = auraData.name,
 						duration = customDurations[spellID] or auraData.duration,
 						icon = auraData.icon,
-						source = auraData.source and UnitName(auraData.source),
+						source = auraData.sourceUnit and UnitName(auraData.sourceUnit),
 						auraInstanceID = auraData.auraInstanceID,
 						buff = true,
 					};
@@ -219,7 +219,7 @@ local function unitAura(unit, data)
 						name = auraData.name,
 						duration = customDurations[spellID] or auraData.duration,
 						icon = auraData.icon,
-						source = auraData.source and UnitName(auraData.source),
+						source = auraData.sourceUnit and UnitName(auraData.sourceUnit),
 						auraInstanceID = auraData.auraInstanceID,
 						buff = true,
 					};
@@ -268,7 +268,7 @@ local function unitAura(unit, data)
 						--source = source,
 						duration = customDurations[auraData.spellId] or auraData.duration,
 						icon = auraData.icon,
-						source = auraData.source and UnitName(auraData.source),
+						source = auraData.sourceUnit and UnitName(auraData.sourceUnit),
 						auraInstanceID = auraData.auraInstanceID,
 						buff = true,
 					};

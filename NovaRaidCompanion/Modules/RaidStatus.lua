@@ -709,7 +709,7 @@ end
 	frame.updateTooltip(tooltipText);
 end]]
 
-local function updateGridTooltipTalents(frame, name, classHex, talentCount, specName, specIcon, treeData, showOnyCloak, hasOnyCloak, hasDataShare)
+local function updateGridTooltipTalents(frame, name, classHex, talentCount, specName, specIcon, treeData, showOnyCloak, hasOnyCloak, hasDataShare, addonVersion, helperVersion)
 	local nameString = "|c" .. classHex .. name .. "|r";
 	local tooltipText = "|cFFDEDE42" .. nameString .. "|r";
 	if (specName and specIcon) then
@@ -727,7 +727,13 @@ local function updateGridTooltipTalents(frame, name, classHex, talentCount, spec
 			if (not hasDataShare) then
 				tooltipText = tooltipText .. "\n\n|cFFFFFFFFUser doesn't have NRC addon\nor helper weakaura installed.\nwago.io/sof4ehBA6|r";
 			else
-				tooltipText = tooltipText .. "\n\n|cFFFF0000No onyxia cloak equipped.|r";
+				if (addonVersion and tonumber(addonVersion) and tonumber(addonVersion) < 1.07) then
+					tooltipText = tooltipText .. "\n\n|cFFFF0000Players addon version too far out of date.|r";
+				elseif (addonVersion and tonumber(addonVersion) and tonumber(addonVersion) < 1.53) then
+					tooltipText = tooltipText .. "\n\n|cFFFF0000Weakaura helper version too far out of date.|r";
+				else
+					tooltipText = tooltipText .. "\n\n|cFFFF0000No onyxia cloak equipped.|r";
+				end
 			end
 		end
 	end
@@ -762,7 +768,7 @@ local function updateGridTooltip(frame, localBuffData, buffData)
 			end
 		elseif (buffData.duration == 0) then
 			--An aura, no duration.
-			tooltipText = tooltipText .. "\n|cFF9CD6DEAura (No duration)|r";
+			tooltipText = tooltipText .. "\n|cFF9CD6DENo duration|r";
 		else
 			tooltipText = tooltipText .. "\n|cFF9CD6DEDuration unknown (out of range?)|r";
 		end
@@ -780,7 +786,7 @@ local function updateGridTooltip(frame, localBuffData, buffData)
 	frame.updateTooltip(tooltipText);
 end
 
-local function getMultipleIconsTooltip(buffData)
+local function getMultipleIconsTooltip(buffData, hideSource)
 	local tooltipText;
 	if (NRC.scrolls[buffData.buffID]) then
 		tooltipText = "|T" .. NRC.scrolls[buffData.buffID].icon .. ":13:13|t |cFFFFAE42[" .. NRC.scrolls[buffData.buffID].name .. "]|r";
@@ -802,18 +808,18 @@ local function getMultipleIconsTooltip(buffData)
 			end
 		elseif (buffData.duration == 0) then
 			--An aura, no duration.
-			tooltipText = tooltipText .. "\n|cFF9CD6DEAura (No duration)|r";
+			tooltipText = tooltipText .. "\n|cFF9CD6DENo duration|r";
 		else
 			tooltipText = tooltipText .. "\n|cFF9CD6DEDuration unknown (out of range?)|r";
 		end
 		--if (buffData.endTime) then
 		--	tooltipText = tooltipText .. "\n" .. NRC:getShortTime(buffData.endTime - GetServerTime()) .. "|r";
 		--end
-		if (buffData.source) then
+		if (buffData.source and not hideSource) then
 			tooltipText = tooltipText .. "  |cFFFFFFFFCast by " .. buffData.source .. "|r";
 		end
 	else
-		if (buffData.source) then
+		if (buffData.source and not hideSource) then
 			tooltipText = tooltipText .. "\n|cFFFFFFFFCast by " .. buffData.source .. "|r";
 		end
 	end
@@ -1059,7 +1065,7 @@ local function getMaxNumGroupWorldBuffs()
 			local count = 0;
 			if (buffData[k]) then
 				for buffID, _ in pairs(buffData[k]) do
-					if (worldBuffs[buffID]) then
+					if (worldBuffs[buffID] or buffID == 349981) then
 						count = count + 1;
 					end
 				end
@@ -1084,7 +1090,7 @@ local function getMaxNumGroupWorldBuffs()
 			local count = 0;
 			if (v.guid and buffData[v.guid]) then
 				for buffID, _ in pairs(buffData[v.guid]) do
-					if (worldBuffs[buffID]) then
+					if (worldBuffs[buffID] or buffID == 349981) then
 						count = count + 1;
 					end
 				end
@@ -1162,7 +1168,7 @@ function NRC:updateRaidStatusFrames(updateLayout)
 	local usingCache = NRC.raidStatusCache and true;
 	local showSwipe = NRC.config.raidStatusBuffSwipe;
 	local enchantIgnoreList = NRC.enchantIgnoreList;
-	local showOnyCloak = isClassic and NRC.currentInstanceID == 469 and not usingCache;
+	local showOnyCloak = NRC.isDebug or (isClassic and NRC.currentInstanceID == 469 and not usingCache);
 	--local showOnyCloak = true;
 	if (data) then
 		local columnCount, maxColumnCount = 0, raidStatusFrame.maxColumnCount;
@@ -1816,7 +1822,7 @@ function NRC:updateRaidStatusFrames(updateLayout)
 						frame.texture:SetTexture(specIcon);
 						frame.texture:SetSize(16, 16);
 						hasTalents = true;
-						updateGridTooltipTalents(frame, name, classHex, talentCount, specName, specIcon, treeData, showOnyCloak, v.hasOnyCloak, v.hasDataShare);
+						updateGridTooltipTalents(frame, name, classHex, talentCount, specName, specIcon, treeData, showOnyCloak, v.hasOnyCloak, v.hasDataShare, v.addonVersion, v.helperVersion);
 						--We shouldn't have to remove this click onclick handler if the talents colum option is disabled.
 						--This is the last column so this column won't be reused for any other type.
 						frame:SetScript("OnClick", function(self)
@@ -2060,7 +2066,7 @@ function NRC:updateRaidStatusFrames(updateLayout)
 				if (foodSlot and not hasFood) then
 					local frame = raidStatusFrame.subFrames[rowName .. foodSlot];
 					frame.texture:SetTexture();
-					frame.fs:SetText("|cFFFF0000X|r");
+					--frame.fs:SetText("|cFFFF0000X|r");
 					frame.updateTooltip();
 					if (foodSlot and eating) then
 						local eatingString = L["Eating"];
@@ -2607,8 +2613,9 @@ function NRC:raidStatusSortWorldBuffIcons(frame, spellData, maxPossible, checkMa
 		frame.texture:SetPoint("CENTER", 0, 0);
 		frame.texture:SetTexture(spellData[1].icon);
 		frame.texture:SetSize(16, 16);
+		frame.texture:Show();
 		if (spellData[1].buffID ~= 349981) then
-			tooltipText = tooltipText .. getMultipleIconsTooltip(spellData[1]);
+			tooltipText = tooltipText .. getMultipleIconsTooltip(spellData[1], true);
 		end
 	elseif (buffCount == 2) then
 		frame.fs:SetText("");
@@ -2618,11 +2625,13 @@ function NRC:raidStatusSortWorldBuffIcons(frame, spellData, maxPossible, checkMa
 		frame.texture2:SetTexture(spellData[2].icon);
 		frame.texture:SetSize(16, 16);
 		frame.texture2:SetSize(16, 16);
+		frame.texture:Show();
+		frame.texture2:Show();
 		if (spellData[1].buffID ~= 349981) then
-			tooltipText = tooltipText .. getMultipleIconsTooltip(spellData[1]);
-			tooltipText = tooltipText .. "\n" .. getMultipleIconsTooltip(spellData[2]);
+			tooltipText = tooltipText .. getMultipleIconsTooltip(spellData[1], true);
+			tooltipText = tooltipText .. "\n" .. getMultipleIconsTooltip(spellData[2], true);
 		else
-			tooltipText = tooltipText .. getMultipleIconsTooltip(spellData[2]);
+			tooltipText = tooltipText .. getMultipleIconsTooltip(spellData[2], true);
 		end
 	elseif (buffCount == 3) then
 		frame.fs:SetText("");
@@ -2635,14 +2644,17 @@ function NRC:raidStatusSortWorldBuffIcons(frame, spellData, maxPossible, checkMa
 		frame.texture:SetSize(16, 16);
 		frame.texture2:SetSize(16, 16);
 		frame.texture3:SetSize(16, 16);
+		frame.texture:Show();
+		frame.texture2:Show();
+		frame.texture3:Show();
 		--Chronoboon is always first slot so we can jut ignore the first slot tooltip if it is, chrono data is shown at the bottom of the tooltip instead.
 		if (spellData[1].buffID ~= 349981) then
-			tooltipText = tooltipText .. getMultipleIconsTooltip(spellData[1]);
-			tooltipText = tooltipText .. "\n" .. getMultipleIconsTooltip(spellData[2]);
-			tooltipText = tooltipText .. "\n" .. getMultipleIconsTooltip(spellData[3]);
+			tooltipText = tooltipText .. getMultipleIconsTooltip(spellData[1], true);
+			tooltipText = tooltipText .. "\n" .. getMultipleIconsTooltip(spellData[2], true);
+			tooltipText = tooltipText .. "\n" .. getMultipleIconsTooltip(spellData[3], true);
 		else
-			tooltipText = tooltipText .. getMultipleIconsTooltip(spellData[2]);
-			tooltipText = tooltipText .. "\n" .. getMultipleIconsTooltip(spellData[3]);
+			tooltipText = tooltipText .. getMultipleIconsTooltip(spellData[2], true);
+			tooltipText = tooltipText .. "\n" .. getMultipleIconsTooltip(spellData[3], true);
 		end
 	else
 		for i = 1, #spellData do
@@ -2651,14 +2663,16 @@ function NRC:raidStatusSortWorldBuffIcons(frame, spellData, maxPossible, checkMa
 				--frame.texture:SetPoint("CENTER", 0, 0);
 				frame.texture:SetTexture(spellData[1].icon);
 				frame.texture:SetSize(16, 16);
-				tooltipText = tooltipText .. getMultipleIconsTooltip(spellData[1]);
+				frame.texture:Show();
+				tooltipText = tooltipText .. getMultipleIconsTooltip(spellData[1], true);
 				lastTexture = frame.texture;
 			else
 				frame["texture" .. i]:SetPoint("LEFT", lastTexture, "RIGHT", 1, 0);
 				--frame["texture" .. i]:SetPoint("CENTER", 0, 0);
 				frame["texture" .. i]:SetTexture(spellData[i].icon);
 				frame["texture" .. i]:SetSize(16, 16);
-				tooltipText = tooltipText .. "\n" .. getMultipleIconsTooltip(spellData[i]);
+				frame["texture" .. i]:Show();
+				tooltipText = tooltipText .. "\n" .. getMultipleIconsTooltip(spellData[i], true);
 				lastTexture = frame["texture" .. i];
 			end
 		end
@@ -2962,6 +2976,7 @@ function NRC:createRaidStatusData(updateLayout)
 				name = "|cFFFFFF00" .. L["World Buffs"],
 				--customWidth only works with the last column atm, it needs rewriting in Frames.lua at some point.
 				customWidth = buffCount * 16.1 + (numBuffs - 1), -- 4 textures wide by default, grows when more buffs.
+				--customWidth = 10 * 16.1 + (numBuffs - 1),
 			};
 			worldBuffsSlot = slot;
 			slotCount = slotCount + 1;
@@ -3140,6 +3155,8 @@ function NRC:createRaidStatusData(updateLayout)
 				end
 				if (hasAddon[fullName] or hasAddonHelper[fullName]) then
 					char.hasDataShare = true;
+					char.addonVersion = hasAddon[fullName];
+					char.helperVerson = hasAddonHelper[fullName];
 				end
 			end
 		end
@@ -3165,6 +3182,7 @@ function NRC:tableCopyAuras(orig)
 			--Remove any we aren't tracking to save saved variables space.
 			auras[spellID].auraInstanceID = nil;
 			auras[spellID].buff = nil;
+			auras[spellID].source = nil;
 			if (not aurasToTableCopy[spellID]) then
 				auras[spellID] = nil;
 			end

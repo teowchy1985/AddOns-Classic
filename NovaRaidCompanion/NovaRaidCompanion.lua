@@ -205,6 +205,8 @@ function SlashCmdList.NRCCMD(msg, editBox)
 		NRC:openConfig();
 	elseif (msg == "reset") then
 		NRC:resetData();
+	elseif (msg == "version") then
+		NRC:openVersionFrame();
 	elseif (msg == "raid") then
 		NRC:openRaidStatusFrame();
 	elseif (msg == "log" or msg == "raidlog") then

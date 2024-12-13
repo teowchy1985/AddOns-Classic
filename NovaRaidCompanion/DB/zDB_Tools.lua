@@ -125,6 +125,7 @@ function NRC:getBossFromEncounter(encounterID)
 end
 
 function NRC:isLootFromEncounter(itemID, encounterID)
+	--print(itemID, encounterID)
 	for k, v in pairs(NRC.npcs) do
 		if (v.encounterID == encounterID) then
 			if (v.loot[itemID]) then

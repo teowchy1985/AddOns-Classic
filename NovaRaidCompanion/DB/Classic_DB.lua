@@ -506,7 +506,7 @@ NRC.flasks = {
 	[17626] = {
 		name = "Flask of the Titans",
 		icon = 134842,
-		desc = "+400 HP",
+		desc = "+1200 HP",
 		maxRank = true,
 	},
 	[17627] = {
@@ -519,6 +519,31 @@ NRC.flasks = {
 		name = "Flask of Chromatic Resistance",
 		icon = 134828,
 		desc = "+25 All Resistances",
+		maxRank = true,
+	},
+	--SoD P6 Flasks.
+	[1213886] = {
+		name = "Flask of Unyielding Sorrow",
+		icon = 236877,
+		desc = "+80 Healing, +27 SP, +12 MP5",
+		maxRank = true,
+	},
+	[1213892] = {
+		name = "Flask of Ancient Knowledge",
+		icon = 236878,
+		desc = "+180 Spell Power",
+		maxRank = true,
+	},
+	[1213901] = {
+		name = "Flask of the Old Gods",
+		icon = 236879,
+		desc = "+100 Stamina, +10 Defense",
+		maxRank = true,
+	},
+	[1213897] = {
+		name = "Flask of Madness",
+		icon = 236880,
+		desc = "+50 Attack Power",
 		maxRank = true,
 	},
 };
@@ -569,7 +594,7 @@ NRC.battleElixirs = {
 		icon = 134873,
 		desc = "+15 Agility",
 	},
-	[17708] = {
+	[21920] = {
 		name = "Elixir of Frost Power",
 		icon = 134714,
 		desc = "Increase spell frost damage by up to 15",
@@ -671,6 +696,31 @@ NRC.battleElixirs = {
 		desc = "Increase spell damage by up to 35",
 		maxRank = true,
 	},
+	[16323] = {
+        name = "Juju Power",
+        icon = 134313,
+        desc = "+30 Strength",
+        maxRank = true,
+    },
+    [16329] = {
+        name = "Juju Might",
+        icon = 134309,
+        desc = "Increase attack power by 40",
+        maxRank = true,
+    },
+    --SoD P6 Pots.
+    [1213904] = {
+        name = "Elixir of the Honey Badger",
+        icon = 134731,
+        desc = "+30 Agi, +2% Crit, +15 Nature Res",
+        maxRank = true,
+    },
+    [1213914] = {
+        name = "Elixir of the Mage-Lord",
+        icon = 134733,
+        desc = "+40 SP, +15 Nature Res",
+        maxRank = true,
+    },
 };
 
 NRC.guardianElixirs = {
@@ -701,11 +751,11 @@ NRC.guardianElixirs = {
 		desc = "+150 Armor",
 		maxRankSodPhases = {1}, --16.
 	},
-	[3693] = {
+	[3593] = {
 		name = "Elixir of Fortitude",
 		icon = 134824,
 		desc = "+120 Health",
-		maxRankSodPhases = {1}, --25.
+		maxRank = true,
 	},
 	[3223] = {
 		name = "Mighty Troll's Blood Potion",
@@ -743,6 +793,19 @@ NRC.guardianElixirs = {
 		desc = "Regenerate 20 health every 5 seconds",
 		maxRank = true,
 	},
+	--SoD P6 Pots.
+	[1213917] = {
+        name = "Elixir of the Ironside",
+        icon = 134730,
+        desc = "+350 Armor, +5 Defense, +15 Nature Res",
+        maxRank = true,
+    },
+    [1213922] = {
+        name = "Elixir of Alacrity",
+        icon = 134735,
+        desc = "+15% Run Speed",
+        maxRank = true,
+    },
 };
 
 NRC.zanza = {
@@ -849,6 +912,18 @@ NRC.foods = {
 		desc = "+10 Intellect",
 		maxRank = true,
 	},
+	[470361] = {
+		name = "Increased Spell Damage",
+		icon = 136000,
+		desc = "+12 Spell Damage",
+		maxRank = true,
+	},
+	[470367] = {
+		name = "Increased Healing Power",
+		icon = 136000,
+		desc = "+22 Healing",
+		maxRank = true,
+	},
 };
 
 --"Food" buffs used in RaidStatus to show player is currently eating buff food, these must match all foods above.
@@ -869,6 +944,8 @@ NRC.eating = {
 	[18234] = "Food", --+10 Stamina, 55, has level 35 equivalent.
 	[22731] = "Food", --+Intellect, 55.
 	[25660] = "Food", --+Stamina, 25.
+	[470362] = "Food", --+12 Spell Power.
+	[470369] = "Food", --+22 Healing.
 };
 
 NRC.scrolls = {
@@ -1320,6 +1397,139 @@ NRC.trackedConsumes = {
 		icon = 134718,
 		desc = "Makes you immune to Stun and Movement Impairing effects for the next 5 sec.  Also removes existing Stun and Movement Impairing effects.",
 		itemID = 20008,
+		quality = 1,
+	},
+	[16323] = {
+		name = "Juju Power",
+		icon = 134313,
+		desc = "Increases the target's Strength by 30 for 30 min.",
+		itemID = 12451,
+		quality = 1,
+	},
+	[16329] = {
+		name = "Juju Might",
+		icon = 134309,
+		desc = "Increases attack power by 40 for 10 min.",
+		itemID = 12460,
+		quality = 1,
+	},
+	[16327] = {
+		name = "Juju Guile",
+		icon = 134315,
+		desc = "Increases the target's Intellect by 30 for 30 min.",
+		itemID = 12458,
+		quality = 1,
+	},
+	[28898] = {
+		name = "Blessed Wizard Oil",
+		icon = 134806,
+		desc = "Increases spell damage against undead by up to 60.",
+		itemID = 23123,
+		quality = 2,
+	},
+	[25123] = {
+		name = "Brilliant Mana Oil",
+		icon = 134722,
+		desc = "Restores 12 mana to the caster every 5 seconds and increases the effect of healing spells by up to 25.",
+		itemID = 20748,
+		quality = 1,
+	},
+	[25122] = {
+		name = "Brilliant Wizard Oil",
+		icon = 134727,
+		desc = "Increases spell damage by up to 36 and increases spell critical strike rating by 14.",
+		itemID = 20749,
+		quality = 1,
+	},
+	[28891] = {
+		name = "Consecrated Sharpening Stone",
+		icon = 135249,
+		desc = "Increases attack power against undead by 100.",
+		itemID = 23122,
+		quality = 2,
+	},
+	[16138] = {
+		name = "Dense Sharpening Stone",
+		icon = 135252,
+		desc = "Increase sharp weapon damage by 8.",
+		itemID = 12404,
+		quality = 1,
+	},
+	[16622] = {
+		name = "Dense Weightstone",
+		icon = 135259,
+		desc = "Increase the damage of a blunt weapon by 8.",
+		itemID = 12643,
+		quality = 1,
+	},
+	[22756] = {
+		name = "Elemental Sharpening Stone",
+		icon = 135228,
+		desc = "Increase critical chance on a melee weapon by 2%.",
+		itemID = 18262,
+		quality = 2,
+	},
+	[3595] = {
+		name = "Frost Oil",
+		icon = 134800,
+		desc = "10% chance of casting Frostbolt at the opponent when it hits.",
+		itemID = 3829,
+		quality = 1,
+	},
+	[3594] = {
+		name = "Shadow Oil",
+		icon = 134803,
+		desc = "15% chance of casting Shadow Bolt (Rank 3) at the opponent when it hits.",
+		itemID = 3824,
+		quality = 1,
+	},
+	[463868] = {
+		name = "Conductive Shield Coating",
+		icon = 134722,
+		desc = "While applied to target shield it increases spell damage and healing by up to 24.",
+		itemID = 228980,
+		quality = 1,
+	},
+	[13241] = {
+		name = "Goblin Sapper Charge",
+		icon = 135826,
+		desc = "Explodes when triggered dealing 450 to 750 Fire damage to all enemies nearby and 375 to 625 damage to you.",
+		itemID = 10646,
+		quality = 1,
+	},
+	[23063] = {
+		name = "Dense Dynamite",
+		icon = 133714,
+		desc = "Inflicts 340 to 460 Fire damage in a 5 yard radius.",
+		itemID = 18641,
+		quality = 1,
+	},
+	[19821] = {
+		name = "Arcane Bomb",
+		icon = 136173,
+		desc = "Drains 675 to 1125 mana from those in the blast radius and does 50% of the mana drained in damage to the target. Also Silences targets in the blast for 5 sec.",
+		itemID = 16040,
+		quality = 1,
+	},
+	[1213935] = {
+		name = "The Fumigator",
+		icon = 135800,
+		desc = "Explodes when triggered dealing 650 to 950 Fire damage to all enemies nearby and 475 to 725 damage to you. Deals extra damage to Silithid creatures in Silithus.",
+		itemID = 233985,
+		quality = 1,
+	},
+	[1213946] = {
+		name = "Obsidian Bomb",
+		icon = 252172,
+		desc = "Inflicts 530 to 670 Fire damage in a 5 yard radius.",
+		itemID = 233986,
+		quality = 1,
+	},
+	[1213924] = {
+		name = "Arcane Megabomb",
+		icon = 254118,
+		desc = "Drains 1075 to 1525 mana from those in the blast radius and does 50% of the mana drained in damage to the target. Also Silences targets in the blast for 5 sec.",
+		itemID = 233984,
 		quality = 1,
 	},
 };
@@ -1846,13 +2056,6 @@ NRC.tempEnchants = {
 		duration = 1800,
 		maxRank = true,
 	},
-	[3265] = {
-		name = "Blessed Weapon Coating",
-		icon = 134723,
-		desc = "Chance to regain 165 mana on each spell cast. Only functions on the Isle of Quel'Danas.",
-		duration = 1800,
-		maxRank = true,
-	},
 	[2685] = {
 		name = "Blessed Wizard Oil",
 		icon = 134806,
@@ -1870,7 +2073,7 @@ NRC.tempEnchants = {
 	[2628] = {
 		name = "Brilliant Wizard Oil",
 		icon = 134727,
-		desc = "Increases spell damage by up to 36 and increases spell critical strike rating by 14.",
+		desc = "Increases spell damage by up to 36 and increases spell critical chance by 1%.",
 		duration = 1800,
 		maxRank = true,
 	},
@@ -2087,20 +2290,6 @@ NRC.tempEnchants = {
 		desc = "Increase the damage of a blunt weapon by 6.",
 		duration = 1800,
 	},
-	[2677] = {
-		name = "Superior Mana Oil",
-		icon = 134723,
-		desc = "Restores 14 mana to the caster every 5 seconds.",
-		duration = 1800,
-		maxRank = true,
-	},
-	[2678] = {
-		name = "Superior Wizard Oil",
-		icon = 134767,
-		desc = "Increases spell damage by up to 42.",
-		duration = 1800,
-		maxRank = true,
-	},
 	[2627] = {
 		name = "Wizard Oil",
 		icon = 134726,
@@ -2302,6 +2491,43 @@ NRC.tempEnchants = {
 		name = "Conductive Shield Coating",
 		icon = 134722,
 		desc = "While applied to target shield it increases spell damage and healing by up to 24.",
+		duration = 1800,
+		maxRank = true,
+	},
+	[7254] = {
+		name = "Sebacious Poison",
+		icon = 132108,
+		desc = "Each strike has a 30% chance of poisoning the enemy, reducing the enemy's armor by 1700 for 15 sec.",
+		duration = 1800,
+	},
+	[7256] = {
+		name = "Atrophic Poison",
+		icon = 132100,
+		desc = "Each strike has a 30% chance of poisoning the enemy, reducing the enemy's melee attack power by 205 for 15 sec.",
+		duration = 1800,
+	},
+	[7255] = {
+		name = "Numbing Poison",
+		icon = 132098,
+		desc = "Each strike has a 30% chance of poisoning the enemy, increasing the time between the enemy's melee attacks by 20% for 15 sec.",
+		duration = 1800,
+	},
+	[7542] = {
+		name = "Occult Poison I",
+		icon = 135935,
+		desc = "Each strike has a 30% chance of poisoning the enemy for 108 Nature damage over 12 sec and causing the enemy to take 4% increased Arcane, Fire, Frost, Nature, and Shadow damage. Stacks 5 times.",
+		duration = 1800,
+	},
+	[7651] = {
+		name = "Occult Poison II",
+		icon = 135935,
+		desc = "Each strike has a 30% chance of poisoning the enemy for 136 Nature damage over 12 sec and causing the enemy to take 4% increased Arcane, Fire, Frost, Nature, and Shadow damage. Stacks 5 times.",
+		duration = 1800,
+	},
+	[7650] = {
+		name = "Enchanted Repellent",
+		icon = 134723,
+		desc = "While applied to target weapon or shield it increases spell damage by up to 45 and increases Spell Critical chance by 1%.",
 		duration = 1800,
 		maxRank = true,
 	},
@@ -2998,6 +3224,59 @@ NRC.worldBuffs = {
 		icon = 236368,
 		desc = "+5% Crit, +65 SP, +8% Stats",
 		order = 13,
+		maxRank = true,
+	},
+	--SoD world buff items.
+	[473441] = {
+		name = "Might of Blackrock",
+		icon = 236718,
+		name = "Warchief's Blessing",
+		icon = 135759,
+		desc = "+300 Health, 15% Melee Haste, +10 MP5",
+		order = 1,
+		maxRank = true,
+	},
+	[473387] = {
+		--name = "Horn of the Dawn",
+		--icon = 134229,
+		name = "Rallying Cry of the Dragonslayer",
+		icon = 134153,
+		desc = "+10% Crit Spells, +5% Crit Melee/Ranged, +140 AP",
+		order = 2,
+		maxRank = true,
+	},
+	[473476] = {
+		--name = "Dreams of Zandalar",
+		--icon = 132107,
+		name = "Spirit of Zandalar",
+		icon = 132107,
+		desc = "+10% Movement Speed, +15% Stats",
+		order = 3,
+		maxRank = true,
+	},
+	[473450] = {
+		--name = "Dark Fortune of Damage",
+		--icon = 134334,
+		name = "Sayge's Dark Fortune of Damage",
+		icon = 134334,
+		desc = "+10% Damage",
+		order = 4,
+		maxRank = true,
+	},
+	[473403] = { --All 3 dire maul buffs in 1.
+		name = "Blessing of Neptulon",
+		icon = 135861,
+		desc = "+3% Spell Crit",
+		order = 7,
+		maxRank = true,
+	},
+	[473399] = {
+		--name = "Songflower Lullaby",
+		--icon = 135934,
+		name = "Songflower Serenade",
+		icon = 135934,
+		desc = "+5% Crit, +15 Stats",
+		order = 8,
 		maxRank = true,
 	},
 	--For testing.

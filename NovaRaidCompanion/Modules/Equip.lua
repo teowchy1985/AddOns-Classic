@@ -78,7 +78,7 @@ function NRC:sendEquipToShare(fullSend)
 	if (equip) then
 		local me = UnitName("player");
 		NRC.equipCache[me] = equip;
-		NRC:debug("sending equip update");
+		--NRC:debug("sending equip update");
 		local data = NRC.serializer:Serialize(equip);
 		NRC:sendGroupComm("eq " .. NRC.version .. " " .. data);
 	end
@@ -95,7 +95,7 @@ function NRC:receivedEquip(data, sender, distribution)
 		NRC:debug("Failed to deserialize talents.");
 		return;
 	end
-	NRC:debug("received equip update");
+	--NRC:debug("received equip update", sender);
 	NRC.equipCache[sender] = raidData;
 end
 
@@ -104,8 +104,10 @@ f:RegisterEvent("PLAYER_EQUIPMENT_CHANGED");
 f:SetScript('OnEvent', function(self, event, ...)
 	if (event == "PLAYER_EQUIPMENT_CHANGED") then
 		local slot = ...;
-		--Create a list of all slots that need updating and then send, so we don't spam send when a equip manager changes a bunch of slots at once.
-		slotsChangedCache[slot] = true;
-		NRC:throddleEventByFunc(event, 1, "sendEquipToShare", ...);
+		if (slot and shareEquip[slot]) then
+			--Create a list of all slots that need updating and then send, so we don't spam send when a equip manager changes a bunch of slots at once.
+			slotsChangedCache[slot] = true;
+			NRC:throddleEventByFunc(event, 1, "sendEquipToShare", ...);
+		end
 	end
 end)

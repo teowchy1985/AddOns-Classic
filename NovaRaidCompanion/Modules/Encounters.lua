@@ -314,6 +314,7 @@ local cauldrons = {
 	[41495] = 32850,
 	[92649] = 461808, --Cauldron of Battle
     [92712] = 461809, --Big Cauldron of Battle
+    [473466] = 133781, --SoD Firewater Cauldron.
 };
 local feasts = {
 	--Feasts.
@@ -387,8 +388,14 @@ local function combatLogEventUnfiltered(...)
 					spellName = L["Sleeping Bag"];
 				end
 				local msg = spellName .. " placed on the ground.";
+				if (sourceGUID ~= UnitGUID("player")) then
+					msg = spellName .. " placed on the ground by " .. sourceName .. ".";
+				end
 				if (spellName == "Wormhole") then
 					msg = spellName .. " Portal placed on the ground.";
+					if (sourceGUID ~= UnitGUID("player")) then
+						msg = spellName .. " Portal placed on the ground by " .. sourceName .. ".";
+					end
 				end
 				if (NRC.config.cauldronMsgOther or (sourceGUID == UnitGUID("player") and NRC.config.cauldronMsg)) then
 					SendChatMessage(msg, "SAY");
@@ -1166,3 +1173,60 @@ function NRC:checkMetaGem()
 	 	tooltipScanner:Hide();
  	end
 end]]
+
+--Some debug stuff just early testing possible future features.
+--[[local inCombat = {};
+local f = CreateFrame("Frame");
+--f:RegisterEvent("PLAYER_REGEN_DISABLED");
+--f:RegisterEvent("ENCOUNTER_START");
+--f:RegisterEvent("ENCOUNTER_END");
+--f:RegisterEvent("UNIT_FLAGS");
+f:SetScript('OnEvent', function(self, event, ...)
+	if (not NRC.isDebug) then
+		return;
+	end
+	if (event == "ENCOUNTER_START" or event == "PLAYER_REGEN_DISABLED") then
+		if (event == "ENCOUNTER_START") then
+			print("Encounter start:", ..., GetTime());
+		end
+		local unitType = "party";
+		if (IsInRaid()) then
+			unitType = "raid";
+		end
+		local count = 0;
+		for i = 1, GetNumGroupMembers() do
+			local unit = unitType .. i;
+			local inCombat = UnitAffectingCombat(unit);
+			if (inCombat) then
+				local name = UnitName(unit);
+				print("In combat:", name);
+			end
+			count = count + 1;
+			if (count == 5) then
+				return;
+			end
+		end
+		local inCombat = UnitAffectingCombat("player");
+		if (inCombat) then
+			local name = UnitName("player");
+			print("In combat:", name, GetTime());
+		end
+		--Or check for first unit flag change after encounter start?
+	--elseif (event == "ENCOUNTER_END") then
+
+	elseif (event == "UNIT_FLAGS") then
+		local inInstance, instanceType = IsInInstance();
+		if (instanceType == "pvp" or not inInstance) then
+			return;
+		end
+		local unit = ...;
+		local name = UnitName(unit);
+		if (UnitAffectingCombat(unit) and not inCombat[name]) then
+			inCombat[name] = true;
+			print("[Combat]", name, GetTime())
+		elseif (inCombat[name] and not UnitAffectingCombat(unit)) then
+			inCombat[name] = nil;
+			print("[Combat Ended]", name)
+		end
+	end
+end)]]

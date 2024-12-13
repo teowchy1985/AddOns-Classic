@@ -38,6 +38,7 @@ L["logEntryFrameTitle"] = "Rename log entry %s";
 L["renamedLogEntry"] = "Renamed log entry %s to %s";
 L["clearedLogEntryName"] = "Cleared set name for log entry %s";
 L["tradeFilterTooltip"] = "|cFFFFFF00Enter any of the following:|r\n|cFF9CD6DEYour character name.\nOther player name or item name.\nGold amount.";
+L["lootFilterTooltip"] = "|cFF9CD6DEEnter a item or player name.";
 L["deleteInstanceConfirm"] = "Delete instance %s from the raid log?"
 L["noRaidsRecordedYet"] = "No raids recorded yet, do a raid and check back here.";
 L["Boss Journal"] = "Boss Journal"
@@ -220,7 +221,7 @@ L["Raid Lockouts"] = "Raid Lockouts";
 L["noCurrentRaidLockouts"] = "No Current raid Lockouts.";
 L["noAltLockouts"] = "No Alt Lockouts Found.";
 L["holdShitForAltLockouts"] = "Hold Shift For Alt Lockouts.";
-L["leftClickMinimapButton"] = "Left-Click|r Open Raid Status";
+L["leftClickMinimapButton"] = "Left-Click|r Show/Hide Consumes";
 L["rightClickMinimapButton"] = "Right-Click|r Open Raid Log";
 L["shiftLeftClickMinimapButton"] = "Shift Left-Click|r Open Trade Log";
 L["shiftRightClickMinimapButton"] = "Shift Right-Click|r Open Config";
@@ -576,13 +577,13 @@ L["maxRecordsKeptTitle"] = "Raids Database Size";
 L["maxRecordsKeptDesc"] = "Maximum amount of raids to keep in the database, increasing this to a large number may increase load time when opening the log window.";
 
 L["maxRecordsShownTitle"] = "Raids Shown In Log";
-L["maxRecordsShownDesc"] = "Maximum amount of raids to show in the raid log? You can set this lower than records kept if you only want to view a certain amount but still keep higher amouns of data.";
+L["maxRecordsShownDesc"] = "Maximum amount of raids to show in the raid log? You can set this lower than records kept if you only want to view a certain amount but still keep higher amounts of data.";
 
 L["maxTradesKeptTitle"] = "Trades Database Size";
 L["maxTradesKeptDesc"] = "Maximum amount of trades to keep in the database, increasing this to a very large number may caus lag when opening the trade log.";
 
 L["maxTradesShownTitle"] = "Trades Shown In Log";
-L["maxTradesShownDesc"] = "Maximum amount of trades to show in the trade log? You can set this lower than records kept if you only want to view a certain amount but still keep higher amouns of data.";
+L["maxTradesShownDesc"] = "Maximum amount of trades to show in the trade log? You can set this lower than records kept if you only want to view a certain amount but still keep higher amounts of data.";
 
 L["showMoneyTradedChatTitle"] = "Gold Traded In Chat";
 L["showMoneyTradedChatDesc"] = "Show in trade when you give or receive gold from someone in the chat window? (Helps keep tack of who you have paid or received gold from in boost groups). |cFFFF0000WARNING: If you have Nova Instance Tracker installed already displaying trades in chat this won't work so you don't get duplicate msgs.|r";
@@ -1250,3 +1251,15 @@ L["blueShamansDesc"] = "Show shamans as blue on this addon in classic.";
 
 L["sreAlphaTitle"] = "Alpha";
 L["sreAlphaDesc"] = "Change the alpha/transparency of the scrolling raid events frame.";
+
+L["versionCheckTitle"] = "Version Check";
+L["versionCheckDesc"] = "Check the raid for addon or weakaura helper versions installed (can also type /nrc version).";
+
+L["Jungle Durian"] = "Jungle Durian";
+L["Stratholme Holy Water"] = "Stratholme Holy Water";
+
+L["raidLogFrameWidthTitle"] = "Raid Log Width";
+L["raidLogFrameWidthDesc"] = "Set width for the main raid log window when you right click minimap button.";
+
+L["raidLogFrameHeightTitle"] = "Raid Log Height";
+L["raidLogFrameHeightDesc"] = "Set height for the main raid log window when you right click minimap button.";
