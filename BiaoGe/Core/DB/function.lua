@@ -54,6 +54,7 @@ function BG.Init(func)
     f:RegisterEvent("ADDON_LOADED")
     f:SetScript("OnEvent", function(self, event, addonName)
         if addonName ~= AddonName then return end
+		self:UnregisterEvent("ADDON_LOADED")
         func()
     end)
 end
@@ -63,6 +64,7 @@ function BG.Init2(func)
     f:RegisterEvent("PLAYER_ENTERING_WORLD")
     f:SetScript("OnEvent", function(self, even, isLogin, isReload)
         if not (isLogin or isReload) then return end
+		self:UnregisterEvent("PLAYER_ENTERING_WORLD")
         func()
     end)
 end

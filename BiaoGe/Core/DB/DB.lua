@@ -14,7 +14,6 @@ BiaoGeTooltip = CreateFrame("GameTooltip", "BiaoGeTooltip", UIParent, "GameToolt
 BiaoGeTooltip2 = CreateFrame("GameTooltip", "BiaoGeTooltip2", UIParent, "GameTooltipTemplate") -- 用于装备库
 BiaoGeTooltip2:SetClampedToScreen(false)
 BiaoGeTooltip3 = CreateFrame("GameTooltip", "BiaoGeTooltip3", UIParent, "GameTooltipTemplate") -- 用于装备过期提醒
-BiaoGeTooltip4 = CreateFrame("GameTooltip", "BiaoGeTooltip4", UIParent, "GameTooltipTemplate") -- 用于通报多本账单
 
 -- 游戏按键设置
 BINDING_HEADER_BIAOGE = "BiaoGe"
@@ -44,23 +43,44 @@ BG.phaseFBtable = {}
 BG.bossPositionStartEnd = {}
 BG.FBfromBossPosition = {}
 BG.instanceIDfromBossPosition = {}
-
 BG.Movetable = {}
 BG.options = {}
 BG.itemCaches = {}
 BG.dropDown = LibBG:Create_UIDropDownMenu(nil, UIParent)
-
 BG.onEnterAlpha = 0.1
 BG.highLightAlpha = 0.2
 BG.otherEditAlpha = 0.3
 BG.scrollStep = 80
 BG.borderAlpha = .5
-
 BG.ver = ns.ver
 BG.instructionsText = ns.instructionsText
 BG.updateText = ns.updateText
 BG.BG = "|cff00BFFF<BiaoGe>|r "
 BG.rareIcon = "|A:nameplates-icon-elite-silver:0:0|a"
+
+BG.blackListPlayer = {}
+if BG.IsWLK then
+    BG.blackListPlayer = {
+        ["匕首岭"] = {
+            ["曰日曰日曰"] = true,
+            ["锁血"] = true,
+            ["艾弗森灬"] = true,
+            ["亏贼"] = true,
+            ["西施"] = true,
+            ["大頭爆栗子"] = true,
+            ["你先动筷子"] = true,
+            ["抽象怪"] = true,
+            ["九折"] = true,
+            ["Bluebiu"] = true,
+            -- [""] = true,
+            -- ["苍刃"] = true,
+        },
+    }
+end
+
+if BG.blackListPlayer[GetRealmName()] and BG.blackListPlayer[GetRealmName()][UnitName("player")] then
+    BG.IsBlackListPlayer = true
+end
 
 do
     BG.Maxi                                                               = 30
@@ -157,12 +177,12 @@ do
             BG.FB1 = "MC"
             BG.fullLevel = 60
             BG.theEndBossID = { 672, 617, 793, 723, 717, 1114 } --MC BWL ZUG AQL TAQ NAXX
-            AddDB("MC", 409, L["全阶段"], 40, nil, nil, { "MC", "BWL", "ZUG", "AQL", "TAQ", "NAXX" }, { 1, 10 })
-            AddDB("BWL", 469, L["全阶段"], 40, nil, nil, { "MC", "BWL", "ZUG", "AQL", "TAQ", "NAXX" })
-            AddDB("ZUG", 309, L["全阶段"], 20, 3, nil, { "MC", "BWL", "ZUG", "AQL", "TAQ", "NAXX" })
-            AddDB("AQL", 509, L["全阶段"], 20, 3, nil, { "MC", "BWL", "ZUG", "AQL", "TAQ", "NAXX" })
-            AddDB("TAQ", 531, L["全阶段"], 40, nil, nil, { "MC", "BWL", "ZUG", "AQL", "TAQ", "NAXX" })
-            AddDB("NAXX", 533, L["全阶段"], 40, nil, nil, { "MC", "BWL", "ZUG", "AQL", "TAQ", "NAXX" })
+            AddDB("MC", 409, "P1-P2", 40, nil, nil, nil, { 1, 10 })
+            AddDB("BWL", 469, "P3", 40)
+            AddDB("ZUG", 309, "P4", 20, 3)
+            AddDB("AQL", 509, "P5", 20, 3)
+            AddDB("TAQ", 531, "P5", 40)
+            AddDB("NAXX", 533, "P6", 40)
 
             BG.FBIDtable[249] = "MC" -- 奥妮克希亚的巢穴
             BG.bossPositionStartEnd[249] = { 11, 11 }
@@ -471,8 +491,10 @@ do
         CreateMyFont("Gold", 13)
         CreateMyFont("Gold", 15)
 
+        CreateMyFont("Yellow", 13)
         CreateMyFont("Yellow", 15)
 
+        CreateMyFont("Red", 13)
         CreateMyFont("Red", 15)
 
         CreateMyFont("Fen", 15)
@@ -849,3 +871,4 @@ frame:SetScript("OnEvent", function(self, event, addonName)
         DataBase()
     end
 end)
+

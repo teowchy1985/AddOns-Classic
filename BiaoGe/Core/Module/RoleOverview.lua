@@ -1,3 +1,4 @@
+if BG.IsBlackListPlayer then return end
 local AddonName, ns = ...
 
 local LibBG = ns.LibBG
@@ -1517,76 +1518,9 @@ function BG.RoleOverviewUI()
             end
             BiaoGe.Money[realmID][player] = g
         end
-    end
 
-    ------------------当前角色货币面板------------------
-    do
-        function BG.MoneyBannerUpdate()
-            if not BG.MainFrame:IsVisible() then return end
-            -- 根据你选择的货币，生成table
-            MONEYchoice_table = {}
-            for i, v in ipairs(BG.MONEYall_table) do
-                for id, yes in pairs(BiaoGe.MONEYchoice) do
-                    if v.id == id then
-                        tinsert(MONEYchoice_table, v)
-                    end
-                end
-            end
-
-            BG.MONEYupdate()
-            local g = BiaoGe.Money[realmID][player]
-            local t = {}
-            local a = g.colorplayer .. "  "
-            tinsert(t, a) -- 玩家
-
-            for i, v in ipairs(MONEYchoice_table) do
-                if v.id ~= "money" then
-                    local a = g[v.id].count .. " " .. AddTexture(v.tex)
-                    tinsert(t, a) -- 牌子
-                else
-                    local a = g.money .. " " .. AddTexture(v.tex)
-                    tinsert(t, a) -- 金币
-                end
-            end
-            local text = table.concat(t, "   ")
-            BG.ButtonMoney:SetText(text)
-            BG.ButtonMoney.text = BG.ButtonMoney:GetFontString()
-            BG.ButtonMoney.text:SetPoint("RIGHT", -20, 0)
-            BG.ButtonMoney:SetWidth(BG.ButtonMoney.text:GetWidth() + 30)
-            BG.ButtonMoney.tex:SetWidth(BG.ButtonMoney.text:GetWidth() + 100)
-        end
-
-        do -- 创建UI
-            local f = CreateFrame("Button", nil, BG.MainFrame)
-            f:SetSize(0, 24)
-            f:SetPoint("BOTTOMRIGHT", -1, 1)
-            f:SetNormalFontObject(BG.FontWhite13)
-            BG.ButtonMoney = f
-
-            f.tex = f:CreateTexture()
-            f.tex:SetSize(0, 24)
-            f.tex:SetPoint("BOTTOMRIGHT")
-            f.tex:SetTexture("Interface\\Buttons\\WHITE8x8")
-            local c1, c2, c3 = GetClassRGB(nil, "player")
-            f.tex:SetGradient("HORIZONTAL", CreateColor(c1, c2, c3, 0), CreateColor(c1, c2, c3, 0.25))
-
-            f:SetScript("OnEnter", function(self)
-                BG.SetFBCD()
-                BG.FBCDFrame:ClearAllPoints()
-                BG.FBCDFrame:SetPoint("BOTTOMRIGHT", BG.ButtonMoney, "TOPRIGHT", 0, 0)
-                BG.FBCDFrame:Show()
-            end)
-            f:SetScript("OnLeave", function(self)
-                BG.FBCDFrame:Hide()
-            end)
-            f:SetScript("OnMouseUp", function(self)
-                ns.InterfaceOptionsFrame_OpenToCategory(L["BiaoGe"] or "|cff00BFFFBiaoGe|r")
-                BG.MainFrame:Hide()
-                BG.PlaySound(1)
-            end)
-        end
-
-        do -- 事件
+        -- 事件
+        do
             local f = CreateFrame("Frame")
             f:RegisterEvent("PLAYER_ENTERING_WORLD")
             f:RegisterEvent("CURRENCY_DISPLAY_UPDATE")
@@ -1764,3 +1698,73 @@ function BG.RoleOverviewUI()
         end
     end
 end
+
+------------------当前角色货币面板------------------
+--[[
+    do
+        function BG.MoneyBannerUpdate()
+            if not BG.MainFrame:IsVisible() then return end
+            -- 根据你选择的货币，生成table
+            MONEYchoice_table = {}
+            for i, v in ipairs(BG.MONEYall_table) do
+                for id, yes in pairs(BiaoGe.MONEYchoice) do
+                    if v.id == id then
+                        tinsert(MONEYchoice_table, v)
+                    end
+                end
+            end
+
+            BG.MONEYupdate()
+            local g = BiaoGe.Money[realmID][player]
+            local t = {}
+            local a = g.colorplayer .. "  "
+            tinsert(t, a) -- 玩家
+
+            for i, v in ipairs(MONEYchoice_table) do
+                if v.id ~= "money" then
+                    local a = g[v.id].count .. " " .. AddTexture(v.tex)
+                    tinsert(t, a) -- 牌子
+                else
+                    local a = g.money .. " " .. AddTexture(v.tex)
+                    tinsert(t, a) -- 金币
+                end
+            end
+            local text = table.concat(t, "   ")
+            BG.ButtonMoney:SetText(text)
+            BG.ButtonMoney.text = BG.ButtonMoney:GetFontString()
+            BG.ButtonMoney.text:SetPoint("RIGHT", -20, 0)
+            BG.ButtonMoney:SetWidth(BG.ButtonMoney.text:GetWidth() + 30)
+            BG.ButtonMoney.tex:SetWidth(BG.ButtonMoney.text:GetWidth() + 100)
+        end
+
+        do -- 创建UI
+            local f = CreateFrame("Button", nil, BG.MainFrame)
+            f:SetSize(0, 24)
+            f:SetPoint("BOTTOMRIGHT", -1, 1)
+            f:SetNormalFontObject(BG.FontWhite13)
+            BG.ButtonMoney = f
+
+            f.tex = f:CreateTexture()
+            f.tex:SetSize(0, 24)
+            f.tex:SetPoint("BOTTOMRIGHT")
+            f.tex:SetTexture("Interface\\Buttons\\WHITE8x8")
+            local c1, c2, c3 = GetClassRGB(nil, "player")
+            f.tex:SetGradient("HORIZONTAL", CreateColor(c1, c2, c3, 0), CreateColor(c1, c2, c3, 0.25))
+
+            f:SetScript("OnEnter", function(self)
+                BG.SetFBCD()
+                BG.FBCDFrame:ClearAllPoints()
+                BG.FBCDFrame:SetPoint("BOTTOMRIGHT", BG.ButtonMoney, "TOPRIGHT", 0, 0)
+                BG.FBCDFrame:Show()
+            end)
+            f:SetScript("OnLeave", function(self)
+                BG.FBCDFrame:Hide()
+            end)
+            f:SetScript("OnMouseUp", function(self)
+                ns.InterfaceOptionsFrame_OpenToCategory("|cff00BFFFBiaoGe|r")
+                BG.MainFrame:Hide()
+                BG.PlaySound(1)
+            end)
+        end
+    end
+ ]]

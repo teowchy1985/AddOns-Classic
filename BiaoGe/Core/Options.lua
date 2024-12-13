@@ -1,3 +1,4 @@
+if BG.IsBlackListPlayer then return end
 local AddonName, ns                     = ...
 
 local LibBG                             = ns.LibBG
@@ -414,7 +415,7 @@ BG.Init(function()
                     BiaoGe.options[name] = BG.options[name .. "reset"]
                 end
             end
-            if not tonumber(BiaoGe.options[name]) then
+            if not type(BiaoGe.options[name]) == "number" then
                 BiaoGe.options[name] = BG.options[name .. "reset"]
             end
             BG.MainFrame.Bg:SetAlpha(BiaoGe.options[name])
@@ -1442,7 +1443,7 @@ BG.Init(function()
         h = h + 30
 
         -- 自动获取在线人数
-        if not BG.IsWLK then
+        if BG.IsVanilla_Sod or BG.IsCTM then
             do
                 local name = "autoGetOnline"
                 BG.options[name .. "reset"] = 0
@@ -1450,7 +1451,6 @@ BG.Init(function()
                 BG.Once("autoGetOnline", 240615, function()
                     BiaoGe.options[name] = 0
                 end)
-
 
                 local ontext = {
                     L["自动获取在线人数"],
@@ -1844,7 +1844,7 @@ BG.Init(function()
                     else
                         BiaoGe.MONEYchoice[id] = nil
                     end
-                    BG.MoneyBannerUpdate()
+                    -- BG.MoneyBannerUpdate()
 
                     BG.PlaySound(1)
                 end)
@@ -2488,7 +2488,7 @@ BG.Init(function()
             -- 密语模板
             tinsert(tbl, {
                 name = "MeetingHorn_whisper",
-                name2 = L["密语模板"] .. "*",
+                name2 = L["密语模板"] .. L["(重载后生效)"],
                 reset = 0,
                 ontext = {
                     L["密语模板"],
@@ -2502,35 +2502,24 @@ BG.Init(function()
                     " ",
                     L["在集结号活动的右键菜单里增加[邀请][复制活动说明]按钮。"],
                 },
-                onClick = function(self)
-                    local addonName = "MeetingHorn"
-                    if not IsAddOnLoaded(addonName) then return end
-                    if self:GetChecked() then
-                        BG.MeetingHorn.WhisperButton:Show()
-                        BG.MeetingHorn.WhisperFrame:Show()
-                        BiaoGe.MeetingHornWhisper.WhisperFrame = true
-                    else
-                        BG.MeetingHorn.WhisperButton:Hide()
-                    end
-                end
+                -- onClick = function(self)
+                --     local addonName = "MeetingHorn"
+                --     if not IsAddOnLoaded(addonName) then return end
+                --     if self:GetChecked() then
+                --         BG.MeetingHorn.WhisperButton:Show()
+                --         BG.MeetingHorn.WhisperFrame:Show()
+                --         BiaoGe.MeetingHornWhisper.WhisperFrame = true
+                --     else
+                --         BG.MeetingHorn.WhisperButton:Hide()
+                --     end
+                -- end
             })
             if BG.IsWLK then
                 tinsert(tbl[#tbl].ontext, " ")
                 tinsert(tbl[#tbl].ontext, L["在团长的右键菜单里增加[进入DD语音房间]按钮。"])
             end
             if BG.IsVanilla then
-                tbl[#tbl].ontext = {
-                    L["密语模板"],
-                    L["预设装等、自定义文本，当你点击集结号活动密语时会自动添加该内容。"],
-                    " ",
-                    L["按住SHIFT+点击密语时不会添加。"],
-                    " ",
-                    L["在聊天频道玩家的右键菜单里增加[密语模板]按钮。"],
-                    " ",
-                    L["在聊天输入框的右键菜单里增加[密语模板]按钮。"],
-                    " ",
-                    L["在集结号活动的右键菜单里增加[邀请][复制活动说明]按钮。"],
-                }
+                tbl[#tbl].ontext[2] = L["预设装等、自定义文本，当你点击集结号活动密语时会自动添加该内容。"]
             end
 
             for i, v in ipairs(tbl) do

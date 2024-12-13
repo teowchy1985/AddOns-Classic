@@ -1,3 +1,4 @@
+if BG.IsBlackListPlayer then return end
 local AddonName, ns = ...
 
 local LibBG = ns.LibBG
@@ -435,7 +436,15 @@ local function FilterItem(FB, itemID, EquipLocs, type, hard, ii, otherID) -- 重
         }
         return a
     elseif type == "world" then -- 世界掉落
-        local get = "|cff" .. "DEB887" .. L["世界掉落"] .. RR .. AddPrice(itemID)
+        -- 兑换物
+        local exText = ""
+        local exItemID, exItemLink = GetkExchangeItemInfo(itemID)
+        if exItemLink then
+            local tex = select(5, GetItemInfoInstant(exItemID))
+            exText = " " .. AddTexture(tex) .. exItemLink
+        end
+
+        local get = "|cff" .. "DEB887" .. L["世界掉落"] .. RR .. exText .. AddPrice(exItemID or itemID)
 
         local a = {
             itemID = itemID,
@@ -451,7 +460,7 @@ local function FilterItem(FB, itemID, EquipLocs, type, hard, ii, otherID) -- 重
         return a
     elseif type == "worldboss" then -- 世界BOSS
         local name = L["世界BOSS"] .. ": " .. L[otherID]
-        local get = "|cff" .. "FF6347" .. name .. RR .. AddPrice(itemID)
+        local get = "|cff" .. "FF6347" .. name .. AddPrice(itemID)
 
         local a = {
             itemID = itemID,

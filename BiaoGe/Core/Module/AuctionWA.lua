@@ -1,10 +1,11 @@
+if BG.IsBlackListPlayer then return end
 local AddonName, ns = ...
 
 local pt = print
 
 BG.Init(function()
     local aura_env = aura_env or {}
-    aura_env.ver = "v2.2"
+    aura_env.ver = "v2.3"
 
     function aura_env.GetVerNum(str)
         return tonumber(string.match(str, "v(%d+%.%d+)")) or 0
@@ -71,8 +72,8 @@ BG.Init(function()
         L["滚轮：快速调整价格"] = "滾輪：快速調整價格"
         L["长按：快速调整价格"] = "長按：快速調整價格"
         L["点击：复制当前价格并增加"] = "點擊：複製當前價格並增加"
-        L["隐藏"] = "隱藏"
-        L["显示"] = "顯示"
+        L["折叠"] = "折疊"
+        L["展开"] = "展開"
         L["拍卖成功"] = "拍賣成功"
         L["流拍"] = "流拍"
         L["设置心理价格"] = "設置心理價格"
@@ -136,6 +137,7 @@ BG.Init(function()
         aura_env.RED1 = "FF0000"
 
         aura_env.WIDTH = 310
+        aura_env.HEIGHT = 105
         aura_env.REPEAT_TIME = 20
         aura_env.HIDEFRAME_TIME = 3
         aura_env.edgeSize = 2.5
@@ -143,6 +145,7 @@ BG.Init(function()
         aura_env.backdropBorderColor = { 1, 1, 0, 1 }
         aura_env.backdropColor_filter = { .5, .5, .5, .3 }
         aura_env.backdropBorderColor_filter = { .5, .5, .5, 1 }
+        aura_env.barColor_filter = { .5, .5, .5, .8 }
         aura_env.backdropColor_IsMe = { aura_env.RGB("009900", .6) }
         aura_env.backdropBorderColor_IsMe = { 0, 1, 0, 1 }
         aura_env.raidRosterInfo = {}
@@ -262,23 +265,69 @@ BG.Init(function()
         end)
     end
 
-    function aura_env.Pass_OnClick(self)
+    function aura_env.Hide_OnClick(self)
         local f = self.owner
-        if f.IsAlpha then
-            self:SetText(L["隐藏"])
-            f:SetAlpha(1)
-            f.IsAlpha = false
-            f.AlphaFrame:Hide()
-            f.AlphaFrame2:Hide()
-        else
-            self:SetText(L["显示"])
-            if aura_env.lastFocus then
-                aura_env.lastFocus:ClearFocus()
+        if f.IsSmallWindow then
+            f.IsSmallWindow = false
+            self:SetText(L["折叠"])
+
+            if aura_env.IsML() then
+                f.cancel:Show()
+            else
+                f.cancel:Hide()
             end
-            f:SetAlpha(0.3)
-            f.IsAlpha = true
-            f.AlphaFrame:Show()
-            f.AlphaFrame2:Show()
+            f.autoTextButton:Show()
+            f.logTextButton:Show()
+            f.currentMoneyFrame:Show()
+            f.topMoneyFrame:Show()
+            if not f.IsEnd then
+                f.myMoneyEdit:Show()
+            end
+            f.itemFrame2:Show()
+
+            f:SetSize(aura_env.WIDTH, aura_env.HEIGHT)
+            f.itemFrame:ClearAllPoints()
+            f.itemFrame:SetPoint("TOPLEFT", f, "TOPLEFT", aura_env.edgeSize + 1, -f.hide:GetHeight() - 3)
+            f.itemFrame:SetPoint("BOTTOMRIGHT", f, "TOPRIGHT", -aura_env.edgeSize, -55)
+            f.itemFrame.iconFrame:ClearAllPoints()
+            f.itemFrame.iconFrame:SetPoint("TOPLEFT", f.itemFrame, "TOPLEFT", 0, 0)
+            f.itemFrame.iconFrame:SetPoint("BOTTOMRIGHT", f.itemFrame, "TOPLEFT", f.itemFrame:GetHeight(), -f.itemFrame:GetHeight())
+            f.itemFrame.iconFrame:SetBackdropBorderColor(unpack(f.itemFrame.iconFrame.color))
+            f.itemFrame.itemNameText:ClearAllPoints()
+            f.itemFrame.itemNameText:SetPoint("TOPLEFT", f.itemFrame.iconFrame, "TOPRIGHT", 2, -2)
+            f.itemFrame.bg:ClearAllPoints()
+            f.itemFrame.bg:SetAllPoints()
+            f.bar:ClearAllPoints()
+            f.bar:SetPoint("TOPLEFT", f.itemFrame.iconFrame, "TOPRIGHT", 0, 0)
+            f.bar:SetPoint("BOTTOMRIGHT", f.itemFrame, "BOTTOMRIGHT", 0, 0)
+        else
+            f.IsSmallWindow = true
+            self:SetText(L["展开"])
+
+            f.autoFrame:Hide()
+            f.cancel:Hide()
+            f.autoTextButton:Hide()
+            f.logTextButton:Hide()
+            f.currentMoneyFrame:Hide()
+            f.topMoneyFrame:Hide()
+            f.myMoneyEdit:Hide()
+            f.itemFrame2:Hide()
+
+            f:SetSize(aura_env.WIDTH, 23)
+            f.itemFrame:ClearAllPoints()
+            f.itemFrame:SetAllPoints()
+            f.itemFrame.iconFrame:ClearAllPoints()
+            f.itemFrame.iconFrame:SetPoint("TOPLEFT", aura_env.edgeSize, -aura_env.edgeSize)
+            f.itemFrame.iconFrame:SetPoint("BOTTOMRIGHT", f.itemFrame, "TOPLEFT", f.itemFrame:GetHeight() - aura_env.edgeSize, -f.itemFrame:GetHeight() + aura_env.edgeSize)
+            f.itemFrame.iconFrame:SetBackdropBorderColor(1, 1, 1, 0)
+            f.itemFrame.itemNameText:ClearAllPoints()
+            f.itemFrame.itemNameText:SetPoint("LEFT", f.itemFrame.iconFrame, "RIGHT", 2, 0)
+            f.itemFrame.bg:ClearAllPoints()
+            f.itemFrame.bg:SetPoint("TOPLEFT", aura_env.edgeSize, -aura_env.edgeSize)
+            f.itemFrame.bg:SetPoint("BOTTOMRIGHT", -aura_env.edgeSize, aura_env.edgeSize)
+            f.bar:ClearAllPoints()
+            f.bar:SetPoint("TOPLEFT", f.itemFrame.iconFrame, "TOPRIGHT", 0, 0)
+            f.bar:SetPoint("BOTTOMRIGHT", f.itemFrame, "BOTTOMRIGHT", -aura_env.edgeSize, aura_env.edgeSize)
         end
         PlaySound(aura_env.sound1)
     end
@@ -384,6 +433,8 @@ BG.Init(function()
     end
 
     function aura_env.itemOnEnter(self)
+        local f = self.owner
+        if f.IsSmallWindow then return end
         if aura_env.IsRight(self) then
             GameTooltip:SetOwner(self, "ANCHOR_LEFT", 0, 0)
         else
@@ -424,7 +475,7 @@ BG.Init(function()
             f.bar:SetValue(v)
             if remaining <= 10 then
                 if f.filter and not (f.player and f.player == UnitName("player")) then
-                    f.bar:SetStatusBarColor(unpack(BGA.aura_env.backdropBorderColor_filter))
+                    f.bar:SetStatusBarColor(unpack(BGA.aura_env.barColor_filter))
                 else
                     f.bar:SetStatusBarColor(1, 0, 0, 0.6)
                 end
@@ -432,7 +483,7 @@ BG.Init(function()
                 f.remainingTime:SetFont(STANDARD_TEXT_FONT, 20, "OUTLINE")
             else
                 if f.filter and not (f.player and f.player == UnitName("player")) then
-                    f.bar:SetStatusBarColor(unpack(BGA.aura_env.backdropBorderColor_filter))
+                    f.bar:SetStatusBarColor(unpack(BGA.aura_env.barColor_filter))
                 else
                     f.bar:SetStatusBarColor(1, 1, 0, 0.6)
                 end
@@ -454,7 +505,7 @@ BG.Init(function()
                 f.IsEnd = true
                 f.cancel:Hide()
 
-                local t = f:CreateFontString()
+                local t = f.itemFrame2:CreateFontString()
                 t:SetFont(STANDARD_TEXT_FONT, 30, "OUTLINE")
                 t:SetPoint("TOPRIGHT", f.itemFrame, "BOTTOMRIGHT", -10, -5)
 
@@ -648,8 +699,10 @@ BG.Init(function()
     end
 
     function aura_env.SetMoney(f, money, player)
-        f.updateFrame:Show()
-        f.autoFrame.updateFrame:Show()
+        if not f.IsSmallWindow then
+            f.updateFrame:Show()
+            f.autoFrame.updateFrame:Show()
+        end
 
         f.money = money
         f.currentMoneyText:SetText(L["|cffFFD100当前价格：|r"] .. money)
@@ -719,6 +772,7 @@ BG.Init(function()
             f.autoMoneyEdit:SetTextColor(1, 1, 1)
             f.autoMoneyEdit:SetEnabled(true)
             f.autoMoneyEdit.isLocked = false
+            f.hide:Enable()
         end
 
         aura_env.UpdateAutoButton(f)
@@ -755,7 +809,7 @@ BG.Init(function()
 
     function aura_env.UpdateAllFrames()
         for i, f in ipairs(_G.BGA.Frames) do
-            if not f.notShowCantClickFrame then
+            if f.showCantClickFrame and not f.IsSmallWindow then
                 f.cantClickFrame:Show()
                 f.cantClickFrame.t = 0
                 f.cantClickFrame:SetScript("OnUpdate", function(self, elapsed)
@@ -781,15 +835,13 @@ BG.Init(function()
         f:SetScript("OnUpdate", function(self, elapsed)
             t = t - elapsed
             if t >= 0 then
-                if not f.IsAlpha then
-                    f:SetAlpha(t)
-                end
+                f:SetAlpha(t)
             else
                 for i, _f in ipairs(_G.BGA.Frames) do
                     if i < f.num then
-                        _f.notShowCantClickFrame = true
+                        _f.showCantClickFrame = false
                     else
-                        _f.notShowCantClickFrame = false
+                        _f.showCantClickFrame = true
                     end
                 end
                 f:SetScript("OnUpdate", nil)
@@ -875,6 +927,7 @@ BG.Init(function()
         function aura_env.AutoButton_OnClick(self)
             local f = self.owner
             if f.isAuto then
+                f.isAuto = false
                 f.autoTitleText:SetText(L["设置心理价格"])
                 f.autoTitleText:SetTextColor(1, .82, 0)
                 f.isAutoTex:Hide()
@@ -882,13 +935,14 @@ BG.Init(function()
                 f.autoMoneyEdit.Left:SetAlpha(1)
                 f.autoMoneyEdit.Right:SetAlpha(1)
                 f.autoMoneyEdit.Middle:SetAlpha(1)
-                f.isAuto = false
                 f.autoTextButton:SetText(L["自动出价"])
                 f.autoTextButton:SetWidth(f.autoTextButton:GetFontString():GetWidth())
                 f.autoMoneyEdit:SetTextColor(1, 1, 1)
                 f.autoMoneyEdit:SetEnabled(true)
                 f.autoMoneyEdit.isLocked = false
+                f.hide:Enable()
             else
+                f.isAuto = true
                 f.autoTitleText:SetText(L["心理价格"])
                 f.autoTitleText:SetTextColor(0, 1, 0)
                 f.isAutoTex:Show()
@@ -897,13 +951,13 @@ BG.Init(function()
                 f.autoMoneyEdit.Left:SetAlpha(f.autoMoneyEdit.alpha)
                 f.autoMoneyEdit.Right:SetAlpha(f.autoMoneyEdit.alpha)
                 f.autoMoneyEdit.Middle:SetAlpha(f.autoMoneyEdit.alpha)
-                f.isAuto = true
                 f.autoTextButton:SetText(L[">>正在自动出价<<"])
                 f.autoTextButton:SetWidth(f.autoTextButton:GetFontString():GetWidth())
                 f.autoMoneyEdit:SetTextColor(0, 1, 0)
                 f.autoMoneyEdit:SetEnabled(false)
                 f.autoMoneyEdit.isLocked = true
                 aura_env.AutoSendMyMoney(f)
+                f.hide:Disable()
             end
             PlaySound(aura_env.sound1)
         end
@@ -965,7 +1019,7 @@ BG.Init(function()
             })
             f:SetBackdropColor(unpack(aura_env.backdropColor))
             f:SetBackdropBorderColor(unpack(aura_env.backdropBorderColor))
-            f:SetSize(aura_env.WIDTH, 105)
+            f:SetSize(aura_env.WIDTH, aura_env.HEIGHT)
             if #_G.BGA.Frames == 0 then
                 f:SetPoint("TOP", 0, 0)
             else
@@ -1152,55 +1206,27 @@ BG.Init(function()
                 disf:SetScript("OnLeave", GameTooltip_Hide)
                 AuctionFrame.autoButton.disf = disf
             end
-
-            local f = CreateFrame("Frame", nil, AuctionFrame.autoFrame)
-            do
-                f:SetAllPoints()
-                f:SetFrameLevel(f:GetParent():GetFrameLevel() + 50)
-                f:EnableMouse(true)
-                f:Hide()
-                f.owner = AuctionFrame
-                f:SetScript("OnMouseUp", function(self)
-                    AuctionFrame:GetScript("OnMouseUp")(_G.BGA.AuctionMainFrame)
-                end)
-                f:SetScript("OnMouseDown", function(self)
-                    AuctionFrame:GetScript("OnMouseDown")(_G.BGA.AuctionMainFrame)
-                end)
-                AuctionFrame.AlphaFrame2 = f
-            end
         end
         -- 操作
         do
-            -- Pass
+            -- 隐藏
             local bt = CreateFrame("Button", nil, AuctionFrame)
             bt:SetNormalFontObject(_G.BGA.FontGreen15)
             bt:SetHighlightFontObject(_G.BGA.FontWhite15)
+            bt:SetDisabledFontObject(_G.BGA.FontDis15)
             bt:SetPoint("TOPRIGHT", -aura_env.edgeSize - 1, -2)
-            bt:SetText(L["隐藏"])
+            bt:SetText(L["折叠"])
             bt:SetSize(bt:GetFontString():GetWidth(), 18)
+            bt:SetFrameLevel(bt:GetParent():GetFrameLevel() + 15)
             bt.owner = AuctionFrame
-            bt:SetScript("OnClick", aura_env.Pass_OnClick)
+            bt:SetScript("OnClick", aura_env.Hide_OnClick)
             AuctionFrame.hide = bt
-
-            local f = CreateFrame("Frame", nil, AuctionFrame)
-            f:SetPoint("TOPLEFT", AuctionFrame, "TOPLEFT", 0, -20)
-            f:SetPoint("BOTTOMRIGHT", AuctionFrame, "BOTTOMRIGHT", 0, 0)
-            f:SetFrameLevel(AuctionFrame:GetFrameLevel() + 50)
-            f:EnableMouse(true)
-            f:Hide()
-            f.owner = AuctionFrame
-            f:SetScript("OnMouseUp", function(self)
-                AuctionFrame:GetScript("OnMouseUp")(_G.BGA.AuctionMainFrame)
-            end)
-            f:SetScript("OnMouseDown", function(self)
-                AuctionFrame:GetScript("OnMouseDown")(_G.BGA.AuctionMainFrame)
-            end)
-            AuctionFrame.AlphaFrame = f
 
             -- 取消拍卖
             local bt = CreateFrame("Button", nil, AuctionFrame)
             bt:SetNormalFontObject(_G.BGA.FontGreen15)
             bt:SetHighlightFontObject(_G.BGA.FontWhite15)
+            bt:SetDisabledFontObject(_G.BGA.FontDis15)
             bt:SetPoint("TOPLEFT", aura_env.edgeSize + 60, -2)
             bt:SetText(L["取消拍卖"])
             bt:SetSize(bt:GetFontString():GetWidth(), 18)
@@ -1220,6 +1246,7 @@ BG.Init(function()
             local bt = CreateFrame("Button", nil, AuctionFrame)
             bt:SetNormalFontObject(_G.BGA.FontGreen15)
             bt:SetHighlightFontObject(_G.BGA.FontWhite15)
+            bt:SetDisabledFontObject(_G.BGA.FontDis15)
             bt:SetText(L["自动出价"])
             bt:SetSize(bt:GetFontString():GetWidth(), 18)
             bt:RegisterForClicks("AnyUp")
@@ -1236,6 +1263,7 @@ BG.Init(function()
             local bt = CreateFrame("Button", nil, AuctionFrame)
             bt:SetNormalFontObject(_G.BGA.FontGreen15)
             bt:SetHighlightFontObject(_G.BGA.FontWhite15)
+            bt:SetDisabledFontObject(_G.BGA.FontDis15)
             bt:SetPoint("TOPLEFT", aura_env.edgeSize + 1, -2)
             bt:SetText(L["记录"])
             bt:SetSize(bt:GetFontString():GetWidth(), 18)
@@ -1271,12 +1299,13 @@ BG.Init(function()
                 end
             end)
             AuctionFrame.itemFrame = f
+            local f2 = CreateFrame("Frame", nil, f)
+            AuctionFrame.itemFrame2 = f2
             -- 黑色背景
-            local s = CreateFrame("StatusBar", nil, f)
-            s:SetAllPoints()
-            s:SetFrameLevel(s:GetParent():GetFrameLevel() - 5)
-            s:SetStatusBarTexture("Interface/ChatFrame/ChatFrameBackground")
-            s:SetStatusBarColor(0, 0, 0, 0.5)
+            local tex = f:CreateTexture(nil, "BACKGROUND")
+            tex:SetAllPoints()
+            tex:SetColorTexture(0, 0, 0, 0.5)
+            AuctionFrame.itemFrame.bg = tex
             -- 图标
             local r, g, b = GetItemQualityColor(quality)
             local ftex = CreateFrame("Frame", nil, f, "BackdropTemplate")
@@ -1285,26 +1314,29 @@ BG.Init(function()
                 edgeSize = 2,
             })
             ftex:SetBackdropBorderColor(r, g, b, 1)
-            ftex:SetPoint("TOPLEFT", 0, 0)
-            ftex:SetSize(f:GetHeight(), f:GetHeight())
+            ftex:SetPoint("TOPLEFT", f, "TOPLEFT", 0, 0)
+            ftex:SetPoint("BOTTOMRIGHT", f, "TOPLEFT", f:GetHeight(), -f:GetHeight())
             ftex.tex = ftex:CreateTexture(nil, "BACKGROUND")
             ftex.tex:SetAllPoints()
             ftex.tex:SetTexture(Texture)
             ftex.tex:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+            ftex.color = { r, g, b }
             AuctionFrame.itemFrame.iconFrame = ftex
             -- 装备等级
-            local t = ftex:CreateFontString()
+            local t = f2:CreateFontString()
             t:SetFont(STANDARD_TEXT_FONT, 12, "OUTLINE")
             t:SetPoint("BOTTOM", ftex, "BOTTOM", 0, 1)
             t:SetText(level)
             t:SetTextColor(r, g, b)
+            AuctionFrame.itemFrame.levelText = t
             -- 装绑
             if bindType == 2 then
-                local t = ftex:CreateFontString()
+                local t = f2:CreateFontString()
                 t:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
                 t:SetPoint("TOP", ftex, 0, -2)
                 t:SetText(L["装绑"])
                 t:SetTextColor(0, 1, 0)
+                AuctionFrame.itemFrame.bindTypeText = t
             end
             -- 装备名称
             local t = f:CreateFontString()
@@ -1317,13 +1349,14 @@ BG.Init(function()
             AuctionFrame.itemFrame.itemNameText = t
             -- 已有
             if BG and BG.GetItemCount and BG.GetItemCount(itemID) ~= 0 or GetItemCount(itemID, true) ~= 0 then
-                local tex = f:CreateTexture(nil, 'ARTWORK')
+                local tex = f2:CreateTexture(nil, 'ARTWORK')
                 tex:SetSize(15, 15)
                 tex:SetPoint('LEFT', t, 'LEFT', t:GetWrappedWidth(), 0)
                 tex:SetTexture("interface/raidframe/readycheck-ready")
+                AuctionFrame.itemFrame.havedTex = tex
             end
             -- 装备类型
-            local t = f:CreateFontString()
+            local t = f2:CreateFontString()
             t:SetFont(STANDARD_TEXT_FONT, 12, "OUTLINE")
             t:SetPoint("BOTTOMLEFT", ftex, "BOTTOMRIGHT", 2, 2)
             t:SetHeight(13)
@@ -1342,8 +1375,8 @@ BG.Init(function()
             -- 倒计时条
             local s = CreateFrame("StatusBar", nil, f)
             s:SetPoint("TOPLEFT", ftex, "TOPRIGHT", 0, 0)
-            s:SetSize(f:GetWidth() - f:GetHeight(), f:GetHeight())
-            s:SetFrameLevel(s:GetParent():GetFrameLevel() - 2)
+            s:SetPoint("BOTTOMRIGHT", f, "BOTTOMRIGHT", 0, 0)
+            s:SetFrameLevel(s:GetParent():GetFrameLevel())
             s:SetStatusBarTexture("Interface/ChatFrame/ChatFrameBackground")
             s:SetStatusBarColor(1, 1, 0, 0.6)
             s:SetMinMaxValues(0, 1000)
@@ -1351,9 +1384,9 @@ BG.Init(function()
             AuctionFrame.bar = s
 
             -- 剩余时间
-            local remainingTime = f:CreateFontString()
+            local remainingTime = f2:CreateFontString()
             remainingTime:SetFont(STANDARD_TEXT_FONT, 15, "OUTLINE")
-            remainingTime:SetPoint("RIGHT", -5, 0)
+            remainingTime:SetPoint("RIGHT", f, "RIGHT", -5, 0)
             remainingTime:SetTextColor(1, 1, 1)
             AuctionFrame.remainingTime = remainingTime
         end
@@ -1381,6 +1414,7 @@ BG.Init(function()
                 AuctionFrame.start = true
             end
             local currentMoneyText = f
+            AuctionFrame.currentMoneyFrame = f
             AuctionFrame.currentMoneyText = t
             AuctionFrame.money = money
             -- 出价最高者
@@ -1416,6 +1450,7 @@ BG.Init(function()
             elseif mod == "anonymous" then
                 t:SetText(L["|cffFFD100< 匿名模式 >|r"])
             end
+            AuctionFrame.topMoneyFrame = f
             AuctionFrame.topMoneyText = t
 
             -- 输入框
@@ -1503,7 +1538,7 @@ BG.Init(function()
     -- 主界面
     do
         local f = CreateFrame("Frame", nil, UIParent, "BackdropTemplate")
-        f:SetSize(aura_env.WIDTH, 100)
+        f:SetSize(aura_env.WIDTH, aura_env.HEIGHT)
         f:SetFrameStrata('HIGH')
         f:SetClampedToScreen(true)
         f:SetFrameLevel(100)
@@ -1581,7 +1616,7 @@ BG.Init(function()
                 local auctionID = tonumber(arg2)
                 for i, f in ipairs(_G.BGA.Frames) do
                     if f.auctionID == auctionID and not f.IsEnd then
-                        local t = f:CreateFontString()
+                        local t = f.itemFrame2:CreateFontString()
                         t:SetFont(STANDARD_TEXT_FONT, 30, "OUTLINE")
                         t:SetPoint("TOPRIGHT", f.itemFrame, "BOTTOMRIGHT", -10, -5)
                         t:SetText(L["拍卖取消"])

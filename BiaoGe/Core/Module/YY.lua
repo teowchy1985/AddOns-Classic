@@ -1,3 +1,4 @@
+if BG.IsBlackListPlayer then return end
 local AddonName, ns = ...
 
 local LibBG = ns.LibBG
@@ -17,6 +18,8 @@ local FrameHide = ns.FrameHide
 local AddTexture = ns.AddTexture
 local GetItemID = ns.GetItemID
 
+local RealmName = GetRealmName()
+
 local pt = print
 
 local YY = "BiaoGeYY"
@@ -25,6 +28,8 @@ Y.lateTime = 0.5      -- 延迟发送评价的秒数
 Y.maxHistory = 40     -- 最多保存多少个历史查询记录
 Y.maxSearchText = 300 -- 最多接受多少个评价详细
 Y.searchLastDay = 360 -- 接收最近多少天内的评价
+Y.searchCD = 10
+
 
 BG.Init(function()
     -- 初始化数据库
@@ -856,13 +861,9 @@ BG.Init(function()
                                 yy, BG.YYMainFrame.searchText.sumpingjia[0], BG.YYMainFrame.searchText.sumpingjia[1],
                                 BG.YYMainFrame.searchText.sumpingjia[2], BG.YYMainFrame.searchText.sumpingjia[3], link))
                             BG.FrameTradeMsg:AddMessage(msg)
-                            local cd = 10
-                            if Size(BG.YYMainFrame.searchText.all) == 1 then
-                                cd = 10
-                            end
                             BG.OnUpdateTime(function(self, elapsed)
                                 self.timeElapsed = self.timeElapsed + elapsed
-                                BG.YYMainFrame.search.cd = tonumber(format("%d", cd - self.timeElapsed))
+                                BG.YYMainFrame.search.cd = tonumber(format("%d", Y.searchCD - self.timeElapsed))
                                 bt:SetText(L["查询成功！CD"] .. BG.YYMainFrame.search.cd)
                                 if BG.YYMainFrame.search.cd <= 0 then
                                     bt:SetEnabled(true)
@@ -885,14 +886,22 @@ BG.Init(function()
                             end
                             local a = { yy = BG.YYMainFrame.searchText.yy, date = BG.YYMainFrame.searchText.date }
                             tinsert(BiaoGe.YYdb.historyEmpty, a)
-
-                            bt:SetEnabled(true)
-                            bt:SetText(L["查询"])
                             Y.DefaultResult()
                             LibBG:UIDropDownMenu_SetText(BG.YYMainFrame.DropDown, L["无"])
                             local msg = BG.STC_r1(format(L["查询失败：没有找到YY%s的评价。"], yy))
                             SendSystemMessage(msg)
                             BG.FrameTradeMsg:AddMessage(msg)
+                            BG.OnUpdateTime(function(self, elapsed)
+                                self.timeElapsed = self.timeElapsed + elapsed
+                                BG.YYMainFrame.search.cd = tonumber(format("%d", Y.searchCD - self.timeElapsed))
+                                bt:SetText(L["查询失败！CD"] .. BG.YYMainFrame.search.cd)
+                                if BG.YYMainFrame.search.cd <= 0 then
+                                    bt:SetEnabled(true)
+                                    bt:SetText(L["查询"])
+                                    self:SetScript("OnUpdate", nil)
+                                    self:Hide()
+                                end
+                            end)
                         end
                         BG.YYMainFrame.searchText = nil
 
@@ -2181,16 +2190,20 @@ BG.Init(function()
             if Y.IsLeader(UnitName("player")) then return end
             local yy = GetLeaderYY()
             if yy == "" then
-                SendSystemMessage(BG.BG .. L["恭喜你们击杀尾王！由于没有记录到团长YY，快速评价框不会弹出。"])
+                BG.After(5, function()
+                    SendSystemMessage(BG.BG .. L["恭喜你们击杀尾王！由于没有记录到团长YY，快速评价框不会弹出。"])
+                end)
                 return
             end
             for k, vv in pairs(BiaoGe.YYdb.all) do
                 if yy == vv.yy then
-                    SendSystemMessage(BG.BG .. format(L["恭喜你们击杀尾王！YY%s你曾评价为：|cff%s>>%s<<。|r"], yy, Y.PingjiaColor(vv.pingjia), Y.Pingjia(vv.pingjia)))
+                    BG.After(5, function()
+                        SendSystemMessage(BG.BG .. format(L["恭喜你们击杀尾王！YY%s你曾评价为：|cff%s>>%s<<。|r"], yy, Y.PingjiaColor(vv.pingjia), Y.Pingjia(vv.pingjia)))
+                    end)
                     return
                 end
             end
-            C_Timer.After(10, function()
+            BG.After(10, function()
                 BG.EndPJ.new:Show()
             end)
         end)
@@ -2237,11 +2250,18 @@ f:SetScript("OnEvent", function(self, even, ...)
     if even == "CHAT_MSG_ADDON" then
         if not BG.YYMainFrame.searchText then return end
         local prefix, msg, distType, sender = ...
+        local sendername = strsplit("-", sender)
         if prefix ~= YY then return end
+        if BG.blackListPlayer[RealmName] and BG.blackListPlayer[RealmName][sendername] then
+            return
+        end
         local date, pingjia, edit = strmatch(msg, "(%d+),(%d+),(.-),")
         pingjia = tonumber(pingjia)
         BG.YYMainFrame.searchText.sumpingjia[pingjia] = BG.YYMainFrame.searchText.sumpingjia[pingjia] + 1
         if Size(BG.YYMainFrame.searchText.all) <= Y.maxSearchText then -- 最多收集300个评价详细
+            if BG.DeBug and BG.YYMainFrame.search.edit:GetText() == "34229022" and pingjia == 3 then
+                pt(sender, date, edit)
+            end
             local a = { date = date, pingjia = pingjia, edit = edit }
             tinsert(BG.YYMainFrame.searchText.all, a)
         end
@@ -2255,7 +2275,7 @@ f:SetScript("OnEvent", function(self, even, ...)
         for i, v in pairs(BiaoGe.YYdb.all) do
             if tonumber(yy) == tonumber(v.yy) and tonumber(v.date) >= tonumber(date) then
                 local resendtext = v.date .. "," .. v.pingjia .. "," .. v.edit .. ","
-                local randomtime = random(0.1, Y.lateTime)
+                local randomtime = random(1, Y.lateTime * 10) * 0.1
                 C_Timer.After(randomtime, function()
                     if sendername ~= UnitName("player") then
                         BiaoGe.YYdb.shareCount = BiaoGe.YYdb.shareCount + 1
@@ -2358,9 +2378,8 @@ BG.Init2(function()
             local channels = { GetChannelList() }
             if channels and #channels > 3 then
                 JoinPermanentChannel(YY, nil, 1)
-            else
-                BG.After(3, JoinYY)
             end
+            BG.After(3, JoinYY)
         end
     end
     JoinYY()

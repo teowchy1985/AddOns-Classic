@@ -7053,7 +7053,12 @@
         "ThreeDimensionsCode_SafePipe_CmdHandles",
         "UnitPopupMenuPlayer",
         "UnitPopupMenuFriend",
-        "CreateColor"
+        "CreateColor",
+        "tinsert",
+        "IsAddOnLoaded",
+        "UnitIsUnit",
+        "select",
+        "Menu"
     ],
     "Lua.diagnostics.disable": [
         "inject-field",
@@ -7064,7 +7069,8 @@
         "missing-fields",
         "redundant-parameter",
         "assign-type-mismatch",
-        "deprecated"
+        "deprecated",
+        "undefined-global"
     ],
     "Lua.runtime.version": "Lua 5.1",
     "Lua.runtime.builtin": {
