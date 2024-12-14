@@ -1,10 +1,7 @@
 # DBM - Vanilla and Season of Discovery
 
-## [r767](https://github.com/DeadlyBossMods/DBM-Vanilla/tree/r767) (2024-12-10)
-[Full Changelog](https://github.com/DeadlyBossMods/DBM-Vanilla/compare/r766...r767) [Previous Releases](https://github.com/DeadlyBossMods/DBM-Vanilla/releases)
+## [r768](https://github.com/DeadlyBossMods/DBM-Vanilla/tree/r768) (2024-12-14)
+[Full Changelog](https://github.com/DeadlyBossMods/DBM-Vanilla/compare/r767...r768) [Previous Releases](https://github.com/DeadlyBossMods/DBM-Vanilla/releases)
 
-- Bug Trio: Keep GTFO warning around after fight ends as the pool persists  
-- Prophet Skeram: Interrupt warning and minor tweak for Mind Control on SoD  
-    SoD mind control only targets one player, no point in waiting 0.5 seconds  
-- Fankriss: Add AntiSpam for worm summon warning  
-- AQ40 Trash: Add pretty much the same warnings as we have for AQ20  
+- Helps when you hit save on all files  
+- preliminary variable timer for Onyxia, MC, BWL, and AQ40 (more needed but these are ones that already had proper notations in modules)  
