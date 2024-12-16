@@ -1,9 +1,7 @@
 # Baganator
 
-## [547](https://github.com/Baganator/Baganator/tree/547) (2024-12-13)
-[Full Changelog](https://github.com/Baganator/Baganator/compare/546...547) 
+## [551](https://github.com/Baganator/Baganator/tree/551) (2024-12-15)
+[Full Changelog](https://github.com/Baganator/Baganator/compare/550...551) 
 
-- Fixes for alt toggle buttons for separate issues on GW2 skin and saved searches  
-- Include buttons next to search box in effects of "Show when holding Alt" option  
-- Permit second row of currencies tracked to extend above buttons at bottom of bag  
-- [Fixes #378] Fix Auto Open: Character Panel option erroring  
+- Prioritise first bag in bag index order when dropping on blank space drop zone  
+- Add "Hide icon backgrounds" option to Dark theme  
