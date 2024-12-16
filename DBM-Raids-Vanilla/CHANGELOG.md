@@ -1,11 +1,12 @@
 # DBM - Vanilla and Season of Discovery
 
-## [r769](https://github.com/DeadlyBossMods/DBM-Vanilla/tree/r769) (2024-12-14)
-[Full Changelog](https://github.com/DeadlyBossMods/DBM-Vanilla/compare/r768...r769) [Previous Releases](https://github.com/DeadlyBossMods/DBM-Vanilla/releases)
+## [r770](https://github.com/DeadlyBossMods/DBM-Vanilla/tree/r770) (2024-12-15)
+[Full Changelog](https://github.com/DeadlyBossMods/DBM-Vanilla/compare/r769...r770) [Previous Releases](https://github.com/DeadlyBossMods/DBM-Vanilla/releases)
 
-- Work-around core breakage for delayed timers  
-- AQ20/40 Trash: Differentiate the various variants of SoD hard mode debuffs and add info frame for guardian abilities  
-- Twin Emps: Teleport timer is exact on SoD  
-- Skeram: Simplify logic for mind control and support the case where exactly one mirror image is alive  
-- Sartura: Add GTFO warning for whirlwind  
-- Update koKR (#271)  
+- Add test data for AQ40  
+- AQ Trash: Show spell name for Toxic Pool GTFO warning  
+- AQ Trash: Add warning and tracking for Guardian add summon ability  
+- AQ20 Trash: Track some more trash abilities  
+- AQ20 Trash: Fix bad logic for counting ghosts  
+    By pure coincidence this almost always worked correctly, but sometimes it showed the single-ghost warning when all ghosts spawned  
+- AQ20: Add test data  

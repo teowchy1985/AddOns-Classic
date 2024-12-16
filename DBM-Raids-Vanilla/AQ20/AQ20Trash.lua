@@ -9,7 +9,7 @@ end
 local mod	= DBM:NewMod("AQ20Trash", "DBM-Raids-Vanilla", catID)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20241214190654")
+mod:SetRevision("20241215144901")
 if not mod:IsClassic() then
 	mod:SetModelID(15741)-- Qiraji Gladiator
 end
@@ -25,8 +25,10 @@ mod:RegisterEvents(
 	"SPELL_PERIODIC_DAMAGE 1215421",
 	"SPELL_CAST_SUCCESS 26586",
 	"SPELL_AURA_REMOVED 22997",
+	"SPELL_SUMMON 17430 17431",
 	"SPELL_MISSED",
 	"UNIT_DIED",
+	"SPELL_DAMAGE 14297 24340 8732",
 	"PLAYER_TARGET_CHANGED",
 	"NAME_PLATE_UNIT_ADDED"
 )
@@ -43,6 +45,8 @@ local specWarnGTFO = mod:NewSpecialWarningGTFO(1215421, nil, nil, nil, 1, 8)
 local warnPlague                    = mod:NewTargetAnnounce(22997, 2)
 local warnCauseInsanity             = mod:NewTargetNoFilterAnnounce(26079, 2)
 local warnExplosion					= mod:NewAnnounce("WarnExplosion", 3, nil, false)
+local warnAdd1						= mod:NewSpellAnnounce(17430)
+local warnAdd2						= mod:NewSpellAnnounce(17431)
 
 local specWarnPlague                = mod:NewSpecialWarningMoveAway(22997, nil, nil, nil, 1, 2)
 local specWarnBurst					= mod:NewSpecialWarningDodge(1215202, nil, nil, nil, 2, 2)
@@ -84,7 +88,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif args:IsSpell(1215202) then
 		aq40Trash:NoxiousBurst(args, specWarnBurst, yellBurst, timerBurst)
 	elseif args:IsSpell(1215421) and args:IsPlayer() and self:AntiSpam(4, "ToxicPool") then
-		specWarnGTFO:Show()
+		specWarnGTFO:Show(args.spellName)
 		specWarnGTFO:Play("watchfeet")
 	elseif args:IsSpell(2855) and not args:IsDestTypePlayer() then
 		local caster = DBM:GetRaidUnitIdByGuid(args.sourceGUID)
@@ -95,10 +99,20 @@ function mod:SPELL_AURA_APPLIED(args)
 	end
 end
 
-function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId)
+function mod:SPELL_PERIODIC_DAMAGE(_, _, _, _, destGUID, _, _, _, spellId, spellName)
 	if spellId == 1215421 and destGUID == UnitGUID("player") and self:AntiSpam(4, "ToxicPool") then
-		specWarnGTFO:Show()
+		specWarnGTFO:Show(spellName)
 		specWarnGTFO:Play("watchfeet")
+	end
+end
+
+function mod:SPELL_DAMAGE(sourceGUID, sourceName, _, sourceRaidFlags, _, _, _, _, spellId)
+	if spellId == 14297 then
+		aq40Trash:TrackTrashAbility(sourceGUID, "ShadowStorm", sourceRaidFlags, sourceName)
+	elseif spellId == 24340 then
+		aq40Trash:TrackTrashAbility(sourceGUID, "Meteor", sourceRaidFlags, sourceName)
+	elseif spellId == 8732 then
+		aq40Trash:TrackTrashAbility(sourceGUID, "Thunderclap", sourceRaidFlags, sourceName)
 	end
 end
 
@@ -112,7 +126,7 @@ end
 
 function mod:SPELL_CAST_SUCCESS(args)
 	-- 26586 (Birth) is used by a lot, here it indicates that Eye Tentacles (ghosts that don't look like Eye Tentacles at all) spawned that explode if they walk into you
-	if args:IsSpell(26586) and DBM:GetCIDFromGUID(args.sourceGUID) == 235668 or DBM:GetCIDFromGUID(args.sourceGUID) == 235528 and self:AntiSpam(5, "EyeTentacleExplosion") then
+	if args:IsSpell(26586) and (DBM:GetCIDFromGUID(args.sourceGUID) == 235668 or DBM:GetCIDFromGUID(args.sourceGUID) == 235528) then
 		aq40Trash:ExplodingGhost(warnExplosion, specWarnExplosion, timerExplosion)
 	end
 end
@@ -133,6 +147,16 @@ function mod:SPELL_MISSED(sourceGUID, _, _, _, destGUID, destName, _, destRaidFl
 			end
 			aq40Trash:TrackTrashAbility(destGUID, "FireArcaneReflect", destRaidFlags, destName)
 		end
+	end
+end
+
+function mod:SPELL_SUMMON(args)
+	if args:IsSpell(17430) then
+		warnAdd1:Show()
+		aq40Trash:TrackTrashAbility(args.sourceGUID, "Summon1", args.sourceRaidFlags, args.sourceName)
+	elseif args:IsSpell(17431) then
+		warnAdd2:Show()
+		aq40Trash:TrackTrashAbility(args.sourceGUID, "Summon2", args.sourceRaidFlags, args.sourceName)
 	end
 end
 
