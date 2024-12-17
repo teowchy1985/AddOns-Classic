@@ -1253,7 +1253,7 @@ L["Stratholme Holy Water"] = "斯坦索姆聖水";
 
 -- 自行加入
 L["NovaRaidCompanion"] = "團隊-夥伴";
-L["NovaRaidCompanion "] = "NCR 團隊夥伴";
+L["NovaRaidCompanion "] = "NRC 團隊夥伴";
 L["Class Tools"] = "職業工具";
 L["Druid"] = "德魯伊";
 L["Hunter"] = "獵人";
