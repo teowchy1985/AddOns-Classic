@@ -1,10 +1,10 @@
-lightweight tag 6a31da2851738b3901421dc88cae14f8f6778e17 v1.16.9
+lightweight tag 5bf8cc9221795c04cc5dee61ae5c49ca46386f18 v1.16.10
 Author:	GitHub <noreply@github.com>
-Date:	Sat Dec 7 00:16:41 2024 -0500
+Date:	Mon Dec 16 01:35:02 2024 -0500
 
-commit 6a31da2851738b3901421dc88cae14f8f6778e17
+commit 5bf8cc9221795c04cc5dee61ae5c49ca46386f18
 Author: Mike D <mcd8604@users.noreply.github.com>
-Date:   Sat Dec 7 00:16:41 2024 -0500
+Date:   Mon Dec 16 01:35:02 2024 -0500
 
     Update EngraverOptions.lua
 
