@@ -819,10 +819,12 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [79486] = { -- A Smokywood Pastures' Thank You! (Alliance)
+            [questKeys.preQuestSingle] = {79484},
             [questKeys.questFlags] = questFlags.RAID,
             [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [79487] = { -- A Smokywood Pastures' Thank You! (Horde)
+            [questKeys.preQuestSingle] = {79485},
             [questKeys.questFlags] = questFlags.RAID,
             [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
@@ -8203,6 +8205,26 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.objectivesText] = {"Use the Legion Portal Tuner on a fel scar, and send your Explorer Imp inside until you get a Portal Tuner Tuner. Use it on the Legion Portal Tuner to create a Overcharged Portal Tuner. Then use it on a Fel Scar and send your Explorer Imp back in, and he will return with the rune."},
             [questKeys.requiredSpell] = -440922,
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+        },
+        [91000] = {
+            [questKeys.name] = "Rune Broker",
+            [questKeys.startedBy] = {{233158}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 1,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.zoneOrSort] = sortKeys.SPECIAL,
+        },
+        [91001] = {
+            [questKeys.name] = "Rune Broker",
+            [questKeys.startedBy] = {{233428}},
+            [questKeys.finishedBy] = nil,
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 1,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredClasses] = classIDs.NONE,
+            [questKeys.zoneOrSort] = sortKeys.SPECIAL,
         },
     }
 end
