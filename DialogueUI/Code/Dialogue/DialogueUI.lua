@@ -709,9 +709,11 @@ end
 
 function DUIDialogBaseMixin:UseQuestLayout(state)
     local forceUpdate = SETTINGS_UI_VISIBLE == true;
+    local isQuestChanged;
 
     if state then
         local questID = GetQuestID();
+        isQuestChanged = self.questID ~= questID;
         self.questID = questID;
 
         if (not self.questLayout) or forceUpdate then
@@ -758,6 +760,8 @@ function DUIDialogBaseMixin:UseQuestLayout(state)
         self.WarbandCompleteAlert:Hide();
         CallbackRegistry:Trigger("StopViewingQuest");
     end
+
+    return isQuestChanged
 end
 
 function DUIDialogBaseMixin:UpdateQuestTitle(method)
@@ -810,7 +814,7 @@ function DUIDialogBaseMixin:UpdateQuestTitle(method)
             HeaderWidgetManger:AddQuestRemainingTime(seconds);
         end
 
-        HeaderWidgetManger:RequestQuestLineQuest(questID, 0);
+        HeaderWidgetManger:RequestQuestLineQuest(questID);
     end
 
     local decor = API.GetQuestBackgroundDecor(questID);
@@ -1403,7 +1407,8 @@ end
 
 function DUIDialogBaseMixin:HandleQuestDetail(playFadeIn)
     self:ReleaseAllObjects();
-    self:UseQuestLayout(true);
+    local isQuestChanged = self:UseQuestLayout(true);
+    playFadeIn = playFadeIn or isQuestChanged;
 
     if self.handlerArgs and self.handlerArgs[1] and self.handlerArgs[1] ~= 0 then
         local questStartItemID = self.handlerArgs[1];
@@ -1542,7 +1547,8 @@ end
 
 function DUIDialogBaseMixin:HandleQuestProgress(playFadeIn)
     self:ReleaseAllObjects();
-    self:UseQuestLayout(true);
+    local isQuestChanged = self:UseQuestLayout(true);
+    playFadeIn = playFadeIn or isQuestChanged;
 
     local canComplete = IsQuestCompletable();
     if canComplete and GetDBBool("AutoCompleteQuest") then
@@ -1666,10 +1672,12 @@ function DUIDialogBaseMixin:HandleQuestComplete(playFadeIn)
         local questID = GetQuestID();
         local title = GetQuestTitle();
         if GossipDataProvider:ShouldAutoCompleteQuest(questID, title) then
+            local completionText = GetQuestText("Complete");
             local questData = {
                 questID = questID,
                 title = title,
-                paragraphs = API.SplitParagraph(GetQuestText("Complete") or L["Quest Complete Alert"]);
+                paragraphs = API.SplitParagraph(completionText or L["Quest Complete Alert"]);
+                rawText = completionText,
                 rewards = rewardList,
             };
 
@@ -1681,7 +1689,8 @@ function DUIDialogBaseMixin:HandleQuestComplete(playFadeIn)
         end
     end
 
-    self:UseQuestLayout(true);
+    local isQuestChanged = self:UseQuestLayout(true);
+    playFadeIn = playFadeIn or isQuestChanged;
 
     --Title
     local offsetY = self:UpdateQuestTitle("Complete");
@@ -3038,6 +3047,13 @@ do  --GamePad/Controller
         if self.gamepadFocus then
             self.gamepadFocus:OnClick("GamePad");
             return true
+        else
+            --Select the next object widthout clicking it if we don't have a focus (usually when starting a fresh interaction)
+            self:FocusNextObject();
+            if self.gamepadFocus and GetDBBool("GamePadClickFirstObject") then
+                self.gamepadFocus:OnClick("GamePad");
+                return true
+            end
         end
         return false
     end
