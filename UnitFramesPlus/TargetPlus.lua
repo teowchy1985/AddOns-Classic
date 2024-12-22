@@ -715,6 +715,50 @@ function UnitFramesPlus_TargetPortraitIndicator()
     end
 end
 
+local function MakeCustomBuffSize(frame, auraName, numAuras, numOppositeAuras, largeAuraList, updateFunc, maxRowWidth, offsetX, mirrorAurasVertically)
+    if (UnitFramesPlusDB["target"]["buffsize"] == 1) then
+        local AURA_OFFSET = 3
+        local LARGE_AURA_SIZE = UnitFramesPlusDB["target"]["mysize"]
+        local SMALL_AURA_SIZE = UnitFramesPlusDB["target"]["othersize"]
+        local size
+        local offsetY = AURA_OFFSET
+        local offsetX = AURA_OFFSET
+        local rowWidth = 0
+        local firstBuffOnRow = 1
+
+        for i = 1, numAuras do
+            if (largeAuraList[i]) then
+                size = LARGE_AURA_SIZE
+                offsetY = AURA_OFFSET
+                offsetX = AURA_OFFSET
+            else
+                size = SMALL_AURA_SIZE
+            end
+
+            if (i == 1) then
+                rowWidth = size
+--                frame.auraRows = frame.auraRows + 1
+            else
+                rowWidth = rowWidth + size + offsetX
+            end
+
+            if (rowWidth > 121) then
+                updateFunc(frame, auraName, i, numOppositeAuras, firstBuffOnRow, size, offsetX, offsetY, mirrorAurasVertically)
+                rowWidth = size
+--                frame.auraRows = frame.auraRows + 1
+                firstBuffOnRow = i
+                offsetY = AURA_OFFSET
+            else
+                updateFunc(frame, auraName, i, numOppositeAuras, i - 1, size, offsetX, offsetY, mirrorAurasVertically)
+            end
+        end
+    end
+end
+
+function UnitFramesPlus_TargetBuffSize()
+    hooksecurefunc("TargetFrame_UpdateAuraPositions", MakeCustomBuffSize);
+end
+
 --目标头像
 local Target3DPortrait = CreateFrame("PlayerModel", "UFP_Target3DPortrait", TargetFrame);
 Target3DPortrait:SetWidth(50);
@@ -1040,6 +1084,8 @@ function UnitFramesPlus_TargetInit()
 		UnitFramesPlusDB["target"]["buffsize"] = 0
 		UnitFramesPlusDB["target"]["colorhp"] = 0
 		UnitFramesPlusDB["target"]["mouseshow"] = 0
+	else
+		UnitFramesPlus_TargetBuffSize();
 	end
 
 	UnitFramesPlus_TargetShiftDrag();
