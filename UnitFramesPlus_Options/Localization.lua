@@ -105,7 +105,7 @@
     -- UFP_OP_InfoText6 = "内置敌对目标仇恨高亮/百分比显示基于 LibThreatClassic2。";
     UFP_OP_Reset = "恢复默认设置";
     UFP_OP_Reload_info = "需重载界面";
-    UFP_OP_MinimapButton_Show = "显示小地图设置按钮";
+    UFP_OP_MinimapButton_Show = "显示小地图设置按钮 (停用会重载界面)";
     UFP_OP_Ext_Options = "其他设定";
     UFP_OP_Ext_BossHPPct = "BOSS生命值百分比";
     UFP_OP_RangeCheck = "治疗距离检测";
@@ -219,7 +219,7 @@ elseif GetLocale() == "zhTW" then
 	-- UFP_OP_InfoText6 = "內建的敵對目標仇恨顯著標示/百分比顯示使用 LibThreatClassic2。";
     UFP_OP_Reset = "恢復成預設值";
     UFP_OP_Reload_info = "需要重新載入介面";
-    UFP_OP_MinimapButton_Show = "顯示小地圖按鈕";
+    UFP_OP_MinimapButton_Show = "顯示小地圖按鈕 (停用時會重新載入介面)";
     UFP_OP_Ext_Options = "其它設定";
     UFP_OP_Ext_BossHPPct = "BOSS 血量百分比";
     UFP_OP_RangeCheck = "偵測治療範圍距離";

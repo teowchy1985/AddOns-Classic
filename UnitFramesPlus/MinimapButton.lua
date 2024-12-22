@@ -94,13 +94,14 @@ function UnitFramesPlus_MinimapButton()
         end)
         MinimapButton:Show();
     else
-        MinimapButton:RegisterForDrag(nil);
+        MinimapButton:RegisterForDrag("none");
         MinimapButton:SetScript("OnDragStart", nil);
         MinimapButton:SetScript("OnDragStop", nil);
         MinimapButton:SetScript("OnClick", nil);
         MinimapButton:SetScript("OnEnter", nil);
         MinimapButton:SetScript("OnLeave", nil);
         MinimapButton:Hide();
+		ReloadUI();
     end
 end
 
