@@ -178,12 +178,12 @@ TOKEN_DATA.CLASSIC = {
 	[20933] = { ICONS.PRIEST, 21351, 0, ICONS.MAGE, 21343, 0, ICONS.WARLOCK, 21334, 0, ICONS.DRUID, 21357, type = 6 }, -- Husk of the Old God
 
 	-- AQ20
-	[20888] = { ICONS.HUNTER, 21402, 0, ICONS.ROGUE, 21405, 0, ICONS.PRIEST, 21411, 0, ICONS.WARLOCK, 21417, type = 6 },							-- Qiraji Ceremonial Ring
-	[20884] = { ICONS.WARRIOR, 21393, 0, ICONS.PALADIN, 21396, 0, ICONS.SHAMAN, 21399, 0, ICONS.MAGE, 21414, 0, ICONS.DRUID, 21408, type = 6 },		-- Qiraji Magisterial Ring
-	[20885] = { ICONS.WARRIOR, 21394, 0, ICONS.ROGUE, 21406, 0, ICONS.PRIEST, 21412, 0, ICONS.MAGE, 21415, type = 6 },								-- Qiraji Martial Drape
-	[20889] = { ICONS.PALADIN, 21397, 0, ICONS.HUNTER, 21403, 0, ICONS.SHAMAN, 21400, 0, ICONS.WARLOCK, 21418, 0, ICONS.DRUID, 21409, type = 6 },	-- Qiraji Regal Drape
-	[20890] = { ICONS.PRIEST, 21410, 0, ICONS.MAGE, 21413, 0, ICONS.WARLOCK, 21416, 0, ICONS.DRUID, 21407, type = 6 },								-- Qiraji Ornate Hilt
-	[20886] = { ICONS.WARRIOR, 21392, 0, ICONS.PALADIN, 21395, 0, ICONS.HUNTER, 21401, 0, ICONS.ROGUE, 21404, 0, ICONS.SHAMAN, 21398, type = 6  },	-- Qiraji Spiked Hilt
+	[20888] = { ICONS.HUNTER, 21402, {233422, "SoD"}, 0, ICONS.ROGUE, 21405, {233434, "SoD"}, 0, ICONS.PRIEST, 21411, {233431, "SoD"}, 0, ICONS.WARLOCK, 21417, {233440, "SoD"}, type = 6 },							-- Qiraji Ceremonial Ring
+	[20884] = { ICONS.WARRIOR, 21393, {233443, "SoD"}, 0, ICONS.PALADIN, 21396, {233428, "SoD"}, 0, ICONS.SHAMAN, 21399, {233437, "SoD"}, 0, ICONS.MAGE, 21414, {233425, "SoD"}, 0, ICONS.DRUID, 21408, {233419, "SoD"}, type = 6 },		-- Qiraji Magisterial Ring
+	[20885] = { ICONS.WARRIOR, 21394, {233441, "SoD"}, 0, ICONS.ROGUE, 21406, {233432, "SoD"}, 0, ICONS.PRIEST, 21412, {233430, "SoD"}, 0, ICONS.MAGE, 21415, {233424, "SoD"}, type = 6 },								-- Qiraji Martial Drape
+	[20889] = { ICONS.PALADIN, 21397, {233427, "SoD"}, 0, ICONS.HUNTER, 21403, {233420, "SoD"}, 0, ICONS.SHAMAN, 21400, {233436, "SoD"}, 0, ICONS.WARLOCK, 21418, {233438, "SoD"}, 0, ICONS.DRUID, 21409, {233418, "SoD"}, type = 6 },	-- Qiraji Regal Drape
+	[20890] = { ICONS.PRIEST, 21410, {233429, "SoD"}, 0, ICONS.MAGE, 21413, {233423, "SoD"}, 0, ICONS.WARLOCK, 21416, {233439, "SoD"}, 0, ICONS.DRUID, 21407, {233417, "SoD"}, type = 6 },								-- Qiraji Ornate Hilt
+	[20886] = { ICONS.WARRIOR, 21392, {233442, "SoD"}, 0, ICONS.PALADIN, 21395, {233426, "SoD"}, 0, ICONS.HUNTER, 21401, {233421, "SoD"}, 0, ICONS.ROGUE, 21404, {233433, "SoD"}, 0, ICONS.SHAMAN, 21398, {233435, "SoD"}, type = 6  },	-- Qiraji Spiked Hilt
 
 	-- Tier 3
 	[22360] = { ICONS.PALADIN, 22428, 0, ICONS.HUNTER, 22438, 0, ICONS.SHAMAN, 22466, 0, ICONS.DRUID, 22490, type = 6 }, -- Desecrated Headpiece
@@ -245,7 +245,7 @@ TOKEN_DATA.CLASSIC = {
 	[18564] = { 19019,{230224, "SoD"}, 0, 18563, 18564, 19017 }, -- Bindings of the Windseeker <right>
 	[18563] = 18564,{230224, "SoD"}, -- Bindings of the Windseeker <left>
 	[19017] = 18564, -- Essence of the Firelord
-	[17204] = 17182,  -- Eye of Sulfuras
+	[17204] = { 17182, type = 4 }, -- Eye of Sulfuras
 	[18703] = { 18714, 18713, 18715,0,nil,{228334, "SoD"},{228332, "SoD"}}, -- Ancient Petrified Leaf
 	[18646] = { 18665, 18646, 0, 18608, 18609,0,{228335, "SoD"},{228336, "SoD"}}, -- The Eye of Divinity
 	[18665] = 18646, -- The Eye of Shadow
@@ -426,7 +426,7 @@ TOKEN_DATA.CLASSIC = {
 	[22520] = { 23207, 23206, type = 3 }, -- The Phylactery of Kel'Thuzad
 
 	-- AQ40
-	[21221] = { 21712, 21710, 21709, type = 3 }, -- Amulet of the Fallen God
+	[21221] = { 21712, 21710, 21709,0,{234801, "SoD" },{234802, "SoD" },{234803, "SoD" }, type = 3 }, -- Eye of C'thun
 	[21762] = { 21156, 20876, 20879, 20875, 20878, 20881, 20877, 20874, 20882 }, -- Greater Scarab Coffer Key
 
 	-- AQ20
@@ -483,7 +483,7 @@ TOKEN_DATA.CLASSIC = {
 	[21178] = { "f609rep5", 0, {20802, 5}, {20800, 3}, {20801, 7} }, -- Gloves of Earthen Power
 	[21187] = 21178, -- Earthweave Cloak
 	[21179] = 21178, -- Band of Earthen Wrath
-	[227728] = { 227683 }, -- Eye of Sulfuras
+	[227728] = {227683, type = 4 }, -- Eye of Sulfuras
 	[226557] = { 226557, 226568, type = 9 }, -- Arcanist Boots
 	[226552] = { 226552, 216921, type = 9 }, -- Felheart Gloves
 	[226645] = { 226645, 226652, 226663, 226673, type = 9 }, -- Cenarion Boots
@@ -654,6 +654,11 @@ TOKEN_DATA.CLASSIC = {
 	[233634] = { 234984, type = 9 }, -- Death's Sthing (Void Touched)
 	[233640] = { 234985, type = 9 }, -- Dark Edge of Insanity (Void Touched)
 	[233509] = { 234974, type = 9 }, -- Staff of the Qiraji Prophets (Void Touched)
+	[234119] = { 235282, type = 9 }, -- Antenna of Invigoration (Void Touched)
+	[234122] = { 234998, type = 9 }, -- The Lost Kris of Zedd (Void Touched)
+	[234121] = { 234997, type = 9 }, -- Silithid Husked Launcher (Void Touched)
+	[233647] = { 234987, type = 9 }, -- Neretzek, The Blood Drinker (Void Touched)
+	[233643] = { 234986, type = 9 }, -- Anubisath Warhammer (Void Touched)
 	[231729] = {ICONS.PALADIN, 231179, 231195, 231188, 0, ICONS.HUNTER, 231060, 231069, 0, ICONS.SHAMAN, 231214, 231222, 231198, 231206, type = 6}, -- Ancient Gloves
 	[231724] = {ICONS.PALADIN, 231174, 231190, 231182, 0, ICONS.HUNTER, 231055, 231063, 0, ICONS.SHAMAN, 231215, 231223, 231199, 231207, type = 6}, -- Ancient Bindings
 	[231725] = {ICONS.PALADIN, 231175, 231191, 231183, 0, ICONS.HUNTER, 231056, 231065, 0, ICONS.SHAMAN, 231216, 231224, 231200, 231208, type = 6}, -- Ancient Belt
@@ -684,6 +689,18 @@ TOKEN_DATA.CLASSIC = {
 	[232455] = { 212548,212549,212551,212552,212559,212561,212562,212560,208853, type = 2 }, -- Emblem of Dishonor
 	[232456] = { 213100,213104,213112,213118,213124,213130,213137,213144,216606, type = 2 }, -- Emblem of the Violet Eye
 	[232457] = { 232459,232460,232461,232462, type = 2 }, -- Emblem of the Worldcore
+	--SoD AQ40
+	[235045] = { 234808, 234809, 234810, type = 6 },			-- Imperial Qiraji Regalia
+	[235046] = { 234804, 234805, 234806, 234807, type = 6 },	-- Imperial Qiraji Armaments
+	[233363] = { ICONS.WARRIOR, 233651, 233373, 0, ICONS.HUNTER, 233664, 233411, 0, ICONS.MAGE, 233402, 233678, 0, type = 6 }, -- Carapace of the Old God
+	[233362] = { ICONS.PALADIN, 233397, 233688, 233693, 0, ICONS.SHAMAN, 233704, 233699, 233386, 233694, 0, ICONS.DRUID, 233715, 233711, 233720, 233415, 0, type = 6 }, -- Husk of the Old God
+	[233364] = { ICONS.ROGUE, 233389, 233659, 0, ICONS.PRIEST, 233395, 233680, 0, ICONS.WARLOCK, 233380, 233670, 0, type = 6 }, -- Skin of the Old God
+	[233367] = { ICONS.WARRIOR, 233375, 233653, 0, ICONS.WARRIOR, 233374, 233654, 0, ICONS.HUNTER, 233410, 233666, 0, ICONS.HUNTER, 233408, 233667, 0, ICONS.MAGE, 233676, 233404, 0, ICONS.MAGE, 233674, 233406, 0, type = 6 }, -- Intact Peritoneum
+	[233365] = { ICONS.PALADIN, 233692, 233398, 233687, 0, ICONS.PALADIN, 233690, 233400, 233685, 0, ICONS.SHAMAN, 233705, 233700, 233385, 233695, 0, ICONS.SHAMAN, 233708, 233703, 233382, 233698, 0, ICONS.DRUID, 233718, 233709, 233723, 233412, 0, ICONS.DRUID, 233714, 233710, 233719, 233416, 0, type = 6 }, -- Intact Viscera
+	[233368] = { ICONS.ROGUE, 233661, 233388, 0, ICONS.ROGUE, 233662, 233390, 0, ICONS.PRIEST, 233682, 233393, 0, ICONS.PRIEST, 233679, 233396, 0, ICONS.WARLOCK, 233669, 233381, 0, ICONS.WARLOCK, 233672, 233378, 0, type = 6 }, -- Intact Entrails
+	[233370] = { ICONS.WARRIOR, 233376, 233658, 0, ICONS.WARRIOR, 233372, 233652, 0, ICONS.HUNTER, 233409, 233668, 0, ICONS.HUNTER, 233407, 233665, 0, ICONS.MAGE, 233677, 233403, 0, ICONS.MAGE, 233675, 233405, 0, type = 6 }, -- Qiraji Bindings of Command
+	[233369] = { ICONS.PALADIN, 233689, 233401, 233684, 0, ICONS.PALADIN, 233691, 233399, 233686, 0, ICONS.SHAMAN, 233707, 233702, 233383, 233697, 0, ICONS.SHAMAN, 233706, 233701, 233384, 233696, 0, ICONS.DRUID, 233717, 233713, 233722, 233413, 0, ICONS.DRUID, 233716, 233712, 233721, 233414, 0, type = 6 }, -- Qiraji Bindings of Dominance
+	[233371] = { ICONS.ROGUE, 233663, 233387, 0, ICONS.ROGUE, 233660, 233391, 0, ICONS.PRIEST, 233681, 233394, 0, ICONS.PRIEST, 233683, 233392, 0, ICONS.WARLOCK, 233671, 233379, 0, ICONS.WARLOCK, 233673, 233377, 0, type = 6 }, -- Qiraji Bindings of Sovereignty
 }
 
 if AtlasLoot:GameVersion_GE(AtlasLoot.BC_VERSION_NUM) then

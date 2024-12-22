@@ -206,6 +206,20 @@ local AQ_SCARABS = { -- AQ40Trash2
 local AQ_ENCHANTS = { -- AQEnchants
 	name = AL["Ahn'Qiraj enchants"],
 	ExtraList = true,
+		[SOD_DIFF] = {
+		{ 1,  20728 }, -- Formula: Enchant Gloves - Frost Power
+		{ 2,  20731 }, -- Formula: Enchant Gloves - Superior Agility
+		{ 3,  20734 }, -- Formula: Enchant Cloak - Stealth
+		{ 4,  20729 }, -- Formula: Enchant Gloves - Fire Power
+		{ 5,  20736 }, -- Formula: Enchant Cloak - Dodge
+		{ 6,  20730 }, -- Formula: Enchant Gloves - Healing Power
+		{ 7,  20727 }, -- Formula: Enchant Gloves - Shadow Power
+		{ 9, 233998 }, -- Formula: Enchant Gloves - Holy Power
+		{ 10, 233999 }, -- Formula: Enchant Gloves - Arcane Power
+		{ 11, 235526 }, -- Formula: Enchant Bracer - Spell Power
+		{ 12, 235528 }, -- Formula: Enchant Bracer - Agility
+		{ 13, 233997 }, -- Formula: Living Stats
+	},
 	[NORMAL_DIFF] = {
 		{ 1,  20728 }, -- Formula: Enchant Gloves - Frost Power
 		{ 2,  20731 }, -- Formula: Enchant Gloves - Superior Agility
@@ -241,6 +255,25 @@ local AQ_OPENING = {	-- Keys
 		{ 19, 21521 }, -- Runesword of the Red
 		{ 20, 21522 }, -- Shadowsong's Sorrow
 		{ 21, 21520 }, -- Ravencrest's Legacy
+	},
+	[SOD_DIFF] = {
+		{ 1,  21138 }, -- Red Scepter Shard
+		{ 2,  234130 }, -- Amulet of Shadow Shielding
+		{ 3,  234129 }, -- Onyx Embedded Leggings
+		{ 5,  21139 }, -- Green Scepter Shard
+		{ 6,  234132 }, -- Drake Tooth Necklace
+		{ 7,  234133 }, -- Drudge Boots
+		{ 9,  21137 }, -- Blue Scepter Shard
+		{ 10, 234134 }, -- Gnomish Turban of Psychic Might
+		{ 11, 234136 }, -- Darkwater Robes
+		{ 12, 234135 }, -- Band of Icy Depths
+		{ 13, 21025 }, -- Recipe: Dirge's Kickin' Chimaerok Chops
+		{ 16, 21175 }, -- The Scepter of the Shifting Sands
+		{ 17, 21176 }, -- Black Qiraji Resonating Crystal
+		{ 18, 234137 }, -- Fang of Korialstrasz
+		{ 19, 234141 }, -- Runesword of the Red
+		{ 20, 234138 }, -- Shadowsong's Sorrow
+		{ 21, 234139 }, -- Ravencrest's Legacy
 	},
 }
 
@@ -7035,7 +7068,31 @@ data["WorldBosses2"] = {
 			ContentPhase = 4,
 			DisplayIDs = {{15365}},
 			[SOD_DIFF] = {
-			{ 1, "INV_Box_01", nil, AL["Coming Soon"], nil },
+				{ 1,  234164 }, -- Deviate Growth Cap
+				{ 2,  234162 }, -- Black Bark Wristbands
+				{ 3,  234165 }, -- Gauntlets of the Shining Light
+				{ 4,  234161 }, -- Belt of the Dark Bog
+				{ 5,  234163 }, -- Dark Heart Pants
+				{ 6,  234166 }, -- Malignant Footguards
+				{ 9,  234151 }, -- Green Dragonskin Cloak
+				{ 10, 234149 }, -- Dragonspur Wraps
+				{ 11, 234148 }, -- Dragonbone Wristguards
+				{ 12, 234150 }, -- Gloves of Delusional Power
+				{ 13, 234147 }, -- Ancient Corroded Leggings
+				{ 14, 234146 }, -- Acid Inscribed Greaves
+				{ 15, 234154 }, -- Trance Stone
+				{ 16, 235049 }, -- Nightmare Engulfed Object
+				{ 17, 234155 }, -- Malfurion's Signet Ring
+				{ 24, 234152 }, -- Hammer of Bestial Fury
+				{ 25, 234153 }, -- Staff of Rampant Growth
+				{ 29, 20381 }, -- Dreamscale
+				{ 30, 11938 }, -- Sack of Gems
+				-- Hidden items
+				{ 0, 17962 }, -- Blue Sack of Gems
+				{ 0, 17963 }, -- Green Sack of Gems
+				{ 0, 17964 }, -- Gray Sack of Gems
+				{ 0, 17965 }, -- Yellow Sack of Gems
+				{ 0, 17969 }, -- Red Sack of Gems
 			},
 			[NORMAL_DIFF] = {
 				{ 1,  20628 }, -- Deviate Growth Cap
@@ -7073,7 +7130,30 @@ data["WorldBosses2"] = {
 			ContentPhase = 4,
 			DisplayIDs = {{15366}},
 			[SOD_DIFF] = {
-			{ 1, "INV_Box_01", nil, AL["Coming Soon"], nil },
+				{ 1,  234157 }, -- Circlet of Restless Dreams
+				{ 2,  234158 }, -- Dragonheart Necklace
+				{ 3,  234160 }, -- Ring of the Unliving
+				{ 4,  234156 }, -- Boots of the Endless Moor
+				{ 5,  234159 }, -- Polished Ironwood Crossbow
+				{ 9,  234151 }, -- Green Dragonskin Cloak
+				{ 10, 234149 }, -- Dragonspur Wraps
+				{ 11, 234148 }, -- Dragonbone Wristguards
+				{ 12, 234150 }, -- Gloves of Delusional Power
+				{ 13, 234147 }, -- Ancient Corroded Leggings
+				{ 14, 234146 }, -- Acid Inscribed Greaves
+				{ 15, 234154 }, -- Trance Stone
+				{ 16, 235049 }, -- Nightmare Engulfed Object
+				{ 17, 234155 }, -- Malfurion's Signet Ring
+				{ 24, 234152 }, -- Hammer of Bestial Fury
+				{ 25, 234153 }, -- Staff of Rampant Growth
+				{ 29, 20381 }, -- Dreamscale
+				{ 30, 11938 }, -- Sack of Gems
+				-- Hidden items
+				{ 0, 17962 }, -- Blue Sack of Gems
+				{ 0, 17963 }, -- Green Sack of Gems
+				{ 0, 17964 }, -- Gray Sack of Gems
+				{ 0, 17965 }, -- Yellow Sack of Gems
+				{ 0, 17969 }, -- Red Sack of Gems
 			},
 			[NORMAL_DIFF] = {
 				{ 1,  20623 }, -- Circlet of Restless Dreams
@@ -7109,7 +7189,30 @@ data["WorldBosses2"] = {
 			ContentPhase = 4,
 			DisplayIDs = {{15363}, {15367}},
 			[SOD_DIFF] = {
-			{ 1, "INV_Box_01", nil, AL["Coming Soon"], nil },
+				{ 1,  234171 }, -- Unnatural Leather Spaulders
+				{ 2,  234168 }, -- Mendicant's Slippers
+				{ 3,  234167 }, -- Boots of Fright
+				{ 4,  234169 }, -- Mindtear Band
+				{ 5,  234170 }, -- Nightmare Blade
+				{ 9,  234151 }, -- Green Dragonskin Cloak
+				{ 10, 234149 }, -- Dragonspur Wraps
+				{ 11, 234148 }, -- Dragonbone Wristguards
+				{ 12, 234150 }, -- Gloves of Delusional Power
+				{ 13, 234147 }, -- Ancient Corroded Leggings
+				{ 14, 234146 }, -- Acid Inscribed Greaves
+				{ 15, 234154 }, -- Trance Stone
+				{ 16, 235049 }, -- Nightmare Engulfed Object
+				{ 17, 234155 }, -- Malfurion's Signet Ring
+				{ 24, 234152 }, -- Hammer of Bestial Fury
+				{ 25, 234153 }, -- Staff of Rampant Growth
+				{ 29, 20381 }, -- Dreamscale
+				{ 30, 11938 }, -- Sack of Gems
+				-- Hidden items
+				{ 0, 17962 }, -- Blue Sack of Gems
+				{ 0, 17963 }, -- Green Sack of Gems
+				{ 0, 17964 }, -- Gray Sack of Gems
+				{ 0, 17965 }, -- Yellow Sack of Gems
+				{ 0, 17969 }, -- Red Sack of Gems
 			},
 			[NORMAL_DIFF] = {
 				{ 1,  20633 }, -- Unnatural Leather Spaulders
@@ -7145,7 +7248,31 @@ data["WorldBosses2"] = {
 			ContentPhase = 4,
 			DisplayIDs = {{15364}},
 			[SOD_DIFF] = {
-			{ 1, "INV_Box_01", nil, AL["Coming Soon"], nil },
+				{ 1,  234174 }, -- Acid Inscribed Pauldrons
+				{ 2,  234962 }, -- Jade Inlaid Vestments
+				{ 3,  234173 }, -- Leggings of the Demented Mind
+				{ 4,  234963 }, -- Strangely Glyphed Legplates
+				{ 5,  234175 }, -- Hibernation Crystal
+				{ 6,  234172 }, -- Emerald Dragonfang
+				{ 9,  234151 }, -- Green Dragonskin Cloak
+				{ 10, 234149 }, -- Dragonspur Wraps
+				{ 11, 234148 }, -- Dragonbone Wristguards
+				{ 12, 234150 }, -- Gloves of Delusional Power
+				{ 13, 234147 }, -- Ancient Corroded Leggings
+				{ 14, 234146 }, -- Acid Inscribed Greaves
+				{ 15, 234154 }, -- Trance Stone
+				{ 16, 235049 }, -- Nightmare Engulfed Object
+				{ 17, 234155 }, -- Malfurion's Signet Ring
+				{ 24, 234152 }, -- Hammer of Bestial Fury
+				{ 25, 234153 }, -- Staff of Rampant Growth
+				{ 29, 20381 }, -- Dreamscale
+				{ 30, 11938 }, -- Sack of Gems
+				-- Hidden items
+				{ 0, 17962 }, -- Blue Sack of Gems
+				{ 0, 17963 }, -- Green Sack of Gems
+				{ 0, 17964 }, -- Gray Sack of Gems
+				{ 0, 17965 }, -- Yellow Sack of Gems
+				{ 0, 17969 }, -- Red Sack of Gems
 			},
 			[NORMAL_DIFF] = {
 				{ 1,  20637 }, -- Acid Inscribed Pauldrons
@@ -7703,7 +7830,7 @@ data["MoltenCore2"] = {
 			[SOD_DIFF] = {
 				{ 1, 227728 }, -- Eye of Sulfuras
 				{ 2, 19017 }, -- Essence of the Firelord
-				{ 3,  17203 }, -- Sulfuron Ingot
+				{ 3, 17203 }, -- Sulfuron Ingot
 				{ 5, 228289 }, -- Choker of the Firelord
 				{ 6, 228297 }, -- Shard of the Flame
 				{ 7, 228291 }, -- Crown of Destruction
@@ -7771,7 +7898,7 @@ data["MoltenCore2"] = {
 				{ 27, 17076 }, -- Bonereaver's Edge
 			},
 		},
-		{ -- MCRagnaros
+		{ -- MCTheMoltenCore
 			name = AL["The Molten Core"],
 			npcID = 227959,
 			Level = 999,
@@ -8913,6 +9040,11 @@ data["TheRuinsofAhnQiraj"] = { -- AQ20
 				{ 20, 20888 }, -- Qiraji Ceremonial Ring
 				{ 21, 20884 }, -- Qiraji Magisterial Ring
 				{ 23, 21220 }, -- Head of Ossirian the Unscarred
+				{ 25, "INV_Box_01", nil, AL["Hard Mode Mounts"], nil },
+				{ 26, 235511 }, -- Flawless Yellow Qiraji Resonating Crystal
+				{ 27, 235512 }, -- Flawless Green Qiraji Resonating Crystal
+				{ 28, 235513 }, -- Flawless Blue Qiraji Resonating Crystal
+				{ 29, 235514 }, -- Flawless Red Qiraji Resonating Crystal
 			},
 			[NORMAL_DIFF] = {
 				{ 1,  21460 }, -- Helm of Domination
@@ -9701,8 +9833,11 @@ data["TheTempleofAhnQiraj"] = { -- AQ40
 				{ 12, 233589 }, -- Fetish of the Sand Reaver
 				{ 13, 233596 }, -- Libram of Grace
 				{ 14, 233597 }, -- Totem of Life
-				{ 16, 235045 }, -- Imperial Qiraji Regalia
-				{ 17, 235046 }, -- Imperial Qiraji Armaments
+				{ 16, 233370 }, -- Qiraji Bindings of Command
+				{ 17, 233369 }, -- Qiraji Bindings of Dominance
+				{ 18, 233371 }, -- Qiraji Bindings of Sovereignty
+				{ 20, 235045 }, -- Imperial Qiraji Regalia
+				{ 21, 235046 }, -- Imperial Qiraji Armaments
 			},
 			[NORMAL_DIFF] = {
 				{ 1,  21665 }, -- Mantle of Wicked Revenge
@@ -9736,10 +9871,11 @@ data["TheTempleofAhnQiraj"] = { -- AQ40
 				{ 6,  233600 }, -- Ring of the Qiraji Fury
 				{ 7,  233601 }, -- Scarab Brooch
 				{ 8,  233602 }, -- Idol of Health
-				{ 16, 235045 }, -- Imperial Qiraji Regalia
-				{ 17, 235046 }, -- Imperial Qiraji Armaments
-				{ 19, 233370 }, -- Qiraji Bindings of Command
-				{ 20, 233369 }, -- Qiraji Bindings of Dominance
+				{ 16, 233370 }, -- Qiraji Bindings of Command
+				{ 17, 233369 }, -- Qiraji Bindings of Dominance
+				{ 18, 233371 }, -- Qiraji Bindings of Sovereignty
+				{ 20, 235045 }, -- Imperial Qiraji Regalia
+				{ 21, 235046 }, -- Imperial Qiraji Armaments
 			},
 			[NORMAL_DIFF] = {
 				{ 1,  21624 }, -- Gauntlets of Kalimdor
@@ -9768,10 +9904,11 @@ data["TheTempleofAhnQiraj"] = { -- AQ40
 				{ 4,  233608 }, -- Wasphide Gauntlets
 				{ 5,  233609 }, -- Ring of the Martyr
 				{ 6,  233605 }, -- Huhuran's Stinger
-				{ 16, 235045 }, -- Imperial Qiraji Regalia
-				{ 17, 235046 }, -- Imperial Qiraji Armaments
-				{ 19, 233370 }, -- Qiraji Bindings of Command
-				{ 20, 233369 }, -- Qiraji Bindings of Dominance
+				{ 16, 233370 }, -- Qiraji Bindings of Command
+				{ 17, 233369 }, -- Qiraji Bindings of Dominance
+				{ 18, 233371 }, -- Qiraji Bindings of Sovereignty
+				{ 20, 235045 }, -- Imperial Qiraji Regalia
+				{ 21, 235046 }, -- Imperial Qiraji Armaments
 			},
 			[NORMAL_DIFF] = {
 				{ 1,  21621 }, -- Cloak of the Golden Hive
@@ -9794,26 +9931,30 @@ data["TheTempleofAhnQiraj"] = { -- AQ40
 			AtlasMapBossID = 7,
 			[SOD_DIFF] = {
 				{ 1, "INV_Box_01", nil, AL["Emperor Vek'lor"], nil },
-				{ 2,  20887 }, -- Vek'lor's Diadem
-				{ 3,  233612 }, -- Qiraji Execution Bracers
-				{ 4,  233613 }, -- Vek'lor's Gloves of Devastation
-				{ 5,  233614 }, -- Royal Qiraji Belt
-				{ 6,  233611 }, -- Boots of Epiphany
-				{ 7,  233615 }, -- Ring of Emperor Vek'lor
-				{ 8,  233616 }, -- Royal Scepter of Vek'lor
-				{ 9,  20735 }, -- Formula: Enchant Cloak - Subtlety
-				{ 12, 235046 }, -- Imperial Qiraji Armaments
+				{ 2, 233365 }, -- Intact Viscera
+				{ 3, 233367 }, -- Intact Peritoneum
+				{ 4, 233368 }, -- Intact Entrails
+				{ 5,  233612 }, -- Qiraji Execution Bracers
+				{ 6,  233613 }, -- Vek'lor's Gloves of Devastation
+				{ 7,  233614 }, -- Royal Qiraji Belt
+				{ 8,  233611 }, -- Boots of Epiphany
+				{ 9,  233615 }, -- Ring of Emperor Vek'lor
+				{ 10,  233616 }, -- Royal Scepter of Vek'lor
+				{ 11,  20735 }, -- Formula: Enchant Cloak - Subtlety
+				{ 14, 235046 }, -- Imperial Qiraji Armaments
 				{ 16, "INV_Box_01", nil, AL["Emperor Vek'nilash"], nil },
-				{ 17, 20883 }, -- Vek'nilash's Circlet
-				{ 18, 233620 }, -- Amulet of Vek'nilash
-				{ 19, 233617 }, -- Bracelets of Royal Redemption
-				{ 20, 233618 }, -- Gloves of the Hidden Temple
-				{ 21, 21609 }, -- Regenerating Belt of Vek'nilash
-				{ 22, 233622 }, -- Grasp of the Fallen Emperor
-				{ 23, 233623 }, -- Belt of the Fallen Emperor
-				{ 24, 233621 }, -- Kalimdor's Revenge
-				{ 25, 20726 }, -- Formula: Enchant Gloves - Threat
-				{ 27, 235045 }, -- Imperial Qiraji Regalia
+				{ 17, 233365 }, -- Intact Viscera
+				{ 18, 233367 }, -- Intact Peritoneum
+				{ 19, 233368 }, -- Intact Entrails
+				{ 20, 233620 }, -- Amulet of Vek'nilash
+				{ 21, 233617 }, -- Bracelets of Royal Redemption
+				{ 22, 233618 }, -- Gloves of the Hidden Temple
+				{ 23, 21609 }, -- Regenerating Belt of Vek'nilash
+				{ 24, 233622 }, -- Grasp of the Fallen Emperor
+				{ 25, 233623 }, -- Belt of the Fallen Emperor
+				{ 26, 233621 }, -- Kalimdor's Revenge
+				{ 27, 20726 }, -- Formula: Enchant Gloves - Threat
+				{ 29, 235045 }, -- Imperial Qiraji Regalia
 			},
 			[NORMAL_DIFF] = {
 				{ 1, "INV_Box_01", nil, AL["Emperor Vek'lor"], nil },
@@ -9854,8 +9995,9 @@ data["TheTempleofAhnQiraj"] = { -- AQ40
 				{ 6,  233626 }, -- Larvae of the Great Worm
 				{ 16, 235045 }, -- Imperial Qiraji Regalia
 				{ 17, 235046 }, -- Imperial Qiraji Armaments
-				{ 19, 233365 }, -- Ouro's Intact Hide
-				{ 20, 233367 }, -- Skin of the Great Sandworm
+				{ 19, 233365 }, -- Intact Viscera
+				{ 20, 233367 }, -- Intact Peritoneum
+				{ 21, 233368 }, -- Intact Entrails
 			},
 			[NORMAL_DIFF] = {
 				{ 1,  21615 }, -- Don Rigoberto's Lost Hat
@@ -9892,8 +10034,15 @@ data["TheTempleofAhnQiraj"] = { -- AQ40
 				{ 13, 233640 }, -- Dark Edge of Insanity
 				{ 16, 233363 }, -- Carapace of the Old God
 				{ 17, 233362 }, -- Husk of the Old God
-				{ 19, 21221 }, -- Eye of C'Thun
-				{ 21, 22734 }, -- Base of Atiesh
+				{ 18, 233364 }, -- Skin of the Old God
+				{ 20, 21221 }, -- Eye of C'Thun
+				{ 22, 22734 }, -- Base of Atiesh
+				{ 24, "INV_Box_01", nil, AL["Hard Mode Mounts"], nil },
+				{ 25, 233351 }, -- Light Green Qiraji Resonating Crystal
+				{ 26, 233352 }, -- Dark Blue Qiraji Resonating Crystal
+				{ 27, 233353 }, -- Light Blue Qiraji Resonating Crystal
+				{ 28, 233356 }, -- Orange Qiraji Resonating Crystal
+				{ 29, 233357 }, -- Twilight Qiraji Resonating Crystal
 			},
 			[NORMAL_DIFF] = {
 				{ 1,  22732 }, -- Mark of C'Thun
@@ -9926,13 +10075,10 @@ data["TheTempleofAhnQiraj"] = { -- AQ40
 				{ 5,  233643 }, -- Anubisath Warhammer
 				{ 6,  233648 }, -- Ritssyn's Ring of Chaos
 				{ 7,  233649 }, -- Shard of the Fallen Star
-				{ 16, 233352 }, -- Blue Qiraji Resonating Crystal
-				{ 17, 235513 }, -- Blue Qiraji Resonating Crystal
-				{ 18, 233353 }, -- Blue Qiraji Resonating Crystal
-				{ 19, 235511 }, -- Yellow Qiraji Resonating Crystal
-				{ 20, 233351 }, -- Green Qiraji Resonating Crystal
-				{ 21, 235512 }, -- Green Qiraji Resonating Crystal
-				{ 22, 235514 }, -- Red Qiraji Resonating Crystal
+				{ 16, 21218 }, -- Blue Qiraji Resonating Crystal
+				{ 17, 21324 }, -- Yellow Qiraji Resonating Crystal
+				{ 18, 21323 }, -- Green Qiraji Resonating Crystal
+				{ 19, 21321 }, -- Red Qiraji Resonating Crystal
 			},
 			[NORMAL_DIFF] = {
 				{ 1,  21838 }, -- Garb of Royal Ascension

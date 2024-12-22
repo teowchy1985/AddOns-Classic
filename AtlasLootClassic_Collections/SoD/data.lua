@@ -76,6 +76,58 @@ data["SoD Collections"] = {
 	TableType = SET_ITTYPE,
 	items = {
 		{
+			name = AL["Level 60 Tier 2.5"],
+			[NORMAL_DIFF] = {
+				{ 1, 1835 }, --Balance
+				{ 2, 1836 }, --Feral
+				{ 3, 1837 }, --Tank
+				{ 4, 1838 }, --Resto
+				{ 6, 1839 }, --Ranged Hunter
+				{ 7, 1840 }, --Melee Hunter
+				{ 9, 1841 }, --Damage Mage
+				{ 10, 1842 }, --Healer Mage
+				{ 12, 1850 }, -- Healer Sham
+				{ 13, 1851 }, -- Ele Sham
+				{ 14, 1852 }, -- Tank Sham
+				{ 15, 1853 }, -- Melee Sham
+				{ 16, 1843 }, -- Holy Pally
+				{ 17, 1844 }, -- Tank Pally
+				{ 18, 1845 }, -- Ret Pally 
+				{ 20, 1846 }, -- Healer Priest
+				{ 21, 1847 }, -- DPS Priest 
+				{ 23, 1848 }, -- DPS Rogue
+				{ 24, 1849 }, -- Tank Rogue  
+				{ 26, 1854 }, -- DPS Lock
+				{ 27, 1855 }, -- Tank Lock
+				{ 29, 1856 }, -- Tank Warr
+				{ 30, 1857 }, -- Dps Warr				
+			},
+		},
+		{
+			name = AL["Ahn'Qiraj Ruins Sets"],
+			[NORMAL_DIFF] = {
+				{ 1, "INV_Box_01", nil, AL["Mage"], nil },
+				{ 2, 1860 },
+				{ 4, "INV_Box_01", nil, AL["Priest"], nil },
+				{ 5, 1862 },
+				{ 7, "INV_Box_01", nil, AL["Warlock"], nil },
+				{ 8, 1865 },
+				{ 10, "INV_Box_01", nil, AL["Druid"], nil },
+				{ 11, 1858 },
+				{ 13, "INV_Box_01", nil, AL["Rogue"], nil },
+				{ 14, 1863 },
+				{ 16, "INV_Box_01", nil, AL["Hunter"], nil },
+				{ 17, 1859 },
+				{ 19, "INV_Box_01", nil, AL["Shaman"], nil },
+				{ 20, 1864 },
+				{ 22, "INV_Box_01", nil, AL["Paladin"], nil },
+				{ 23, 1861 },
+				{ 25, "INV_Box_01", nil, AL["Warrior"], nil },
+				{ 26, 1866 },
+
+			},
+		},
+		{
 			name = AL["Level 60 Tier 2"],
 			[NORMAL_DIFF] = {
 				{ 1, 1801 }, --Balance
@@ -396,12 +448,13 @@ data["SoD DarkMoon Cards"] = {
 	gameVersion = AtlasLoot.CLASSIC_VERSION_NUM,
 	items = {
 		{
-			name = AL["Level 50 Cards"],
+			name = AL["Darkmoon Cards"],
 			[NORMAL_DIFF] = {
-				{ 1, 221272 }, -- Wilds Deck
-				{ 2, 221280 }, -- Plagues Deck
-				{ 3, 221289 }, -- Dunes Deck
-				{ 4, 221299 }, -- Nightmares Deck
+				{ 1, "INV_Box_01", nil, AL["Level 50"], nil },
+				{ 2, 221272 }, -- Wilds Deck
+				{ 3, 221280 }, -- Plagues Deck
+				{ 4, 221289 }, -- Dunes Deck
+				{ 5, 221299 }, -- Nightmares Deck
 			},
 		},
 	},

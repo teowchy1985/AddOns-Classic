@@ -1089,6 +1089,22 @@ RECIPE_DATA.CLASSIC = {
 	[234250] = {8,300,1213538}, -- Pattern: Qiraji Silk Cloak
 	[234251] = {8,300,1213540}, -- Pattern: Qiraji Silk Drape
 	[234244] = {8,300,1213534}, -- Pattern: Qiraji Silk Scarf
+	[234253] = {4,300,1213546}, -- Recipe: Flask of Ancient Knowledge
+	[234256] = {4,300,1213552}, -- Recipe: Flask of Madness
+	[234255] = {4,300,1213548}, -- Recipe: Flask of the Old Gods
+	[234252] = {4,300,1213544}, -- Recipe: Flask of Unyielding Sorrow
+	[233997] = {10,300,1213616}, -- Formula: Enchant Chest - Living Stats
+	[233998] = {10,300,1213622}, -- Formula: Enchant Gloves - Holy Power
+	[233999] = {10,300,1213626}, -- Formula: Enchant Gloves - Arcane Power
+	[235526] = {10,300,1217189}, -- Formula: Enchant Bracer - Spell Power
+	[235528] = {10,300,1217203}, -- Formula: Enchant Bracer - Agility
+	[235530] = {9,300,1217207}, -- Schematic: Obsidian Scope
+	[234264] = {9,300,1213586}, -- Schematic: G00 DV-1B3 Generator
+	[234236] = {3,300,1213519}, -- Pattern: Sharpened Chitin Armor Kit
+	[234235] = {3,300,1213513}, -- Pattern: Glowing Chitin Armor Kit
+	[232437] = {6,300,470359}, -- Recipe: Darkclaw Bisque
+	[232443] = {6,300,470370}, -- Recipe: Smoked Redgill
+	[232434] = {1,225,470349}, -- Dense Runecloth Bandage
 }
 
 if AtlasLoot:GameVersion_GE(AtlasLoot.BC_VERSION_NUM) then

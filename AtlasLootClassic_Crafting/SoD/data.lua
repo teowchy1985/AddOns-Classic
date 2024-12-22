@@ -33,7 +33,7 @@ local QUEST_EXTRA_ITTYPE = data:AddExtraItemTableType("Quest")
 local PRICE_EXTRA_ITTYPE = data:AddExtraItemTableType("Price")
 
 local PROF_CONTENT = data:AddContentType(ALIL["Professions"], ATLASLOOT_PRIMPROFESSION_COLOR)
-local PROF_GATH_CONTENT = data:AddContentType(AL["Gathering Professions"], ATLASLOOT_PRIMPROFESSION_COLOR)
+local PROF_GATH_CONTENT = data:AddContentType(ALIL["Gathering Professions"], ATLASLOOT_PRIMPROFESSION_COLOR)
 local PROF_SEC_CONTENT = data:AddContentType(AL["Secondary Professions"], ATLASLOOT_SECPROFESSION_COLOR)
 local PROF_CLASS_CONTENT = data:AddContentType(AL["Class Professions"], ATLASLOOT_CLASSPROFESSION_COLOR)
 --local RAID20_CONTENT = data:AddContentType(AL["20 Raids"], ATLASLOOT_RAID20_COLOR)
@@ -64,6 +64,10 @@ data["Alchemy"] = {
 				{ 18, 1213559 }, -- Elixir of the Honey Badger
 				{ 19, 1213563 }, -- Elixir of the Mage-Lord
 				{ 20, 1213565 }, -- Elixir of the Ironside
+				{ 21, 1213546 }, -- Flask of Ancient Knowledge
+				{ 22, 1213552 }, -- Flask of Madness
+				{ 23, 1213548 }, -- Flask of the Old Gods
+				{ 24, 1213544 }, -- Flask of Unyielding Sorrow
 			},
 		},
 		{
@@ -237,28 +241,27 @@ data["Blacksmithing"] = {
 			{
 			name = AL["SoD Phase 6"],
 			[NORMAL_DIFF] = {
-			{ 1, "INV_Box_01", nil, AL["Phase 6"], nil },
-			{ 2, 1213746 }, -- Heavy Obsidian Belt
-			{ 3, 1213709 }, -- Ironvine Belt
-			{ 4, 1213711 }, -- Ironvine Gloves
+			{ 1, 1213746 }, -- Heavy Obsidian Belt
+			{ 2, 1213709 }, -- Ironvine Belt
+			{ 3, 1213711 }, -- Ironvine Gloves
+			{ 4, 1213715 }, -- Ironvine Breastplate
 			{ 5, 1213748 }, -- Light Obsidian Belt
-			{ 6, 1213715 }, -- Ironvine Breastplate
-			{ 8, 1214270 }, -- Jagged Obsidian Shield
-			{ 9, 1214274 }, -- Plans: Obsidian Mail Tunic
-			{ 10, 1213643 }, -- Obsidian Grinding Stone
-			{ 11, 1213638 }, -- Razorspike Headcage
-			{ 16, 1213484 }, -- Razorspike Shoulderplate
-			{ 17, 1213490 }, -- Razorspike Battleplate
-			{ 18, 1214309 }, -- Dreamscale Visor
-			{ 19, 1215507 }, -- Thick Obsidian Breastplate
-			{ 20, 1215507 }, -- Black Grasp of the Destroyer
-			{ 21, 1213498 }, -- Obsidian Champion
-			{ 22, 1213506 }, -- Obsidian Defender
-			{ 23, 1213500 }, -- Obsidian Destroyer
-			{ 24, 1214137 }, -- Obsidian Heartseeker
-			{ 25, 1213492 }, -- Obsidian Reaver
-			{ 26, 1213504 }, -- Obsidian Sageblade
-			{ 27, 1213502 }, -- Obsidian Stormhammer
+			{ 6, 1214274 }, -- Obsidian Mail Tunic
+			{ 7, 1213481 }, -- Razorspike Headcage
+			{ 8, 1213484 }, -- Razorspike Shoulderplate
+			{ 9, 1213490 }, -- Razorspike Battleplate
+			{ 10, 1214309 }, -- Dreamscale Visor
+			{ 11, 1215507 }, -- Thick Obsidian Breastplate
+			{ 12, 1214257 }, -- Black Grasp of the Destroyer
+			{ 14, 1214270 }, -- Jagged Obsidian Shield
+			{ 16, 1213498 }, -- Obsidian Champion
+			{ 17, 1213506 }, -- Obsidian Defender
+			{ 18, 1213500 }, -- Obsidian Destroyer
+			{ 19, 1214137 }, -- Obsidian Heartseeker
+			{ 20, 1213492 }, -- Obsidian Reaver
+			{ 21, 1213504 }, -- Obsidian Sageblade
+			{ 22, 1213502 }, -- Obsidian Stormhammer
+			{ 25, 1213643 }, -- Obsidian Grinding Stone
 			}
 		},
 			{
@@ -708,6 +711,11 @@ data["Enchanting"] = {
 				{ 18, 1216024 }, -- Idol of Ursin Power
 				{ 20, 1213610 }, -- Enchanted Repellent
 				{ 21, 1213607 }, -- Scroll: Wrath of the Swarm
+				{ 23, 1213616 }, -- Living Stats
+				{ 24, 1213622 }, -- Enchant Gloves - Holy Power
+				{ 25, 1213626 }, -- Enchant Gloves - Arcane Power
+				{ 26, 1217189 }, -- Enchant Bracer - Spell Power
+				{ 27, 1217203 }, -- Enchant Bracer - Agility
 			}
 		},
 	
@@ -948,7 +956,7 @@ data["Engineering"] = {
 	CorrespondingFields = private.ENGINEERING_LINK,
 	items = {
 			{
-			name = AL["SoD Phase 1-4"],
+			name = AL["SoD Phase 1-6"],
 			[NORMAL_DIFF] = {
 				{ 1, "INV_Box_01", nil, AL["Phase 1"], nil },
 				{ 2, 424641 }, --Shredder Autosalvage Unit
@@ -972,6 +980,8 @@ data["Engineering"] = {
 				{ 23, 1213646 }, -- Obsidian Blasting Powder
 				{ 24, 1214145 }, -- Obsidian Shotgun
 				{ 25, 1213588 }, -- Tuned Force Reactive Disk
+				{ 26, 1217207 }, -- Obsidian Scope
+				{ 27, 1213586 }, -- G00 DV-1B3 Generator
 			}
 		},
 		{
@@ -1569,10 +1579,12 @@ data["Leatherworking"] = {
 			{ 7, 1213738 }, -- Bramblewood Helm
 			{ 8, 1213736 }, -- Bramblewood Boots
 			{ 9, 1213751 }, -- Dreamscale Breastplate
-			{ 16, 1213523 }, -- Razorbramble Shoulderpads
-			{ 17, 1213521 }, -- Razorbramble Cowl
-			{ 18, 1213525 }, -- Razorbramble Leathers
-			{ 19, 1214303 }, -- Dreamscale Kilt
+			{ 10, 1213523 }, -- Razorbramble Shoulderpads
+			{ 11, 1213521 }, -- Razorbramble Cowl
+			{ 12, 1213525 }, -- Razorbramble Leathers
+			{ 13, 1214303 }, -- Dreamscale Kilt
+			{ 16, 1213513 }, -- Pattern: Glowing Chitin Armor Kit
+			{ 17, 1213519 }, -- Pattern: Sharpened Chitin Armor Kit
 			}
 		},	
 			{
@@ -1997,6 +2009,8 @@ data["Herbalism"] = {
 				{ 7, 8845 }, -- Ghost Mushroom
 				{ 8, 8839 }, -- Blindweed
 				{ 9, 8838 }, -- Sungrass
+				{ 14, "INV_Box_01", nil, AL["SoD Phase 6"], nil },
+				{ 15,  234012 }, -- Hive Thistle
 				{ 16,  13468 }, -- Black Lotus
 				{ 18,  19727 }, -- Blood Scythe
 				{ 19,  19726 }, -- Bloodvine
@@ -2047,6 +2061,14 @@ data["Cooking"] = {
 	TableType = PROF_ITTYPE,
 	CorrespondingFields = private.COOKING_LINK,
 	items = {
+		{
+			name = AL["SoD Phase 1-6"],
+			[NORMAL_DIFF] = {
+				{ 1, "INV_Box_01", nil, AL["Phase 6"], nil },
+				{ 2, 470359 }, --Darkclaw Bisque
+				{ 3, 470370 }, --Smoked Redgill
+			},
+		},
 		{
 			name = ALIL["Stamina"],
 			[NORMAL_DIFF] = {
@@ -2201,6 +2223,8 @@ data["FirstAid"] = {
 				{ 8, 3277 }, --Wool Bandage / 80
 				{ 9, 3276 }, --Heavy Linen Bandage / 50
 				{ 10, 3275 }, --Linen Bandage / 30
+				{ 14, "INV_Box_01", nil, AL["Phase 6"], nil },
+				{ 15, 470349 }, --Dense Runecloth Bandage / 300
 				{ 16, 23787 }, --Powerful Anti-Venom / 300
 				{ 17, 7935 }, --Strong Anti-Venom / 130
 				{ 18, 7934 }, --Anti-Venom / 80
@@ -2276,6 +2300,16 @@ data["RoguePoisons"] = {
 	TableType = PROF_ITTYPE,
 	CorrespondingFields = private.ROGUE_POISONS_LINK,
 	items = {
+		{
+			name = ALIL["SoD"],
+			[NORMAL_DIFF] = {
+				{ 1, 439503 }, -- Atrophic Poison
+				{ 2, 439505 }, -- Numbing Poison
+				{ 3, 439500  }, -- Sebacious Poison
+				{ 4, 458822 }, -- Occult Poison I
+				{ 5, 1214168  }, -- Occult Poison II
+			}
+		},
 		{
 			name = ALIL["Poisons"],
 			[NORMAL_DIFF] = {
