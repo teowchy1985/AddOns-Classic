@@ -375,14 +375,6 @@ function BaganatorCategoryViewsCategoryGroupingMixin:ApplyGroupings(composed, ca
 end
 
 function BaganatorCategoryViewsCategoryGroupingMixin:GroupingResults()
-  if addonTable.CheckTimeout() then
-    self:SetScript("OnUpdate", function()
-      addonTable.ReportEntry()
-      self:GroupingResults()
-    end)
-    return
-  end
-
   for index, details in pairs(self.pending) do
     local complete = true
     for _, item in ipairs(details.items) do
@@ -431,9 +423,6 @@ function BaganatorCategoryViewsCategoryGroupingMixin:GroupingResults()
     end
     self.callback()
   else
-    self:SetScript("OnUpdate", function()
-      addonTable.ReportEntry()
-      self:GroupingResults()
-    end)
+    self:SetScript("OnUpdate", self.GroupingResults)
   end
 end

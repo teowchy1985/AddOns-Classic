@@ -148,14 +148,6 @@ function BaganatorCategoryViewsCategoryFilterMixin:DoSearch()
     end
   end
 
-  if addonTable.CheckTimeout() then
-    self:SetScript("OnUpdate", function()
-      addonTable.ReportEntry()
-      self:DoSearch()
-    end)
-    return
-  end
-
   local search = self.searches[self.searchIndex]
 
   local results = self.results[search]
@@ -184,9 +176,6 @@ function BaganatorCategoryViewsCategoryFilterMixin:DoSearch()
     self.searchPending = nil
     self:DoSearch()
   else
-    self:SetScript("OnUpdate", function()
-      addonTable.ReportEntry()
-      self:DoSearch()
-    end)
+    self:SetScript("OnUpdate", self.DoSearch)
   end
 end

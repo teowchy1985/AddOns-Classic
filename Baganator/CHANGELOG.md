@@ -1,6 +1,7 @@
 # Baganator
 
-## [563](https://github.com/Baganator/Baganator/tree/563) (2024-12-23)
-[Full Changelog](https://github.com/Baganator/Baganator/compare/562...563) 
+## [555](https://github.com/Baganator/Baganator/tree/555) (2024-12-18)
+[Full Changelog](https://github.com/Baganator/Baganator/compare/554...555) 
 
-- Avoid fast to render widgets being delayed when showing bags  
+- Update LICENSE  
+- Code cleanup  
