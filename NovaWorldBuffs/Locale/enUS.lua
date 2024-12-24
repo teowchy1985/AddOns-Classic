@@ -994,7 +994,7 @@ L["overlayShowStranglethornTitle"] = "Overlay Stranglethorn";
 L["overlayShowStranglethornDesc"] = "Show overlay stranglethorn timer?";
 
 L["overlayShowBlackrockTitle"] = "Overlay Blackrock";
-L["overlayShowBlackrockDesc"] = "Show overlay stranglethornblackrock timer?";
+L["overlayShowBlackrockDesc"] = "Show overlay blackrock timer?";
 
 L["sodMiddleScreenWarningTitle"] = "Middle Screen Warning";
 L["sodMiddleScreenWarningDesc"] = "Show a 15/30 mins warning in the middle of the screen for SoD events like STV etc.";
@@ -1058,3 +1058,4 @@ L["skipDmfCookieTitle"] = "Skip Fortune Cookie";
 L["skipDmfCookieDesc"] = "Enable this to skip getting the Fortune Cookie after you get DMF buff.";
 
 L["No layers found yet."] = "No layers found yet.";
+L["Bi-Weekly raid reset"] = "Bi-Weekly raid reset";

@@ -1152,3 +1152,4 @@ L["skipDmfCookieTitle"] = "跳過幸運餅乾";
 L["skipDmfCookieDesc"] = "啟用此選項在獲得 DMF 增益後跳過取得幸運餅乾。";
 
 L["No layers found yet."] = "還沒發現鏡像。";
+L["Bi-Weekly raid reset"] = "雙週團隊重置";

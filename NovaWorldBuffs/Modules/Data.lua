@@ -2446,6 +2446,10 @@ end
 
 --Run at logon.
 function NWB:trimTimerLog()
+	if (type(NWB.data.timerLog) ~= "table") then
+		--Rare data corruption reported by a user, this was a number and not table.
+		NWB:resetTimerLog();
+	end
 	self.m = epochToHash;
 	self.n = epochFromHash;
 	for i, v in pairs(NWB.data.timerLog) do
