@@ -12041,7 +12041,6 @@ function NWB:heraldYell()
 	if ((GetServerTime() - NWB.lastHeraldAlert) > 40) then
 		local timerMsg = "Crossroads Rend";
 		local time = 6;
-		local layerMsg = "";
 		if (_G["DBM"] and _G["DBM"].CreatePizzaTimer and NWB.isClassic) then
 			_G["DBM"]:CreatePizzaTimer(time, timerMsg);
 		end

@@ -1088,12 +1088,35 @@ L["cappingSupportDesc"] = "¿Inicia una barra de temporizador para Vallefresno/T
 L["Tol Barad"] = "Tol Barad";
 L["eventIsRunning"] = "%s está activo";
 
-L["Blackrock"] = "Blackrock";
-L["blackrockEventRunning"] = "Blackrock running: %s";
-L["blackrockEventStartsIn"] = "Blackrock starts in %s";
-L["blackrockStartSoon"] = "Blackrock event starts in %s"; --Guild chat msg.
-L["Blackrock PvP Event"] = "Blackrock PvP Event";
-L["Total honor this event"] = "Total honor this event";
+L["overlayShowBlackrockTitle"] = "Roca Negra";
+L["overlayShowBlackrockDesc"] = "¿Muestra la superposición del temporizador de Roca Negra?";
+
+L["printStvCoinsTitle"] = "Imprimir moneda";
+L["printStvCoinsDesc"] = "Imprime en el chat un contador de cuántas monedas de Tuercespina se ganaron durante el evento.";
+
+L["printBlackrockHonorTitle"] = "Imprimir honor";
+L["printBlackrockHonorDesc"] = "Imprime en el chat un contador de cuánto honor de Roca Negra se ganaron durante el evento.";
+
+L["chatOnlyInCityTitle"] = "Solo en ciudad";
+L["chatOnlyInCityDesc"] = "Solo imprime mensajes de temporizador y de caída de beneficios en el chat cuando estés en la ciudad principal donde caen los beneficios (incluye Valle de Tuercespina para el beneficio de Zandalar).";
+
+L["middleOnlyInCityTitle"] = "Solo en ciudad";
+L["middleOnlyInCityDesc"] = "Solo muestra mensajes en el centro de la pantalla del temporizador y de caída de beneficios cuando estés en la ciudad principal donde caen los beneficios (incluye Valle de Tuercespina para el beneficio de Zandalar).";
+
+L["flashOnlyInCityTitle"] = "Solo en ciudad";
+L["flashOnlyInCityDesc"] = "Solo ilumina mientras esté minimizado cuando estés en la ciudad principal donde caen los beneficios (incluye Valle de Tuercespina para el beneficio de Zandalar).";
+
+L["blueShamansTitle"] = "Chamanes azules";
+L["blueShamansDesc"] = "Muestra chamanes en azul en este addon en clásico.";
+
+L["Blackrock"] = "La Erupción de Roca Negra";
+L["blackrockEventRunning"] = "La Erupción de Roca Negra está en progreso: %s";
+L["blackrockEventStartsIn"] = "La Erupción de Roca Negra comenzará en %s";
+L["blackrockStartSoon"] = "La Erupción de Roca Negra comenzará en %s"; --Guild chat msg.
+L["Blackrock PvP Event"] = "La Erupción de Roca Negra";
+L["Total honor this event"] = "Honor total en este evento";
+
+L["Bi-Weekly raid reset"] = "Reinicio bisemanal de banda";
 
 L["Might of Stormwind"] = "Poderío de Ventormenta";
 
@@ -1104,3 +1127,5 @@ L["chronoboonReleasedNoCooldown"] = "Has liberado un beneficio de la Feria de la
 
 L["skipDmfCookieTitle"] = "Omitir fortuna";
 L["skipDmfCookieDesc"] = "Activa esto para omitir recibir la fortuna de la Feria de la Luna Negra después de obtener el beneficio de la Feria de la Luna Negra.";
+
+L["No layers found yet."] = "No se encontraron capas aún.";

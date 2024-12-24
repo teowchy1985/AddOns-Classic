@@ -1039,12 +1039,35 @@ L["cappingSupportDesc"] = "Inicia uma barra de temporizador para Vale Gris/Selva
 L["Tol Barad"] = "Tol Barad";
 L["eventIsRunning"] = "%s está ativo"; 
 
-L["Blackrock"] = "Blackrock";
-L["blackrockEventRunning"] = "Blackrock running: %s";
-L["blackrockEventStartsIn"] = "Blackrock starts in %s";
-L["blackrockStartSoon"] = "Blackrock event starts in %s"; --Guild chat msg.
-L["Blackrock PvP Event"] = "Blackrock PvP Event";
-L["Total honor this event"] = "Total honor this event";
+L["overlayShowBlackrockTitle"] = "Rocha Negra";
+L["overlayShowBlackrockDesc"] = "Mostra a sobreposição do temporizador de Rocha Negra?";
+
+L["printStvCoinsTitle"] = "Imprimir moedas";
+L["printStvCoinsDesc"] = "Imprime no bate-papo um contador de quantas moedas de Selva do Espinhaço foram obtidas durante o evento.";
+
+L["printBlackrockHonorTitle"] = "Imprimir honra";
+L["printBlackrockHonorDesc"] = "Imprime no bate-papo um contador de quanta honra da Erupção da Rocha Negra foi obtida durante o evento.";
+
+L["chatOnlyInCityTitle"] = "Apenas na cidade";
+L["chatOnlyInCityDesc"] = "Apenas imprime mensagens de temporizador e de queda de bônus no bate-papo quando você estiver na cidade principal onde os bônus caem (Selva do Espinhaço incluído para o bônus de Zandalar).";
+
+L["middleOnlyInCityTitle"] = "Apenas na cidade";
+L["middleOnlyInCityDesc"] = "Apenas mostra mensagens no meio da tela do temporizador e de queda de bônus quando você estiver na cidade principal onde os bônus caem (Selva do Espinhaço incluído para o bônus de Zandalar).";
+
+L["flashOnlyInCityTitle"] = "Apenas na cidade";
+L["flashOnlyInCityDesc"] = "Apenas ilumina enquanto minimizado quando você estiver na cidade principal onde os bônus caem (Selva do Espinhaço incluído para o bônus de Zandalar).";
+
+L["blueShamansTitle"] = "Xamãs azuis";
+L["blueShamansDesc"] = "Mostra xamãs como azuis neste addon no clássico.";
+
+L["Blackrock"] = "A Erupção da Rocha Negra";
+L["blackrockEventRunning"] = "A Erupção da Rocha Negra está em progresso: %s";
+L["blackrockEventStartsIn"] = "A Erupção da Rocha Negra começará em %s";
+L["blackrockStartSoon"] = "A Erupção da Rocha Negra começará em %s"; --Guild chat msg.
+L["Blackrock PvP Event"] = "A Erupção da Rocha Negra começará em";
+L["Total honor this event"] = "Total de honra ganha neste evento";
+
+L["Bi-Weekly raid reset"] = "Reinício bissemanal de raide";
 
 L["Might of Stormwind"] = "Poder de Ventobravo";
 
@@ -1055,3 +1078,5 @@ L["chronoboonReleasedNoCooldown"] = "Você liberou um bônus da Feira de Negralu
 
 L["skipDmfCookieTitle"] = "Pular sorte";
 L["skipDmfCookieDesc"] = "Ativa isto para pular o recebimento da Sorte da Feira de Negraluna após obter o bônus da Feira de Negraluna.";
+
+L["No layers found yet."] = "Nenhuma camada encontrada ainda.";

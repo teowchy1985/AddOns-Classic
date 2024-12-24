@@ -1029,12 +1029,35 @@ L["cappingSupportDesc"] = "Commence une barre de minuteur pour Ashenvale/Strangl
 L["Tol Barad"] = "Tol Barad";
 L["eventIsRunning"] = "%s est active";
 
-L["Blackrock"] = "Blackrock";
-L["blackrockEventRunning"] = "Blackrock running: %s";
-L["blackrockEventStartsIn"] = "Blackrock starts in %s";
-L["blackrockStartSoon"] = "Blackrock event starts in %s"; --Guild chat msg.
-L["Blackrock PvP Event"] = "Blackrock PvP Event";
-L["Total honor this event"] = "Total honor this event";
+L["overlayShowBlackrockTitle"] = "Blackrock";
+L["overlayShowBlackrockDesc"] = "Affiche le minutage de Blackrock en superposition ?";
+
+L["printStvCoinsTitle"] = "Afficher les pièces";
+L["printStvCoinsDesc"] = "Affiche dans la discussion un compteur du nombre de pièces de Strangleronce gagnées pendant l’événement.";
+
+L["printBlackrockHonorTitle"] = "Afficher l’honneur";
+L["printBlackrockHonorDesc"] = "Affiche dans la discussion un compteur de l’honneur gagné lors de L’éruption de Blackrock pendant l’événement.";
+
+L["chatOnlyInCityTitle"] = "Uniquement en ville";
+L["chatOnlyInCityDesc"] = "Affiche uniquement les messages de minuteur et de chute des buffs dans la discussion lorsque vous êtes dans la ville principale où les buffs tombent (Vallée de Strangleronce inclus pour le buff Zandalar).";
+
+L["middleOnlyInCityTitle"] = "Uniquement en ville";
+L["middleOnlyInCityDesc"] = "Affiche uniquement les messages au centre de l'écran pour le minuteur et la chute des buffs lorsque vous êtes dans la ville principale où les buffs tombent (Vallée de Strangleronce inclus pour le buff Zandalar).";
+
+L["flashOnlyInCityTitle"] = "Uniquement en ville";
+L["flashOnlyInCityDesc"] = "Illumine uniquement lorsque l’application est réduite si vous êtes dans la ville principale où les buffs tombent (Vallée de Strangleronce inclus pour le buff Zandalar).";
+
+L["blueShamansTitle"] = "Chamans bleus";
+L["blueShamansDesc"] = "Affiche les chamans en bleu dans cet add-on en classique.";
+
+L["Blackrock"] = "L'éruption de Blackrock";
+L["blackrockEventRunning"] = "L'éruption de Blackrock est en cours : %s";
+L["blackrockEventStartsIn"] = "L'éruption de Blackrock commencera dans %s";
+L["blackrockStartSoon"] = "L'éruption de Blackrock commencera dans %s"; --Guild chat msg.
+L["Blackrock PvP Event"] = "L'éruption de Blackrock";
+L["Total honor this event"] = "Total d'honneur dans cet événement";
+
+L["Bi-Weekly raid reset"] = "Réinitialisation bihebdomadaire de raid";
 
 L["Might of Stormwind"] = "Puissance de Hurlevent";
 
@@ -1045,3 +1068,5 @@ L["chronoboonReleasedNoCooldown"] = "Vous avez relâché un buff de la Foire de 
 
 L["skipDmfCookieTitle"] = "Ignorer la prédiction";
 L["skipDmfCookieDesc"] = "Activez ceci pour ignorer la réception de la prédiction de la Foire de Sombrelune après avoir reçu le buff de la Foire de Sombrelune.";
+
+L["No layers found yet."] = "Aucune couche trouvée pour le moment."
