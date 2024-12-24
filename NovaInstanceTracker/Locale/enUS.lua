@@ -610,3 +610,6 @@ L["Lower"] = "Lower";
 
 L["lootTheItem"] = "Loot the %s"; --Example: Loot the Tarnished Undermine Real
 L["Qiraji Lord's Insignia"] = "Qiraji Lord's Insignia";
+
+L["soundsLootReminderTitle"] = "Loot Reminder Sound";
+L["soundsLootReminderDesc"] = "Pick which sound to play when a loot reminder is displayed.";

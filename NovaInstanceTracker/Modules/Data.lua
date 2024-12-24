@@ -218,6 +218,7 @@ f:RegisterEvent("CHAT_MSG_COMBAT_XP_GAIN");
 f:RegisterEvent("PLAYER_REGEN_ENABLED");
 f:RegisterEvent("GROUP_ROSTER_UPDATE");
 f:RegisterEvent("CHAT_MSG_MONEY");
+f:RegisterEvent("CHAT_MSG_SYSTEM");
 f:RegisterEvent("CHAT_MSG_COMBAT_FACTION_CHANGE");
 f:RegisterEvent("PLAYER_UPDATE_RESTING");
 f:RegisterEvent("PLAYER_XP_UPDATE");
@@ -511,6 +512,16 @@ f:SetScript('OnEvent', function(self, event, ...)
 				NIT:leftDelve();
 			end
 		end
+	elseif (event == "CHAT_MSG_SYSTEM") then
+		local text = ...;
+		if (string.match(text, INSTANCE_SAVED)) then
+			C_Timer.After(1, function()
+				NIT:recordLockoutData();
+			end)
+			C_Timer.After(10, function()
+				NIT:recordLockoutData();
+			end)
+		end
 	end
 end)
 
@@ -534,6 +545,7 @@ function NIT:trimTrades()
 end
 
 local lootCurrency = {
+	[21229] = "Qiraji Lord's Insignia",
 	--SoD.
     [226404] = "Tarnished Undermine Real",
 };

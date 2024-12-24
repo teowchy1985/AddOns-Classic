@@ -39,6 +39,7 @@ local function addMsg(msg, time)
 		hideMiddleMsg();
 	end)
 	lootReminderFrame.StartBounce();
+	NIT:playSound("soundsLootReminder");
 end
 
 function NIT:updateLootReminderFrame(runTest)

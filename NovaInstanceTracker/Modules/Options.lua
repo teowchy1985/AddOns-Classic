@@ -705,11 +705,22 @@ function NIT:loadSpecificOptions()
 			get = "getSkipRealMsgIfCapped",
 			set = "setSkipRealMsgIfCapped",
 		};
+		NIT.options.args["soundsLootReminder"] = {
+			type = "select",
+			name = L["soundsLootReminderTitle"],
+			desc = L["soundsLootReminderDesc"],
+			values = function()
+				return NIT:getSounds();
+			end,
+			order = 18,
+			get = "getSoundsLootReminder",
+			set = "setSoundsLootReminder",
+		};
 		NIT.options.args["lootReminderSize"] = {
 			type = "range",
 			name = L["lootReminderSizeTitle"],
 			desc = L["lootReminderSizeDesc"],
-			order = 18,
+			order = 19,
 			get = "getLootReminderSize",
 			set = "setLootReminderSize",
 			min = 10,
@@ -722,7 +733,7 @@ function NIT:loadSpecificOptions()
 			type = "range",
 			name = L["lootReminderXTitle"],
 			desc = L["lootReminderXDesc"],
-			order = 19,
+			order = 20,
 			get = "getLootReminderX",
 			set = "setLootReminderX",
 			min = -1000,
@@ -736,7 +747,7 @@ function NIT:loadSpecificOptions()
 			type = "range",
 			name = L["lootReminderYTitle"],
 			desc = L["lootReminderYDesc"],
-			order = 20,
+			order = 21,
 			get = "getLootReminderY",
 			set = "setLootReminderY",
 			min = -1000,
@@ -859,6 +870,7 @@ NIT.optionDefaults = {
 		wipeUpgradeData = true,
 		argentDawnTrinketReminder = true,
 		skipRealMsgIfCapped = false,
+		soundsLootReminder = "None",
 	},
 };
 
@@ -1673,4 +1685,38 @@ end
 
 function NIT:getArgentDawnTrinketReminder(info)
 	return self.db.global.argentDawnTrinketReminder;
+end
+
+--Loot reminder sound.
+function NIT:setSoundsLootReminder(info, value)
+	self.db.global.soundsLootReminder = value;
+	local soundFile = NIT.LSM:Fetch("sound", value);
+	PlaySoundFile(soundFile);
+end
+
+function NIT:getSoundsLootReminder(info)
+	return self.db.global.soundsLootReminder;
+end
+
+local sounds = {
+	--["NIT - Zelda"] = "Interface\\AddOns\\NovaInstanceTracker\\Media\\Zelda.ogg",
+};
+
+function NIT:getSounds(type)
+	NIT.sounds = {};
+	for _, v in pairs(NIT.LSM:List("sound")) do
+		NIT.sounds[v] = v;
+	end
+	for k, v in NIT:pairsByKeys(sounds) do
+		NIT.sounds[k] = k;
+	end
+	NIT.sounds["None"] = "None";
+	return NIT.sounds;
+end
+
+function NIT:playSound(sound)
+	if (NIT.db.global[sound] and NIT.db.global[sound] ~= "None") then
+		local soundFile = NIT.LSM:Fetch("sound", NIT.db.global[sound]);
+		PlaySoundFile(soundFile, "Master");
+	end
 end

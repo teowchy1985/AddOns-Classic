@@ -488,6 +488,9 @@ L["Lower"] = "下";
 L["lootTheItem"] = "拾取%s"; --Example: Loot the Tarnished Undermine Real
 L["Qiraji Lord's Insignia"] = "其拉領主徽記";
 
+L["soundsLootReminderTitle"] = "拾取提醒音效";
+L["soundsLootReminderDesc"] = "選擇拾取提醒顯示時要播放的音效。";
+
 --增加
 L["Nova Instance Tracker"] = "Nova 副本進度追蹤";
 L["NovaInstanceTracker"] = "副本-進度";
