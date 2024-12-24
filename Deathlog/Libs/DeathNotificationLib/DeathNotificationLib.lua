@@ -935,6 +935,7 @@ StaticPopupDialogs["CHAT_CHANNEL_PASSWORD"] = nil
 local remaining_attempts = 5
 local function deathlogJoinChannel()
 	LeaveChannelByName(death_alerts_channel)
+	JoinChannelByName("HardcoreDeaths")
 
 	local delay = 3.0
 	C_Timer.After(delay, function()
@@ -942,7 +943,15 @@ local function deathlogJoinChannel()
 	end)
 	local channel_num = GetChannelName(death_alerts_channel)
 
-	SetCVar("hardcoreDeathAlertType", 2)
+	local show_death_alert = deathlog_settings and deathlog_settings["DeathAlert"] and deathlog_settings["DeathAlert"]["enable"]
+	local guild_only = deathlog_settings and deathlog_settings["DeathAlert"] and deathlog_settings["DeathAlert"]["guild_only"]
+
+	local alert_level = 0
+	if show_death_alert then
+		alert_level = guild_only and 1 or 2
+	end
+	SetCVar("hardcoreDeathAlertType", alert_level)
+
 	for i = 1, 10 do
 		if _G["ChatFrame" .. i] then
 			ChatFrame_RemoveChannel(_G["ChatFrame" .. i], death_alerts_channel)
@@ -1075,6 +1084,7 @@ end
 
 local function onBlizzardChat(msg)
   _G["RaidWarningFrameSlot1"]:SetText("")
+  _G["RaidWarningFrameSlot2"]:SetText("")
 	C_Timer.After(10.0, function()
 		local _, a = string.split("[", msg)
     if a == nil then return end
