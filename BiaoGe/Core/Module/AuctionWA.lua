@@ -448,8 +448,13 @@ BG.Init(function()
         end
         self.isOnEnter = true
         aura_env.itemIsOnEnter = true
-        if BG and BG.Show_AllHighlight then
-            BG.Show_AllHighlight(self.link)
+        if BG then
+            if BG.Show_AllHighlight then
+                BG.Show_AllHighlight(self.link)
+            end
+            if BG.SetHistoryMoney then
+                BG.SetHistoryMoney(self.itemID)
+            end
         end
     end
 
@@ -458,8 +463,13 @@ BG.Init(function()
         self.isOnEnter = false
         aura_env.itemIsOnEnter = false
         SetCursor(nil)
-        if BG and BG.Hide_AllHighlight then
-            BG.Hide_AllHighlight()
+        if BG then
+            if BG.Hide_AllHighlight then
+                BG.Hide_AllHighlight()
+            end
+            if BG.HideHistoryMoney then
+                BG.HideHistoryMoney()
+            end
         end
     end
 
@@ -1560,8 +1570,8 @@ BG.Init(function()
     _G.BGA.Even:RegisterEvent("GROUP_ROSTER_UPDATE")
     _G.BGA.Even:RegisterEvent("PLAYER_ENTERING_WORLD")
     _G.BGA.Even:RegisterEvent("MODIFIER_STATE_CHANGED")
-    _G.BGA.Even:SetScript("OnEvent", function(self, even, ...)
-        if even == "CHAT_MSG_ADDON" then
+    _G.BGA.Even:SetScript("OnEvent", function(self, event, ...)
+        if event == "CHAT_MSG_ADDON" then
             local prefix, msg, distType, senderFullName = ...
             if prefix ~= aura_env.AddonChannel then return end
             local arg1, arg2, arg3, arg4, arg5, arg6, arg7 = strsplit(",", msg)
@@ -1664,11 +1674,11 @@ BG.Init(function()
             elseif arg1 == "VersionCheck" and distType == "RAID" then
                 C_ChatInfo.SendAddonMessage(aura_env.AddonChannel, "MyVer" .. "," .. aura_env.ver, "RAID")
             end
-        elseif even == "GROUP_ROSTER_UPDATE" then
+        elseif event == "GROUP_ROSTER_UPDATE" then
             C_Timer.After(0.5, function()
                 aura_env.UpdateRaidRosterInfo()
             end)
-        elseif even == "PLAYER_ENTERING_WORLD" then
+        elseif event == "PLAYER_ENTERING_WORLD" then
             local isLogin, isReload = ...
             if not (isLogin or isReload) then return end
             C_Timer.After(0.5, function()
@@ -1677,7 +1687,7 @@ BG.Init(function()
             C_Timer.After(2, function()
                 aura_env.GetAuctioningFromRaid()
             end)
-        elseif even == "MODIFIER_STATE_CHANGED" then
+        elseif event == "MODIFIER_STATE_CHANGED" then
             local mod, type = ...
             if (mod == "LCTRL" or mod == "RCTRL") then
                 if type == 1 then

@@ -368,7 +368,7 @@ function BG.EditItemCache(self, func)
     local _itemID = GetItemID(self:GetText())
     if _itemID and not GetItemInfo(_itemID) then
         self:RegisterEvent("GET_ITEM_INFO_RECEIVED")
-        self:SetScript("OnEvent", function(self, even, itemID, success)
+        self:SetScript("OnEvent", function(self, event, itemID, success)
             if itemID == _itemID and success then
                 func(self)
                 self:UnregisterEvent("GET_ITEM_INFO_RECEIVED")
@@ -639,7 +639,7 @@ do
 
                 if bt.itemID then
                     bt:RegisterEvent("GET_ITEM_INFO_RECEIVED")
-                    bt:SetScript("OnEvent", function(self, even, _itemID, success)
+                    bt:SetScript("OnEvent", function(self, event, _itemID, success)
                         if self.itemID == _itemID and success then
                             SetButtonText(bt)
                             self:UnregisterEvent("GET_ITEM_INFO_RECEIVED")
@@ -663,21 +663,14 @@ do
                         GameTooltip:ClearLines()
                         GameTooltip:SetItemByID(self.itemID)
                         GameTooltip:Show()
-                        local h = { FB, self.itemID }
-                        BG.HistoryJine(unpack(h))
-                        BG.HistoryMOD = h
+                        BG.SetHistoryMoney(self.itemID)
                     end
                     self.ds:Show()
                 end)
                 bt:SetScript("OnLeave", function(self)
                     GameTooltip:Hide()
                     self.ds:Hide()
-                    if BG["HistoryJineFrameDB1"] then
-                        for i = 1, BG.HistoryJineFrameDBMax do
-                            BG["HistoryJineFrameDB" .. i]:Hide()
-                        end
-                        BG.HistoryJineFrame:Hide()
-                    end
+                    BG.HideHistoryMoney()
                 end)
                 bt:SetScript("OnMouseDown", function(self, enter)
                     if self.link then

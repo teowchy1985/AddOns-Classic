@@ -146,12 +146,6 @@ function BG.ReceiveZhuangBeiUI(FB, t, b, bb, i, ii, scrollFrame)
     bt:SetScript("OnLeave", function(self)
         BG.ReceiveFrameDs[FB .. 1]["boss" .. BossNum(FB, b, t)]["ds" .. i]:Hide()
         GameTooltip:Hide()
-        if BG["HistoryJineFrameDB1"] then
-            for i = 1, BG.HistoryJineFrameDBMax do
-                BG["HistoryJineFrameDB" .. i]:Hide()
-            end
-            BG.HistoryJineFrame:Hide()
-        end
     end)
 end
 

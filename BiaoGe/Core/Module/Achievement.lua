@@ -678,7 +678,7 @@ BG.Init(function()
         end)
     end
 
-    BG.RegisterEvent("INSPECT_ACHIEVEMENT_READY", function(self, even, guid)
+    BG.RegisterEvent("INSPECT_ACHIEVEMENT_READY", function(self, event, guid)
         if achievementFunctions then achievementFunctions.selectedCategory = -1 end
         if not IsInRaid(1) then return end
         local name = BG.raidRosterGUID[guid]
@@ -717,7 +717,7 @@ BG.Init(function()
     end)
 
     local last
-    BG.RegisterEvent("GROUP_ROSTER_UPDATE", function(self, even)
+    BG.RegisterEvent("GROUP_ROSTER_UPDATE", function(self, event)
         needRefresh = true
         if not last then
             BG.After(0.6, function()

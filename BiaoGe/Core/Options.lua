@@ -415,10 +415,9 @@ BG.Init(function()
                     BiaoGe.options[name] = BG.options[name .. "reset"]
                 end
             end
-            if not type(BiaoGe.options[name]) == "number" then
+            if type(BiaoGe.options[name]) ~= "number" then
                 BiaoGe.options[name] = BG.options[name .. "reset"]
             end
-            BG.MainFrame.Bg:SetAlpha(BiaoGe.options[name])
 
             local ontext = {
                 L["背景材质透明度"] .. L["|cff808080（右键还原设置）|r"],
@@ -2292,7 +2291,9 @@ BG.Init(function()
                 end
                 local ontext = {
                     L["查询记录"],
-                    L["在查询名单列表界面中增加查询记录。"],
+                    L["在查询名单列表中增加查询记录。"],
+                    " ",
+                    L["在查询名单列表中增加导出名单功能（可用于在官网进行批量举报）。"],
                 }
                 local f = O.CreateCheckButton(name, L["查询记录"] .. "*", others, 15, height - h, ontext)
                 BG.options["button" .. name] = f
@@ -3116,6 +3117,6 @@ BG.RegisterEvent("PLAYER_LOGIN", function(self, event, addonName)
 end)
 
 -- debug
--- BG.Init2(function(self, even, ...)
+-- BG.Init2(function(self, event, ...)
 --     InterfaceOptionsFrame_OpenToCategory("|cff00BFFFBiaoGe|r")
 -- end)

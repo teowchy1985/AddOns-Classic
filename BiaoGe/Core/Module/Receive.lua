@@ -29,7 +29,7 @@ local historyTbl = { "历史表格", "歷史表格" }
 function BG.ReceiveUI()
     ------------------把分享表格文字转换为链接------------------
     do
-        local function ChangSendLink(self, even, msg, player, l, cs, t, flag, channelId, ...)
+        local function ChangSendLink(self, event, msg, player, l, cs, t, flag, channelId, ...)
             if not strfind(msg, "^%[BiaoGe:.*%]$") then return end
             msg = strtrim(msg, "[]")
             local _, text = strsplit(":", msg, 2)
@@ -120,7 +120,7 @@ function BG.ReceiveUI()
     do
         local f = CreateFrame("Frame")
         f:RegisterEvent("CHAT_MSG_ADDON")
-        f:SetScript("OnEvent", function(self, even, ...)
+        f:SetScript("OnEvent", function(self, event, ...)
             if not BG.canSendBiaoGe then return end
 
             local prefix, msg, distType, sender = ...
@@ -141,8 +141,8 @@ function BG.ReceiveUI()
             BG.SendBiaoGe.FB = FB
 
             if BG.FindTableString(type, dangqianTbl) then
-                local DT = tonumber(date("%y%m%d%H%M%S",GetServerTime()))
-                local DTcn = date(L["%m月%d日%H:%M:%S\n"],GetServerTime())
+                local DT = tonumber(date("%y%m%d%H%M%S", GetServerTime()))
+                local DTcn = date(L["%m月%d日%H:%M:%S\n"], GetServerTime())
                 local biaoti = format(L["%s%s %s人 工资:%s"], DTcn, BG.GetFBinfo(FB, "localName"),
                     BG.Frame[FB]["boss" .. Maxb[FB] + 2]["jine" .. 4]:GetText(),
                     BG.Frame[FB]["boss" .. Maxb[FB] + 2]["jine" .. 5]:GetText())
@@ -278,7 +278,7 @@ function BG.ReceiveUI()
     do
         local f = CreateFrame("Frame")
         f:RegisterEvent("CHAT_MSG_ADDON")
-        f:SetScript("OnEvent", function(self, even, ...)
+        f:SetScript("OnEvent", function(self, event, ...)
             local prefix, msg, distType, sender = ...
             if prefix ~= "BiaoGe" then return end
             local sendername = strsplit("-", sender)

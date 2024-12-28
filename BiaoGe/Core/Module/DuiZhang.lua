@@ -53,7 +53,7 @@ local function Default(player, time)
         msgTbl = {},
         yes = nil,
         sumjine = 0,
-        time = date("%H:%M:%S",GetServerTime()),
+        time = date("%H:%M:%S", GetServerTime()),
         t = time,
     }
 end
@@ -89,7 +89,7 @@ local f = CreateFrame("Frame")
 f:RegisterEvent("CHAT_MSG_RAID_WARNING")
 f:RegisterEvent("CHAT_MSG_RAID_LEADER")
 f:RegisterEvent("CHAT_MSG_RAID")
-f:SetScript("OnEvent", function(self, even, msg, playerName, ...)
+f:SetScript("OnEvent", function(self, event, msg, playerName, ...)
     local player = strsplit("-", playerName)
     local IsRaidLedger = BG.FindTableString(msg, locales["RaidLedger:.... 收入 ...."])
     local IsBiaoGe = BG.FindTableString(msg, locales["通报金团账单"])
@@ -233,7 +233,7 @@ f:SetScript("OnEvent", function(self, even, msg, playerName, ...)
     end
 end)
 
-BG.RegisterEvent("CHAT_MSG_ADDON", function(self, even, ...)
+BG.RegisterEvent("CHAT_MSG_ADDON", function(self, event, ...)
     local prefix, msg, distType, sender = ...
     if not linshi_duizhang then return end
     if prefix == "BiaoGe" and distType == "RAID" and msg:match("^DuiZhang-") then

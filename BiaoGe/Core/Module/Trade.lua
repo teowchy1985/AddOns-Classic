@@ -988,13 +988,13 @@ BG.Init(function()
         f:RegisterEvent("CHAT_MSG_RAID_WARNING")
         f:RegisterEvent("CHAT_MSG_RAID_LEADER")
         f:RegisterEvent("CHAT_MSG_RAID")
-        f:SetScript("OnEvent", function(self, even, ...)
+        f:SetScript("OnEvent", function(self, event, ...)
             local msg, playerName = ...
             playerName = strsplit("-", playerName)
             local ML
-            if even == "CHAT_MSG_RAID_WARNING" or even == "CHAT_MSG_RAID_LEADER" then
+            if event == "CHAT_MSG_RAID_WARNING" or event == "CHAT_MSG_RAID_LEADER" then
                 ML = true
-            elseif even == "CHAT_MSG_RAID" and playerName == BG.masterLooter then
+            elseif event == "CHAT_MSG_RAID" and playerName == BG.masterLooter then
                 ML = true
             end
             if not ML then return end

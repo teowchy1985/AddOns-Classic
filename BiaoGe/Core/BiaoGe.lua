@@ -1096,7 +1096,7 @@ BG.Init(function()
         local f = CreateFrame("Frame")
         f:RegisterEvent("PLAYER_ENTERING_WORLD")
         f:RegisterEvent("GROUP_ROSTER_UPDATE")
-        f:SetScript("OnEvent", function(self, even, ...)
+        f:SetScript("OnEvent", function(self, event, ...)
             C_Timer.After(1, function()
                 local nandu
                 local nanduID
@@ -1117,7 +1117,7 @@ BG.Init(function()
         local changeRaidDifficulty = ERR_RAID_DIFFICULTY_CHANGED_S:gsub("%%s", "(.+)")
         local f = CreateFrame("Frame")
         f:RegisterEvent("CHAT_MSG_SYSTEM")
-        f:SetScript("OnEvent", function(self, even, text, ...)
+        f:SetScript("OnEvent", function(self, event, text, ...)
             if string.find(text, changeRaidDifficulty) then
                 local nandu
                 local nanduID = GetRaidDifficultyID()
@@ -1292,23 +1292,20 @@ BG.Init(function()
         BG.ReportMainFrameTabNum = 7
         BG.BossMainFrameTabNum = 8
 
-        local clicked
         function BG.ClickTabButton(num)
-            clicked = true
-            BG.After(0, function() clicked = false end)
-            for i, v in pairs(BG.tabButtons) do
+            for _num, v in pairs(BG.tabButtons) do
                 local bt = v.button
-                if i == num then
+                if _num == num then
+                    bt:Disable()
                     local r, g, b = GetClassRGB(nil, "player")
                     bt.bg:SetGradient("VERTICAL", CreateColor(r, g, b, .6), CreateColor(r, g, b, .1))
                     bt:GetFontString():SetTextColor(1, 1, 1)
-                    bt:Disable()
                     v.frame:Show()
                 else
+                    bt:Enable()
                     local r, g, b = 0, 0, 0
                     bt.bg:SetGradient("VERTICAL", CreateColor(r, g, b, .8), CreateColor(r, g, b, .2))
                     bt:GetFontString():SetTextColor(1, .82, 0)
-                    bt:Enable()
                     v.frame:Hide()
                 end
             end
@@ -1320,14 +1317,14 @@ BG.Init(function()
             end
         end
 
-        local function Create_TabButton(num, text, frame, width) -- 1,L["当前表格 "],BG["Frame" .. BG.FB1],150
+        function BG.Create_TabButton(num, text, frame, width) -- 1,L["当前表格 "],BG["Frame" .. BG.FB1],150
             local bt = CreateFrame("Button", nil, BG.MainFrame, "BackdropTemplate")
             bt:SetBackdrop({
                 edgeFile = "Interface/ChatFrame/ChatFrameBackground",
                 edgeSize = 1,
             })
             bt:SetBackdropBorderColor(GetClassRGB(nil, "player", BG.borderAlpha))
-            bt:SetSize(90, 28)
+            bt:SetSize(width or 90, 28)
             if num == 1 then
                 if BG.IsWLK then
                     bt:SetPoint("TOPLEFT", BG.MainFrame, "BOTTOM", -360, 1)
@@ -1335,7 +1332,7 @@ BG.Init(function()
                     bt:SetPoint("TOPLEFT", BG.MainFrame, "BOTTOM", -280, 1)
                 end
             else
-                bt:SetPoint("LEFT", BG.tabButtons[num - 1].button, "RIGHT", BG.IsWLK and 3 or 20, 0)
+                bt:SetPoint("LEFT", BG.tabButtons[#BG.tabButtons].button, "RIGHT", BG.IsWLK and 3 or 20, 0)
             end
             bt.bg = bt:CreateTexture(nil, "BACKGROUND")
             bt.bg:SetAllPoints()
@@ -1348,7 +1345,7 @@ BG.Init(function()
             bt:SetFontString(t)
             BG.tabButtons[num] = {
                 button = bt,
-                frame = frame
+                frame = frame,
             }
             bt:SetScript("OnClick", function(self)
                 BG.ClickTabButton(num)
@@ -1360,14 +1357,13 @@ BG.Init(function()
             end)
             bt:SetScript("OnLeave", function(self)
                 GameTooltip:Hide()
-                if clicked then return end
                 local r, g, b = 0, 0, 0
                 self.bg:SetGradient("VERTICAL", CreateColor(r, g, b, .8), CreateColor(r, g, b, .2))
             end)
             return bt
         end
 
-        local bt = Create_TabButton(BG.FBMainFrameTabNum, L["当前表格"], BG.FBMainFrame)
+        local bt = BG.Create_TabButton(BG.FBMainFrameTabNum, L["当前表格"], BG.FBMainFrame)
         bt:HookScript("OnEnter", function(self)
             GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT", 0, 0)
             GameTooltip:ClearLines()
@@ -1376,7 +1372,7 @@ BG.Init(function()
             GameTooltip:Show()
         end)
 
-        local bt = Create_TabButton(BG.ItemLibMainFrameTabNum, L["装备库"], BG.ItemLibMainFrame)
+        local bt = BG.Create_TabButton(BG.ItemLibMainFrameTabNum, L["装备库"], BG.ItemLibMainFrame)
         bt:HookScript("OnEnter", function(self)
             GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT", 0, 0)
             GameTooltip:ClearLines()
@@ -1385,7 +1381,7 @@ BG.Init(function()
             GameTooltip:Show()
         end)
 
-        local bt = Create_TabButton(BG.HopeMainFrameTabNum, L["心愿清单"], BG.HopeMainFrame)
+        local bt = BG.Create_TabButton(BG.HopeMainFrameTabNum, L["心愿清单"], BG.HopeMainFrame)
         bt:HookScript("OnEnter", function(self)
             GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT", 0, 0)
             GameTooltip:ClearLines()
@@ -1394,7 +1390,7 @@ BG.Init(function()
             GameTooltip:Show()
         end)
 
-        local bt = Create_TabButton(BG.DuiZhangMainFrameTabNum, L["对账"], BG.DuiZhangMainFrame)
+        local bt = BG.Create_TabButton(BG.DuiZhangMainFrameTabNum, L["对账"], BG.DuiZhangMainFrame)
         bt:HookScript("OnEnter", function(self)
             GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT", 0, 0)
             GameTooltip:ClearLines()
@@ -1405,7 +1401,7 @@ BG.Init(function()
             GameTooltip:Show()
         end)
 
-        local bt = Create_TabButton(BG.YYMainFrameTabNum, L["YY评价"], BG.YYMainFrame)
+        local bt = BG.Create_TabButton(BG.YYMainFrameTabNum, L["YY评价"], BG.YYMainFrame)
         bt:HookScript("OnEnter", function(self)
             GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT", 0, 0)
             GameTooltip:ClearLines()
@@ -1468,7 +1464,7 @@ BG.Init(function()
         end)
 
         if BG.IsWLK then
-            local bt = Create_TabButton(BG.AchievementMainFrameTabNum, L["团员成就"], BG.AchievementMainFrame)
+            local bt = BG.Create_TabButton(BG.AchievementMainFrameTabNum, L["团员成就"], BG.AchievementMainFrame)
             bt:HookScript("OnEnter", function(self)
                 GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT", 0, 0)
                 GameTooltip:ClearLines()
@@ -1477,7 +1473,7 @@ BG.Init(function()
                 GameTooltip:Show()
             end)
 
-            local bt = Create_TabButton(BG.ReportMainFrameTabNum, L["举报记录"], BG.ReportMainFrame)
+            local bt = BG.Create_TabButton(BG.ReportMainFrameTabNum, L["举报记录"], BG.ReportMainFrame)
             bt:HookScript("OnEnter", function(self)
                 GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT", 0, 0)
                 GameTooltip:ClearLines()
@@ -1486,7 +1482,7 @@ BG.Init(function()
                 GameTooltip:Show()
             end)
 
-            local bt = Create_TabButton(BG.BossMainFrameTabNum, L["团本攻略"], BG.BossMainFrame)
+            local bt = BG.Create_TabButton(BG.BossMainFrameTabNum, L["团本攻略"], BG.BossMainFrame)
             bt:HookScript("OnEnter", function(self)
                 GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT", 0, 0)
                 GameTooltip:ClearLines()
@@ -1544,7 +1540,7 @@ BG.Init(function()
             local f = CreateFrame("Frame")
             f:RegisterEvent("BAG_UPDATE_DELAYED")      -- 删除物品
             f:RegisterEvent("PLAYERBANKSLOTS_CHANGED") -- 银行物品更新
-            f:SetScript("OnEvent", function(self, even, ...)
+            f:SetScript("OnEvent", function(self, event, ...)
                 BG.After(0.1, function()
                     BG.UpdateBiaoGeAllIsHaved()
                 end)
@@ -1589,8 +1585,8 @@ BG.Init(function()
         f:RegisterEvent("CHAT_MSG_RAID_LEADER")
         f:RegisterEvent("CHAT_MSG_RAID_WARNING")
         f:RegisterEvent("CHAT_MSG_RAID")
-        f:SetScript("OnEvent", function(self, even, msg, playerName, ...)
-            if even == "CHAT_MSG_RAID" then
+        f:SetScript("OnEvent", function(self, event, msg, playerName, ...)
+            if event == "CHAT_MSG_RAID" then
                 playerName = strsplit("-", playerName)
                 if playerName ~= BG.masterLooter then
                     return
@@ -1776,7 +1772,7 @@ BG.Init(function()
     end
     ----------在线玩家数----------
     if BG.IsVanilla_Sod or BG.IsCTM then
-        BG.RegisterEvent("PLAYER_ENTERING_WORLD", function(self, even, isLogin, isReload)
+        BG.RegisterEvent("PLAYER_ENTERING_WORLD", function(self, event, isLogin, isReload)
             if not (isLogin or isReload) then return end
             if not IsAddOnLoaded("Blizzard_Communities") then
                 UIParentLoadAddOn("Blizzard_Communities")
@@ -1898,7 +1894,7 @@ BG.Init(function()
         local last
         local lastraidjoinname
         local lastpartyjoinname
-        local function MsgClassColor(self, even, msg, player, l, cs, t, flag, channelId, ...)
+        local function MsgClassColor(self, event, msg, player, l, cs, t, flag, channelId, ...)
             if BiaoGe.options["joinorleavePlayercolor"] ~= 1 then return end
             if msg:match("%s$") then return end
 
@@ -2169,7 +2165,7 @@ BG.Init(function()
         end
 
         -- 当物品被捡走时，刷新鼠标提示工具
-        BG.RegisterEvent("LOOT_SLOT_CLEARED", function(self, even)
+        BG.RegisterEvent("LOOT_SLOT_CLEARED", function(self, event)
             if isOnter then
                 if bt:IsEnabled() then
                     OnEnter(bt)
@@ -2184,7 +2180,7 @@ BG.Init(function()
         local tbl = {
             121411, -- 血月活动
         }
-        BG.RegisterEvent("GOSSIP_SHOW", function(self, even)
+        BG.RegisterEvent("GOSSIP_SHOW", function(self, event)
             if BiaoGe.options["xueyueAuto"] ~= 1 then return end
             local info = C_GossipInfo.GetOptions()
             for i, v in pairs(info) do
@@ -2278,6 +2274,7 @@ BG.Init(function()
         f:SetPoint("BOTTOMLEFT", WhoFrameEditBoxInset, "BOTTOMRIGHT", 5, 0)
         f:SetSize(100, FriendsFrame:GetHeight() - 80)
         f:Hide()
+        BG.WhoFrameList = f
         local t = f:CreateFontString()
         t:SetPoint("BOTTOM", f, "TOP", 0, 2)
         t:SetFont(STANDARD_TEXT_FONT, 15, "OUTLINE")
@@ -2384,13 +2381,231 @@ BG.Init(function()
             hookfunc()
         end)
 
+
+
+        -- 导出并举报
+        local whoText
+        local bt = CreateFrame("Button", nil, WhoFrame, "UIPanelButtonTemplate")
+        bt:SetSize(100, 25)
+        bt:SetPoint("TOPRIGHT", WhoFrame, "TOPRIGHT", -20, -27)
+        bt:SetText(L["导出名单"])
+        BG.WhoFrameSendOutButton = bt
+        bt:SetScript("OnEnter", function(self)
+            GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT", 0, 0)
+            GameTooltip:ClearLines()
+            GameTooltip:AddLine(self:GetText(), 1, 1, 1, true)
+            GameTooltip:AddLine(L["导出本次查询的所有名单，可以在官网进行批量举报，比游戏里举报更有效。"], 1, 0.82, 0, true)
+            GameTooltip:AddLine(" ", 1, 0.82, 0, true)
+            GameTooltip:AddLine(L["你可在插件设置-BiaoGe-其他功能-查询记录里关闭这个功能。"], 0.5, 0.5, 0.5, true)
+            GameTooltip:Show()
+        end)
+        bt:SetScript("OnLeave", GameTooltip_Hide)
+        bt:SetScript("OnClick", function(self)
+            if not self.frame then
+                local frame = CreateFrame("Frame", nil, self, "BackdropTemplate")
+                frame:SetBackdrop({
+                    bgFile = "Interface/ChatFrame/ChatFrameBackground",
+                })
+                frame:SetBackdropColor(0, 0, 0, .9)
+                frame:SetPoint("TOPLEFT", WhoFrame, "TOPLEFT", -1, -55)
+                frame:SetPoint("BOTTOMRIGHT", WhoFrame, "BOTTOMRIGHT", -1, 68)
+                frame:SetFrameLevel(10)
+                frame:EnableMouse(true)
+                frame:SetFrameStrata("HIGH")
+                frame:Hide()
+                self.frame = frame
+                frame:SetScript("OnHide", function()
+                    BG.WhoFrameSendOutButton:SetText(L["导出名单"])
+                    if BG.WhoFrameReportButton then
+                        BG.WhoFrameReportButton:Show()
+                    end
+                end)
+                frame:SetScript("OnShow", function()
+                    BG.WhoFrameSendOutButton:SetText(L["关闭名单"])
+                    if BG.WhoFrameReportButton then
+                        BG.WhoFrameReportButton:Hide()
+                    end
+                    frame.edit1:SetText(whoText or "")
+                    frame.edit1:HighlightText()
+                    frame.edit1:SetFocus()
+                    frame.edit2:SetText(frame.edit2.text)
+                end)
+                -- 名单
+                do
+                    local f = CreateFrame("Frame", nil, frame, "BackdropTemplate")
+                    f:SetBackdrop({
+                        bgFile = "Interface/ChatFrame/ChatFrameBackground",
+                        edgeFile = "Interface/ChatFrame/ChatFrameBackground",
+                        edgeSize = 1,
+                    })
+                    f:SetBackdropColor(0, 0, 0, 0)
+                    f:SetBackdropBorderColor(1, 1, 1, 0.6)
+                    f:SetPoint("TOPLEFT", 1, 0)
+                    f:SetPoint("BOTTOMRIGHT", -1, 90)
+                    f:EnableMouse(true)
+                    f:SetScript("OnMouseDown", function()
+                        frame.edit1:SetFocus()
+                    end)
+                    local edit = CreateFrame("EditBox", nil, f)
+                    edit:SetWidth(f:GetWidth())
+                    edit:SetAutoFocus(false)
+                    edit:EnableMouse(true)
+                    edit:SetTextInsets(0, 10, 0, 0)
+                    edit:SetMultiLine(true)
+                    edit:SetFont(STANDARD_TEXT_FONT, 13, "OUTLINE")
+                    frame.edit1 = edit
+                    edit:SetScript("OnTextChanged", function()
+                        if edit:HasFocus() then
+                            edit:SetText(whoText or "")
+                            edit:HighlightText()
+                        end
+                        BG.After(0, function()
+                            frame.scroll.ScrollBar:SetValue((select(2, frame.scroll.ScrollBar:GetMinMaxValues())))
+                        end)
+                    end)
+                    edit:SetScript("OnEscapePressed", function()
+                        edit:ClearFocus()
+                        edit:ClearHighlightText()
+                    end)
+                    edit:SetScript("OnEditFocusGained", function()
+                        edit:HighlightText()
+                    end)
+                    edit:SetScript("OnEditFocusLost", function()
+                        edit:ClearHighlightText()
+                    end)
+                    local scroll = CreateFrame("ScrollFrame", nil, f, "UIPanelScrollFrameTemplate")
+                    scroll:SetWidth(f:GetWidth() - 10)
+                    scroll:SetHeight(f:GetHeight() - 10)
+                    scroll:SetPoint("CENTER")
+                    scroll.ScrollBar.scrollStep = BG.scrollStep
+                    BG.CreateSrollBarBackdrop(scroll.ScrollBar)
+                    BG.HookScrollBarShowOrHide(scroll, true)
+                    scroll:SetScrollChild(edit)
+                    frame.scroll = scroll
+                end
+
+                -- 官网
+                do
+                    local f = CreateFrame("Frame", nil, frame, "BackdropTemplate")
+                    f:SetBackdrop({
+                        bgFile = "Interface/ChatFrame/ChatFrameBackground",
+                        edgeFile = "Interface/ChatFrame/ChatFrameBackground",
+                        edgeSize = 1,
+                    })
+                    f:SetBackdropColor(0, 0, 0, 0)
+                    f:SetBackdropBorderColor(1, 1, 1, 0.6)
+                    f:SetPoint("TOPLEFT", frame, "BOTTOMLEFT", 1, 60)
+                    f:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -1, 0)
+                    f:EnableMouse(true)
+                    f:SetScript("OnMouseDown", function()
+                        frame.edit2:SetFocus()
+                    end)
+                    local edit = CreateFrame("EditBox", nil, f)
+                    edit:SetWidth(f:GetWidth())
+                    edit:SetAutoFocus(false)
+                    edit:EnableMouse(true)
+                    edit:SetTextInsets(0, 10, 0, 0)
+                    edit:SetMultiLine(true)
+                    edit:SetFont(STANDARD_TEXT_FONT, 13, "OUTLINE")
+                    if BG.IsVanilla then
+                        edit.text = "https://support.battlenet.com.cn/w/question/detail?method=hp_service&template=cheatrpt_aqfk_vanilla"
+                    else
+                        edit.text = "https://support.battlenet.com.cn/w/question/detail?method=hp_service&template=cheatrpt_aqfk"
+                    end
+                    frame.edit2 = edit
+                    edit:SetScript("OnTextChanged", function()
+                        if edit:HasFocus() then
+                            edit:SetText(edit.text)
+                            edit:HighlightText()
+                        end
+                        BG.After(0, function()
+                            frame.scroll.ScrollBar:SetValue((select(2, frame.scroll.ScrollBar:GetMinMaxValues())))
+                        end)
+                    end)
+                    edit:SetScript("OnEscapePressed", function()
+                        edit:ClearFocus()
+                        edit:ClearHighlightText()
+                    end)
+                    edit:SetScript("OnEditFocusGained", function()
+                        edit:HighlightText()
+                    end)
+                    edit:SetScript("OnEditFocusLost", function()
+                        edit:ClearHighlightText()
+                    end)
+                    local scroll = CreateFrame("ScrollFrame", nil, f, "UIPanelScrollFrameTemplate")
+                    scroll:SetWidth(f:GetWidth() - 10)
+                    scroll:SetHeight(f:GetHeight() - 10)
+                    scroll:SetPoint("CENTER")
+                    scroll.ScrollBar.scrollStep = BG.scrollStep
+                    BG.CreateSrollBarBackdrop(scroll.ScrollBar)
+                    BG.HookScrollBarShowOrHide(scroll, true)
+                    scroll:SetScrollChild(edit)
+
+                    local t = f:CreateFontString()
+                    t:SetFont(STANDARD_TEXT_FONT, 15, "OUTLINE")
+                    t:SetPoint("BOTTOMLEFT", f, "TOPLEFT", 2, 0)
+                    t:SetTextColor(1, 0.82, 0)
+                    t:SetText(L["官方举报地址（比游戏里举报更有效）："])
+                end
+            end
+            self.frame:SetShown(not self.frame:IsVisible())
+        end)
+
+        local function GetWhoText()
+            whoText = nil
+            local whoPlayersName = {}
+            local numWhos, totalCount = C_FriendList.GetNumWhoResults()
+            if numWhos and numWhos ~= 0 then
+                for i = 1, numWhos do
+                    local info = C_FriendList.GetWhoInfo(i)
+                    if info then
+                        local playerName, realmName = strsplit("-", info.fullName)
+                        if not realmName then
+                            realmName = GetRealmName()
+                        end
+                        tinsert(whoPlayersName, playerName .. "/" .. realmName)
+                    end
+                end
+            end
+            local frame = BG.WhoFrameSendOutButton.frame
+            if #whoPlayersName ~= 0 then
+                whoText = table.concat(whoPlayersName, " ") .. " "
+                BG.WhoFrameSendOutButton:Enable()
+                if frame and frame:IsVisible() then
+                    frame.edit1:SetText(whoText or "")
+                end
+            else
+                BG.WhoFrameSendOutButton:Disable()
+                if frame and frame:IsVisible() then
+                    frame:Hide()
+                end
+            end
+        end
+
+        BG.RegisterEvent("WHO_LIST_UPDATE", function()
+            GetWhoText()
+        end)
+
         WhoFrame:HookScript("OnShow", function()
             if BiaoGe.options["searchList"] == 1 then
-                f:Show()
+                BG.WhoFrameList:Show()
+                BG.WhoFrameSendOutButton:Show()
+                BG.WhoFrameSendOutButton:SetText(L["导出名单"])
+                GetWhoText()
             else
-                f:Hide()
+                BG.WhoFrameList:Hide()
+                BG.WhoFrameSendOutButton:Hide()
+            end
+
+            if BG.WhoFrameSendOutButton.frame then
+                BG.WhoFrameSendOutButton.frame:Hide()
             end
         end)
+
+        -- test
+        -- FriendsFrame:HookScript("OnShow", function(self)
+        --     FriendsFrameTab2:Click()
+        -- end)
     end
     ----------快速记账----------
     do
@@ -3097,7 +3312,7 @@ BG.Init(function()
         f:RegisterEvent("CHAT_MSG_RAID_WARNING")
         f:RegisterEvent("CHAT_MSG_RAID_LEADER")
         f:RegisterEvent("CHAT_MSG_RAID")
-        f:SetScript("OnEvent", function(self, even, msg)
+        f:SetScript("OnEvent", function(self, event, msg)
             if not (BiaoGe.options["countDown"] == 1 and BiaoGe.options["countDownStop"] == 1) then return end
             if not auctioning then return end
             msg = msg:gsub("%s", "")
@@ -3304,7 +3519,7 @@ BG.Init(function()
             end
             BG.IsNotSameTeam = IsNotSameTeam
 
-            BG.RegisterEvent("RAID_INSTANCE_WELCOME", function(self, even, ...)
+            BG.RegisterEvent("RAID_INSTANCE_WELCOME", function(self, event, ...)
                 if BiaoGe.options["autoQingKong"] ~= 1 then return end
                 RequestRaidInfo()
 
@@ -3347,8 +3562,8 @@ BG.Init(function()
             f:RegisterEvent("ZONE_CHANGED_INDOORS")
             f:RegisterEvent("ZONE_CHANGED_NEW_AREA")
             f:RegisterEvent("RAID_INSTANCE_WELCOME")
-            f:SetScript("OnEvent", function(self, even, ...)
-                pt(even,...)
+            f:SetScript("OnEvent", function(self, event, ...)
+                pt(event,...)
                 if BiaoGe.options["autoQingKong"] ~= 1 then return end
                 RequestRaidInfo()
 
@@ -3481,7 +3696,7 @@ BG.Init(function()
             t:SetJustifyH("RIGHT")
             t:SetTextColor(1, .82, 0)
             t:SetText(L["清空表格时的金币： "])
-            f:SetWidth(t:GetUnboundedStringWidth() + 2)
+            f:SetWidth(t:GetUnboundedStringWidth() + 5)
             f.Text = t
             f:SetScript("OnEnter", OnEnter)
             f:SetScript("OnLeave", GameTooltip_Hide)
@@ -3610,7 +3825,7 @@ BG.Init(function()
         tex:SetTexture("Interface/ChatFrame/UI-ChatIcon-BlinkHilight")
     end
     ----------鼠标材质----------
-    BG.RegisterEvent("MODIFIER_STATE_CHANGED", function(self, even, mod, type)
+    BG.RegisterEvent("MODIFIER_STATE_CHANGED", function(self, event, mod, type)
         if IsAltKeyDown() and IsControlKeyDown() then
             SetCursor(nil)
             return
@@ -3635,6 +3850,30 @@ BG.Init(function()
             else
                 SetCursor(nil)
             end
+        end
+    end)
+    -- 鼠标提示工具美化
+    BG.Init2(function()
+        local color
+        if IsAddOnLoaded("NDui") then
+            color = { 0, 0, 0, 0.6 }
+        elseif IsAddOnLoaded("ElvUI") then
+            color = { .05, .05, .05, 0.6 }
+        end
+        if IsAddOnLoaded("NDui") or IsAddOnLoaded("ElvUI") then
+            if BiaoGeTooltip2.NineSlice then BiaoGeTooltip2.NineSlice:SetAlpha(0) end
+            if BiaoGeTooltip2.SetBackdrop then BiaoGeTooltip2:SetBackdrop(nil) end
+
+            local f = CreateFrame("Frame", nil, BiaoGeTooltip2, "BackdropTemplate")
+            f:SetBackdrop({
+                bgFile = "Interface/ChatFrame/ChatFrameBackground",
+                edgeFile = "Interface/ChatFrame/ChatFrameBackground",
+                edgeSize = 1,
+            })
+            f:SetBackdropColor(unpack(color))
+            f:SetBackdropBorderColor(0, 0, 0, 1)
+            f:SetAllPoints()
+            f:SetFrameLevel(f:GetParent():GetFrameLevel())
         end
     end)
 
@@ -3694,8 +3933,8 @@ BG.Init(function()
         local f = CreateFrame("Frame")
         f:RegisterEvent("CHAT_MSG_ADDON")
         f:RegisterEvent("PLAYER_ENTERING_WORLD")
-        f:SetScript("OnEvent", function(self, even, ...)
-            if even == "CHAT_MSG_ADDON" then
+        f:SetScript("OnEvent", function(self, event, ...)
+            if event == "CHAT_MSG_ADDON" then
                 local prefix, msg, channel, sender = ...
                 if not (prefix == "BiaoGe" and channel == "GUILD") then return end
                 local sendername = strsplit("-", sender)
@@ -3714,7 +3953,7 @@ BG.Init(function()
                         close = true
                     end
                 end
-            elseif even == "PLAYER_ENTERING_WORLD" then
+            elseif event == "PLAYER_ENTERING_WORLD" then
                 local isLogin, isReload = ...
                 if not (isLogin or isReload) then return end
                 -- 开始发送版本请求
@@ -3813,7 +4052,7 @@ do
     end)
     local f = CreateFrame("Frame")
     f:RegisterEvent("GROUP_ROSTER_UPDATE")
-    f:SetScript("OnEvent", function(self, even, ...)
+    f:SetScript("OnEvent", function(self, event, ...)
         C_Timer.After(0.5, function()
             BG.UpdateRaidRosterInfo()
         end)

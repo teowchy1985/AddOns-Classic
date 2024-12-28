@@ -160,21 +160,21 @@ BG.Init(function()
     f:RegisterEvent("MERCHANT_UPDATE")
     f:RegisterEvent("QUEST_TURNED_IN")
     f:RegisterEvent("QUEST_FINISHED")
-    f:SetScript("OnEvent", function(self, even, arg1, arg2)
-        if even == "TRADE_ACCEPT_UPDATE" then -- 屏蔽交易添加
+    f:SetScript("OnEvent", function(self, event, arg1, arg2)
+        if event == "TRADE_ACCEPT_UPDATE" then -- 屏蔽交易添加
             if arg1 == 1 or arg2 == 1 then
                 trade = true
             else
                 trade = nil
             end
-        elseif even == "TRADE_CLOSED" then
+        elseif event == "TRADE_CLOSED" then
             trade = nil
-        elseif even == "MERCHANT_UPDATE" then -- 屏蔽购买物品
+        elseif event == "MERCHANT_UPDATE" then -- 屏蔽购买物品
             buy = true
             C_Timer.After(0.5, function()
                 buy = nil
             end)
-        elseif even == "QUEST_TURNED_IN" or even == "QUEST_FINISHED" then -- 屏蔽任务物品
+        elseif event == "QUEST_TURNED_IN" or event == "QUEST_FINISHED" then -- 屏蔽任务物品
             quest = true
             C_Timer.After(0.5, function()
                 quest = nil
@@ -187,7 +187,7 @@ BG.Init(function()
     local _time
     local start
 
-    local function PrintLootBoss(FB, even, numb, text)
+    local function PrintLootBoss(FB, event, numb, text)
         if BiaoGe.options["autoLoot"] ~= 1 then return end
         SendSystemMessage(BG.BG .. text .. "，" .. L["当前装备自动记录位置："] ..
             "|cff" .. BG.Boss[FB]["boss" .. numb].color .. BG.Boss[FB]["boss" .. numb].name2 .. RR)
@@ -203,10 +203,10 @@ BG.Init(function()
     local f = CreateFrame("Frame")
     f:RegisterEvent("ENCOUNTER_START")
     f:RegisterEvent("ENCOUNTER_END")
-    f:SetScript("OnEvent", function(self, even, bossID, _, _, _, success)
+    f:SetScript("OnEvent", function(self, event, bossID, _, _, _, success)
         local FB = BG.FB2
         if not FB then return end
-        if even == "ENCOUNTER_START" then
+        if event == "ENCOUNTER_START" then
             start = true
             if IsBWLsod_boss5orboss6(bossID) then
                 numb = IsBWLsod_boss5orboss6(bossID)
@@ -217,12 +217,12 @@ BG.Init(function()
                         numb = _numb
                         lasttime = GetTime()
                         -- local text = BG.STC_g1(L["BOSS战开始"])
-                        -- PrintLootBoss(FB, even, numb, text)
+                        -- PrintLootBoss(FB, event, numb, text)
                         return
                     end
                 end
             end
-        elseif even == "ENCOUNTER_END" then
+        elseif event == "ENCOUNTER_END" then
             if success == 1 then
                 if IsBWLsod_boss5orboss6(bossID) then
                     numb = IsBWLsod_boss5orboss6(bossID)
@@ -234,7 +234,7 @@ BG.Init(function()
                             lasttime = GetTime()
                             start = nil
                             -- local text = BG.STC_g1(L["BOSS击杀成功"])
-                            -- PrintLootBoss(FB, even, numb, text)
+                            -- PrintLootBoss(FB, event, numb, text)
                             BiaoGe[FB].raidRoster = { time = GetServerTime(), realm = GetRealmName(), roster = {} }
                             for i, v in ipairs(BG.raidRosterInfo) do
                                 tinsert(BiaoGe[FB].raidRoster.roster, v.name)
@@ -247,13 +247,13 @@ BG.Init(function()
                 numb = Maxb[FB] - 1
                 start = nil
                 -- local text = BG.STC_r1(L["BOSS击杀失败"])
-                -- PrintLootBoss(FB, even, numb, text)
+                -- PrintLootBoss(FB, event, numb, text)
             end
         end
     end)
     local f = CreateFrame("Frame")
     f:RegisterEvent("PLAYER_REGEN_DISABLED") -- 进入战斗
-    f:SetScript("OnEvent", function(self, even, ID)
+    f:SetScript("OnEvent", function(self, event, ID)
         local FB = BG.FB2
         if not FB then return end
         if start then return end
@@ -262,7 +262,7 @@ BG.Init(function()
             if _time - lasttime >= 45 then -- 击杀BOSS x秒后进入下一次战斗，就变回杂项
                 numb = Maxb[FB] - 1
                 -- local text = BG.STC_r1(L["非BOSS战"])
-                -- PrintLootBoss(FB, even, numb, text)
+                -- PrintLootBoss(FB, event, numb, text)
             end
         end
     end)
@@ -430,7 +430,7 @@ BG.Init(function()
     -- local testItemID = 59521
     local testItemID = 67429
     GetItemInfo(testItemID)
-    local function LootItem(self, even, msg, ...)
+    local function LootItem(self, event, msg, ...)
         local FB = BG.FB2
         if BiaoGe.options["autoLoot"] ~= 1 then -- 有没勾选自动记录功能
             return

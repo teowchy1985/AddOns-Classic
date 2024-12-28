@@ -108,6 +108,8 @@ local function AddTexture(Texture, y, coord)
         return t
     elseif Texture == "QUEST" then -- 黄色感叹号
         tex = "Interface\\GossipFrame\\AvailableQuestIcon"
+    elseif Texture == "VIP" then -- 黄色感叹号
+        return "|TInterface\\AddOns\\BiaoGe\\Media\\icon\\VIP:0:0:0:0:100:100:10:90:10:90|t"
     else
         tex = Texture
     end
@@ -265,37 +267,6 @@ local function FrameHide(num)
     -- end
 end
 ns.FrameHide = FrameHide
-
-------------------获取FBtable2数据内容------------------
---[[
-do
-    -- 获取副本本地化名称
-    function BG.GetFBinfo(FB,"localName")
-        for i, v in pairs(BG.FBtable2) do
-            if FB == v.FB then
-                return v.localName
-            end
-        end
-    end
-
-    -- 获取副本最大玩家数量
-    function BG.GetFBinfo(FB,"maxplayers")
-        for i, v in ipairs(BG.FBtable2) do
-            if FB == v.FB then
-                return v.maxplayers
-            end
-        end
-    end
-
-    -- 获取副本所属阶段
-    function BG.GetFBinfo(FB,"phase")
-        for i, v in ipairs(BG.FBtable2) do
-            if FB == v.FB then
-                return v.phase
-            end
-        end
-    end
-end ]]
 
 ------------------当前表格已经有东西了------------------
 function BG.BiaoGeHavedItem(FB, _type, instanceID)
@@ -608,4 +579,20 @@ function BG.FormatNumber(num)
     -- local formatted = tostring(num)
     -- formatted = formatted:reverse():gsub("(%d%d%d)", "%1,"):reverse():gsub("^,","")
     -- return formatted
+end
+
+function BG.Copy(table)
+    if type(table) == "table" then
+        local t = {}
+        for k, v in pairs(table) do
+            if type(v) == "table" then
+                t[k] = BG.Copy(v) -- 递归拷贝子表
+            else
+                t[k] = v
+            end
+        end
+        return t
+    else
+        return table
+    end
 end

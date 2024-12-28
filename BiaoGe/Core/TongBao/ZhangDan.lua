@@ -228,17 +228,27 @@ local function CreateListTable(onClick, tbl1)
                         or (zhuangbei:GetText() ~= "" and (maijia:GetText() ~= "" or jine:GetText() ~= "")) then
                         local text
                         local jineText = jine:GetText()
-                        if jineText == "" then
+                        if jineText:gsub(" ", "") == "" then
                             jineText = 0
                         end
-                        local zb = zhuangbei:GetText()
-                        if b == Maxb[FB] and zb == "" then
-                            zb = L["罚款"]
+                        local maijiaText = maijia:GetText()
+                        local _r, _g, _b = maijia:GetTextColor()
+                        if maijiaText:gsub(" ", "") == "" or tonumber(maijiaText) then
+                            maijiaText = L["未知买家"]
+                            _r, _g, _b = .5, .5, .5
+                        end
+                        local zhuangbeiText = zhuangbei:GetText()
+                        if zhuangbeiText:gsub(" ", "") == "" then
+                            if b == Maxb[FB] then
+                                zhuangbeiText = L["罚款"]
+                            else
+                                zhuangbeiText = L["未知装备"]
+                            end
                         end
                         if onClick then
-                            text = zb .. " " .. (maijia:GetText()) .. " " .. jineText
+                            text = zhuangbeiText .. " " .. maijiaText .. " " .. jineText
                         else
-                            text = zb .. " " .. RGB_16(maijia:GetText(), unpack({ maijia:GetTextColor() })) .. " " .. jineText
+                            text = zhuangbeiText .. " " .. RGB_16(maijiaText, _r, _g, _b) .. " " .. jineText
                         end
                         table.insert(tbl_boss, text)
                     end
@@ -299,12 +309,17 @@ local function CreateListTable(onClick, tbl1)
             local zhuangbei = BG.Frame[FB]["boss" .. b]["zhuangbei" .. i]
             local jine = BG.Frame[FB]["boss" .. b]["jine" .. i]
             if zhuangbei then
-                if tonumber(jine:GetText()) and tonumber(jine:GetText()) ~= 0 then
+                local jineText = jine:GetText()
+                if tonumber(jineText) and tonumber(jineText) ~= 0 then
+                    local zhuangbeiText = zhuangbei:GetText()
+                    if zhuangbeiText:gsub(" ", "") == "" then
+                        zhuangbeiText = L["支出"]
+                    end
                     local text
                     if onClick then
-                        text = zhuangbei:GetText() .. " " .. jine:GetText()
+                        text = zhuangbeiText .. " " .. jineText
                     else
-                        text = BG.STC_g1(zhuangbei:GetText()) .. " " .. BG.STC_g1(jine:GetText())
+                        text = BG.STC_g1(zhuangbeiText) .. " " .. BG.STC_g1(jineText)
                     end
                     table.insert(tbl_boss, text)
                     num = num + 1

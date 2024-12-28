@@ -256,10 +256,7 @@ function BG.HopeUI(FB)
                                 GameTooltip:ClearLines()
                                 GameTooltip:SetItemByID(itemID)
                                 GameTooltip:Show()
-                                local h = { FB, itemID }
-                                BG.HistoryJine(unpack(h))
-                                BG.HistoryMOD = h
-
+                                BG.SetHistoryMoney(itemID)
 
                                 if IsControlKeyDown() then
                                     SetCursor("Interface/Cursor/Inspect")
@@ -271,12 +268,7 @@ function BG.HopeUI(FB)
                     bt:SetScript("OnLeave", function(self)
                         BG.HopeFrameDs[FB .. 1]["nandu" .. n]["boss" .. b]["ds" .. i]:Hide()
                         GameTooltip:Hide()
-                        if BG["HistoryJineFrameDB1"] then
-                            for i = 1, BG.HistoryJineFrameDBMax do
-                                BG["HistoryJineFrameDB" .. i]:Hide()
-                            end
-                            BG.HistoryJineFrame:Hide()
-                        end
+                        BG.HideHistoryMoney()
                         SetCursor(nil)
                         BG.canShowTrunToItemLibCursor = nil
                     end)
@@ -822,7 +814,7 @@ function BG.HopeUI(FB)
 end
 
 -- 查询心愿竞争的通讯功能
-BG.RegisterEvent("CHAT_MSG_ADDON", function(self, even, ...)
+BG.RegisterEvent("CHAT_MSG_ADDON", function(self, event, ...)
     local prefix, msg, distType, sender = ...
     if prefix ~= "BiaoGe" then return end
     if distType == "RAID" then -- 团队消息
@@ -858,7 +850,7 @@ BG.RegisterEvent("CHAT_MSG_ADDON", function(self, even, ...)
 end)
 
 -- 退队后装备竞争数字隐藏
-BG.RegisterEvent("GROUP_ROSTER_UPDATE", function(self, even)
+BG.RegisterEvent("GROUP_ROSTER_UPDATE", function(self, event)
     BG.After(1, function()
         if not IsInRaid(1) then
             for k, FB in pairs(BG.FBtable) do

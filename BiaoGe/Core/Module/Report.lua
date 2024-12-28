@@ -605,7 +605,7 @@ BG.Init(function()
                     self.Text:SetTextColor(1, 0, 0)
                 end
 
-                local function Filter(self, even, msg, player, l, cs, t, flag, channelId, ...)
+                local function Filter(self, event, msg, player, l, cs, t, flag, channelId, ...)
                     local name = msg:match(ERR_FRIEND_ADDED_S:gsub("%%s", "(.+)")) or
                         msg:match(ERR_FRIEND_ALREADY_S:gsub("%%s", "(.+)")) or
                         msg:match(ERR_FRIEND_ONLINE_SS:gsub("%%s", "(.+)"):gsub("%[", "%%["):gsub("%]", "%%]"))
@@ -619,7 +619,7 @@ BG.Init(function()
                 end
                 ChatFrame_AddMessageEventFilter("CHAT_MSG_SYSTEM", Filter)
 
-                BG.RegisterEvent("CHAT_MSG_SYSTEM", function(self, even, msg)
+                BG.RegisterEvent("CHAT_MSG_SYSTEM", function(self, event, msg)
                     local name = msg:match(ERR_FRIEND_ONLINE_SS:gsub("%%s", "(.+)"):gsub("%[", "%%["):gsub("%]", "%%]"))
                     if msg == ERR_FRIEND_ERROR then
                         for _, v in ipairs(db) do
@@ -642,7 +642,7 @@ BG.Init(function()
                     end
                 end)
                 -- 删除好友
-                BG.RegisterEvent("FRIENDLIST_UPDATE", function(self, even)
+                BG.RegisterEvent("FRIENDLIST_UPDATE", function(self, event)
                     for name in pairs(R.deleteFriends) do
                         -- 检查是否为未知好友
                         for errorName in pairs(R.errorDelete) do
@@ -821,8 +821,8 @@ BG.Init(function()
                     -- 底色材质
                     local f = buttons[ii][1]
                     f.ds = f:CreateTexture()
-                    f.ds:SetSize(scroll:GetWidth() - 10 - 3, f:GetHeight())
-                    f.ds:SetPoint("LEFT")
+                    f.ds:SetPoint("TOPLEFT", 0, 0)
+                    f.ds:SetPoint("BOTTOMRIGHT", buttons[ii][#title_table], "BOTTOMRIGHT", 0, 0)
                     f.ds:SetColorTexture(1, 1, 1, 0.1)
                     f.ds:Hide()
 
@@ -997,7 +997,7 @@ BG.Init(function()
                 end
             end)
             -- 举报完成时
-            BG.RegisterEvent("REPORT_PLAYER_RESULT", function(self, even)
+            BG.RegisterEvent("REPORT_PLAYER_RESULT", function(self, event)
                 if not (rp.yes and BiaoGe.options["report"] == 1) then return end
                 local _type
                 if rp.chattype == "saorao" then
@@ -1396,6 +1396,7 @@ BG.Init(function()
                 bt.text = L["全部举报"]
                 bt:SetText(bt.text)
                 bt:Hide()
+                BG.WhoFrameReportButton=bt
                 bt:SetScript("OnEnter", function(self)
                     GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT", 0, 0)
                     GameTooltip:ClearLines()
@@ -1408,7 +1409,7 @@ BG.Init(function()
                 bt:SetScript("OnLeave", GameTooltip_Hide)
                 bt:SetScript("OnClick", OnClick)
 
-                BG.RegisterEvent("WHO_LIST_UPDATE", function()
+                local function GetWho()
                     wipe(whoPlayersName)
                     local numWhos, totalCount = C_FriendList.GetNumWhoResults()
                     if numWhos and numWhos ~= 0 then
@@ -1421,11 +1422,20 @@ BG.Init(function()
                             end
                         end
                     end
+                    if #whoPlayersName ~= 0 then
+                        BG.WhoFrameReportButton:Enable()
+                    else
+                        BG.WhoFrameReportButton:Disable()
+                    end
+                end
+                BG.RegisterEvent("WHO_LIST_UPDATE", function()
+                    GetWho()
                 end)
 
                 WhoFrame:HookScript("OnShow", function(self)
                     if BiaoGe.options["report"] == 1 then
                         bt:Show()
+                        GetWho()
                     else
                         bt:Hide()
                     end
@@ -1470,7 +1480,7 @@ BG.Init(function()
                 f:RegisterEvent("CHAT_MSG_BN_WHISPER_INFORM")
                 f:RegisterEvent("CHAT_MSG_INSTANCE_CHAT")
                 f:RegisterEvent("CHAT_MSG_INSTANCE_CHAT_LEADER")
-                f:SetScript("OnEvent", function(self, even, ...)
+                f:SetScript("OnEvent", function(self, event, ...)
                     local _, name = ... -- name：某某某-服务器
                     if not strfind(name, "-") then
                         name = name .. "-" .. GetRealmName()
@@ -1500,7 +1510,7 @@ BG.Init(function()
                 end
             end)
 
-            ChatFrame_AddMessageEventFilter("CHAT_MSG_COMBAT_HONOR_GAIN", function(self, even, msg, player, l, cs, t, flag, channelId, ...)
+            ChatFrame_AddMessageEventFilter("CHAT_MSG_COMBAT_HONOR_GAIN", function(self, event, msg, player, l, cs, t, flag, channelId, ...)
                 local name = msg:match(COMBATLOG_HONORGAIN:gsub("%%s", "(.+)"):gsub("%%d", "(%%d+)"))
                 if killPlayerGUIDs[name] then
                     -- 如果曾经举报过，则举报链接的颜色改为灰色
@@ -1560,7 +1570,7 @@ BG.Init(function()
     else
         -- BiaoGe.Report = nil
         -- 举报完成时
-        BG.RegisterEvent("REPORT_PLAYER_RESULT", function(self, even)
+        BG.RegisterEvent("REPORT_PLAYER_RESULT", function(self, event)
             if BiaoGe.options["report"] ~= 1 then return end
             HideUIPanel(ReportFrame)
         end)

@@ -1,6 +1,7 @@
 local AddonName, ns = ...
 
 local L = ns.L
+local RGB = ns.RGB
 
 local pt = print
 
@@ -8,7 +9,8 @@ local LibBG = LibStub:GetLibrary("LibUIDropDownMenu-4.0") -- 调用库菜单UI
 ns.LibBG = LibBG
 
 C_ChatInfo.RegisterAddonMessagePrefix("BiaoGe")                                                -- 注册插件通信频道
-C_ChatInfo.RegisterAddonMessagePrefix("BiaoGeYY")                                              -- 注册插件通信频道（用于YY评价）
+C_ChatInfo.RegisterAddonMessagePrefix("BiaoGeYY")                                              
+C_ChatInfo.RegisterAddonMessagePrefix("BiaoGeVIP")
 
 BiaoGeTooltip = CreateFrame("GameTooltip", "BiaoGeTooltip", UIParent, "GameTooltipTemplate")   -- 用于装备过滤功能
 BiaoGeTooltip2 = CreateFrame("GameTooltip", "BiaoGeTooltip2", UIParent, "GameTooltipTemplate") -- 用于装备库
@@ -19,16 +21,6 @@ BiaoGeTooltip3 = CreateFrame("GameTooltip", "BiaoGeTooltip3", UIParent, "GameToo
 BINDING_HEADER_BIAOGE = "BiaoGe"
 BINDING_NAME_BIAOGE = L["显示/关闭表格"]
 
-local function RGB(hex)
-    local red = string.sub(hex, 1, 2)
-    local green = string.sub(hex, 3, 4)
-    local blue = string.sub(hex, 5, 6)
-
-    red = tonumber(red, 16) / 255
-    green = tonumber(green, 16) / 255
-    blue = tonumber(blue, 16) / 255
-    return red, green, blue
-end
 
 local realmID = GetRealmID()
 local player = UnitName("player")
@@ -72,6 +64,11 @@ if BG.IsWLK then
             ["抽象怪"] = true,
             ["九折"] = true,
             ["Bluebiu"] = true,
+            ["搞子"] = true,
+            -- [""] = true,
+            -- [""] = true,
+            -- [""] = true,
+            -- [""] = true,
             -- [""] = true,
             -- ["苍刃"] = true,
         },
@@ -630,8 +627,8 @@ do
             { ID = "countDownStop", name = "倒数暂停.mp3" },
             { ID = "HusbandComeOn", name = "老公加油.mp3" },
         }
-        for _, v in ipairs(BG.soundTbl) do
-            local name = v.ID
+        for _, vv in ipairs(BG.soundTbl) do
+            local name = vv.ID
             for _, v in ipairs(BG.soundTbl2) do
                 BG["sound_" .. v.ID .. name] = Interface .. name .. "\\" .. v.name
             end
@@ -810,7 +807,7 @@ local function DataBase()
         BiaoGe.playerInfo[realmID][player].class = select(2, UnitClass("player"))
         BiaoGe.playerInfo[realmID][player].level = UnitLevel("player")
 
-        BG.RegisterEvent("PLAYER_LEVEL_UP", function(self, even, level)
+        BG.RegisterEvent("PLAYER_LEVEL_UP", function(self, event, level)
             BiaoGe.playerInfo[realmID][player].level = level
         end)
     end
@@ -864,11 +861,10 @@ local function DataBase()
 end
 
 
-local frame = CreateFrame("Frame")
-frame:RegisterEvent("ADDON_LOADED")
-frame:SetScript("OnEvent", function(self, event, addonName)
+local f = CreateFrame("Frame")
+f:RegisterEvent("ADDON_LOADED")
+f:SetScript("OnEvent", function(self, event, addonName)
     if addonName == AddonName then
         DataBase()
     end
 end)
-
