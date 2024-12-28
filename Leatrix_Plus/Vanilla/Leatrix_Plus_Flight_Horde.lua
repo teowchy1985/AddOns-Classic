@@ -143,6 +143,7 @@
 				["0.67:0.30:0.44:0.19:0.55:0.57"] = 697, -- Revantusk Village, Undercity, Kargath
 				["0.67:0.30:0.62:0.31:0.55:0.57:0.43:0.93"] = 768, -- Revantusk Village, Hammerfall, Kargath, Booty Bay
 				["0.67:0.30:0.44:0.19:0.55:0.57:0.51:0.57"] = 752, -- Revantusk Village, Undercity, Kargath, Thorium Point
+				["0.67:0.30:0.44:0.19:0.55:0.57:0.61:0.75"] = 977, -- Revantusk Village, Undercity, Kargath, Stonard
 
 				-- Horde: Stonard (Swamp of Sorrows)
 				["0.61:0.75:0.43:0.93"] = 260, -- Stonard, Booty Bay
@@ -210,6 +211,7 @@
 				["0.51:0.57:0.55:0.57:0.44:0.19:0.49:0.27"] = 633, -- Thorium Point, Kargath, Undercity, Tarren Mill
 				["0.51:0.57:0.55:0.57:0.44:0.19:0.67:0.30"] = 775, -- Thorium Point, Kargath, Undercity, Revantusk Village
 				["0.51:0.57:0.55:0.57:0.43:0.93"] = 486, -- Thorium Point, Kargath, Booty Bay
+				["0.51:0.57:0.56:0.61:0.61:0.75:0.45:0.84"] = 474, -- Thorium Point, Flame Crest, Stonard, Grom'gol
 
 				-- Horde: Undercity (Tirisfal Glades)
 				["0.44:0.19:0.55:0.57:0.45:0.84:0.43:0.93"] = 880, -- Undercity, Kargath, Grom'gol, Booty Bay
@@ -363,7 +365,7 @@
 				["0.56:0.53:0.57:0.64"] = 162, -- Crossroads, Brackenwall Village
 				["0.56:0.53:0.53:0.61"] = 90, -- Crossroads, Camp Taurajo
 				["0.56:0.53:0.61:0.55"] = 52, -- Crossroads, Ratchet
-				["0.56:0.53:0.63:0.44"] = 142, -- Crossroads, Orgrimmar (Vasily Zaglyada reported 161, Kevin Burke reported 175)
+				["0.56:0.53:0.63:0.44"] = 142, -- Crossroads, Orgrimmar (Vasily Zaglyada reported 161, Kyle Reid reported 164, Kevin Burke reported 175)
 				["0.56:0.53:0.55:0.42"] = 162, -- Crossroads, Splintertree Post
 				["0.56:0.53:0.63:0.36"] = 168, -- Crossroads, Valormok
 				["0.56:0.53:0.63:0.36:0.64:0.23"] = 297, -- Crossroads, Valormok, Everlook
@@ -522,6 +524,7 @@
 				["0.54:0.21:0.64:0.23:0.63:0.36:0.56:0.53:0.44:0.69:0.42:0.79"] = 829, -- Moonglade, Everlook, Valormok, Crossroads, Camp Mojache, Cenarion Hold
 				["0.54:0.21:0.64:0.23:0.63:0.36:0.56:0.53"] = 448, -- Moonglade, Everlook, Valormok, Crossroads
 				["0.54:0.21:0.64:0.23:0.63:0.44:0.56:0.53:0.53:0.61"] = 646, -- Moonglade, Everlook, Orgrimmar, Crossroads, Camp Taurajo
+				["0.54:0.21:0.64:0.23:0.63:0.44:0.45:0.56"] = 671, -- Moonglade, Everlook, Orgrimmar, Thunder Bluff
 
 				-- Horde: Orgrimmar (Durotar)
 				["0.63:0.44:0.61:0.80"] = 417, -- Orgrimmar, Gadgetzan (Pavel Pavlov reported 436)
