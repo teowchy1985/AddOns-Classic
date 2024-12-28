@@ -2540,7 +2540,7 @@
         "Mixin",
         "BackdropTemplateMixin",
         "WOW_PROJECT_ID",
-        "CopyTable",
+        "BG.Copy",
         "SafePack",
         "SafeUnpack",
         "tContains",

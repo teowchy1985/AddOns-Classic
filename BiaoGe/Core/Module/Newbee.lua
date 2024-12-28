@@ -218,7 +218,7 @@ BG.Init2(function()
 end)
 
 -- 登出游戏时，如果状态为正在上传，则设置为已上传
-BG.RegisterEvent("PLAYER_LOGOUT", function(self, even)
+BG.RegisterEvent("PLAYER_LOGOUT", function(self, event)
     if not BG.ButtonNewBee.uploadstate and Size(BiaoGe.newbee_report) ~= 0 then
         BiaoGe.newbee_report.uploadstate = 1
     end

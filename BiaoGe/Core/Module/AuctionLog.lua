@@ -1471,7 +1471,7 @@ BG.Init(function()
             end
         end
     end
-    BG.RegisterEvent("CHAT_MSG_RAID_LEADER", function(self, even, ...)
+    BG.RegisterEvent("CHAT_MSG_RAID_LEADER", function(self, event, ...)
         local msg, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, languageID, lineID, guid = ...
         local zhuangbei, maijia, jine
         zhuangbei, maijia, jine = msg:match("{rt6}拍卖成功{rt6} (.-) (.-) (.+)")

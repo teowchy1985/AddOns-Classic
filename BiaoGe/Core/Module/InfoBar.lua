@@ -213,4 +213,39 @@ BG.Init(function()
             ChatEdit_ChooseBoxForSend():HighlightText()
         end)
     end
+
+    -- 新手盒子
+    do
+        local bt = CreateFrame("Button", nil, BG.MainFrame)
+        bt:SetSize(20, hight)
+        if lastBt then
+            bt:SetPoint("RIGHT", lastBt, "LEFT", -10, 0)
+        else
+            bt:SetPoint("BOTTOMRIGHT", -10, 1)
+        end
+        bt:SetNormalFontObject(BG.FontYellow13)
+        bt:SetHighlightFontObject(BG.FontWhite13)
+        bt:SetText(AddTexture("Interface\\AddOns\\BiaoGe\\Media\\icon\\BOX") .. L["新手盒子"])
+        bt:SetWidth(bt:GetFontString():GetStringWidth())
+        BG.ButtonBOX = bt
+        lastBt = bt
+
+        bt:SetScript("OnEnter", function(self)
+            GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT", 0, 0)
+            GameTooltip:ClearLines()
+            GameTooltip:AddLine(self:GetText(), 1, 1, 1, true)
+            GameTooltip:AddLine(L["集插件管理、配置分享、云端备份、游戏攻略、游戏工具于一体。"], 1, 0.82, 0, true)
+            GameTooltip:AddLine(L["你可以在这里更新BiaoGe插件。"], 1, 0.82, 0, true)
+            GameTooltip:AddLine(L["也可以在这里获取BiaoGeVIP订阅模块插件。"], 1, 0.82, 0, true)
+            GameTooltip:AddLine(L["（点击复制网址）"], 1, 0.82, 0, true)
+            GameTooltip:Show()
+        end)
+        bt:SetScript("OnLeave", GameTooltip_Hide)
+        bt:SetScript("OnClick", function(self)
+            BG.PlaySound(1)
+            ChatEdit_ActivateChat(ChatEdit_ChooseBoxForSend())
+            ChatEdit_ChooseBoxForSend():SetText("https://www.wclbox.com/")
+            ChatEdit_ChooseBoxForSend():HighlightText()
+        end)
+    end
 end)

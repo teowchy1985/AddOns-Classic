@@ -607,9 +607,10 @@ BG.Init(function()
         local function OnEnter(self)
             BG.YYMainFrame.my.all.button[self.num].ds:Show()
             if not self.onenter then return end
+            local r, g, b = self.Text:GetTextColor()
             GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT", 0, 0)
             GameTooltip:ClearLines()
-            GameTooltip:AddLine(self.onenter, 1, 1, 1, true)
+            GameTooltip:AddLine(self.onenter, r, g, b, true)
             GameTooltip:Show()
         end
         local function OnLeave(self)
@@ -816,7 +817,7 @@ BG.Init(function()
                 edit.Text:SetTextColor(RGB(BG.dis))
                 BG.OnUpdateTime(function(self, elapsed)
                     self.timeElapsed = self.timeElapsed + elapsed
-                    local time = format("%.1f", Y.lateTime + 0.5 - self.timeElapsed)
+                    local time = format("%.1f", Y.lateTime + 0.7 - self.timeElapsed)
                     bt:SetText(L["查询中 "] .. time)
 
                     if tonumber(time) <= 0 then
@@ -1143,9 +1144,10 @@ BG.Init(function()
             local function OnEnter(self)
                 BG.YYMainFrame.result.all.button[self.num].ds:Show()
                 if not self.onenter then return end
+                local r, g, b = self.Text:GetTextColor()
                 GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT", 0, 0)
                 GameTooltip:ClearLines()
-                GameTooltip:AddLine(self.onenter, 1, 1, 1, true)
+                GameTooltip:AddLine(self.onenter, r, g, b, true)
                 GameTooltip:Show()
             end
             local function OnLeave(self)
@@ -1295,7 +1297,7 @@ BG.Init(function()
             return CreateLink(yy:gsub("%s", ""))
         end
 
-        local function ChangSendLink(self, even, msg, player, l, cs, t, flag, channelId, ...)
+        local function ChangSendLink(self, event, msg, player, l, cs, t, flag, channelId, ...)
             if BiaoGe.YYdb.share ~= 1 then return end
             -- 进团5分钟内把纯数字转换为超链接
             local playerName = strsplit("-", player)
@@ -1496,7 +1498,7 @@ BG.Init(function()
         f:RegisterEvent("CHAT_MSG_RAID_WARNING")
         f:RegisterEvent("CHAT_MSG_RAID_LEADER")
         f:RegisterEvent("CHAT_MSG_WHISPER")
-        f:SetScript("OnEvent", function(self, even, msg, playerName, ...)
+        f:SetScript("OnEvent", function(self, event, msg, playerName, ...)
             if BiaoGe.YYdb.share ~= 1 then return end
             local playerName = strsplit("-", playerName)
             if not Y.IsLeader(playerName) then return end
@@ -2245,48 +2247,46 @@ local CDing = {}
 local f = CreateFrame("Frame")
 f:RegisterEvent("CHAT_MSG_ADDON")
 f:RegisterEvent("CHAT_MSG_CHANNEL")
-f:SetScript("OnEvent", function(self, even, ...)
+f:SetScript("OnEvent", function(self, event, ...)
     if BiaoGe.YYdb.share ~= 1 then return end
-    if even == "CHAT_MSG_ADDON" then
+    if event == "CHAT_MSG_ADDON" then
         if not BG.YYMainFrame.searchText then return end
-        local prefix, msg, distType, sender = ...
-        local sendername = strsplit("-", sender)
+        local prefix, msg, distType, senderFullName = ...
+        local sender = strsplit("-", senderFullName)
         if prefix ~= YY then return end
-        if BG.blackListPlayer[RealmName] and BG.blackListPlayer[RealmName][sendername] then
+        if BG.blackListPlayer[RealmName] and BG.blackListPlayer[RealmName][sender] then
             return
         end
         local date, pingjia, edit = strmatch(msg, "(%d+),(%d+),(.-),")
         pingjia = tonumber(pingjia)
         BG.YYMainFrame.searchText.sumpingjia[pingjia] = BG.YYMainFrame.searchText.sumpingjia[pingjia] + 1
-        if Size(BG.YYMainFrame.searchText.all) <= Y.maxSearchText then -- 最多收集300个评价详细
-            if BG.DeBug and BG.YYMainFrame.search.edit:GetText() == "34229022" and pingjia == 3 then
-                pt(sender, date, edit)
-            end
-            local a = { date = date, pingjia = pingjia, edit = edit }
-            tinsert(BG.YYMainFrame.searchText.all, a)
+        if #BG.YYMainFrame.searchText.all >= Y.maxSearchText then return end -- 最多收集300个评价详细
+        if BG.DeBug and BG.YYMainFrame.search.edit:GetText() == "34229022" and pingjia == 3 then
+            pt(senderFullName, date, edit)
         end
-    elseif even == "CHAT_MSG_CHANNEL" then
-        local text, sender, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName,
+        tinsert(BG.YYMainFrame.searchText.all, { date = date, pingjia = pingjia, edit = edit })
+    elseif event == "CHAT_MSG_CHANNEL" then
+        local text, senderFullName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName,
         languageID, lineID, guid, bnSenderID, isMobile, isSubtitle, hideSenderInLetterbox, supressRaidIcons = ...
         if channelBaseName ~= YY then return end
-        local sendername = strsplit("-", sender)
+        local sender = strsplit("-", senderFullName)
         local yy, date = strmatch(text, "yy(%d+),(%d+)")
-        if not yy or CDing[sendername] then return end
+        if not yy or CDing[sender] then return end
         for i, v in pairs(BiaoGe.YYdb.all) do
             if tonumber(yy) == tonumber(v.yy) and tonumber(v.date) >= tonumber(date) then
                 local resendtext = v.date .. "," .. v.pingjia .. "," .. v.edit .. ","
                 local randomtime = random(1, Y.lateTime * 10) * 0.1
                 C_Timer.After(randomtime, function()
-                    if sendername ~= UnitName("player") then
+                    if sender ~= UnitName("player") then
                         BiaoGe.YYdb.shareCount = BiaoGe.YYdb.shareCount + 1
                         BG.YYMainFrame.shareCountFrame.Text:SetText(format(L["你已共享|r |cff00FF00%s|r |cffffffff人次评价"], BiaoGe.YYdb.shareCount))
                         BG.YYMainFrame.shareCountFrame:SetWidth(BG.YYMainFrame.shareCountFrame.Text:GetStringWidth())
                         BG.YYMainFrame.shareCountFrame:SetHeight(BG.YYMainFrame.shareCountFrame.Text:GetStringHeight())
                     end
-                    C_ChatInfo.SendAddonMessage(YY, resendtext, "WHISPER", sender)
-                    CDing[sendername] = true
+                    C_ChatInfo.SendAddonMessage(YY, resendtext, "WHISPER", senderFullName)
+                    CDing[sender] = true
                     BG.After(2, function() -- 间隔x秒发一次
-                        CDing[sendername] = nil
+                        CDing[sender] = nil
                     end)
                 end)
                 return
@@ -2297,7 +2297,7 @@ end)
 
 local f = CreateFrame("Frame")
 f:RegisterEvent("CHANNEL_UI_UPDATE")
-f:SetScript("OnEvent", function(self, even)
+f:SetScript("OnEvent", function(self, event)
     local i = 1
     while _G["ChatFrame" .. i] do
         ChatFrame_RemoveChannel(_G["ChatFrame" .. i], YY)
@@ -2316,7 +2316,7 @@ f:SetScript("OnEvent", function(self, even)
     end
 end)
 
-BG.RegisterEvent("CHAT_MSG_CHANNEL_NOTICE", function(self, even, text, playerName, _, _, _, _, _, _, channelBaseName)
+BG.RegisterEvent("CHAT_MSG_CHANNEL_NOTICE", function(self, event, text, playerName, _, _, _, _, _, _, channelBaseName)
     if channelBaseName ~= YY then return end
     if text == "YOU_LEFT" then
         BiaoGe.YYdb.share = 0

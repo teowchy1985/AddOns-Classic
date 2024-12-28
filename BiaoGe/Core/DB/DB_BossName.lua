@@ -28,7 +28,7 @@ end
 -- Sod
 do
     if BG.IsVanilla_Sod then
-        local c="339900"
+        local c = "339900"
         local boss = {
             { name = L["奥\n妮\n克\n希\n亚"], color = "CC6600" },
             { name = L["艾\n索\n雷\n葛\n斯"], color = "0099FF" },
@@ -352,7 +352,7 @@ end
 
 --[[ local f = CreateFrame("Frame")
 f:RegisterEvent("PLAYER_LOGIN")
-f:SetScript("OnEvent", function(self, even)
+f:SetScript("OnEvent", function(self, event)
     local FB = "Temple"
     local boss = 8
 

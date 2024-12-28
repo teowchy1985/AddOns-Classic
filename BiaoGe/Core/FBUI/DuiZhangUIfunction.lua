@@ -227,12 +227,6 @@ function BG.DuiZhangZhuangBeiUI(FB, t, b, bb, i, ii)
     bt:SetScript("OnLeave", function(self)
         BG.DuiZhangFrameDs[FB .. 1]["boss" .. b]["ds" .. i]:Hide()
         GameTooltip:Hide()
-        if BG["HistoryJineFrameDB1"] then
-            for i = 1, BG.HistoryJineFrameDBMax do
-                BG["HistoryJineFrameDB" .. i]:Hide()
-            end
-            BG.HistoryJineFrame:Hide()
-        end
     end)
 end
 

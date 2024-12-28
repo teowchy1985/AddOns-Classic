@@ -844,7 +844,6 @@ BG.Init2(function()
             BG.GameTooltip_Hide(edit)
         end
 
-
         -- 发送
         do
             local function GetWhisperText(onlylevel)
@@ -1270,3 +1269,7 @@ BG.Init2(function()
         end)
     end
 end)
+
+-- local myText = "123"
+-- local t = _G["GameTooltipTextLeft1"]
+-- t:SetText(t:GetText() .. "\n" .. myText)

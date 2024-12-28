@@ -882,8 +882,8 @@ function BG.RoleOverviewUI()
         local f = CreateFrame("Frame")
         f:RegisterEvent("PLAYER_ENTERING_WORLD")
         f:RegisterEvent("ENCOUNTER_END")
-        f:SetScript("OnEvent", function(self, even, bossId, _, _, _, success)
-            if even ~= "ENCOUNTER_END" or (even == "ENCOUNTER_END" and success == 1) then
+        f:SetScript("OnEvent", function(self, event, bossId, _, _, _, success)
+            if event ~= "ENCOUNTER_END" or (event == "ENCOUNTER_END" and success == 1) then
                 BG.After(0.5, function()
                     RequestRaidInfo()
                 end)
@@ -894,8 +894,8 @@ function BG.RoleOverviewUI()
         f:RegisterEvent("PLAYER_ENTERING_WORLD")
         f:RegisterEvent("ENCOUNTER_END")
         f:RegisterEvent("UPDATE_INSTANCE_INFO")
-        f:SetScript("OnEvent", function(self, even, bossId, _, _, _, success)
-            if even ~= "ENCOUNTER_END" or (even == "ENCOUNTER_END" and success == 1) then
+        f:SetScript("OnEvent", function(self, event, bossId, _, _, _, success)
+            if event ~= "ENCOUNTER_END" or (event == "ENCOUNTER_END" and success == 1) then
                 BG.After(1, function()
                     BG.UpdateFBCD()
                     BG.UpdateFBCD_5M()
@@ -1446,13 +1446,13 @@ function BG.RoleOverviewUI()
         end
 
         -- 交任务时触发
-        BG.RegisterEvent("QUEST_TURNED_IN", function(self, even, questID)
+        BG.RegisterEvent("QUEST_TURNED_IN", function(self, event, questID)
             UpdateDayQuest(questID)
             UpdateWeekQuest(questID)
         end)
 
         -- 检查全部角色的任务重置cd是否到期（第二天凌晨7点）
-        BG.RegisterEvent("PLAYER_ENTERING_WORLD", function(self, even, isLogin, isReload)
+        BG.RegisterEvent("PLAYER_ENTERING_WORLD", function(self, event, isLogin, isReload)
             if isLogin or isReload then
                 if BG.IsVanilla_Sod then
                     local p, r = UnitFullName("player")
@@ -1526,7 +1526,7 @@ function BG.RoleOverviewUI()
             f:RegisterEvent("CURRENCY_DISPLAY_UPDATE")
             f:RegisterEvent("PLAYER_MONEY")
             f:RegisterEvent("BAG_UPDATE_DELAYED")
-            f:SetScript("OnEvent", function(self, even, ...)
+            f:SetScript("OnEvent", function(self, event, ...)
                 C_Timer.After(0.5, function()
                     BG.MONEYupdate()
                 end)
@@ -1568,7 +1568,7 @@ function BG.RoleOverviewUI()
 
         local f = CreateFrame("Frame")
         f:RegisterEvent("PLAYER_ENTERING_WORLD")
-        f:SetScript("OnEvent", function(self, even, ...)
+        f:SetScript("OnEvent", function(self, event, ...)
             C_Timer.After(1, function()
                 GetPlayerItemsLevel()
             end)
@@ -1576,7 +1576,7 @@ function BG.RoleOverviewUI()
 
         local f = CreateFrame("Frame")
         f:RegisterEvent("UNIT_INVENTORY_CHANGED")
-        f:SetScript("OnEvent", function(self, even, ...)
+        f:SetScript("OnEvent", function(self, event, ...)
             C_Timer.After(0.5, function()
                 GetPlayerItemsLevel()
             end)
@@ -1668,7 +1668,7 @@ function BG.RoleOverviewUI()
             end
 
             local _msg = TRADESKILL_LOG_FIRSTPERSON:gsub("%%s", "(.+)")
-            BG.RegisterEvent("CHAT_MSG_TRADESKILLS", function(self, even, msg)
+            BG.RegisterEvent("CHAT_MSG_TRADESKILLS", function(self, event, msg)
                 if not strfind(msg, _msg) then return end
                 GetCooldown()
             end)
@@ -1681,7 +1681,7 @@ function BG.RoleOverviewUI()
                 UpdateProfessionCD()
             end)
 
-            BG.RegisterEvent("SKILL_LINES_CHANGED", function(self, even)
+            BG.RegisterEvent("SKILL_LINES_CHANGED", function(self, event)
                 for profession, v in pairs(tbl) do
                     local isLearned
                     for i = 1, GetNumSkillLines() do

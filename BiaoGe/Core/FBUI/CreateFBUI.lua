@@ -5,11 +5,7 @@ local Size = ns.Size
 local RGB = ns.RGB
 local GetClassRGB = ns.GetClassRGB
 local SetClassCFF = ns.SetClassCFF
-local TongBao = ns.TongBao
-local XiaoFei = ns.XiaoFei
 local Classpx = ns.Classpx
-local WCLpm = ns.WCLpm
-local WCLcolor = ns.WCLcolor
 local Trade = ns.Trade
 local Maxt = ns.Maxt
 local Maxb = ns.Maxb
@@ -248,7 +244,6 @@ function BG.CreateFBUI(FB)
                 BG.ReceiveDiSeUI(FB, t, b, bb, i, ii)
             end
 
-
             BG.FBBossNameUI(FB, t, b, bb, nil, ii)
             BG.HistoryBossNameUI(FB, t, b, bb, nil, ii)
             BG.ReceiveBossNameUI(FB, t, b, bb, nil, ii)
@@ -305,7 +300,6 @@ function BG.CreateFBUI(FB)
             BG[GetFunctionName(frameName) .. "BossNameUI"](FB, t, b, nil, i, ii, frameName)
         end
     end
-
 
     BG.FBZhiChuZongLanGongZiUI(FB)
     BG.HistoryZhiChuZongLanGongZiUI(FB)

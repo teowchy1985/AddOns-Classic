@@ -475,9 +475,14 @@ function BG.FBZhuangBeiUI(FB, t, b, bb, i, ii, scrollFrame)
                 GameTooltip:ClearLines()
                 GameTooltip:SetItemByID(itemID)
                 GameTooltip:Show()
-                local h = { FB, itemID, true, BG.Frame[FB]["boss" .. BossNum(FB, b, t)]["jine" .. i]:GetText() }
-                BG.HistoryJine(unpack(h))
-                BG.HistoryMOD = h
+
+                local _r, _g, _b = BG.Frame[FB]["boss" .. BossNum(FB, b, t)]["maijia" .. i]:GetTextColor()
+                BG.SetHistoryMoney(
+                    itemID,
+                    BG.Frame[FB]["boss" .. BossNum(FB, b, t)]["jine" .. i]:GetText(),
+                    BG.Frame[FB]["boss" .. BossNum(FB, b, t)]["maijia" .. i]:GetText(),
+                    _r, _g, _b
+                )
 
                 HighlightBiaoGeSameItems(itemID, self)
 
@@ -508,12 +513,7 @@ function BG.FBZhuangBeiUI(FB, t, b, bb, i, ii, scrollFrame)
         self.isEnter = false
         BG.FrameDs[FB .. 1]["boss" .. BossNum(FB, b, t)]["ds" .. i]:Hide()
         GameTooltip:Hide()
-        if BG["HistoryJineFrameDB1"] then
-            for i = 1, BG.HistoryJineFrameDBMax do
-                BG["HistoryJineFrameDB" .. i]:Hide()
-            end
-            BG.HistoryJineFrame:Hide()
-        end
+        BG.HideHistoryMoney()
         BG.Hide_AllHighlight()
         SetCursor(nil)
         BG.canShowTrunToItemLibCursor = false

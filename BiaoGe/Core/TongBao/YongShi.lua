@@ -97,11 +97,11 @@ function BG.YongShiUI(lastbt)
     local f = CreateFrame("Frame")
     f:RegisterEvent("ENCOUNTER_START")
     f:RegisterEvent("BOSS_KILL")
-    f:SetScript("OnEvent", function(self, even, ID)
+    f:SetScript("OnEvent", function(self, event, ID)
         if not BG.FB2 then return end
-        if even == "ENCOUNTER_START" then
+        if event == "ENCOUNTER_START" then
             timestart = GetTime()
-        elseif even == "BOSS_KILL" then
+        elseif event == "BOSS_KILL" then
             if timestart then
                 local time = GetTime() - timestart
                 local m, s = math.modf(time / 60)

@@ -230,7 +230,7 @@ function BG.WCLUI(lastbt)
     return bt
 end
 
-local function AddWCLColor(self, even, msg, player, l, cs, t, flag, channelId, ...)
+local function AddWCLColor(self, event, msg, player, l, cs, t, flag, channelId, ...)
     if not yes then return false, msg, player, l, cs, t, flag, channelId, ... end
     local num, name, wcl, pm = strsplit(" ", msg)
     if num and name and wcl then

@@ -182,21 +182,14 @@ function BG.HistoryZhuangBeiUI(FB, t, b, bb, i, ii, scrollFrame)
                 GameTooltip:ClearLines()
                 GameTooltip:SetItemByID(itemID);
                 GameTooltip:Show()
-                local h = { FB, itemID }
-                BG.HistoryJine(unpack(h))
-                BG.HistoryMOD = h
+                BG.SetHistoryMoney(itemID)
             end
         end
     end)
     bt:SetScript("OnLeave", function(self)
         BG.HistoryFrameDs[FB .. 1]["boss" .. BossNum(FB, b, t)]["ds" .. i]:Hide()
         GameTooltip:Hide()
-        if BG["HistoryJineFrameDB1"] then
-            for i = 1, BG.HistoryJineFrameDBMax do
-                BG["HistoryJineFrameDB" .. i]:Hide()
-            end
-            BG.HistoryJineFrame:Hide()
-        end
+        BG.HideHistoryMoney()
     end)
 end
 

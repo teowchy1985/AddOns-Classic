@@ -54,7 +54,7 @@ function BG.Init(func)
     f:RegisterEvent("ADDON_LOADED")
     f:SetScript("OnEvent", function(self, event, addonName)
         if addonName ~= AddonName then return end
-		self:UnregisterEvent("ADDON_LOADED")
+        self:UnregisterEvent("ADDON_LOADED")
         func()
     end)
 end
@@ -62,9 +62,9 @@ end
 function BG.Init2(func)
     local f = CreateFrame("Frame")
     f:RegisterEvent("PLAYER_ENTERING_WORLD")
-    f:SetScript("OnEvent", function(self, even, isLogin, isReload)
+    f:SetScript("OnEvent", function(self, event, isLogin, isReload)
         if not (isLogin or isReload) then return end
-		self:UnregisterEvent("PLAYER_ENTERING_WORLD")
+        self:UnregisterEvent("PLAYER_ENTERING_WORLD")
         func()
     end)
 end
@@ -112,20 +112,4 @@ end
 
 if UnitFactionGroup("player") == "Horde" then
     BG.IsHorde = true
-end
-
-function BG.Copy(table)
-    if type(table) == "table" then
-        local t = {}
-        for k, v in pairs(table) do
-            if type(v) == "table" then
-                t[k] = BG.Copy(v) -- 递归拷贝子表
-            else
-                t[k] = v
-            end
-        end
-        return t
-    else
-        return table
-    end
 end

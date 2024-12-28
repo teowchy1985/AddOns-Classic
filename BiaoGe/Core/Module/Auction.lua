@@ -82,14 +82,7 @@ BG.Init(function()
                 end
                 ii = ii + 1
                 local line = 2
-                local Ver = L["无"]
-                for _name, ver in pairs(self.table) do
-                    if name == _name then
-                        Ver = ver
-                        break
-                    end
-                end
-
+                local Ver=self.table[name] or L["无"]
                 local r, g, b = GetClassColor(class)
                 GameTooltip:AddDoubleLine(name, Ver, r, g, b, 1, 1, 1)
                 if Ver == L["无"] then
@@ -120,12 +113,15 @@ BG.Init(function()
         GameTooltip:AddLine(" ")
         local raid = BG.PaiXuRaidRosterInfo()
         for i, v in ipairs(raid) do
-            local Ver
-            if v.online then
-                Ver = L["无"]
-            else
-                Ver = L["未知"]
+            local Ver=self.table[v.name]
+            if not Ver then
+                if v.online then
+                    Ver = L["无"]
+                else
+                    Ver = L["未知"]
+                end
             end
+
             if self.isAuciton then
                 if sending[v.name] then
                     Ver = L["正在接收拍卖WA"]
@@ -135,13 +131,7 @@ BG.Init(function()
                 end
             end
 
-            for name, ver in pairs(self.table) do
-                if v.name == name then
-                    Ver = ver
-                    break
-                end
-            end
-
+            local vip = self.table2[v.name] and AddTexture("VIP") or ""
             local role = ""
             local y
             if v.rank == 2 then
@@ -153,7 +143,7 @@ BG.Init(function()
                 role = role .. AddTexture("interface/groupframe/ui-group-masterlooter", y)
             end
             local c1, c2, c3 = GetClassRGB(v.name)
-            GameTooltip:AddDoubleLine(v.name .. role, Ver, c1, c2, c3, 1, 1, 1)
+            GameTooltip:AddDoubleLine(v.name .. role..vip, Ver, c1, c2, c3, 1, 1, 1)
             if Ver == L["无"] or Ver == L["未知"] then
                 local alpha = 0.4
                 if _G["GameTooltipTextLeft" .. (i + line)] then
@@ -678,6 +668,7 @@ BG.Init(function()
         BG.guildClass = {}
         BG.raidBiaoGeVersion = {}
         BG.raidAuctionVersion = {}
+        BG.raidBiaoGeVIPVersion = {}
 
         -- 会员插件
         local guild = CreateFrame("Frame", nil, BG.MainFrame)
@@ -688,6 +679,7 @@ BG.Init(function()
             guild.title = L["BiaoGe版本"] .. "(" .. GUILD .. ")"
             guild.title2 = GUILD .. L["插件：%s"]
             guild.table = BG.guildBiaoGeVersion
+            guild.isGuild = true
             guild:SetScript("OnEnter", Guild_OnEnter)
             BG.GameTooltip_Hide(guild)
             guild.text = guild:CreateFontString()
@@ -706,6 +698,8 @@ BG.Init(function()
             addon.title = L["BiaoGe版本"] .. "(" .. RAID .. ")"
             addon.title2 = L["插件：%s"]
             addon.table = BG.raidBiaoGeVersion
+            addon.table2 = BG.raidBiaoGeVIPVersion
+            addon.isAddon = true
             addon:SetScript("OnEnter", Addon_OnEnter)
             addon.text = addon:CreateFontString()
             addon.text:SetFont(STANDARD_TEXT_FONT, 13, "OUTLINE")
@@ -727,6 +721,7 @@ BG.Init(function()
             auction.title = L["拍卖WA版本"]
             auction.title2 = L["拍卖：%s"]
             auction.table = BG.raidAuctionVersion
+            auction.table2 = BG.raidBiaoGeVIPVersion
             auction.isAuciton = true
             auction:SetScript("OnEnter", Addon_OnEnter)
             auction.text = auction:CreateFontString()
@@ -746,8 +741,8 @@ BG.Init(function()
         f:RegisterEvent("CHAT_MSG_SYSTEM")
         f:RegisterEvent("CHAT_MSG_ADDON")
         f:RegisterEvent("PLAYER_ENTERING_WORLD")
-        f:SetScript("OnEvent", function(self, even, ...)
-            if even == "GROUP_ROSTER_UPDATE" then
+        f:SetScript("OnEvent", function(self, event, ...)
+            if event == "GROUP_ROSTER_UPDATE" then
                 BG.After(1, function()
                     if IsInRaid(1) then
                         C_ChatInfo.SendAddonMessage("BiaoGe", "MyVer-" .. BG.ver, "RAID")
@@ -757,7 +752,7 @@ BG.Init(function()
                     end
                     UpdateGuildFrame(guild)
                 end)
-            elseif even == "GUILD_ROSTER_UPDATE" then
+            elseif event == "GUILD_ROSTER_UPDATE" then
                 BG.After(1, function()
                     for i = 1, GetNumGuildMembers() do
                         local name, rankName, rankIndex, level, classDisplayName, zone,
@@ -775,7 +770,7 @@ BG.Init(function()
                     end
                     UpdateGuildFrame(guild)
                 end)
-            elseif even == "CHAT_MSG_SYSTEM" then -- 如果团队里有人退出，就删掉
+            elseif event == "CHAT_MSG_SYSTEM" then -- 如果团队里有人退出，就删掉
                 local text = ...
                 local leave = ERR_RAID_MEMBER_REMOVED_S:gsub("%%s", "(.+)")
                 local name = strmatch(text, leave)
@@ -783,16 +778,17 @@ BG.Init(function()
                     name = strsplit("-", name)
                     BG.raidBiaoGeVersion[name] = nil
                     BG.raidAuctionVersion[name] = nil
+                    BG.raidBiaoGeVIPVersion[name] = nil
                     UpdateAddonFrame(addon)
                     UpdateAddonFrame(auction)
                 end
-            elseif even == "CHAT_MSG_ADDON" then
-                local prefix, msg, distType, sender = ...
-                local sendername = strsplit("-", sender)
+            elseif event == "CHAT_MSG_ADDON" then
+                local prefix, msg, distType, senderFullName = ...
+                local sender = strsplit("-", senderFullName)
                 if prefix == "BiaoGe" and distType == "GUILD" then
                     if strfind(msg, "MyVer") then
                         local _, version = strsplit("-", msg)
-                        BG.guildBiaoGeVersion[sendername] = version
+                        BG.guildBiaoGeVersion[sender] = version
                         UpdateGuildFrame(guild)
                     end
                 elseif prefix == "BiaoGe" and distType == "RAID" then -- 插件版本
@@ -800,25 +796,30 @@ BG.Init(function()
                         C_ChatInfo.SendAddonMessage("BiaoGe", "MyVer-" .. BG.ver, "RAID")
                     elseif strfind(msg, "MyVer") then
                         local _, version = strsplit("-", msg)
-                        BG.raidBiaoGeVersion[sendername] = version
+                        BG.raidBiaoGeVersion[sender] = version
                         UpdateAddonFrame(addon)
                     end
                 elseif prefix == "BiaoGeAuction" and distType == "RAID" then -- 拍卖版本
                     local arg1, version = strsplit(",", msg)
                     if arg1 == "MyVer" then
-                        BG.raidAuctionVersion[sendername] = version
+                        BG.raidAuctionVersion[sender] = version
                         UpdateAddonFrame(auction)
-                        if sendDone[sendername] then
-                            sendDone[sendername] = nil
-                            if not notShowSendingText[sendername] and sendingCount[sendername] <= 2 then
-                                BG.SendSystemMessage(format(BG.STC_g1(L["%s已成功导入拍卖WA。"]), SetClassCFF(sendername)))
+                        if sendDone[sender] then
+                            sendDone[sender] = nil
+                            if not notShowSendingText[sender] and sendingCount[sender] <= 2 then
+                                BG.SendSystemMessage(format(BG.STC_g1(L["%s已成功导入拍卖WA。"]), SetClassCFF(sender)))
                             end
                             UpdateOnEnter(BG.ButtonRaidAuction)
                             UpdateOnEnter(BG.StartAucitonFrame)
                         end
                     end
+                elseif prefix == "BiaoGeVIP" and distType == "RAID" then -- VIP版本
+                    if strfind(msg, "MyVer") then
+                        local _, version = strsplit("-", msg)
+                        BG.raidBiaoGeVIPVersion[sender] = version
+                    end
                 end
-            elseif even == "PLAYER_ENTERING_WORLD" then
+            elseif event == "PLAYER_ENTERING_WORLD" then
                 local isLogin, isReload = ...
                 if not (isLogin or isReload) then return end
                 C_Timer.After(3, function()
@@ -1074,7 +1075,7 @@ BG.Init(function()
     end
 
     -- WA链接版本提醒
-    local function ChangSendLink(self, even, msg, player, l, cs, t, flag, channelId, ...)
+    local function ChangSendLink(self, event, msg, player, l, cs, t, flag, channelId, ...)
         if not _G.BGA.ver then
             return false, msg, player, l, cs, t, flag, channelId, ...
         end
