@@ -1,6 +1,6 @@
 ﻿
 	----------------------------------------------------------------------
-	-- 	Leatrix Maps 4.0.39 (18th December 2024)
+	-- 	Leatrix Maps 4.0.40 (25th December 2024)
 	----------------------------------------------------------------------
 
 	-- 10:Func, 20:Comm, 30:Evnt, 40:Panl
@@ -12,7 +12,7 @@
 	local LeaMapsLC, LeaMapsCB, LeaDropList, LeaConfigList, LeaLockList = {}, {}, {}, {}, {}
 
 	-- Version
-	LeaMapsLC["AddonVer"] = "4.0.39"
+	LeaMapsLC["AddonVer"] = "4.0.40"
 
 	-- Get locale table
 	local void, Leatrix_Maps = ...
@@ -45,6 +45,15 @@
 
 	-- Main function
 	function LeaMapsLC:MainFunc()
+
+		-- Reset map position if default map is enabled (WorldMapTitleDropdown_Reset)
+		if LeaMapsLC["UseDefaultMap"] == "On" then
+			WorldMapFrame:ClearAllPoints()
+			WorldMapFrame:SetPoint("TOPLEFT", UIParent, "TOPLEFT", 16, -104)
+			WorldMapScreenAnchor:ClearAllPoints()
+			WorldMapScreenAnchor:SetPoint("TOPLEFT", UIParent, "TOPLEFT", 16, -104)
+			WorldMapFrame:SetUserPlaced(false)
+		end
 
 		-- Replace map toggle function
 		WorldMapFrame.HandleUserActionToggleSelf = function()
@@ -2633,7 +2642,7 @@
 			LeaMapsCB["SetMapOpacity"].tiptext = LeaMapsCB["SetMapOpacity"].tiptext .. "|n|n|cff00AAFF" .. L["Cannot be used with Use default map.|n|nTo adjust map opacity, right-click the map frame title bar."]
 
 			LeaMapsLC:LockItem(LeaMapsCB["UnlockMapFrame"], true)
-			LeaMapsCB["UnlockMapFrame"].tiptext = LeaMapsCB["UnlockMapFrame"].tiptext .. "|n|n|cff00AAFF" .. L["Cannot be used with Use default map.|n|nTo move the map, right-click the map frame title bar to unlock it then drag the map frame title bar."]
+			LeaMapsCB["UnlockMapFrame"].tiptext = LeaMapsCB["UnlockMapFrame"].tiptext .. "|n|n|cff00AAFF" .. L["Cannot be used with Use default map."]
 
 			LeaMapsLC:LockItem(LeaMapsCB["StickyMapFrame"], true)
 			LeaMapsCB["StickyMapFrame"].tiptext = LeaMapsCB["StickyMapFrame"].tiptext .. "|n|n|cff00AAFF" .. L["Cannot be used with Use default map."]
@@ -3784,12 +3793,6 @@
 				end
 			end
 
-			-- Lock and disable use default map option due to a bug in the game which prevents map movement
-			LeaMapsLC:LockItem(LeaMapsCB["UseDefaultMap"], true)
-			LeaMapsCB["UseDefaultMap"].tiptext = LeaMapsCB["UseDefaultMap"].tiptext .. "|n|n|cff00AAFF" .. "This setting cannot be used at the moment."
-			LeaMapsLC["UseDefaultMap"] = "Off"
-			LeaMapsDB["UseDefaultMap"] = "Off"
-
 		elseif event == "PLAYER_ENTERING_WORLD" then
 			-- Run main function
 			LeaMapsLC:MainFunc()
@@ -3994,17 +3997,27 @@
 	-- Add reset map position button
 	local resetMapPosBtn = LeaMapsLC:CreateButton("resetMapPosBtn", PageF, "Reset Map Layout", "BOTTOMLEFT", 16, 10, 25, "Click to reset the position and scale of the map frame.")
 	resetMapPosBtn:HookScript("OnClick", function()
-		if not WorldMapFrame:IsMaximized() then
-			-- Reset map position
-			LeaMapsLC["MapPosA"], LeaMapsLC["MapPosR"], LeaMapsLC["MapPosX"], LeaMapsLC["MapPosY"] = "CENTER", "CENTER", 0, 20
-			WorldMapFrame:ClearAllPoints()
-			WorldMapFrame:SetPoint(LeaMapsLC["MapPosA"], UIParent, LeaMapsLC["MapPosR"], LeaMapsLC["MapPosX"], LeaMapsLC["MapPosY"])
-			WorldMapTitleButton_OnDragStop()
-			-- Reset map scale
-			LeaMapsLC["MapScale"] = 1
-			LeaMapsLC:SetDim()
-			LeaMapsLC["PageF"]:Hide(); LeaMapsLC["PageF"]:Show()
-			WorldMapFrame:SetScale(LeaMapsLC["MapScale"])
-			WorldMapFrame:OnFrameSizeChanged()
+		if LeaMapsDB["UseDefaultMap"] == "On" then -- Check global in case use default map option reload is pending
+			if not WorldMapFrame:IsMaximized() then
+				WorldMapFrame:ClearAllPoints()
+				WorldMapFrame:SetPoint("TOPLEFT", UIParent, "TOPLEFT", 16, -104)
+				WorldMapScreenAnchor:ClearAllPoints()
+				WorldMapScreenAnchor:SetPoint("TOPLEFT", UIParent, "TOPLEFT", 16, -104)
+				WorldMapFrame:SetUserPlaced(false)
+			end
+		else
+			if not WorldMapFrame:IsMaximized() then
+				-- Reset map position
+				LeaMapsLC["MapPosA"], LeaMapsLC["MapPosR"], LeaMapsLC["MapPosX"], LeaMapsLC["MapPosY"] = "CENTER", "CENTER", 0, 20
+				WorldMapFrame:ClearAllPoints()
+				WorldMapFrame:SetPoint(LeaMapsLC["MapPosA"], UIParent, LeaMapsLC["MapPosR"], LeaMapsLC["MapPosX"], LeaMapsLC["MapPosY"])
+				WorldMapTitleButton_OnDragStop()
+				-- Reset map scale
+				LeaMapsLC["MapScale"] = 1
+				LeaMapsLC:SetDim()
+				LeaMapsLC["PageF"]:Hide(); LeaMapsLC["PageF"]:Show()
+				WorldMapFrame:SetScale(LeaMapsLC["MapScale"])
+				WorldMapFrame:OnFrameSizeChanged()
+			end
 		end
 	end)
