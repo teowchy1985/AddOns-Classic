@@ -141,6 +141,100 @@ data["SoD PvP"] = {
 	TableType = SET_ITTYPE,
 	gameVersion = AtlasLoot.CLASSIC_VERSION_NUM,
 	items = {
+		{ -- PVPWeapons
+			name = AL["Level 60 Rank 14 Weapons"],
+			TableType = NORMAL_ITTYPE,
+			[ALLIANCE_DIFF] = {
+				{ 1, 234580 }, -- Grand Marshal's Handaxe 
+				{ 2, 234566 }, -- Grand Marshal's Sunderer
+				{ 3, 234582 }, -- Grand Marshal's Dirk
+				{ 4, 235479 }, -- Grand Marshal's Shiv
+				{ 5, 234574 }, -- Grand Marshal's Mageblade
+				{ 6, 234583 }, -- Grand Marshal's Right Hand Blade
+				{ 7, 234584 }, -- Grand Marshal's Left Hand Blade
+				{ 8, 234581 }, -- Grand Marshal's Punisher
+				{ 9, 235481 }, -- Grand Marshal's Hacker
+				{ 10, 235480 }, -- Grand Marshal's Bonecracker
+				{ 11, 234576 }, -- Grand Marshal's Warhammer
+				{ 12, 234568 }, -- Grand Marshal's Demolisher
+				{ 13, 234567 }, -- Grand Marshal's Battle Hammer
+				{ 14, 234578 }, -- Grand Marshal's Longsword
+				{ 15, 234579 }, -- Grand Marshal's Swiftblade
+				{ 16, 234565 }, -- Grand Marshal's Claymore
+				{ 17, 234569 }, -- Grand Marshal's Glaive
+				{ 18, 234570 }, -- Grand Marshal's Polearm
+				{ 19, 234571 }, -- Grand Marshal's Stave
+				{ 20, 234585 }, -- Grand Marshal's Bullseye
+				{ 21, 234586 }, -- Grand Marshal's Repeater
+				{ 22, 234587 }, -- Grand Marshal's Hand Cannon
+				{ 23, 234588 }, -- Grand Marshal's Aegis
+				{ 24, 235473 }, -- Grand Marshal's Barricade
+				{ 25, 234589 }, -- Grand Marshal's Tome of Power
+				{ 26, 234590 }, -- Grand Marshal's Tome of Restoration
+			},
+			[HORDE_DIFF] = {
+				{ 1, 234554 }, -- High Warlord's Cleaver
+				{ 2, 234543 }, -- High Warlord's Battle Axe
+				{ 3, 235476 }, -- High Warlord's Hacker
+				{ 4, 234556 }, -- High Warlord's Razor
+				{ 5, 235478 }, -- High Warlord's Razor
+				{ 6, 234550 }, -- High Warlord's Spellblade
+				{ 7, 234557 }, -- High Warlord's Right Claw
+				{ 8, 234558 }, -- High Warlord's Left Claw
+				{ 9, 234555 }, -- High Warlord's Bludgeon
+				{ 10, 234551 }, -- High Warlord's Battle Mace
+				{ 11, 235477 }, -- High Warlord's Bonecracker
+				{ 12, 234546 }, -- High Warlord's Destroyer
+				{ 13, 234545 }, -- High Warlord's Pulverizer
+				{ 14, 234552 }, -- High Warlord's Blade
+				{ 15, 234553 }, -- High Warlord's Quickblade
+				{ 16, 234542 }, -- High Warlord's Greatsword
+				{ 17, 234547 }, -- High Warlord's Pig Sticker
+				{ 18, 234548 }, -- High Warlord's Pig Poker
+				{ 19, 234549 }, -- High Warlord's War Staff
+				{ 20, 234559 }, -- High Warlord's Recurve
+				{ 21, 234560 }, -- High Warlord's Crossbow
+				{ 22, 234561 }, -- High Warlord's Street Sweeper
+				{ 23, 234562 }, -- High Warlord's Shield Wall
+				{ 24, 235474 }, -- High Warlord's Barricade
+				{ 25, 234563 }, -- High Warlord's Tome of Destruction
+				{ 26, 234563 }, -- High Warlord's Tome of Mending
+			},
+		},
+		{
+			name = AL["Level 60 Rank 12 Sets"],
+			[NORMAL_DIFF] = {
+				{ 1, "INV_Box_01", nil, AL["Alliance"], nil },
+				{ 2, 1740 }, --Mage
+				{ 3, 1741 }, --Priest caster
+				{ 4, 1742 }, --Priest healer
+				{ 5, 1746 }, --Warlock
+				{ 6, 1735 }, --Druid caster
+				{ 7, 1736 }, --Druid healer
+				{ 8, 1737 }, --Druid melee
+				{ 9, 1743 }, -- Rogue
+				{ 10, 1738 }, --Hunter melee
+				{ 11, 1739 }, --Hunter ranged
+				{ 12, 1747 }, --Warrior
+				{ 13, 1745 }, --Paladin healer
+				{ 14, 1744 }, --Paladin melee
+				{ 16, "INV_Box_01", nil, AL["Horde"], nil },
+				{ 17, 1727 }, --Mage
+				{ 18, 1728 }, --Priest caster
+				{ 19, 1729 }, --Priest healer
+				{ 20, 1734 }, --Warlock
+				{ 21, 1723 }, --Druid caster
+				{ 22, 1724 }, --Druid healer
+				{ 23, 1722 }, --Druid melee
+				{ 24, 1730 }, --Rogue
+				{ 25, 1726 }, --Hunter melee
+				{ 26, 1725 }, --Hunter ranged
+				{ 27, 1732 }, --Shaman caster
+				{ 28, 1733 }, --Shaman healer
+				{ 29, 1731 }, --Shaman melee
+				{ 30, 1721 }, --Warrior
+			},
+		},
 		{
 			name = AL["Level 60 Rank 10 Sets"],
 			[NORMAL_DIFF] = {

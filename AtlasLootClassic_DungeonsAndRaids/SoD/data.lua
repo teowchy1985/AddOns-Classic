@@ -7940,6 +7940,40 @@ data["MoltenCore2"] = {
 				{ 122, 227765 }, -- 
 			},
 		},
+		{ -- MCTrashMobs
+			name = AL["Trash"],
+			ExtraList = true,
+			[SOD_DIFF] = {
+				{ 1, 17011 }, -- Lava Core
+				{ 2, 17010 }, -- Fiery Core
+				{ 3, 11382 }, -- Blood of the Mountain
+				{ 4, 17012 }, -- Core Leather
+			},
+			[NORMAL_DIFF] = {
+				{ 1,  16817 }, -- Girdle of Prophecy
+				{ 2,  16802 }, -- Arcanist Belt
+				{ 3,  16806 }, -- Felheart Belt
+				{ 4,  16827 }, -- Nightslayer Belt
+				{ 5,  16828 }, -- Cenarion Belt
+				{ 6,  16851 }, -- Giantstalker's Belt
+				{ 7,  16838 }, -- Earthfury Belt
+				{ 8,  16858 }, -- Lawbringer Belt
+				{ 9,  16864 }, -- Belt of Might
+				{ 12, 17011 }, -- Lava Core
+				{ 13, 17010 }, -- Fiery Core
+				{ 14, 11382 }, -- Blood of the Mountain
+				{ 15, 17012 }, -- Core Leather
+				{ 16, 16819 }, -- Vambraces of Prophecy
+				{ 17, 16799 }, -- Arcanist Bindings
+				{ 18, 16804 }, -- Felheart Bracers
+				{ 19, 16825 }, -- Nightslayer Bracelets
+				{ 20, 16830 }, -- Cenarion Bracers
+				{ 21, 16850 }, -- Giantstalker's Bracers
+				{ 22, 16840 }, -- Earthfury Bracers
+				{ 23, 16857 }, -- Lawbringer Bracers
+				{ 24, 16861 }, -- Bracers of Might
+			},
+		},
 		{ -- MCRANDOMBOSSDROPS
 			name = AL["All bosses"],
 			ExtraList = true,
