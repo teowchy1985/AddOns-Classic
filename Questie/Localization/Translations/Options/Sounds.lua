@@ -170,6 +170,30 @@ local soundsOptionsLocales = {
         ["esES"] = "El sonido que escuchas cuando avanzas en un objetivo de misión",
         ["frFR"] = "Le son que vous entendez lorsque vous progressez sur un objectif de quête",
     },
+    ["Progress Sound Delay"] = {
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = "Fortschritts-Sound-Verzögerung",
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["zhCN"] = false,
+        ["zhTW"] = "延遲播放進度音效",
+        ["esES"] = false,
+        ["frFR"] = false,
+    },
+    ["Delay (in seconds, default: %s) for playing objective progress and completion sounds. Increase this if you hear double sounds."] = {
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = "Verzögerung (in Sekunden, Voreinstellung: %s) beim Abspielen von Quest-Ziel-Fortschritts-Sounds. Diesen Wert erhöhen, falls Sounds doppelt abgespielt werden.",
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["zhCN"] = false,
+        ["zhTW"] = "延遲播放任務目標進度音效和任務完成音效 (單位為秒，預設值: %s)。如果聽到重複的音效，請增加此數值。",
+        ["esES"] = false,
+        ["frFR"] = false,
+    },
 }
 
 for k, v in pairs(soundsOptionsLocales) do
