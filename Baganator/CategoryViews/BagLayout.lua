@@ -62,10 +62,11 @@ local function Prearrange(isLive, bagID, bag, bagType, isGrouping)
       if info.itemID ~= nil then
         local location = {bagID = bagID, slotIndex = slotIndex}
         info.setInfo = addonTable.ItemViewCommon.GetEquipmentSetInfo(location, info.itemLink)
-        if info.setInfo or not isGrouping then -- force ungrouping when appropriate
+        if info.setInfo then
           info.guid = C_Item.GetItemGUID(location)
-        end
-        if info.hasLoot and not info.isBound then
+        elseif not isGrouping and C_Item.DoesItemExist(location) then
+          info.guid = C_Item.GetItemGUID(location)
+        elseif info.hasLoot and not info.isBound then
           -- Ungroup lockboxes always
           local classID, subClassID = select(6, C_Item.GetItemInfoInstant(info.itemID))
           if classID == Enum.ItemClass.Miscellaneous and subClassID == 0 then
@@ -181,13 +182,7 @@ end
 function addonTable.CategoryViews.BagLayoutMixin:Display(bagWidth, bagIndexes, bagTypes, composed, emptySlotsOrder, emptySlotsByType, bagWidth, sideSpacing, topSpacing)
   local container = self:GetParent()
 
-  local layoutCount = 0
-  for _, details in ipairs(composed.details) do
-    if details.type == "category" then
-      layoutCount = layoutCount + 1
-    end
-  end
-  while #container.LiveLayouts < layoutCount do
+  local function AllocateLayout()
     table.insert(container.LiveLayouts, CreateFrame("Frame", nil, container.Container, "BaganatorLiveCategoryLayoutTemplate"))
     if container.liveItemButtonPool then
       container.LiveLayouts[#container.LiveLayouts]:SetPool(container.liveItemButtonPool)
@@ -320,14 +315,21 @@ function addonTable.CategoryViews.BagLayoutMixin:Display(bagWidth, bagIndexes, b
 
   local activeLayouts
 
+  local function IsSectionToggled(section)
+    for i = 1, #section do
+      if sectionToggled[section[i]] then
+        return true
+      end
+    end
+    return false
+  end
+
   if container.isLive then
-    -- Ensure we don't overflow the preallocated buttons by returning all
-    -- buttons no longer needed by a particular group
     for index, details in pairs(composed.details) do
       if details.results and #details.results > 0 then
         local layout = FindValueInTableIf(container.LiveLayouts, function(a) return a.sourceKey == details.sourceKey end)
         if layout then
-          if hidden[details.source] or sectionToggled[details.section] then
+          if hidden[details.source] or IsSectionToggled(details.section) then
             layout:DeallocateUnusedButtons({})
           else
             layout:DeallocateUnusedButtons(details.results)
@@ -335,6 +337,8 @@ function addonTable.CategoryViews.BagLayoutMixin:Display(bagWidth, bagIndexes, b
         end
       end
     end
+    -- Ensure we don't overflow the preallocated buttons by returning all
+    -- buttons no longer needed by a particular group
     for _, layout in ipairs(container.LiveLayouts) do
       if not sourceKeysInUse[layout.sourceKey] then
         layout:DeallocateUnusedButtons({})
@@ -347,7 +351,7 @@ function addonTable.CategoryViews.BagLayoutMixin:Display(bagWidth, bagIndexes, b
     activeLayouts = container.LiveLayouts
   else
     for _, layout in ipairs(container.CachedLayouts) do
-      if not sourceKeysInUse[layout.sourceKey] then
+      if not sourceKeysInUse[layout.sourceKey] or IsSectionToggled(layout.section) then
         layout:Hide()
       end
     end
@@ -360,54 +364,62 @@ function addonTable.CategoryViews.BagLayoutMixin:Display(bagWidth, bagIndexes, b
   container.layoutsBySourceKey = {}
 
   local layoutsShown, activeLabels = {}, {}
-  local inactiveSections = {}
+
   for index, details in ipairs(composed.details) do
     if details.type == "divider" then
-      if inactiveSections[details.section] then
-        table.insert(layoutsShown, {}) -- {} causes the packing code to ignore this
-      else
-        table.insert(layoutsShown, (self.dividerPool:Acquire()))
-        layoutsShown[#layoutsShown].type = details.type
-      end
+      table.insert(layoutsShown, (self.dividerPool:Acquire()))
+      layoutsShown[#layoutsShown].type = details.type
+      layoutsShown[#layoutsShown].section = details.section
     elseif details.type == "section" then
-      -- Check whether the section has any non-empty items in it
-      local itemCount = 0
-      if index < #composed.details then
-        for i = index + 1, #composed.details do
-          local d = composed.details[i]
-          if d.section ~= details.label then
-            break
-          elseif d.type == "category" and #d.results > 0 and not hidden[d.source] then
-            itemCount = itemCount + (d.oldLength or #d.results)
+      if not IsSectionToggled(details.section) then
+        -- Check whether the section has any non-empty items in it
+        local itemCount = 0
+        local any = false
+        local level = #details.section + 1
+        if index < #composed.details then
+          for i = index + 1, #composed.details do
+            local d = composed.details[i]
+            if d.section[level] ~= details.label then
+              break
+            elseif d.type == "category" and #d.results > 0 and not hidden[d.source] then
+              itemCount = itemCount + (d.oldLength or #d.results)
+              any = true -- keep section active if blank slots in it
+            end
           end
         end
-      end
-      inactiveSections[details.label] = itemCount == 0 -- saved to hide any inside dividers
-      if itemCount > 0 then
-        local button = self.sectionButtonPool:Acquire()
-        if sectionToggled[details.label] then
-          button:SetText(details.label .. " " .. LIGHTGRAY_FONT_COLOR:WrapTextInColorCode("(" .. itemCount .. ")"))
-          button:SetCollapsed()
+        if itemCount > 0 or any then
+          local button = self.sectionButtonPool:Acquire()
+          if sectionToggled[details.label] then
+            button:SetText(details.label .. " " .. LIGHTGRAY_FONT_COLOR:WrapTextInColorCode("(" .. itemCount .. ")"))
+            button:SetCollapsed()
+          else
+            button:SetText(details.label)
+            button:SetExpanded()
+          end
+          button:SetScript("OnClick", function()
+            local sectionToggled = addonTable.Config.Get(addonTable.Config.Options.CATEGORY_SECTION_TOGGLED)
+            sectionToggled[details.label] = not sectionToggled[details.label]
+            addonTable.Config.Set(addonTable.Config.Options.CATEGORY_SECTION_TOGGLED, CopyTable(sectionToggled))
+          end)
+          button.section = details.section
+          table.insert(layoutsShown, button)
+          button.type = details.type
         else
-          button:SetText(details.label)
-          button:SetExpanded()
+          table.insert(layoutsShown, {}) -- {} causes the packing code to ignore this
         end
-        button:SetScript("OnClick", function()
-          local sectionToggled = addonTable.Config.Get(addonTable.Config.Options.CATEGORY_SECTION_TOGGLED)
-          sectionToggled[details.label] = not sectionToggled[details.label]
-          addonTable.Config.Set(addonTable.Config.Options.CATEGORY_SECTION_TOGGLED, CopyTable(sectionToggled))
-        end)
-        table.insert(layoutsShown, button)
-        button.type = details.type
       else
         table.insert(layoutsShown, {}) -- {} causes the packing code to ignore this
       end
     elseif details.type == "category" then
-      if #details.results > 0 and not hidden[details.source] and not sectionToggled[details.section] then
+      if #details.results > 0 and not hidden[details.source] and not IsSectionToggled(details.section) then
         local searchResults = details.results
         local layout = FindValueInTableIf(activeLayouts, function(a) return a.sourceKey == details.sourceKey end)
         if not layout then
           layout = FindValueInTableIf(activeLayouts, function(a) return not sourceKeysInUse[a.sourceKey] end)
+        end
+        if not layout then
+          AllocateLayout()
+          layout = activeLayouts[#activeLayouts]
         end
         layout:ShowGroup(details.results, math.min(bagWidth, #details.results), details.source)
         table.insert(layoutsShown, layout)
