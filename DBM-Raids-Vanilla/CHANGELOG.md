@@ -1,10 +1,8 @@
 # DBM - Vanilla and Season of Discovery
 
-## [r773](https://github.com/DeadlyBossMods/DBM-Vanilla/tree/r773) (2024-12-27)
-[Full Changelog](https://github.com/DeadlyBossMods/DBM-Vanilla/compare/r772...r773) [Previous Releases](https://github.com/DeadlyBossMods/DBM-Vanilla/releases)
+## [r774](https://github.com/DeadlyBossMods/DBM-Vanilla/tree/r774) (2025-01-02)
+[Full Changelog](https://github.com/DeadlyBossMods/DBM-Vanilla/compare/r773...r774) [Previous Releases](https://github.com/DeadlyBossMods/DBM-Vanilla/releases)
 
-- Fix bad spellname  
-- Naxx: Split stats by normal/heroic/mythic on SoD  
-- Razuvious: Add var timer for shout and minor SoD update  
-- Remove patch 11.0.5 and add patch 11.1  
-- SoD: Add Scarlet Enclave instance ID to load on demand list  
+- Ouro: Add timer and warning for huge eye  
+    (I didn't notice it in the combat log at first, but there is a viable SPELL\_DAMAGE trigger)  
+- AQ Trash: Add a few more spell IDs from detect magic  
