@@ -1,6 +1,7 @@
 # Baganator
 
-## [597](https://github.com/Baganator/Baganator/tree/597) (2025-01-04)
-[Full Changelog](https://github.com/Baganator/Baganator/compare/596...597) 
+## [604](https://github.com/Baganator/Baganator/tree/604) (2025-01-07)
+[Full Changelog](https://github.com/Baganator/Baganator/compare/603...604) 
 
-- Fix wrong function being used to load item data  
+- Retail: Auto open bags when at item upgrade NPC (configurable)  
+- Fix race condition triggering error due to item having moved  

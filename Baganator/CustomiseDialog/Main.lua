@@ -172,6 +172,11 @@ local ICON_OPTIONS = {
     text = BAGANATOR_L_MARK_UNUSABLE_ITEMS_IN_RED,
     option = "icon_mark_unusable",
   },
+  {
+    type = "checkbox",
+    text = BAGANATOR_L_FADE_ITEMS_NOT_MATCHING_SITUATION,
+    option = "icon_context_fading",
+  },
   { type = "spacing" },
   {
     type = "slider",
@@ -242,6 +247,12 @@ local OPEN_CLOSE_OPTIONS = {
     type = "checkbox",
     text = BAGANATOR_L_VENDOR,
     option = "auto_open.merchant",
+  },
+  {
+    type = "checkbox",
+    text = BAGANATOR_L_ITEM_UPGRADE,
+    option = "auto_open.item_upgrade",
+    check = IsRetailCheck,
   },
   {
     type = "checkbox",
@@ -661,7 +672,7 @@ function BaganatorCustomiseDialogMixin:SetupGeneral()
   do
     local DONATE_OPTIONS = {{
       type = "header",
-      text = BAGANATOR_L_CONSIDER_SUPPORTING_DEVELOPMENT,
+      text = BAGANATOR_L_DEVELOPMENT_IS_TIME_CONSUMING,
       level = 2,
     }}
     local optionFrames = GenerateFrames(DONATE_OPTIONS, frame)
@@ -678,7 +689,7 @@ function BaganatorCustomiseDialogMixin:SetupGeneral()
     text:SetText(BAGANATOR_L_DONATE)
     text:SetJustifyH("RIGHT")
 
-    local donateLinkDialog = "Baganator_General_Settings_Discord_Dialog"
+    local donateLinkDialog = "Baganator_General_Settings_Donate_Dialog"
     StaticPopupDialogs[donateLinkDialog] = {
       text = BAGANATOR_L_CTRL_C_TO_COPY,
       button1 = DONE,

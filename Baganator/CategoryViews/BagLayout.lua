@@ -59,11 +59,11 @@ local function Prearrange(isLive, bagID, bag, bagType, isGrouping)
         info.tooltipGetter = function() return C_TooltipInfo.GetBagItem(bagID, slotIndex) end
       end
       info.isJunkGetter = junkPlugin and function() local _, result = pcall(junkPlugin, bagID, slotIndex, info.itemID, info.itemLink); return result == true end
-      if info.itemID ~= nil then
-        local location = {bagID = bagID, slotIndex = slotIndex}
+      local location = {bagID = bagID, slotIndex = slotIndex}
+      if info.itemID ~= nil and C_Item.DoesItemExist(location) then
         info.setInfo = addonTable.ItemViewCommon.GetEquipmentSetInfo(location, info.itemLink)
         info.refundable = C_Item.CanBeRefunded(location)
-        if info.setInfo or not isGrouping or info.refundable then
+        if info.setInfo or not isGrouping then
           info.guid = C_Item.GetItemGUID(location)
         elseif info.hasLoot and not info.isBound then
           -- Ungroup lockboxes always
@@ -90,7 +90,7 @@ local function Prearrange(isLive, bagID, bag, bagType, isGrouping)
         linkMap[info.itemLink] = info.keyLink
       end
       info.keyNoGUID = addonTable.ItemViewCommon.Utilities.GetCategoryDataKeyNoCount(info)
-      info.key = info.keyNoGUID .. info.guid
+      info.key = info.keyNoGUID .. info.guid .. "_" .. tostring(info.refundable)
       table.insert(everything, info)
     else
       table.insert(emptySlots, {bagID = bagID, itemCount = 1, slotID = slotIndex, key = bagType, bagType = bagType, keyLink = bagType})
@@ -275,7 +275,7 @@ function addonTable.CategoryViews.BagLayoutMixin:Display(bagWidth, bagIndexes, b
       local current = composed.details[index]
       if current.source ~= old.source or
         (current.source and (current.source ~= addonTable.CategoryViews.Constants.RecentItemsCategory)
-          and not old.emptySlots and old.oldLength and old.oldLength < #current.results) then
+          and not old.emptySlots and (old.oldLength or #old.results) < #current.results) then
         for _, item in ipairs(current.results) do -- Put returning items back where they were before
           -- Check if the exact item existed before, or at least a similar one
           -- (for warband transfers)
@@ -506,7 +506,7 @@ function addonTable.CategoryViews.BagLayoutMixin:Layout(allBags, bagWidth, bagTy
     if addonTable.Config.Get(addonTable.Config.Options.DEBUG_TIMERS) then
       addonTable.Utilities.DebugOutput("stackables", debugprofilestop() - s0)
     end
-    if state ~= self.state or Syndicator.API.IsBagEventPending() then
+    if state ~= self.state then
       return
     end
 

@@ -45,6 +45,7 @@ function addonTable.ItemButtonUtil.UpdateSettings()
   iconSettings = {
     markJunk = addonTable.Config.Get("icon_grey_junk"),
     equipmentSetBorder = addonTable.Config.Get("icon_equipment_set_border"),
+    contextFading = addonTable.Config.Get("icon_context_fading"),
   }
 
   local junkPluginID = addonTable.Config.Get("junk_plugin")
@@ -431,40 +432,38 @@ local function ApplyNewItemAnimation(self, quality)
   end
 end
 
-local function SetItemContextMatch(self, callback)
+local function GetItemContextMatch(self)
   if self.BGR and self.BGR.itemID and self.BGR.itemLocation and C_Item.DoesItemExist(self.BGR.itemLocation) then
-    self.BGR.contextMatch = true
-
-    local show = true
+    local needsData = false
 
     local bankFrame = addonTable.ViewManagement.GetBankFrame()
     if addonTable.Constants.IsRetail and bankFrame and bankFrame.currentTab.isLive and bankFrame.Warband:IsVisible() then
-      self.BGR.contextMatch = C_Bank.IsItemAllowedInBankType(Enum.BankType.Account, self.BGR.itemLocation)
-    elseif C_PlayerInteractionManager.IsInteractingWithNpcOfType(Enum.PlayerInteractionType.Auctioneer) then
+      return C_Bank.IsItemAllowedInBankType(Enum.BankType.Account, self.BGR.itemLocation)
+    elseif addonTable.Compatibility.Context.Auctioneer then
       local auctionable = addonTable.Utilities.IsAuctionable(self.BGR)
       if auctionable == nil then
-        show = false
+        needsData = true
       else
-        self.BGR.contextMatch = auctionable
+        return auctionable
       end
-    elseif addonTable.Constants.IsRetail and C_PlayerInteractionManager.IsInteractingWithNpcOfType(Enum.PlayerInteractionType.MailInfo) and addonTable.Compatibility.SendMailShowing then
-      self.BGR.contextMatch = not self.BGR.isBound or C_Bank.IsItemAllowedInBankType(Enum.BankType.Account, self.BGR.itemLocation)
-    elseif C_PlayerInteractionManager.IsInteractingWithNpcOfType(Enum.PlayerInteractionType.Merchant) then
-      self.BGR.contextMatch = not self.BGR.hasNoValue or (C_Item.DoesItemExist(self.BGR.itemLocation) and C_Item.CanBeRefunded(self.BGR.itemLocation))
-    elseif C_PlayerInteractionManager.IsInteractingWithNpcOfType(Enum.PlayerInteractionType.GuildBanker) then
-      self.BGR.contextMatch = not self.BGR.isBound and (not addonTable.Constants.IsRetail or not C_Item.IsBoundToAccountUntilEquip(self.BGR.itemLocation))
-    elseif addonTable.Compatibility.SocketInterfaceOpen then
-      self.BGR.contextMatch = (select(6, C_Item.GetItemInfoInstant(self.BGR.itemID)) == Enum.ItemClass.Gem)
+    elseif addonTable.Constants.IsRetail and addonTable.Compatibility.Context.MailInfo and addonTable.Compatibility.Context.SendMail then
+      return not self.BGR.isBound or C_Bank.IsItemAllowedInBankType(Enum.BankType.Account, self.BGR.itemLocation)
+    elseif addonTable.Compatibility.Context.Merchant then
+      return not self.BGR.hasNoValue or (C_Item.DoesItemExist(self.BGR.itemLocation) and C_Item.CanBeRefunded(self.BGR.itemLocation))
+    elseif addonTable.Compatibility.Context.GuildBanker then
+      return not self.BGR.isBound and (not addonTable.Constants.IsRetail or not C_Item.IsBoundToAccountUntilEquip(self.BGR.itemLocation))
+    elseif addonTable.Compatibility.Context.Socket then
+      return (select(6, C_Item.GetItemInfoInstant(self.BGR.itemID)) == Enum.ItemClass.Gem)
     end
 
-    if not show then -- Missing item/spell data
+    if needsData then -- Missing item/spell data
       QueueWidget(function()
-        self:BGRUpdateItemContextMatching()
+        self:UpdateItemContextMatching()
       end)
-      return
+      return false
     end
-    callback()
   end
+  return true
 end
 
 BaganatorRetailCachedItemButtonMixin = {}
@@ -573,6 +572,15 @@ function BaganatorRetailLiveContainerItemButtonMixin:MyOnLoad()
   self:HookScript("OnShow", self.OnShowHook)
   self:HookScript("OnHide", self.OnHideHook)
 
+  self.GetItemContextMatchResult = function()
+    return (
+      not iconSettings.contextFading or
+
+      ItemButtonUtil.GetItemContextMatchResultForItem({bagID = self:GetBagID(), slotIndex = self:GetID()})
+        ~= ItemButtonUtil.ItemContextMatchResult.Mismatch and
+      GetItemContextMatch(self)
+    ) and ItemButtonUtil.ItemContextMatchResult.Match or ItemButtonUtil.ItemContextMatchResult.Mismatch
+  end
   hooksecurefunc(self, "UpdateItemContextOverlay", self.PostUpdateItemContextOverlay)
 
   self:HookScript("OnEnter", function(self)
@@ -630,33 +638,16 @@ function BaganatorRetailLiveContainerItemButtonMixin:PostClickHook()
 end
 
 function BaganatorRetailLiveContainerItemButtonMixin:OnShowHook()
-  addonTable.CallbackRegistry:RegisterCallback("ItemContextChanged", self.BGRUpdateItemContextMatching, self)
-  self:BGRUpdateItemContextMatching()
+  addonTable.CallbackRegistry:RegisterCallback("ItemContextChanged", self.OnItemContextChanged, self)
 end
 
 function BaganatorRetailLiveContainerItemButtonMixin:OnHideHook()
   addonTable.CallbackRegistry:UnregisterCallback("ItemContextChanged", self)
 end
 
-function BaganatorRetailLiveContainerItemButtonMixin:BGRUpdateItemContextMatching()
-  SetItemContextMatch(self, function()
-    self:UpdateItemContextOverlay()
-    self:PostUpdateItemContextOverlay()
-  end)
-end
-
 function BaganatorRetailLiveContainerItemButtonMixin:PostUpdateItemContextOverlay()
-  if self.BGR ~= nil and self.BGR.contextMatch == false then
-    self:UpdateItemContextOverlayTextures(ItemButtonConstants.ContextMatch.Standard)
-    self.ItemContextOverlay:Show()
-  end
-
   if self.widgetContainer then
-    if self.ItemContextOverlay:IsShown() then
-      SetWidgetsAlpha(self, false)
-    else
-      SetWidgetsAlpha(self, self.BGR == nil or self.BGR.matchesSearch ~= false)
-    end
+    SetWidgetsAlpha(self, not self.ItemContextOverlay:IsShown() and (self.BGR == nil or self.BGR.matchesSearch ~= false))
   end
 end
 
@@ -714,9 +705,11 @@ function BaganatorRetailLiveContainerItemButtonMixin:SetItemDetails(cacheData)
   GetInfo(self, cacheData, function()
     self.BGR.tooltipGetter = function() return C_TooltipInfo.GetBagItem(self:GetBagID(), self:GetID()) end
     local itemLocation = ItemLocation:CreateFromBagAndSlot(self:GetParent():GetID(), self:GetID())
-    self.BGR.setInfo = addonTable.ItemViewCommon.GetEquipmentSetInfo(itemLocation, self.BGR.itemLink)
-    self.BGR.itemLocation = itemLocation
-    self.BGR.refundable = C_Item.DoesItemExist(itemLocation) and C_Item.CanBeRefunded(itemLocation)
+    if C_Item.DoesItemExist(itemLocation) then
+      self.BGR.setInfo = addonTable.ItemViewCommon.GetEquipmentSetInfo(itemLocation, self.BGR.itemLink)
+      self.BGR.itemLocation = itemLocation
+      self.BGR.refundable = C_Item.CanBeRefunded(itemLocation)
+    end
 
     self.BGR.hasNoValue = noValue
 
@@ -725,7 +718,6 @@ function BaganatorRetailLiveContainerItemButtonMixin:SetItemDetails(cacheData)
   end, function()
     self:BGRUpdateQuests()
     self:UpdateItemContextMatching();
-    self:BGRUpdateItemContextMatching();
     local doNotSuppressOverlays = false
     self:SetItemButtonQuality(quality, itemLink, doNotSuppressOverlays, isBound);
     ReparentOverlays(self)
@@ -1044,26 +1036,17 @@ function BaganatorClassicLiveContainerItemButtonMixin:MyOnLoad()
 end
 
 function BaganatorClassicLiveContainerItemButtonMixin:OnShowHook()
-  addonTable.CallbackRegistry:RegisterCallback("ItemContextChanged", self.BGRUpdateItemContextMatching, self)
-  self:BGRUpdateItemContextMatching()
+  addonTable.CallbackRegistry:RegisterCallback("ItemContextChanged", self.UpdateItemContextMatching, self)
 end
 
 function BaganatorClassicLiveContainerItemButtonMixin:OnHideHook()
   addonTable.CallbackRegistry:UnregisterCallback("ItemContextChanged", self)
 end
 
-function BaganatorClassicLiveContainerItemButtonMixin:BGRUpdateItemContextMatching()
-  self.ItemContextOverlay:Hide()
-  SetItemContextMatch(self, function()
-    self.ItemContextOverlay:SetShown(not self.BGR.contextMatch)
-    if self.widgetContainer then
-      if self.ItemContextOverlay:IsShown() then
-        SetWidgetsAlpha(self, false)
-      else
-        SetWidgetsAlpha(self, self.BGR == nil or self.BGR.matchesSearch ~= false)
-      end
-    end
-  end)
+function BaganatorClassicLiveContainerItemButtonMixin:UpdateItemContextMatching()
+  self.ItemContextOverlay:SetShown(
+    iconSettings.contextFading and not GetItemContextMatch(self)
+  )
 end
 
 function BaganatorClassicLiveContainerItemButtonMixin:GetInventorySlot()
@@ -1162,6 +1145,7 @@ function BaganatorClassicLiveContainerItemButtonMixin:SetItemDetails(cacheData)
   end
 
   self.searchOverlay:SetShown(false);
+  self.ItemContextOverlay:Hide()
   SetWidgetsAlpha(self, true)
 
   GetInfo(self, cacheData, function()
@@ -1177,8 +1161,10 @@ function BaganatorClassicLiveContainerItemButtonMixin:SetItemDetails(cacheData)
       end)
     end
     local itemLocation = ItemLocation:CreateFromBagAndSlot(self:GetParent():GetID(), self:GetID())
-    self.BGR.setInfo = addonTable.ItemViewCommon.GetEquipmentSetInfo(itemLocation, self.BGR.itemLink)
-    self.BGR.itemLocation = itemLocation
+    if C_Item.DoesItemExist(itemLocation) then
+      self.BGR.setInfo = addonTable.ItemViewCommon.GetEquipmentSetInfo(itemLocation, self.BGR.itemLink)
+      self.BGR.itemLocation = itemLocation
+    end
 
     if C_Engraving and C_Engraving.IsEngravingEnabled() then
       self.BGR.isEngravable = false
@@ -1198,7 +1184,7 @@ function BaganatorClassicLiveContainerItemButtonMixin:SetItemDetails(cacheData)
     self.BGR.hasNoValue = noValue
   end, function()
     self:BGRUpdateQuests()
-    self:BGRUpdateItemContextMatching();
+    self:UpdateItemContextMatching()
   end)
 end
 
