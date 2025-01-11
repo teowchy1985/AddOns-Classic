@@ -110,6 +110,10 @@ local function AddTexture(Texture, y, coord)
         tex = "Interface\\GossipFrame\\AvailableQuestIcon"
     elseif Texture == "VIP" then -- 黄色感叹号
         return "|TInterface\\AddOns\\BiaoGe\\Media\\icon\\VIP:0:0:0:0:100:100:10:90:10:90|t"
+    elseif Texture == "BOX" then
+        tex = "Interface\\AddOns\\BiaoGe\\Media\\icon\\BOX"
+    elseif Texture == "DD" then
+        tex = "Interface\\AddOns\\BiaoGe\\Media\\icon\\DD"
     else
         tex = Texture
     end

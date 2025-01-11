@@ -138,8 +138,6 @@ BG.Init(function()
                     while _G["BiaoGeTooltip3TextLeft" .. ii] do
                         local tx = _G["BiaoGeTooltip3TextLeft" .. ii]:GetText()
                         if tx then
-                            -- local time = "哈哈50分钟嘿嘿"
-                            -- local time = "哈哈1小时50分钟嘿嘿"
                             local time = tx:match(BIND_TRADE_TIME_REMAINING:gsub("%%s", "(.+)"))
                             if time then
                                 local h = tonumber(time:match("(%d+)" .. L["小时"]))
@@ -162,8 +160,8 @@ BG.Init(function()
             end
         end
         -- test
-        --[[         BG.itemGuoQiFrame.tbl = {
-            { time = 120, link = "|cffa335ee|Hitem:45289::::::::80:::::::::|h[生命火花面甲]|h|r", itemID = 45289, b = 0, i = 1 },
+--[[        BG.itemGuoQiFrame.tbl = {
+            { time = 120, link = "|cffa335ee|Hitem:45485::::::::80:::::::::|h[生命火花面甲]|h|r", itemID = 45485, b = 0, i = 1 },
             { time = 90, link = "|cffa335ee|Hitem:45289::::::::80:::::::::|h[生命火花面甲]|h|r", itemID = 45289, b = 0, i = 1 },
             { time = 28, link = "|cffa335ee|Hitem:45289::::::::80:::::::::|h[生命火花面甲]|h|r", itemID = 45289, b = 0, i = 1 },
             { time = 28, link = "|cffa335ee|Hitem:45289::::::::80:::::::::|h[生命火花面甲]|h|r", itemID = 45289, b = 0, i = 1 },
@@ -244,11 +242,13 @@ BG.Init(function()
                 GameTooltip:ClearLines()
                 GameTooltip:SetBagItem(b, i)
                 BG.Show_AllHighlight(link, "outtime")
+                BG.SetHistoryMoney(itemID)
             end)
             f:SetScript("OnLeave", function()
                 ds:Hide()
                 GameTooltip:Hide()
                 BG.Hide_AllHighlight()
+                BG.HideHistoryMoney()
             end)
 
             local icon = f:CreateTexture(nil, 'ARTWORK')

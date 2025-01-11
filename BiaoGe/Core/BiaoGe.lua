@@ -726,6 +726,8 @@ BG.Init(function()
 
                 BG.ButtonQingKong:SetParent(self)
                 BG.ButtonQingKong:SetEnabled(false)
+                -- BG.ButtonQingKong:Disable()
+
                 if not BG.IsVanilla then
                     LibBG:UIDropDownMenu_DisableDropDown(BG.NanDuDropDown.DropDown)
                 end
@@ -2265,9 +2267,6 @@ BG.Init(function()
             bgFile = "Interface/ChatFrame/ChatFrameBackground",
             edgeFile = "Interface/ChatFrame/ChatFrameBackground",
             edgeSize = 1,
-            -- edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
-            -- edgeSize = 16,
-            -- insets = { left = 3, right = 3, top = 3, bottom = 3 }
         })
         f:SetBackdropColor(0, 0, 0, 0.7)
         f:SetBackdropBorderColor(0, 0, 0, 1)
@@ -2344,7 +2343,6 @@ BG.Init(function()
                     GameTooltip:AddLine(L["|cffFFFFFF右键：|r删除该记录"], 1, 0.82, 0)
                     GameTooltip:Show()
                 end)
-                BG.GameTooltip_Hide(bt)
                 bt:SetScript("OnLeave", function(self)
                     GameTooltip:Hide()
                 end)
@@ -2382,12 +2380,12 @@ BG.Init(function()
         end)
 
 
-
         -- 导出并举报
         local whoText
+        -- local bt = BG.CreateButton(WhoFrame)
         local bt = CreateFrame("Button", nil, WhoFrame, "UIPanelButtonTemplate")
         bt:SetSize(100, 25)
-        bt:SetPoint("TOPRIGHT", WhoFrame, "TOPRIGHT", -20, -27)
+        bt:SetPoint("TOPRIGHT", WhoFrame, "TOPRIGHT", -20, -25)
         bt:SetText(L["导出名单"])
         BG.WhoFrameSendOutButton = bt
         bt:SetScript("OnEnter", function(self)
@@ -3351,6 +3349,8 @@ BG.Init(function()
                         BiaoGe[FB]["boss" .. b]["qiankuan" .. i] = nil
                         BiaoGe[FB]["boss" .. b]["guanzhu" .. i] = nil
                         BiaoGe[FB]["boss" .. b]["loot" .. i] = nil
+                        BiaoGe[FB]["boss" .. b]["itemLevel" .. i] = nil
+                        BiaoGe[FB]["boss" .. b]["bindOnEquip" .. i] = nil
                         for k, v in pairs(BG.playerClass) do
                             BiaoGe[FB]["boss" .. b][k .. i] = nil
                         end
@@ -3362,8 +3362,9 @@ BG.Init(function()
                     end
                     if BG.Frame[FB]["boss" .. b]["time"] then
                         BG.Frame[FB]["boss" .. b]["time"]:SetText("")
-                        BiaoGe[FB]["boss" .. b]["time"] = nil
                     end
+                    BiaoGe[FB]["boss" .. b]["time"] = nil
+                    BiaoGe[FB]["boss" .. b]["difficultyID"] = nil
                 end
                 for i = 1, Maxi[FB] + 10 do -- 清空支出
                     if BG.Frame[FB]["boss" .. Maxb[FB] + 1]["zhuangbei" .. i] then
@@ -3437,7 +3438,7 @@ BG.Init(function()
 
         -- 清空按钮
         do
-            local bt = CreateFrame("Button", nil, BG.FBMainFrame, "UIPanelButtonTemplate")
+            local bt = BG.CreateButton(BG.FBMainFrame)
             bt:SetSize(120, BG.ButtonZhangDan:GetHeight())
             bt:SetPoint("BOTTOMLEFT", BG.MainFrame, "BOTTOMLEFT", 30, select(5, BG.ButtonZhangDan:GetPoint()))
             bt:SetText(L["清空表格"])
@@ -3557,67 +3558,6 @@ BG.Init(function()
                 end)
             end)
 
-            --[[             local f = CreateFrame("Frame")
-            f:RegisterEvent("ZONE_CHANGED")
-            f:RegisterEvent("ZONE_CHANGED_INDOORS")
-            f:RegisterEvent("ZONE_CHANGED_NEW_AREA")
-            f:RegisterEvent("RAID_INSTANCE_WELCOME")
-            f:SetScript("OnEvent", function(self, event, ...)
-                pt(event,...)
-                if BiaoGe.options["autoQingKong"] ~= 1 then return end
-                RequestRaidInfo()
-
-                BG.After(4, function()
-                    local _, _, _, _, maxPlayers, _, _, instanceID = GetInstanceInfo()
-                    local zoneID = instanceID
-                    local isInInstance = IsInInstance()
-                    local FB = BG.FBIDtable[instanceID]
-                    if FB then
-                        -- 如果上一个区域和当前区域id相同且都在副本里（比如在副本里切换子区域）
-                        if lastzone.zoneID == zoneID and lastzone.isInInstance and isInInstance then
-                            return
-                        end
-
-                        if
-                        -- 上一个区域和当前区域id相同，且上一个区域不在副本里（比如诺莫瑞根进本时）
-                            (lastzone.zoneID == zoneID and not lastzone.isInInstance)
-                            -- 上一个区域与当前区域id不相同，且当前区域在副本里（比如黑暗深渊进本）
-                            or (lastzone.zoneID ~= zoneID)
-                        then
-                            local newCD = true
-                            for i = 1, GetNumSavedInstances() do
-                                local _, _, _, _, locked, _, _, _, _maxPlayers, _, _, _, _, _instanceID = GetSavedInstanceInfo(i)
-                                if locked and (instanceID == _instanceID) and (maxPlayers == _maxPlayers) then
-                                    newCD = false
-                                    break
-                                end
-                            end
-                            -- 如果是新CD
-                            if newCD then
-                                -- 有这些场景：1 打完NAXX，然后进黑龙（不要清空表格）。2 上CD打过黑龙 这CD进NAXX
-
-                                -- 如果当前副本对应的BOSS格子有东西（除了杂项） 就清空整个表格
-                                -- 如果当前副本对应的BOSS格子没东西但其他格子有东西，且当前团队成员跟当前副本的历史成员名单不同 就清空整个表格
-                                if BG.BiaoGeHavedItem(FB, "autoQingKong", instanceID) or
-                                    (BG.BiaoGeHavedItem(FB, "onlyboss") and IsNotSameTeam(FB))
-                                then
-                                    BG.ClickFBbutton(FB)
-                                    BG.SaveBiaoGe(FB)
-                                    local num = BG.ClearBiaoGe("biaoge", FB)
-                                    local link = "|cffFFFF00|Hgarrmission:" .. "BiaoGe:" .. L["撤回清空"] .. ":" .. FB .. ":" .. GetServerTime() ..
-                                        "|h[" .. L["撤回清空"] .. "]|h|r"
-                                    SendSystemMessage(BG.STC_b1(format(L["<BiaoGe> 已自动清空表格< %s >，分钱人数已改为%s人。原表格数据已保存至历史表格1。"], BG.GetFBinfo(FB, "localName"), num)) .. link)
-                                    PlaySoundFile(BG["sound_qingkong" .. BiaoGe.options.Sound], "Master")
-                                end
-                            end
-                        end
-                    end
-
-                    lastzone.zoneID = zoneID
-                    lastzone.isInInstance = isInInstance
-                end)
-            end) ]]
-
             local clicked = {}
             hooksecurefunc("SetItemRef", function(link)
                 local _, biaoge, cehui, FB, time = strsplit(":", link)
@@ -3706,7 +3646,7 @@ BG.Init(function()
 
         -- 清空心愿
         do
-            local bt = CreateFrame("Button", nil, BG.HopeMainFrame, "UIPanelButtonTemplate")
+            local bt = BG.CreateButton(BG.HopeMainFrame)
             bt:SetSize(120, BG.ButtonZhangDan:GetHeight())
             bt:SetPoint("BOTTOMLEFT", BG.MainFrame, "BOTTOMLEFT", 30, select(5, BG.ButtonZhangDan:GetPoint()))
             bt:SetText(L["清空心愿"])
@@ -3745,8 +3685,8 @@ BG.Init(function()
     end
     ----------撤销删除----------
     do
-        local bt = CreateFrame("Button", nil, BG.FBMainFrame, "UIPanelButtonTemplate")
-        bt:SetSize(80, 30)
+        local bt = BG.CreateButton(BG.FBMainFrame)
+        bt:SetSize(80, 25)
         bt:SetPoint("RIGHT", BG.ButtonZhangDan, "LEFT", -80, 0)
         bt:SetText(L["撤销删除"])
         bt:Hide()
@@ -3818,11 +3758,7 @@ BG.Init(function()
             BG.ButtonCancelDelete.OnUpdate:SetScript("OnUpdate", nil)
             self:Hide()
         end)
-
-        local tex = bt:CreateTexture(nil, "BACKGROUND", nil, -5)
-        tex:SetSize(bt:GetWidth() + 30, bt:GetHeight() + 10)
-        tex:SetPoint("CENTER")
-        tex:SetTexture("Interface/ChatFrame/UI-ChatIcon-BlinkHilight")
+        BG.CreateHighLightAnim(bt)
     end
     ----------鼠标材质----------
     BG.RegisterEvent("MODIFIER_STATE_CHANGED", function(self, event, mod, type)
@@ -4029,8 +3965,10 @@ do
                     if name == UnitName("player") and (rank == 2) then
                         BG.IsLeader = true
                     end
-
-                    BG.raidRosterGUID[UnitGUID("raid" .. i)] = name
+                    local guid = UnitGUID("raid" .. i)
+                    if guid then
+                        BG.raidRosterGUID[guid] = name
+                    end
                     BG.raidRosterName[name] = true
                     BG.raidRosterIsOnline[name] = online
                 end

@@ -569,20 +569,19 @@ end
 ]]
 
 function BG.ZhangDanUI(lastbt)
-    local bt = CreateFrame("Button", nil, BG.FBMainFrame, "UIPanelButtonTemplate")
-    bt:SetSize(60, 30)
+    local bt=BG.CreateButton(BG.FBMainFrame)
+    bt:SetSize(60, 25)
     bt.jiange = 5
     if lastbt then
         bt:SetPoint("LEFT", lastbt, "RIGHT", bt.jiange, 0)
     else
         if BG.IsWLK then
-            bt:SetPoint("BOTTOMRIGHT", BG.MainFrame, "BOTTOMRIGHT", -360, 35)
+            bt:SetPoint("BOTTOMRIGHT", BG.MainFrame, "BOTTOMRIGHT", -360, 38)
         else
-            bt:SetPoint("BOTTOMRIGHT", BG.MainFrame, "BOTTOMRIGHT", -300, 35)
+            bt:SetPoint("BOTTOMRIGHT", BG.MainFrame, "BOTTOMRIGHT", -300, 38)
         end
     end
     bt:SetText(L["账单"])
-    bt:Show()
     BG.ButtonZhangDan = bt
     tinsert(BG.TongBaoButtons, bt)
 

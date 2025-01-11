@@ -67,3 +67,4 @@ frame:SetScript("OnEvent", function()
     end)
 end)
 frame:RegisterEvent("PLAYER_LOGIN")
+

@@ -121,6 +121,8 @@ function BG.HistoryUI()
                     if zhuangbei then
                         if zhuangbei:GetText() ~= "" then
                             BiaoGe.History[FB][DT]["boss" .. b]["zhuangbei" .. i] = zhuangbei:GetText()
+                            BiaoGe.History[FB][DT]["boss" .. b]["itemLevel" .. i] = BiaoGe[FB]["boss" .. b]["itemLevel" .. i]
+                            BiaoGe.History[FB][DT]["boss" .. b]["bindOnEquip" .. i] = BiaoGe[FB]["boss" .. b]["bindOnEquip" .. i]
                         end
 
                         local maijia = BG.Frame[FB]["boss" .. b]["maijia" .. i]
@@ -153,6 +155,7 @@ function BG.HistoryUI()
                     end
                 end
                 BiaoGe.History[FB][DT]["boss" .. b]["time"] = BiaoGe[FB]["boss" .. b]["time"]
+                BiaoGe.History[FB][DT]["boss" .. b]["difficultyID"] = BiaoGe[FB]["boss" .. b]["difficultyID"]
             end
             for i, v in ipairs(BiaoGe[FB].tradeTbl) do
                 BiaoGe.History[FB][DT].tradeTbl[i] = BG.Copy(v)
@@ -404,6 +407,8 @@ function BG.HistoryUI()
                                 BiaoGe[FB]["boss" .. b]["zhuangbei" .. i] = BiaoGe.History[FB][DT]["boss" .. b]["zhuangbei" .. i]
                                 BiaoGe[FB]["boss" .. b]["maijia" .. i] = BiaoGe.History[FB][DT]["boss" .. b]["maijia" .. i]
                                 BiaoGe[FB]["boss" .. b]["jine" .. i] = BiaoGe.History[FB][DT]["boss" .. b]["jine" .. i]
+                                BiaoGe[FB]["boss" .. b]["itemLevel" .. i] = BiaoGe.History[FB][DT]["boss" .. b]["itemLevel" .. i]
+                                BiaoGe[FB]["boss" .. b]["bindOnEquip" .. i] = BiaoGe.History[FB][DT]["boss" .. b]["bindOnEquip" .. i]
                                 for k, v in pairs(BG.playerClass) do
                                     BiaoGe[FB]["boss" .. b][k .. i] = BiaoGe.History[FB][DT]["boss" .. b][k .. i]
                                 end
@@ -439,6 +444,7 @@ function BG.HistoryUI()
                             end
                             BiaoGe[FB]["boss" .. b]["time"] = BiaoGe.History[FB][DT]["boss" .. b]["time"]
                         end
+                        BiaoGe[FB]["boss" .. b]["difficultyID"] = BiaoGe.History[FB][DT]["boss" .. b]["difficultyID"]
                     end
                     BiaoGe[FB].tradeTbl = {}
                     if type(BiaoGe.History[FB][DT].tradeTbl) == "table" then
@@ -591,7 +597,7 @@ function BG.HistoryUI()
             edit:SetCursorPosition(strlen(edit:GetText()))
         end)
 
-        local bt = CreateFrame("Button", nil, BG.History.GaiMingFrame, "UIPanelButtonTemplate")
+        local bt = BG.CreateButton(BG.History.GaiMingFrame)
         bt:SetSize(110, 25)
         bt:SetPoint("BOTTOMLEFT", BG.History.GaiMingFrame, "BOTTOMLEFT", 10, 15)
         bt:SetText(L["确定"])
@@ -616,7 +622,7 @@ function BG.HistoryUI()
             end
         end)
 
-        local bt = CreateFrame("Button", nil, BG.History.GaiMingFrame, "UIPanelButtonTemplate")
+        local bt = BG.CreateButton(BG.History.GaiMingFrame)
         bt:SetSize(110, 25)
         bt:SetPoint("BOTTOMRIGHT", BG.History.GaiMingFrame, "BOTTOMRIGHT", -10, 15)
         bt:SetText(L["取消"])
@@ -798,6 +804,7 @@ do
     BG.HistoryMoneyUpdateFrame = CreateFrame("Frame", nil, BG.MainFrame)
 
     function BG.SetHistoryMoney(itemID, nowMoney, nowPlayer, nowR, nowG, nowB)
+        if not BG.MainFrame:IsVisible() then return end
         local FB = BG.FB1
         if not BG.HistoryMoneyFrame then
             local f = CreateFrame("Frame", nil, BG.MainFrame, "BackdropTemplate")

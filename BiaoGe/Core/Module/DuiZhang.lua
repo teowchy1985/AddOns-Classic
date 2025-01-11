@@ -343,8 +343,8 @@ function BG.DuiZhangUI()
     end
 
     -- 复制对方金额
-    local bt = CreateFrame("Button", nil, BG.DuiZhangMainFrame, "UIPanelButtonTemplate")
-    bt:SetSize(120, 30)
+    local bt = BG.CreateButton(BG.DuiZhangMainFrame)
+    bt:SetSize(120, 25)
     bt:SetPoint("LEFT", dropDown, "RIGHT", 20, 3)
     bt:SetText(L["复制对方账单"])
     bt:Disable()

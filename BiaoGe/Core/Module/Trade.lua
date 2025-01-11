@@ -438,9 +438,9 @@ BG.Init(function()
         text:SetFont(STANDARD_TEXT_FONT, 16, "OUTLINE")
         text:SetText(L["对方欠款记录"])
 
-        local bt = CreateFrame("Button", nil, f, "UIPanelButtonTemplate")
+        local bt = BG.CreateButton(f)
         bt:SetSize(80, 20)
-        bt:SetPoint("TOPLEFT", 5, -2)
+        bt:SetPoint("TOPLEFT", 8, -2)
         bt:SetText(L["刷新"])
         bt:SetScript("OnClick", function(self)
             BG.PlaySound(1)
@@ -469,9 +469,9 @@ BG.Init(function()
         f.text:SetJustifyH("LEFT")
         BG.qiankuanTradeFrame.Text2 = f
 
-        local bt = CreateFrame("Button", nil, BG.qiankuanTradeFrame.Text1, "UIPanelButtonTemplate")
+        local bt = BG.CreateButton(BG.qiankuanTradeFrame.Text1)
         bt:SetSize(100, 20)
-        bt:SetPoint("BOTTOMRIGHT", BG.qiankuanTradeFrame.frame, "BOTTOMRIGHT", -10, 5)
+        bt:SetPoint("BOTTOMRIGHT", BG.qiankuanTradeFrame.frame, "BOTTOMRIGHT", -7, 5)
         bt:SetText(L["清除全部欠款"])
         BG.qiankuanTradeFrame.ButtonClearAll = bt
         bt:SetScript("OnClick", function(self)
@@ -652,9 +652,9 @@ BG.Init(function()
                             end
                             -- 按钮
                             do
-                                local bt = CreateFrame("Button", nil, bts.frame, "UIPanelButtonTemplate")
+                                local bt = BG.CreateButton(bts.frame)
                                 bt:SetSize(50, 18)
-                                bt:SetPoint("LEFT", bts.qiankuan, "RIGHT", 2, 0)
+                                bt:SetPoint("LEFT", bts.qiankuan, "RIGHT", 5, 0)
                                 bt:SetText(L["清除"])
                                 bts.button = bt
                                 bt:SetScript("OnClick", function(self)

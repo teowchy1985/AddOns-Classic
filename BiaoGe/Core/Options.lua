@@ -61,9 +61,9 @@ BG.Init(function()
     t:SetText(L["|cff808080（带*的设置为即时生效，否则需要重载才能生效）|r"])
     t:SetPoint("BOTTOMLEFT", top, "BOTTOMRIGHT", 5, 0)
     -- RL
-    local bt = CreateFrame("Button", nil, main, "UIPanelButtonTemplate")
-    bt:SetSize(80, 25)
-    bt:SetPoint("TOPRIGHT", 0, 0)
+    local bt = BG.CreateButton(main)
+    bt:SetSize(80, 20)
+    bt:SetPoint("TOPRIGHT", -5, 0)
     bt:SetText(L["重载界面"])
     bt:SetScript("OnClick", function(self)
         ReloadUI()
@@ -119,7 +119,7 @@ BG.Init(function()
             end
             bt:SetText(text)
             local t = bt:GetFontString()
-            bt:SetWidth(t:GetStringWidth() + 30)
+            bt:SetWidth(t:GetStringWidth() + 20)
             BG["Button" .. name] = bt
             last = bt
             bt:SetScript("OnClick", function(self)
@@ -2809,8 +2809,9 @@ BG.Init(function()
 
         -- 确定复制
         local bt = CreateFrame("Button", nil, f, "UIPanelButtonTemplate")
+        local bt = BG.CreateButton(f)
         do
-            bt:SetSize(100, 30)
+            bt:SetSize(100, 25)
             bt:SetPoint("TOP", 0, -15)
             bt:SetText(L["确定复制"])
             bt:Disable()
@@ -2907,7 +2908,8 @@ BG.Init(function()
 
         -- 删除角色
         local bt = CreateFrame("Button", nil, f, "UIPanelButtonTemplate")
-        bt:SetSize(100, 30)
+        local bt = BG.CreateButton(f)
+        bt:SetSize(100, 25)
         bt:SetPoint("TOP", BG.options.configCopyButton, "BOTTOM", 0, -15)
         bt:SetText(L["删除角色"])
         bt:Disable()
