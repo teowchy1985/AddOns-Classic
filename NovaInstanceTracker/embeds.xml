@@ -1,6 +1,7 @@
 <Ui xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..\FrameXML\UI.xsd">
   <Include file="Lib\LibDataBroker-1.1\LibDataBroker-1.1.lua"/>
   <Include file="Lib\LibDurability\LibDurability.xml"/>
+  <Include file="Lib\LibDeformat-3.0\LibDeformat-3.0.lua"/>
   
   <!--Replicating the old scrollbar template before it was changed somewhere about phase 2 wrath patch I think?
   	It was changed to use a new "WowClassicScrollBar" template in the OnLoad handler.

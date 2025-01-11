@@ -591,15 +591,22 @@ local function chatMsgLoot(...)
 	local msg = ...;
     local amount;
     local name = UnitName("Player");
-    local otherPlayer;
+    
+    ---This was changed to use an old liv LebDeformat to fix issues with korean strings.
+    ---The SELF loot strings were triggering for other people, so item counts would count everyone in the party.
+    ---The lib fixed this.
+    
     --Self loot multiple item "You receive loot: [Item]x2"
-	local itemLink, amount = strmatch(msg, string.gsub(string.gsub(LOOT_ITEM_SELF_MULTIPLE, "%%s", "(.+)"), "%%d", "(%%d+)"));
+	--local itemLink, amount = strmatch(msg, string.gsub(string.gsub(LOOT_ITEM_SELF_MULTIPLE, "%%s", "(.+)"), "%%d", "(%%d+)"));
+	local itemLink, amount = NIT.libDeformat(msg, LOOT_ITEM_SELF_MULTIPLE);
 	if (not itemLink) then
  		--Self receive single loot "You receive loot: [Item]"
-    	itemLink = msg:match(LOOT_ITEM_SELF:gsub("%%s", "(.+)"));
+    	--itemLink = msg:match(LOOT_ITEM_SELF:gsub("%%s", "(.+)"));
+    	itemLink = NIT.libDeformat(msg, LOOT_ITEM_SELF);
 		if (not itemLink) then
  			--Self receive single item "You receive item: [Item]"
-			itemLink = msg:match(LOOT_ITEM_PUSHED_SELF:gsub("%%s", "(.+)"));
+			--itemLink = msg:match(LOOT_ITEM_PUSHED_SELF:gsub("%%s", "(.+)"));
+			itemLink = NIT.libDeformat(msg, LOOT_ITEM_PUSHED_SELF);
 		end
     end
     if (itemLink) then
