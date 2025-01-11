@@ -324,6 +324,8 @@
 				["0.53:0.61:0.56:0.53:0.41:0.47:0.32:0.58"] = 372, -- Camp Taurajo, Crossroads, Sun Rock Retreat, Shadowprey Village
 				["0.53:0.61:0.56:0.53:0.44:0.69"] = 332, -- Camp Taurajo, Crossroads, Camp Mojache
 				["0.53:0.61:0.56:0.53:0.63:0.44:0.64:0.23"] = 542, -- Camp Taurajo, Crossroads, Orgrimmar, Everlook
+				["0.53:0.61:0.56:0.53:0.46:0.30:0.64:0.23"] = 476, -- Camp Taurajo, Crossroads, Bloodvenom Post, Everlook
+				["0.53:0.61:0.56:0.53:0.61:0.80"] = 383, -- Camp Taurajo, Crossroads, Gadgetzan
 
 				-- Horde: Cenarion Hold (Silithus)
 				["0.42:0.79:0.61:0.80"] = 241, -- Cenarion Hold, Gadgetzan
@@ -459,6 +461,7 @@
 				["0.61:0.80:0.63:0.44:0.64:0.23"] = 670, -- Gadgetzan, Orgrimmar, Everlook
 				["0.61:0.80:0.56:0.53:0.41:0.37"] = 531, -- 가젯잔 (타나리스), 크로스로드 (불모의 땅), 조람가르 전초기지 (잿빛 골짜기), 조람가르 전초기지 (잿빛 골짜기)
 				["0.61:0.80:0.55:0.73:0.56:0.53:0.41:0.47:0.32:0.58"] = 572, -- Gadgetzan, Freewind Post, Crossroads, Sun Rock Retreat, Shadowprey Village
+				["0.61:0.80:0.56:0.53:0.61:0.55"] = 352, -- Gadgetzan, Crossroads, Ratchet
 
 				-- Horde: Marshal's Refuge (Un'Goro Crater)
 				["0.50:0.76:0.61:0.80"] = 113, -- Marshal's Refuge, Gadgetzan
@@ -685,6 +688,7 @@
 				["0.45:0.56:0.61:0.80:0.50:0.76:0.42:0.79"] = 498, -- Thunder Bluff, Gadgetzan, Marshal's Refuge, Cenarion Hold
 				["0.45:0.56:0.56:0.53:0.55:0.42"] = 321, -- Thunder Bluff, Crossroads, Splintertree Post
 				["0.45:0.56:0.63:0.44:0.64:0.23:0.54:0.21"] = 661, -- Thunder Bluff, Orgrimmar, Everlook, Moonglade
+				["0.45:0.56:0.61:0.80:0.42:0.79"] = 522, -- Thunder Bluff, Gadgetzan, Cenarion Hold
 
 				-- Horde: Valormok (Azshara)
 				["0.63:0.36:0.56:0.53:0.55:0.73:0.61:0.80"] = 449, -- Valormok, Crossroads, Freewind Post, Gadgetzan

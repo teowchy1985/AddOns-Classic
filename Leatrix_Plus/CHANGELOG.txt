@@ -1,4 +1,13 @@
-﻿4.0.40 - 25th December 2024
+﻿4.0.42 - 8th January 2025
+- Game API updates.
+
+4.0.41 - 1st January 2025
+- Happy New Year!
+- Added a new option 'Hide raid group labels' ('Text').  If checked, the player frame group indicator and the group labels displayed above the compact raid frames and the pullout raid frames will be hidden.
+- For 'Mute game sounds' ('System'), added a new setting to mute horse footsteps.
+- Updated translations.
+
+4.0.40 - 25th December 2024
 - Merry Christmas!
 - Updated translations.
 
