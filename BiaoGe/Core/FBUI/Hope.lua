@@ -256,7 +256,7 @@ function BG.HopeUI(FB)
                                 GameTooltip:ClearLines()
                                 GameTooltip:SetItemByID(itemID)
                                 GameTooltip:Show()
-                                BG.SetHistoryMoney(itemID)
+                                -- BG.SetHistoryMoney(itemID)
 
                                 if IsControlKeyDown() then
                                     SetCursor("Interface/Cursor/Inspect")
@@ -531,8 +531,8 @@ function BG.HopeUI(FB)
 
     ------------------查询团队竞争------------------
     do
-        local btjingzheng = CreateFrame("Button", nil, BG["HopeFrame" .. FB], "UIPanelButtonTemplate") -- 查询团队竞争按键
-        btjingzheng:SetSize(120, 30)
+        local btjingzheng = BG.CreateButton(BG["HopeFrame" .. FB])
+        btjingzheng:SetSize(120, 25)
         btjingzheng:SetPoint("TOPRIGHT", BG.MainFrame, "TOPRIGHT", -30, -80)
         btjingzheng:SetText(L["查询心愿竞争"])
         btjingzheng:Show()
@@ -652,12 +652,12 @@ function BG.HopeUI(FB)
         title:SetText(L["通报心愿"])
 
         for n = 1, HopeMaxn[FB] do
-            local bt = CreateFrame("Button", nil, BG["HopeFrame" .. FB], "UIPanelButtonTemplate")
+            local bt = BG.CreateButton(BG["HopeFrame" .. FB])
             bt:SetSize(BG["HopeJingZheng" .. FB]:GetSize())
             if n == 1 then
-                bt:SetPoint("TOP", title, "BOTTOM", 0, -0)
+                bt:SetPoint("TOP", title, "BOTTOM", 0, -2)
             else
-                bt:SetPoint("TOPLEFT", f, "BOTTOMLEFT", 0, -0)
+                bt:SetPoint("TOPLEFT", f, "BOTTOMLEFT", 0, -2)
             end
             bt:SetText(xinyuan[n].name1)
             bt:SetFrameLevel(105)
@@ -986,7 +986,7 @@ function BG.HopeDaoChuUI()
                     bg:SetBackdrop({
                         bgFile = "Interface/ChatFrame/ChatFrameBackground",
                         edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
-                        edgeSize = 16,
+                        edgeSize = 10,
                         insets = { left = 3, right = 3, top = 3, bottom = 3 }
                     })
                     bg:SetBackdropColor(0, 0, 0, 0.8)
@@ -1048,7 +1048,7 @@ function BG.HopeDaoChuUI()
                     end)
                 end
 
-                local bt = CreateFrame("Button", nil, bg, "UIPanelButtonTemplate")
+                local bt = BG.CreateButton(bg)
                 do
                     bt:SetSize(110, 25)
                     bt:SetPoint("BOTTOMLEFT", 8, 10)
@@ -1058,7 +1058,7 @@ function BG.HopeDaoChuUI()
                         ImportHope(child:GetText())
                         bg:Hide()
                     end)
-                    local bt = CreateFrame("Button", nil, bg, "UIPanelButtonTemplate")
+                    local bt = BG.CreateButton(bg)
                     bt:SetSize(110, 25)
                     bt:SetPoint("BOTTOMRIGHT", -8, 10)
                     bt:SetText(CANCEL)
@@ -1099,7 +1099,7 @@ function BG.HopeDaoChuUI()
                     bg:SetBackdrop({
                         bgFile = "Interface/ChatFrame/ChatFrameBackground",
                         edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
-                        edgeSize = 16,
+                        edgeSize = 10,
                         insets = { left = 3, right = 3, top = 3, bottom = 3 }
                     })
                     bg:SetBackdropColor(0, 0, 0, 0.8)
@@ -1155,7 +1155,7 @@ function BG.HopeDaoChuUI()
                     end)
                 end
 
-                local bt = CreateFrame("Button", nil, bg, "UIPanelButtonTemplate")
+                local bt = BG.CreateButton(bg)
                 do
                     bt:SetSize(110, 25)
                     bt:SetPoint("BOTTOMRIGHT", -8, 10)

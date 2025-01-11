@@ -249,7 +249,7 @@ BG.Init(function()
 
         -- 开始拍卖
         do
-            local bt = CreateFrame("Button", nil, frame, "UIPanelButtonTemplate")
+            local bt = BG.CreateButton(frame, true)
             bt:SetPoint("TOPLEFT", frame, "BOTTOM", -10, 30)
             bt:SetPoint("BOTTOMRIGHT", frame, -22, 2)
             bt:SetFrameLevel(110)
@@ -266,7 +266,7 @@ BG.Init(function()
                 CancelAllChoose()
             end)
 
-            local bt = CreateFrame("Button", nil, BG.auctionLogFrame.ButtonStartAuction, "UIPanelButtonTemplate")
+            local bt = BG.CreateButton(BG.auctionLogFrame.ButtonStartAuction, true)
             bt:SetPoint("TOPLEFT", frame, "BOTTOMLEFT", 2, 30)
             bt:SetPoint("BOTTOMRIGHT", frame, "BOTTOM", -8, 2)
             bt:SetFrameLevel(110)
@@ -291,9 +291,9 @@ BG.Init(function()
 
         -- 增加
         do
-            local bt = CreateFrame("Button", nil, BG.auctionLogFrame, "UIPanelButtonTemplate")
-            bt:SetSize(25, 20)
-            bt:SetPoint("TOPRIGHT", frame, "BOTTOMRIGHT", 1, -3)
+            local bt = BG.CreateButton(BG.auctionLogFrame)
+            bt:SetSize(28, 20)
+            bt:SetPoint("TOPRIGHT", frame, "BOTTOMRIGHT", 0, -3)
             bt:SetText("+")
             BG.auctionLogFrame.ButtonAdd = bt
             bt:SetScript("OnClick", function(self)
@@ -333,9 +333,9 @@ BG.Init(function()
 
         -- 生成账单按钮
         do
-            local bt = CreateFrame("Button", nil, BG.auctionLogFrame, "UIPanelButtonTemplate")
-            bt:SetSize(110, 30)
-            bt:SetPoint("BOTTOMLEFT", BG.auctionLogFrame, 5, 5)
+            local bt = BG.CreateButton(BG.auctionLogFrame)
+            bt:SetSize(110, 25)
+            bt:SetPoint("BOTTOMLEFT", BG.auctionLogFrame, 5, 10)
             bt:SetText(L["生成表格账单"])
             BG.auctionLogFrame.ButtonCreateLedger = bt
             bt:SetScript("OnEnter", function(self)
@@ -402,9 +402,9 @@ BG.Init(function()
                 end
             end)
 
-            local bt = CreateFrame("Button", nil, BG.auctionLogFrame, "UIPanelButtonTemplate")
-            bt:SetSize(95, 30)
-            bt:SetPoint("BOTTOMRIGHT", BG.auctionLogFrame, -5, 5)
+            local bt = BG.CreateButton(BG.auctionLogFrame)
+            bt:SetSize(95, 25)
+            bt:SetPoint("BOTTOMRIGHT", BG.auctionLogFrame, -5, 10)
             bt:SetText(L["生成对账单"])
             BG.auctionLogFrame.ButtonCreateDuiZhang = bt
             bt:SetScript("OnEnter", function(self)
@@ -730,8 +730,8 @@ BG.Init(function()
         end
         -- 按钮
         do
-            local bt = CreateFrame("Button", nil, f, "UIPanelButtonTemplate")
-            bt:SetSize(95, 25)
+            local bt = BG.CreateButton(f)
+            bt:SetSize(95, 22)
             bt:SetPoint("BOTTOMLEFT", 10, 10)
             bt:SetText(L["确定"])
             f.ButtonSure = bt
@@ -795,8 +795,8 @@ BG.Init(function()
                 end
             end)
 
-            local bt = CreateFrame("Button", nil, f, "UIPanelButtonTemplate")
-            bt:SetSize(95, 25)
+            local bt = BG.CreateButton(f)
+            bt:SetSize(95, 22)
             bt:SetPoint("BOTTOMRIGHT", -10, 10)
             bt:SetText(L["取消"])
             bt:SetScript("OnClick", function(self)
@@ -1054,7 +1054,7 @@ BG.Init(function()
                     GameTooltip:SetItemByID(itemID)
                     GameTooltip:Show()
                     BG.Show_AllHighlight(link, "auctionlog")
-
+                    BG.SetHistoryMoney(itemID)
                     if IsAltKeyDown() and BG.IsML and v.type == 3 and BiaoGe.options["autoAuctionStart"] == 1 then
                         SetCursor("interface/cursor/repair")
                     end
@@ -1067,6 +1067,7 @@ BG.Init(function()
             f:SetScript("OnLeave", function(self)
                 GameTooltip:Hide()
                 BG.Hide_AllHighlight()
+                BG.HideHistoryMoney()
                 bts.ds:Hide()
                 SetCursor(nil)
                 BG.canShowStartAuctionCursor = false

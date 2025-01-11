@@ -103,7 +103,7 @@ end
 
 
 function BG.LiuPaiUI(lastbt)
-    local bt = CreateFrame("Button", nil, BG.ButtonZhangDan, "UIPanelButtonTemplate")
+    local bt = BG.CreateButton(BG.ButtonZhangDan)
     bt:SetSize(BG.ButtonZhangDan:GetWidth(), BG.ButtonZhangDan:GetHeight())
     bt:SetPoint("LEFT", lastbt, "RIGHT", BG.ButtonZhangDan.jiange, 0)
     bt:SetText(L["流拍"])

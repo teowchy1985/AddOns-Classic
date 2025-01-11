@@ -19,7 +19,7 @@ local HopeMaxi = ns.HopeMaxi
 local pt = print
 
 function BG.YongShiUI(lastbt)
-    local bt = CreateFrame("Button", nil, BG.ButtonZhangDan, "UIPanelButtonTemplate")
+    local bt=BG.CreateButton(BG.ButtonZhangDan)
     bt:SetSize(BG.ButtonZhangDan:GetWidth(), BG.ButtonZhangDan:GetHeight())
     bt:SetPoint("LEFT", lastbt, "RIGHT", BG.ButtonZhangDan.jiange, 0)
     bt:SetText(L["用时"])
@@ -122,6 +122,9 @@ function BG.YongShiUI(lastbt)
 
                 BG.Frame[BG.FB2]["boss" .. numb]["time"]:SetText(L["击杀用时"] .. " " .. time)
                 BiaoGe[BG.FB2]["boss" .. numb]["time"] = time
+                if GetRaidDifficultyID then
+                    BiaoGe[BG.FB2]["boss" .. numb]["difficultyID"] = GetRaidDifficultyID()
+                end
             end
         end
     end)

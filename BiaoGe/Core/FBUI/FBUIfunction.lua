@@ -283,11 +283,18 @@ local function OnTextChanged(self)
                 self:SetText(link .. "H")
             end
         end
-
+        BiaoGe[FB]["boss" .. BossNum(FB, b, t)]["itemLevel" .. i] = level
         -- 装备图标
         self.icon:SetTexture(Texture)
     else
+        BiaoGe[FB]["boss" .. BossNum(FB, b, t)]["itemLevel" .. i] = nil
         self.icon:SetTexture(nil)
+    end
+
+    if bindType == 2 then
+        BiaoGe[FB]["boss" .. BossNum(FB, b, t)]["bindOnEquip" .. i] = true
+    else
+        BiaoGe[FB]["boss" .. BossNum(FB, b, t)]["bindOnEquip" .. i] = nil
     end
 
     BG.UpdateFilter(self)

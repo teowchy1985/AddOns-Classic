@@ -1179,7 +1179,7 @@ function BG.RoleOverviewUI()
 
         local buttons = {}
         for i = 1, 2 do
-            local bt = CreateFrame("Button", nil, PVEFrame, "UIPanelButtonTemplate")
+            local bt = BG.CreateButton(PVEFrame)
             bt:SetSize(150, 23)
             bt:SetPoint("BOTTOMLEFT", 35, 5)
             if i == 1 then

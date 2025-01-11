@@ -75,7 +75,7 @@ BG.Init(function()
         f:SetBackdrop({
             bgFile = "Interface/ChatFrame/ChatFrameBackground",
             edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
-            edgeSize = 16,
+            edgeSize = 10,
             insets = { left = 3, right = 3, top = 3, bottom = 3 }
         })
         f:SetBackdropColor(0, 0, 0, 0.4)
@@ -379,8 +379,8 @@ BG.Init(function()
                 BG.PlaySound(1)
             end
 
-            local bt = CreateFrame("Button", nil, BG.YYMainFrame.new, "UIPanelButtonTemplate")
-            bt:SetSize(80, 25)
+            local bt = BG.CreateButton(BG.YYMainFrame.new)
+            bt:SetSize(80, 20)
             bt:SetPoint("BOTTOMRIGHT", BG.YYMainFrame.new.scroll, "TOPRIGHT", 0, 7)
             bt:SetText(L["保存评价"])
             BG.YYMainFrame.new.buttonsave = bt
@@ -394,8 +394,8 @@ BG.Init(function()
         end
         -- 退出修改
         do
-            local bt = CreateFrame("Button", nil, BG.YYMainFrame.new, "UIPanelButtonTemplate")
-            bt:SetSize(80, 25)
+            local bt = BG.CreateButton(BG.YYMainFrame.new)
+            bt:SetSize(80, 20)
             bt:SetPoint("RIGHT", BG.YYMainFrame.new.buttonsave, "LEFT", -5, 0)
             bt:SetText(L["退出修改"])
             bt:Hide()
@@ -437,7 +437,7 @@ BG.Init(function()
         f:SetBackdrop({
             bgFile = "Interface/ChatFrame/ChatFrameBackground",
             edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
-            edgeSize = 16,
+            edgeSize = 10,
             insets = { left = 3, right = 3, top = 3, bottom = 3 }
         })
         f:SetBackdropColor(0, 0, 0, 0.4)
@@ -719,7 +719,7 @@ BG.Init(function()
         f:SetBackdrop({
             bgFile = "Interface/ChatFrame/ChatFrameBackground",
             edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
-            edgeSize = 16,
+            edgeSize = 10,
             insets = { left = 3, right = 3, top = 3, bottom = 3 }
         })
         f:SetBackdropColor(0, 0, 0, 0.4)
@@ -916,8 +916,8 @@ BG.Init(function()
                 BG.PlaySound(1)
             end
 
-            local bt = CreateFrame("Button", nil, BG.YYMainFrame.search, "UIPanelButtonTemplate")
-            bt:SetSize(130, 25)
+            local bt = BG.CreateButton(BG.YYMainFrame.search)
+            bt:SetSize(130, 20)
             bt:SetPoint("LEFT", edit, "RIGHT", 10, 0)
             bt:SetText(L["查询"])
             BG.YYMainFrame.search.cd = 0
@@ -1023,7 +1023,7 @@ BG.Init(function()
             f:SetBackdrop({
                 bgFile = "Interface/ChatFrame/ChatFrameBackground",
                 edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
-                edgeSize = 16,
+                edgeSize = 10,
                 insets = { left = 3, right = 3, top = 3, bottom = 3 }
             })
             f:SetBackdropColor(0, 0, 0, 0.2)
@@ -1089,7 +1089,7 @@ BG.Init(function()
             f:SetBackdrop({
                 bgFile = "Interface/ChatFrame/ChatFrameBackground",
                 edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
-                edgeSize = 16,
+                edgeSize = 10,
                 insets = { left = 3, right = 3, top = 3, bottom = 3 }
             })
             f:SetBackdropColor(0, 0, 0, 0.2)

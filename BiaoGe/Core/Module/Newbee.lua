@@ -57,6 +57,8 @@ BG.Init(function()
         BG.ButtonNewBee.uploadstate = true
         -- 时间戳
         BiaoGe.newbee_report.time = GetServerTime()
+        -- 插件版本
+        BiaoGe.newbee_report.ver = ns.ver
         -- 表格
         BiaoGe.newbee_report.biaoge = BG.FB1
         -- 团长
@@ -114,6 +116,8 @@ BG.Init(function()
                             (b ~= Maxb[FB] + 1 and (zb:GetText() ~= "" or mj:GetText() ~= "" or je:GetText() ~= ""))
                         then
                             local item = BiaoGe[FB]["boss" .. b]["zhuangbei" .. i]
+                            local itemLevel = BiaoGe[FB]["boss" .. b]["itemLevel" .. i]
+                            local bindOnEquip = BiaoGe[FB]["boss" .. b]["bindOnEquip" .. i]
                             local itemID = item and GetItemID(item) or nil
                             local buyer = BiaoGe[FB]["boss" .. b]["maijia" .. i]
                             local money = BiaoGe[FB]["boss" .. b]["jine" .. i]
@@ -121,6 +125,8 @@ BG.Init(function()
 
                             local a = {
                                 item = item,
+                                itemLevel = itemLevel,
+                                bindOnEquip = bindOnEquip,
                                 itemID = itemID,
                                 buyer = {
                                     name = buyer,
@@ -149,6 +155,8 @@ BG.Init(function()
                     tbl.instanceID = instanceID
                     tbl.lockoutID = lockoutID
                     tbl.realmID = realmID
+                    tbl.killTime = BiaoGe[FB]["boss" .. b]["time"]
+                    tbl.difficultyID = BiaoGe[FB]["boss" .. b]["difficultyID"]
 
                     tinsert(BiaoGe.newbee_report.ledger, tbl)
                 end
@@ -163,7 +171,7 @@ BG.Init(function()
         bt:SetNormalFontObject(BG.FontGreen15)
         bt:SetDisabledFontObject(BG.FontDis15)
         bt:SetHighlightFontObject(BG.FontWhite15)
-        bt:SetText(L["上传账单"])
+        bt:SetText(AddTexture("BOX") .. L["上传账单"])
         bt:SetSize(bt:GetFontString():GetWidth(), 20)
         BG.SetTextHighlightTexture(bt)
         BG.ButtonNewBee = bt
@@ -172,7 +180,9 @@ BG.Init(function()
             GameTooltip:SetPoint("TOPLEFT", self, "BOTTOMLEFT")
             GameTooltip:ClearLines()
             GameTooltip:AddLine(self:GetText(), 1, 1, 1, true)
-            GameTooltip:AddLine(L["把当前表格的数据上传到|cff00ff00新手盒子|r。每件装备的拍卖价格也将有助于新手盒子建立市场平均价，使其他玩家更了解市场行情。"], 1, 0.82, 0, true)
+            GameTooltip:AddLine(L["把当前表格（账单）上传到|cff00ff00新手盒子|r。你将可以在新手盒子随时查阅该账单，也可以把账单生成链接发给别人。（该云端账单即将上线）。"], 1, 0.82, 0, true)
+            GameTooltip:AddLine(" ", 1, 0.82, 0, true)
+            GameTooltip:AddLine(L["上传前请你确保新手盒子正在运行。"], 1, 0.82, 0, true)
             GameTooltip:Show()
         end)
         bt:SetScript("OnLeave", GameTooltip_Hide)

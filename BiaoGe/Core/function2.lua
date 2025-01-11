@@ -1349,7 +1349,7 @@ do
                 t:SetWordWrap(false)
             end
 
-            local bt = CreateFrame("Button", nil, BG.FrameJineList, "UIPanelButtonTemplate")
+            local bt = BG.CreateButton(BG.FrameJineList)
             bt:SetSize(BG.FrameJineList:GetWidth() - 15, 20)
             bt:SetPoint("BOTTOM", 0, 5)
             bt:SetText(L["删除打包交易记录"])
@@ -1446,7 +1446,7 @@ function BG.JiaoHuan(button, FB, b, i, t)
 
         BG.PlaySound(1)
 
-        local bt = CreateFrame("Button", nil, BG["Frame" .. FB], "UIPanelButtonTemplate")
+        local bt = BG.CreateButton(BG["Frame" .. FB])
         bt:SetSize(80, 20)
         bt:SetPoint("RIGHT", BG.Frame[FB]["boss" .. BossNum(FB, b, t)]["zhuangbei" .. i], "LEFT", -5, 0)
         bt:SetFrameLevel(BG.MainFrame:GetFrameLevel() + 15)
@@ -1465,11 +1465,7 @@ function BG.JiaoHuan(button, FB, b, i, t)
             GameTooltip:SetText(BG.STC_b1(L["你正在交换该行全部内容"]) .. L["\n点击取消交换"])
         end)
         BG.GameTooltip_Hide(bt)
-
-        local f = BG.Create_BlinkHilight(bt)
-        f:SetPoint("TOPLEFT", bt, "TOPLEFT", -10, 5)
-        f:SetPoint("BOTTOMRIGHT", bt, "BOTTOMRIGHT", 10, -5)
-
+        BG.CreateHighLightAnim(bt)
         local f = BG.Create_BlinkHilight(bt, BG.MainFrame:GetFrameLevel() + 1)
         f:SetPoint("TOPLEFT", BG.Frame[FB]["boss" .. BossNum(FB, b, t)]["zhuangbei" .. i], "TOPLEFT", -80, 5)
         f:SetPoint("BOTTOMRIGHT", BG.Frame[FB]["boss" .. BossNum(FB, b, t)]["jine" .. i], "BOTTOMRIGHT", 90, -5)
@@ -1596,53 +1592,7 @@ function BG.JiaoHuan(button, FB, b, i, t)
             BG.copy1 = nil
             BG.copy2 = nil
             BG.copyButton:Hide()
-
-            BG.copy1 = {
-                fb = FB,
-                b = BossNum(FB, b, t),
-                i = i,
-                btzhuangbei = BG.Frame[FB]["boss" .. BossNum(FB, b, t)]["zhuangbei" .. i],
-                btmaijia = BG.Frame[FB]["boss" .. BossNum(FB, b, t)]["maijia" .. i],
-                btjine = BG.Frame[FB]["boss" .. BossNum(FB, b, t)]["jine" .. i],
-                btqiankuan = BG.Frame[FB]["boss" .. BossNum(FB, b, t)]["qiankuan" .. i],
-                btguanzhu = BG.Frame[FB]["boss" .. BossNum(FB, b, t)]["guanzhu" .. i],
-
-                zhuangbei = BG.Frame[FB]["boss" .. BossNum(FB, b, t)]["zhuangbei" .. i]:GetText(),
-                maijia = BG.Frame[FB]["boss" .. BossNum(FB, b, t)]["maijia" .. i]:GetText(),
-                color = { BG.Frame[FB]["boss" .. BossNum(FB, b, t)]["maijia" .. i]:GetTextColor() },
-                jine = BG.Frame[FB]["boss" .. BossNum(FB, b, t)]["jine" .. i]:GetText(),
-                qiankuan = BiaoGe[FB]["boss" .. BossNum(FB, b, t)]["qiankuan" .. i],
-                guanzhu = BiaoGe[FB]["boss" .. BossNum(FB, b, t)]["guanzhu" .. i],
-            }
-            BG.PlaySound(1)
-
-            local bt = CreateFrame("Button", nil, BG["Frame" .. FB], "UIPanelButtonTemplate")
-            bt:SetSize(80, 20)
-            bt:SetPoint("RIGHT", BG.Frame[FB]["boss" .. BossNum(FB, b, t)]["zhuangbei" .. i], "LEFT", -5, 0)
-            bt:SetFrameLevel(BG.MainFrame:GetFrameLevel() + 15)
-            bt:SetText(L["取消交换"])
-            BG.copyButton = bt
-            bt:SetScript("OnClick", function()
-                if BG.copy1 then
-                    BG.copy1 = nil
-                end
-                BG.copyButton:Hide()
-                BG.PlaySound(1)
-            end)
-            bt:SetScript("OnEnter", function(self)
-                GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT", 0, 0)
-                GameTooltip:ClearLines()
-                GameTooltip:SetText(BG.STC_b1(L["你正在交换该行全部内容"]) .. L["\n点击取消交换"])
-            end)
-            BG.GameTooltip_Hide(bt)
-
-            local f = BG.Create_BlinkHilight(bt)
-            f:SetPoint("TOPLEFT", bt, "TOPLEFT", -10, 5)
-            f:SetPoint("BOTTOMRIGHT", bt, "BOTTOMRIGHT", 10, -5)
-
-            local f = BG.Create_BlinkHilight(bt, BG.MainFrame:GetFrameLevel() + 1)
-            f:SetPoint("TOPLEFT", BG.Frame[FB]["boss" .. BossNum(FB, b, t)]["zhuangbei" .. i], "TOPLEFT", -80, 5)
-            f:SetPoint("BOTTOMRIGHT", BG.Frame[FB]["boss" .. BossNum(FB, b, t)]["jine" .. i], "BOTTOMRIGHT", 90, -5)
+            BG.JiaoHuan(button, FB, b, i, t)
         end
 
         BG.PlaySound(1)
@@ -1944,9 +1894,9 @@ end
 
 ------------------返回表格页面------------------
 function BG.BackBiaoGe(parent)
-    local bt = CreateFrame("Button", nil, parent, "UIPanelButtonTemplate")
-    bt:SetSize(150, 30)
-    bt:SetPoint("BOTTOMRIGHT", BG.MainFrame, "BOTTOMRIGHT", -30, 35)
+    local bt = BG.CreateButton(parent)
+    bt:SetSize(150, 25)
+    bt:SetPoint("BOTTOMRIGHT", BG.MainFrame, "BOTTOMRIGHT", -30, 38)
     bt:SetText(L["返回表格"])
     bt:SetScript("OnClick", function(self)
         BG.ClickTabButton(BG.FBMainFrameTabNum)
@@ -2198,4 +2148,100 @@ function BG.FindDropdownItem(dropdown, text)
     end
 end
 
--- /dump _G['DropDownList1Button1']
+local r, g, b = GetClassColor(select(2, UnitClass("player")))
+function BG.CreateButton(parent, dark)
+    local alpha_normal = .3
+    local alpha_highlight = .6
+    local borderAlpha = .6
+    if dark  then
+        alpha_normal = .6
+        alpha_highlight = .8
+        borderAlpha = 1
+    end
+    local bt = CreateFrame("Button", nil, parent, "BackdropTemplate")
+    bt:SetBackdrop({
+        edgeFile = "Interface/ChatFrame/ChatFrameBackground",
+        edgeSize = 1,
+    })
+    bt:SetBackdropBorderColor(r, g, b, borderAlpha)
+    bt.bg = bt:CreateTexture(nil, "BACKGROUND")
+    bt.bg:SetAllPoints()
+    bt.bg:SetTexture("Interface\\Buttons\\WHITE8x8")
+    bt.bg:SetGradient("VERTICAL", CreateColor(r, g, b, alpha_normal), CreateColor(r, g, b, .0))
+    local t = bt:CreateFontString()
+    t:SetAllPoints()
+    t:SetTextColor(1, .82, 0)
+    t:SetFont(STANDARD_TEXT_FONT, 15, "OUTLINE")
+    bt:SetFontString(t)
+
+    hooksecurefunc(bt, "SetScript", function(arg1, arg2, ...)
+        if arg2 == "OnEnter" then
+            bt:HookScript("OnEnter", function()
+                bt.bg:SetGradient("VERTICAL", CreateColor(r, g, b, alpha_highlight), CreateColor(r, g, b, .1))
+                bt:GetFontString():SetTextColor(1, 1, 1)
+            end)
+        elseif arg2 == "OnLeave" then
+            bt:HookScript("OnLeave", function()
+                GameTooltip:Hide()
+                bt.bg:SetGradient("VERTICAL", CreateColor(r, g, b, alpha_normal), CreateColor(r, g, b, .0))
+                bt:GetFontString():SetTextColor(1, .82, 0)
+            end)
+        end
+    end)
+    hooksecurefunc(bt, "SetEnabled", function(arg1, arg2, ...)
+        if arg2 == true then
+            bt:SetBackdropBorderColor(r, g, b, borderAlpha)
+            bt.bg:SetGradient("VERTICAL", CreateColor(r, g, b, alpha_normal), CreateColor(r, g, b, .0))
+            bt:GetFontString():SetTextColor(1, .82, 0)
+        elseif arg2 == false then
+            bt:SetBackdropBorderColor(.5, .5, .5, borderAlpha)
+            bt.bg:SetGradient("VERTICAL", CreateColor(.5, .5, .5, .5), CreateColor(.5, .5, .5, .0))
+            bt:GetFontString():SetTextColor(.5, .5, .5)
+        end
+    end)
+    function bt:Disable()
+        self:SetEnabled(false)
+    end
+
+    function bt:Enable()
+        self:SetEnabled(true)
+    end
+
+    bt:SetScript("OnEnter", nil)
+    bt:SetScript("OnLeave", nil)
+    return bt
+end
+
+function BG.CreateHighLightAnim(self, w, h)
+    local f = CreateFrame("Frame", nil, self)
+    f:SetPoint("CENTER")
+    f:SetSize(self:GetSize())
+    local tex = f:CreateTexture()
+    tex:SetSize(f:GetWidth() + (w or 0), f:GetHeight() + (h or 0))
+    tex:SetPoint("CENTER", 0, -1)
+    tex:SetAtlas("ShipMission_FollowerListButton-Select")
+    local tex = f:CreateTexture()
+    tex:SetSize(f:GetWidth(), f:GetHeight())
+    tex:SetPoint("CENTER", 0, -1)
+    tex:SetAtlas("GarrMission_ListGlow-Select")
+
+    f.flashGroup = f:CreateAnimationGroup()
+    for i = 1, 3 do
+        local fade = f.flashGroup:CreateAnimation('Alpha')
+        fade:SetChildKey('flash')
+        fade:SetOrder(i * 2)
+        fade:SetDuration(.4)
+        fade:SetFromAlpha(.1)
+        fade:SetToAlpha(1)
+
+        local fade = f.flashGroup:CreateAnimation('Alpha')
+        fade:SetChildKey('flash')
+        fade:SetOrder(i * 2 + 1)
+        fade:SetDuration(.4)
+        fade:SetFromAlpha(1)
+        fade:SetToAlpha(.1)
+    end
+    f.flashGroup:Play()
+    f.flashGroup:SetLooping("REPEAT")
+    return f
+end

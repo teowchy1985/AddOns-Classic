@@ -125,8 +125,8 @@ BG.Init(function()
                         showAlert = true,
                     }
 
-                    local bt = CreateFrame("Button", nil, f, "UIPanelButtonTemplate")
-                    bt:SetSize(120, 30)
+                    local bt = BG.CreateButton(f)
+                    bt:SetSize(120, 25)
                     bt:SetPoint("TOPLEFT", f, "BOTTOMLEFT", 0, -20)
                     bt:SetText(L["清空记录"])
                     f.qingkongButton = bt
@@ -1391,12 +1391,13 @@ BG.Init(function()
                 end
 
                 local bt = CreateFrame("Button", nil, WhoFrame, "UIPanelButtonTemplate")
+                -- local bt = BG.CreateButton(WhoFrame)
                 bt:SetSize(100, 25)
-                bt:SetPoint("TOPLEFT", 60, -27)
+                bt:SetPoint("TOPLEFT", 60, -25)
                 bt.text = L["全部举报"]
                 bt:SetText(bt.text)
                 bt:Hide()
-                BG.WhoFrameReportButton=bt
+                BG.WhoFrameReportButton = bt
                 bt:SetScript("OnEnter", function(self)
                     GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT", 0, 0)
                     GameTooltip:ClearLines()

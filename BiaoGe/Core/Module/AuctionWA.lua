@@ -5,7 +5,7 @@ local pt = print
 
 BG.Init(function()
     local aura_env = aura_env or {}
-    aura_env.ver = "v2.3"
+    aura_env.ver = "v2.4"
 
     function aura_env.GetVerNum(str)
         return tonumber(string.match(str, "v(%d+%.%d+)")) or 0
@@ -154,9 +154,9 @@ BG.Init(function()
             -- 小于该价格时，每次加价幅度，最低加价幅度
             { 30, 1, 1 },
             { 100, 10, 1 },
-            { 3000, 100, 100 },
+            { 5000, 100, 100 },
             { 10000, 500, 100 },
-            { 30000, 1000, 500 },
+            { 50000, 1000, 500 },
             { 100000, 5000, 500 },
             { nil, 10000, 1000 },
         }
@@ -643,7 +643,7 @@ BG.Init(function()
         GameTooltip:SetOwner(f, "ANCHOR_BOTTOM", 0, 0)
         GameTooltip:ClearLines()
         if not f.start and not f.IsEnd and f.player ~= UnitName("player") and self._type == "+" and myMoney <= f.money then
-            GameTooltip:AddLine(L["出价设为："] .. "|cffffffff" .. (f.money + fudu), 1, 0.82, 0, true)
+            GameTooltip:AddLine(L["出价设为："] .. "|cffffffff" .. aura_env.Addmoney(f.money, "+"), 1, 0.82, 0, true)
         else
             local r, g, b = 1, 0, 0
             if self._type == "+" then

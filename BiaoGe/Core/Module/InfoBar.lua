@@ -27,12 +27,31 @@ local RealmId = GetRealmID()
 local player = UnitName("player")
 
 local AFDtbl = {
+    -- 600
     "露露缇娅",
     "陈",
     "爱发电用户_4nNA",
+    -- 300
+    "永恒",
+    -- 180
+    "爱发电用户_H4pt",
+    -- 90
+    "爱发电用户_60e98",
+    -- 30
+    "龙之召唤-鼓励团结有爱",
+    "龙之召唤-阿多尼斯冰雪",
+    "爱发电用户_Khtc",
+    -- 20
     "ronaldozhou",
+    -- 5
     "爱发电用户_fmpN",
     "爱发电用户_96Sm",
+    -- "",
+    -- "",
+    -- "",
+    -- "",
+    -- "",
+    -- "",
 }
 
 
@@ -163,7 +182,7 @@ BG.Init(function()
             GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT", 0, 0)
             GameTooltip:ClearLines()
             GameTooltip:AddLine(self:GetText(), 1, 1, 1, true)
-            GameTooltip:AddLine(L["感谢这些玩家的支持："], 1, 1, 1, true)
+            GameTooltip:AddLine(L["感谢以下玩家的发电："], 1, 1, 1, true)
             for i, name in ipairs(AFDtbl) do
                 GameTooltip:AddLine(name, 1, 0.82, 0, true)
             end
@@ -190,7 +209,7 @@ BG.Init(function()
         end
         bt:SetNormalFontObject(BG.FontYellow13)
         bt:SetHighlightFontObject(BG.FontWhite13)
-        bt:SetText(AddTexture("Interface\\AddOns\\BiaoGe\\Media\\icon\\DD") .. L["网易DD"])
+        bt:SetText(AddTexture("DD") .. L["网易DD"])
         bt:SetWidth(bt:GetFontString():GetStringWidth())
         BG.ButtonDD = bt
         lastBt = bt
@@ -225,7 +244,7 @@ BG.Init(function()
         end
         bt:SetNormalFontObject(BG.FontYellow13)
         bt:SetHighlightFontObject(BG.FontWhite13)
-        bt:SetText(AddTexture("Interface\\AddOns\\BiaoGe\\Media\\icon\\BOX") .. L["新手盒子"])
+        bt:SetText(AddTexture("BOX") .. L["新手盒子"])
         bt:SetWidth(bt:GetFontString():GetStringWidth())
         BG.ButtonBOX = bt
         lastBt = bt
@@ -236,7 +255,7 @@ BG.Init(function()
             GameTooltip:AddLine(self:GetText(), 1, 1, 1, true)
             GameTooltip:AddLine(L["集插件管理、配置分享、云端备份、游戏攻略、游戏工具于一体。"], 1, 0.82, 0, true)
             GameTooltip:AddLine(L["你可以在这里更新BiaoGe插件。"], 1, 0.82, 0, true)
-            GameTooltip:AddLine(L["也可以在这里获取BiaoGeVIP订阅模块插件。"], 1, 0.82, 0, true)
+            GameTooltip:AddLine(L["也可以在这里订阅我的账号苍穹之霜，提前体验BiaoGeVIP插件。"], 1, 0.82, 0, true)
             GameTooltip:AddLine(L["（点击复制网址）"], 1, 0.82, 0, true)
             GameTooltip:Show()
         end)

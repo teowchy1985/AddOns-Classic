@@ -372,9 +372,9 @@ BG.Init(function()
         local bt = BG.AchievementMainFrame.ButtonRefresh
         bt:ClearAllPoints()
         if has then
-            bt:SetPoint("BOTTOMLEFT", BG.AchievementMainFrame.Frame2.frame, "BOTTOMRIGHT", 30, 0)
+            bt:SetPoint("BOTTOMLEFT", BG.AchievementMainFrame.Frame2.frame, "BOTTOMRIGHT", 30, 5)
         else
-            bt:SetPoint("BOTTOMLEFT", BG.AchievementMainFrame.Frame1.frame, "BOTTOMRIGHT", 30, 0)
+            bt:SetPoint("BOTTOMLEFT", BG.AchievementMainFrame.Frame1.frame, "BOTTOMRIGHT", 30, 5)
         end
     end
 
@@ -655,8 +655,8 @@ BG.Init(function()
     -- 刷新数据
     local needRefresh = true
     do
-        local bt = CreateFrame("Button", nil, BG.AchievementMainFrame, "UIPanelButtonTemplate")
-        bt:SetSize(130, 30)
+        local bt = BG.CreateButton(BG.AchievementMainFrame)
+        bt:SetSize(130, 25)
         bt:SetText(L["刷新数据"])
         BG.AchievementMainFrame.ButtonRefresh = bt
         bt:SetScript("OnClick", function(self)
