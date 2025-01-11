@@ -43,6 +43,7 @@ NIT.realm = GetRealmName();
 NIT.faction = UnitFactionGroup("player");
 NIT.serializer = LibStub:GetLibrary("LibSerialize");
 NIT.libDeflate = LibStub:GetLibrary("LibDeflate");
+NIT.libDeformat = LibStub("LibDeformat-3.0");
 --NIT.aceGUI = LibStub:GetLibrary("AceGUI-3.0");
 NIT.acr = LibStub:GetLibrary("AceConfigRegistry-3.0");
 local L = LibStub("AceLocale-3.0"):GetLocale("NovaInstanceTracker");
@@ -120,6 +121,10 @@ function NIT:OnInitialize()
 		self:updateLootReminderFrame();
 	end
 	self:checkNewVersion();
+--C_Timer.After(2,function()
+--	ToggleCharacter("PaperDollFrame")
+--	ToggleCharacter("PaperDollFrame")
+--end)
 end
 
 NIT.regionFont = "Fonts\\ARIALN.ttf";
@@ -1057,6 +1062,11 @@ function NIT:updateMinimapButton(tooltip, frame)
 			--end
 			if (UnitLevel("player") ~= NIT.maxLevel and data.type ~= "arena") then
 				tooltip:AddLine("|cFF9CD6DE" .. L["experience"] .. ":|r |cFFFFFFFF" .. (NIT:commaValue(data.xpFromChat) or "Unknown"));
+				--tooltip:AddLine("|cFF9CD6DE" .. L["experience"] .. ":|r |cFFFFFFFF" .. (NIT:commaValue(data.xpFromChat) or "Unknown"));
+				--tooltip:AddLine("|cFF9CD6DE" .. L["experience"] .. ":|r |cFFFFFFFF" .. (NIT:commaValue(data.xpFromChat) or "Unknown"));
+				--tooltip:AddLine("|cFF9CD6DE" .. L["experience"] .. ":|r |cFFFFFFFF" .. (NIT:commaValue(data.xpFromChat) or "Unknown"));
+				--tooltip:AddLine("|cFF9CD6DE" .. L["experience"] .. ":|r |cFFFFFFFF" .. (NIT:commaValue(data.xpFromChat) or "Unknown"));
+				--tooltip:AddLine("|cFF9CD6DE" .. L["experience"] .. ":|r |cFFFFFFFF" .. data.xpFromChat);
 				if (data.xpFromChat and data.xpFromChat > 0) then
 					local timeSpentRaw = 0;
 					if (data.enteredTime and data.leftTime and data.enteredTime > 0 and data.leftTime > 0) then
@@ -1066,6 +1076,7 @@ function NIT:updateMinimapButton(tooltip, frame)
 					end
 					local xpPerHour = NIT:commaValue(NIT:round((tonumber(data.xpFromChat) / timeSpentRaw) * 3600));
 					tooltip:AddLine("|cFF9CD6DE" .. L["experiencePerHour"] .. ":|r |cFFFFFFFF" .. xpPerHour);
+					--tooltip:AddLine("|cFF9CD6DE" .. L["experiencePerHour"] .. ":|r |cFFFFFFFF" .. data.xpFromChat);
 				end
 			end
 			if (not data.isPvp) then
@@ -1135,8 +1146,19 @@ function NIT:updateMinimapButton(tooltip, frame)
 			end
 		end
 		tooltip:AddLine(" ");
-		tooltip.NITSeparator2:SetPoint("TOP", _G[tooltip:GetName() .. "TextLeft" .. tooltip:NumLines()], "CENTER");
+		--There seems to be an issue if runereminder addon is enabled with tooltip lines being messed up, so this line gets put in the wrong place..
+		local lines = tooltip:NumLines();
+		local offset = 0;
+		--if (lines == 9) then
+		--	offset = 7.5;
+		--elseif (lines == 10) then
+		--	offset = 15;
+		--elseif (lines == 11) then
+		--	offset = 22.5;
+		--end
+		tooltip.NITSeparator2:SetPoint("TOP", _G[tooltip:GetName() .. "TextLeft" .. tooltip:NumLines()], "CENTER", 0, -offset);
 		tooltip.NITSeparator2:Show();
+		--print(tooltip:NumLines(), _G[tooltip:GetName() .. "TextLeft" .. tooltip:NumLines()]:GetText(),  _G[tooltip:GetName() .. "TextRight" .. tooltip:NumLines()]:GetText())
 	else
 		if (tooltip.NITSeparator) then
 			tooltip.NITSeparator:Hide();
@@ -1146,10 +1168,10 @@ function NIT:updateMinimapButton(tooltip, frame)
 	if (NIT.perCharOnly) then
 		tooltip:AddLine("|cFF9CD6DE(" .. L["thisChar"] .. ")|r");
 	end
-	tooltip:AddLine(NIT:getMinimapButtonLockoutString() .. "\n");
+	tooltip:AddLine(NIT:getMinimapButtonLockoutString());
 	local expires = NIT:getMinimapButtonNextExpires();
 	if (expires) then
-		tooltip:AddLine(expires .. "\n");
+		tooltip:AddLine(expires);
 	end
 	
 	--Phase 4 wrath dailies.
@@ -1348,6 +1370,9 @@ function NIT:recalcLockoutsFrame()
 					class = charData.classEnglish,
 					savedInstances = charData.savedInstances,
 				};
+				if (k ~= NIT.realm) then
+					t.char = char .. "-" .. k;
+				end
 				tinsert(data, t);
 			end
 		end
@@ -1367,9 +1392,6 @@ function NIT:recalcLockoutsFrame()
 					local name = instanceData.name;
 					if (instanceData.name and instanceData.difficultyName) then
 						name = GetDungeonNameWithDifficulty(instanceData.name, instanceData.difficultyName);
-					end
-					if (v.realm ~= NIT.realm) then
-						name = name .. "-" .. v.realm;
 					end
 					text2 = text2 .. "\n  |cFFFFFF00-|r|cFFFFAE42" .. name .. "|r |cFF9CD6DE" .. timeString .. "|r";
 					--This will be done in it's own module.
