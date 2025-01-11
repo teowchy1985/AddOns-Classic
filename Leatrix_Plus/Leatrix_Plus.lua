@@ -1,5 +1,5 @@
 ﻿----------------------------------------------------------------------
--- 	Leatrix Plus 4.0.40 (25th December 2024)
+-- 	Leatrix Plus 4.0.42 (8th January 2025)
 ----------------------------------------------------------------------
 
 --	01:Functions  02:Locks    03:Restart  40:Player   45:Rest
@@ -19,7 +19,7 @@
 	local void
 
 	-- Version
-	LeaPlusLC["AddonVer"] = "4.0.40"
+	LeaPlusLC["AddonVer"] = "4.0.42"
 
 	-- Get locale table
 	local void, Leatrix_Plus = ...
@@ -459,7 +459,7 @@
 		-- Update friends list
 		C_FriendList.ShowFriends()
 
-		-- Remove realm
+		-- Remove realm (since we have GUID checking)
 		name = strsplit("-", name, 2)
 
 		-- Check character friends
@@ -592,6 +592,7 @@
 		or	(LeaPlusLC["HideZoneText"]			~= LeaPlusDB["HideZoneText"])			-- Hide zone text
 		or	(LeaPlusLC["HideKeybindText"]		~= LeaPlusDB["HideKeybindText"])		-- Hide keybind text
 		or	(LeaPlusLC["HideMacroText"]			~= LeaPlusDB["HideMacroText"])			-- Hide macro text
+		or	(LeaPlusLC["HideRaidGroupLabels"]	~= LeaPlusDB["HideRaidGroupLabels"])	-- Hide raid group labels
 
 		or	(LeaPlusLC["MailFontChange"]		~= LeaPlusDB["MailFontChange"])			-- Resize mail text
 		or	(LeaPlusLC["QuestFontChange"]		~= LeaPlusDB["QuestFontChange"])		-- Resize quest text
@@ -665,6 +666,63 @@
 ----------------------------------------------------------------------
 
 	function LeaPlusLC:Player()
+
+		----------------------------------------------------------------------
+		-- Hide raid group labels
+		----------------------------------------------------------------------
+
+		if LeaPlusLC["HideRaidGroupLabels"] == "On" then
+
+			-- Hide player frame group indiciator labels
+			hooksecurefunc("PlayerFrame_UpdateGroupIndicator", function()
+				if PlayerFrameGroupIndicator:IsShown() then
+					PlayerFrameGroupIndicator:Hide()
+				end
+			end)
+
+			EventUtil.ContinueOnAddOnLoaded("Blizzard_RaidUI", function()
+				-- Hide raid pullout frame labels
+				hooksecurefunc("RaidPullout_Update", function(frame)
+					if frame then
+						local frameName = frame:GetName()
+						if frameName then
+							local title = _G[frameName .. "Name"]
+							if title and title:IsShown() then
+								title:Hide()
+							end
+						end
+					end
+				end)
+
+				-- Hide raid container group titles
+				local function HideRaidContainerGroupTitles(groupIndex)
+					if groupIndex then
+						local frame = _G["CompactRaidGroup" .. groupIndex]
+						if frame then
+							frame.title:Hide()
+						end
+					end
+				end
+
+				hooksecurefunc("CompactRaidGroup_GenerateForGroup", function(index)
+					HideRaidContainerGroupTitles(index)
+				end)
+
+				for index = 1, 8 do
+					HideRaidContainerGroupTitles(index)
+				end
+
+			end)
+
+			-- Hide compact party frame title
+			if CompactPartyFrame and CompactPartyFrame.title and CompactPartyFrame.title:IsShown() then CompactPartyFrame.title:Hide() end
+			hooksecurefunc("CompactPartyFrame_Generate", function()
+				if CompactPartyFrame and CompactPartyFrame.title and CompactPartyFrame.title:IsShown() then
+					CompactPartyFrame.title:Hide()
+				end
+			end)
+
+		end
 
 		----------------------------------------------------------------------
 		-- Block requested invites (no reload required)
@@ -817,32 +875,40 @@
 
 			local frame = CreateFrame("FRAME")
 			frame:SetScript("OnEvent", function(self, event, arg1, arg2, ...)
-				if event == "CHAT_MSG_WHISPER" or event == "CHAT_MSG_BN_WHISPER" then
-					if (not UnitExists("party1") or UnitIsGroupLeader("player") or UnitIsGroupAssistant("player")) and strlower(strtrim(arg1)) == strlower(LeaPlusLC["InvKey"]) then
-						if not LeaPlusLC:IsInLFGQueue() then
-							if event == "CHAT_MSG_WHISPER" then
-								local void, void, void, void, viod, void, void, void, void, guid = ...
-								if LeaPlusLC:FriendCheck(arg2, guid) or LeaPlusLC["InviteFriendsOnly"] == "Off" then
-									InviteUnit(arg2)
+				if (not UnitExists("party1") or UnitIsGroupLeader("player") or UnitIsGroupAssistant("player")) and strlower(strtrim(arg1)) == strlower(LeaPlusLC["InvKey"]) then
+					if not LeaPlusLC:IsInLFGQueue() then
+						if event == "CHAT_MSG_WHISPER" then
+							local void, void, void, void, viod, void, void, void, void, guid = ...
+							if LeaPlusLC:FriendCheck(arg2, guid) or LeaPlusLC["InviteFriendsOnly"] == "Off" then
+								-- If whisper name is same realm, remove realm name
+								local theWhisperName, theWhisperRealm = strsplit("-", arg2, 2)
+								if theWhisperRealm then
+									local void, theCharRealm = UnitFullName("player")
+									if theCharRealm then
+										if theWhisperRealm == theCharRealm then arg2 = theWhisperName end
+									end
 								end
-							elseif event == "CHAT_MSG_BN_WHISPER" then
-								local presenceID = select(11, ...)
-								if presenceID and BNIsFriend(presenceID) then
-									local index = BNGetFriendIndex(presenceID)
-									if index then
-										local accountInfo = C_BattleNet.GetFriendAccountInfo(index)
-										local gameAccountInfo = accountInfo.gameAccountInfo
-										local gameAccountID = gameAccountInfo.gameAccountID
-										if gameAccountID then
-											BNInviteFriend(gameAccountID)
-										end
+
+								-- Invite whisper player
+								C_PartyInfo.InviteUnit(arg2)
+							end
+						elseif event == "CHAT_MSG_BN_WHISPER" then
+							local presenceID = select(11, ...)
+							if presenceID and BNIsFriend(presenceID) then
+								local index = BNGetFriendIndex(presenceID)
+								if index then
+									local accountInfo = C_BattleNet.GetFriendAccountInfo(index)
+									local gameAccountInfo = accountInfo.gameAccountInfo
+									local gameAccountID = gameAccountInfo.gameAccountID
+									if gameAccountID then
+										BNInviteFriend(gameAccountID)
 									end
 								end
 							end
 						end
 					end
-					return
 				end
+				return
 			end)
 
 			-- Function to set event
@@ -957,7 +1023,8 @@
 
 			local frame = CreateFrame("FRAME")
 			frame:SetScript("OnEvent", function(self, event, arg1, ...)
-				-- If a friend, accept if you're accepting friends and not in battleground queue
+
+				-- If a friend, accept if you're accepting friends and not queued
 				local void, void, void, void, guid = ...
 				if (LeaPlusLC["AcceptPartyFriends"] == "On" and LeaPlusLC:FriendCheck(arg1, guid)) then
 					if not LeaPlusLC:IsInLFGQueue() then
@@ -1000,9 +1067,10 @@
 		do
 
 			local frame = CreateFrame("FRAME")
-			frame:SetScript("OnEvent", function(self, event, arg1)
+			frame:SetScript("OnEvent", function(self, event, arg1, ...)
 
 				-- If not a friend and you're blocking invites, decline
+				local void, void, void, void, void, guid = ...
 				if LeaPlusLC["NoPartyInvites"] == "On" then
 					if LeaPlusLC:FriendCheck(arg1, guid) then
 						return
@@ -1263,6 +1331,38 @@
 
 				},
 
+				-- Horse footsteps
+				["MuteHorsesteps"] = {
+
+					-- sound/creature/horse/mfootstepshorse
+					"dirt01.ogg#552083",
+					"dirt02.ogg#552081",
+					"dirt03.ogg#552072",
+					"dirt04.ogg#552089",
+					"dirt05.ogg#552078",
+					"grass01.ogg#552087",
+					"grass02.ogg#552085",
+					"grass03.ogg#552062",
+					"grass04.ogg#552071",
+					"grass05.ogg#552079",
+					"snow01.ogg#552065",
+					"snow02.ogg#552084",
+					"snow03.ogg#552058",
+					"snow04.ogg#552073",
+					"snow05.ogg#552077",
+					"stone01.ogg#552090",
+					"stone02.ogg#552068",
+					"stone03.ogg#552070",
+					"stone04.ogg#552082",
+					"stone05.ogg#552060",
+					"wood01.ogg#552086",
+					"wood02.ogg#552075",
+					"wood03.ogg#552076",
+					"wood04.ogg#552066",
+					"wood05.ogg#552063",
+
+				},
+
 				-- Yawns (sound/creature/tiger/)
 				["MuteYawns"] = {
 
@@ -1423,10 +1523,11 @@
 			LeaPlusLC:MakeCB(SoundPanel, "MuteBikes", "Bikes", 150, -92, false, "If checked, bike mount sounds will be muted.|n|nThis applies to Mekgineer's Chopper and Mechano-hog.")
 			LeaPlusLC:MakeCB(SoundPanel, "MuteBrooms", "Brooms", 150, -112, false, "If checked, broom mounts will be muted.")
 			LeaPlusLC:MakeCB(SoundPanel, "MuteGyrocopters", "Gyrocopters", 150, -132, false, "If checked, gyrocopters will be muted.|n|nThis applies to the engineering flying machine mounts.")
-			LeaPlusLC:MakeCB(SoundPanel, "MuteMechSteps", "Mechsteps", 150, -152, false, "If checked, footsteps for mechanical mounts will be muted.")
-			LeaPlusLC:MakeCB(SoundPanel, "MuteStriders", "Mechstriders", 150, -172, false, "If checked, mechanostriders will be quieter.")
-			LeaPlusLC:MakeCB(SoundPanel, "MuteNetherdrakes", "Netherdrakes", 150, -192, false, "If checked, netherdrakes will be quieter.")
-			LeaPlusLC:MakeCB(SoundPanel, "MuteTravelers", "Travelers", 150, -212, false, "If checked, traveling merchant greetings and farewells will be muted.|n|nThis applies to Traveler's Tundra Mammoth.")
+			LeaPlusLC:MakeCB(SoundPanel, "MuteHorsesteps", "Horsesteps", 150, -152, false, "If checked, footsteps for horse mounts will be muted.")
+			LeaPlusLC:MakeCB(SoundPanel, "MuteMechSteps", "Mechsteps", 150, -172, false, "If checked, footsteps for mechanical mounts will be muted.")
+			LeaPlusLC:MakeCB(SoundPanel, "MuteStriders", "Mechstriders", 150, -192, false, "If checked, mechanostriders will be quieter.")
+			LeaPlusLC:MakeCB(SoundPanel, "MuteNetherdrakes", "Netherdrakes", 150, -212, false, "If checked, netherdrakes will be quieter.")
+			LeaPlusLC:MakeCB(SoundPanel, "MuteTravelers", "Travelers", 150, -232, false, "If checked, traveling merchant greetings and farewells will be muted.|n|nThis applies to Traveler's Tundra Mammoth.")
 
 			LeaPlusLC:MakeTx(SoundPanel, "Hunter", 284, -72)
 			LeaPlusLC:MakeCB(SoundPanel, "MuteScreech", "Screech", 284, -92, false, "If checked, Screech will be muted.|n|nThis is a spell used by some flying pets.")
@@ -12860,6 +12961,7 @@
 				LeaPlusLC:LoadVarChk("HideZoneText", "Off")					-- Hide zone text
 				LeaPlusLC:LoadVarChk("HideKeybindText", "Off")				-- Hide keybind text
 				LeaPlusLC:LoadVarChk("HideMacroText", "Off")				-- Hide macro text
+				LeaPlusLC:LoadVarChk("HideRaidGroupLabels", "Off")			-- Hide raid group labels
 
 				LeaPlusLC:LoadVarChk("MailFontChange", "On")				-- Resize mail text
 				LeaPlusLC:LoadVarNum("LeaPlusMailFontSize", 15, 10, 30)		-- Mail text slider
@@ -13265,6 +13367,7 @@
 			LeaPlusDB["HideZoneText"] 			= LeaPlusLC["HideZoneText"]
 			LeaPlusDB["HideKeybindText"] 		= LeaPlusLC["HideKeybindText"]
 			LeaPlusDB["HideMacroText"] 			= LeaPlusLC["HideMacroText"]
+			LeaPlusDB["HideRaidGroupLabels"] 	= LeaPlusLC["HideRaidGroupLabels"]
 
 			LeaPlusDB["MailFontChange"] 		= LeaPlusLC["MailFontChange"]
 			LeaPlusDB["LeaPlusMailFontSize"] 	= LeaPlusLC["LeaPlusMailFontSize"]
@@ -15531,6 +15634,7 @@
 				LeaPlusDB["NoHitIndicators"] = "On"				-- Hide portrait text
 				LeaPlusDB["HideKeybindText"] = "On"				-- Hide keybind text
 				LeaPlusDB["HideMacroText"] = "On"				-- Hide macro text
+				LeaPlusDB["HideRaidGroupLabels"] = "On"			-- Hide raid group labels
 
 				LeaPlusDB["MailFontChange"] = "On"				-- Resize mail text
 				LeaPlusDB["LeaPlusMailFontSize"] = 22			-- Mail font size
@@ -15976,6 +16080,7 @@
 	LeaPlusLC:MakeCB(LeaPlusLC[pg], "HideZoneText"				,	"Hide zone text"				,	146, -132, 	true,	"If checked, zone text will not be shown (eg. 'Ironforge').")
 	LeaPlusLC:MakeCB(LeaPlusLC[pg], "HideKeybindText"			,	"Hide keybind text"				,	146, -152, 	true,	"If checked, keybind text will not be shown on action buttons.")
 	LeaPlusLC:MakeCB(LeaPlusLC[pg], "HideMacroText"				,	"Hide macro text"				,	146, -172, 	true,	"If checked, macro text will not be shown on action buttons.")
+	LeaPlusLC:MakeCB(LeaPlusLC[pg], "HideRaidGroupLabels"		,	"Hide raid group labels"		,	146, -192, 	true,	"If checked, the player frame group indicator and the group labels displayed above the compact raid frames and the pullout raid frames will be hidden.")
 
 	LeaPlusLC:MakeTx(LeaPlusLC[pg], "Text Size"					, 	340, -72);
 	LeaPlusLC:MakeCB(LeaPlusLC[pg], "MailFontChange"			,	"Resize mail text"				, 	340, -92, 	true,	"If checked, you will be able to change the font size of standard mail text.|n|nThis does not affect mail created using templates (such as auction house invoices).")
