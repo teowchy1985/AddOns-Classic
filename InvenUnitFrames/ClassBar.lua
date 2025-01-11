@@ -1889,7 +1889,8 @@ elseif playerClass == "MONK" then
  					self.prev = self.value
  				end
  --			elseif GetPrimaryTalentTree() == SPEC_WARLOCK_AFFLICTION and IsPlayerSpell(WARLOCK_SOULBURN) and not UnitHasVehicleUI("player") then
- 			elseif UnitLevel("player") >= (SHARDBAR_SHOW_LEVEL or 10) and not UnitHasVehicleUI("player") then
+-- 			elseif UnitLevel("player") >= SHARDBAR_SHOW_LEVEL and not UnitHasVehicleUI("player") then
+ 			elseif  not UnitHasVehicleUI("player") then
  				if not self:IsShown() then
  					self:Show()
  					self:RegisterUnitEvent("UNIT_POWER_FREQUENT", "player")
