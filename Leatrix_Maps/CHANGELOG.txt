@@ -1,4 +1,8 @@
-﻿4.0.40 - 25th December 2024.
+﻿4.0.41 - 1st January 2025
+- Happy New Year!
+- Updated translations.
+
+4.0.40 - 25th December 2024.
 - Merry Christmas!
 - The 'Use default map' option is now available once again.  Note that enabling this option will lock out some of the other options.
 - Updated translations.

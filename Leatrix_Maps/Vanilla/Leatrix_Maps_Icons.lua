@@ -29,7 +29,7 @@
 
 		--[[Alterac Mountains]] [1416] = {
 			{"Spirit", 42.9, 38.0, L["Spirit Healer"], nil, spTex, nil, nil},
-			{"Arrow", 80.7, 34.2, L["Western Plagielands"], nil, arTex, nil, nil, nil, nil, nil, 0, 1422},
+			{"Arrow", 80.7, 34.2, L["Western Plaguelands"], nil, arTex, nil, nil, nil, nil, nil, 0, 1422},
 			{"Arrow", 51.8, 68.8, L["Hillsbrad Foothills"], nil, arTex, nil, nil, nil, nil, nil, 3, 1424},
 			{"Arrow", 81.7, 77.5, L["Hillsbrad Foothills"], L["Ravenholdt Manor"], arTex, nil, nil, nil, nil, nil, 2.2, 1424},
 		},
@@ -81,7 +81,7 @@
 			{"Spirit", 65.8, 74.2, L["Spirit Healer"], nil, spTex, nil, nil},
 			{"Spirit", 45.0, 86.0, L["Spirit Healer"], nil, spTex, nil, nil},
 			{"Arrow", 44.1, 87.1, L["Alterac Mountains"], nil, arTex, nil, nil, nil, nil, nil, 3, 1416},
-			{"Arrow", 28.6, 57.5, L["Tirisfal Glades"], L["The Balwark"], arTex, nil, nil, nil, nil, nil, 1.6, 1420},
+			{"Arrow", 28.6, 57.5, L["Tirisfal Glades"], L["The Bulwark"], arTex, nil, nil, nil, nil, nil, 1.6, 1420},
 			{"Arrow", 69.7, 50.3, L["Eastern Plaguelands"], nil, arTex, nil, nil, nil, nil, nil, 4.7, 1423},
 			{"Arrow", 65.3, 86.4, L["The Hinterlands"], nil, arTex, nil, nil, nil, nil, nil, 3, 1425},
 		},
@@ -319,6 +319,7 @@
 			{"Arrow", 80.2, 92.4, L["The Barrens"], nil, arTex, nil, nil, nil, nil, nil, 3.4, 1413},
 			{"Arrow", 30.4, 75.4, L["Desolace"], nil, arTex, nil, nil, nil, nil, nil, 2.7, 1443},
 			{"Arrow", 78.2, 42.8, L["Ashenvale"], L["The Talondeep Path"], arTex, nil, nil, nil, nil, nil, 6.1, 1440},
+			{"Arrow", 37.9, 67.8, L["Sun Rock Retreat"], L["Mountain Pass (Horde Only)"], arTex, nil, nil, nil, nil, nil, 4.1, 1442},
 		},
 		--[[Desolace]] [1443] = {
 			{"Dungeon", 29.1, 62.5, L["Maraudon"], L["Dungeon"], dnTex, 46, 55},
