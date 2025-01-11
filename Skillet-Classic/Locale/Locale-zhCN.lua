@@ -274,6 +274,8 @@ L["Selection"] = "选项"
 L["SELECTTOPRECIPEDESC"] = "Pre-select the top recipe"
 --[[Translation missing --]]
 L["SELECTTOPRECIPENAME"] = "Select top recipe"
+--[[Translation missing --]]
+L["Sellout"] = "Sellout"
 L["Sells for "] = "售得"
 L["Set Favorite"] = "收藏"
 L["shift-click to link"] = "shift-点击生成链接"
@@ -341,6 +343,10 @@ L["Unknown"] = "未知"
 L["Unlearned"] = "未学会"
 --[[Translation missing --]]
 L["Use Action Bar button to change professions"] = "Use Action Bar button to change professions"
+--[[Translation missing --]]
+L["USEALTBANKSDESC"] = "Include alt bank items when calculating number of crafts"
+--[[Translation missing --]]
+L["USEALTBANKSNAME"] = "Use alt banks"
 L["USEALTCURRVENDITEMSDESC"] = "用其他货币购买的供应商物品被认为是供应商提供的。"
 L["USEALTCURRVENDITEMSNAME"] = "使用其他货币购买的供应商物品"
 --[[Translation missing --]]
@@ -358,4 +364,6 @@ L["VENDORAUTOBUYNAME"] = "自动购买材料"
 L["VENDORBUYBUTTONDESC"] = "开启商人对话窗口时，显示购买按钮，以便购买队列中需要的材料."
 L["VENDORBUYBUTTONNAME"] = "在商人窗口显示购买按钮"
 L["View Crafters"] = "查看制作者"
+--[[Translation missing --]]
+L["VProfit"] = "VProfit"
 

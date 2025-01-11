@@ -264,6 +264,8 @@ L["Selection"] = "Auswahl"
 L["SELECTTOPRECIPEDESC"] = "Pre-select the top recipe"
 --[[Translation missing --]]
 L["SELECTTOPRECIPENAME"] = "Select top recipe"
+--[[Translation missing --]]
+L["Sellout"] = "Sellout"
 L["Sells for "] = "Verkauf für "
 L["Set Favorite"] = "Als Favorit setzen"
 L["shift-click to link"] = "Shift-Klick zum verlinken"
@@ -329,6 +331,10 @@ L["Transparency"] = "Transparenz"
 L["Unknown"] = "Unbekannt"
 L["Unlearned"] = "Noch nicht erlernt"
 L["Use Action Bar button to change professions"] = "Benutze Aktionsbutton, um Berufe zu wechseln."
+--[[Translation missing --]]
+L["USEALTBANKSDESC"] = "Include alt bank items when calculating number of crafts"
+--[[Translation missing --]]
+L["USEALTBANKSNAME"] = "Use alt banks"
 L["USEALTCURRVENDITEMSDESC"] = "Händlermaterialien die mit alternativen Zahlungsmittel erworben werden, werden als vom Händler bereitgestellt berücksichtigt."
 L["USEALTCURRVENDITEMSNAME"] = "Händlermaterialien mit alternativen Zahlungsmitteln erwerben"
 --[[Translation missing --]]
@@ -346,4 +352,6 @@ L["VENDORAUTOBUYNAME"] = "Materialien automatisch kaufen"
 L["VENDORBUYBUTTONDESC"] = "Hat ein Händler Materialien, die in der Einkaufsliste hinterlegt sind, wird eine Schaltfläche zum Kaufen der Materialien angezeigt."
 L["VENDORBUYBUTTONNAME"] = "Materialien kaufen Schaltfläche beim Händler anzeigen"
 L["View Crafters"] = "Zeige Handwerker"
+--[[Translation missing --]]
+L["VProfit"] = "VProfit"
 

@@ -253,6 +253,8 @@ L["Selection"] = "Sélection"
 L["SELECTTOPRECIPEDESC"] = "Pre-select the top recipe"
 --[[Translation missing --]]
 L["SELECTTOPRECIPENAME"] = "Select top recipe"
+--[[Translation missing --]]
+L["Sellout"] = "Sellout"
 L["Sells for "] = "Se vend pour"
 L["Set Favorite"] = "Mettre en favoris"
 L["shift-click to link"] = "Maj-clic pour lier"
@@ -318,6 +320,10 @@ L["Transparency"] = "Transparence"
 L["Unknown"] = "Inconnue"
 L["Unlearned"] = "Non-appris"
 L["Use Action Bar button to change professions"] = "Utilisez le bouton de la barre d'action pour changer de profession"
+--[[Translation missing --]]
+L["USEALTBANKSDESC"] = "Include alt bank items when calculating number of crafts"
+--[[Translation missing --]]
+L["USEALTBANKSNAME"] = "Use alt banks"
 L["USEALTCURRVENDITEMSDESC"] = "Les objets du vendeur achetés avec d'autres devises sont considérés comme fournis par le vendeur."
 L["USEALTCURRVENDITEMSNAME"] = "Utiliser des objets fournisseur achetés avec d'autres devises"
 --[[Translation missing --]]
@@ -335,4 +341,6 @@ L["VENDORAUTOBUYNAME"] = "Acheter les composants automatiquement"
 L["VENDORBUYBUTTONDESC"] = "Afficher un bouton en parlant aux vendeurs qui vous permet d'acheter les composants nécessaires pour toutes les recettes en file d'attente."
 L["VENDORBUYBUTTONNAME"] = "Montrer le bouton d'achat des composants chez les vendeurs"
 L["View Crafters"] = "Voir Artisans"
+--[[Translation missing --]]
+L["VProfit"] = "VProfit"
 

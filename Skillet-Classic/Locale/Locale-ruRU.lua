@@ -246,6 +246,8 @@ L["Selection"] = "Выделение"
 L["SELECTTOPRECIPEDESC"] = "Pre-select the top recipe"
 --[[Translation missing --]]
 L["SELECTTOPRECIPENAME"] = "Select top recipe"
+--[[Translation missing --]]
+L["Sellout"] = "Sellout"
 L["Sells for "] = "Продается за "
 L["Set Favorite"] = "Сделать избранным"
 L["shift-click to link"] = "ШИФТ+нажатие для создания ссылки"
@@ -306,6 +308,10 @@ L["Transparency"] = "Прозрачность"
 L["Unknown"] = "Неизвестен"
 L["Unlearned"] = "Неизучено"
 L["Use Action Bar button to change professions"] = "Использовать кнопку панели действий для смены профессии"
+--[[Translation missing --]]
+L["USEALTBANKSDESC"] = "Include alt bank items when calculating number of crafts"
+--[[Translation missing --]]
+L["USEALTBANKSNAME"] = "Use alt banks"
 L["USEALTCURRVENDITEMSDESC"] = "Товары продавцов, купленные в альтернативных валютах, считаются поставщиками."
 L["USEALTCURRVENDITEMSNAME"] = "Используйте товары продавца, купленные в другой валюте"
 L["USEBANKASALTDESC"] = "Использовать содержимое банка, как если бы это был другой альтернативный вариант."
@@ -321,4 +327,6 @@ L["VENDORAUTOBUYNAME"] = "Автоматически покупать реаге
 L["VENDORBUYBUTTONDESC"] = "Отображать кнопку при разговоре с торговцем, это позволит вам осмотреть все нужные реагенты для всех ваших рецептов в очереди."
 L["VENDORBUYBUTTONNAME"] = "Кнопка покупок реагентов у торговца"
 L["View Crafters"] = "Посмотреть мастеров"
+--[[Translation missing --]]
+L["VProfit"] = "VProfit"
 

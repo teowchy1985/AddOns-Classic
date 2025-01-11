@@ -272,6 +272,8 @@ L["Selection"] = "선택"
 L["SELECTTOPRECIPEDESC"] = "Pre-select the top recipe"
 --[[Translation missing --]]
 L["SELECTTOPRECIPENAME"] = "Select top recipe"
+--[[Translation missing --]]
+L["Sellout"] = "Sellout"
 L["Sells for "] = "판매 기간 "
 L["Set Favorite"] = "즐겨찾기 설정"
 L["shift-click to link"] = "쉬프트-클릭으로 링크"
@@ -339,6 +341,10 @@ L["Unknown"] = "알 수 없음"
 L["Unlearned"] = "배우지 않음"
 --[[Translation missing --]]
 L["Use Action Bar button to change professions"] = "Use Action Bar button to change professions"
+--[[Translation missing --]]
+L["USEALTBANKSDESC"] = "Include alt bank items when calculating number of crafts"
+--[[Translation missing --]]
+L["USEALTBANKSNAME"] = "Use alt banks"
 L["USEALTCURRVENDITEMSDESC"] = "다른 화폐로 구입한 상인 아이템은 상인 공급으로 간주됩니다."
 L["USEALTCURRVENDITEMSNAME"] = "다른 화폐로 구입한 상인 아이템 사용"
 --[[Translation missing --]]
@@ -356,4 +362,6 @@ L["VENDORAUTOBUYNAME"] = "자동으로 재료 구매"
 L["VENDORBUYBUTTONDESC"] = "상인과 대화할 때 모든 대기 레시피에 필요한 재료를 구입할 수 있는 버튼을 표시합니다."
 L["VENDORBUYBUTTONNAME"] = "상인 이용 시 재료 구매 버튼 표시"
 L["View Crafters"] = "제작자 보기"
+--[[Translation missing --]]
+L["VProfit"] = "VProfit"
 

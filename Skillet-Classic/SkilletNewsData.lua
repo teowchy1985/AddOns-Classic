@@ -26,6 +26,26 @@ local isCata = WOW_PROJECT_ID == WOW_PROJECT_CATACLYSM_CLASSIC
 
 Skillet.NewsName = "Skillet-Classic News"
 Skillet.NewsData = {
+	{	version = "2.07",
+		data = {
+			{	name = "Changes",
+				data = {
+					{ header = "Options", body = "Fix 'use bank as alt' and 'use alt banks' options" },
+				},
+			},
+		},
+	},
+	{	version = "2.06",
+		data = {
+			{	name = "Changes",
+				data = {
+					{ header = "Plugins", body = "Add sell to vendor price and profit sorts to Auctionator" },
+					{ header = "Options", body = "Add 'use bank as alt' and 'use alt banks' options to Classic Era" },
+					{ header = "Options", body = "Add toolData commands and fetching toolData items from bank" },
+				},
+			},
+		},
+	},
 	{	version = "2.05",
 		data = {
 			{	name = "Fixes",

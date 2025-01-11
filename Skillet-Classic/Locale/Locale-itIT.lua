@@ -269,6 +269,8 @@ L["Selection"] = "Selection"
 L["SELECTTOPRECIPEDESC"] = "Pre-select the top recipe"
 --[[Translation missing --]]
 L["SELECTTOPRECIPENAME"] = "Select top recipe"
+--[[Translation missing --]]
+L["Sellout"] = "Sellout"
 L["Sells for "] = "Vendibile per "
 L["Set Favorite"] = "Set Favorite"
 L["shift-click to link"] = "shift-click to link"
@@ -336,6 +338,10 @@ L["Unknown"] = "Sconosciuto"
 L["Unlearned"] = "Unlearned"
 --[[Translation missing --]]
 L["Use Action Bar button to change professions"] = "Use Action Bar button to change professions"
+--[[Translation missing --]]
+L["USEALTBANKSDESC"] = "Include alt bank items when calculating number of crafts"
+--[[Translation missing --]]
+L["USEALTBANKSNAME"] = "Use alt banks"
 L["USEALTCURRVENDITEMSDESC"] = "Vendor items bought with alternate currencies are considered vendor supplied."
 L["USEALTCURRVENDITEMSNAME"] = "Use vendor items bought with alternate currencies"
 --[[Translation missing --]]
@@ -353,4 +359,6 @@ L["VENDORAUTOBUYNAME"] = "Compra reagenti in automatico"
 L["VENDORBUYBUTTONDESC"] = "Mostra un bottone quando parli ad un mercante che permette di comprare i reagenti necessari per le ricette accodate."
 L["VENDORBUYBUTTONNAME"] = "Mostra pulsante dai mercanti"
 L["View Crafters"] = "Mostra Creatori"
+--[[Translation missing --]]
+L["VProfit"] = "VProfit"
 
