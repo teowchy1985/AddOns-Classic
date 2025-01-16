@@ -1019,6 +1019,7 @@ BG.Init(function()
             dropDown:SetPoint("TOPLEFT", 0, height - h - 2)
             LibBG:UIDropDownMenu_SetWidth(dropDown, 170)
             LibBG:UIDropDownMenu_SetText(dropDown, RaidText(BiaoGe.options[name]))
+            LibBG:UIDropDownMenu_SetAnchor(dropDown, -10, 0, "TOPRIGHT", dropDown, "BOTTOMRIGHT")
             BG.dropDownToggle(dropDown)
             BG.options["button" .. name] = dropDown
 
@@ -1276,6 +1277,9 @@ BG.Init(function()
                 edit:SetScript("OnTextChanged", function(self)
                     BiaoGe.options["10MaxPlayers"] = tonumber(self:GetText()) or 10
                 end)
+                edit:SetScript("OnEnterPressed", function(self)
+                    self:ClearFocus()
+                end)
 
                 local text = f:CreateFontString(nil, "ARTWORK", "GameFontNormal")
                 text:SetPoint("LEFT", edit, "RIGHT", 40, 0)
@@ -1289,6 +1293,9 @@ BG.Init(function()
                 edit:SetAutoFocus(false)
                 edit:SetScript("OnTextChanged", function(self)
                     BiaoGe.options["25MaxPlayers"] = tonumber(self:GetText()) or 25
+                end)
+                edit:SetScript("OnEnterPressed", function(self)
+                    self:ClearFocus()
                 end)
             end
         end
@@ -1984,7 +1991,7 @@ BG.Init(function()
                 local l = O.CreateLine(roleOverview, height + line_height)
 
                 height = CreateMONEYbutton(1, #BG.MONEYall_table, width, height, 65, height_jiange)
-                height = height - height_jiange
+                height = height - height_jiange*3
             elseif BG.IsVanilla_60 then
                 --团本CD
                 local text = roleOverview:CreateFontString(nil, "ARTWORK", "GameFontNormal")
@@ -2012,7 +2019,7 @@ BG.Init(function()
                 local l = O.CreateLine(roleOverview, height + line_height)
 
                 height = CreateMONEYbutton(1, #BG.MONEYall_table, width, height, 65, height_jiange)
-                height = height - height_jiange
+                height = height - height_jiange*3
             elseif BG.IsWLK then
                 --团本CD
                 local text = roleOverview:CreateFontString(nil, "ARTWORK", "GameFontNormal")
@@ -2102,9 +2109,96 @@ BG.Init(function()
                 height = height - height_jiange * 3
             end
         end
+        height = height + 10
+
+        -- 排序
+        do
+            local name = "roleOverviewSort1"
+            BG.options[name .. "reset"] = "iLevel-class-player"
+            BiaoGe.options[name] = BiaoGe.options[name] or BG.options[name .. "reset"]
+
+            local tbl = {
+                { key = "iLevel-class-player", text = L["装等-职业-名字"] },
+                { key = "iLevel-player-class", text = L["装等-名字-职业"] },
+                { key = "class-iLevel-player", text = L["职业-装等-名字"] },
+                { key = "class-player-iLevel", text = L["职业-名字-装等"] },
+                { key = "player-iLevel-class", text = L["名字-装等-职业"] },
+                { key = "player-class-iLevel", text = L["名字-职业-装等"] },
+            }
+
+            local t = roleOverview:CreateFontString()
+            t:SetFont(STANDARD_TEXT_FONT, 15, "OUTLINE")
+            t:SetPoint("TOPLEFT", 15, height)
+            t:SetTextColor(1, 1, 1)
+            t:SetText(AddTexture("QUEST").. L["角色总览的排序方式："])
+            BG.options.roleOverviewSortText1 = t
+
+            -- 选项
+            do
+                local function SetText(key)
+                    for i, v in ipairs(tbl) do
+                        if v.key == key then
+                            return v.text
+                        end
+                    end
+                end
+
+                local dropDown = LibBG:Create_UIDropDownMenu(nil, roleOverview)
+                dropDown:SetPoint("LEFT", BG.options.roleOverviewSortText1, "RIGHT", -10, -2)
+                LibBG:UIDropDownMenu_SetWidth(dropDown, 160)
+                LibBG:UIDropDownMenu_SetText(dropDown, SetText(BiaoGe.options[name]))
+                LibBG:UIDropDownMenu_SetAnchor(dropDown, -10, 0, "TOPRIGHT", dropDown, "BOTTOMRIGHT")
+                BG.dropDownToggle(dropDown)
+                BG.options["button" .. name] = dropDown
+
+                LibBG:UIDropDownMenu_Initialize(dropDown, function(self, level)
+                    BG.PlaySound(1)
+                    for i, v in ipairs(tbl) do
+                        local info = LibBG:UIDropDownMenu_CreateInfo()
+                        info.text = v.text
+                        info.func = function()
+                            BiaoGe.options[name] = v.key
+                            LibBG:UIDropDownMenu_SetText(dropDown, SetText(BiaoGe.options[name]))
+                        end
+                        if BiaoGe.options[name] == v.key then
+                            info.checked = true
+                        end
+                        LibBG:UIDropDownMenu_AddButton(info)
+                    end
+                end)
+            end
+        end
+        height = height - 35
+
+        -- 屏蔽等级
+        do
+            local name = "roleOverviewNotShowLevel"
+            BG.options[name .. "reset"] = 0
+            BiaoGe.options[name] = BiaoGe.options[name] or BG.options[name .. "reset"]
+
+            local t = roleOverview:CreateFontString()
+            t:SetFont(STANDARD_TEXT_FONT, 15, "OUTLINE")
+            t:SetPoint("TOPLEFT", 15, height)
+            t:SetTextColor(1, 1, 1)
+            t:SetText(AddTexture("QUEST").. L["不显示低于该等级的角色："])
+
+            local edit = CreateFrame("EditBox", nil, roleOverview, "InputBoxTemplate")
+            edit:SetSize(50, 20)
+            edit:SetPoint("LEFT", t, "RIGHT", 10, 0)
+            edit:SetText( BiaoGe.options[name] or 0)
+            edit:SetAutoFocus(false)
+            edit:SetScript("OnTextChanged", function(self)
+                BiaoGe.options[name] = tonumber(self:GetText()) or 0
+            end)
+            edit:SetScript("OnEnterPressed", function(self)
+                self:ClearFocus()
+            end)
+        end
 
         -- 5人本完成总览
         if not BG.IsVanilla then
+            height = height - 30
+
             local name = "FB5M"
             BG.options[name .. "reset"] = 0
             BiaoGe.options[name] = BiaoGe.options[name] or BG.options[name .. "reset"]

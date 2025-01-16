@@ -208,7 +208,7 @@ BG.Init(function()
         BG.MainFrame.ErrorText:SetPoint("CENTER")
         BG.MainFrame.ErrorText:SetWidth(BG.MainFrame:GetWidth() - 50)
         BG.MainFrame.ErrorText:SetTextColor(1, 0, 0)
-        BG.MainFrame.ErrorText:SetText(L["插件加载出现错误，请把报错发给作者，谢谢。（邮箱buick_hbj@163.com，Q群322785325）"])
+        BG.MainFrame.ErrorText:SetText(L["插件加载错误，请把报错发给作者，谢谢。（Q群322785325）\n\n如果你不知道怎么看报错，请你安装BugSack和BugGrabber插件。"])
     end
     tinsert(UISpecialFrames, "BG.MainFrame")
     ----------接收表格主界面----------
@@ -1295,9 +1295,9 @@ BG.Init(function()
         BG.BossMainFrameTabNum = 8
 
         function BG.ClickTabButton(num)
-            for _num, v in pairs(BG.tabButtons) do
+            for _, v in ipairs(BG.tabButtons) do
                 local bt = v.button
-                if _num == num then
+                if v.num == num then
                     bt:Disable()
                     local r, g, b = GetClassRGB(nil, "player")
                     bt.bg:SetGradient("VERTICAL", CreateColor(r, g, b, .6), CreateColor(r, g, b, .1))
@@ -1327,7 +1327,7 @@ BG.Init(function()
             })
             bt:SetBackdropBorderColor(GetClassRGB(nil, "player", BG.borderAlpha))
             bt:SetSize(width or 90, 28)
-            if num == 1 then
+            if #BG.tabButtons == 0 then
                 if BG.IsWLK then
                     bt:SetPoint("TOPLEFT", BG.MainFrame, "BOTTOM", -360, 1)
                 else
@@ -1345,10 +1345,11 @@ BG.Init(function()
             t:SetText(text)
             t:SetWordWrap(false)
             bt:SetFontString(t)
-            BG.tabButtons[num] = {
+            tinsert(BG.tabButtons, {
                 button = bt,
                 frame = frame,
-            }
+                num = num,
+            })
             bt:SetScript("OnClick", function(self)
                 BG.ClickTabButton(num)
                 BG.PlaySound(1)
@@ -3618,7 +3619,7 @@ BG.Init(function()
             f:SetSize(jine:GetWidth(), 20)
             BG.ButtonClearBiaoGeMoney = f
             local t = f:CreateFontString()
-            t:SetFontObject(ChatFontNormal)
+            t:SetFontObject(GameFontHighlight)
             t:SetAllPoints()
             t:SetJustifyH("LEFT")
             t:SetTextColor(1, .82, 0)
@@ -3631,12 +3632,11 @@ BG.Init(function()
             f:SetPoint("RIGHT", BG.ButtonClearBiaoGeMoney, "LEFT", 0, 0)
             poit = f
             local t = f:CreateFontString()
-            t:SetFontObject(ChatFontNormal)
-            t:SetAllPoints()
-            t:SetJustifyH("RIGHT")
+            t:SetFontObject(GameFontHighlight)
+            t:SetPoint("RIGHT")
             t:SetTextColor(1, .82, 0)
             t:SetText(L["清空表格时的金币： "])
-            f:SetWidth(t:GetUnboundedStringWidth() + 5)
+            f:SetWidth(t:GetUnboundedStringWidth())
             f.Text = t
             f:SetScript("OnEnter", OnEnter)
             f:SetScript("OnLeave", GameTooltip_Hide)
@@ -3905,8 +3905,8 @@ BG.Init(function()
             end
         end)
     end
-    BG.MainFrame.ErrorText:Hide()
     -- abc:Hide()
+    BG.MainFrame.ErrorText:Hide()
 end)
 
 ----------刷新团队成员信息----------
@@ -3990,6 +3990,7 @@ do
     end)
     local f = CreateFrame("Frame")
     f:RegisterEvent("GROUP_ROSTER_UPDATE")
+    f:RegisterEvent("UNIT_CONNECTION")
     f:SetScript("OnEvent", function(self, event, ...)
         C_Timer.After(0.5, function()
             BG.UpdateRaidRosterInfo()
@@ -4280,3 +4281,17 @@ end
 -- tex:SetSize(100,100)
 -- tex:SetAtlas("bags-newitem")
 -- tex:SetTexture("Interface\\AddOns\\BiaoGe\\Media\\icon\\AFD")
+
+--[[
+/run SendMail
+SendMail("苍穹一号","123","321")
+]]
+
+-- local bt = CreateFrame("Button", nil, UIParent, "UIPanelButtonTemplate")
+-- bt:SetSize(120, 25)
+-- bt:SetPoint("CENTER", UIParent, "CENTER", 0, 0)
+-- bt:SetText(L["邮寄"])
+-- bt:SetScript("OnClick", function(self)
+--     SetSendMailMoney(100)
+--     SendMail("小鱼猎","123","321")
+-- end)

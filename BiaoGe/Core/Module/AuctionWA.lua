@@ -22,8 +22,8 @@ BG.Init(function()
         if _G.BGA.AuctionMainFrame then
             _G.BGA.AuctionMainFrame:Hide()
         end
-        if _G.BGA.Even then
-            _G.BGA.Even:UnregisterAllEvents()
+        if _G.BGA.Event then
+            _G.BGA.Event:UnregisterAllEvents()
         end
         if _G.BGA.Frames then
             wipe(_G.BGA.Frames)
@@ -1565,12 +1565,12 @@ BG.Init(function()
         end
     end
 
-    _G.BGA.Even = CreateFrame("Frame")
-    _G.BGA.Even:RegisterEvent("CHAT_MSG_ADDON")
-    _G.BGA.Even:RegisterEvent("GROUP_ROSTER_UPDATE")
-    _G.BGA.Even:RegisterEvent("PLAYER_ENTERING_WORLD")
-    _G.BGA.Even:RegisterEvent("MODIFIER_STATE_CHANGED")
-    _G.BGA.Even:SetScript("OnEvent", function(self, event, ...)
+    _G.BGA.Event = CreateFrame("Frame")
+    _G.BGA.Event:RegisterEvent("CHAT_MSG_ADDON")
+    _G.BGA.Event:RegisterEvent("GROUP_ROSTER_UPDATE")
+    _G.BGA.Event:RegisterEvent("PLAYER_ENTERING_WORLD")
+    _G.BGA.Event:RegisterEvent("MODIFIER_STATE_CHANGED")
+    _G.BGA.Event:SetScript("OnEvent", function(self, event, ...)
         if event == "CHAT_MSG_ADDON" then
             local prefix, msg, distType, senderFullName = ...
             if prefix ~= aura_env.AddonChannel then return end

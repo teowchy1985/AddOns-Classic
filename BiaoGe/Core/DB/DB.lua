@@ -8,8 +8,8 @@ local pt = print
 local LibBG = LibStub:GetLibrary("LibUIDropDownMenu-4.0") -- 调用库菜单UI
 ns.LibBG = LibBG
 
-C_ChatInfo.RegisterAddonMessagePrefix("BiaoGe")                                                -- 注册插件通信频道
-C_ChatInfo.RegisterAddonMessagePrefix("BiaoGeYY")                                              
+C_ChatInfo.RegisterAddonMessagePrefix("BiaoGe") -- 注册插件通信频道
+C_ChatInfo.RegisterAddonMessagePrefix("BiaoGeYY")
 C_ChatInfo.RegisterAddonMessagePrefix("BiaoGeVIP")
 
 BiaoGeTooltip = CreateFrame("GameTooltip", "BiaoGeTooltip", UIParent, "GameTooltipTemplate")   -- 用于装备过滤功能
@@ -24,6 +24,7 @@ BINDING_NAME_BIAOGE = L["显示/关闭表格"]
 
 local realmID = GetRealmID()
 local player = UnitName("player")
+local realmName = GetRealmName()
 
 -- 全局变量
 BG.FBtable = {}
@@ -75,7 +76,7 @@ if BG.IsWLK then
     }
 end
 
-if BG.blackListPlayer[GetRealmName()] and BG.blackListPlayer[GetRealmName()][UnitName("player")] then
+if BG.blackListPlayer[realmName] and BG.blackListPlayer[realmName][UnitName("player")] then
     BG.IsBlackListPlayer = true
 end
 
@@ -258,8 +259,8 @@ do
 
     local function UnitRealm(unit)
         local realm = select(2, UnitName(unit))
-        if not realm then
-            realm = GetRealmName()
+        if not realm or realm == "" then
+            realm = realmName
         end
         return realm
     end
@@ -797,7 +798,7 @@ local function DataBase()
     -- 记录服务器名称
     do
         BiaoGe.realmName = BiaoGe.realmName or {}
-        BiaoGe.realmName[realmID] = GetRealmName()
+        BiaoGe.realmName[realmID] = realmName
     end
     -- 记录每个角色的职业和等级
     do
