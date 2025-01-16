@@ -39,6 +39,7 @@
 			{"Spirit", 48.8, 55.6, L["Spirit Healer"], nil, spTex, nil, nil},
 			{"Arrow", 45.4, 88.9, L["Wetlands"], L["Thandol Span"], arTex, nil, nil, nil, nil, nil, 3.2, 1437},
 			{"Arrow", 20.9, 30.6, L["Hillsbrad Foothills"], nil, arTex, nil, nil, nil, nil, nil, 1, 1424},
+			{"Arrow", 29.6, 67.5, L["Faldir's Cove"], L["Just follow the path west"], arTex, nil, nil, nil, nil, nil, 1.9, 1417},
 		},
 		--[[Badlands]] [1418] = {
 			{"Dungeon", 44.6, 12.1, L["Uldaman"], L["Dungeon"], dnTex, 41, 51},
@@ -421,8 +422,8 @@
 		--[[Thunder Bluff]] [1456] = {
 			{"FlightH", 47.0, 49.8, L["Central Mesa"] .. ", " .. L["Thunder Bluff"], nil, tHTex, nil, nil},
 			{"Spirit", 56.7, 19.1, L["Spirit Healer"], nil, spTex, nil, nil},
-			{"Arrow", 35.7, 62.8, L["Mulgore"], "South", arTex, nil, nil, nil, nil, nil, 2.0, 1412},
-			{"Arrow", 51.3, 31.3, L["Mulgore"], "North", arTex, nil, nil, nil, nil, nil, 5.7, 1412},
+			{"Arrow", 35.7, 62.8, L["Mulgore"], L["South"], arTex, nil, nil, nil, nil, nil, 2.0, 1412},
+			{"Arrow", 51.3, 31.3, L["Mulgore"], L["North"], arTex, nil, nil, nil, nil, nil, 5.7, 1412},
 		},
 		--[[Darnassus]] [1457] = {
 			{"Spirit", 77.7, 25.9, L["Spirit Healer"], nil, spTex, nil, nil},
