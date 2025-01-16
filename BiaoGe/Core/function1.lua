@@ -224,9 +224,9 @@ function BG.ClearFocus()
 end
 
 ------------------事件监控------------------
-function BG.RegisterEvent(Even, OnEvent)
+function BG.RegisterEvent(Event, OnEvent)
     local frame = CreateFrame("Frame")
-    frame:RegisterEvent(Even)
+    frame:RegisterEvent(Event)
     frame:SetScript("OnEvent", OnEvent)
 end
 
@@ -271,6 +271,7 @@ local function FrameHide(num)
     -- end
 end
 ns.FrameHide = FrameHide
+BG.FrameHide=FrameHide
 
 ------------------当前表格已经有东西了------------------
 function BG.BiaoGeHavedItem(FB, _type, instanceID)

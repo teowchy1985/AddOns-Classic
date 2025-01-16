@@ -30,28 +30,36 @@ local AFDtbl = {
     -- 600
     "露露缇娅",
     "陈",
-    "爱发电用户_4nNA",
     -- 300
     "永恒",
     -- 180
-    "爱发电用户_H4pt",
+    "水晶之牙-Rich Only",
     -- 90
-    "爱发电用户_60e98",
     -- 30
+    "兜兜里好多糖",
+    "伽蓝",
+    "龙之召唤-承筱诺",
     "龙之召唤-鼓励团结有爱",
     "龙之召唤-阿多尼斯冰雪",
-    "爱发电用户_Khtc",
     -- 20
     "ronaldozhou",
     -- 5
+    -- 没有名字
+    "爱发电用户_4nNA",
+    "爱发电用户_H4pt",
+    "爱发电用户_60e98",
+    "爱发电用户_pb5U",
+    "爱发电用户_Khtc",
     "爱发电用户_fmpN",
     "爱发电用户_96Sm",
+
     -- "",
     -- "",
     -- "",
     -- "",
     -- "",
     -- "",
+    --最后更新时间：25/1/13 17:25
 }
 
 
@@ -111,9 +119,8 @@ BG.Init(function()
             GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT", 0, 0)
             GameTooltip:ClearLines()
             GameTooltip:AddLine(self.title, 1, 1, 1, true)
-            GameTooltip:AddLine(L["邮箱："] .. "buick_hbj@163.com", 1, 0.82, 0, true)
             GameTooltip:AddLine(L["Q群："] .. "322785325", 1, 0.82, 0, true)
-            GameTooltip:AddLine(L["（点击复制）"], 1, 0.82, 0, true)
+            GameTooltip:AddLine(L["（点击复制Q群）"], 1, 0.82, 0, true)
             GameTooltip:Show()
 
             if self.hasError then
@@ -136,7 +143,8 @@ BG.Init(function()
         bt:SetScript("OnClick", function(self)
             BG.PlaySound(1)
             ChatEdit_ActivateChat(ChatEdit_ChooseBoxForSend())
-            ChatEdit_ChooseBoxForSend():SetText("buick_hbj@163.com" .. "   " .. "322785325")
+            ChatEdit_ChooseBoxForSend():SetText("322785325")
+            ChatEdit_ChooseBoxForSend():HighlightText()
         end)
         bt:SetScript("OnShow", function(self)
             BG.After(1, function()
@@ -154,6 +162,7 @@ BG.Init(function()
                             self:SetNormalFontObject(BG.FontRed13)
                             self:SetText(self.title2)
                             self:SetScript("OnShow", nil)
+                            BG.MainFrame.ErrorText:SetText(L["插件加载错误，请查看右下角的红字报错，把报错内容截图发给作者，谢谢。（Q群322785325）"])
                             break
                         end
                     end

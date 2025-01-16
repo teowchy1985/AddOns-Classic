@@ -81,7 +81,7 @@ BG.Init2(function()
             AtlasLoot.GUI.ItemFrame:Refresh(true)
         elseif self.id == "AtlasLootClassic_DungeonsAndRaids" then
             -- 地下城和团队副本
-            _G["AtlasLoot_GUI-Frame"].subCatSelect:SetSelected("Ulduar")
+            _G["AtlasLoot_GUI-Frame"].subCatSelect:SetSelected("TrialoftheCrusader")
             ClickSelectButton(9, 1, "notRefresh")
             AtlasLoot.GUI.ItemFrame:Refresh(true)
         elseif self.id == "AtlasLootClassic_Crafting" then
@@ -98,7 +98,7 @@ BG.Init2(function()
             AtlasLoot.GUI.ItemFrame:Refresh(true)
         elseif self.id == "AtlasLootClassic_Collections" then
             -- 藏品
-            ClickSelectButton(9, nil, "notRefresh")
+            ClickSelectButton(10, nil, "notRefresh")
             ClickSelectButton(5, 1)
             AtlasLoot.GUI.ItemFrame:Refresh(true)
         end

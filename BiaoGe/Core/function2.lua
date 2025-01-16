@@ -1988,7 +1988,6 @@ do
             f:SetSize(w, h)
         end
         f:EnableMouse(true)
-        f:Show()
 
         local scroll = CreateFrame("ScrollFrame", nil, f, "UIPanelScrollFrameTemplate") -- 滚动
         scroll:SetWidth(f:GetWidth() - 31)
