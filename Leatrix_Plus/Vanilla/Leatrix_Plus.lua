@@ -1,5 +1,5 @@
 ﻿----------------------------------------------------------------------
--- 	Leatrix Plus 1.15.70 (8th January 2025)
+-- 	Leatrix Plus 1.15.71 (15th January 2025)
 ----------------------------------------------------------------------
 
 --	01:Functions 02:Locks   03:Restart 40:Player   45:Rest
@@ -19,7 +19,7 @@
 	local void
 
 	-- Version
-	LeaPlusLC["AddonVer"] = "1.15.70"
+	LeaPlusLC["AddonVer"] = "1.15.71"
 
 	-- Get locale table
 	local void, Leatrix_Plus = ...
@@ -2741,23 +2741,73 @@
 
 			-- Set chain style
 			local function SetChainStyle()
+
+				-- If EasyFrames is installed, get the EasyFrames light texture setting
+				local EasyFramesLightTexture
+				if EasyFramesDB and EasyFramesDB.profiles and EasyFramesDB.profiles.Default and EasyFramesDB.profiles.Default.general and EasyFramesDB.profiles.Default.general.lightTexture then
+					EasyFramesLightTexture = true
+				end
+
 				-- Get dropdown menu value
 				local chain = LeaPlusLC["PlayerChainMenu"] -- Numeric value
+
 				-- Set chain style according to value
 				if chain == 1 then -- Rare
-					PlayerFrameTexture:SetTexture("Interface\\TargetingFrame\\UI-TargetingFrame-Rare.blp")
-					PlayerFrameTexture:SetTexCoord(1, .09375, 0, .78125)
+					if C_AddOns.IsAddOnLoaded("EasyFrames") then
+						PlayerFrameTexture:SetTexture("Interface\\AddOns\\Leatrix_Plus\\Leatrix_Plus.blp")
+						if EasyFramesLightTexture then
+							PlayerFrameTexture:SetTexCoord(0, 0.2265, 0.875, 0.9726)
+						else
+							PlayerFrameTexture:SetTexCoord(0, 0.2265, 0.75, 0.8476)
+						end
+					else
+						PlayerFrameTexture:SetTexture("Interface\\TargetingFrame\\UI-TargetingFrame-Rare.blp")
+						PlayerFrameTexture:SetTexCoord(1, .09375, 0, .78125)
+					end
 				elseif chain == 2 then -- Elite
-					PlayerFrameTexture:SetTexture("Interface\\TargetingFrame\\UI-TargetingFrame-Elite.blp")
-					PlayerFrameTexture:SetTexCoord(1, .09375, 0, .78125)
+					if C_AddOns.IsAddOnLoaded("EasyFrames") then
+						PlayerFrameTexture:SetTexture("Interface\\AddOns\\Leatrix_Plus\\Leatrix_Plus.blp")
+						if EasyFramesLightTexture then
+							PlayerFrameTexture:SetTexCoord(0.5, 0.7265, 0.875, 0.9726)
+						else
+							PlayerFrameTexture:SetTexCoord(0.5, 0.7265, 0.75, 0.8476)
+						end
+					else
+						PlayerFrameTexture:SetTexture("Interface\\TargetingFrame\\UI-TargetingFrame-Elite.blp")
+						PlayerFrameTexture:SetTexCoord(1, .09375, 0, .78125)
+					end
 				elseif chain == 3 then -- Rare Elite
-					PlayerFrameTexture:SetTexture("Interface\\AddOns\\Leatrix_Plus\\Leatrix_Plus.blp")
-					PlayerFrameTexture:SetTexCoord(0, 0.2265, 0, 0.1952)
+					if C_AddOns.IsAddOnLoaded("EasyFrames") then
+						PlayerFrameTexture:SetTexture("Interface\\AddOns\\Leatrix_Plus\\Leatrix_Plus.blp")
+						if EasyFramesLightTexture then
+							PlayerFrameTexture:SetTexCoord(0.25, 0.4765, 0.875, 0.9726)
+						else
+							PlayerFrameTexture:SetTexCoord(0.25, 0.4765, 0.75, 0.8476)
+						end
+					else
+						PlayerFrameTexture:SetTexture("Interface\\AddOns\\Leatrix_Plus\\Leatrix_Plus.blp")
+						PlayerFrameTexture:SetTexCoord(0.75, 0.9765, 0.75, 0.8476)
+					end
 				end
+
 			end
 
 			-- Set style on startup
 			SetChainStyle()
+
+			-- If Easy Frames is installed, set chain style when Easy Frames has loaded
+			EventUtil.ContinueOnAddOnLoaded("EasyFrames", function()
+				local EasyFrames = LibStub("AceAddon-3.0"):GetAddon("EasyFrames", true)
+				if EasyFrames then
+					local General = EasyFrames:GetModule("General", true)
+					if General then
+						-- Set chain style when Easy Frames use a light texture checkbox is toggled
+						hooksecurefunc(General, "SetLightTexture", SetChainStyle)
+					end
+				end
+				-- Set chain style after Easy Frames has loaded
+				SetChainStyle()
+			end)
 
 			-- Set style when a drop menu is selected (procs when the list is hidden)
 			LeaPlusCB["PlayerChainMenu"]:RegisterCallback("OnMenuClose", SetChainStyle)
@@ -7772,14 +7822,14 @@
 				-- Set top left texture
 				regions[2]:SetSize(512, 512)
 				regions[2]:SetTexture("Interface\\AddOns\\Leatrix_Plus\\Leatrix_Plus")
-				regions[2]:SetTexCoord(0.25, 0.75, 0, 1)
+				regions[2]:SetTexCoord(0.25, 0.75, 0, 0.5)
 
 				-- Set top right texture
 				regions[3]:ClearAllPoints()
 				regions[3]:SetPoint("TOPLEFT", regions[2], "TOPRIGHT", 0, 0)
 				regions[3]:SetSize(256, 512)
 				regions[3]:SetTexture("Interface\\AddOns\\Leatrix_Plus\\Leatrix_Plus")
-				regions[3]:SetTexCoord(0.75, 1, 0, 1)
+				regions[3]:SetTexCoord(0.75, 1, 0, 0.5)
 
 				-- Hide bottom left and bottom right textures
 				regions[4]:Hide()
@@ -8100,14 +8150,14 @@
 				-- Set top left texture
 				regions[2]:SetSize(512, 512)
 				regions[2]:SetTexture("Interface\\AddOns\\Leatrix_Plus\\Leatrix_Plus")
-				regions[2]:SetTexCoord(0.25, 0.75, 0, 1)
+				regions[2]:SetTexCoord(0.25, 0.75, 0, 0.5)
 
 				-- Set top right texture
 				regions[3]:ClearAllPoints()
 				regions[3]:SetPoint("TOPLEFT", regions[2], "TOPRIGHT", 0, 0)
 				regions[3]:SetSize(256, 512)
 				regions[3]:SetTexture("Interface\\AddOns\\Leatrix_Plus\\Leatrix_Plus")
-				regions[3]:SetTexCoord(0.75, 1, 0, 1)
+				regions[3]:SetTexCoord(0.75, 1, 0, 0.5)
 
 				-- Hide bottom left and bottom right textures
 				regions[4]:Hide()
@@ -8284,14 +8334,14 @@
 				-- Set top left texture
 				regions[2]:SetSize(512, 512)
 				regions[2]:SetTexture("Interface\\AddOns\\Leatrix_Plus\\Leatrix_Plus")
-				regions[2]:SetTexCoord(0.25, 0.75, 0, 1)
+				regions[2]:SetTexCoord(0.25, 0.75, 0, 0.5)
 
 				-- Set top right texture
 				regions[3]:ClearAllPoints()
 				regions[3]:SetPoint("TOPLEFT", regions[2], "TOPRIGHT", 0, 0)
 				regions[3]:SetSize(256, 512)
 				regions[3]:SetTexture("Interface\\AddOns\\Leatrix_Plus\\Leatrix_Plus")
-				regions[3]:SetTexCoord(0.75, 1, 0, 1)
+				regions[3]:SetTexCoord(0.75, 1, 0, 0.5)
 
 				-- Hide bottom left and bottom right textures
 				regions[4]:Hide()
@@ -8443,15 +8493,15 @@
 
 				-- Set top left texture
 				regions[3]:SetSize(512, 512)
-				regions[3]:SetTexture("Interface\\AddOns\\Leatrix_Plus\\Leatrix_Plus")
-				regions[3]:SetTexCoord(0.25, 0.75, 0, 1)
+				regions[3]:SetTexture("Interface\\AddOns\\Leatrix_Plus\\Leatrix_Plus.blp")
+				regions[3]:SetTexCoord(0.25, 0.75, 0, 0.5)
 
 				-- Set top right texture
 				regions[4]:ClearAllPoints()
 				regions[4]:SetPoint("TOPLEFT", regions[3], "TOPRIGHT", 0, 0)
 				regions[4]:SetSize(256, 512)
-				regions[4]:SetTexture("Interface\\AddOns\\Leatrix_Plus\\Leatrix_Plus")
-				regions[4]:SetTexCoord(0.75, 1, 0, 1)
+				regions[4]:SetTexture("Interface\\AddOns\\Leatrix_Plus\\Leatrix_Plus.blp")
+				regions[4]:SetTexCoord(0.75, 1, 0, 0.5)
 
 				-- Hide bottom left and bottom right textures
 				regions[5]:Hide()
@@ -12914,6 +12964,11 @@
 						end
 					end
 
+					-- Disable items that conflict with Easy Frames
+					if C_AddOns.IsAddOnLoaded("EasyFrames") then
+						Lock("ClassColFrames", L["Cannot be used with Easy Frames"]) -- Class colored frames
+					end
+
 					-- Disable items that conflict with Glass
 					if C_AddOns.IsAddOnLoaded("Glass") then
 						local reason = L["Cannot be used with Glass"]
@@ -13768,10 +13823,10 @@
 			-- Set skinned button textures
 			if not naked then
 				mbtn:SetNormalTexture("Interface\\AddOns\\Leatrix_Plus\\Leatrix_Plus.blp")
-				mbtn:GetNormalTexture():SetTexCoord(0.125, 0.25, 0.4375, 0.5)
+				mbtn:GetNormalTexture():SetTexCoord(0.125, 0.25, 0.21875, 0.25)
 			end
 			mbtn:SetHighlightTexture("Interface\\AddOns\\Leatrix_Plus\\Leatrix_Plus.blp")
-			mbtn:GetHighlightTexture():SetTexCoord(0, 0.125, 0.4375, 0.5)
+			mbtn:GetHighlightTexture():SetTexCoord(0, 0.125, 0.21875, 0.25)
 
 			-- Hide the default textures
 			mbtn:HookScript("OnShow", function() mbtn.Left:Hide(); mbtn.Middle:Hide(); mbtn.Right:Hide() end)

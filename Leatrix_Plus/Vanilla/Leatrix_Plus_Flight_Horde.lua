@@ -253,6 +253,7 @@
 				["0.57:0.64:0.45:0.56:0.32:0.58"] = 383, -- Brackenwall Village, Thunder Bluff, Shadowprey Village
 				["0.57:0.64:0.56:0.53:0.55:0.73"] = 347, -- Brackenwall Village, Crossroads, Freewind Post
 				["0.57:0.64:0.63:0.44:0.64:0.23"] = 537, -- Brackenwall Village, Orgrimmar, Everlook
+				["0.57:0.64:0.45:0.56:0.53:0.61"] = 312, -- Brackenwall Village, Thunder Bluff, Camp Taurajo
 
 				-- Horde: Bloodvenom Post (Felwood)
 				["0.46:0.30:0.56:0.53:0.55:0.73:0.61:0.80"] = 518, -- Bloodvenom Post, Crossroads, Freewind Post, Gadgetzan
