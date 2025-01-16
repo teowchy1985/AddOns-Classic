@@ -166,6 +166,7 @@
 				["0.56:0.70:0.43:0.67:0.51:0.49:0.51:0.57"] = 390, -- Lakeshire, Stormwind, Ironforge, Thorium Point
 				["0.56:0.70:0.43:0.67:0.43:0.93"] = 343, -- Lakeshire, Stormwind, Booty Bay
 				["0.56:0.70:0.43:0.67:0.51:0.49:0.48:0.30"] = 573, -- Lakeshire, Stormwind, Ironforge, Southshore
+				["0.56:0.70:0.43:0.67:0.51:0.49:0.57:0.32"] = 567, -- Lakeshire, Stormwind, Ironforge, Refuge Pointe
 
 				-- Alliance: Light's Hope Chapel (Eastern Plaguelands)
 				["0.70:0.16:0.51:0.49:0.43:0.67:0.43:0.93"] = 771, -- Light's Hope Chapel, Ironforge, Stormwind, Booty Bay
@@ -351,7 +352,7 @@
 				["0.43:0.67:0.58:0.65"] = 157, -- Stormwind, Morgan's Vigil
 				["0.43:0.67:0.58:0.65:0.51:0.57"] = 247, -- Stormwind, Morgan's Vigil, Thorium Point
 				["0.43:0.67:0.51:0.49:0.59:0.52"] = 317, -- Stormwind, Ironforge, Thelsamar (Andrei O. reported 333)
-				["0.43:0.67:0.51:0.49"] = 259, -- Stormwind, Ironforge
+				["0.43:0.67:0.51:0.49"] = 259, -- Stormwind, Ironforge (J Flo reported 307)
 				["0.43:0.67:0.51:0.49:0.49:0.44"] = 343, -- Stormwind, Ironforge, Menethil Harbor (Lean Randlev reported 473, manuelbreithaupt@gmx.de reported 442)
 				["0.43:0.67:0.51:0.49:0.49:0.44:0.57:0.32"] = 450, -- Stormwind, Ironforge, Menethil Harbor, Refuge Pointe
 				["0.43:0.67:0.51:0.49:0.49:0.44:0.48:0.30"] = 443, -- Stormwind, Ironforge, Menethil Harbor, Southshore (daveb315@metrocast.net reports 459)
@@ -387,6 +388,7 @@
 				["0.59:0.52:0.49:0.44:0.48:0.30:0.52:0.22"] = 332, -- Thelsamar, Menethil Harbor, Southshore, Chillwind Camp
 				["0.59:0.52:0.51:0.49:0.48:0.30"] = 328, -- Thelsamar, Ironforge, Southshore
 				["0.59:0.52:0.51:0.49:0.43:0.67:0.58:0.65"] = 422, -- Thelsamar, Ironforge, Stormwind, Morgans Wacht
+				["0.59:0.52:0.51:0.49:0.52:0.22"] = 355, -- Thelsamar, Ironforge, Chillwind Camp
 
 				-- Alliance: Thorium Point (Searing Gorge)
 				["0.51:0.57:0.58:0.65:0.56:0.70:0.51:0.75:0.43:0.93"] = 350, -- Thorium Point, Morgan's Vigil, Lakeshire, Darkshire, Booty Bay

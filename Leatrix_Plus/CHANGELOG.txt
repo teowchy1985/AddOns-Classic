@@ -1,4 +1,8 @@
-﻿4.0.42 - 8th January 2025
+﻿4.0.43 - 15th January 2025
+- The 'Show player chain' option ('Interface') now works with the Easy Frames addon.
+- The 'Class colored frames' option ('Frames') will now be locked out if you have Easy Frames installed.
+
+4.0.42 - 8th January 2025
 - Game API updates.
 
 4.0.41 - 1st January 2025
