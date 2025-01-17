@@ -255,6 +255,7 @@ do
         ns.HopeMaxb   = HopeMaxb
         ns.HopeMaxn   = HopeMaxn
         ns.BossNumtbl = BossNumtbl
+        BG.Maxb=Maxb
     end
 
     local function UnitRealm(unit)

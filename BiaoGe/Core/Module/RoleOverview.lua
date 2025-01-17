@@ -51,14 +51,18 @@ function BG.RoleOverviewUI()
             }
         elseif BG.IsWLK then
             BiaoGe.FBCDchoice = {
+                ["25TOC"] = 1,
+                ["10TOC"] = 1,
+                ["25OL"] = 1,
+                ["10OL"] = 1,
                 ["25ULD"] = 1,
                 ["10ULD"] = 1,
-                ["25NAXX"] = 1,
-                ["10NAXX"] = 1,
-                ["25EOE"] = 1,
-                ["10EOE"] = 1,
-                ["25OS"] = 1,
-                ["10OS"] = 1,
+                -- ["25NAXX"] = 1,
+                -- ["10NAXX"] = 1,
+                -- ["25EOE"] = 1,
+                -- ["10EOE"] = 1,
+                -- ["25OS"] = 1,
+                -- ["10OS"] = 1,
                 ["25VOA"] = 1,
                 ["10VOA"] = 1,
                 ["gamma"] = 1,
@@ -87,14 +91,12 @@ function BG.RoleOverviewUI()
                 -- [396] = 1,
                 -- [395] = 1,
                 -- [341] = 1,
-                -- [301] = 1,
+                [301] = 1,
                 [221] = 1,
                 [102] = 1,
                 [101] = 1,
-                -- [2711] = 1,
-                -- [2589] = 1,
-                [161] = 1,
-                [1901] = 1,
+                -- [2711] = 1, -- 天灾石
+                [2589] = 1, -- 赛德精华
                 ["money"] = 1,
             }
         elseif BG.IsCTM then
@@ -118,6 +120,22 @@ function BG.RoleOverviewUI()
                 BiaoGe.MONEYchoice[226404] = 1
             end)
         elseif BG.IsWLK then
+            BG.Once("FBCDchoice", 250116, function()
+                BiaoGe.FBCDchoice["25TOC"] = 1
+                BiaoGe.FBCDchoice["10TOC"] = 1
+                BiaoGe.FBCDchoice["25OL"] = 1
+                BiaoGe.FBCDchoice["10OL"] = 1
+                BiaoGe.FBCDchoice["25NAXX"] = nil
+                BiaoGe.FBCDchoice["10NAXX"] = nil
+                BiaoGe.FBCDchoice["25EOE"] = nil
+                BiaoGe.FBCDchoice["10EOE"] = nil
+                BiaoGe.FBCDchoice["25OS"] = nil
+                BiaoGe.FBCDchoice["10OS"] = nil
+            end)
+            BG.Once("MONEYchoice", 250116, function()
+                BiaoGe.MONEYchoice[301] = 1
+                BiaoGe.MONEYchoice[2589] = 1
+            end)
         elseif BG.IsCTM then
         end
     end
@@ -718,19 +736,13 @@ function BG.RoleOverviewUI()
             else
                 count = pz[id] -- 金币
             end
+            count = tonumber(count) or 0
             return count
         end
 
         local copyTbl = {} -- 用于复制数据
         local sum = {}
         do
-            -- 给sum添加基础数据
-            for i = 2, #MONEYchoice_table do
-                local v = MONEYchoice_table[i]
-                local id = v.id
-                sum[id] = 0 -- 包含货币和金币
-            end
-
             -- 复制数据
             for player, value in pairs(BiaoGe.Money[realmID]) do
                 copyTbl[player] = BG.Copy(value)
@@ -756,6 +768,11 @@ function BG.RoleOverviewUI()
             end
 
             -- 计算合计
+            for i = 2, #MONEYchoice_table do
+                local v = MONEYchoice_table[i]
+                local id = v.id
+                sum[id] = 0             -- 包含货币和金币
+            end
             for _, pz in pairs(copyTbl) do
                 for i = 2, #MONEYchoice_table do
                     local v = MONEYchoice_table[i]
@@ -1492,8 +1509,8 @@ function BG.RoleOverviewUI()
             }
         elseif BG.IsWLK then
             BG.dayQuests = {
-                gamma = { 83713, 78752 },
-                heroe = { 83714, 84552, 78753 },
+                gamma = { 83717, 83713, 78752 },
+                heroe = { 87379, 83714, 84552, 78753 },
                 zhubao = { 12959, 12962, 12961, 12958, 12963, 12960 },
                 cooking = { 13114, 13116, 13113, 13115, 13112,
                     13102, 13100, 13107, 13101, 13103 },
