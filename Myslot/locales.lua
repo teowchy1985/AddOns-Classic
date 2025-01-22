@@ -71,50 +71,32 @@ L["Unsaved"] = true
 L["Use random mount instead of an unattained mount"] = true
 
 elseif locale == 'deDE' then
---[[Translation missing --]]
---[[ L[" before Import"] = " before Import"--]] 
---[[Translation missing --]]
---[[ L[" during Export"] = " during Export"--]] 
---[[Translation missing --]]
---[[ L[" during Import"] = " during Import"--]] 
+L[" before Import"] = "Vor dem Import"
+L[" during Export"] = "während des Exports"
+L[" during Import"] = "während des Imports"
 --[[Translation missing --]]
 --[[ L["[WARN] Ignore slot due to an unknown error DEBUG INFO = [S=%s T=%s I=%s] Please send Importing Text and DEBUG INFO to %s"] = "[WARN] Ignore slot due to an unknown error DEBUG INFO = [S=%s T=%s I=%s] Please send Importing Text and DEBUG INFO to %s"--]] 
 --[[Translation missing --]]
 --[[ L["[WARN] Ignore unsupported Key Binding [ %s ] , contact %s please"] = "[WARN] Ignore unsupported Key Binding [ %s ] , contact %s please"--]] 
 --[[Translation missing --]]
 --[[ L["[WARN] Ignore unsupported Slot Type [ %s ] , contact %s please"] = "[WARN] Ignore unsupported Slot Type [ %s ] , contact %s please"--]] 
---[[Translation missing --]]
---[[ L["<- share your profile here"] = "<- share your profile here"--]] 
+L["<- share your profile here"] = "<- teile dein Profil hier"
 --[[Translation missing --]]
 --[[ L["All slots were restored"] = "All slots were restored"--]] 
---[[Translation missing --]]
---[[ L["Allow"] = "Allow"--]] 
---[[Translation missing --]]
---[[ L["Are you SURE to delete '%s'?"] = "Are you SURE to delete '%s'?"--]] 
---[[Translation missing --]]
---[[ L["Are you SURE to import ?"] = "Are you SURE to import ?"--]] 
---[[Translation missing --]]
---[[ L["Backup failed"] = "Backup failed"--]] 
---[[Translation missing --]]
---[[ L["Bad importing text [CRC32]"] = "Bad importing text [CRC32]"--]] 
---[[Translation missing --]]
---[[ L["Bad importing text [TEXT]"] = "Bad importing text [TEXT]"--]] 
---[[Translation missing --]]
---[[ L["Before Last Import"] = "Before Last Import"--]] 
---[[Translation missing --]]
---[[ L["CLEAR"] = "CLEAR"--]] 
---[[Translation missing --]]
---[[ L["DANGEROUS"] = "DANGEROUS"--]] 
---[[Translation missing --]]
---[[ L["Export"] = "Export"--]] 
---[[Translation missing --]]
---[[ L["Feedback"] = "Feedback"--]] 
---[[Translation missing --]]
---[[ L["Force Import"] = "Force Import"--]] 
---[[Translation missing --]]
---[[ L["IGNORE"] = "IGNORE"--]] 
---[[Translation missing --]]
---[[ L["Ignore missing item [id=%s]"] = "Ignore missing item [id=%s]"--]] 
+L["Allow"] = "Erlauben"
+L["Are you SURE to delete '%s'?"] = "'%s' WIRKLICH löschen?"
+L["Are you SURE to import ?"] = "WIRKLICH importieren?"
+L["Backup failed"] = "Back-Up fehlgeschlagen"
+L["Bad importing text [CRC32]"] = "Fehlerhafter Import-Text [CRC32]"
+L["Bad importing text [TEXT]"] = "Fehlerhafter Import-Text [TEXT]"
+L["Before Last Import"] = "Vor dem letzten Import"
+L["CLEAR"] = "LÖSCHEN"
+L["DANGEROUS"] = "GEFÄHRLICH"
+L["Export"] = "Export"
+L["Feedback"] = "Feedback"
+L["Force Import"] = "Import erzwingen"
+L["IGNORE"] = "IGNORIEREN"
+L["Ignore missing item [id=%s]"] = "Fehlenden Gegenstand ignorieren [id=%s]"
 --[[Translation missing --]]
 --[[ L["Ignore unattained companion [id=%s], %s"] = "Ignore unattained companion [id=%s], %s"--]] 
 --[[Translation missing --]]
@@ -125,48 +107,37 @@ elseif locale == 'deDE' then
 --[[ L["Ignore unlearned skill [flyoutid=%s], %s"] = "Ignore unlearned skill [flyoutid=%s], %s"--]] 
 --[[Translation missing --]]
 --[[ L["Ignore unlearned skill [id=%s], %s"] = "Ignore unlearned skill [id=%s], %s"--]] 
---[[Translation missing --]]
---[[ L["Import"] = "Import"--]] 
---[[Translation missing --]]
---[[ L["Import is not allowed when you are in combat"] = "Import is not allowed when you are in combat"--]] 
---[[Translation missing --]]
---[[ L["Key Binding"] = "Key Binding"--]] 
---[[Translation missing --]]
---[[ L["Macro %s was ignored, check if there is enough space to create"] = "Macro %s was ignored, check if there is enough space to create"--]] 
+L["Import"] = "Import"
+L["Import is not allowed when you are in combat"] = "Der Import ist während des Kampfes nicht möglich"
+L["Key Binding"] = "Tastenbelegung"
+L["Macro %s was ignored, check if there is enough space to create"] = "Das Makro %s wurde ignoriert, bitte prüfe ob genug Platz für die Erstellung vorhanden ist."
 --[[Translation missing --]]
 --[[ L["Main Action Bar Page"] = "Main Action Bar Page"--]] 
 --[[Translation missing --]]
 --[[ L["Minimap Icon"] = "Minimap Icon"--]] 
---[[Translation missing --]]
---[[ L["Myslot"] = "Myslot"--]] 
+L["Myslot"] = "Myslot"
 --[[Translation missing --]]
 --[[ L["Name of exported text"] = "Name of exported text"--]] 
---[[Translation missing --]]
---[[ L["Open Myslot"] = "Open Myslot"--]] 
+L["Open Myslot"] = "Öffne Myslot"
 --[[Translation missing --]]
 --[[ L["Please type %s to confirm"] = "Please type %s to confirm"--]] 
 --[[Translation missing --]]
 --[[ L["Remove all Key Bindings"] = "Remove all Key Bindings"--]] 
---[[Translation missing --]]
---[[ L["Remove all Macros"] = "Remove all Macros"--]] 
+L["Remove all Macros"] = "Alle Makros entfernen"
 --[[Translation missing --]]
 --[[ L["Remove everything in ActionBar"] = "Remove everything in ActionBar"--]] 
---[[Translation missing --]]
---[[ L["Rename"] = "Rename"--]] 
+L["Rename"] = "Umbenennen"
 --[[Translation missing --]]
 --[[ L["Skip bad CRC32"] = "Skip bad CRC32"--]] 
 --[[Translation missing --]]
 --[[ L["Skyriding Bar"] = "Skyriding Bar"--]] 
 --[[Translation missing --]]
 --[[ L["Stance Action Bar"] = "Stance Action Bar"--]] 
---[[Translation missing --]]
---[[ L["Starting backup..."] = "Starting backup..."--]] 
---[[Translation missing --]]
---[[ L["Time"] = "Time"--]] 
+L["Starting backup..."] = "Starte Back-Up..."
+L["Time"] = "Zeit"
 --[[Translation missing --]]
 --[[ L["TOC_NOTES"] = "Myslot is for transferring settings between accounts. Feedback farmer1992@gmail.com"--]] 
---[[Translation missing --]]
---[[ L["Too many profiles, please delete before create new one."] = "Too many profiles, please delete before create new one."--]] 
+L["Too many profiles, please delete before create new one."] = "Zu viele Profile, bitte lösche eins bevor ein neues erstellt werden kann. "
 --[[Translation missing --]]
 --[[ L["Try force importing"] = "Try force importing"--]] 
 --[[Translation missing --]]
