@@ -218,7 +218,7 @@ function BG.FilterClassItemUI()
                 LibBG:EasyMenu(channelTypeMenu, BG.dropDown, self, 0, 0, "MENU", 3)
             end
         end
-        BG.UpdateAllItemLib()
+        BG.UpdateItemLib()
         BG.PlaySound(1)
     end
 
@@ -378,7 +378,7 @@ function BG.FilterClassItemUI()
                     BG.PlaySound(1)
                 end
                 BG.UpdateAllFilter()
-                BG.UpdateAllItemLib()
+                BG.UpdateItemLib()
             end)
 
             bt:SetScript("OnEnter", function(self)
@@ -804,7 +804,7 @@ function BG.FilterClassItemUI()
                                 end
                             end
                             BG.UpdateAllFilter()
-                            BG.UpdateAllItemLib()
+                            BG.UpdateItemLib()
                         end
                     }
                     tinsert(channelTypeMenu, a)
@@ -835,7 +835,7 @@ function BG.FilterClassItemUI()
                             end
                         end
                         BG.UpdateAllFilter()
-                        BG.UpdateAllItemLib()
+                        BG.UpdateItemLib()
                     end
                 }
                 tinsert(channelTypeMenu, a)
@@ -855,7 +855,7 @@ function BG.FilterClassItemUI()
                             BiaoGe.FilterClassItemDB[RealmId][player][num][type] = {}
                         end
                         BG.UpdateAllFilter()
-                        BG.UpdateAllItemLib()
+                        BG.UpdateItemLib()
                     end
                 }
                 tinsert(channelTypeMenu, a)

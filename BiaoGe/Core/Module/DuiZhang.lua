@@ -554,9 +554,6 @@ function BG.DuiZhangList()
 
     LibBG:UIDropDownMenu_Initialize(BG.DuiZhangDropDown.DropDown, function(self, level)
         FrameHide(0)
-        if BG["DuiZhangFrame" .. BG.FB1] and BG["DuiZhangFrame" .. BG.FB1]:IsVisible() then
-            BG.PlaySound(1)
-        end
         for i, v in ipairs(BiaoGe.duizhang) do
             local title = CreateZhangDanTitle(i)
             local info = LibBG:UIDropDownMenu_CreateInfo()
@@ -566,7 +563,6 @@ function BG.DuiZhangList()
                 BG.lastduizhangNum = i
                 BG.DuiZhangSet(i)
                 LibBG:UIDropDownMenu_SetText(BG.DuiZhangDropDown.DropDown, title)
-                BG.PlaySound(1)
             end
             if BG.lastduizhangNum == i then
                 info.checked = true
@@ -581,7 +577,6 @@ function BG.DuiZhangList()
             BG.DuiZhang0()
             LibBG:UIDropDownMenu_SetText(BG.DuiZhangDropDown.DropDown, L["无"])
             BG.DuiZhangMainFrame.ButtonCopy:Disable()
-            BG.PlaySound(1)
         end
         if not BG.lastduizhangNum then
             info.checked = true

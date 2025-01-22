@@ -499,7 +499,6 @@ BG.Init(function()
                 mainFrame.dropDown = dropDown
                 BG.dropDownToggle(dropDown)
                 LibBG:UIDropDownMenu_Initialize(dropDown, function(self, level)
-                    BG.PlaySound(1)
                     ClearAllFocus(mainFrame)
                     local info = LibBG:UIDropDownMenu_CreateInfo()
                     info.text = L["正常模式"]
@@ -507,7 +506,6 @@ BG.Init(function()
                     info.func = function(self, arg1, arg2)
                         BiaoGe.Auction.mod = arg1
                         LibBG:UIDropDownMenu_SetText(dropDown, tbl[BiaoGe.Auction.mod])
-                        BG.PlaySound(1)
                     end
                     if info.arg1 == BiaoGe.Auction.mod then
                         info.checked = true
@@ -523,7 +521,6 @@ BG.Init(function()
                     info.func = function(self, arg1, arg2)
                         BiaoGe.Auction.mod = arg1
                         LibBG:UIDropDownMenu_SetText(dropDown, tbl[BiaoGe.Auction.mod])
-                        BG.PlaySound(1)
                     end
                     if info.arg1 == BiaoGe.Auction.mod then
                         info.checked = true

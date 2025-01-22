@@ -30,7 +30,6 @@ Y.maxSearchText = 300 -- 最多接受多少个评价详细
 Y.searchLastDay = 360 -- 接收最近多少天内的评价
 Y.searchCD = 10
 
-
 BG.Init(function()
     -- 初始化数据库
     do
@@ -981,7 +980,6 @@ BG.Init(function()
                         Y.DefaultResult()
                         LibBG:UIDropDownMenu_SetText(BG.YYMainFrame.DropDown, L["无"])
                         BG.ClearFocus()
-                        BG.PlaySound(1)
                     end
                     LibBG:UIDropDownMenu_AddButton(info)
 
@@ -992,7 +990,6 @@ BG.Init(function()
                             Y.SetResult(i)
                             LibBG:UIDropDownMenu_SetText(BG.YYMainFrame.DropDown, Y.DropDownColor(v, "yy"))
                             BG.ClearFocus()
-                            BG.PlaySound(1)
                         end
                         LibBG:UIDropDownMenu_AddButton(info)
                     end

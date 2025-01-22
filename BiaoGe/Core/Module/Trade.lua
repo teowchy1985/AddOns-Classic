@@ -1071,7 +1071,6 @@ BG.Init(function()
         BG.tradeDropDown.BiaoTi = text
         LibBG:UIDropDownMenu_Initialize(dropDown, function(self, level, menuList)
             local FB = BG.FB1
-            BG.PlaySound(1)
             for b = 0, Maxb[FB] do
                 local info = LibBG:UIDropDownMenu_CreateInfo()
                 local bossnametext = ""
@@ -1095,7 +1094,6 @@ BG.Init(function()
                     BG.GetTradeInfo()
                     BG.tradeFrame.text:SetText(BG.TradeText())
                     FrameHide(0)
-                    BG.PlaySound(1)
                 end
                 LibBG:UIDropDownMenu_AddButton(info)
             end

@@ -57,6 +57,25 @@ local function RGB_16(name, r, g, b)
 end
 ns.RGB_16 = RGB_16
 
+function SetColorName(name, r, g, b)
+    if not (r and g and b) then
+       return name
+    end
+    local r = format("%X", tonumber(r) * 255)
+    if r and strlen(r) == 1 then
+        r = "0" .. r
+    end
+    local g = format("%X", tonumber(g) * 255)
+    if g and strlen(g) == 1 then
+        g = "0" .. g
+    end
+    local b = format("%X", tonumber(b) * 255)
+    if b and strlen(b) == 1 then
+        b = "0" .. b
+    end
+    return "|cff" .. r .. g .. b .. name .. "|r"
+end
+
 -- 第几个BOSS
 local function BossNum(FB, b, t)
     local tbl = BossNumtbl[FB]
@@ -108,7 +127,7 @@ local function AddTexture(Texture, y, coord)
         return t
     elseif Texture == "QUEST" then -- 黄色感叹号
         tex = "Interface\\GossipFrame\\AvailableQuestIcon"
-    elseif Texture == "VIP" then -- 黄色感叹号
+    elseif Texture == "VIP" then   -- 黄色感叹号
         return "|TInterface\\AddOns\\BiaoGe\\Media\\icon\\VIP:0:0:0:0:100:100:10:90:10:90|t"
     elseif Texture == "BOX" then
         tex = "Interface\\AddOns\\BiaoGe\\Media\\icon\\BOX"
@@ -271,7 +290,7 @@ local function FrameHide(num)
     -- end
 end
 ns.FrameHide = FrameHide
-BG.FrameHide=FrameHide
+BG.FrameHide = FrameHide
 
 ------------------当前表格已经有东西了------------------
 function BG.BiaoGeHavedItem(FB, _type, instanceID)

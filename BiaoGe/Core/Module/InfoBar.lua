@@ -36,6 +36,10 @@ local AFDtbl = {
     "水晶之牙-Rich Only",
     -- 90
     -- 30
+    "严羽幻",
+    "龙之召唤-天府一街",
+    "灰烬使者-部落-Revenger公会",
+    "大栓",
     "萨弗拉斯-魔剑美神",
     "兜兜里好多糖",
     "伽蓝",
@@ -46,7 +50,11 @@ local AFDtbl = {
     "ronaldozhou",
     -- 5
     -- 没有名字
-    "爱发电用户_3Jwr",
+    "爱发电用户_f1339",
+    "爱发电用户_W3vb",
+    "爱发电用户_8a656",
+    "爱发电用户_3bdc2",
+    "爱发电用户_a2b02",
     "爱发电用户_4nNA",
     "爱发电用户_H4pt",
     "爱发电用户_60e98",
@@ -55,13 +63,15 @@ local AFDtbl = {
     "爱发电用户_fmpN",
     "爱发电用户_96Sm",
 
+
     -- "",
     -- "",
     -- "",
     -- "",
     -- "",
     -- "",
-    --最后更新时间：25/1/13 17:25
+    -- "",
+    --最后更新时间：25/1/21 23:23
 }
 
 
@@ -90,7 +100,15 @@ BG.Init(function()
             BG.FBCDFrame:Show()
         end)
         bt:SetScript("OnLeave", function(self)
-            BG.FBCDFrame:Hide()
+            if BG.FBCDFrame:GetHeight() > BG.MainFrame:GetHeight() - 30 then
+                BG.After(0, function()
+                    if not BG.FBCDFrame.isOnEnter then
+                        BG.FBCDFrame:Hide()
+                    end
+                end)
+            else
+                BG.FBCDFrame:Hide()
+            end
         end)
         bt:SetScript("OnMouseUp", function(self)
             ns.InterfaceOptionsFrame_OpenToCategory("|cff00BFFFBiaoGe|r")

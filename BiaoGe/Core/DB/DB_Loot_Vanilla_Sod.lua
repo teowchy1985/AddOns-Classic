@@ -60,7 +60,7 @@ do
             else
                 BG.Loot[FB].ExchangeItems[211452] = { 211451, 211450, 211449, }
             end
-            BG.CachesExchangeItem(FB)
+
 
             -- 团本任务奖励
             BG.Loot[FB].N.Quest[BG.STC_y1(QUESTS_LABEL)] = { 211461, 211460, }
@@ -198,7 +198,7 @@ do
             else
                 BG.Loot[FB].ExchangeItems[217351] = { 213343, 213344, 213345, 213346, }
             end
-            BG.CachesExchangeItem(FB)
+
 
             -- 团本任务奖励
             BG.Loot[FB].N.Quest[BG.STC_y1(QUESTS_LABEL)] = { 216675, 216676, 216678 }
@@ -339,7 +339,7 @@ do
             else
                 BG.Loot[FB].ExchangeItems[221363] = { 220626, 220630, 220628, 220627, 220629, }
             end
-            BG.CachesExchangeItem(FB)
+
 
             if classID == 1 then
                 BG.Loot[FB].N.Quest[ClassQuest(1)] = { 20521, 20130, 20517, }
@@ -559,7 +559,6 @@ do
                 [227764] = { 226647, 226658, 226446, 226659, 226670, 226480, 226488, 226495, },
                 [227755] = { 226590, 226599, 226612, 226630, 226638, 226622, 226533, 226536, },
             }
-            BG.CachesExchangeItem(FB)
         end
         -- 屠魔峡谷
         do
@@ -828,7 +827,6 @@ do
                 [19719] = { 231352, 231338, 231342, },
                 [19720] = { 231335, 231349, 231318, },
             }
-            BG.CachesExchangeItem(FB)
         end
 
         local FB = "BWLsod"
@@ -906,7 +904,6 @@ do
                 [231716] = { 231032, 231252, 231024, 231236, 231244, 231260, 231045, 231053, },
                 [231708] = { 231078, 231171, 231097, 231161, 231100, 231108, },
             }
-            BG.CachesExchangeItem(FB)
         end
     end
 
@@ -970,7 +967,6 @@ do
                 [227764] = { 226647, 226658, 226446, 226659, 226670, 226480, 226488, 226495, },
                 [227755] = { 226590, 226599, 226612, 226630, 226638, 226622, 226533, 226536, },
             }
-            BG.CachesExchangeItem(FB)
         end
     end
 end
@@ -1245,10 +1241,10 @@ do
         ["工程"] = { 19999, 19998, },
         ["附魔"] = {},
     }
-    BG.Loot.ZUGsod.Profession=BG.Loot.BWLsod.Profession
+    BG.Loot.ZUGsod.Profession = BG.Loot.BWLsod.Profession
 end
 
--- 非副本任务
+-- 野外任务
 do
     -- P1
     do
@@ -1701,7 +1697,7 @@ end
             -- [ ] = {  },
             -- [ ] = {  },
         }
-        BG.CachesExchangeItem(FB)
+
     end
 ]]
 

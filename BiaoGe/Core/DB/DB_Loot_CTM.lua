@@ -102,7 +102,6 @@ do
                 -- [] = {},
                 -- [] = {},
             }
-            BG.CachesExchangeItem(FB)
         end
 
         -- 5人本

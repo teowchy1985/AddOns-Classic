@@ -519,7 +519,6 @@ BG.Init(function()
             t:SetText(L["背景材质*"])
 
             LibBG:UIDropDownMenu_Initialize(dropDown, function(self, level)
-                BG.PlaySound(1)
                 for i, v in ipairs(table) do
                     local info = LibBG:UIDropDownMenu_CreateInfo()
                     info.text = v.name
@@ -527,7 +526,6 @@ BG.Init(function()
                         BiaoGe.options[name] = v.tex
                         SetTex(v.tex, "alpha")
                         LibBG:UIDropDownMenu_SetText(dropDown, v.name)
-                        BG.PlaySound(1)
                     end
                     if v.tex == BiaoGe.options[name] then
                         info.checked = true
@@ -1024,13 +1022,11 @@ BG.Init(function()
             BG.options["button" .. name] = dropDown
 
             LibBG:UIDropDownMenu_Initialize(dropDown, function(self, level)
-                BG.PlaySound(1)
                 local info = LibBG:UIDropDownMenu_CreateInfo()
                 info.text = L["通报至团队通知频道"]
                 info.func = function()
                     BiaoGe.options[name] = "RAID_WARNING"
                     LibBG:UIDropDownMenu_SetText(dropDown, RaidText(BiaoGe.options[name]))
-                    BG.PlaySound(1)
                 end
                 if BiaoGe.options[name] == "RAID_WARNING" then
                     info.checked = true
@@ -1041,7 +1037,6 @@ BG.Init(function()
                 info.func = function()
                     BiaoGe.options[name] = "RAID"
                     LibBG:UIDropDownMenu_SetText(dropDown, RaidText(BiaoGe.options[name]))
-                    BG.PlaySound(1)
                 end
                 if BiaoGe.options[name] == "RAID" then
                     info.checked = true
@@ -1991,7 +1986,7 @@ BG.Init(function()
                 local l = O.CreateLine(roleOverview, height + line_height)
 
                 height = CreateMONEYbutton(1, #BG.MONEYall_table, width, height, 65, height_jiange)
-                height = height - height_jiange*3
+                height = height - height_jiange * 3
             elseif BG.IsVanilla_60 then
                 --团本CD
                 local text = roleOverview:CreateFontString(nil, "ARTWORK", "GameFontNormal")
@@ -2019,7 +2014,7 @@ BG.Init(function()
                 local l = O.CreateLine(roleOverview, height + line_height)
 
                 height = CreateMONEYbutton(1, #BG.MONEYall_table, width, height, 65, height_jiange)
-                height = height - height_jiange*3
+                height = height - height_jiange * 3
             elseif BG.IsWLK then
                 --团本CD
                 local text = roleOverview:CreateFontString(nil, "ARTWORK", "GameFontNormal")
@@ -2130,7 +2125,7 @@ BG.Init(function()
             t:SetFont(STANDARD_TEXT_FONT, 15, "OUTLINE")
             t:SetPoint("TOPLEFT", 15, height)
             t:SetTextColor(1, 1, 1)
-            t:SetText(AddTexture("QUEST").. L["角色总览的排序方式："])
+            t:SetText(AddTexture("QUEST") .. L["角色总览的排序方式："])
             BG.options.roleOverviewSortText1 = t
 
             -- 选项
@@ -2152,7 +2147,6 @@ BG.Init(function()
                 BG.options["button" .. name] = dropDown
 
                 LibBG:UIDropDownMenu_Initialize(dropDown, function(self, level)
-                    BG.PlaySound(1)
                     for i, v in ipairs(tbl) do
                         local info = LibBG:UIDropDownMenu_CreateInfo()
                         info.text = v.text
@@ -2180,12 +2174,12 @@ BG.Init(function()
             t:SetFont(STANDARD_TEXT_FONT, 15, "OUTLINE")
             t:SetPoint("TOPLEFT", 15, height)
             t:SetTextColor(1, 1, 1)
-            t:SetText(AddTexture("QUEST").. L["不显示低于该等级的角色："])
+            t:SetText(AddTexture("QUEST") .. L["不显示低于该等级的角色："])
 
             local edit = CreateFrame("EditBox", nil, roleOverview, "InputBoxTemplate")
             edit:SetSize(50, 20)
             edit:SetPoint("LEFT", t, "RIGHT", 10, 0)
-            edit:SetText( BiaoGe.options[name] or 0)
+            edit:SetText(BiaoGe.options[name] or 0)
             edit:SetAutoFocus(false)
             edit:SetScript("OnTextChanged", function(self)
                 BiaoGe.options[name] = tonumber(self:GetText()) or 0
@@ -2507,14 +2501,16 @@ BG.Init(function()
                     },
                 })
             end
-            -- 不自动退出集结号频道
+            -- 自动加入集结号频道
             tinsert(tbl, {
                 name = "MeetingHorn_always",
-                name2 = L["不自动退出集结号频道"] .. "*",
+                name2 = L["自动加入集结号频道"] .. "*",
                 reset = 0,
                 ontext = {
-                    L["不自动退出集结号频道"],
-                    L["这样你可以一直同步集结号的组队消息，让你随时打开集结号都能查看全部活动。"],
+                    L["自动加入集结号频道"],
+                    L["进入游戏后，自动加入集结号频道，让你提前获取组队消息。"],
+                    " ",
+                    L["而且，关闭集结号界面时不会自动退出该频道，这样可以一直同步组队消息，让你随时打开集结号都能查看全部活动。"],
                 },
             })
             -- 历史搜索记录
@@ -2579,6 +2575,16 @@ BG.Init(function()
                         Browser.Sort = BG.MeetingHorn.BrowserSort_oldFuc
                     end
                 end
+            })
+            -- 标记已密语过的活动
+            tinsert(tbl, {
+                name = "MeetingHorn_isSend",
+                name2 = L["标记已密语过的活动"] .. "*",
+                reset = 0,
+                ontext = {
+                    L["标记已密语过的活动"],
+                    L["如果你在最近15分钟内曾经密语过团长，那么该活动的说明变为灰色。"],
+                },
             })
             -- 密语模板
             tinsert(tbl, {
@@ -2667,6 +2673,10 @@ BG.Init(function()
                     if i == 6 then
                         f:ClearAllPoints()
                         f:SetPoint("LEFT", buttons[1], "RIGHT", 190, 0)
+                        f.Text:SetWidth(140)
+                    elseif i > 6 then
+                        f:ClearAllPoints()
+                        f:SetPoint("TOPLEFT", buttons[i - 1], "TOPLEFT", 0, -h_jiange)
                         f.Text:SetWidth(140)
                     else
                         f.Text:SetWidth(180)
