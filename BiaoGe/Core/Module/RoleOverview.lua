@@ -371,6 +371,13 @@ function BG.RoleOverviewUI()
             f:SetScale(BiaoGe.options.scale)
         end
         BG.FBCDFrame = f
+        f:SetScript("OnEnter", function(self)
+            f.isOnEnter = true
+        end)
+        f:SetScript("OnLeave", function(self)
+            f.isOnEnter = nil
+            f:Hide()
+        end)
 
         --------- 角色团本完成总览 ---------
         local t = f:CreateFontString()
@@ -771,7 +778,7 @@ function BG.RoleOverviewUI()
             for i = 2, #MONEYchoice_table do
                 local v = MONEYchoice_table[i]
                 local id = v.id
-                sum[id] = 0             -- 包含货币和金币
+                sum[id] = 0 -- 包含货币和金币
             end
             for _, pz in pairs(copyTbl) do
                 for i = 2, #MONEYchoice_table do
@@ -1310,6 +1317,7 @@ function BG.RoleOverviewUI()
             end
         end
     end
+
     ------------------一键排灵魂烘炉------------------
     if not BG.IsVanilla then
         BiaoGe.lastChooseLFD = BiaoGe.lastChooseLFD or {}
@@ -1365,7 +1373,7 @@ function BG.RoleOverviewUI()
                 -- bt.tbl = { 259 }           -- 燃烧的远征test
             elseif i == 2 then
                 bt.type = "zhiding"
-                bt.tbl = { 2463 } -- 伽马灵魂烘炉
+                bt.tbl = { 2463, 2481 } --伽马灵魂烘炉、贝塔要塞
                 -- bt.tbl = { 136 }  -- 地狱火test
             end
             bt:Hide()
@@ -1389,6 +1397,9 @@ function BG.RoleOverviewUI()
                     local isAvailableForAll, isAvailableForPlayer, hideIfNotJoinable = IsLFGDungeonJoinable(dungeonID)
                     if isAvailableForPlayer then
                         local name = GetLFGDungeonInfo(dungeonID)
+                        if dungeonID == 2481 then
+                            name = L["贝塔"] .. name
+                        end
                         buttons[i]:SetText(name)
                         buttons[i].onEnterText = format(L["一键指定%s"], name)
                         buttons[i].dungeonID = dungeonID
@@ -1404,6 +1415,7 @@ function BG.RoleOverviewUI()
                             buttons[i]:Enable()
                             buttons[i].disframe:Hide()
                         end
+                        break
                     end
                 end
                 if not buttons[i].name then
@@ -1471,18 +1483,16 @@ function BG.RoleOverviewUI()
             end
         end)
         hooksecurefunc("LFGDungeonList_SetDungeonEnabled", function(dungeonID, isChecked)
+            -- pt(dungeonID)
             BG.After(0, function()
-                -- pt("2")
                 if isOnClick then
                     BiaoGe.lastChooseLFD[realmID][player].dungeons[dungeonID] = isChecked
                 end
             end)
         end)
         hooksecurefunc("LFGDungeonListCheckButton_OnClick", function(button, category, dungeonList, hiddenByCollapseList)
-            -- pt("1")
             isOnClick = true
             BG.After(0.01, function()
-                -- pt("3")
                 isOnClick = false
             end)
             -- local parent = button:GetParent();
@@ -1490,6 +1500,7 @@ function BG.RoleOverviewUI()
             -- local isChecked = button:GetChecked();
         end)
     end
+
     ------------------日常任务------------------
     do
         if not BiaoGe.QuestCD then
@@ -1517,42 +1528,44 @@ function BG.RoleOverviewUI()
                 fish = { 13836, 13833, 13834, 13832, 13830 },
             }
         end
+        local function SaveDayQuest(questName, questID)
+            local currentTimestamp = GetServerTime()
+            local tomorrow7amTimestamp
+            local today = date("*t", currentTimestamp)
+            -- 如果时间小于当天凌晨7点
+            if today.hour < 7 then
+                today.hour = 7
+                today.min = 0
+                today.sec = 0
+                tomorrow7amTimestamp = time(today)
+            else
+                -- 获取明天凌晨7点的时间戳
+                local tomorrow = date("*t", currentTimestamp + 86400) -- 加上一天的秒数
+                tomorrow.hour = 7
+                tomorrow.min = 0
+                tomorrow.sec = 0
+                tomorrow7amTimestamp = time(tomorrow)
+            end
+            -- 计算时间差
+            local secondsUntilNext7am = tomorrow7amTimestamp - currentTimestamp
+            local timestamp = currentTimestamp + secondsUntilNext7am
 
+            local colorplayer = SetClassCFF(player, "player")
+            BiaoGe.QuestCD[realmID][player][questName] = {
+                name = questName,
+                player = player,
+                colorplayer = colorplayer,
+                questID = questID,
+                resettime = secondsUntilNext7am,
+                endtime = timestamp
+            }
+        end
         local function UpdateDayQuest(questID)
             if not BG.dayQuests then return end
-            for name in pairs(BG.dayQuests) do
-                for _, _questID in pairs(BG.dayQuests[name]) do
+            for questName in pairs(BG.dayQuests) do
+                for _, _questID in pairs(BG.dayQuests[questName]) do
                     if _questID == questID then
-                        local currentTimestamp = GetServerTime()
-                        local tomorrow7amTimestamp
-                        local today = date("*t", currentTimestamp)
-                        -- 如果时间小于当天凌晨7点
-                        if today.hour < 7 then
-                            today.hour = 7
-                            today.min = 0
-                            today.sec = 0
-                            tomorrow7amTimestamp = time(today)
-                        else
-                            -- 获取明天凌晨7点的时间戳
-                            local tomorrow = date("*t", currentTimestamp + 86400) -- 加上一天的秒数
-                            tomorrow.hour = 7
-                            tomorrow.min = 0
-                            tomorrow.sec = 0
-                            tomorrow7amTimestamp = time(tomorrow)
-                        end
-                        -- 计算时间差
-                        local secondsUntilNext7am = tomorrow7amTimestamp - currentTimestamp
-                        local timestamp = currentTimestamp + secondsUntilNext7am
-
-                        local colorplayer = SetClassCFF(player, "player")
-                        BiaoGe.QuestCD[realmID][player][name] = {
-                            name = name,
-                            player = player,
-                            colorplayer = colorplayer,
-                            questID = questID,
-                            resettime = secondsUntilNext7am,
-                            endtime = timestamp
-                        }
+                        SaveDayQuest(questName, questID)
                         return
                     end
                 end
@@ -1560,62 +1573,63 @@ function BG.RoleOverviewUI()
         end
 
         -- 周常
-        if BG.IsVanilla_Sod then
-        elseif not BG.IsVanilla_60 then
+        if BG.IsWLK then
             BG.weekQuests = {
                 week1 = { 24579, 24580, 24581, 24582, 24583, 24584, 24585, 24586, 24587, 24588, 24589, 24590, },
             }
         end
+        local function SaveWeekQuest(questName, questID)
+            local resetDay = 2
+            if BG.IsCN() then
+                resetDay = 4
+            end
 
+            local currentTimestamp = GetServerTime()
+            local currentWeekday = date("%w", currentTimestamp)
+            local daysToThursday = resetDay - currentWeekday
+            local nextThursdayTimestamp
+
+            local today = date("*t", currentTimestamp)
+            -- 如果时间小于当天凌晨7点
+            if daysToThursday == 0 and today.hour < 7 then
+                today.hour = 7
+                today.min = 0
+                today.sec = 0
+                nextThursdayTimestamp = time(today)
+            else
+                -- 如果已经是周四了，则日期+7
+                if daysToThursday <= 0 then
+                    daysToThursday = daysToThursday + 7
+                end
+                nextThursdayTimestamp = currentTimestamp + daysToThursday * 86400
+
+                local nextThursdayDateTable = date("*t", nextThursdayTimestamp)
+                nextThursdayDateTable.hour = 7
+                nextThursdayDateTable.min = 0
+                nextThursdayDateTable.sec = 0
+                nextThursdayTimestamp = time(nextThursdayDateTable)
+            end
+            -- 计算时间差
+            local secondsToNextThursday = nextThursdayTimestamp - currentTimestamp -- 距离下周四还有多少秒
+            local timestamp = currentTimestamp + secondsToNextThursday             -- 到下周四的实际时间戳
+
+            local colorplayer = SetClassCFF(player, "player")
+            BiaoGe.QuestCD[realmID][player][questName] = {
+                name = questName,
+                player = player,
+                colorplayer = colorplayer,
+                questID = questID,
+                resettime = secondsToNextThursday,
+                endtime = timestamp
+            }
+            -- BG.SendSystemMessage(format(L["周常任务已记录，距离重置还剩%s。"], date("%d天%H小时", secondsToNextThursday)))
+        end
         local function UpdateWeekQuest(questID)
             if not BG.weekQuests then return end
-            for name in pairs(BG.weekQuests) do
-                for _, _questID in pairs(BG.weekQuests[name]) do
+            for questName in pairs(BG.weekQuests) do
+                for _, _questID in pairs(BG.weekQuests[questName]) do
                     if _questID == questID then
-                        local resetDay = 2
-                        if BG.IsCN() then
-                            resetDay = 4
-                        end
-
-                        local currentTimestamp = GetServerTime()
-                        local currentWeekday = date("%w", currentTimestamp)
-                        local daysToThursday = resetDay - currentWeekday
-                        local nextThursdayTimestamp
-
-                        local today = date("*t", currentTimestamp)
-                        -- 如果时间小于当天凌晨7点
-                        if daysToThursday == 0 and today.hour < 7 then
-                            today.hour = 7
-                            today.min = 0
-                            today.sec = 0
-                            nextThursdayTimestamp = time(today)
-                        else
-                            -- 如果已经是周四了，则日期+7
-                            if daysToThursday <= 0 then
-                                daysToThursday = daysToThursday + 7
-                            end
-                            nextThursdayTimestamp = currentTimestamp + daysToThursday * 86400
-
-                            local nextThursdayDateTable = date("*t", nextThursdayTimestamp)
-                            nextThursdayDateTable.hour = 7
-                            nextThursdayDateTable.min = 0
-                            nextThursdayDateTable.sec = 0
-                            nextThursdayTimestamp = time(nextThursdayDateTable)
-                        end
-                        -- 计算时间差
-                        local secondsToNextThursday = nextThursdayTimestamp - currentTimestamp -- 距离下周四还有多少秒
-                        local timestamp = currentTimestamp + secondsToNextThursday             -- 到下周四的实际时间戳
-
-                        local colorplayer = SetClassCFF(player, "player")
-                        BiaoGe.QuestCD[realmID][player][name] = {
-                            name = name,
-                            player = player,
-                            colorplayer = colorplayer,
-                            questID = name,
-                            resettime = secondsToNextThursday,
-                            endtime = timestamp
-                        }
-                        -- BG.SendSystemMessage(format(L["周常任务已记录，距离重置还剩%s。"], date("%d天%H小时", secondsToNextThursday)))
+                        SaveWeekQuest(questName, questID)
                         return
                     end
                 end
@@ -1628,32 +1642,59 @@ function BG.RoleOverviewUI()
             UpdateWeekQuest(questID)
         end)
 
-        -- 检查全部角色的任务重置cd是否到期（第二天凌晨7点）
-        BG.RegisterEvent("PLAYER_ENTERING_WORLD", function(self, event, isLogin, isReload)
-            if isLogin or isReload then
-                if BG.IsVanilla_Sod then
-                    local p, r = UnitFullName("player")
-                    BG.Once("QuestCD", "240403" .. p .. "-" .. r, function()
-                        BiaoGe.QuestCD[realmID][player]["huiguweek"] = nil
-                        for questID in pairs(GetQuestsCompleted()) do
-                            UpdateDayQuest(questID)
-                        end
-                    end)
-                end
-            end
-
+        -- 检查全部角色的任务重置cd是否到期（日常是第二天凌晨7点）
+        local function UpdateQuestEndTime()
             local time = GetServerTime()
             for player in pairs(BiaoGe.QuestCD[realmID]) do
-                for name, v in pairs(BiaoGe.QuestCD[realmID][player]) do
+                for questName, v in pairs(BiaoGe.QuestCD[realmID][player]) do
                     if time < v.endtime then
                         v.resettime = v.endtime - time
                     else
-                        BiaoGe.QuestCD[realmID][player][name] = nil
+                        BiaoGe.QuestCD[realmID][player][questName] = nil
                     end
                 end
             end
+        end
+        -- 追溯已完成的任务
+        local function CheckQuestsCompleted()
+            local tbl = GetQuestsCompleted()
+            if BG.dayQuests then
+                for questName in pairs(BG.dayQuests) do
+                    if not BiaoGe.QuestCD[realmID][player][questName] then
+                        for _, _questID in pairs(BG.dayQuests[questName]) do
+                            if tbl[_questID] then
+                                SaveDayQuest(questName, questID)
+                                break
+                            end
+                        end
+                    end
+                end
+            end
+            if BG.weekQuests then
+                for questName in pairs(BG.weekQuests) do
+                    if not BiaoGe.QuestCD[realmID][player][questName] then
+                        for _, _questID in pairs(BG.weekQuests[questName]) do
+                            if tbl[_questID] then
+                                SaveWeekQuest(questName, questID)
+                                break
+                            end
+                        end
+                    end
+                end
+            end
+        end
+
+        BG.RegisterEvent("PLAYER_ENTERING_WORLD", function(self, event, isLogin, isReload)
+            if isLogin or isReload then
+                CheckQuestsCompleted()
+            end
+            UpdateQuestEndTime()
+        end)
+        C_Timer.NewTicker(60, function()
+            UpdateQuestEndTime()
         end)
     end
+
     ------------------获取货币信息------------------
     do
         if not BiaoGe.Money then

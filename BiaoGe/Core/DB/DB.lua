@@ -441,13 +441,6 @@ do
                 ExchangeItems = {},
             }
         end
-
-        -- 提前缓存兑换物品
-        function BG.CachesExchangeItem(FB)
-            for item in pairs(BG.Loot[FB].ExchangeItems) do
-                GetItemInfo(item)
-            end
-        end
     end
 
     -- 字体

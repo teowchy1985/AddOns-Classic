@@ -826,10 +826,51 @@ BG.Init(function()
             bt:Hide()
         end
     end
-    local function CreateMenu(f, i, v, notAuctioned, link, icon)
+    local function CreateMenu(f, i, v, notAuctioned, link, icon, isHistory)
         local FB = BG.FB1
         local menu
-        if notAuctioned then
+        if isHistory then
+            -- 成功
+            if v.type == 1 and v.log then
+                local text = ""
+                local isMore = true
+                for i, _v in ipairs(v.log) do
+                    if _v.i == 1 then
+                        isMore = false
+                    end
+                    text = text .. _v.i .. L["、"] .. _v.money .. format(L["（%s）"], _v.player) .. NN
+                end
+                if isMore then
+                    text = BG.STC_dis("......\n") .. text
+                end
+                menu = {
+                    {
+                        isTitle = true,
+                        text = link:gsub("%[", ""):gsub("%]", ""),
+                        notCheckable = true,
+                    },
+                    {
+                        text = L["出价记录"],
+                        notCheckable = true,
+                        tooltipTitle = L["出价记录"],
+                        tooltipText = text,
+                        tooltipOnButton = true,
+                    },
+                    {
+                        isTitle = true,
+                        text = "   ",
+                        notCheckable = true,
+                    },
+                    {
+                        text = CANCEL,
+                        notCheckable = true,
+                        func = function(self)
+                            LibBG:CloseDropDownMenus()
+                        end,
+                    },
+                }
+            end
+        elseif notAuctioned then
             menu = {
                 {
                     isTitle = true,
@@ -945,6 +986,7 @@ BG.Init(function()
                     end,
                 }
             }
+
             if v.type == 1 then
                 -- 成功
                 menu[2].text = L["修改记录"]
@@ -1073,15 +1115,17 @@ BG.Init(function()
                 BG.canShowStartAuctionCursor = false
             end)
             f:SetScript("OnMouseDown", function(self, button)
-                if button == "RightButton" and not isHistory then
-                    BG.PlaySound(3)
+                if button == "RightButton" then
                     wipe(BG.auctionLogFrame.choosed)
                     lastChoose = num
                     for _i, bt in ipairs(BG.auctionLogFrame.buttons) do
                         CancelChoose(bt)
                     end
-                    local menu = CreateMenu(f, i, v, notAuctioned, link, icon)
-                    LibBG:EasyMenu(menu, dropDown, "cursor", 10, 10, "MENU", 2)
+                    local menu = CreateMenu(f, i, v, notAuctioned, link, icon, isHistory)
+                    if menu then
+                        LibBG:EasyMenu(menu, dropDown, "cursor", 10, 10, "MENU", 2)
+                        BG.PlaySound(1)
+                    end
                 else
                     if v.type == 3 then
                         BG.PlaySound(1)

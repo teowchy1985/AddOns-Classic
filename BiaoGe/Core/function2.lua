@@ -40,9 +40,9 @@ do
         BiaoGeTooltip:SetItemByID(itemID)
     end
 
-    local function GetTooltipTextLeftAll(itemID)
+    function BG.GetTooltipTextLeftAll(itemID)
         BG.Tooltip_SetItemByID(itemID)
-        local tab = {}
+        local tbl = {}
         local ii = 1
         while _G["BiaoGeTooltipTextLeft" .. ii] do
             local text = _G["BiaoGeTooltipTextLeft" .. ii]:GetText()
@@ -51,14 +51,14 @@ do
                 if (not text:find(WARDROBE_SETS)) and
                     (not text:find(ITEM_MOD_FERAL_ATTACK_POWER:gsub("%%s", "(.+)"))) -- 小德的武器词缀：在猎豹、熊等等攻击强度提高%s点
                 then
-                    table.insert(tab, text)
+                    tinsert(tbl, text)
                 end
             end
             ii = ii + 1
         end
-        local TooltipText = table.concat(tab)
-        return TooltipText
+        return table.concat(tbl)
     end
+
     local function FilterArmor(typeID, EquipLoc, subclassID)
         local num = BiaoGe.FilterClassItemDB[RealmId][player].chooseID
         if not num then return end
@@ -160,8 +160,8 @@ do
             end
         end
     end
-    function BG.FilterAll(itemID, typeID, EquipLoc, subclassID)
-        local TooltipText = GetTooltipTextLeftAll(itemID)
+    function BG.FilterAll(itemID, typeID, EquipLoc, subclassID, tooltipText)
+        local TooltipText = tooltipText or BG.GetTooltipTextLeftAll(itemID)
         if FilterArmor(typeID, EquipLoc, subclassID) then
             return true
         end
@@ -2148,25 +2148,30 @@ function BG.FindDropdownItem(dropdown, text)
 end
 
 local r, g, b = GetClassColor(select(2, UnitClass("player")))
-function BG.CreateButton(parent, dark)
+local _r, _g, _b = r, g, b
+function BG.CreateButton(parent, dark, blackBorder)
     local alpha_normal = .3
     local alpha_highlight = .6
     local borderAlpha = .6
-    if dark  then
+    if dark then
         alpha_normal = .6
         alpha_highlight = .8
         borderAlpha = 1
     end
+    if blackBorder then
+        _r, _g, _b = 0, 0, 0
+    end
+
     local bt = CreateFrame("Button", nil, parent, "BackdropTemplate")
     bt:SetBackdrop({
         edgeFile = "Interface/ChatFrame/ChatFrameBackground",
         edgeSize = 1,
     })
-    bt:SetBackdropBorderColor(r, g, b, borderAlpha)
+    bt:SetBackdropBorderColor(_r, _g, _b, borderAlpha)
     bt.bg = bt:CreateTexture(nil, "BACKGROUND")
     bt.bg:SetAllPoints()
     bt.bg:SetTexture("Interface\\Buttons\\WHITE8x8")
-    bt.bg:SetGradient("VERTICAL", CreateColor(r, g, b, alpha_normal), CreateColor(r, g, b, .0))
+    bt.bg:SetGradient("VERTICAL", CreateColor(_r, _g, _b, alpha_normal), CreateColor(_r, _g, _b, .0))
     local t = bt:CreateFontString()
     t:SetAllPoints()
     t:SetTextColor(1, .82, 0)
@@ -2176,21 +2181,21 @@ function BG.CreateButton(parent, dark)
     hooksecurefunc(bt, "SetScript", function(arg1, arg2, ...)
         if arg2 == "OnEnter" then
             bt:HookScript("OnEnter", function()
-                bt.bg:SetGradient("VERTICAL", CreateColor(r, g, b, alpha_highlight), CreateColor(r, g, b, .1))
+                bt.bg:SetGradient("VERTICAL", CreateColor(_r, _g, _b, alpha_highlight), CreateColor(_r, _g, _b, .1))
                 bt:GetFontString():SetTextColor(1, 1, 1)
             end)
         elseif arg2 == "OnLeave" then
             bt:HookScript("OnLeave", function()
                 GameTooltip:Hide()
-                bt.bg:SetGradient("VERTICAL", CreateColor(r, g, b, alpha_normal), CreateColor(r, g, b, .0))
+                bt.bg:SetGradient("VERTICAL", CreateColor(_r, _g, _b, alpha_normal), CreateColor(_r, _g, _b, .0))
                 bt:GetFontString():SetTextColor(1, .82, 0)
             end)
         end
     end)
     hooksecurefunc(bt, "SetEnabled", function(arg1, arg2, ...)
         if arg2 == true then
-            bt:SetBackdropBorderColor(r, g, b, borderAlpha)
-            bt.bg:SetGradient("VERTICAL", CreateColor(r, g, b, alpha_normal), CreateColor(r, g, b, .0))
+            bt:SetBackdropBorderColor(_r, _g, _b, borderAlpha)
+            bt.bg:SetGradient("VERTICAL", CreateColor(_r, _g, _b, alpha_normal), CreateColor(_r, _g, _b, .0))
             bt:GetFontString():SetTextColor(1, .82, 0)
         elseif arg2 == false then
             bt:SetBackdropBorderColor(.5, .5, .5, borderAlpha)

@@ -600,17 +600,30 @@ BG.Init(function()
         end
         -- TOC嘉奖宝箱通过读取掉落列表来记录装备
         if FB == "TOC" and itemID ~= 47242 then
-            local nanduID = GetRaidDifficultyID()
-            local H
-            if nanduID == 6 or nanduID == 194 then     -- 25H
-                H = "H25"
-            elseif nanduID == 5 or nanduID == 193 then -- 10H
-                H = "H10"
+            local difID = GetRaidDifficultyID()
+            local hard
+            if difID == 6 or difID == 194 then
+                hard = "H25"
+            elseif difID == 5 or difID == 193 then
+                hard = "H10"
+            elseif difID == 4 or difID == 176 then
+                hard = "N25"
+            elseif difID == 3 or difID == 175 then
+                hard = "N10"
             end
-            if H then
-                for index, value in ipairs(BG.Loot.TOC[H].boss6) do
-                    if itemID == value then
+            if hard == "H25" or hard == "H10" then
+                for i, _itemID in ipairs(BG.Loot.TOC[hard].boss6) do
+                    if itemID == _itemID then
                         local numb = 6
+                        AddLootItem(FB, numb, link, Texture, level, Hope, count, typeID, lootplayer)
+                        return
+                    end
+                end
+            end
+            for b = 3, 4 do
+                for i, _itemID in ipairs(BG.Loot.TOC[hard]["boss" .. b]) do
+                    if itemID == _itemID then
+                        local numb = b
                         AddLootItem(FB, numb, link, Texture, level, Hope, count, typeID, lootplayer)
                         return
                     end

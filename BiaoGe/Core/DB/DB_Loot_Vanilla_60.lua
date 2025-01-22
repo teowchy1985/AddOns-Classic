@@ -354,7 +354,7 @@ do
         [19267] = { 19289 },
         [19277] = { 19290 },
     }
-    BG.CachesExchangeItem(FB)
+
 
     local FB = "TAQ"
     BG.Loot[FB].World = {

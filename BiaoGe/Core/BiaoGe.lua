@@ -467,7 +467,7 @@ BG.Init(function()
                 BG.FilterClassItemMainFrame.Buttons2:SetParent(self)
                 BG.FilterClassItemMainFrame:Hide()
                 BG.FilterClassItemMainFrame.Buttons2:ClearAllPoints()
-                BG.FilterClassItemMainFrame.Buttons2:SetPoint("TOP", BG.ItemLibMainFrame[1]["invtypeFrame"], "BOTTOM", 0, -10)
+                BG.FilterClassItemMainFrame.Buttons2:SetPoint("TOP", BG.ItemLibMainFrame.invtypeFrame, "BOTTOM", 0, -10)
 
                 BG.ButtonImportHope:SetParent(self)
                 BG.ButtonExportHope:SetParent(self)
@@ -1082,7 +1082,6 @@ BG.Init(function()
 
         LibBG:UIDropDownMenu_Initialize(dropDown, function(self, level)
             FrameHide(0)
-            BG.PlaySound(1)
             local info = LibBG:UIDropDownMenu_CreateInfo()
             info.text = L["切换副本难度"]
             info.isTitle = true
@@ -1186,7 +1185,8 @@ BG.Init(function()
             BG.UpdateHopeFrame_IsLooted_All()
 
             -- 装备库
-            if BG.ItemLibMainFrame:IsVisible() then
+            if BG.ItemLibMainFrame:IsShown() then
+            -- if BG.ItemLibMainFrame:IsVisible() then
                 local samePhaseFB
                 for k, _FB in pairs(BG.phaseFBtable[lastClickFB]) do
                     if _FB == FB then
@@ -1201,14 +1201,7 @@ BG.Init(function()
                     BG.UpdateItemLib_RightHope_IsLooted_All()
                 else
                     BG.After(0.6, function()
-                        if not BG.itemLibCaches[FB] then
-                            BG.CacheAndUpdateAllItemLib()
-                        else
-                            BG.UpdateAllItemLib()
-                            BG.UpdateItemLib_RightHope_All()
-                            BG.UpdateItemLib_RightHope_IsHaved_All()
-                            BG.UpdateItemLib_RightHope_IsLooted_All()
-                        end
+                        BG.UpdateAllItemLib()
                     end)
                 end
                 BG.lastItemLibFB = BG.FB1
@@ -2053,23 +2046,19 @@ BG.Init(function()
 
         local function OnEnter(self)
             isOnter = true
-            local bt = self.bt or self
-            if bt:IsEnabled() then
-                bt:SetBackdropBorderColor(1, 1, 1)
-            end
             GameTooltip:SetOwner(self, "ANCHOR_RIGHT", 0, 0)
             GameTooltip:ClearLines()
             GameTooltip:AddLine(L["一键分配"], 1, 1, 1, true)
             if self.dis then
-                if IsInRaid() then
-                    GameTooltip:AddLine(L["你不是物品分配者，不能使用"], 1, 0, 0, true)
+                if IsInRaid(1) then
+                    GameTooltip:AddLine(L["你不是物品分配者，不能使用。"], 1, 0, 0, true)
                 else
-                    GameTooltip:AddLine(L["不在团队中，不能使用"], 1, 0, 0, true)
+                    GameTooltip:AddLine(L["不在团队中，不能使用。"], 1, 0, 0, true)
                 end
             else
-                GameTooltip:AddLine(L["把全部可交易的物品分配给自己"], 1, 0.82, 0, true)
+                GameTooltip:AddLine(L["把全部可交易的物品分配给自己。"], 1, 0.82, 0, true)
             end
-            GameTooltip:AddLine(BG.STC_dis(L["你可在插件设置-BiaoGe-其他功能里关闭这个功能"]), 0.5, 0.5, 0.5, true)
+            GameTooltip:AddLine(BG.STC_dis(L["你可在插件设置-BiaoGe-其他功能里关闭这个功能。"]), 0.5, 0.5, 0.5, true)
 
             local items = {}
             for li = 1, GetNumLootItems() do
@@ -2091,30 +2080,18 @@ BG.Init(function()
                     GameTooltip:AddLine(i .. ". " .. item, 1, 1, 0)
                 end
             else
-                GameTooltip:AddLine(BG.STC_dis(L["没有符合条件的物品"]), 1, 1, 0, true)
+                GameTooltip:AddLine(BG.STC_dis(L["没有符合条件的物品。"]), 1, 1, 0, true)
             end
             GameTooltip:Show()
         end
 
         local function OnLeave(self)
             isOnter = false
-            local bt = self.bt or self
-            if bt:IsEnabled() then
-                bt:SetBackdropBorderColor(0, 1, 0)
-            end
             GameTooltip:Hide()
         end
 
         local parent = ElvLootFrame or XLootFrame or LootFrame
-        local bt = CreateFrame("Button", nil, parent, "BackdropTemplate")
-        bt:SetBackdrop({
-            edgeFile = "Interface/ChatFrame/ChatFrameBackground",
-            edgeSize = 1,
-        })
-        bt:SetBackdropBorderColor(0, 1, 0)
-        bt:SetNormalFontObject(BG.FontGreen15)
-        bt:SetDisabledFontObject(BG.FontDis15)
-        bt:SetHighlightFontObject(BG.FontWhite15)
+        local bt = BG.CreateButton(parent, true)
         bt:SetPoint("BOTTOM", parent, "TOP", 0, 0)
         bt:SetText(L["一键分配"])
         bt:SetSize(bt:GetFontString():GetWidth() + 10, 25)
@@ -2141,10 +2118,9 @@ BG.Init(function()
 
             if GetLootMethod() == "master" then
                 bt:Show()
-                if select(2, IsInInstance()) == "raid" and BG.masterLooter == UnitName("player") then
+                if IsInRaid(1) and BG.masterLooter == UnitName("player") then
                     disframe:Hide()
                     bt:Enable()
-                    bt:SetBackdropBorderColor(0, 1, 0)
                     if BiaoGe.options["autoAllLootToMe"] == 1 then
                         BG.After(0.1, function()
                             GiveLoot()
@@ -2153,7 +2129,6 @@ BG.Init(function()
                 else
                     disframe:Show()
                     bt:Disable()
-                    bt:SetBackdropBorderColor(RGB("808080"))
                 end
             else
                 bt:Hide()
@@ -2383,7 +2358,6 @@ BG.Init(function()
 
         -- 导出并举报
         local whoText
-        -- local bt = BG.CreateButton(WhoFrame)
         local bt = CreateFrame("Button", nil, WhoFrame, "UIPanelButtonTemplate")
         bt:SetSize(100, 25)
         bt:SetPoint("TOPRIGHT", WhoFrame, "TOPRIGHT", -20, -25)
@@ -3619,7 +3593,7 @@ BG.Init(function()
             f:SetSize(jine:GetWidth(), 20)
             BG.ButtonClearBiaoGeMoney = f
             local t = f:CreateFontString()
-            t:SetFontObject(GameFontHighlight)
+            t:SetFontObject(ChatFontNormal)
             t:SetAllPoints()
             t:SetJustifyH("LEFT")
             t:SetTextColor(1, .82, 0)
@@ -3632,7 +3606,7 @@ BG.Init(function()
             f:SetPoint("RIGHT", BG.ButtonClearBiaoGeMoney, "LEFT", 0, 0)
             poit = f
             local t = f:CreateFontString()
-            t:SetFontObject(GameFontHighlight)
+            t:SetFontObject(ChatFontNormal)
             t:SetPoint("RIGHT")
             t:SetTextColor(1, .82, 0)
             t:SetText(L["清空表格时的金币： "])
@@ -4281,17 +4255,3 @@ end
 -- tex:SetSize(100,100)
 -- tex:SetAtlas("bags-newitem")
 -- tex:SetTexture("Interface\\AddOns\\BiaoGe\\Media\\icon\\AFD")
-
---[[
-/run SendMail
-SendMail("苍穹一号","123","321")
-]]
-
--- local bt = CreateFrame("Button", nil, UIParent, "UIPanelButtonTemplate")
--- bt:SetSize(120, 25)
--- bt:SetPoint("CENTER", UIParent, "CENTER", 0, 0)
--- bt:SetText(L["邮寄"])
--- bt:SetScript("OnClick", function(self)
---     SetSendMailMoney(100)
---     SendMail("小鱼猎","123","321")
--- end)

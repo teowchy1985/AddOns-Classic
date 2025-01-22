@@ -764,7 +764,6 @@ function BG.HopeUI(FB)
                 BiaoGe.HopeSendChannel = channel
                 LibBG:UIDropDownMenu_SetText(dropDown, BG.HopeSendTable[BiaoGe.HopeSendChannel])
                 FrameHide(0)
-                BG.PlaySound(1)
             end
             if BiaoGe.HopeSendChannel == channel then
                 info.checked = true
@@ -781,8 +780,6 @@ function BG.HopeUI(FB)
         LibBG:UIDropDownMenu_SetText(dropDown, BG.HopeSendTable[BiaoGe.HopeSendChannel])
         LibBG:UIDropDownMenu_Initialize(dropDown, function(self, level, menuList)
             FrameHide(0)
-            BG.PlaySound(1)
-
             AddButton(dropDown, L["团队"], "RAID")
             AddButton(dropDown, L["队伍"], "PARTY")
             AddButton(dropDown, L["公会"], "GUILD")

@@ -1251,7 +1251,7 @@ function BG.FBZhiChuZongLanGongZiUI(FB)
         BG.Frame[FB]["boss" .. Maxb[FB] + 1]["zhuangbei2"]:SetText(L["N补贴"])
     end
     if not BiaoGe[FB]["boss" .. Maxb[FB] + 1]["zhuangbei3"] then
-        BG.Frame[FB]["boss" .. Maxb[FB] + 1]["zhuangbei3"]:SetText(L["Dps补贴"])
+        BG.Frame[FB]["boss" .. Maxb[FB] + 1]["zhuangbei3"]:SetText(L["DPS补贴"])
     end
     if BG.IsWLK then
         if not BiaoGe[FB]["boss" .. Maxb[FB] + 1]["zhuangbei4"] then
@@ -1326,7 +1326,7 @@ function BG.FBZhiChuZongLanGongZiUI(FB)
         if zb then
             zb:SetText(zb:GetText():gsub(L["坦克补贴"], L["T补贴"]))
             zb:SetText(zb:GetText():gsub(L["治疗补贴"], L["N补贴"]))
-            zb:SetText(zb:GetText():gsub(L["输出补贴"], L["Dps补贴"]))
+            zb:SetText(zb:GetText():gsub(L["输出补贴"], L["DPS补贴"]))
         end
     end
 end
