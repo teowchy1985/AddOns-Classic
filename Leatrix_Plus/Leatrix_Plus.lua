@@ -1,5 +1,5 @@
 ﻿----------------------------------------------------------------------
--- 	Leatrix Plus 4.0.43 (15th January 2025)
+-- 	Leatrix Plus 4.0.44 (22nd January 2025)
 ----------------------------------------------------------------------
 
 --	01:Functions  02:Locks    03:Restart  40:Player   45:Rest
@@ -19,7 +19,7 @@
 	local void
 
 	-- Version
-	LeaPlusLC["AddonVer"] = "4.0.43"
+	LeaPlusLC["AddonVer"] = "4.0.44"
 
 	-- Get locale table
 	local void, Leatrix_Plus = ...
@@ -3344,7 +3344,10 @@
 					local General = EasyFrames:GetModule("General", true)
 					if General then
 						-- Set chain style when Easy Frames use a light texture checkbox is toggled
-						hooksecurefunc(General, "SetLightTexture", SetChainStyle)
+						local SetLightTextureFunc = General.SetLightTexture
+						if SetLightTextureFunc then
+							hooksecurefunc(General, "SetLightTexture", SetChainStyle)
+						end
 					end
 				end
 				-- Set chain style after Easy Frames has loaded
