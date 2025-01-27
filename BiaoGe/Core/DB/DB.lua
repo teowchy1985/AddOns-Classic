@@ -190,10 +190,10 @@ do
             BG.FB1 = "NAXX"
             BG.fullLevel = 80
             BG.theEndBossID = { 1114, 756, 645, 856, }
-            AddDB("NAXX", 533, "P1", nil, nil, { "H25", "H10", "N25", "N10" }, nil, { 1, 15 })
-            AddDB("ULD", 603, "P2", nil, nil, { "H25", "H10", "N25", "N10" })
-            AddDB("TOC", 649, "P3", nil, nil, { "H25", "H10", "N25", "N10" }, nil, { 1, 6 })
-            AddDB("ICC", 631, "P4", nil, nil, { "H25", "H10", "N25", "N10" }, nil, { 1, 12 })
+            AddDB("NAXX", 533, "P1", nil, nil, { "H25", "N25", "H10", "N10" }, nil, { 1, 15 })
+            AddDB("ULD", 603, "P2", nil, nil, { "H25", "N25", "H10", "N10" })
+            AddDB("TOC", 649, "P3", nil, nil, { "H25", "N25", "H10", "N10" }, nil, { 1, 6 })
+            AddDB("ICC", 631, "P4", nil, nil, { "H25", "N25", "H10", "N10" }, nil, { 1, 12 })
 
             BG.FBIDtable[615] = "NAXX" -- 黑曜石圣殿
             BG.bossPositionStartEnd[615] = { 16, 16 }
@@ -255,7 +255,7 @@ do
         ns.HopeMaxb   = HopeMaxb
         ns.HopeMaxn   = HopeMaxn
         ns.BossNumtbl = BossNumtbl
-        BG.Maxb=Maxb
+        BG.Maxb       = Maxb
     end
 
     local function UnitRealm(unit)
@@ -721,7 +721,7 @@ local function DataBase()
         if not BiaoGe.BossFrame then
             BiaoGe.BossFrame = {}
         end
-        for index, FB in ipairs(BG.FBtable) do
+        for _, FB in ipairs(BG.FBtable) do
             if not BiaoGe.BossFrame[FB] then
                 BiaoGe.BossFrame[FB] = {}
             end

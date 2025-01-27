@@ -215,6 +215,8 @@ function BG.RoleOverviewUI()
             { name = "ML", color = "D3D3D3", fbId = 544, num = 25, type = "fb" },
             { name = "ZA", color = "D3D3D3", fbId = 568, num = 10, type = "fb" },
             { name = "KZ", color = "D3D3D3", fbId = 532, num = 10, type = "fb" },
+            { name = "PT", color = "D3D3D3", fbId = 585, num = 5, type = "fb" },
+            { name = "STK", color = "D3D3D3", fbId = 556, num = 5, type = "fb" },
             --CLASSIC
             { name = "TAQ", color = "D3D3D3", fbId = 531, num = 40, type = "fb" },
             { name = "AQL", color = "D3D3D3", fbId = 509, num = 20, type = "fb" },
@@ -283,6 +285,8 @@ function BG.RoleOverviewUI()
             { name = "ML", color = "D3D3D3", fbId = 544, num = 25, type = "fb" },
             { name = "ZA", color = "D3D3D3", fbId = 568, num = 10, type = "fb" },
             { name = "KZ", color = "D3D3D3", fbId = 532, num = 10, type = "fb" },
+            { name = "PT", color = "D3D3D3", fbId = 585, num = 5, type = "fb" },
+            { name = "STK", color = "D3D3D3", fbId = 556, num = 5, type = "fb" },
             --CLASSIC
             { name = "TAQ", color = "D3D3D3", fbId = 531, num = 40, type = "fb" },
             { name = "AQL", color = "D3D3D3", fbId = 509, num = 20, type = "fb" },

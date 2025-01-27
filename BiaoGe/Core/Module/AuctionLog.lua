@@ -254,9 +254,10 @@ BG.Init(function()
             bt:SetPoint("BOTTOMRIGHT", frame, -22, 2)
             bt:SetFrameLevel(110)
             bt:SetText(L["开始拍卖"])
+            bt:RegisterForClicks("AnyUp")
             bt:Hide()
             BG.auctionLogFrame.ButtonStartAuction = bt
-            bt:SetScript("OnClick", function(self)
+            bt:SetScript("OnClick", function(self, button)
                 BG.PlaySound(1)
                 BG.StartAuction(BG.auctionLogFrame.choosed, bt, nil, true)
                 if BG.StartAucitonFrame and BG.StartAucitonFrame:IsVisible() then
@@ -1121,10 +1122,14 @@ BG.Init(function()
                     for _i, bt in ipairs(BG.auctionLogFrame.buttons) do
                         CancelChoose(bt)
                     end
-                    local menu = CreateMenu(f, i, v, notAuctioned, link, icon, isHistory)
-                    if menu then
-                        LibBG:EasyMenu(menu, dropDown, "cursor", 10, 10, "MENU", 2)
-                        BG.PlaySound(1)
+                    if IsAltKeyDown() then
+                        BG.StartAuction(link, f, true, nil, button == "RightButton")
+                    else
+                        local menu = CreateMenu(f, i, v, notAuctioned, link, icon, isHistory)
+                        if menu then
+                            LibBG:EasyMenu(menu, dropDown, "cursor", 10, 10, "MENU", 2)
+                            BG.PlaySound(1)
+                        end
                     end
                 else
                     if v.type == 3 then
@@ -1149,7 +1154,7 @@ BG.Init(function()
                                 CancelChoose(bts)
                             end
                         elseif IsAltKeyDown() then
-                            BG.StartAuction(link, f, true)
+                            BG.StartAuction(link, f, true, nil, button == "RightButton")
                             CancelAllChoose()
                         elseif IsShiftKeyDown() then
                             if #BG.auctionLogFrame.choosed == 0 then
@@ -1745,10 +1750,11 @@ BG.Init(function()
             BG.trade.GiveYouMoneyText:Hide()
             if BiaoGe.options["autoAuctionPut"] ~= 1 then return end
             if not BG.ImML() then return end
-            if not BiaoGe.auctionTrade[UnitName("NPC")] then return end
+            local targetName = UnitName("NPC")
+            if not BiaoGe.auctionTrade[targetName] then return end
             if not TradeFrame:IsVisible() then return end
             ClearCursor()
-            for _, v in ipairs(BiaoGe.auctionTrade[UnitName("NPC")]) do
+            for _, v in ipairs(BiaoGe.auctionTrade[targetName]) do
                 local yes
                 for b = 0, NUM_BAG_SLOTS do
                     for i = 1, C_Container.GetContainerNumSlots(b) do

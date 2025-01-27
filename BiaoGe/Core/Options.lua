@@ -2030,7 +2030,7 @@ BG.Init(function()
                 text:SetText(BG.STC_r3(EXPANSION_NAME1 .. "*"))
                 height = height - height_jiange
                 O.CreateLine(roleOverview, height + line_height)
-                height = CreateFBCDbutton(19, 27, width, height, 65, height_jiange)
+                height = CreateFBCDbutton(19, 29, width, height, 65, height_jiange)
 
                 height = height - height_jiange - height_jiange
                 local text = roleOverview:CreateFontString(nil, "ARTWORK", "GameFontNormal")
@@ -2038,7 +2038,7 @@ BG.Init(function()
                 text:SetText(BG.STC_g2(LFG_LIST_LEGACY .. "*"))
                 height = height - height_jiange
                 O.CreateLine(roleOverview, height + line_height)
-                height = CreateFBCDbutton(28, 32, width, height, 65, height_jiange)
+                height = CreateFBCDbutton(30, 34, width, height, 65, height_jiange)
 
                 -- 任务
                 height = height - height_jiange - height_jiange
@@ -2047,7 +2047,7 @@ BG.Init(function()
                 text:SetText("|cffFF8C00" .. (QUESTS_LABEL .. "*") .. RR)
                 height = height - height_jiange
                 O.CreateLine(roleOverview, height + line_height)
-                height = CreateFBCDbutton(33, #BG.FBCDall_table, width, height, 100, height_jiange)
+                height = CreateFBCDbutton(35, #BG.FBCDall_table, width, height, 100, height_jiange)
 
                 -- 货币
                 height = height - height_jiange - height_jiange
@@ -2066,7 +2066,7 @@ BG.Init(function()
                 text:SetText("|cffFF4500" .. EXPANSION_NAME3 .. "*")
                 height = height - height_jiange
                 O.CreateLine(roleOverview, height + line_height)
-                height = CreateFBCDbutton(1, #BG.FBCDall_table - 32, width, height, 100, height_jiange)
+                height = CreateFBCDbutton(1, #BG.FBCDall_table - 34, width, height, 100, height_jiange)
 
                 height = height - height_jiange - height_jiange
                 local text = roleOverview:CreateFontString(nil, "ARTWORK", "GameFontNormal")
@@ -2074,7 +2074,7 @@ BG.Init(function()
                 text:SetText(BG.STC_b1(EXPANSION_NAME2 .. "*"))
                 height = height - height_jiange
                 O.CreateLine(roleOverview, height + line_height)
-                height = CreateFBCDbutton(#BG.FBCDall_table - 31, #BG.FBCDall_table - 14, width, height, 100, height_jiange)
+                height = CreateFBCDbutton(#BG.FBCDall_table - 33, #BG.FBCDall_table - 14, width, height, 100, height_jiange)
 
                 height = height - height_jiange - height_jiange
                 local text = roleOverview:CreateFontString(nil, "ARTWORK", "GameFontNormal")
@@ -2082,7 +2082,7 @@ BG.Init(function()
                 text:SetText(BG.STC_r3(EXPANSION_NAME1 .. "*"))
                 height = height - height_jiange
                 O.CreateLine(roleOverview, height + line_height)
-                height = CreateFBCDbutton(#BG.FBCDall_table - 13, #BG.FBCDall_table - 5, width, height, 65, height_jiange)
+                height = CreateFBCDbutton(#BG.FBCDall_table - 15, #BG.FBCDall_table - 5, width, height, 65, height_jiange)
 
                 height = height - height_jiange - height_jiange
                 local text = roleOverview:CreateFontString(nil, "ARTWORK", "GameFontNormal")

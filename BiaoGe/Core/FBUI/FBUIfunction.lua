@@ -390,8 +390,8 @@ function BG.FBZhuangBeiUI(FB, t, b, bb, i, ii, scrollFrame)
     -- 内容改变时
     bt:SetScript("OnTextChanged", OnTextChanged)
     -- 鼠标按下时
-    bt:SetScript("OnMouseDown", function(self, enter)
-        if enter == "RightButton" and self ~= BG.Frame[FB]["boss" .. Maxb[FB] + 2]["zhuangbei" .. i] then
+    bt:SetScript("OnMouseDown", function(self, button)
+        if button == "RightButton" and not IsAltKeyDown() and self ~= BG.Frame[FB]["boss" .. Maxb[FB] + 2]["zhuangbei" .. i] then
             UpdateCancelDelete(self, FB, BossNum(FB, b, t), i, self.type)
             self:SetEnabled(false)
             self:SetText("")
@@ -427,10 +427,12 @@ function BG.FBZhuangBeiUI(FB, t, b, bb, i, ii, scrollFrame)
                 end
                 if BG.IsML then -- 开始拍卖
                     local link = self:GetText()
-                    BG.StartAuction(link, self)
+                    BG.StartAuction(link, self, nil, nil, button == "RightButton")
                 else -- 关注装备
-                    BiaoGe[FB]["boss" .. BossNum(FB, b, t)]["guanzhu" .. i] = true
-                    BG.Frame[FB]["boss" .. BossNum(FB, b, t)]["guanzhu" .. i]:Show()
+                    if button ~= "RightButton" then
+                        BiaoGe[FB]["boss" .. BossNum(FB, b, t)]["guanzhu" .. i] = true
+                        BG.Frame[FB]["boss" .. BossNum(FB, b, t)]["guanzhu" .. i]:Show()
+                    end
                 end
             end
             return
