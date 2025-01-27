@@ -1186,7 +1186,7 @@ BG.Init(function()
 
             -- 装备库
             if BG.ItemLibMainFrame:IsShown() then
-            -- if BG.ItemLibMainFrame:IsVisible() then
+                -- if BG.ItemLibMainFrame:IsVisible() then
                 local samePhaseFB
                 for k, _FB in pairs(BG.phaseFBtable[lastClickFB]) do
                     if _FB == FB then
@@ -1701,9 +1701,11 @@ BG.Init(function()
             if not link then return end
             if IsAltKeyDown() then
                 if BG.IsML then -- 开始拍卖
-                    BG.StartAuction(link)
+                    BG.StartAuction(link, nil, nil, nil, button == "RightButton")
                 else            -- 关注装备
-                    BG.AddGuanZhu(link)
+                    if button ~= "RightButton" then
+                        BG.AddGuanZhu(link)
+                    end
                 end
             elseif IsShiftKeyDown() then
                 Insert(link)
@@ -3297,7 +3299,7 @@ BG.Init(function()
         hooksecurefunc("SetItemRef", function(link, text, button)
             if not BG.IsML then return end -- 如果是普通团员则退出
             local _type, name, line, chattype = strsplit(":", link)
-            if _type == "item" and button == "RightButton" then
+            if _type == "item" and button == "RightButton" and not IsAltKeyDown() then
                 local item, link, quality, level, _, _, _, _, _, Texture, _, typeID = GetItemInfo(link)
                 BG.StartCountDown(link)
             end
@@ -4241,13 +4243,6 @@ do
         BG.AddLootItem_stackCount(BG.FB1, 15, link, Texture, level, nil, 2, typeID)
     end
     SLASH_BIAOGETEST21 = "/bgdebug2"
-
-    -- BG.Init2(function()
-    --     BG.After(3, function()
-    --         BG.StartAuction("item:10938:")
-    --         BG.StartAuction("item:10938:")
-    --     end)
-    -- end)
 end
 
 -- local tex = UIParent:CreateTexture()

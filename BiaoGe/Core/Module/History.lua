@@ -897,6 +897,7 @@ do
                     -- local color = {"6600FF","3300FF","6633FF","3300CC","0033CC","3366FF","0033FF","0066FF","0099FF","00CCFF"}   -- 蓝色渐变
                     local color = { (nowMoney and "00BFFF" or "33FFCC"), "00FFCC", "00FF99", "00FF66", "00FF33", "33FF66", "00CC33", "33CC00", "66FF33", "33FF00", "66FF00", "99FF00", "CCFF00", "CCFF33", "99CC00" } -- 蓝绿渐变
                     for i = 1, #db do
+                        -- pt(i)
                         local f = CreateFrame("Frame", nil, BG.HistoryMoneyFrame, "BackdropTemplate")
                         f:SetBackdrop({
                             bgFile = "Interface/Tooltips/UI-Tooltip-Background",
@@ -960,6 +961,7 @@ do
                 local b = 1
                 while BiaoGe.History[FB][DT]["boss" .. b] do
                     for i = 1, BG.Maxi do
+                        if #db >= maxCount then break end
                         local zhuangbei = BiaoGe.History[FB][DT]["boss" .. b]["zhuangbei" .. i]
                         local _itemID = GetItemID(zhuangbei)
                         if zhuangbei and _itemID then

@@ -169,7 +169,7 @@ BG.Init2(function()
         end)
     end
 
-    -- 不自动退出集结号频道
+    -- 自动加入集结号频道
     do
         MeetingHorn.MainPanel:HookScript("OnHide", function(self)
             C_Timer.After(0.5, function()

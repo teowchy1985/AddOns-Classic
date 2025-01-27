@@ -1738,7 +1738,7 @@ function BG.ItemLibUI()
             t:SetText(L["过滤方案："])
             t:SetTextColor(1, 0.82, 0)
         end
-        
+
         -- 标题
         local buttons = {}
         for i, v in ipairs(titleTbl) do
@@ -2244,12 +2244,3 @@ BG.Init2(function()
         first = nil
     end)
 end)
-
-
-
---[[
-检查当前副本的装备库是否已经缓存过
-未缓存的话，历遍所有来源的装备和兑换物，缓存装备的数据、鼠标提示工具文本
-然后根据过滤来源、装备部位、过滤方案，找出合适的装备
-装备排序
-]]

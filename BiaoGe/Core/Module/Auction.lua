@@ -211,18 +211,22 @@ BG.Init(function()
             end
         end
         local function Start_OnClick(self)
-            if not (tonumber(BiaoGe.Auction.money) and tonumber(BiaoGe.Auction.duration) and tonumber(BiaoGe.Auction.duration) > 0) then return end
+            BG.PlaySound(1)
+            local money = self.money or tonumber(BiaoGe.Auction.money)
+            local _duration = tonumber(BiaoGe.Auction.duration)
+            local duration = _duration and _duration > 0 and _duration
+            local mod = BiaoGe.Auction.mod
+            if not (money and duration) then return end
             local t = 0
             for i, itemID in ipairs(self.itemIDs) do
                 BG.After(t, function()
                     local text = "StartAuction," .. GetTime() .. "," .. itemID .. "," ..
-                        BiaoGe.Auction.money .. "," .. BiaoGe.Auction.duration .. ",," .. BiaoGe.Auction.mod
+                        money .. "," .. duration .. ",," .. mod
                     C_ChatInfo.SendAddonMessage("BiaoGeAuction", text, "RAID")
                 end)
                 t = t + 0.2
             end
             self:GetParent():Hide()
-            BG.PlaySound(1)
         end
         local function OnTextChanged(self)
             BiaoGe.Auction[self._type] = self:GetText()
@@ -246,7 +250,7 @@ BG.Init(function()
             GameTooltip:Show()
         end
 
-        function BG.StartAuction(link, bt, isNotAuctioned, notAlt)
+        function BG.StartAuction(link, bt, isNotAuctioned, notAlt, isRightButton)
             if BiaoGe.options["autoAuctionStart"] ~= 1 and not notAlt then return end
             if not link then return end
             if not BG.IsML then return end
@@ -531,35 +535,36 @@ BG.Init(function()
 
             -- 开始拍卖
             do
-                local r, g, b = 1, 1, 1
-
-                local bt = CreateFrame("Button", nil, mainFrame, "BackdropTemplate")
-                bt:SetBackdrop({
-                    bgFile = "Interface/ChatFrame/ChatFrameBackground",
-                    edgeFile = "Interface/ChatFrame/ChatFrameBackground",
-                    edgeSize = 1,
-                })
-                bt:SetBackdropColor(0, 0, 0, 0.5)
-                bt:SetBackdropBorderColor(r, g, b, 0.5)
-                bt:SetSize(width + 15, 25)
-                bt:SetPoint("TOPLEFT", mainFrame.Text3, "BOTTOMLEFT", 0, -35)
+                local bt = CreateFrame("Button", nil, mainFrame, "UIPanelButtonTemplate")
+                bt:SetSize(width + 19, 25)
+                bt:SetPoint("TOPLEFT", mainFrame.Text3, "BOTTOMLEFT", -1, -35)
                 bt.itemIDs = itemIDs
-                local font = bt:CreateFontString()
-                font:SetTextColor(r, g, b)
-                font:SetFont(STANDARD_TEXT_FONT, 16, "OUTLINE")
-                bt:SetFontString(font)
                 bt:SetText(L["开始拍卖"])
                 mainFrame.bt = bt
-
-                bt:SetScript("OnEnter", function(self)
-                    bt:SetBackdropBorderColor(r, g, b, 1)
-                    bt:SetBackdropColor(0, 0, 0, 0)
-                end)
-                bt:SetScript("OnLeave", function(self)
-                    bt:SetBackdropBorderColor(r, g, b, 0.5)
-                    bt:SetBackdropColor(0, 0, 0, 0.5)
-                end)
                 bt:SetScript("OnClick", Start_OnClick)
+                if isRightButton and BiaoGeVIP and BiaoGeVIP.auction then
+                    local _duration = tonumber(BiaoGe.Auction.duration)
+                    local duration = _duration and _duration > 0 and _duration
+                    if duration then
+                        local tbl = {}
+                        for _, FB in pairs(BG.FBtable) do
+                            if FB == BG.FB1 then
+                                tinsert(tbl, 1, FB)
+                            else
+                                tinsert(tbl, FB)
+                            end
+                        end
+                        local itemID = itemIDs[1]
+                        for _, FB in ipairs(tbl) do
+                            local money = BiaoGeVIP.auction[FB].money[itemID]
+                            if money then
+                                bt.money = money
+                                Start_OnClick(bt)
+                                break
+                            end
+                        end
+                    end
+                end
             end
 
             -- 底部文字
@@ -656,7 +661,7 @@ BG.Init(function()
         hooksecurefunc("ContainerFrameItemButton_OnModifiedClick", function(self, button)
             if not IsAltKeyDown() then return end
             local link = C_Container.GetContainerItemLink(self:GetParent():GetID(), self:GetID())
-            BG.StartAuction(link, self)
+            BG.StartAuction(link, self, nil, nil, button == "RightButton")
         end)
     end
     ------------------插件版本------------------

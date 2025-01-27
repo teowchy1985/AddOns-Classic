@@ -485,9 +485,11 @@ function BG.DuiZhangUI()
                     BG.InsertLink(text)
                 elseif IsAltKeyDown() then
                     if BG.IsML then -- 开始拍卖
-                        BG.StartAuction(link)
+                        BG.StartAuction(link, nil, nil, nil, button == "RightButton")
                     else
-                        BG.AddGuanZhu(link)
+                        if button ~= "RightButton" then
+                            BG.AddGuanZhu(link)
+                        end
                     end
                 else
                     ShowUIPanel(ItemRefTooltip)

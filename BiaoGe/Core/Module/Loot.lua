@@ -141,9 +141,11 @@ BG.Init(function()
                     BG.InsertLink(text)
                 elseif IsAltKeyDown() then
                     if BG.IsML then -- 开始拍卖
-                        BG.StartAuction(link)
+                        BG.StartAuction(link, nil, nil, nil, button == "RightButton")
                     else            -- 关注装备
-                        BG.AddGuanZhu(link)
+                        if button ~= "RightButton" then
+                            BG.AddGuanZhu(link)
+                        end
                     end
                 end
             end
@@ -534,12 +536,11 @@ BG.Init(function()
         -- 更新装备库已掉落显示
         if BG.ItemLibMainFrame:IsVisible() then
             -- 装备库
-            local num = 1
-            local count = BG.ItemLibMainFrame[num].buttoncount
+            local count = BG.ItemLibMainFrame.buttoncount
             if count then
                 for i = 1, count do
-                    local get = BG.ItemLibMainFrame[num]["button" .. i].get
-                    local _itemID = BG.ItemLibMainFrame[num]["button" .. i].itemID
+                    local get = BG.ItemLibMainFrame.buttons[i].get
+                    local _itemID = BG.ItemLibMainFrame.buttons[i].itemID
                     if _itemID == itemID then
                         get.looted:Show()
                         break
@@ -585,7 +586,6 @@ BG.Init(function()
         for _, _itemID in ipairs(BG.Loot.zaXiangItems) do
             if _itemID == itemID then
                 local numb = Maxb[FB] - 1
-                -- local numb = Maxb[FB] -- test
                 AddLootItem(FB, numb, link, Texture, level, Hope, count, typeID, lootplayer)
                 return
             end
