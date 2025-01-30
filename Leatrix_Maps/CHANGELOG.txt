@@ -1,4 +1,7 @@
-﻿4.0.41 - 1st January 2025
+﻿4.0.45 - 29th January 2024
+- PTR (4.4.2): Updated for game version 4.4.2.
+
+4.0.41 - 1st January 2025
 - Happy New Year!
 - Updated translations.
 
