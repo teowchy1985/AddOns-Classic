@@ -1,4 +1,8 @@
-﻿4.0.43 - 15th January 2025
+﻿4.0.45 - 29th January 2025
+- PTR (4.4.2): Updated for game version 4.4.2.
+- For 'Sell junk automatically', fixed an issue where selling would continue for vendors that refuse to buy items or where the player has reached the gold limit.
+
+4.0.43 - 15th January 2025
 - The 'Show player chain' option ('Interface') now works with the Easy Frames addon.
 - The 'Class colored frames' option ('Frames') will now be locked out if you have Easy Frames installed.
 
