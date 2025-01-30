@@ -1,4 +1,4 @@
-## Interface: 11505, 40401
+## Interface: 11506, 40401
 ## Title: MerInspect for classic era
 ## Version: 1.1.4
 ## Notes: Inspect Assist 

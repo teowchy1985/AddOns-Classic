@@ -1,4 +1,4 @@
-## Interface: 11505, 40401, 100207
+## Interface: 11506, 40401, 100207
 #@non-debug@
 ## Title: World Map Tracking Enhanced
 ## Title-deDE: World Map Tracking Enhanced

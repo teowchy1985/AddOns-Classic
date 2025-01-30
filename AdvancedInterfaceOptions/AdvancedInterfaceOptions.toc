@@ -1,4 +1,4 @@
-## Interface: 11505, 40401, 110002, 110005
+## Interface: 11506, 40401, 110002, 110005
 ## Title: Advanced Interface Options
 ## Author: Stanzilla, Semlar
 ## Version: 2.1.0 Fix
