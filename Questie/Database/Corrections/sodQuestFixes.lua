@@ -4153,6 +4153,11 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {86970},
             [questKeys.zoneOrSort] = zoneIDs.KARAZHAN_CRYPTS,
         },
+        [87283] = { -- The Violet Satchel
+            [questKeys.startedBy] = {nil,nil,{235852}},
+            [questKeys.finishedBy] = {{237957}},
+            [questKeys.zoneOrSort] = zoneIDs.DEADWIND_PASS,
+        },
         [87360] = { -- The Fall of Kel'Thuzad
             [questKeys.startedBy] = {{15990},nil,{236350}},
             [questKeys.finishedBy] = {{16113}},
@@ -4180,6 +4185,59 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = {{238376}},
             [questKeys.preQuestSingle] = {87361},
             [questKeys.zoneOrSort] = sortKeys.INVASION,
+        },
+        [87433] = { -- Argent Dawn Gloves
+            [questKeys.startedBy] = {{16787}},
+            [questKeys.finishedBy] = {{16787}},
+            [questKeys.preQuestSingle] = {88744},
+            [questKeys.zoneOrSort] = sortKeys.INVASION,
+        },
+        [87434] = { -- Argent Dawn Gloves
+            [questKeys.startedBy] = {{16786}},
+            [questKeys.finishedBy] = {{16786}},
+            [questKeys.preQuestSingle] = {88744},
+            [questKeys.zoneOrSort] = sortKeys.INVASION,
+        },
+        [87435] = { -- Argent Dawn Gloves
+            [questKeys.startedBy] = {{16787}},
+            [questKeys.finishedBy] = {{16787}},
+            [questKeys.preQuestSingle] = {88744},
+            [questKeys.zoneOrSort] = sortKeys.INVASION,
+        },
+        [87436] = { -- Argent Dawn Gloves
+            [questKeys.startedBy] = {{16786}},
+            [questKeys.finishedBy] = {{16786}},
+            [questKeys.preQuestSingle] = {88744},
+            [questKeys.zoneOrSort] = sortKeys.INVASION,
+        },
+        [87437] = { -- Argent Dawn Gloves
+            [questKeys.startedBy] = {{16787}},
+            [questKeys.finishedBy] = {{16787}},
+            [questKeys.preQuestSingle] = {88744},
+            [questKeys.zoneOrSort] = sortKeys.INVASION,
+        },
+        [87438] = { -- Argent Dawn Gloves
+            [questKeys.startedBy] = {{16786}},
+            [questKeys.finishedBy] = {{16786}},
+            [questKeys.preQuestSingle] = {88744},
+            [questKeys.zoneOrSort] = sortKeys.INVASION,
+        },
+        [87439] = { -- Argent Dawn Gloves
+            [questKeys.startedBy] = {{16787}},
+            [questKeys.finishedBy] = {{16787}},
+            [questKeys.preQuestSingle] = {88744},
+            [questKeys.zoneOrSort] = sortKeys.INVASION,
+        },
+        [87440] = { -- Argent Dawn Gloves
+            [questKeys.startedBy] = {{16786}},
+            [questKeys.finishedBy] = {{16786}},
+            [questKeys.preQuestSingle] = {88744},
+            [questKeys.zoneOrSort] = sortKeys.INVASION,
+        },
+        [87459] = { -- Scarlet Activities
+            [questKeys.finishedBy] = {{238376}},
+            [questKeys.preQuestSingle] = {9121,9122,9123},
+            [questKeys.zoneOrSort] = zoneIDs.EASTERN_PLAGUELANDS,
         },
         [88721] = { -- Superior Armaments of Battle - Friend of the Dawn
             [questKeys.startedBy] = {{11536}},
@@ -4271,9 +4329,40 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.zoneOrSort] = sortKeys.INVASION,
             [questKeys.reputationReward] = {{factionIDs.ARGENT_DAWN,50}},
         },
+        [88746] = { -- Blessed Wizard Oil
+            [questKeys.startedBy] = {{16787}},
+            [questKeys.finishedBy] = {{16787}},
+            [questKeys.preQuestSingle] = {88744},
+            [questKeys.zoneOrSort] = sortKeys.INVASION,
+        },
+        [88747] = { -- Blessed Wizard Oil
+            [questKeys.startedBy] = {{16786}},
+            [questKeys.finishedBy] = {{16786}},
+            [questKeys.preQuestSingle] = {88744},
+            [questKeys.zoneOrSort] = sortKeys.INVASION,
+        },
         [88748] = { -- Cracked Necrotic Crystal
             [questKeys.startedBy] = {{16431}},
             [questKeys.finishedBy] = {{16478}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.zoneOrSort] = sortKeys.INVASION,
+        },
+        [88749] = { -- Faint Necrotic Crystal
+            [questKeys.startedBy] = {{16531}},
+            [questKeys.finishedBy] = {{16494}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.zoneOrSort] = sortKeys.INVASION,
+        },
+        [88882] = { -- Blessed Wizard Oil
+            [questKeys.startedBy] = {{16787}},
+            [questKeys.finishedBy] = {{16787}},
+            [questKeys.preQuestSingle] = {88744},
+            [questKeys.zoneOrSort] = sortKeys.INVASION,
+        },
+        [88883] = { -- Blessed Wizard Oil
+            [questKeys.startedBy] = {{16786}},
+            [questKeys.finishedBy] = {{16786}},
+            [questKeys.preQuestSingle] = {88744},
             [questKeys.zoneOrSort] = sortKeys.INVASION,
         },
 

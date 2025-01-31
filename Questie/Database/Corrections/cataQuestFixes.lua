@@ -4376,7 +4376,7 @@ function CataQuestFixes.Load()
             [questKeys.preQuestSingle] = {25233},
         },
         [25269] = { -- The Voice of Lo'Gosh
-            [questKeys.preQuestSingle] = {25233},
+            [questKeys.preQuestSingle] = {25255},
         },
         [25272] = { -- Lycanthoth the Corruptor
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_EVENT,l10n("Summon Lycanthoth"),0,{{"object",202660}}}},
@@ -11609,6 +11609,16 @@ function CataQuestFixes.Load()
         [28655] = { -- Wild, Wild, Wildhammer Wedding
             [questKeys.preQuestGroup] = {28408,28409,28410,28411},
             [questKeys.extraObjectives] = {{nil,Questie.ICON_TYPE_TALK,l10n("Start the wedding!"),0,{{"monster",48368}}}},
+        },
+        [28656] = { -- Strange Life Forces
+            [questKeys.startedBy] = {{7450,7451,7452,7453,7454, -- owlkin
+                                    7458,7459,7460,49235,   -- yeti
+                                    7443,7444,7446,10806,   -- bear
+                                    7448,10807,   -- chimaera
+                                    7430,7431,7432,7433,7434,10737,   -- frostsaber
+                                    7438,7439,7440,7441,7442,10738,10916,   -- furbolg
+                                    7428,7429,50258,   -- giants
+            }},
         },
         [28659] = { -- The Leftovers
             [questKeys.objectives] = {nil,nil,nil,nil,{{{47595,47598,47599,47600},47595}}},
