@@ -4153,6 +4153,12 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.preQuestSingle] = {86970},
             [questKeys.zoneOrSort] = zoneIDs.KARAZHAN_CRYPTS,
         },
+        [86972] = { -- Curious Karazhan Curios!
+            [questKeys.startedBy] = {{237818}},
+            [questKeys.preQuestSingle] = {86971},
+            [questKeys.zoneOrSort] = zoneIDs.KARAZHAN_CRYPTS,
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
+        },
         [87283] = { -- The Violet Satchel
             [questKeys.startedBy] = {nil,nil,{235852}},
             [questKeys.finishedBy] = {{237957}},
@@ -4184,6 +4190,7 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.startedBy] = {{238376}},
             [questKeys.finishedBy] = {{238376}},
             [questKeys.preQuestSingle] = {87361},
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
             [questKeys.zoneOrSort] = sortKeys.INVASION,
         },
         [87433] = { -- Argent Dawn Gloves
@@ -4238,6 +4245,9 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = {{238376}},
             [questKeys.preQuestSingle] = {9121,9122,9123},
             [questKeys.zoneOrSort] = zoneIDs.EASTERN_PLAGUELANDS,
+        },
+        [88654] = { -- A Full Shipment
+            [questKeys.specialFlags] = specialFlags.REPEATABLE,
         },
         [88721] = { -- Superior Armaments of Battle - Friend of the Dawn
             [questKeys.startedBy] = {{11536}},
@@ -4364,6 +4374,20 @@ function SeasonOfDiscovery:LoadQuests()
             [questKeys.finishedBy] = {{16786}},
             [questKeys.preQuestSingle] = {88744},
             [questKeys.zoneOrSort] = sortKeys.INVASION,
+        },
+        [88968] = { -- The Lord of Blackrock
+            [questKeys.startedBy] = {{4949}},
+            [questKeys.finishedBy] = {{14720}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.preQuestSingle] = {7783},
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+        },
+        [88969] = { -- The Lord of Blackrock
+            [questKeys.startedBy] = {{1748}},
+            [questKeys.finishedBy] = {{14721}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.preQuestSingle] = {7781},
+            [questKeys.zoneOrSort] = zoneIDs.STORMWIND_CITY,
         },
 
         --- Fake rune quests
@@ -8805,6 +8829,10 @@ function SeasonOfDiscovery:LoadFactionQuestFixes()
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.objectivesText] = {"Collect 'Necromancy 101' and bring it to Oran Snakewrithe in Undercity."},
         },
+        [88654] = { -- A Full Shipment
+            [questKeys.startedBy] = {{214070,214096,214098}},
+            [questKeys.finishedBy] = {{214070,214096,214098}},
+        },
     }
 
     local questFixesAlliance = {
@@ -9043,6 +9071,10 @@ function SeasonOfDiscovery:LoadFactionQuestFixes()
         [84402] = { -- Necromancy 101
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.objectivesText] = {"Collect 'Necromancy 101' and bring it to Jennea Cannon in Stormwind."},
+        },
+        [88654] = { -- A Full Shipment
+            [questKeys.startedBy] = {{213077,214099,214101}},
+            [questKeys.finishedBy] = {{213077,214099,214101}},
         },
     }
 
