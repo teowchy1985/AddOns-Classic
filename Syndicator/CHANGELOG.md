@@ -1,7 +1,7 @@
 # Syndicator
 
-## [168](https://github.com/Baganator/Syndicator/tree/168) (2025-01-31)
-[Full Changelog](https://github.com/Baganator/Syndicator/compare/167...168) 
+## [170](https://github.com/Baganator/Syndicator/tree/170) (2025-02-03)
+[Full Changelog](https://github.com/Baganator/Syndicator/compare/169...170) 
 
-- Move currency tooltips all characters total to the right hand side  
-- Use internal APIs instead of raw data access  
+- Remove unused locale string  
+- Search Builder: Fix translation string and frame strata issue  
