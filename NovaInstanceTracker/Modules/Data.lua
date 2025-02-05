@@ -1859,61 +1859,7 @@ function NIT:mergeLastInstances(GUID, source)
 	NIT.lastMerge = GetServerTime();
 end
 
-local recordGroupInfoThroddle = 0;
-function NIT:recordGroupInfo()
-	if (not NIT.inInstance) then
-		return;
-	end
-	if (NIT.data.instances[1].type == "arena") then
-		--We get the group info from scoreboard in arena.
-		return;
-	end
-	if ((GetServerTime() - recordGroupInfoThroddle) < 2) then
-		--Throddle to only run this once every 2 seconds because it can be called from a few different things.
-		return;
-	end
-	if (not NIT.data.instances[1].group) then
-		NIT.data.instances[1].group = {};
-	end
-	recordGroupInfoThroddle = GetServerTime();
-	local average, count = 0, 0;
-	local nums = {};
-	nums[0] = UnitLevel("player");
-	if (IsInRaid()) then
-		for i = 1, 40 do
-			local level = NIT:addToGroupData("raid" .. i);
-			if (level) then
-				if (level > 0) then
-					count = count + 1;
-					average = ((average * (count - 1)) + level) / count;
-				end
-			end
-		end
-	elseif (IsInGroup()) then
-		for i = 1, 5 do
-			local level = NIT:addToGroupData("party" .. i);
-			if (level) then
-				if (level > 0) then
-					count = count + 1;
-					average = ((average * (count - 1)) + level) / count;
-				end
-			end
-		end
-	else
-		return;
-	end
-	local level = NIT:addToGroupData("player");
-	if (level) then
-		if (level > 0) then
-			count = count + 1;
-			average = ((average * (count - 1)) + level) / count;
-		end
-	end
-	NIT.data.instances[1].groupAverage = average;
-	return average;
-end
-
-function NIT:addToGroupData(unit)
+local function addToGroupData(unit)
 	local level = UnitLevel(unit);
 	local name, realm = UnitName(unit);
 	if (realm and realm ~= "" and realm ~= GetRealmName()) then
@@ -1956,6 +1902,60 @@ function NIT:addToGroupData(unit)
 		level = 0;
 	end
 	return level;
+end
+
+local recordGroupInfoThroddle = 0;
+function NIT:recordGroupInfo()
+	if (not NIT.inInstance) then
+		return;
+	end
+	if (NIT.data.instances[1].type == "arena") then
+		--We get the group info from scoreboard in arena.
+		return;
+	end
+	if ((GetServerTime() - recordGroupInfoThroddle) < 2) then
+		--Throddle to only run this once every 2 seconds because it can be called from a few different things.
+		return;
+	end
+	if (not NIT.data.instances[1].group) then
+		NIT.data.instances[1].group = {};
+	end
+	recordGroupInfoThroddle = GetServerTime();
+	local average, count = 0, 0;
+	local nums = {};
+	nums[0] = UnitLevel("player");
+	if (IsInRaid()) then
+		for i = 1, 40 do
+			local level = addToGroupData("raid" .. i);
+			if (level) then
+				if (level > 0) then
+					count = count + 1;
+					average = ((average * (count - 1)) + level) / count;
+				end
+			end
+		end
+	elseif (IsInGroup()) then
+		for i = 1, 5 do
+			local level = addToGroupData("party" .. i);
+			if (level) then
+				if (level > 0) then
+					count = count + 1;
+					average = ((average * (count - 1)) + level) / count;
+				end
+			end
+		end
+	else
+		return;
+	end
+	local level = addToGroupData("player");
+	if (level) then
+		if (level > 0) then
+			count = count + 1;
+			average = ((average * (count - 1)) + level) / count;
+		end
+	end
+	NIT.data.instances[1].groupAverage = average;
+	return average;
 end
 
 --Delete instance by number, called by confirmation popup.
@@ -2243,6 +2243,8 @@ end
 if (NIT.isSOD) then
 	dailyQuests[79098] = {name = "Clear the Forest!"};
 	dailyQuests[79090] = {name = "Repelling Invaders"};
+	
+	--weeklyQuests[87361] = {name = "Laid to Rest"};
 end
 
 if (NIT.isCata) then
@@ -3044,6 +3046,22 @@ NIT.trackItemsPALADIN = {
 	},
 };
 
+local trackItemsAllClasses = {
+	
+};
+--[[if (NIT.isSOD) then
+	trackItemsAllClasses[236750] = {
+		name = "Heart of Doom",
+		icon = 136210,
+		color = "FFFFFFFF",
+	};
+	trackItemsAllClasses[236397] = {
+		name = "Remnants of Valor",
+		color = "FFA335EE",
+		icon = 236489,
+	};
+end]]
+
 --Sometimes we only need to update inventory data.
 function NIT:recordInventoryData()
 	local char = UnitName("player");
@@ -3076,6 +3094,16 @@ function NIT:recordInventoryData()
 			for k, v in pairs(_G["NIT"]["trackItems" .. classEnglish]) do
 				NIT.data.myChars[char][v.id] = (GetItemCount(v.id) or 0);
 			end
+		end
+	end
+	NIT.data.myChars[char].trackedItems = {};
+	for k, v in pairs(trackItemsAllClasses) do
+		local count = GetItemCount(k)
+		if (not count or count < 1) then
+			NIT.data.myChars[char].trackedItems[k] = nil;
+		else
+			NIT.data.myChars[char].trackedItems[k] = v;
+			NIT.data.myChars[char].trackedItems[k].count = count;
 		end
 	end
 	NIT:recordMarksData();
