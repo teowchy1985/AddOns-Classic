@@ -289,13 +289,6 @@ hooksecurefunc("SetItemRef", function(link)
 	end
 end)
 
-function GBB.BtnSelectChannel()
-	if UIDROPDOWNMENU_OPEN_MENU ~=  GBB.FramePullDownChannel then 
-		UIDropDownMenu_Initialize( GBB.FramePullDownChannel, GBB.CreateChannelPulldown, "MENU")
-	end
-	ToggleDropDownMenu(nil, nil,  GBB.FramePullDownChannel, GroupBulletinBoardFrameSelectChannel, 0,0)
-end
-
 --gui
 -------------------------------------------------------------------------------------
 
@@ -320,11 +313,6 @@ function GBB.ResizeFrameList()
 	w=GroupBulletinBoardFrame:GetWidth() -20-10-10
 	GroupBulletinBoardFrame_ScrollFrame:SetWidth( w )
 	GroupBulletinBoardFrame_ScrollChildFrame:SetWidth( w )
-
-	GroupBulletinBoardFrame_LfgFrame:SetHeight(GroupBulletinBoardFrame:GetHeight() -55-25 )
-	w=GroupBulletinBoardFrame:GetWidth() -20-10-10
-	GroupBulletinBoardFrame_LfgFrame:SetWidth( w )
-	GroupBulletinBoardFrame_LfgChildFrame:SetWidth( w )
 end
 
 function GBB.ShowWindow()
@@ -332,7 +320,6 @@ function GBB.ShowWindow()
 
     -- Check if classic or not
     if string.sub(version, 1, 2) ~= "1." then
-		GBB.UpdateLfgTool()
 		GBB.UpdateGroupList()
     end
 	GroupBulletinBoardFrame:Show()
@@ -359,15 +346,17 @@ end
 
 function GBB.BtnSettings(button )
 	if button == "LeftButton" then
-		GBB.OptionsBuilder.OpenCategoryPanel(1)
+		local shouldOpen = GBB.PopupDynamic:Wipe("SettingsButtonMenu");
+		if shouldOpen then
+			GBB.PopupDynamic:AddItem(FILTERS, false, GBB.OptionsBuilder.OpenCategoryPanel, 2)
+			GBB.PopupDynamic:AddItem(ALL_SETTINGS, false, GBB.OptionsBuilder.OpenCategoryPanel, 1)
+			GBB.PopupDynamic:AddItem(GBB.L["BtnCancel"], false, nil, nil, nil, true)
+			GBB.PopupDynamic:Show(GroupBulletinBoardFrameSettingsButton,0,0)
+		end
+		PlaySound(SOUNDKIT.IG_MAINMENU_OPTION, "SFX")
 	else
 		GBB.Popup_Minimap("cursor",false)
-		--GBB.Options.Open(1)
 	end
-end
-
-function GBB.BtnRefresh(button)
-	GBB.UpdateLfgTool()
 end
 --------------------------------------------------------------------------------
 -- Tag Lists
@@ -485,9 +474,13 @@ local function hooked_createTooltip(self)
 	if (name) and (unit) and UnitIsPlayer(unit) then
 	
 		if GBB.DB.EnableGuild then
-			local guildName = GetGuildInfo(unit)
+			local guildName, guildRank = GetGuildInfo(unit)
 			if guildName then
-				self:AddLine(Mixin(ColorMixin, GBB.DB.ColorGuild):WrapTextInColorCode(("<%s>"):format(guildName)))
+				self:AddLine(Mixin(ColorMixin, GBB.DB.ColorGuild):WrapTextInColorCode(
+					(GBB.DB.EnableGuildRank and guildRank)
+						and ("<%s> - %s"):format(guildName, guildRank)
+						or ("<%s>"):format(guildName)
+				));
 			end
 		end
 
@@ -539,7 +532,7 @@ function GBB.Popup_Minimap(frame,showMinimapOptions)
 		end
 	end
 	GBB.PopupDynamic:AddItem("",true)
-	GBB.PopupDynamic:AddItem(GBB.L["BtnCancel"],false)
+	GBB.PopupDynamic:AddItem(GBB.L["BtnCancel"], false, nil, nil, nil, true)
 		
 	GBB.PopupDynamic:Show(frame,0,0)
 end
@@ -550,6 +543,8 @@ function GBB.Init()
 	GBB.UserLevel=UnitLevel("player")
 	GBB.UserName=(UnitFullName("player"))
 	GBB.ServerName=GetRealmName()
+	GBB.RealLevel = {} -- recently seen player levels
+	GBB.RealLevel[GBB.UserName] = GBB.UserLevel
 
 	-- Initalize options
 	if not GroupBulletinBoardDB then GroupBulletinBoardDB = {} end -- fresh DB
@@ -600,15 +595,22 @@ function GBB.Init()
 	-- Must do before the call to `GBB.CreateTagList()` below
 	GBB.SyncCustomFilterTags(GBB.dungeonTagsLoc);
 
+	--- Track state for a headers collapsed between both the chat and tool request tabs.
+	GBB.FoldedDungeons = setmetatable({}, {
+		-- default to `GBB.DB.HeadersStartFolded` instead of nil when key first seen
+		__index = function(self, key)
+			rawset(self, key, GBB.DB.HeadersStartFolded)
+			return GBB.DB.HeadersStartFolded
+		end
+	});
+
+	-- Load LFGList tool module
+	GBB.LfgTool:Load()
+
 	-- Reset Request-List
 	GBB.RequestList={}
-	GBB.LfgRequestList={}
 	GBB.FramesEntries={}
-	GBB.LfgFramesEntries = {}
 
-	GBB.FoldedDungeons={}
-	GBB.LfgFoldedDungeons = {}
-	
 	-- Timer-Stuff
 	GBB.MAXTIME=time() +60*60*24*365 --add a year!
 	
@@ -696,20 +698,34 @@ function GBB.Init()
 			end
 		end,
 		GBB.Title
-	)	
-	
-	GBB.FramePullDownChannel=CreateFrame("Frame", "GBB.PullDownMenu", UIParent, "UIDropDownMenuTemplate")
+	)
 	GroupBulletinBoardFrameTitle:SetFontObject(GBB.DB.FontSize)
+
 	if GBB.DB.AnnounceChannel == nil then
-		if GBB.L["lfg_channel"] ~= "" then
-			GBB.DB.AnnounceChannel = GBB.L["lfg_channel"]
-		else
-			_, GBB.DB.AnnounceChannel = GetChannelList()
-		end
+		if GBB.L["lfg_channel"] ~= "" then GBB.DB.AnnounceChannel = GBB.L["lfg_channel"];
+		else GBB.DB.AnnounceChannel = select(2, GetChannelList()) end;
 	end
-	
+	DropdownSelectionTextMixin.OnLoad(GroupBulletinBoardFrameSelectChannel)
+	GroupBulletinBoardFrameSelectChannel:SetSelectionTranslator(function(selection) return selection.data end)
+	GroupBulletinBoardFrameSelectChannel:SetupMenu(function(frame, rootDescription)
+		---@cast rootDescription RootMenuDescriptionProxy
+		local channelInfo = GBB.PhraseChannelList(GetChannelList())
+		local setting = GBB.OptionsBuilder.GetSavedVarHandle(GBB.DB, "AnnounceChannel");
+		local isSelected = function(channel) return channel == setting:GetValue() end
+		local setSelected = function(channel) setting:SetValue(channel) end
+		for i, channel in pairs(channelInfo) do
+			local button = rootDescription:CreateRadio(i..". "..channel.name, isSelected, setSelected, channel.name)
+			button:SetEnabled(not channel.hidden)
+		end
+	end)
+	--hack: early in addon loading process `GetChannelList` can return nil; re-generate the menu in these cases.
+	GroupBulletinBoardFrameSelectChannel:HookScript("OnShow", function(self)
+		if not self:GetText() then self:GenerateMenu() end;
+	end)
+
 	---@type EditBox # making this local isnt required, just here for the luals linter
 	local GroupBulletinBoardFrameResultsFilter = _G["GroupBulletinBoardFrameResultsFilter"];
+	GroupBulletinBoardFrameResultsFilter:SetParent(GroupBulletinBoardFrame_ScrollFrame)
 	GroupBulletinBoardFrameResultsFilter.filterPatterns = { };
 	GroupBulletinBoardFrameResultsFilter:SetFontObject(GBB.DB.FontSize);
 	GroupBulletinBoardFrameResultsFilter:SetTextColor(1, 1, 1, 1);
@@ -731,8 +747,6 @@ function GBB.Init()
 		return self.filterPatterns
 	end
 
-	GroupBulletinBoardFrameSelectChannel:SetText(GBB.DB.AnnounceChannel)
-
 	GBB.ResizeFrameList()
 	
 	if GBB.DB.EscapeQuit then 
@@ -743,62 +757,87 @@ function GBB.Init()
 		GBB.ResizeFrameList()
 		GBB.SaveAnchors()
 		GBB.UpdateList()
+		GBB.LfgTool.OnFrameResized()
 		end
 	)
 	GBB.Tool.EnableMoving(GroupBulletinBoardFrame,GBB.SaveAnchors)
-	
+
 	GBB.PatternWho1=GBB.Tool.CreatePattern(WHO_LIST_FORMAT )
 	GBB.PatternWho2=GBB.Tool.CreatePattern(WHO_LIST_GUILD_FORMAT )
 	GBB.PatternOnline=GBB.Tool.CreatePattern(ERR_FRIEND_ONLINE_SS)
-	GBB.RealLevel={}
-	GBB.RealLevel[GBB.UserName]=GBB.UserLevel
-	
+
 	GroupBulletinBoardFrameTitle:SetText(string.format(GBB.TxtEscapePicture,GBB.MiniIcon).." ".. GBB.Title)
 	
 	GBB.Initalized=true
 	
 	GBB.PopupDynamic=GBB.Tool.CreatePopup(GBB.OptionsUpdate)
+	-- hack: hide settings button popup whenever the board frame is hidden
+	GroupBulletinBoardFrameSettingsButton:HookScript("OnHide", function() GBB.PopupDynamic:Wipe("SettingsButtonMenu") end)
 	GBB.InitGroupList()
 
-	if isClassicEra then
-		GBB.Tool.AddTab(GroupBulletinBoardFrame, GBB.L.TabRequest, GroupBulletinBoardFrame_ScrollFrame);
-		
-		-- GBB.Tool.AddTab(GroupBulletinBoardFrame, GBB.L.TabGroup, GroupBulletinBoardFrame_GroupFrame);
-		GroupBulletinBoardFrame_GroupFrame:Hide()
-		
-		-- Group Finder doesnt exist in classic era
-		GroupBulletinBoardFrame_LfgFrame:Hide()
-	else -- cata client
-		-- Hide all tabs except requests for the time being
-		
-		GBB.Tool.AddTab(GroupBulletinBoardFrame, GBB.L.TabRequest, GroupBulletinBoardFrame_ScrollFrame);
+	local TabEnum; ---@type {ChatRequests: number?, RecentPlayers: number?, LFGTool: number?}
+	if isClassicEra then -- setup tabs
+		local serverType = C_Seasons.GetActiveSeason()
+		-- Note: tool currently only active in anniversary/fresh servers and SoD
+		local useToolRequestTab = (serverType == Enum.SeasonID.SeasonOfDiscovery)
+			or (serverType == Enum.SeasonID.Fresh)
+			or (serverType == Enum.SeasonID.FreshHardcore);
 
-		-- GBB.Tool.AddTab(GroupBulletinBoardFrame, GBB.L.TabGroup, GroupBulletinBoardFrame_GroupFrame);
-		GroupBulletinBoardFrame_GroupFrame:Hide()
-		
-		-- GBB.Tool.AddTab(GroupBulletinBoardFrame, GBB.L.TabLfg, GroupBulletinBoardFrame_LfgFrame);
-		GroupBulletinBoardFrame_LfgFrame:Hide()
+		TabEnum = {
+			-- Normal requests tab
+			ChatRequests = GBB.Tool.AddTab(GroupBulletinBoardFrame, GBB.L.TabRequest, GroupBulletinBoardFrame_ScrollFrame),
+			-- LFG Tool requests
+			LFGTool = useToolRequestTab and GBB.Tool.AddTab(GroupBulletinBoardFrame, GBB.L.TabLfg, GBB.LfgTool.ScrollContainer) or nil,
+			-- Past group members tab. (Inactive and broken)
+			-- RecentPlayers = GBB.Tool.AddTab(GroupBulletinBoardFrame, GBB.L.TabGroup, GroupBulletinBoardFrame_GroupFrame);
+		}
+	else
+		-- cata client for Hide all tabs except requests for the time being
+		TabEnum = {
+			ChatRequests = GBB.Tool.AddTab(GroupBulletinBoardFrame, GBB.L.TabRequest, GroupBulletinBoardFrame_ScrollFrame);
+			-- LFGTool = GBB.Tool.AddTab(GroupBulletinBoardFrame, GBB.L.TabLfg, GBB.LfgTool.ScrollContainer);
+			-- RecentPlayers = GBB.Tool.AddTab(GroupBulletinBoardFrame, GBB.L.TabGroup, GroupBulletinBoardFrame_GroupFrame);
+		}
 	end
-	GBB.Tool.SelectTab(GroupBulletinBoardFrame,1)
-	local enableGroupVar = GBB.OptionsBuilder.GetSavedVarHandle(GBB.DB, "EnableGroup")
-	local refreshGroupTab = function(isEnabled) -- previously done in `GBB.OptionsUpdate()`
-		if isEnabled then
-			-- Shows all active tabs.
-			GBB.Tool.TabShow(GroupBulletinBoardFrame)
-		else -- note: only the request-list tab is currently active on cata & era.
-			GBB.Tool.SelectTab(GroupBulletinBoardFrame, 1)
-			-- hide the "Remember past group members" aka "EnableGroup" tab should be the last tab
-			GBB.Tool.TabHide(GroupBulletinBoardFrame, isClassicEra and 2 or 3)
+	GBB.Tool.SelectTab(GroupBulletinBoardFrame, TabEnum.ChatRequests) -- default to requests tab
+
+	if TabEnum.LFGTool then
+		GBB.Tool.TabOnSelect(GroupBulletinBoardFrame, TabEnum.LFGTool, function()
+			GBB.LfgTool.RefreshButton:GetScript("OnClick")() -- refresh search results
+		end)
+		-- only enable the tool tab whenever the player gains access to blizz LFGTool
+		local isTabEnabledYet = false
+		local trySetEnabled = function()
+			if not isTabEnabledYet then
+				local shouldEnable = C_LFGInfo.CanPlayerUsePremadeGroup();
+				GBB.Tool.SetTabEnabled(GroupBulletinBoardFrame, TabEnum.LFGTool, shouldEnable)
+				isTabEnabledYet = shouldEnable
+			end
 		end
-	end
-	enableGroupVar:AddUpdateHook(refreshGroupTab)
-	refreshGroupTab(enableGroupVar:GetValue()) -- run once to match the set state.
-	
-	GBB.Tool.TabOnSelect(GroupBulletinBoardFrame,3,GBB.UpdateGroupList)
-	GBB.Tool.TabOnSelect(GroupBulletinBoardFrame,2,GBB.UpdateLfgTool)
-	
+		GroupBulletinBoardFrame:HookScript("OnShow", trySetEnabled);
+		GBB.Tool.RegisterEvent("PLAYER_LEVEL_CHANGED", trySetEnabled);
+	else GBB.LfgTool.ScrollContainer:Hide() end;
+
+	if TabEnum.RecentPlayers then
+		GBB.Tool.TabOnSelect(GroupBulletinBoardFrame, TabEnum.RecentPlayers, GBB.UpdateGroupList)
+		-- update visibilty of recent player tab based on addon option.
+		local setting = GBB.OptionsBuilder.GetSavedVarHandle(GBB.DB, "EnableGroup")
+		local manageTabVisibility = function(isSettingEnabled)
+			if isSettingEnabled then -- Reshow all active tabs.
+				GBB.Tool.TabShow(GroupBulletinBoardFrame)
+			else -- hide the "EnableGroup" tab
+				GBB.Tool.TabHide(GroupBulletinBoardFrame, TabEnum.RecentPlayers)
+				GBB.Tool.SelectTab(GroupBulletinBoardFrame, TabEnum.ChatRequests)
+			end
+		end
+		setting:AddUpdateHook(manageTabVisibility)
+		manageTabVisibility(setting:GetValue()) -- run once to match the setting state.
+	else GroupBulletinBoardFrame_GroupFrame:Hide() end;
+
+	---@class AddonEnum
+	local Enum = GBB.Enum; Enum.Tabs = TabEnum
+
 	GameTooltip:HookScript("OnTooltipSetUnit", hooked_createTooltip)
-		
 	print("|cFFFF1C1C Loaded: "..GetAddOnMetadata(TOCNAME, "Title") .." ".. GetAddOnMetadata(TOCNAME, "Version") .." by "..GetAddOnMetadata(TOCNAME, "Author"))
 end
 
@@ -940,6 +979,11 @@ function GBB.OnSizeChanged()
 	end
 end
 
+---@return integer tabID
+function GBB.GetSelectedTab()
+	return GBB.Tool.GetSelectedTab(GroupBulletinBoardFrame);
+end
+
 function GBB.OnUpdate(elapsed)
 	if GBB.Initalized==true then
 		if GBB.LFG_Timer<time() and GBB.LFG_Successfulljoined==false then
@@ -948,24 +992,12 @@ function GBB.OnUpdate(elapsed)
 		end
 
 		if GBB.ElapsedSinceListUpdate > 1 then
-			if GBB.Tool.GetSelectedTab(GroupBulletinBoardFrame)==1 then
+			if GBB.GetSelectedTab() == GBB.Enum.Tabs.ChatRequests then
 				GBB.UpdateList()
-			elseif  GBB.Tool.GetSelectedTab(GroupBulletinBoardFrame)==2 then
-				GBB.UpdateLfgToolNoSearch()
 			end
-				
 			GBB.ElapsedSinceListUpdate = 0;
 		else
 			GBB.ElapsedSinceListUpdate = GBB.ElapsedSinceListUpdate + elapsed;
 		end;
-
-		if GBB.ElapsedSinceLfgUpdate > 18 and GBB.Tool.GetSelectedTab(GroupBulletinBoardFrame)==2 and GroupBulletinBoardFrame:IsVisible() then
-			-- LFGListFrame.SearchPanel.RefreshButton:Click() -- hwevent protected
-			GBB.UpdateLfgTool()
-			GBB.ElapsedSinceLfgUpdate = 0
-		else
-			GBB.ElapsedSinceLfgUpdate = GBB.ElapsedSinceLfgUpdate + elapsed
-		end
 	end
 end
-
