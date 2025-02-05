@@ -2,7 +2,7 @@
 -----------------------------------------------------------
 -- LibSFDropDown - DropDown menu for non-Blizzard addons --
 -----------------------------------------------------------
-local MAJOR_VERSION, MINOR_VERSION = "LibSFDropDown-1.5", 13
+local MAJOR_VERSION, MINOR_VERSION = "LibSFDropDown-1.5", 18
 local lib, oldminor = LibStub:NewLibrary(MAJOR_VERSION, MINOR_VERSION)
 if not lib then return end
 oldminor = oldminor or 0
@@ -23,6 +23,7 @@ if oldminor < 1 then
 		dropDownSearchFrames = {},
 		dropDownMenusList = {},
 		dropDownCreatedButtons = {},
+		dropDownCreatedModernButtons = {},
 		dropDownCreatedStretchButtons = {},
 	}
 	lib._m = {
@@ -46,7 +47,7 @@ local v = lib._v
 local menuStyles = v.menuStyles
 
 --[[
-List of button attributes
+List of button attributes (examples: https://github.com/sfmict/LibSFDropDown/wiki/Examples)
 ====================================================================================================
 info.text = [string, function(self, arg1, arg2)] -- The text of the button or function that returns the text
 info.value = [anything] -- The value that is set to button.value
@@ -239,6 +240,7 @@ end
 ---------------------------------------------------
 local function DropDownMenuList_OnHide(self)
 	self:Hide()
+	self:ClearAllPoints()
 	if self.customFrames then
 		for i = 1, #self.customFrames do
 			self.customFrames[i]:Hide()
@@ -329,6 +331,7 @@ local function CreateDropDownMenuList(parent)
 	for name, frameFunc in next, menuStyles do
 		v.createMenuStyle(menu, name, frameFunc)
 	end
+	menu.activeStyle = menu.styles[v.defaultStyle]
 
 	return menu
 end
@@ -853,8 +856,10 @@ local function DropDownMenuSearchButtonInit(btn, info)
 		v.setIcon(btn.Icon, btn.icon, btn.iconInfo, menuButtonHeight)
 
 		if btn.iconOnly then
+			btn.Icon:SetDrawLayer("BACKGROUND")
 			btn.Icon:SetPoint("RIGHT")
 		else
+			btn.Icon:SetDrawLayer("ARTWORK")
 			btn.Icon:ClearAllPoints()
 		end
 		btn.Icon:Show()
@@ -917,7 +922,12 @@ end
 
 
 local function DropDownMenuSearchButton_OnAcquired(owner, frame, data, new)
-	if new or not frame.GroupCheck then v.dropDownMenuButtonInit(frame) end
+	if new then
+		owner.buttonsList[#owner.buttonsList + 1] = frame
+		v.dropDownMenuButtonInit(frame)
+	elseif not frame.GroupCheck then
+		v.dropDownMenuButtonInit(frame)
+	end
 end
 
 
@@ -1135,6 +1145,7 @@ local function CreateDropDownMenuSearch()
 	f.view:SetElementExtent(v.dropDownMenuButtonHeight)
 	f.view:SetElementInitializer("BUTTON", DropDownMenuSearchButtonInit)
 	f.view:RegisterCallback(f.view.Event.OnAcquiredFrame, DropDownMenuSearchButton_OnAcquired, f)
+	f.buttonsList = {}
 
 	ScrollUtil.InitScrollBoxListWithScrollBar(f.scrollBox, f.scrollBar, f.view)
 
@@ -1275,7 +1286,7 @@ end
 
 
 function DropDownButtonMixin:ddSetSelectedText(text, icon, iconInfo, iconOnly, fontObject, font)
-	local normalFontObject = fontObject or GameFontHighlightSmall
+	local normalFontObject = fontObject or self.Text.fontObject or GameFontHighlightSmall
 	if font then
 		self.Text:SetFontObject(v.getFontObject(self.Text, font, normalFontObject))
 	else
@@ -1286,20 +1297,35 @@ function DropDownButtonMixin:ddSetSelectedText(text, icon, iconInfo, iconOnly, f
 	if not self.Icon then return end
 	if icon then
 		self.Icon:Show()
-		v.setIcon(self.Icon, icon, iconInfo, 16)
+		v.setIcon(self.Icon, icon, iconInfo, self.Left and 16 or 19)
 
 		if iconOnly then
-			self.Text:SetPoint("LEFT", self.Left, "RIGHT", 0, 1)
-			self.Icon:SetPoint("LEFT", self.Left, "RIGHT", -2, 1)
-			self.Icon:SetPoint("RIGHT", self.Right, "LEFT", -15, 1)
+			if self.Left then
+				self.Text:SetPoint("LEFT", self.Left, "RIGHT", 0, 1)
+				self.Icon:SetPoint("LEFT", self.Left, "RIGHT", -2, 1)
+				self.Icon:SetPoint("RIGHT", self.Right, "LEFT", -15, 1)
+			else
+				self.Text:SetPoint("LEFT", 8, 0)
+				self.Icon:SetPoint("LEFT", 3, 0)
+				self.Icon:SetPoint("RIGHT", self.Arrow, "LEFT", 3, 0)
+			end
 		else
-			self.Text:SetPoint("LEFT", self.Left, "RIGHT", self.Icon:GetWidth() - 2, 1)
 			self.Icon:ClearAllPoints()
-			self.Icon:SetPoint("RIGHT", self.Text, "RIGHT", -math.min(self.Text:GetStringWidth(), self.Text:GetWidth()) - 1, 0)
+			if self.Left then
+				self.Text:SetPoint("LEFT", self.Left, "RIGHT", self.Icon:GetWidth() - 2, 1)
+				self.Icon:SetPoint("RIGHT", self.Text, "RIGHT", -math.min(self.Text:GetStringWidth(), self.Text:GetWidth()) - 1, 0)
+			else
+				self.Text:SetPoint("LEFT", self.Icon:GetWidth() + 6, 0)
+				self.Icon:SetPoint("RIGHT", self.Text, "RIGHT", -math.min(self.Text:GetStringWidth(), self.Text:GetWidth()) - 2, 0)
+			end
 		end
 	else
 		self.Icon:Hide()
-		self.Text:SetPoint("LEFT", self.Left, "RIGHT", 0, 1)
+		if self.Left then
+			self.Text:SetPoint("LEFT", self.Left, "RIGHT", 0, 1)
+		else
+			self.Text:SetPoint("LEFT", 8, 0)
+		end
 	end
 end
 
@@ -1418,7 +1444,7 @@ function DropDownButtonMixin:ddHideWhenButtonHidden(frame)
 end
 
 
-function DropDownButtonMixin:ddToggle(level, value, anchorFrame, xOffset, yOffset)
+function DropDownButtonMixin:ddToggle(level, value, anchorFrame, point, rPoint, xOffset, yOffset)
 	if not level then level = 1 end
 	local menu = dropDownMenusList[level]
 
@@ -1453,6 +1479,17 @@ function DropDownButtonMixin:ddToggle(level, value, anchorFrame, xOffset, yOffse
 	end
 	menu:SetSize(menu.width, menu.height)
 
+	if type(point) == "number" then
+		xOffset = point
+		yOffset = rPoint
+		point = nil
+		rPoint = nil
+	elseif type(rPoint) == "number" then
+		yOffset = xOffset
+		xOffset = rPoint
+		rPoint = point
+	end
+
 	if anchorFrame == "cursor" then
 		anchorFrame = UIParent
 		local x, y = GetCursorPosition()
@@ -1460,37 +1497,35 @@ function DropDownButtonMixin:ddToggle(level, value, anchorFrame, xOffset, yOffse
 		xOffset = (xOffset or 0) + x / scale
 		yOffset = (yOffset or 0) + y / scale
 		if self:ddIsOpenMenuUp() then yOffset = yOffset - UIParent:GetHeight() end
-	elseif not xOffset or not yOffset then
-		xOffset = 0
-		yOffset = 0
 	end
 
 	if level == 1 then
-		local point, relativePoint = "TOPLEFT", "BOTTOMLEFT"
-		if self:ddIsOpenMenuUp() then point, relativePoint = relativePoint, point end
-		menu:SetPoint(point, anchorFrame, relativePoint, xOffset, yOffset)
+		if not point then
+			point, rPoint = "TOPLEFT", "BOTTOMLEFT"
+			if self:ddIsOpenMenuUp() then point, rPoint = rPoint, point end
+		end
+		menu:SetPoint(point, anchorFrame, rPoint or point, xOffset or 0, yOffset or 0)
 	else
-		local point, relativePoint, y
-		if anchorFrame.hasArrowUp then
-			point, relativePoint, y = "BOTTOMLEFT", "BOTTOMRIGHT", -14
-		else
-			point, relativePoint, y = "TOPLEFT", "TOPRIGHT", 14
+		if not point then
+			if anchorFrame.hasArrowUp then
+				point, rPoint = "BOTTOMLEFT", "BOTTOMRIGHT"
+			else
+				point, rPoint = "TOPLEFT", "TOPRIGHT"
+			end
 		end
 		if GetScreenWidth() - anchorFrame:GetRight() - 2 < menu.width then
-			point, relativePoint = relativePoint, point
+			point, rPoint = rPoint, point
 		end
-		menu:SetPoint(point, anchorFrame, relativePoint, 0, y)
+		menu:SetPoint(point, anchorFrame, rPoint or point, xOffset or 0, yOffset or anchorFrame.hasArrowUp and -15 or 15)
 	end
 
-	if menu.activeStyle then
-		menu.activeStyle:Hide()
-	end
 	local style = v.DROPDOWNBUTTON.ddDisplayMode
 	if style == "menu" then
 		style = v.menuStyle
 	elseif not menu.styles[style] then
 		style = v.defaultStyle
 	end
+	menu.activeStyle:Hide()
 	menu.activeStyle = menu.styles[style]
 	menu.activeStyle:Show()
 end
@@ -1682,8 +1717,10 @@ function DropDownButtonMixin:ddAddButton(info, level)
 		v.setIcon(btn.Icon, btn.icon, btn.iconInfo, menuButtonHeight)
 
 		if btn.iconOnly then
+			btn.Icon:SetDrawLayer("BACKGROUND")
 			btn.Icon:SetPoint("RIGHT")
 		else
+			btn.Icon:SetDrawLayer("ARTWORK")
 			btn.Icon:ClearAllPoints()
 			width = width + btn.Icon:GetWidth() + 2
 		end
@@ -1847,7 +1884,7 @@ end
 function libMethods:IterateSearchFrameButtons(num)
 	local searchFrame = dropDownSearchFrames[num]
 	if searchFrame then
-		return ipairs(searchFrame.view:GetFrames())
+		return ipairs(searchFrame.buttonsList)
 	else
 		error("SearchFrame number "..num.." dosn't exist.")
 	end
@@ -1909,6 +1946,11 @@ end
 
 function libMethods:IterateCreatedButtons()
 	return ipairs(self._v.dropDownCreatedButtons)
+end
+
+
+function libMethods:IterateCreatedModernButtons()
+	return ipairs(self._v.dropDownCreatedModernButtons)
 end
 
 
@@ -1999,6 +2041,14 @@ do
 
 		btn.Icon = btn:CreateTexture(nil, "ARTWORK")
 
+		btn.Mask = btn:CreateMaskTexture()
+		btn.Mask:SetTexture("interface/masks/squaremask", "CLAMPTOBLACKADDITIVE", "CLAMPTOBLACKADDITIVE")
+		btn.Mask:SetPoint("LEFT", 0, 1)
+		btn.Mask:SetPoint("RIGHT", 0, 1)
+		btn.Mask:SetHeight(16)
+
+		btn.Icon:AddMaskTexture(btn.Mask)
+
 		btn.Button = CreateFrame("BUTTON", nil, btn)
 		btn.Button:SetMotionScriptsWhileDisabled(true)
 		btn.Button:SetSize(26, 26)
@@ -2018,6 +2068,131 @@ do
 	function libMethods:CreateButton(...)
 		local btn = self:CreateButtonOriginal(...)
 		self._v.dropDownCreatedButtons[#self._v.dropDownCreatedButtons + 1] = btn
+		return btn
+	end
+end
+
+
+do
+	local function updateState(self)
+		if self:IsEnabled() then
+			if self.down and self.over then
+				self.Arrow:SetAtlas("common-dropdown-a-button-pressedhover", true)
+			elseif self.over then
+				self.Arrow:SetAtlas("common-dropdown-a-button-hover", true)
+			elseif self.down then
+				self.Arrow:SetAtlas("common-dropdown-a-button-pressed", true)
+			else
+				self.Arrow:SetAtlas("common-dropdown-a-button", true)
+			end
+		else
+			self.Arrow:SetAtlas("common-dropdown-a-button-disabled", true)
+		end
+	end
+
+
+	local function OnEnter(self)
+		self.over = true
+		updateState(self)
+		DropDownTooltip_OnEnter(self)
+	end
+
+
+	local function OnLeave(self)
+		self.over = nil
+		updateState(self)
+		DropDownTooltip_OnLeave(self)
+	end
+
+
+	local function OnMouseDown(self)
+		self.down = true
+		updateState(self)
+	end
+
+
+	local function OnMouseUp(self)
+		self.down = nil
+		updateState(self)
+	end
+
+
+	local function OnClick(self)
+		PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON)
+		self:ddToggle(1, nil, self, -5, 0)
+	end
+
+
+	local function OnEnable(self)
+		self.Icon:SetDesaturated()
+		self.Text:SetTextColor(HIGHLIGHT_FONT_COLOR:GetRGB())
+		updateState(self)
+	end
+
+
+	local function OnDisable(self)
+		self.Icon:SetDesaturated(true)
+		self.Text:SetTextColor(GRAY_FONT_COLOR:GetRGB())
+		updateState(self)
+	end
+
+
+	function libMethods:CreateModernButtonOriginal(parent, width)
+		self.CreateModernButtonOriginal = nil
+
+		local btn = CreateFrame("BUTTON", nil, parent)
+		width = width or 135
+		btn:SetSize(width, 25)
+		btn:SetScript("OnEnter", OnEnter)
+		btn:SetScript("OnLeave", OnLeave)
+		btn:SetScript("OnMouseDown", OnMouseDown)
+		btn:SetScript("OnMouseUp", OnMouseUp)
+		btn:SetScript("OnEnable", OnEnable)
+		btn:SetScript("OnDisable", OnDisable)
+		btn:SetScript("OnClick", OnClick)
+		btn:SetMotionScriptsWhileDisabled(true)
+
+		self:SetMixin(btn)
+		btn:ddSetAutoSetText(true)
+		btn:ddSetDisplayMode("menu")
+		btn:ddHideWhenButtonHidden()
+		btn:ddSetNoGlobalMouseEvent(true)
+		btn:ddSetMinMenuWidth(width - 20)
+
+		btn.Background = btn:CreateTexture(nil, "BACKGROUND")
+		btn.Background:SetPoint("TOPLEFT", -8, 7)
+		btn.Background:SetPoint("BOTTOMRIGHT", 8, -9)
+		btn.Background:SetAtlas("common-dropdown-textholder", true)
+
+		btn.Arrow = btn:CreateTexture(nil, "OVERLAY")
+		btn.Arrow:SetPoint("RIGHT", 1, -3)
+		btn.Arrow:SetAtlas("common-dropdown-a-button", true)
+
+		btn.Text = btn:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
+		btn.Text.fontObject = GameFontHighlight
+		btn.Text:SetWordWrap(false)
+		btn.Text:SetJustifyH("RIGHT")
+		btn.Text:SetHeight(10)
+		btn.Text:SetPoint("RIGHT", btn.Arrow, "LEFT")
+		btn.Text:SetPoint("LEFT", 8, 0)
+
+		btn.Icon = btn:CreateTexture(nil, "ARTWORK")
+
+		btn.Mask = btn:CreateMaskTexture()
+		btn.Mask:SetTexture("interface/masks/squaremask", "CLAMPTOBLACKADDITIVE", "CLAMPTOBLACKADDITIVE")
+		btn.Mask:SetPoint("LEFT")
+		btn.Mask:SetPoint("RIGHT")
+		btn.Mask:SetHeight(19)
+
+		btn.Icon:AddMaskTexture(btn.Mask)
+
+		return btn
+	end
+
+
+	function libMethods:CreateModernButton(...)
+		local btn = self:CreateModernButtonOriginal(...)
+		self._v.dropDownCreatedModernButtons[#self._v.dropDownCreatedModernButtons + 1] = btn
 		return btn
 	end
 end
@@ -2090,17 +2265,13 @@ end
 if oldminor < 5 then
 	for i = 1, #dropDownSearchFrames do
 		local f = dropDownSearchFrames[i]
-		f.view:SetElementInitializer("BUTTON", DropDownMenuSearchButtonInit)
-		f.addButton = DropDownMenuSearchMixin.addButton
 
 		for callbackType, callbackTable in pairs(f.view:GetCallbackTables()) do
 			local callbacks = callbackTable[f.view.Event.OnAcquiredFrame]
 			if callbacks then wipe(callbacks) end
 		end
-		f.view:RegisterCallback(f.view.Event.OnAcquiredFrame, DropDownMenuSearchButton_OnAcquired, f)
 	end
 end
-
 
 if oldminor < 7 then
 	for i = 1, #v.dropDownMenusList do
@@ -2124,15 +2295,12 @@ if oldminor < 7 then
 
 	for i = 1, #dropDownSearchFrames do
 		local f = dropDownSearchFrames[i]
-		f.view:SetElementInitializer("BUTTON", DropDownMenuSearchButtonInit)
-		f.view:RegisterCallback(f.view.Event.OnAcquiredFrame, DropDownMenuSearchButton_OnAcquired, f)
 
 		for i, btn in ipairs(f.view:GetFrames()) do
 			if not btn.GroupCheck then v.dropDownMenuButtonInit(btn) end
 		end
 	end
 end
-
 
 if oldminor < 8 then
 	for i = 1, #v.dropDownCreatedButtons do
@@ -2142,19 +2310,11 @@ if oldminor < 8 then
 	for i = 1, #v.dropDownCreatedStretchButtons do
 		lib:SetMixin(v.dropDownCreatedStretchButtons[i])
 	end
-
-	for i = 1, #dropDownSearchFrames do
-		local f = dropDownSearchFrames[i]
-		for k, v in next, DropDownMenuSearchMixin do
-			f[k] = v
-		end
-	end
 end
 
-
 if oldminor < 9 then
-	if lib._v.menuStyle == "menuBackdrop" then
-		lib._v.menuStyle = "modernMenu"
+	if v.menuStyle == "menuBackdrop" then
+		v.menuStyle = "modernMenu"
 	end
 
 	for i = 1, #v.dropDownMenusList do
@@ -2185,7 +2345,6 @@ if oldminor < 9 then
 	end
 end
 
-
 if oldminor < 10 then
 	local function updateButton(btn)
 		btn:SetScript("OnClick", DropDownMenuButton_OnClick)
@@ -2209,13 +2368,11 @@ if oldminor < 10 then
 
 	for i = 1, #dropDownSearchFrames do
 		local f = dropDownSearchFrames[i]
-		f.view:SetElementInitializer("BUTTON", DropDownMenuSearchButtonInit)
 		for j, btn in ipairs(f.view:GetFrames()) do
 			updateButton(btn)
 		end
 	end
 end
-
 
 if oldminor < 12 then
 	for i = 1, #v.dropDownMenusList do
@@ -2227,7 +2384,6 @@ if oldminor < 12 then
 
 	for i = 1, #dropDownSearchFrames do
 		local f = dropDownSearchFrames[i]
-		f.view:SetElementInitializer("BUTTON", DropDownMenuSearchButtonInit)
 		for k, v in next, DropDownMenuSearchMixin do
 			f[k] = v
 		end
@@ -2237,7 +2393,30 @@ if oldminor < 12 then
 	end
 end
 
-if oldminor < 13 then
+if oldminor < 15 then
+	v.dropDownCreatedModernButtons = {}
+
+	for i = 1, #dropDownSearchFrames do
+		local f = dropDownSearchFrames[i]
+		f.view:RegisterCallback(f.view.Event.OnAcquiredFrame, DropDownMenuSearchButton_OnAcquired, f)
+	end
+end
+
+if oldminor < 16 then
+	for i = 1, #dropDownSearchFrames do
+		local f = dropDownSearchFrames[i]
+		f.buttonsList = f.buttonsList or {}
+	end
+end
+
+if oldminor < 17 then
+	for i = 1, #v.dropDownMenusList do
+		local menu = v.dropDownMenusList[i]
+		if not menu.activeStyle then
+			menu.activeStyle = menu.styles[v.defaultStyle]
+		end
+	end
+
 	for i = 1, #dropDownSearchFrames do
 		local f = dropDownSearchFrames[i]
 		f.view:SetElementInitializer("BUTTON", DropDownMenuSearchButtonInit)
