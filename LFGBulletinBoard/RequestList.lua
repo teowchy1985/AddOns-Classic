@@ -154,12 +154,6 @@ local function CreateHeader(scrollPos, dungeon)
 			categoryName = EASY_DIFFICULTY_COLOR:WrapTextInColorCode(categoryName)
 		end
 	end
-	
-	-- Initialize this value now so we can (un)fold only existing entries later
-	-- while still allowing new headers to follow the HeadersStartFolded setting
-	if GBB.FoldedDungeons[dungeon] == nil then
-		GBB.FoldedDungeons[dungeon]=GBB.DB.HeadersStartFolded
-	end
 
 	header.Name:SetText(("%s %s"):format(categoryName, levelRange))
 	header.Name:SetFontObject(GBB.DB.FontSize)
@@ -407,7 +401,7 @@ end
 ---@param leaderName string
 ---@param dungeonKey string
 ---@param isHeroic boolean?
-local function SendJoinRequestMessage(leaderName, dungeonKey, isHeroic)
+function GBB.SendJoinRequestMessage(leaderName, dungeonKey, isHeroic)
 	if not GBB.DB.EnableJoinRequestMessage then return end
 	local dungeon = GBB.dungeonNames[dungeonKey] or dungeonKey
 	local msg = GBB.DB.JoinRequestMessage
@@ -977,16 +971,16 @@ local function createMenu(DungeonID,req)
 		return
 	end
 	if req then
-		GBB.PopupDynamic:AddItem(string.format(GBB.L["BtnWho"],req.name),false,WhoRequest,req.name)
-		GBB.PopupDynamic:AddItem(string.format(GBB.L["BtnWhisper"],req.name),false,WhisperRequest,req.name)
-		GBB.PopupDynamic:AddItem(string.format(GBB.L["BtnInvite"],req.name),false,InviteRequest,req.name)
-		GBB.PopupDynamic:AddItem(string.format(GBB.L["BtnIgnore"],req.name),false,IgnoreRequest,req.name)
+		GBB.PopupDynamic:AddItem(string.format(GBB.L["BtnWho"],req.name),false,WhoRequest,req.name,nil,true)
+		GBB.PopupDynamic:AddItem(string.format(GBB.L["BtnWhisper"],req.name),false,WhisperRequest,req.name,nil,true)
+		GBB.PopupDynamic:AddItem(string.format(GBB.L["BtnInvite"],req.name),false,InviteRequest,req.name,nil,true)
+		GBB.PopupDynamic:AddItem(string.format(GBB.L["BtnIgnore"],req.name),false,IgnoreRequest,req.name,nil,true)
 		GBB.PopupDynamic:AddItem("",true)
 	end
 	if DungeonID then
-		GBB.PopupDynamic:AddItem(GBB.L["BtnFold"], false,GBB.FoldedDungeons,DungeonID)
-		GBB.PopupDynamic:AddItem(GBB.L["BtnFoldAll"], false,GBB.FoldAllDungeon)
-		GBB.PopupDynamic:AddItem(GBB.L["BtnUnFoldAll"], false,GBB.UnfoldAllDungeon)
+		GBB.PopupDynamic:AddItem(GBB.L["BtnFold"], false,GBB.FoldedDungeons,DungeonID, nil, true)
+		GBB.PopupDynamic:AddItem(GBB.L["BtnFoldAll"], false,GBB.FoldAllDungeon, nil, true)
+		GBB.PopupDynamic:AddItem(GBB.L["BtnUnFoldAll"], false,GBB.UnfoldAllDungeon, nil, true)
 		GBB.PopupDynamic:AddItem("",true)
 	end
 	GBB.PopupDynamic:AddItem(GBB.L["CboxShowTotalTime"],false,GBB.DB,"ShowTotalTime")
@@ -1003,7 +997,7 @@ local function createMenu(DungeonID,req)
 	GBB.PopupDynamic:AddItem(SETTINGS, false, GBB.OptionsBuilder.OpenCategoryPanel, 1)
 	-- todo: Open to filter settings to expac related to DungeonID
 	GBB.PopupDynamic:AddItem(FILTERS, false, GBB.OptionsBuilder.OpenCategoryPanel, 2)
-	GBB.PopupDynamic:AddItem(GBB.L["BtnCancel"],false)
+	GBB.PopupDynamic:AddItem(GBB.L["BtnCancel"], false, nil, nil, nil, true)
 	GBB.PopupDynamic:Show()
 end
 
@@ -1050,7 +1044,7 @@ function GBB.ClickRequest(entry, button)
 			WhoRequest(req.name)
 			--SendWho( req.name )
 		elseif IsAltKeyDown() then
-			SendJoinRequestMessage(req.name, req.dungeon, req.IsHeroic)
+			GBB.SendJoinRequestMessage(req.name, req.dungeon, req.IsHeroic)
 		elseif IsControlKeyDown() then
 			InviteRequest(req.name)
 		else

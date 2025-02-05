@@ -58,9 +58,7 @@ local LFGActivityIDs = {
     ["WC"] = 796,  -- Wailing Caverns
     ["DM"] = 799,  -- Deadmines
     ["SFK"] = 800,  -- Shadowfang Keep
-    ["BFD"] = not isSoD and 801 or 1604,  -- Blackfathom Deeps
     ["STK"] = 802, -- Stormwind Stockades
-    ["GNO"] = not isSoD and 803 or 1605,  -- Gnomeregan
     ["RFK"] = 804,  -- Razorfen Kraul
     ["SM2"] = 5555,  -- Scarlet Monastery (used for the combine dungeons option) *spoofed*
     ["SMG"] = 805,  -- Scarlet Monastery - Graveyard
@@ -71,7 +69,6 @@ local LFGActivityIDs = {
     ["ULD"] = 807,  -- Uldaman
     ["ZF"] = 808,  -- Zul'Farrak
     ["MAR"] = 809,  -- Maraudon
-    ["ST"] = not isSoD and 810 or 1606,  -- Sunken Temple
     ["BRD"] = 811,  -- Blackrock Depths
     ["DM2"] = 6666,  -- Dire Maul (used for the combine dungeons option) *spoofed*
     ["DME"] = 813,  -- Dire Maul - East
@@ -82,23 +79,28 @@ local LFGActivityIDs = {
     ["LBRS"] = 812,  -- Lower Blackrock Spire
     ["UBRS"] = 837,  -- Upper Blackrock Spire
     -- Raids
-    ["ONY"] = 838,  -- Onyxia
     ["ZG"] = 836,  -- Zul'Gurub
-    ["MC"] = 839,  -- Molten Core
     ["BWL"] = 840,  -- Blackwing Lair
-    ["AQ20"] = 842,  -- Ahn'Qiraj Ruins
-    ["AQ40"] = 843,  -- Ahn'Qiraj Temple
     ["NAXX"] = 841,  -- Naxxramas
     -- Battlegrounds
     ["WSG"] = 924, -- Warsong Gulch [919-924]
     ["AB"] = 930,  -- Arathi Basin [926-930]
     ["AV"] = 932,  -- Alterac Valley
+    -- SoD/Classic augmented
+    ["BFD"] = not isSoD and 801 or 1604,  -- Blackfathom Deeps
+    ["GNO"] = not isSoD and 803 or 1605,  -- Gnomeregan
+    ["ST"] = not isSoD and 810 or 1606,  -- Sunken Temple
+    ["ONY"] = not isSoD and 838 or 1612,  -- Onyxia
+    ["MC"] = not isSoD and 839 or 1613,  -- Molten Core
+    ["AQ20"] = not isSoD and 842 or 1614,  -- Ahn'Qiraj Ruins
+    ["AQ40"] = not isSoD and 843 or 1615,  -- Ahn'Qiraj Temple
     -- SoD Specific
     ["DFC"] = isSoD and 1607 or nil, -- Demon Fall Canyon
     ["AZGS"] = isSoD and 1608 or nil, -- Storm Cliffs (Azuregoes)
     ["KAZK"] = isSoD and 1609 or nil, -- Tainted Scar (Kazzak)
     ["CRY"] = isSoD and 1611 or nil, -- Crystal Vale (Thunderaan)
     ["NMG"] = isSoD and 1610 or nil, -- Nightmare Grove (Emerald Dragons)
+    ["KARA"] = isSoD and 1693 or nil, -- Karazhan Crypts
 }
 --see https://wago.tools/db2/GroupFinderCategory?build=1.15.2.54332
 local activityCategoryTypeID  = {
@@ -229,6 +231,32 @@ function addon.GetDungeonLevelRanges()
     return cachedLevelRanges
 end
 
+local activityRemap = {
+    [919] = 924, -- WSG 10 - 19
+    [920] = 924, -- 20 - 29
+    [921] = 924, -- 30 - 39
+    [922] = 924, -- 40 - 49
+    [923] = 924, -- 50 - 59
+    [926] = 930, -- AB 20 - 29
+    [927] = 930, -- 30 - 39
+    [928] = 930, -- 40 - 49
+    [929] = 930, -- 50 - 59
+    [1603] = 816, -- Link STR live to STR undead (see infoOverrides table)
+}
+---@param opts {activityID: number}
+function addon.GetDungeonKeyByID(opts)
+    local activityId = activityRemap[opts.activityID] or opts.activityID
+    local key = idToDungeonKey[activityId]
+    if key ~= nil then return key end;
+    -- if no key, fallback to a name match
+    local info = C_LFGList.GetActivityInfoTable(activityId)
+    if not info then return end
+    for key, v in pairs(infoByTagKey) do
+        if v.name == info.shortName or v.name == info.fullName then
+            return key
+        end
+    end
+end
 addon.rawClassicDungeonInfo = infoByTagKey
 addon.Enum.DungeonType = DungeonType
 addon.Enum.Expansions = Expansions
