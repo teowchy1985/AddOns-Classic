@@ -124,7 +124,7 @@ NIT.options = {
 			type = "toggle",
 			name = L["enteredMsgTitle"],
 			desc = L["enteredMsgDesc"],
-			order = 233,
+			order = 33,
 			get = "getEnteredMsg",
 			set = "setEnteredMsg",
 		},
@@ -687,13 +687,13 @@ function NIT:loadSpecificOptions()
 		NIT.options.args["lootReminder"] = {
 			type = "header",
 			name = L["lootReminderDesc"],
-			order = 15,
+			order = 14,
 		};
 		NIT.options.args["lootReminderReal"] = {
 			type = "toggle",
 			name = L["lootReminderRealTitle"],
 			desc = L["lootReminderRealDesc"],
-			order = 16,
+			order = 15,
 			get = "getLootReminderReal",
 			set = "setLootReminderReal",
 		};
@@ -701,7 +701,7 @@ function NIT:loadSpecificOptions()
 			type = "toggle",
 			name = L["skipRealMsgIfCappedTitle"],
 			desc = L["skipRealMsgIfCappedDesc"],
-			order = 17,
+			order = 16,
 			get = "getSkipRealMsgIfCapped",
 			set = "setSkipRealMsgIfCapped",
 		};
@@ -712,7 +712,7 @@ function NIT:loadSpecificOptions()
 			values = function()
 				return NIT:getSounds();
 			end,
-			order = 18,
+			order = 17,
 			get = "getSoundsLootReminder",
 			set = "setSoundsLootReminder",
 		};
@@ -720,7 +720,7 @@ function NIT:loadSpecificOptions()
 			type = "range",
 			name = L["lootReminderSizeTitle"],
 			desc = L["lootReminderSizeDesc"],
-			order = 19,
+			order = 18,
 			get = "getLootReminderSize",
 			set = "setLootReminderSize",
 			min = 10,
@@ -733,7 +733,7 @@ function NIT:loadSpecificOptions()
 			type = "range",
 			name = L["lootReminderXTitle"],
 			desc = L["lootReminderXDesc"],
-			order = 20,
+			order = 19,
 			get = "getLootReminderX",
 			set = "setLootReminderX",
 			min = -1000,
@@ -747,7 +747,7 @@ function NIT:loadSpecificOptions()
 			type = "range",
 			name = L["lootReminderYTitle"],
 			desc = L["lootReminderYDesc"],
-			order = 21,
+			order = 20,
 			get = "getLootReminderY",
 			set = "setLootReminderY",
 			min = -1000,
@@ -756,6 +756,22 @@ function NIT:loadSpecificOptions()
 			softMax = 1000,
 			step = 1,
 			width = 1.5,
+		};
+		NIT.options.args["lootReminderMysRelic"] = {
+			type = "toggle",
+			name = L["lootReminderMysRelicTitle"],
+			desc = L["lootReminderMysRelicDesc"],
+			order = 21,
+			get = "getLootReminderMysRelic",
+			set = "setLootReminderMysRelic",
+		};
+		NIT.options.args["lootReminderMysRelicParty"] = {
+			type = "toggle",
+			name = L["lootReminderMysRelicPartyTitle"],
+			desc = L["lootReminderMysRelicPartyDesc"],
+			order = 22,
+			get = "getLootReminderMysRelicParty",
+			set = "setLootReminderMysRelicParty",
 		};
 	end
 	if (NIT.isClassic) then
@@ -867,6 +883,8 @@ NIT.optionDefaults = {
 		lootReminderX = -10,
 		lootReminderY = 150,
 		lootReminderMinimap = true,
+		lootReminderMysRelic = true,
+		lootReminderMysRelicParty = false,
 		wipeUpgradeData = true,
 		argentDawnTrinketReminder = true,
 		skipRealMsgIfCapped = false,
@@ -891,7 +909,15 @@ function NIT:buildDatabase()
 	if (not self.db.global[NIT.realm].instances) then
 		self.db.global[NIT.realm].instances = {};
 	end
-	if (not self.db.global[NIT.realm].trades) then
+	--Debug stuff.
+	--[[self.db.global[NIT.realm].instances = self.db.global["Thunderstrike"].instances
+	for i = 1, 500 do
+		if (i > 5 and self.db.global[NIT.realm].instances[i]) then
+			print(i)
+			self.db.global[NIT.realm].instances[i] = nil
+		end
+	end]]
+ 	if (not self.db.global[NIT.realm].trades) then
 		self.db.global[NIT.realm].trades = {};
 	end
 	if (not self.db.global[NIT.realm].myChars) then
@@ -902,6 +928,9 @@ function NIT:buildDatabase()
 	end
 	if (not self.db.global[NIT.realm].myChars[UnitName("player")].bossKills) then
 		self.db.global[NIT.realm].myChars[UnitName("player")].bossKills = {};
+	end
+	if (not self.db.global[NIT.realm].myChars[UnitName("player")].trackedItems) then
+		self.db.global[NIT.realm].myChars[UnitName("player")].trackedItems = {};
 	end
 	--if (not self.db.global[NIT.realm].myChars[UnitName("player")].levelLog) then
 	--	self.db.global[NIT.realm].myChars[UnitName("player")].levelLog = {};
@@ -1648,6 +1677,23 @@ function NIT:getSkipRealMsgIfCapped(info)
 	return self.db.global.skipRealMsgIfCapped;
 end
 
+--Kara relics in SoD.
+function NIT:setLootReminderMysRelic(info, value)
+	self.db.global.lootReminderMysRelic = value;
+end
+
+function NIT:getLootReminderMysRelic(info)
+	return self.db.global.lootReminderMysRelic;
+end
+
+function NIT:setLootReminderMysRelicParty(info, value)
+	self.db.global.lootReminderMysRelicParty = value;
+end
+
+function NIT:getLootReminderMysRelicParty(info)
+	return self.db.global.lootReminderMysRelicParty;
+end
+
 --Loot reminder text size.
 function NIT:setLootReminderSize(info, value)
 	self.db.global.lootReminderSize = value;
@@ -1691,7 +1737,7 @@ end
 function NIT:setSoundsLootReminder(info, value)
 	self.db.global.soundsLootReminder = value;
 	local soundFile = NIT.LSM:Fetch("sound", value);
-	PlaySoundFile(soundFile);
+	PlaySoundFile(soundFile, "Master");
 end
 
 function NIT:getSoundsLootReminder(info)

@@ -1240,7 +1240,7 @@ function NIT:updateMinimapButton(tooltip, frame)
 	tooltip:AddLine("|cFF9CD6DE" .. L["Middle-Click"] .. "|r " .. L["openLockouts"]);
 	tooltip:AddLine("|cFF9CD6DE" .. L["Shift Left-Click"] .. "|r " .. L["openTradeLog"]);
 	tooltip:AddLine("|cFF9CD6DE" .. L["Shift Right-Click"] .. "|r " .. L["config"]);
-	tooltip:AddLine("|cFF9CD6DE" .. L["Ctrl Left-Click"] .. "|r " .. L["Level Log"]);
+	tooltip:AddLine("|cFF9CD6DE" .. L["Control Left-Click"] .. "|r " .. L["Level Log"]);
 	tooltip:Show();
 	C_Timer.After(0.1, function()
 		NIT:updateMinimapButton(tooltip, frame);
@@ -2308,52 +2308,52 @@ function NIT:buildInstanceLineFrameString(v, count, logID)
 	local lockoutTime;
 	local timeColor = "|cFFFF2222";
 	local lockoutTimeString, altString = "", "";
-		if (v.mythicPlus) then
-			lockoutTimeString = instance;
-		elseif (NIT.perCharOnly and UnitName("player") ~= v.playerName) then
-			if (NIT.isRetail) then
-				lockoutTimeString = instance .. " (" .. L["entered"] .. " " .. NIT:getTimeString(timeAgo, true, "short") .. " " .. L["ago"] .. ")";
-			else
-				lockoutTimeString = instance .. " (" .. L["entered"] .. " " .. NIT:getTimeString(timeAgo, true, NIT.db.global.timeStringType) .. " " .. L["ago"] .. ")";
-			end
+	if (v.mythicPlus) then
+		lockoutTimeString = instance;
+	elseif (NIT.perCharOnly and UnitName("player") ~= v.playerName) then
+		if (NIT.isRetail) then
+			lockoutTimeString = instance .. " (" .. L["entered"] .. " " .. NIT:getTimeString(timeAgo, true, "short") .. " " .. L["ago"] .. ")";
 		else
-			if (NIT.isRetail) then
-				lockoutTimeString = instance .. " (" .. L["entered"] .. " " .. NIT:getTimeString(timeAgo, true, "short") .. " " .. L["ago"] .. ")";
-			else
-				lockoutTimeString = instance .. " (" .. L["entered"] .. " " .. NIT:getTimeString(timeAgo, true, NIT.db.global.timeStringType) .. " " .. L["ago"] .. ")";
+			lockoutTimeString = instance .. " (" .. L["entered"] .. " " .. NIT:getTimeString(timeAgo, true, NIT.db.global.timeStringType) .. " " .. L["ago"] .. ")";
+		end
+	else
+		if (NIT.isRetail) then
+			lockoutTimeString = instance .. " (" .. L["entered"] .. " " .. NIT:getTimeString(timeAgo, true, "short") .. " " .. L["ago"] .. ")";
+		else
+			lockoutTimeString = instance .. " (" .. L["entered"] .. " " .. NIT:getTimeString(timeAgo, true, NIT.db.global.timeStringType) .. " " .. L["ago"] .. ")";
+		end
+	end
+	if (timeAgo < 3600) then
+		if (NIT.isRetail) then
+			lockoutTime = NIT:getTimeString(3600 - timeAgo, true, "short");
+		else
+			lockoutTime = NIT:getTimeString(3600 - timeAgo, true, NIT.db.global.timeStringType);
+		end
+		if (not NIT.perCharOnly or nameMatch == v.playerName) then
+			timeColor = "|cFF00C800";
+			if (count == 1 and NIT.inInstance) then
+				lockoutTimeString = instance .. " (" .. L["stillInDungeon"] .. ")";
+			elseif (not v.mythicPlus) then
+				lockoutTimeString = instance .. " (" .. lockoutTime .. " " .. L["leftOnLockout"] .. ")";
 			end
 		end
-		if (timeAgo < 3600) then
-			if (NIT.isRetail) then
-				lockoutTime = NIT:getTimeString(3600 - timeAgo, true, "short");
-			else
-				lockoutTime = NIT:getTimeString(3600 - timeAgo, true, NIT.db.global.timeStringType);
-			end
-			if (not NIT.perCharOnly or nameMatch == v.playerName) then
-				timeColor = "|cFF00C800";
-				if (count == 1 and NIT.inInstance) then
-					lockoutTimeString = instance .. " (" .. L["stillInDungeon"] .. ")";
-				elseif (not v.mythicPlus) then
-					lockoutTimeString = instance .. " (" .. lockoutTime .. " " .. L["leftOnLockout"] .. ")";
-				end
-			end
-		elseif (timeAgo < 86400) then
-			if (NIT.isRetail) then
-				lockoutTime = NIT:getTimeString(86400 - timeAgo, true, "short");
-			else
-				lockoutTime = NIT:getTimeString(86400 - timeAgo, true, NIT.db.global.timeStringType);
-			end
-			if (not NIT.perCharOnly or nameMatch == v.playerName) then
-				timeColor = "|cFFDEDE42";
-				if (count == 1 and NIT.inInstance) then
-					lockoutTimeString = instance .. " (" .. L["stillInDungeon"] .. ")";
-				elseif (not v.mythicPlus) then
-					if (not NIT.noDailyLockout) then
-						lockoutTimeString = instance .. " (" .. lockoutTime .. " " .. L["leftOnDailyLockout"] .. ")";
-					end
+	elseif (timeAgo < 86400) then
+		if (NIT.isRetail) then
+			lockoutTime = NIT:getTimeString(86400 - timeAgo, true, "short");
+		else
+			lockoutTime = NIT:getTimeString(86400 - timeAgo, true, NIT.db.global.timeStringType);
+		end
+		if (not NIT.perCharOnly or nameMatch == v.playerName) then
+			timeColor = "|cFFDEDE42";
+			if (count == 1 and NIT.inInstance) then
+				lockoutTimeString = instance .. " (" .. L["stillInDungeon"] .. ")";
+			elseif (not v.mythicPlus) then
+				if (not NIT.noDailyLockout) then
+					lockoutTimeString = instance .. " (" .. lockoutTime .. " " .. L["leftOnDailyLockout"] .. ")";
 				end
 			end
 		end
+	end
 	if (v.type == "arena") then
 		timeColor = "|cFFFFA500";
 		local ratingChange = NIT:getRatingChange(v);
@@ -2402,7 +2402,7 @@ function NIT:buildInstanceLineFrameString(v, count, logID)
 		timeColor = "|cFFA1A1A1";
 	end
 	local line = "";
-	if (NIT.db.global.showLockoutTime) then
+	if (NIT.db.global.showLockoutTime or v.mythicPlus or v.type == "arena" or v.type == "bg") then
 		line = "|cFF9CD6DE" .. count .. ")|r [" .. timeColor .. time .. "|cFF9CD6DE]|r |c" .. classColorHex .. player 
 			.. "|r |cFF9CD6DE" .. lockoutTimeString .. altString;
 	else
@@ -3883,6 +3883,38 @@ function NIT:createAltsFrameLootReminderButton()
 			end
 		end)
 	end
+	--[[if (NIT.updateLootReminderFrame and not NIT.altsLootReminderButton2) then
+		--Loot reminder button.
+		NIT.altsLootReminderButton2 = CreateFrame("Button", "NITaltsLootReminderButton2", NITAltsFrame.EditBox, "UIPanelButtonTemplate");
+		--NIT.altsLootReminderButton2:SetPoint("CENTER", -60, -14);
+		NIT.altsLootReminderButton2:SetPoint("CENTER", 0, -51);
+		NIT.altsLootReminderButton2:SetWidth(190);
+		NIT.altsLootReminderButton2:SetHeight(18);
+		NIT.altsLootReminderButton2:SetText(L["Remnants of Valor"]);
+		NIT.altsLootReminderButton2:SetNormalFontObject("GameFontNormalSmall");
+		NIT.altsLootReminderButton2:SetScript("OnClick", function(self, arg)
+			NIT:loadRemnantsFrame();
+		end)
+		NIT.altsLootReminderButton2:SetScript("OnMouseDown", function(self, button)
+			if (button == "LeftButton" and not self:GetParent():GetParent().isMoving) then
+				self:GetParent():GetParent().EditBox:ClearFocus();
+				self:GetParent():GetParent():StartMoving();
+				self:GetParent():GetParent().isMoving = true;
+			end
+		end)
+		NIT.altsLootReminderButton2:SetScript("OnMouseUp", function(self, button)
+			if (button == "LeftButton" and self:GetParent():GetParent().isMoving) then
+				self:GetParent():GetParent():StopMovingOrSizing();
+				self:GetParent():GetParent().isMoving = false;
+			end
+		end)
+		NIT.altsLootReminderButton2:SetScript("OnHide", function(self)
+			if (self:GetParent():GetParent().isMoving) then
+				self:GetParent():GetParent():StopMovingOrSizing();
+				self:GetParent():GetParent().isMoving = false;
+			end
+		end)
+	end]]
 end
 
 function NIT:openAltsFrame()
@@ -4077,6 +4109,9 @@ function NIT:recalcAltsLineFrames()
 		return;
 	end
 	local offset, count, padding = 45, 0, 14;
+	if (NIT.isSOD) then
+		offset = 65;
+	end
 	local framesUsed = {};
 	local foundAnyChars;
 	local color1, color2 = "|cFFFFAE42", "|cFF9CD6DE";
@@ -4378,12 +4413,12 @@ function NIT:recalcAltsLineFramesTooltip(obj)
 				text = text .. "\n\n|cFFFFFF00" .. CURRENCY .. "|r";
 				text = text .. currencyString;
 			end
+			local foundItems;
+			local itemString = "\n\n|cFFFFFF00" .. L["items"] .. "|r";
 			if (not NIT.isRetail) then
 				if (data.classEnglish == "PRIEST" or data.classEnglish == "MAGE" or data.classEnglish == "DRUID"
 						or data.classEnglish == "WARLOCK" or data.classEnglish == "SHAMAN" or data.classEnglish == "PALADIN"
 								or data.classEnglish == "HUNTER") then
-					local foundItems;
-					local itemString = "\n\n|cFFFFFF00" .. L["items"] .. "|r";
 					if (data.classEnglish == "HUNTER" and data.ammo and NIT.expansionNum < 4) then
 						local ammoTypeString = "";
 						if (data.ammoType) then
@@ -4416,10 +4451,17 @@ function NIT:recalcAltsLineFramesTooltip(obj)
 							end
 						end
 					end
-					if (foundItems) then
-						text = text .. itemString;
-					end
 				end
+			end
+			if (data.trackedItems and next(data.trackedItems)) then
+				for k, v in NIT:pairsByKeys(data.trackedItems) do
+					itemString = itemString .. "\n  |T" .. v.icon .. ":12:12:0:0|t |c" .. v.color .. v.name .. ":|r "
+							.. color2 .. v.count .. "|r";
+				end
+				foundItems = true;
+			end
+			if (foundItems) then
+				text = text .. itemString;
 			end
 			if (data.classEnglish == "HUNTER" and not NIT.isRetail) then
 				local happinessTexture = "";
@@ -4743,16 +4785,23 @@ function NIT:recalcAltsLineFramesTooltip(obj)
 				local header = "\n\n|cFFFFFF00" .. L["weeklyQuests"] .. "|r";
 				local foundQuests;
 				local questString = "";
-				for k, v in NIT:pairsByKeys(data.quests) do
-					if (v > GetServerTime()) then
-						questString = questString .. "\n  " .. color1 .. k .. "|r " .. color2 .. "completed.|r";
-						foundQuests = true;
+				if (data.quests and next(data.quests)) then
+					for k, v in NIT:pairsByKeys(data.quests) do
+						if (v > GetServerTime()) then
+							if (k == "Laid to Rest") then
+								 k = k .. " |cFFFF10F0(Remnants of Valor Weekly)|r";
+							end
+							questString = questString .. "\n  " .. color1 .. k .. "|r " .. color2 .. "completed.|r";
+							foundQuests = true;
+						end
 					end
 				end
-				for k, v in NIT:pairsByKeys(data.dungWeeklies) do
-					if (v > GetServerTime()) then
-						questString = questString .. "\n  " .. k;
-						foundQuests = true;
+				if (data.dungWeeklies and next(data.dungWeeklies)) then
+					for k, v in NIT:pairsByKeys(data.dungWeeklies) do
+						if (v > GetServerTime()) then
+							questString = questString .. "\n  " .. k;
+							foundQuests = true;
+						end
 					end
 				end
 				if (foundQuests) then

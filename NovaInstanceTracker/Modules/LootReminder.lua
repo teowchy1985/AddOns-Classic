@@ -3,8 +3,8 @@
 ------------------------
 
 local L = LibStub("AceLocale-3.0"):GetLocale("NovaInstanceTracker");
-local lootReminderFrame, lootReminderListFrame;
-local lastLootNpcID, lastBossNpcID, lastBossTime;
+local lootReminderFrame, lootReminderListFrame, remnantsFrame;
+local lastLootNpcID, lastBossNpcID, lastBossTime, lastEncounterID;
 local tinsert = tinsert;
 local GetItemInfo = GetItemInfo or C_Item.GetItemInfo;
 
@@ -22,7 +22,7 @@ local function hideMiddleMsg()
 	end
 end
 
-local function addMsg(msg, time)
+local function addMsg(msg, time, noSound)
 	if (not NIT.db.global.lootReminderReal) then
 		return;
 	end
@@ -39,7 +39,9 @@ local function addMsg(msg, time)
 		hideMiddleMsg();
 	end)
 	lootReminderFrame.StartBounce();
-	NIT:playSound("soundsLootReminder");
+	if (not noSound) then
+		NIT:playSound("soundsLootReminder");
+	end
 end
 
 function NIT:updateLootReminderFrame(runTest)
@@ -248,6 +250,9 @@ local dungeons = {
 	[230] = {name = "Blackrock Depths"},
 	[229] = {name = "Blackrock Spire"},
 	[2784] = {name = "Demonfall Canyon"},
+	[2875] = {name = "Karazhan Crypts"},
+	--Test RFC.
+	--[389] = {name = "Test"},
 };
 
 --Some bosses are missing encounter_end event in classic we need a db of all the bosses.
@@ -265,11 +270,11 @@ local turBosses = {
 	[10811] = {name = "Archivist Galford", instanceID = 329, order = 7},
 	[10812] = {name = "Balnazzar", instanceID = 329, order = 8}, --Balnazaar is Grand Crusader Dathrohan npcID when it dies and as Balnazzar corpse.
 	[-101] = {header = true, title = L["Undead Side"], instanceID = 329, order = 10},
-	[10437] = {name = "Nerub'enkan", instanceID = 329, order = 14},
+	[10437] = {name = "Nerub'enkan", instanceID = 329, order = 11},
 	[10436] = {name = "Baroness Anastari", instanceID = 329, order = 12},
-	[10438] = {name = "Maleki the Pallid", instanceID = 329, order = 15},
-	[10435] = {name = "Magistrate Barthilas", instanceID = 329, order = 11},
-	--[11121] = {name = "Black Guard Swordsmith", instanceID = 329, order = 13}, --Doesn't drop.
+	[10438] = {name = "Maleki the Pallid", instanceID = 329, order = 13},
+	[10435] = {name = "Magistrate Barthilas", instanceID = 329, order = 14},
+	--[11121] = {name = "Black Guard Swordsmith", instanceID = 329, order = 15}, --Doesn't drop.
 	[10439] = {name = "Ramstein the Gorger", instanceID = 329, order = 16},
 	[10440] = {name = "Baron Rivendare", instanceID = 329, order = 17, reals = 2},
 	--[11120] = {name = "Crimson Hammersmith", instanceID = 329, order = 99}, --Needs testing (spawnable mob unlikely to drop).
@@ -357,6 +362,49 @@ local turBosses = {
 	[10220] = {name = "Halycon", instanceID = 229, order = 17},
 	[10268] = {name = "Gizrul the Slavener", instanceID = 229, order = 18},
 	[9568] = {name = "Overlord Wyrmthalak", instanceID = 229, order = 19, reals = 3},
+	
+	--Karazhan crypts.
+	[238213] = {name = "Sairuh Maryla", instanceID = 2875, order = 1, encounterID = 3170, sharedNPCs = {238233, 238234}}, --Apprentice.
+	[238233] = {name = "Kaigy Maryla", instanceID = 2875, order = 2, encounterID = 3171, sharedNPCs = {238213, 238234}}, --Apprentice.
+	[238234] = {name = "Barian Maryla", instanceID = 2875, order = 3, encounterID = 3172, sharedNPCs = {238213, 238233}}, --Apprentice.
+	[1] = {name = "Opera of Malediction", instanceID = 2875, order = 4, encounterID = 3144, sharedNPCs = {2, 3}}, --Opera.
+	[2] = {name = "Opera of Malediction", instanceID = 2875, order = 5, encounterID = 3168, sharedNPCs = {1, 3}}, --Opera.
+	[3] = {name = "Opera of Malediction", instanceID = 2875, order = 6, encounterID = 3169, sharedNPCs = {1, 2}}, --Opera.
+	[237964] = {name = "Harbringer of Sin", instanceID = 2875, order = 7, encounterID = 3141},
+	[238024] = {name = "Creeping Malison", instanceID = 2875, order = 8, encounterID = 3146},
+	[237439] = {name = "Kharon", instanceID = 2875, order = 9, encounterID = 3143},
+	--[238678] = {name = "Unk'omon", instanceID = 2875, order = 10, encounterID = 3152}, --No real from this boss.
+	[238055] = {name = "Dark Rider", instanceID = 2875, order = 11, encounterID = 3145},
+	--[7] = {name = "Criminal", instanceID = 2875, order = 12, encounterID = 3142}, --Secret boss not found yet?
+	
+	--RFC testing.
+	--[11520] = {name = "Taragaman the Hungerer", instanceID = 389, order = 13, encounterID = 2733},
+	--[11518] = {name = "Jergosh the Invoker", instanceID = 389, order = 14, encounterID = 2734},
+	--[11519] = {name = "Taragaman the Hungerer", instanceID = 389, order = 15, encounterID = 2735},
+};
+
+--Using encounter ID's and showing list on tooltip.
+--Needs mapping to npcIDs for corpse recognition.
+--All enounters here MUST be mapped by a NPC above or there will be duplicate boss kill data issues.
+local turBossesUsingEncounter = {
+	--Karazhan crypts.
+	[3170] = {name = "Apprentice", instanceID = 2875, order = 1},
+	[3171] = {name = "Apprentice", instanceID = 2875, order = 2},
+	[3172] = {name = "Apprentice", instanceID = 2875, order = 3}, --Barian Maryla.
+	[3144] = {name = "Opera of Malediction", instanceID = 2875, order = 4},
+	[3168] = {name = "Opera of Malediction", instanceID = 2875, order = 5},
+	[3169] = {name = "Opera of Malediction", instanceID = 2875, order = 6},
+	[3141] = {name = "Harbringer of Sin", instanceID = 2875, order = 7},
+	[3146] = {name = "Creeping Malison", instanceID = 2875, order = 8},
+	[3143] = {name = "Kharon", instanceID = 2875, order = 9},
+	--[3152] = {name = "Unk'omon", instanceID = 2875, order = 10},  --No real from this boss.
+	[3145] = {name = "Dark Rider", instanceID = 2875, order = 11},
+	--[3142] = {name = "Criminal", instanceID = 2875, order = 12}, --Secret boss not found yet?
+	
+	--RFC testing.
+	--[2733] = {name = "Taragaman the Hungerer", instanceID = 2875, order = 11},
+	--[2734] = {name = "Jergosh the Invoker", instanceID = 2875, order = 11},
+	--[2735] = {name = "Taragaman the Hungerer", instanceID = 2875, order = 11},
 };
 
 --Bosses with a lockout like the world bosses and ony, no need to track coins just send a loot reminder when they die.
@@ -501,12 +549,52 @@ local function getBossCount(instanceID)
 	return count, headerCount;
 end
 
-local function getLootedStatus(npcID, itemID)
-	local data = NIT.data.myChars[UnitName("player")].bossKills[npcID];
+local function getLootedStatus(npcOrEncounterID, itemID, isEncounterID) --/dump getLootedStatus(2733, 226404)
+	local looted, killed;
+	local data = NIT.data.myChars[UnitName("player")].bossKills[npcOrEncounterID];
+	if (isEncounterID) then
+		local data;
+		local bossData;
+		local bossDataID;
+		local bosses = {};
+		--Create a table of shared encounter npcs so we can check all for looted status.
+		--Bit of a hacky way to handle multiple bosses in a rotating encounter.
+		--Sorting the encounterIDs and attaching all kills and displays to the lowest ID would probably be a better solution later.
+		for k, v in pairs(turBosses) do
+			if (v.encounterID == npcOrEncounterID) then
+				bossData = v;
+				bossDataID = k;
+				break;
+			end
+		end
+		if (bossData and bossData.sharedNPCs) then
+			bosses[bossDataID] = bossData;
+			for k, v in pairs(bossData.sharedNPCs) do
+				if (turBosses[v]) then
+					bosses[v] = turBosses[v];
+				end
+			end
+			for k, v in pairs(bosses) do
+				if (NIT.data.myChars[UnitName("player")].bossKills[v.encounterID]) then
+					data = NIT.data.myChars[UnitName("player")].bossKills[v.encounterID];
+					if (data and data.looted and data.looted[itemID] and data.resetTime and data.resetTime > GetServerTime()) then
+						looted = true;
+					elseif (data and data.resetTime and data.resetTime > GetServerTime()) then
+						killed = true;
+					end
+				end
+			end
+		end
+	end
 	if (data and data.looted and data.looted[itemID] and data.resetTime and data.resetTime > GetServerTime()) then
-		return true;
+		looted = true;
 	elseif (data and data.resetTime and data.resetTime > GetServerTime()) then
 		--Killed but not looted.
+		killed = true;
+	end
+	if (looted) then
+		return true;
+	elseif (killed) then
 		return false, true;
 	end
 end
@@ -528,17 +616,51 @@ function NIT:getLootReminderMinimapString()
 		local sorted = {};
 		local count = 0;
 		local lootedCount = 0;
+		local npcs = {};
+		local usingEnconterIDs;
 		for k, v in pairs(turBosses) do
+			--Check if we're going by encounterID or NPC death.
+			--Originally it was all just NPC deaths but now there's dungeons with rotating bosses so we need to use enounterIDs.
+			--Map the npcID to enounterID in the tables above and then check here when displaying it so we only show 1 boss from the enounter rotation (like opera etc).
+			--It's a bit overly complicated but it works for neatness.
 			if (v.instanceID == NIT.currentInstanceID) then
-				local t = {
-					npcID = k,
-					name = v.name,
-					order = v.order,
-					instanceID = v.instanceID,
-					header = v.header,
-					title = v.title,
-				};
-				tinsert(sorted, t);
+				local skip;
+				if (v.sharedNPCs) then
+					for _, sharedID in pairs(v.sharedNPCs) do
+						if (npcs[sharedID]) then
+							skip = true;
+						end
+					end
+				end
+				if (not skip) then
+					if (v.encounterID) then
+						usingEnconterIDs = true;
+						local data = turBossesUsingEncounter[v.encounterID];
+						if (data) then
+							local t = {
+								npcID = v.encounterID,
+								name = data.name,
+								order = v.order,
+								instanceID = v.instanceID,
+								header = v.header,
+								title = v.title,
+								isEncounterID = true,
+							};
+							tinsert(sorted, t);
+						end
+					else
+						local t = {
+							npcID = k,
+							name = v.name,
+							order = v.order,
+							instanceID = v.instanceID,
+							header = v.header,
+							title = v.title,
+						};
+						tinsert(sorted, t);
+					end
+					npcs[k] = true;
+				end
 			end
 		end
 		table.sort(sorted, function(a, b) return a.order < b.order end);
@@ -552,7 +674,7 @@ function NIT:getLootReminderMinimapString()
 					text = text .. "\n" .. headerString;
 				end
 			else
-				local looted, isKilledButNotLooted = getLootedStatus(v.npcID, 226404);
+				local looted, isKilledButNotLooted = getLootedStatus(v.npcID, 226404, v.isEncounterID);
 				local lootedString;
 				if (isKilledButNotLooted) then
 					lootedString = "|cFFFF6900(" .. L["Killed But Not Looted"] .. ")|r";
@@ -574,17 +696,104 @@ function NIT:getLootReminderMinimapString()
 			end
 		end
 		local bossCount, headerCount = getBossCount(NIT.currentInstanceID);
-		local lootedString
+		if (usingEnconterIDs) then
+			bossCount = #sorted;
+		end
+		local lootedString;
 		if (lootedCount >= bossCount) then
 			lootedString = "|cFF00FF00" .. lootedCount .. "/" .. bossCount .. " " .. L["Bosses Looted"] .. "|r";
 		else
 			lootedString = "|cFF9CD6DE " .. lootedCount .. "/" .. bossCount .. " " .. L["Bosses Looted"] .. "|r";
 		end
 		local header = "|cFFFFFF00" .. L["Tarnished Undermine Real"] .. "|r - " .. lootedString .. "\n";
+		if (NIT.currentInstanceID == 2875) then
+			local instance = NIT.data.instances[1];
+			if (instance) then
+				text = text .. "\n\n|cFFFF10F0" .. L["Mysterious Relic Looters"] .. "|r";
+				if (instance.karaRelics and instance.karaRelics[236878]) then
+					text = text .. "\n|T135371:11:11|t  |cFF009B77Sword:|r  |cFFFFFF00Looted by " .. instance.karaRelics[236878].name .. "|r";
+				else
+					text = text .. "\n|T135371:11:11|t  |cFF009B77Sword:|r  |cFFFFFFFFNot looted|r";
+				end
+				if (instance.karaRelics and instance.karaRelics[236879]) then
+					text = text .. "\n|T135213:11:11|t  |cFF009B77Scythe:|r  |cFFFFFF00Looted by " .. instance.karaRelics[236879].name .. "|r";
+				else
+					text = text .. "\n|T135213:11:11|t  |cFF009B77Scythe:|r  |cFFFFFFFFNot looted|r";
+				end
+				if (instance.karaRelics and instance.karaRelics[236880]) then
+					text = text .. "\n|T306709:11:11|t  |cFF009B77Staff:|r  |cFFFFFF00Looted by " .. instance.karaRelics[236880].name .. "|r";
+				else
+					text = text .. "\n|T306709:11:11|t  |cFF009B77Staff:|r  |cFFFFFFFFNot looted|r";
+				end
+			end
+		end
 		if (text ~= "") then
 			return header .. text;
 		end
 	end
+end
+
+local karaRelics = {
+	[236878] = "Sword",
+	[236879] = "Scythe",
+	[236880] = "Staff",
+};
+
+local function relicLooted(itemID, name, class)
+	if (itemID and name) then
+		local _, _, _, classColorHex = GetClassColor(class);
+		local nameColorized = "|c" .. classColorHex .. name .. "|r";
+		local type = karaRelics[itemID];
+		if (NIT.db.global.lootReminderMysRelic) then
+			local item = Item:CreateFromItemID(itemID);
+			item:ContinueOnItemLoad(function()
+				local itemName = item:GetItemName();
+				local itemLink = item:GetItemLink();
+				local me = UnitName("player");
+				if (name == me) then
+					NIT:print(itemLink .. " (" .. type .. ") looted by you!");
+					addMsg(itemName .. " (" .. type .. ") looted by you!", 5);
+				else
+					NIT:print(itemLink .. " (" .. type .. ") looted by " .. nameColorized .. "!");
+					addMsg(itemName .. " (" .. type .. ") looted by " .. nameColorized .. "!", 5);
+				end
+				if (NIT.db.global.lootReminderMysRelicParty) then
+					if (name == me) then
+						SendChatMessage("[NIT] " .. itemName .. " (" .. type .. ") looted by " .. name.. "!", "PARTY");
+					else
+						SendChatMessage("[NIT] " .. itemName .. " (" .. type .. ") looted by " .. name .. "!", "PARTY");
+					end
+				end
+			end);
+		end
+		local instance = NIT.data.instances[1];
+		if (instance and NIT.inInstance) then
+			itemID = tonumber(itemID);
+			if (not instance.karaRelics) then
+				instance.karaRelics = {};
+			end
+			instance.karaRelics[itemID] = {
+				name = nameColorized,
+				time = GetServerTime(),
+			};
+		end
+	end
+end
+
+local function addLootedReal(npcOrEncounterID, itemID)
+	local resetTime = GetServerTime() + C_DateAndTime.GetSecondsUntilDailyReset();
+	if (not NIT.data.myChars[UnitName("player")].bossKills[npcOrEncounterID]) then
+		NIT.data.myChars[UnitName("player")].bossKills[npcOrEncounterID] = {};
+	end
+	if (not NIT.data.myChars[UnitName("player")].bossKills[npcOrEncounterID].looted) then
+		NIT.data.myChars[UnitName("player")].bossKills[npcOrEncounterID].looted = {};
+	end
+	if (not NIT.data.myChars[UnitName("player")].bossKills[npcOrEncounterID].resetTime or
+			(NIT.data.myChars[UnitName("player")].bossKills[npcOrEncounterID].resetTime < GetServerTime() - 300)) then
+		NIT.data.myChars[UnitName("player")].bossKills[npcOrEncounterID].resetTime = resetTime;
+		NIT:debug("Missing boss kill reset time", npcOrEncounterID); --Possiblly if a boss not on the list drops a token?
+	end
+	NIT.data.myChars[UnitName("player")].bossKills[npcOrEncounterID].looted[itemID] = true;
 end
 
 local function chatMsgLoot(...)
@@ -596,6 +805,7 @@ local function chatMsgLoot(...)
     ---The SELF loot strings were triggering for other people, so item counts would count everyone in the party.
     ---The lib fixed this.
     
+    local otherPlayer;
     --Self loot multiple item "You receive loot: [Item]x2"
 	--local itemLink, amount = strmatch(msg, string.gsub(string.gsub(LOOT_ITEM_SELF_MULTIPLE, "%%s", "(.+)"), "%%d", "(%%d+)"));
 	local itemLink, amount = NIT.libDeformat(msg, LOOT_ITEM_SELF_MULTIPLE);
@@ -609,52 +819,89 @@ local function chatMsgLoot(...)
 			itemLink = NIT.libDeformat(msg, LOOT_ITEM_PUSHED_SELF);
 		end
     end
+    --If no matches for self loot then check other player loot msgs.
+    if (not itemLink) then
+    	otherPlayer = true;
+    	--Other player receive multiple loot "Otherplayer receives loot: [Item]x2"
+    	name, itemLink, amount = strmatch(msg, string.gsub(string.gsub(LOOT_ITEM_MULTIPLE, "%%s", "(.+)"), "%%d", "(%%d+)"));
+    	if (not itemLink) then
+    		--Other player receive single loot "Otherplayer receives loot: [Item]"
+    		name, itemLink = msg:match("^" .. LOOT_ITEM:gsub("%%s", "(.+)"));
+			if (not itemLink) then
+				--Other player loot multiple item "Otherplayer receives item: [Item]x2"
+				name, itemLink, amount = strmatch(msg, string.gsub(string.gsub(LOOT_ITEM_PUSHED_MULTIPLE, "%%s", "(.+)"), "%%d", "(%%d+)"));
+				if (not itemLink) then
+	 				--Other player receive single item "Otherplayer receives item: [Item]"
+					name, itemLink = msg:match("^" .. LOOT_ITEM_PUSHED:gsub("%%s", "(.+)"));
+				end
+			end
+    	end
+    end
     if (itemLink) then
     	if (NIT.inInstance) then
 	    	local itemID = string.match(itemLink, "item:(%d+)");
 	    	if (itemID) then
 	    		itemID = tonumber(itemID);
-	    		if (itemID == 226404) then
-	    			hideMiddleMsg();
-	    			if (NIT.currentInstanceID and dungeons[NIT.currentInstanceID]) then
-		    			if (lastLootNpcID) then
-		    				NIT:debug("Using lastLootNpcID:", lastBossNpcID);
-				    		local resetTime = GetServerTime() + C_DateAndTime.GetSecondsUntilDailyReset();
-							if (not NIT.data.myChars[UnitName("player")].bossKills[lastLootNpcID]) then
-								NIT.data.myChars[UnitName("player")].bossKills[lastLootNpcID] = {};
+	    		if (otherPlayer) then
+	    			if (karaRelics[itemID]) then
+	    				local class;
+	    				if (IsInRaid()) then
+							for i = 1, 40 do
+								local n, r = UnitName("raid" .. i);
+								if (name == n or (r and name == n .. "-" .. r)) then
+									local _, classEnglish = UnitClass("raid" .. i);
+									class = classEnglish;
+									break;
+								end
 							end
-							if (not NIT.data.myChars[UnitName("player")].bossKills[lastLootNpcID].looted) then
-								NIT.data.myChars[UnitName("player")].bossKills[lastLootNpcID].looted = {};
+						elseif (IsInGroup()) then
+							for i = 1, 5 do
+								local n, r = UnitName("party" .. i);
+								if (name == n or (r and name == n .. "-" .. r)) then
+									local _, classEnglish = UnitClass("party" .. i);
+									class = classEnglish;
+									break;
+								end
 							end
-							if (not NIT.data.myChars[UnitName("player")].bossKills[lastLootNpcID].resetTime or
-									(NIT.data.myChars[UnitName("player")].bossKills[lastLootNpcID].resetTime < GetServerTime() - 300)) then
-								NIT.data.myChars[UnitName("player")].bossKills[lastLootNpcID].resetTime = resetTime;
-								NIT:debug("Missing boss kill reset time", lastLootNpcID); --Possiblly if a boss not on the list drops a token?
-							end
-							NIT.data.myChars[UnitName("player")].bossKills[lastLootNpcID].looted[itemID] = true;
-						elseif (lastBossNpcID) then
-							NIT:debug("Using backup lastBossNpcID:", lastBossNpcID);
-							local resetTime = GetServerTime() + C_DateAndTime.GetSecondsUntilDailyReset();
-							if (not NIT.data.myChars[UnitName("player")].bossKills[lastBossNpcID]) then
-								NIT.data.myChars[UnitName("player")].bossKills[lastBossNpcID] = {};
-							end
-							if (not NIT.data.myChars[UnitName("player")].bossKills[lastBossNpcID].looted) then
-								NIT.data.myChars[UnitName("player")].bossKills[lastBossNpcID].looted = {};
-							end
-							if (not NIT.data.myChars[UnitName("player")].bossKills[lastBossNpcID].resetTime or
-									(NIT.data.myChars[UnitName("player")].bossKills[lastBossNpcID].resetTime < GetServerTime() - 300)) then
-								NIT.data.myChars[UnitName("player")].bossKills[lastBossNpcID].resetTime = resetTime;
-								NIT:debug("Missing boss kill reset time", lastBossNpcID); --Possiblly if a boss not on the list drops a token?
-							end
-							NIT.data.myChars[UnitName("player")].bossKills[lastBossNpcID].looted[itemID] = true;
-						else
-							NIT:debug("Loot ID error:", itemID, lastLootNpcID, lastBossNpcID);
 						end
-						lastLootNpcID = nil;
-					end
-				elseif (itemID == 21229) then
-	    			hideMiddleMsg();
-	    		end
+	    				relicLooted(itemID, name, class);
+	    			end
+	    		else
+		    		if (karaRelics[itemID]) then
+		    			local me = UnitName("player");
+		    			local _, classEnglish = UnitClass("player");
+		    			relicLooted(itemID,  me, classEnglish);
+		    		elseif (itemID == 226404) then
+		    			hideMiddleMsg();
+		    			if (NIT.currentInstanceID and dungeons[NIT.currentInstanceID]) then
+		    				if (NIT.currentInstanceID == 2875 and (lastEncounterID == 3144 or lastEncounterID == 3168 or lastEncounterID == 3169)) then
+		    					NIT:debug("Using lastEncounterID:", lastEncounterID, lastLootNpcID);
+			    				addLootedReal(lastEncounterID, itemID);
+		    				else
+				    			if (lastLootNpcID) then
+				    				NIT:debug("Using lastLootNpcID:", lastLootNpcID);
+				    				if (turBosses[lastLootNpcID].encounterID) then
+				    					addLootedReal(turBosses[lastLootNpcID].encounterID, itemID);
+				    				else
+				    					addLootedReal(lastLootNpcID, itemID);
+				    				end
+								elseif (lastBossNpcID) then
+									NIT:debug("Using backup lastBossNpcID:", lastBossNpcID);
+									if (turBosses[lastBossNpcID].encounterID) then
+				    					addLootedReal(turBosses[lastBossNpcID].encounterID, itemID);
+				    				else
+										addLootedReal(lastBossNpcID, itemID);
+									end
+								else
+									NIT:debug("Loot ID error:", itemID, lastLootNpcID, lastBossNpcID);
+								end
+							end
+							lastLootNpcID = nil;
+						end
+					elseif (itemID == 21229) then
+		    			hideMiddleMsg();
+		    		end
+		    	end
 	    	end
     	end
     end
@@ -705,8 +952,21 @@ local function skipRealMsgIfCapped()
 	end
 end
 
+local function addBossDied(npcOrEncounterID)
+	local resetTime = GetServerTime() + C_DateAndTime.GetSecondsUntilDailyReset();
+	if (not NIT.data.myChars[UnitName("player")].bossKills[npcOrEncounterID]) then
+		NIT.data.myChars[UnitName("player")].bossKills[npcOrEncounterID] = {};
+	end
+	NIT.data.myChars[UnitName("player")].bossKills[npcOrEncounterID].resetTime = resetTime;
+end
+
 local function encounterEndSuccess(encounterID)
-	if (turBossesNoRecordEncounter[encounterID]) then
+	if (turBossesUsingEncounter[encounterID]) then
+		if (not skipRealMsgIfCapped()) then
+			addMsg(string.format(L["lootTheItem"], L["Tarnished Undermine Real"]) .. "!", 10);
+			addBossDied(encounterID);
+		end
+	elseif (turBossesNoRecordEncounter[encounterID]) then
 		if (not skipRealMsgIfCapped()) then
 			addMsg(string.format(L["lootTheItem"], L["Tarnished Undermine Real"]) .. "!", 10);
 		end
@@ -728,17 +988,13 @@ local function combatLogEventUnfiltered(...)
 		local _, _, _, _, zoneID, npcID = strsplit("-", destGUID);
 		npcID = tonumber(npcID);
 		local _, instanceType, difficultyID, _, _, _, _, instanceID = GetInstanceInfo();
-		if (turBosses[npcID]) then
+		if (turBosses[npcID] and not turBosses[npcID].encounterID) then
 			if (dungeons[instanceID] and (not NIT.data.myChars[UnitName("player")].bossKills[npcID]
 					or NIT.data.myChars[UnitName("player")].bossKills[npcID].resetTime < GetServerTime())) then
 				if (not skipRealMsgIfCapped()) then
 					addMsg(L["Loot the Tarnished Undermine Real"] .. "!", 10);
 				end
-				local resetTime = GetServerTime() + C_DateAndTime.GetSecondsUntilDailyReset();
-				if (not NIT.data.myChars[UnitName("player")].bossKills[npcID]) then
-					NIT.data.myChars[UnitName("player")].bossKills[npcID] = {};
-				end
-				NIT.data.myChars[UnitName("player")].bossKills[npcID].resetTime = resetTime;
+				addBossDied(npcID);
 				lastBossNpcID = npcID;
 				lastBossTime = GetServerTime();
 			end
@@ -763,6 +1019,7 @@ f:SetScript('OnEvent', function(self, event, ...)
 	elseif (event == "ENCOUNTER_END") then
 		local encounterID, _, _, _, success = ...;
 		if (success == 1) then
+			lastEncounterID = encounterID;
 			encounterEndSuccess(encounterID);
 		end
 	elseif (event == "LOOT_OPENED") then
@@ -978,4 +1235,190 @@ function NIT:loadLootReminderListFrame()
 	end
 	--newVersionFrame:SetSize(600, 50 + newVersionFrame.scrollChild.fs:GetStringHeight() + newVersionFrame.scrollChild.fs2:GetStringHeight() + newVersionFrame.scrollChild.fs3:GetStringHeight());
 	lootReminderListFrame:Show();
+end
+
+local function getTotalRemnants()
+	local total = 0;
+	for k, v in pairs(NIT.data.myChars) do
+		if (v.trackedItems and v.trackedItems[236397]) then
+			total = total + v.trackedItems[236397].count;
+		end
+	end
+	return total;
+end
+
+local function getRemnantsData()
+	local data = {};
+	for k, v in pairs(NIT.data.myChars) do
+		local t = {};
+		if (v.trackedItems) then
+			--Remnants of Valor.
+			if (v.trackedItems[236397]) then
+				t[236397] = v.trackedItems[236397];
+			end
+			--Heart of doom.
+			if (v.trackedItems[236750]) then
+				t[236750] = v.trackedItems[236750];
+			end
+		end
+		for k, v in pairs(v.quests) do
+			if (k == "Laid to Rest") then
+				t.questCompleted = true;
+			end
+		end
+		local buffLevels;
+		if (next(t)) then
+			--Just testing atm.
+			buffLevels = {
+				["Damage"] = 1.25,
+			};
+		end
+		if (buffLevels and k ~= "Warspikez") then
+			t.buffLevels = buffLevels;
+		end
+		if (next(t)) then
+			t.name = k;
+			t.class = v.classEnglish;
+			t.realm = v.realm;
+			tinsert(data, t);
+		end
+	end
+	return data;
+end
+
+function NIT:loadRemnantsFrame()
+	if (not lootReminderListFrame) then
+		local frame = CreateFrame("Frame", "NITRemantsFrame", UIParent, "BackdropTemplate");
+		frame.scrollFrame = CreateFrame("ScrollFrame", "$parentScrollFrame", frame, "UIPanelScrollFrameTemplate");
+		--frame.scrollFrame:SetAllPoints();
+		frame.scrollChild = CreateFrame("Frame", "$parentScrollChild", frame.scrollFrame);
+		frame.scrollFrame:SetScrollChild(frame.scrollChild);
+		--frame.scrollChild:SetWidth(frame:GetWidth() - 30);
+		frame.scrollChild:SetAllPoints();
+		frame.scrollChild:SetPoint("RIGHT", -40, 0);
+		frame.scrollChild:SetPoint("TOP", 0, -20);
+		frame.scrollChild:SetHeight(1);
+		frame.scrollChild:SetScript("OnSizeChanged", function(self,event)
+			frame.scrollChild:SetWidth(self:GetWidth())
+		end)
+		frame.scrollFrame:SetPoint("TOPLEFT", frame, "TOPLEFT", 0, -8);
+		frame.scrollFrame:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", 0, 8);
+		
+		frame:SetBackdrop({
+			bgFile = "Interface\\Buttons\\WHITE8x8",
+			insets = {top = 4, left = 4, bottom = 4, right = 4},
+			edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+			tileEdge = true,
+			edgeSize = 16,
+		});
+		frame:SetBackdropColor(0, 0, 0, 0.9);
+		frame:SetBackdropBorderColor(1, 1, 1, 0.7);
+		frame.scrollFrame.ScrollBar:ClearAllPoints();
+		frame.scrollFrame.ScrollBar:SetPoint("TOPRIGHT", -5, -(frame.scrollFrame.ScrollBar.ScrollDownButton:GetHeight()) + 1);
+		frame.scrollFrame.ScrollBar:SetPoint("BOTTOMRIGHT", -5, frame.scrollFrame.ScrollBar.ScrollUpButton:GetHeight());
+		frame:SetToplevel(true);
+		frame:SetMovable(true);
+		frame:EnableMouse(true);
+		frame:SetUserPlaced(false);
+		frame:SetPoint("CENTER", UIParent, 0, 100);
+		frame:SetSize(550, 550);
+		frame:SetFrameStrata("HIGH");
+		frame:SetFrameLevel(140);
+		frame:SetScript("OnMouseDown", function(self, button)
+			if (button == "LeftButton" and not self.isMoving) then
+				self:StartMoving();
+				self.isMoving = true;
+			end
+		end)
+		frame:SetScript("OnMouseUp", function(self, button)
+			if (button == "LeftButton" and self.isMoving) then
+				self:StopMovingOrSizing();
+				self.isMoving = false;
+			end
+		end)
+		frame:SetScript("OnHide", function(self)
+			if (self.isMoving) then
+				self:StopMovingOrSizing();
+				self.isMoving = false;
+			end
+		end)
+		
+		frame.scrollChild:SetScript("OnMouseDown", function(self, button)
+			if (button == "LeftButton" and not frame.isMoving) then
+				frame:StartMoving();
+				frame.isMoving = true;
+			end
+		end)
+		frame.scrollChild:SetScript("OnMouseUp", function(self, button)
+			if (button == "LeftButton" and frame.isMoving) then
+				frame:StopMovingOrSizing();
+				frame.isMoving = false;
+			end
+		end)
+		frame.scrollChild:SetScript("OnHide", function(self)
+			if (frame.isMoving) then
+				frame:StopMovingOrSizing();
+				frame.isMoving = false;
+			end
+		end)
+		
+		frame.scrollChild:EnableMouse(true);
+		--frame.scrollChild:SetHyperlinksEnabled(true);
+		--frame.scrollChild:SetScript("OnHyperlinkClick", ChatFrame_OnHyperlinkShow);
+		--Set all fonts in the module using the frame.
+		--Header string.
+		frame.scrollChild.fs = frame.scrollChild:CreateFontString("NITRemnantsFrameFS", "ARTWORK");
+		frame.scrollChild.fs:SetPoint("TOP", 0, -5);
+		--The main display string.
+		frame.scrollChild.fs2 = frame.scrollChild:CreateFontString("NITRemnantsFrameFS2", "ARTWORK");
+		frame.scrollChild.fs2:SetPoint("TOPLEFT", 50, -30);
+		frame.scrollChild.fs2:SetJustifyH("LEFT");
+		--Top right X close button.
+		frame.close = CreateFrame("Button", "NITRemnantsFrameClose", frame, "UIPanelCloseButton");
+		frame.close:SetPoint("TOPRIGHT", -22, -4);
+		frame.close:SetWidth(20);
+		frame.close:SetHeight(20);
+		frame.close:SetScript("OnClick", function(self, arg)
+			frame:Hide();
+		end)
+		frame.close:GetNormalTexture():SetTexCoord(0.1875, 0.8125, 0.1875, 0.8125);
+		frame.close:GetHighlightTexture():SetTexCoord(0.1875, 0.8125, 0.1875, 0.8125);
+		frame.close:GetPushedTexture():SetTexCoord(0.1875, 0.8125, 0.1875, 0.8125);
+		frame.close:GetDisabledTexture():SetTexCoord(0.1875, 0.8125, 0.1875, 0.8125);
+		frame:SetFrameStrata("HIGH");
+		frame:SetClampedToScreen(true);
+		frame.scrollChild.fs:SetFont(NIT.regionFont, 14);
+		frame.scrollChild.fs2:SetFont(NIT.regionFont, 14);
+		frame:Hide();
+		remnantsFrame = frame;
+	end
+	local totalRemnants = getTotalRemnants();
+	remnantsFrame.scrollChild.fs:SetText(NIT.prefixColor.. "NIT Naxxramas Seal of Dawn Tracker|r\n|cFFa335ee[" .. L["Remnants of Valor"] .. "]|r |cFF1EFF00Total: " .. totalRemnants .. "|r");
+	local text = "|cFF9CD6DE\n";
+	local data = getRemnantsData();
+	if (next(data)) then
+		table.sort(data, function(a, b) return a.name < b.name end);
+	end
+	for k, v in ipairs(data) do
+		local _, _, _, classColorHex = GetClassColor(v.class);
+		text = text .. "\n\n|c" .. classColorHex .. v.name .. "|r";
+		if (v.buffLevels) then
+			local buffText = " - Seal of the Dawn levels:";
+			for k, v in NIT:pairsByKeys(v.buffLevels) do
+				buffText = buffText .. " (" .. k .. " " .. v .. "%)";
+			end
+			text = text .. buffText .. "";
+		end
+		if (v[236397]) then
+			text = text .. "\n    |cFFa335ee[" .. L["Remnants of Valor"] .. "]|r |cFF1EFF00x" .. v[236397].count .. "|r";
+		end
+		if (v.questCompleted) then
+			text = text .. "\n    |cFFFFFFFFWeekly quest |cFFFFFF00[" .. L["Laid to Rest"] .. "]|r completed.|r";
+		elseif (v[236750]) then
+			text = text .. "\n    |cFFa335ee[" .. L["Heart of Doom"] .. "]|r |cffff0000still in bags not handed in.|r";
+		end
+	end
+	remnantsFrame.scrollChild.fs2:SetText(text);
+	--newVersionFrame:SetSize(600, 50 + newVersionFrame.scrollChild.fs:GetStringHeight() + newVersionFrame.scrollChild.fs2:GetStringHeight() + newVersionFrame.scrollChild.fs3:GetStringHeight());
+	remnantsFrame:Show();
 end

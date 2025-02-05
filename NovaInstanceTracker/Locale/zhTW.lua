@@ -491,6 +491,13 @@ L["Qiraji Lord's Insignia"] = "其拉領主徽記";
 L["soundsLootReminderTitle"] = "拾取提醒音效";
 L["soundsLootReminderDesc"] = "選擇拾取提醒顯示時要播放的音效。";
 
+L["lootReminderMysRelicTitle"] = "神秘的遺物";
+L["lootReminderMysRelicDesc"] = "當有人在卡拉贊地穴中拾取神秘的遺物時，在畫面中央/聊天視窗顯示訊息。";
+
+L["lootReminderMysRelicPartyTitle"] = "神秘的遺物隊伍訊息";
+L["lootReminderMysRelicPartyDesc"] = "當有人在卡拉贊地穴中拾取神秘的遺物時，在隊伍頻道發送訊息。";
+
+
 --增加
 L["Nova Instance Tracker"] = "Nova 副本進度追蹤";
 L["NovaInstanceTracker"] = "副本-進度";

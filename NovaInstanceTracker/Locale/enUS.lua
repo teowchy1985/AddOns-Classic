@@ -79,7 +79,7 @@ L["extraSoundOptionsTitle"] = "Extra Sound Options";
 L["extraSoundOptionsDesc"] = "Enable this to display all the sounds from all your addons at once in the dropdown lists here.";
 
 L["notesHeaderDesc"] = "Some Notes:";
-L["notesDesc"] = "This addon does it's best to work out when you can enter more instances but Blizzard's lockout system is sometimes buggy and you can get locked before reaching the correct limit. Sometimes you can only enter 4 per hour, but also sometimes you enter 6 per hour.";
+L["notesDesc"] = "This addon does its best to work out when you can enter more instances but Blizzard's lockout system is sometimes buggy and you can get locked before reaching the correct limit. Sometimes you can only enter 4 per hour, but also sometimes you can enter 6 per hour.";
 
 L["logHeaderDesc"] = "Log Window";
 
@@ -613,3 +613,9 @@ L["Qiraji Lord's Insignia"] = "Qiraji Lord's Insignia";
 
 L["soundsLootReminderTitle"] = "Loot Reminder Sound";
 L["soundsLootReminderDesc"] = "Pick which sound to play when a loot reminder is displayed.";
+
+L["lootReminderMysRelicTitle"] = "Mysterious Relics";
+L["lootReminderMysRelicDesc"] = "Show middle of the screen/chat window msgs when someone loots a Mysterious Relic in Karazhan Crypts.";
+
+L["lootReminderMysRelicPartyTitle"] = "Mys Relic Party Msg";
+L["lootReminderMysRelicPartyDesc"] = "Do a party chat message when someone loots a Mysterious Relic in Karazhan Crypts.";
