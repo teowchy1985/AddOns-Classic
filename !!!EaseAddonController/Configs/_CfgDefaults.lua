@@ -2401,6 +2401,15 @@ D["ThreatClassic2"] = {
 D["TalentEmu"] = {
 	defaultEnable = 0,
 	tags = { "CLASSALL" },
+	title = "(請刪除) 天賦模擬器",
+	desc = "這個插件的資料夾已經改名為 TalentEmuX，請刪除 AddOns 裡面舊的 TalentEmu 資料夾。`",
+	author = "ALA @ 网易有爱",
+	modifier = "ALA, 彩虹ui",
+	icon = "Interface\\AddOns\\TalentEmu\\Media\\Textures\\ICON",
+};
+D["TalentEmuX"] = {
+	defaultEnable = 0,
+	tags = { "CLASSALL" },
 	title = "天賦模擬器",
 	desc = "包括了天賦模擬器和範本的功能，能夠從暴雪或 Wowhead 網站的天賦模擬器匯入天賦，或是將點好的天賦分享給其他玩家。`",
 	author = "ALA @ 网易有爱",

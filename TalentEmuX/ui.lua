@@ -1,4 +1,4 @@
---[[--
+﻿--[[--
 	by ALA
 --]]--
 ----------------------------------------------------------------------------------------------------
@@ -2398,7 +2398,7 @@ MT.BuildEnv('UI');
 			if IsShiftKeyDown() then
 				local index = Node:GetDataIndex();
 				local data = Node.list[index];
-				local link = MT.GetSpellLink(data[2]);
+				local link = VT._comptb.GetSpellLink(data[2]);
 				if link then
 					local editBox = ChatEdit_ChooseBoxForSend();
 					editBox:Show();
@@ -3001,7 +3001,7 @@ MT.BuildEnv('UI');
 				local TreeTDB = TreeFrame.TreeTDB;
 				local TalentSet = TreeFrame.TalentSet;
 				local TalentSeq = Node.TalentSeq;
-				local link = MT.GetSpellLink(TreeTDB[TalentSeq][8][TalentSet[TalentSeq] == 0 and 1 or TalentSet[TalentSeq]]);
+				local link = VT._comptb.GetSpellLink(TreeTDB[TalentSeq][8][TalentSet[TalentSeq] == 0 and 1 or TalentSet[TalentSeq]]);
 				if link then
 					local editBox = ChatEdit_ChooseBoxForSend();
 					editBox:Show();
@@ -3397,7 +3397,7 @@ MT.BuildEnv('UI');
 		end
 		VT.ExportButtonMenuDefinition = {
 			handler = function(button, Frame, codec)
-				local code = codec.ExportCode(Frame, codec);
+				local code = codec:ExportCode(Frame);
 				if code ~= nil then
 					local EditBox = Frame.EditBox;
 					EditBox:SetText(code);
@@ -3540,7 +3540,7 @@ MT.BuildEnv('UI');
 				local code = self:GetText();
 				if code ~= nil and code ~= "" then
 					for media, codec in next, VT.ExternalCodec do
-						local class, level, data = codec.ImportCode(code, codec);
+						local class, level, data = codec:ImportCode(code);
 						if class ~= nil then
 							VT.ImportIndex = VT.ImportIndex + 1;
 							return MT.UI.FrameSetInfo(self.Frame, class, level, { data, nil, num = 1, active = 1, }, 1, "#" .. l10n.import .. "[" .. VT.ImportIndex .. "]");
