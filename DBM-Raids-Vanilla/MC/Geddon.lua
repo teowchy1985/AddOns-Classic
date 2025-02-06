@@ -12,7 +12,7 @@ end
 local mod	= DBM:NewMod("Geddon", "DBM-Raids-Vanilla", catID)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20241214045434")
+mod:SetRevision("20250119115238")
 mod:SetCreatureID(DBM:IsSeasonal("SeasonOfDiscovery") and 228433 or 12056)
 mod:SetEncounterID(668)
 mod:SetModelID(12129)
@@ -51,7 +51,7 @@ local specWarnIgnite	= mod:NewSpecialWarningDispel(19659, "RemoveMagic", nil, ni
 local timerInfernoCD	= mod:NewVarTimer("v21-27.9", 19695, nil, nil, nil, 2)--21-27.9 (24-30 on sod?)
 local timerInferno		= mod:NewBuffActiveTimer(8, 19695, nil, nil, nil, 2)
 local timerIgniteManaCD	= mod:NewVarTimer("v27-33", 19659, nil, nil, nil, 2)--27-33
-local timerBombCD		= mod:NewVarTimer("v13.3-21", 20475, nil, nil, nil, 3)--13.3-21
+local timerBombCD		= mod:NewVarTimer("v11.7-21", 20475, nil, nil, nil, 3)
 local timerBomb			= mod:NewTargetTimer(8, 20475, nil, nil, nil, 3)
 local timerArmageddon	= mod:NewCastTimer(8, 20478, nil, nil, nil, 2, nil, nil, nil, nil, nil, nil, nil, nil, nil, true)
 

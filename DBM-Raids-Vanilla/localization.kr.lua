@@ -65,9 +65,8 @@ L:SetMiscLocalization{
 	Phase5 	= "부서질 것 같습니다!",
 	Phase6 	= "폭발",
 
-	HitsRemain	= "남은 타격",
-	Frost		= "냉기",
-	Physical	= "물리"
+	FrostHitsPerSecond = "초당 냉기 공격 횟수",
+	MeleeHitsPerSecond = "초당 물리 공격 횟수",
 }
 -------------
 -- Huhuran --
@@ -143,6 +142,7 @@ L:SetGeneralLocalization{
 L:SetWarningLocalization{
 	WarnSubmerge		= "잠수",
 	WarnEmerge			= "등장",
+	SpecWarnEye			= "고개 돌리세요",
 }
 L:SetTimerLocalization{
 	TimerSubmerge		= "잠수",
@@ -152,7 +152,8 @@ L:SetOptionLocalization{
 	WarnSubmerge		= "잠수 알림 보기",
 	TimerSubmerge		= "잠수 타이머 바 보기",
 	WarnEmerge			= "등장 알림 보기",
-	TimerEmerge			= "등장 타이머 바 보기"
+	TimerEmerge			= "등장 타이머 바 보기",
+	SpecWarnEye			= "대형 눈알 경고 보기"
 }
 
 ----------------
