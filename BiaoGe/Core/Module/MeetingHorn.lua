@@ -386,12 +386,13 @@ BG.Init2(function()
 
         local bt = CreateFrame("Button", nil, Browser, "UIPanelButtonTemplate")
         bt:SetSize(120, 22)
-        if BG.IsVanilla then
-            bt:SetPoint("BOTTOMRIGHT", MeetingHorn.MainPanel, "BOTTOMRIGHT", -4, 4)
+        if BG.IsVanilla_60 then
+            bt:SetPoint("RIGHT", Browser.ApplyLeaderBtn, "LEFT", 0, 0)
         elseif ver >= 200 then
             bt:SetPoint("RIGHT", Browser.ApplyLeaderBtn, "LEFT", 0, 0)
         else
-            bt:SetPoint("RIGHT", Browser.RechargeBtn, "LEFT", -10, 0)
+            -- bt:SetPoint("RIGHT", Browser.RechargeBtn, "LEFT", -10, 0)
+            bt:SetPoint("BOTTOMRIGHT", MeetingHorn.MainPanel, "BOTTOMRIGHT", -4, 4)
         end
         bt:SetText(L["密语模板"])
         bt:SetFrameLevel(10)

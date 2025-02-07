@@ -6,5 +6,6 @@
     <Script file="Libs\UTF8\utf8data.lua"/>
     <Script file="Libs\UTF8\utf8.lua"/>
     <Script file="Libs\LibRecipes-3.0.lua"/>
+    <Script file="Libs\LibBase64\LibBase64.lua"/>
 
 </Ui>
