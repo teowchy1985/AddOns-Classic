@@ -1,5 +1,5 @@
 ﻿----------------------------------------------------------------------
--- 	Leatrix Plus 4.0.45 (29th January 2025)
+-- 	Leatrix Plus 4.0.46 (5th February 2025)
 ----------------------------------------------------------------------
 
 --	01:Functions  02:Locks    03:Restart  40:Player   45:Rest
@@ -19,7 +19,7 @@
 	local void
 
 	-- Version
-	LeaPlusLC["AddonVer"] = "4.0.45"
+	LeaPlusLC["AddonVer"] = "4.0.46"
 
 	-- Get locale table
 	local void, Leatrix_Plus = ...
@@ -1360,6 +1360,8 @@
 					"wood03.ogg#552076",
 					"wood04.ogg#552066",
 					"wood05.ogg#552063",
+
+					-- Water is sound/character/footsteps/watersplash/footstepsmediumwater
 
 				},
 
@@ -8802,35 +8804,13 @@
 
 			SetCVar("chatClassColorOverride", "0")
 
-			C_Timer.After(0.1, function()
+			for void, v in ipairs({"SAY", "EMOTE", "YELL", "GUILD", "OFFICER", "WHISPER", "PARTY", "PARTY_LEADER", "RAID", "RAID_LEADER", "RAID_WARNING", "INSTANCE_CHAT", "INSTANCE_CHAT_LEADER", "VOICE_TEXT"}) do
+				SetChatColorNameByClass(v, true)
+			end
 
-				-- Set local channel colors and lock checkboxes
-				for i = 1, 18 do
-					if _G["ChatConfigChatSettingsLeftCheckBox" .. i .. "Check"] then
-						ToggleChatColorNamesByClassGroup(true, _G["ChatConfigChatSettingsLeftCheckBox" .. i .. "Check"]:GetParent().type)
-						if _G["ChatConfigChatSettingsLeftCheckBox" .. i .. "ColorClasses"] then
-							LeaPlusLC:LockItem(_G["ChatConfigChatSettingsLeftCheckBox" .. i .. "ColorClasses"], true)
-						end
-					end
-				end
-
-				-- Set global channel colors
-				for i = 1, 50 do
-					ToggleChatColorNamesByClassGroup(true, "CHANNEL" .. i)
-				end
-
-				-- Lock global channel checkboxes on startup
-				hooksecurefunc("ChatConfig_CreateCheckboxes", function(self, checkBoxTable, checkBoxTemplate, title)
-					if ChatConfigChannelSettingsLeft.checkBoxTable then
-						for i = 1, 50 do
-							if _G["ChatConfigChannelSettingsLeftCheckBox" .. i .. "ColorClasses"] then
-								LeaPlusLC:LockItem(_G["ChatConfigChannelSettingsLeftCheckBox" .. i .. "ColorClasses"], true)
-							end
-						end
-					end
-				end)
-
-			end)
+			for i = 1, 50 do
+				SetChatColorNameByClass("CHANNEL" .. i, true)
+			end
 
 		end
 
@@ -13493,9 +13473,6 @@
 			ChangeChatColor("RAID", 1, 0.50, 0)
 			ChangeChatColor("RAID_LEADER", 1, 0.28, 0.04)
 
-			-- Use class colors in chat (LeaPlusLC["ClassColorsInChat"])
-			SetCVar("chatClassColorOverride", "1")
-
 			-- Mute game sounds (LeaPlusLC["MuteGameSounds"])
 			for k, v in pairs(LeaPlusLC["muteTable"]) do
 				for i, e in pairs(v) do
@@ -13510,18 +13487,15 @@
 		-- Restore default values for options that require reloads
 		----------------------------------------------------------------------
 
-		-- Use class colors
-		if LeaPlusDB["ClassColorsInChat"] == "On" then
-			if wipe or (not wipe and LeaPlusLC["ClassColorsInChat"] == "Off") and not LeaLockList["ClassColorsInChat"] then
-				-- Restore local channel color
-				for i = 1, 18 do
-					if _G["ChatConfigChatSettingsLeftCheckBox" .. i .. "Check"] then
-						ToggleChatColorNamesByClassGroup(false, _G["ChatConfigChatSettingsLeftCheckBox" .. i .. "Check"]:GetParent().type)
-					end
+		-- Use class colors in chat
+		if LeaPlusDB["ClassColorsInChat"] == "On" and not LeaLockList["ClassColorsInChat"] then
+			if wipe or (not wipe and LeaPlusLC["ClassColorsInChat"] == "Off") then
+				SetCVar("chatClassColorOverride", "1")
+				for void, v in ipairs({"SAY", "EMOTE", "YELL", "GUILD", "OFFICER", "WHISPER", "PARTY", "PARTY_LEADER", "RAID", "RAID_LEADER", "RAID_WARNING", "INSTANCE_CHAT", "INSTANCE_CHAT_LEADER", "VOICE_TEXT"}) do
+					SetChatColorNameByClass(v, false)
 				end
-				-- Restore global channel color
 				for i = 1, 50 do
-					ToggleChatColorNamesByClassGroup(false, "CHANNEL" .. i)
+					SetChatColorNameByClass("CHANNEL" .. i, false)
 				end
 			end
 		end

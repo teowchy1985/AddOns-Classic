@@ -1,5 +1,5 @@
 ﻿----------------------------------------------------------------------
--- 	Leatrix Plus 1.15.73 (29th January 2025)
+-- 	Leatrix Plus 1.15.74 (5th February 2025)
 ----------------------------------------------------------------------
 
 --	01:Functions 02:Locks   03:Restart 40:Player   45:Rest
@@ -19,7 +19,7 @@
 	local void
 
 	-- Version
-	LeaPlusLC["AddonVer"] = "1.15.73"
+	LeaPlusLC["AddonVer"] = "1.15.74"
 
 	-- Get locale table
 	local void, Leatrix_Plus = ...
@@ -1220,6 +1220,11 @@
 					"grass03.ogg#552062",
 					"grass04.ogg#552071",
 					"grass05.ogg#552079",
+					"snow01.ogg#552065",
+					"snow02.ogg#552084",
+					"snow03.ogg#552058",
+					"snow04.ogg#552073",
+					"snow05.ogg#552077",
 					"stone01.ogg#552090",
 					"stone02.ogg#552068",
 					"stone03.ogg#552070",
@@ -1230,6 +1235,8 @@
 					"wood03.ogg#552076",
 					"wood04.ogg#552066",
 					"wood05.ogg#552063",
+
+					-- Water is sound/character/footsteps/watersplash/footstepsmediumwater
 
 				},
 
@@ -8871,7 +8878,7 @@
 
 			SetCVar("chatClassColorOverride", "0")
 
-			for void, v in ipairs({"SAY", "EMOTE", "YELL", "GUILD", "OFFICER", "WHISPER", "PARTY", "PARTY_LEADER", "RAID", "RAID_LEADER", "RAID_WARNING", "INSTANCE_CHAT", "INSTANCE_CHAT_LEADER"}) do
+			for void, v in ipairs({"SAY", "EMOTE", "YELL", "GUILD", "OFFICER", "WHISPER", "PARTY", "PARTY_LEADER", "RAID", "RAID_LEADER", "RAID_WARNING", "INSTANCE_CHAT", "INSTANCE_CHAT_LEADER", "VOICE_TEXT"}) do
 				SetChatColorNameByClass(v, true)
 			end
 
@@ -13411,7 +13418,7 @@
 		if LeaPlusDB["ClassColorsInChat"] == "On" and not LeaLockList["ClassColorsInChat"] then
 			if wipe or (not wipe and LeaPlusLC["ClassColorsInChat"] == "Off") then
 				SetCVar("chatClassColorOverride", "1")
-				for void, v in ipairs({"SAY", "EMOTE", "YELL", "GUILD", "OFFICER", "WHISPER", "PARTY", "PARTY_LEADER", "RAID", "RAID_LEADER", "RAID_WARNING", "INSTANCE_CHAT", "INSTANCE_CHAT_LEADER"}) do
+				for void, v in ipairs({"SAY", "EMOTE", "YELL", "GUILD", "OFFICER", "WHISPER", "PARTY", "PARTY_LEADER", "RAID", "RAID_LEADER", "RAID_WARNING", "INSTANCE_CHAT", "INSTANCE_CHAT_LEADER", "VOICE_TEXT"}) do
 					SetChatColorNameByClass(v, false)
 				end
 				for i = 1, 50 do
