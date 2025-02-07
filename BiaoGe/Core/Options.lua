@@ -1866,7 +1866,7 @@ BG.Init(function()
         -- 删除按钮
         local bt = CreateFrame("Button", nil, roleOverview)
         bt:SetHeight(22)
-        bt:SetPoint("TOPRIGHT", BG.optionsBackground, -30, -15)
+        bt:SetPoint("TOPRIGHT", BG.optionsBackground:GetWidth()-45, -5)
         bt:SetNormalFontObject(BG.FontRed15)
         bt:SetDisabledFontObject(BG.FontDis15)
         bt:SetHighlightFontObject(BG.FontWhite15)
