@@ -7,7 +7,7 @@ else
 	mod.statTypes = "normal"
 end
 
-mod:SetRevision("20241222110740")
+mod:SetRevision("20250207103030")
 mod:SetCreatureID(16060)
 mod:SetEncounterID(1109)
 mod:SetModelID(16279)
@@ -18,6 +18,9 @@ mod:RegisterCombat("combat")
 mod:RegisterEventsInCombat(
 	"UNIT_DIED"
 )
+
+-- New spell ID found in logs on SoD
+-- 1226282 Just some new Shadow Bolt
 
 --(source.type = "NPC" and source.firstSeen = timestamp) or (target.type = "NPC" and target.firstSeen = timestamp)
 local warnWaveNow		= mod:NewAnnounce("WarningWaveSpawned", 3, nil, false)

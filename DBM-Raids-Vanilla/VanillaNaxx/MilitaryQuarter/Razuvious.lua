@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("RazuviousVanilla", "DBM-Raids-Vanilla", 1)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20241222110740")
+mod:SetRevision("20250207103030")
 mod:SetCreatureID(16061)
 mod:SetEncounterID(1113)
 mod:SetModelID(16582)
@@ -19,6 +19,9 @@ mod:RegisterEventsInCombat(
 	"SPELL_CAST_SUCCESS 29107 29060 29061",--55543
 	"UNIT_DIED"
 )
+
+-- New spell ID found in logs on SoD
+-- 1225423 (Disarm) cast by Understudies, TBD if we want to do something with that
 
 local warnShoutNow		= mod:NewSpellAnnounce(29107, 1, 6673)
 local warnShoutSoon		= mod:NewSoonAnnounce(29107, 3, 6673)
