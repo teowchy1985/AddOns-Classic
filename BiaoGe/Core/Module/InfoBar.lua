@@ -30,6 +30,8 @@ local AFDtbl = {
     -- 600
     "露露缇娅",
     "陈",
+    -- 360
+    "龙之召唤<破冰>粥糟-粥枣",
     -- 300
     "永恒",
     -- 180
@@ -69,7 +71,7 @@ local AFDtbl = {
     -- "",
     -- "",
     -- "",
-    --最后更新时间：25/1/21 23:23
+    --最后更新时间：25/2/8 12:00
 }
 
 
@@ -92,10 +94,7 @@ BG.Init(function()
         BG.ButtonRoleOverview = bt
         lastBt = bt
         bt:SetScript("OnEnter", function(self)
-            BG.SetFBCD()
-            BG.FBCDFrame:ClearAllPoints()
-            BG.FBCDFrame:SetPoint("BOTTOMRIGHT", self, "TOPRIGHT", 0, 0)
-            BG.FBCDFrame:Show()
+            BG.SetFBCD(self)
         end)
         bt:SetScript("OnLeave", function(self)
             if BG.FBCDFrame:GetHeight() > BG.MainFrame:GetHeight() - 30 then

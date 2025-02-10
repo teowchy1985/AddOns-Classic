@@ -3,6 +3,6 @@
 ## Notes: 插件命令：/BiaoGe 或 /GBG
 ## Author: 苍穹之霜
 ## SavedVariables: BiaoGe
-## Version: 1.13.9
+## Version: 1.14.0
 
 BiaoGe.xml

@@ -111,7 +111,7 @@ BG.Init(function()
                 f.Text:SetFont(STANDARD_TEXT_FONT, 15, "OUTLINE")
                 f.Text:SetTextColor(RGB(BG.y2))
                 f.Text:SetAllPoints()
-                f.Text:SetWordWrap(false) -- 截断
+                f.Text:SetWordWrap(false)
                 f.Text:SetText(v.name)
                 f.Text:SetTextColor(1, 1, 0)
                 f.Text:SetJustifyH("RIGHT")
@@ -493,7 +493,7 @@ BG.Init(function()
             f.Text:SetPoint("CENTER")
             f.Text:SetText(title_table[i].name)
             f.Text:SetTextColor(RGB(title_table[i].color))
-            f.Text:SetWordWrap(false) -- 截断
+            f.Text:SetWordWrap(false)
             if title_table[i].name == L["理由"] then
                 f.Text:SetJustifyH("LEFT")
             end
@@ -665,7 +665,7 @@ BG.Init(function()
                         BiaoGe.YYdb.all[ii].edit }
                     f.Text:SetText(i_table[i])
                     -- f.Text:SetTextColor(RGB(PingjiaColor(BiaoGe.YYdb.all[ii].pingjia)))
-                    f.Text:SetWordWrap(false) -- 截断
+                    f.Text:SetWordWrap(false)
                     if f.Text:GetStringWidth() + 3 > f:GetWidth() then
                         f.onenter = i_table[i]
                     end
@@ -744,7 +744,7 @@ BG.Init(function()
             f.Text:SetFont(STANDARD_TEXT_FONT, 15, "OUTLINE")
             f.Text:SetTextColor(RGB(BG.y2))
             f.Text:SetAllPoints()
-            f.Text:SetWordWrap(false) -- 截断
+            f.Text:SetWordWrap(false)
             f.Text:SetText("YY: ")
             f.Text:SetTextColor(1, 1, 1)
             f.Text:SetJustifyH("RIGHT")
@@ -1118,7 +1118,7 @@ BG.Init(function()
                 f.Text:SetPoint("CENTER")
                 f.Text:SetText(title_table[i].name)
                 f.Text:SetTextColor(RGB(title_table[i].color))
-                f.Text:SetWordWrap(false) -- 截断
+                f.Text:SetWordWrap(false)
                 if title_table[i].name == L["理由"] then
                     f.Text:SetJustifyH("LEFT")
                 end
@@ -1194,7 +1194,7 @@ BG.Init(function()
                                 BiaoGe.YYdb.history[num].all[ii].edit }
                             f.Text:SetText(i_table[i])
                             f.Text:SetTextColor(RGB(Y.PingjiaColor(BiaoGe.YYdb.history[num].all[ii].pingjia)))
-                            f.Text:SetWordWrap(false) -- 截断
+                            f.Text:SetWordWrap(false)
                             if f.Text:GetStringWidth() + 3 > f:GetWidth() then
                                 f.onenter = i_table[i]
                             end
@@ -1787,7 +1787,7 @@ BG.Init(function()
                     f.Text = f:CreateFontString()
                     f.Text:SetFont(STANDARD_TEXT_FONT, 15, "OUTLINE")
                     f.Text:SetAllPoints()
-                    f.Text:SetWordWrap(false) -- 截断
+                    f.Text:SetWordWrap(false)
                     f.Text:SetText(text_table[i].name)
                     f.Text:SetTextColor(1, 1, 0)
                     f.Text:SetJustifyH("RIGHT")

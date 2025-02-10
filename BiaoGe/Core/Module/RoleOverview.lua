@@ -313,7 +313,6 @@ function BG.RoleOverviewUI()
 
     local FBCDchoice_table = {}
     local MONEYchoice_table = {}
-    BG.PlayerItemsLevel = {}
 
     ------------------角色总览UI------------------
     local fontsize = 13
@@ -322,9 +321,8 @@ function BG.RoleOverviewUI()
     local height = 20
     local width_jiange = 5
     local line_height = 4
-    function BG.SetFBCD(position)
+    function BG.SetFBCD(self, position)
         BG.UpdateFBCD()
-
         FBCDchoice_table = {}
         MONEYchoice_table = {}
         -- 根据你选择的副本，生成table
@@ -369,7 +367,8 @@ function BG.RoleOverviewUI()
         f:SetSize(300, 100)
         f:SetClampedToScreen(true)
         f:EnableMouse(true)
-        f:Hide()
+        f.lastPosition = position
+        f.lastSelf = self
         if BiaoGe.options.scale then
             f:SetScale(BiaoGe.options.scale)
         end
@@ -381,6 +380,15 @@ function BG.RoleOverviewUI()
             f.isOnEnter = nil
             f:Hide()
         end)
+        if position and position == "minimap" then
+            if BG.ButtonIsInRight(self) then
+                BG.FBCDFrame:SetPoint("TOPRIGHT", self, "BOTTOMLEFT", 0, 0)
+            else
+                BG.FBCDFrame:SetPoint("TOPLEFT", self, "BOTTOMRIGHT", 0, 0)
+            end
+        else
+            BG.FBCDFrame:SetPoint("BOTTOMRIGHT", self, "TOPRIGHT", 0, 0)
+        end
 
         --------- 角色团本完成总览 ---------
         local t = f:CreateFontString()
@@ -388,7 +396,7 @@ function BG.RoleOverviewUI()
         t:SetPoint("TOPLEFT", 15, -10 - (n - 1) * height)
         t:SetText(BG.STC_g1(L["< 角色团本完成总览 >"]))
         t:SetJustifyH("LEFT")
-        t:SetWordWrap(false) -- 截断
+        t:SetWordWrap(false)
         local FBCDTitle = t
         local FBCDResetTitle
         n = n + 1
@@ -430,7 +438,7 @@ function BG.RoleOverviewUI()
                 t_end:SetPoint("TOPLEFT", t, "BOTTOMLEFT", 0, -3)
                 t_end:SetText(BG.STC_dis(resettext:gsub("（", ""):gsub("）", ""):gsub("%(", ""):gsub("%)", "")))
                 t_end:SetJustifyH("LEFT")
-                t_end:SetWordWrap(false) -- 截断
+                t_end:SetWordWrap(false)
                 FBCDResetTitle = t_end
             else
                 t:SetText(t:GetText() .. resettext)
@@ -494,55 +502,58 @@ function BG.RoleOverviewUI()
                             local level = db.playerInfo[realmID] and db.playerInfo[realmID][player] and db.playerInfo[realmID][player].level
                             if (level and level >= BiaoGe.options["roleOverviewNotShowLevel"]) or not level then
                                 local class = db.playerInfo[realmID] and db.playerInfo[realmID][player] and db.playerInfo[realmID][player].class
-                                local colorplayer
                                 if class then
-                                    colorplayer = "|c" .. select(4, GetClassColor(class)) .. player .. (isAccounts and "*" or "")
+                                    local colorplayer = "|c" .. select(4, GetClassColor(class)) .. player .. (isAccounts and "*" or "")
+                                    tinsert(newTbl, {
+                                        player = player,
+                                        colorplayer = colorplayer,
+                                        class = class,
+                                        iLevel = db.PlayerItemsLevel[realmID][player],
+                                        tbl = BG.Copy(v)
+                                    })
                                 end
-                                tinsert(newTbl, {
-                                    player = player,
-                                    colorplayer = colorplayer,
-                                    class = class,
-                                    iLevel = db.PlayerItemsLevel[realmID][player],
-                                    tbl = BG.Copy(v)
-                                })
                             end
                         end
                     end
                 end
             end
             AddDB(BiaoGe)
-            AddDB(BiaoGeAccounts, true)
-
-            sort(newTbl, function(a, b)
-                local s = BiaoGe.options["roleOverviewSort1"]
-                local tbl = { strsplit("-", s) }
-                for _, key in ipairs(tbl) do
-                    if a[key] and b[key] then
-                        if a[key] ~= b[key] then
-                            return a[key] > b[key]
-                        end
-                    end
-                end
-                return false
-            end)
+            if not IsAltKeyDown() then
+                AddDB(BiaoGeAccounts, true)
+            end
+            BG.SortRoleOverview(newTbl)
 
             local num = 1
             for _, v in ipairs(newTbl) do
                 local colorplayer = v.colorplayer
-                if colorplayer then
-                    local player = v.player
-                    local iLevel = v.iLevel
-                    -- 玩家名字
-                    local t = BG.FBCDFrame:CreateFontString()
-                    t:SetFont(STANDARD_TEXT_FONT, fontsize, "OUTLINE")
-                    t:SetPoint("TOPLEFT", BG.FBCDFrame, "TOPLEFT",
-                        FBCDchoice_table[1].width, -10 - height * n)
-                    t:SetText(colorplayer .. " |cff808080(" .. Round(iLevel, 0) .. ")|r")
+                local player = v.player
+                local iLevel = v.iLevel
+                -- 玩家名字
+                local t = BG.FBCDFrame:CreateFontString()
+                t:SetFont(STANDARD_TEXT_FONT, fontsize, "OUTLINE")
+                t:SetPoint("TOPLEFT", BG.FBCDFrame, "TOPLEFT",
+                    FBCDchoice_table[1].width, -10 - height * n)
+                t:SetText(colorplayer .. " |cff808080(" .. Round(iLevel, 0) .. ")|r")
 
-                    -- 副本CD
-                    for _, cd in pairs(v.tbl) do
-                        for ii, vv in pairs(FBCDchoice_table) do
-                            if (cd.fbId and (cd.fbId == vv.fbId)) and ((cd.num and (cd.num == vv.num)) or (not vv.num)) then
+                -- 副本CD
+                for _, cd in pairs(v.tbl) do
+                    for ii, vv in pairs(FBCDchoice_table) do
+                        if (cd.fbId and (cd.fbId == vv.fbId)) and ((cd.num and (cd.num == vv.num)) or (not vv.num)) then
+                            local tx = BG.FBCDFrame:CreateTexture(nil, "OVERLAY")
+                            tx:SetSize(16, 16)
+                            tx:SetPoint("TOP", BG.FBCDFrame, "TOPLEFT",
+                                (FBCDchoice_table[ii].width + text_table[ii]:GetWidth() / 2),
+                                (-8 - height * n))
+                            tx:SetTexture("interface/raidframe/readycheck-ready")
+                        end
+                    end
+                end
+
+                -- 日常
+                if BiaoGe.QuestCD[realmID][player] then
+                    for name in pairs(BiaoGe.QuestCD[realmID][player]) do
+                        for ii, vv in ipairs(FBCDchoice_table) do
+                            if name == vv.name then
                                 local tx = BG.FBCDFrame:CreateTexture(nil, "OVERLAY")
                                 tx:SetSize(16, 16)
                                 tx:SetPoint("TOP", BG.FBCDFrame, "TOPLEFT",
@@ -552,189 +563,80 @@ function BG.RoleOverviewUI()
                             end
                         end
                     end
-
-                    -- 日常
-                    if BiaoGe.QuestCD[realmID][player] then
-                        for name in pairs(BiaoGe.QuestCD[realmID][player]) do
-                            for ii, vv in ipairs(FBCDchoice_table) do
-                                if name == vv.name then
-                                    local tx = BG.FBCDFrame:CreateTexture(nil, "OVERLAY")
-                                    tx:SetSize(16, 16)
-                                    tx:SetPoint("TOP", BG.FBCDFrame, "TOPLEFT",
-                                        (FBCDchoice_table[ii].width + text_table[ii]:GetWidth() / 2),
-                                        (-8 - height * n))
-                                    tx:SetTexture("interface/raidframe/readycheck-ready")
-                                end
-                            end
-                        end
-                    elseif BiaoGeAccounts and BiaoGeAccounts.QuestCD and BiaoGeAccounts.QuestCD[realmID] and BiaoGeAccounts.QuestCD[realmID][player] then
-                        for name in pairs(BiaoGeAccounts.QuestCD[realmID][player]) do
-                            for ii, vv in ipairs(FBCDchoice_table) do
-                                if name == vv.name then
-                                    local tx = BG.FBCDFrame:CreateTexture(nil, "OVERLAY")
-                                    tx:SetSize(16, 16)
-                                    tx:SetPoint("TOP", BG.FBCDFrame, "TOPLEFT",
-                                        (FBCDchoice_table[ii].width + text_table[ii]:GetWidth() / 2),
-                                        (-8 - height * n))
-                                    tx:SetTexture("interface/raidframe/readycheck-ready")
-                                end
-                            end
-                        end
-                        -- end
-                    end
-
-
-                    -- 专业
-                    if BiaoGe.tradeSkillCooldown and BiaoGe.tradeSkillCooldown[realmID] and BiaoGe.tradeSkillCooldown[realmID][player] then
-                        for profession, v in pairs(BiaoGe.tradeSkillCooldown[realmID][player]) do
-                            for ii, vv in ipairs(FBCDchoice_table) do
-                                if profession == vv.name then
-                                    local t = f:CreateFontString()
-                                    t:SetFont(STANDARD_TEXT_FONT, fontsize, "OUTLINE")
-                                    t:SetPoint("TOP", BG.FBCDFrame, "TOPLEFT",
-                                        (FBCDchoice_table[ii].width + text_table[ii]:GetWidth() / 2),
-                                        (-8 - height * n))
-                                    if v.ready then
-                                        t:SetTextColor(RGB("00FF00"))
-                                        t:SetText(READY)
-                                    else
-                                        t:SetTextColor(RGB("FFD100"))
-                                        t:SetText(BG.SecondsToTime(v.resettime))
-                                    end
-                                end
-                            end
-                        end
-                    elseif BiaoGeAccounts and BiaoGeAccounts.tradeSkillCooldown and BiaoGeAccounts.tradeSkillCooldown[realmID] and BiaoGeAccounts.tradeSkillCooldown[realmID][player] then
-                        for profession, v in pairs(BiaoGeAccounts.tradeSkillCooldown[realmID][player]) do
-                            for ii, vv in ipairs(FBCDchoice_table) do
-                                if profession == vv.name then
-                                    local t = f:CreateFontString()
-                                    t:SetFont(STANDARD_TEXT_FONT, fontsize, "OUTLINE")
-                                    t:SetPoint("TOP", BG.FBCDFrame, "TOPLEFT",
-                                        (FBCDchoice_table[ii].width + text_table[ii]:GetWidth() / 2),
-                                        (-8 - height * n))
-                                    if v.ready then
-                                        t:SetTextColor(RGB("00FF00"))
-                                        t:SetText(READY)
-                                    else
-                                        t:SetTextColor(RGB("FFD100"))
-                                        t:SetText(BG.SecondsToTime(v.resettime))
-                                    end
-                                end
+                elseif BiaoGeAccounts and BiaoGeAccounts.QuestCD and BiaoGeAccounts.QuestCD[realmID] and BiaoGeAccounts.QuestCD[realmID][player] then
+                    for name in pairs(BiaoGeAccounts.QuestCD[realmID][player]) do
+                        for ii, vv in ipairs(FBCDchoice_table) do
+                            if name == vv.name then
+                                local tx = BG.FBCDFrame:CreateTexture(nil, "OVERLAY")
+                                tx:SetSize(16, 16)
+                                tx:SetPoint("TOP", BG.FBCDFrame, "TOPLEFT",
+                                    (FBCDchoice_table[ii].width + text_table[ii]:GetWidth() / 2),
+                                    (-8 - height * n))
+                                tx:SetTexture("interface/raidframe/readycheck-ready")
                             end
                         end
                     end
-                    n = n + 1
-
-                    if player == UnitName("player") then
-                        local l = f:CreateLine(nil, "BACKGROUND")
-                        l:SetStartPoint("TOPLEFT", BG.FBCDFrame, 5, -10 - height * (n - 0.5) + line_height)
-                        l:SetEndPoint("TOPRIGHT", BG.FBCDFrame, -5, -10 - height * (n - 0.5) + line_height)
-                        l:SetThickness(height - 4)
-                        l:SetColorTexture(GetClassRGB(nil, "player", 0.3))
-                    end
-
-                    local l = f:CreateLine()
-                    l:SetStartPoint("TOPLEFT", BG.FBCDFrame, 5, -10 - height * n + line_height)
-                    l:SetEndPoint("TOPLEFT", BG.FBCDFrame, totalwidth - 5, -10 - height * n + line_height)
-                    l:SetThickness(1)
-                    l:SetColorTexture(RGB("808080", 1))
-                    num = num + 1
+                    -- end
                 end
+
+                -- 专业
+                if BiaoGe.tradeSkillCooldown and BiaoGe.tradeSkillCooldown[realmID] and BiaoGe.tradeSkillCooldown[realmID][player] then
+                    for profession, v in pairs(BiaoGe.tradeSkillCooldown[realmID][player]) do
+                        for ii, vv in ipairs(FBCDchoice_table) do
+                            if profession == vv.name then
+                                local t = f:CreateFontString()
+                                t:SetFont(STANDARD_TEXT_FONT, fontsize, "OUTLINE")
+                                t:SetPoint("TOP", BG.FBCDFrame, "TOPLEFT",
+                                    (FBCDchoice_table[ii].width + text_table[ii]:GetWidth() / 2),
+                                    (-8 - height * n))
+                                if v.ready then
+                                    t:SetTextColor(RGB("00FF00"))
+                                    t:SetText(READY)
+                                else
+                                    t:SetTextColor(RGB("FFD100"))
+                                    t:SetText(BG.SecondsToTime(v.resettime))
+                                end
+                            end
+                        end
+                    end
+                elseif BiaoGeAccounts and BiaoGeAccounts.tradeSkillCooldown and BiaoGeAccounts.tradeSkillCooldown[realmID] and BiaoGeAccounts.tradeSkillCooldown[realmID][player] then
+                    for profession, v in pairs(BiaoGeAccounts.tradeSkillCooldown[realmID][player]) do
+                        for ii, vv in ipairs(FBCDchoice_table) do
+                            if profession == vv.name then
+                                local t = f:CreateFontString()
+                                t:SetFont(STANDARD_TEXT_FONT, fontsize, "OUTLINE")
+                                t:SetPoint("TOP", BG.FBCDFrame, "TOPLEFT",
+                                    (FBCDchoice_table[ii].width + text_table[ii]:GetWidth() / 2),
+                                    (-8 - height * n))
+                                if v.ready then
+                                    t:SetTextColor(RGB("00FF00"))
+                                    t:SetText(READY)
+                                else
+                                    t:SetTextColor(RGB("FFD100"))
+                                    t:SetText(BG.SecondsToTime(v.resettime))
+                                end
+                            end
+                        end
+                    end
+                end
+                n = n + 1
+
+                if player == UnitName("player") then
+                    local l = f:CreateLine(nil, "BACKGROUND")
+                    l:SetStartPoint("TOPLEFT", BG.FBCDFrame, 5, -10 - height * (n - 0.5) + line_height)
+                    l:SetEndPoint("TOPRIGHT", BG.FBCDFrame, -5, -10 - height * (n - 0.5) + line_height)
+                    l:SetThickness(height - 4)
+                    l:SetColorTexture(GetClassRGB(nil, "player", 0.3))
+                end
+
+                local l = f:CreateLine()
+                l:SetStartPoint("TOPLEFT", BG.FBCDFrame, 5, -10 - height * n + line_height)
+                l:SetEndPoint("TOPLEFT", BG.FBCDFrame, totalwidth - 5, -10 - height * n + line_height)
+                l:SetThickness(1)
+                l:SetColorTexture(RGB("808080", 1))
+                num = num + 1
             end
 
-
-            --[[             local num = 1
-            for i, _ in ipairs(BG.PlayerItemsLevel) do
-                for player, v in pairs(BiaoGe.FBCD[realmID]) do
-                    if BG.PlayerItemsLevel[i].player == player then
-                        if type(v) == "table" and Size(v) ~= 0 then
-                            -- 玩家名字
-                            local t = BG.FBCDFrame:CreateFontString()
-                            t:SetFont(STANDARD_TEXT_FONT, fontsize, "OUTLINE")
-                            t:SetPoint("TOPLEFT", BG.FBCDFrame, "TOPLEFT",
-                                FBCDchoice_table[1].width, -10 - height * n)
-                            for i, cd in pairs(BiaoGe.FBCD[realmID][player]) do
-                                if type(cd) == "table" then
-                                    local level = ""
-                                    if BiaoGe.PlayerItemsLevel[realmID][cd.player] and BiaoGe.PlayerItemsLevel[realmID][cd.player] ~= 0 then
-                                        level = " |cff808080(" .. Round(BiaoGe.PlayerItemsLevel[realmID][cd.player], 0) .. ")|r"
-                                    end
-                                    t:SetText(cd.colorplayer .. level)
-                                    break
-                                end
-                            end
-                            -- 副本CD
-                            for i, cd in pairs(BiaoGe.FBCD[realmID][player]) do
-                                for ii, vv in pairs(FBCDchoice_table) do -- 创建cd勾勾
-                                    if (cd.fbId and (cd.fbId == vv.fbId)) and ((cd.num and (cd.num == vv.num)) or (not vv.num)) then
-                                        local tx = BG.FBCDFrame:CreateTexture(nil, "OVERLAY")
-                                        tx:SetSize(16, 16)
-                                        tx:SetPoint("TOP", BG.FBCDFrame, "TOPLEFT",
-                                            (FBCDchoice_table[ii].width + text_table[ii]:GetWidth() / 2),
-                                            (-8 - height * n))
-                                        tx:SetTexture("interface/raidframe/readycheck-ready")
-                                    end
-                                end
-                            end
-
-                            -- 日常
-                            if BiaoGe.QuestCD[realmID][player] then
-                                for name in pairs(BiaoGe.QuestCD[realmID][player]) do
-                                    for ii, vv in ipairs(FBCDchoice_table) do -- 创建cd勾勾
-                                        if name == vv.name then
-                                            local tx = BG.FBCDFrame:CreateTexture(nil, "OVERLAY")
-                                            tx:SetSize(16, 16)
-                                            tx:SetPoint("TOP", BG.FBCDFrame, "TOPLEFT",
-                                                (FBCDchoice_table[ii].width + text_table[ii]:GetWidth() / 2),
-                                                (-8 - height * n))
-                                            tx:SetTexture("interface/raidframe/readycheck-ready")
-                                        end
-                                    end
-                                end
-                            end
-
-                            -- 专业
-                            if BiaoGe.tradeSkillCooldown and BiaoGe.tradeSkillCooldown[realmID] and BiaoGe.tradeSkillCooldown[realmID][player] then
-                                for profession, v in pairs(BiaoGe.tradeSkillCooldown[realmID][player]) do
-                                    for ii, vv in ipairs(FBCDchoice_table) do -- 创建cd勾勾
-                                        if profession == vv.name then
-                                            local t = f:CreateFontString()
-                                            t:SetFont(STANDARD_TEXT_FONT, fontsize, "OUTLINE")
-                                            t:SetPoint("TOP", BG.FBCDFrame, "TOPLEFT",
-                                                (FBCDchoice_table[ii].width + text_table[ii]:GetWidth() / 2),
-                                                (-8 - height * n))
-                                            if v.ready then
-                                                t:SetTextColor(RGB("00FF00"))
-                                                t:SetText(READY)
-                                            else
-                                                t:SetTextColor(RGB("FFD100"))
-                                                t:SetText(BG.SecondsToTime(v.resettime))
-                                            end
-                                        end
-                                    end
-                                end
-                            end
-                            n = n + 1
-
-                            if player == UnitName("player") then
-                                local l = f:CreateLine(nil, "BACKGROUND")
-                                l:SetStartPoint("TOPLEFT", BG.FBCDFrame, 5, -10 - height * (n - 0.5) + line_height)
-                                l:SetEndPoint("TOPRIGHT", BG.FBCDFrame, -5, -10 - height * (n - 0.5) + line_height)
-                                l:SetThickness(height - 4)
-                                l:SetColorTexture(GetClassRGB(nil, "player", 0.3))
-                            end
-
-                            local l = f:CreateLine()
-                            l:SetStartPoint("TOPLEFT", BG.FBCDFrame, 5, -10 - height * n + line_height)
-                            l:SetEndPoint("TOPLEFT", BG.FBCDFrame, totalwidth - 5, -10 - height * n + line_height)
-                            l:SetThickness(1)
-                            l:SetColorTexture(RGB("808080", 1))
-                            num = num + 1
-                        end
-                    end
-                end
-            end ]]
             if num == 1 then
                 local t = BG.FBCDFrame:CreateFontString()
                 t:SetFont(STANDARD_TEXT_FONT, fontsize, "OUTLINE")
@@ -746,16 +648,20 @@ function BG.RoleOverviewUI()
 
         --------- 角色货币总览 ---------
         n = n + 1
-        local minimapText = L["|cff808080（右键打开设置）|r"]
+        local accountsText = ""
+        if BiaoGeAccounts then
+            accountsText = L["，长按ALT仅显示本账号角色"]
+        end
+        local minimapText = L["|cff808080（右键打开设置%s）|r"]
         if position == "minimap" then
-            minimapText = L["|cff808080（左键打开表格，右键打开设置）|r"]
+            minimapText = L["|cff808080（左键打开表格，右键打开设置%s）|r"]
         end
         local t = f:CreateFontString()
         t:SetFont(STANDARD_TEXT_FONT, fontsize2, "OUTLINE")
         t:SetPoint("TOPLEFT", 15, -10 - height * n)
         t:SetText(BG.STC_g1(L["< 角色货币总览 >"]))
         t:SetJustifyH("LEFT")
-        t:SetWordWrap(false) -- 截断
+        t:SetWordWrap(false)
         t:SetWidth(totalwidth - 20)
 
         if BG.IsVanilla_Sod then
@@ -764,11 +670,11 @@ function BG.RoleOverviewUI()
             t_end:SetPoint("TOPLEFT", t, "BOTTOMLEFT", 0, -3)
             t_end:SetText(BG.STC_dis((minimapText:gsub("（", ""):gsub("）", ""):gsub("%(", ""):gsub("%)", ""))))
             t_end:SetJustifyH("LEFT")
-            t_end:SetWordWrap(false) -- 截断
+            t_end:SetWordWrap(false)
             t_end:SetWidth(totalwidth - 20)
             FBCDResetTitle = t_end
         else
-            t:SetText(t:GetText() .. minimapText)
+            t:SetText(t:GetText() .. format(minimapText, accountsText))
         end
 
         FBCDTitle:SetWidth(totalwidth - 20) -- 标题设置宽度
@@ -822,7 +728,9 @@ function BG.RoleOverviewUI()
                 end
             end
             DefaultDB(BiaoGe, copyTbl1)
-            DefaultDB(BiaoGeAccounts, copyTbl2)
+            if not IsAltKeyDown() then
+                DefaultDB(BiaoGeAccounts, copyTbl2)
+            end
         end
 
         -- Money标题
@@ -848,7 +756,7 @@ function BG.RoleOverviewUI()
                 t:SetText(v.name)
                 t:SetTextColor(RGB(v.color))
                 t:SetWidth(MONEYchoice_table[i].width - 10)
-                t:SetWordWrap(false) -- 截断
+                t:SetWordWrap(false)
 
                 right = t
             end
@@ -870,37 +778,24 @@ function BG.RoleOverviewUI()
                         local level = db.playerInfo[realmID] and db.playerInfo[realmID][player] and db.playerInfo[realmID][player].level
                         if (level and level >= BiaoGe.options["roleOverviewNotShowLevel"]) or not level then
                             local class = db.playerInfo[realmID] and db.playerInfo[realmID][player] and db.playerInfo[realmID][player].class
-                            local colorplayer
                             if class then
-                                colorplayer = "|c" .. select(4, GetClassColor(class)) .. player .. (isAccounts and "*" or "")
+                                local colorplayer = "|c" .. select(4, GetClassColor(class)) .. player .. (isAccounts and "*" or "")
+                                tinsert(newTbl, {
+                                    player = player,
+                                    colorplayer = colorplayer,
+                                    class = class,
+                                    iLevel = db.PlayerItemsLevel[realmID][player],
+                                    level = level,
+                                    tbl = v
+                                })
                             end
-                            tinsert(newTbl, {
-                                player = player,
-                                colorplayer = colorplayer,
-                                class = class,
-                                iLevel = db.PlayerItemsLevel[realmID][player],
-                                level = level,
-                                tbl = v
-                            })
                         end
                     end
                 end
             end
             AddDB(BiaoGe, copyTbl1)
             AddDB(BiaoGeAccounts, copyTbl2, true)
-
-            sort(newTbl, function(a, b)
-                local s = BiaoGe.options["roleOverviewSort1"]
-                local tbl = { strsplit("-", s) }
-                for _, key in ipairs(tbl) do
-                    if a[key] and b[key] then
-                        if a[key] ~= b[key] then
-                            return a[key] > b[key]
-                        end
-                    end
-                end
-                return false
-            end)
+            BG.SortRoleOverview(newTbl)
 
             -- 计算合计
             for ii in ipairs(newTbl) do
@@ -914,58 +809,56 @@ function BG.RoleOverviewUI()
 
             for _, v in ipairs(newTbl) do
                 local colorplayer = v.colorplayer
-                if colorplayer then
-                    local player = v.player
-                    local level = v.level
-                    local right
-                    -- 名字
-                    local levelText = ""
-                    if level then levelText = BG.STC_dis(" (" .. level .. ")") end
-                    local t_name = f:CreateFontString()
-                    t_name:SetFont(STANDARD_TEXT_FONT, fontsize, "OUTLINE")
-                    t_name:SetPoint("TOPLEFT", BG.FBCDFrame, "TOPLEFT", 15, -10 - height * n)
-                    t_name:SetText(colorplayer .. levelText)
-                    right = t_name
+                local player = v.player
+                local level = v.level
+                local right
+                -- 名字
+                local levelText = ""
+                if level then levelText = BG.STC_dis(" (" .. level .. ")") end
+                local t_name = f:CreateFontString()
+                t_name:SetFont(STANDARD_TEXT_FONT, fontsize, "OUTLINE")
+                t_name:SetPoint("TOPLEFT", BG.FBCDFrame, "TOPLEFT", 15, -10 - height * n)
+                t_name:SetText(colorplayer .. levelText)
+                right = t_name
 
-                    -- 牌子
-                    local pz = v.tbl
-                    for ii = 2, #MONEYchoice_table do
-                        local vv = MONEYchoice_table[ii]
-                        local id = vv.id
-                        local count = GetCount(pz, id)
-                        count = tostring(count):gsub("-", "") .. " " .. AddTexture(vv.tex)
-                        local t_paizi = f:CreateFontString()
-                        t_paizi:SetFont(STANDARD_TEXT_FONT, fontsize, "OUTLINE")
-                        local width
-                        if ii == 2 then
-                            width = MONEYchoice_table[ii - 1].width + MONEYchoice_table[ii].width
-                            t_paizi:SetPoint("TOPRIGHT", right, "TOPLEFT", width, 0)
-                        else
-                            width = MONEYchoice_table[ii].width
-                            t_paizi:SetPoint("TOPRIGHT", right, "TOPRIGHT", width, 0)
-                        end
-                        t_paizi:SetText(count)
-                        if count:match("^%d+") == "0" or count:find(L["未知"]) then
-                            t_paizi:SetTextColor(0.5, 0.5, 0.5)
-                        end
-                        right = t_paizi
+                -- 牌子
+                local pz = v.tbl
+                for ii = 2, #MONEYchoice_table do
+                    local vv = MONEYchoice_table[ii]
+                    local id = vv.id
+                    local count = GetCount(pz, id)
+                    count = tostring(count):gsub("-", "") .. " " .. AddTexture(vv.tex)
+                    local t_paizi = f:CreateFontString()
+                    t_paizi:SetFont(STANDARD_TEXT_FONT, fontsize, "OUTLINE")
+                    local width
+                    if ii == 2 then
+                        width = MONEYchoice_table[ii - 1].width + MONEYchoice_table[ii].width
+                        t_paizi:SetPoint("TOPRIGHT", right, "TOPLEFT", width, 0)
+                    else
+                        width = MONEYchoice_table[ii].width
+                        t_paizi:SetPoint("TOPRIGHT", right, "TOPRIGHT", width, 0)
                     end
-                    n = n + 1
-
-                    if player == UnitName("player") then
-                        local l = f:CreateLine()
-                        l:SetStartPoint("TOPLEFT", BG.FBCDFrame, 5, -10 - height * (n - 0.5) + line_height)
-                        l:SetEndPoint("TOPRIGHT", BG.FBCDFrame, -5, -10 - height * (n - 0.5) + line_height)
-                        l:SetThickness(height - 4)
-                        l:SetColorTexture(GetClassRGB(nil, "player", 0.3))
+                    t_paizi:SetText(count)
+                    if count:match("^%d+") == "0" or count:find(L["未知"]) then
+                        t_paizi:SetTextColor(0.5, 0.5, 0.5)
                     end
-
-                    local l = f:CreateLine()
-                    l:SetStartPoint("TOPLEFT", BG.FBCDFrame, 5, -10 - height * n + line_height)
-                    l:SetEndPoint("TOPLEFT", BG.FBCDFrame, totalwidth - 5, -10 - height * n + line_height)
-                    l:SetThickness(1)
-                    l:SetColorTexture(RGB("808080", 1))
+                    right = t_paizi
                 end
+                n = n + 1
+
+                if player == UnitName("player") then
+                    local l = f:CreateLine()
+                    l:SetStartPoint("TOPLEFT", BG.FBCDFrame, 5, -10 - height * (n - 0.5) + line_height)
+                    l:SetEndPoint("TOPRIGHT", BG.FBCDFrame, -5, -10 - height * (n - 0.5) + line_height)
+                    l:SetThickness(height - 4)
+                    l:SetColorTexture(GetClassRGB(nil, "player", 0.3))
+                end
+
+                local l = f:CreateLine()
+                l:SetStartPoint("TOPLEFT", BG.FBCDFrame, 5, -10 - height * n + line_height)
+                l:SetEndPoint("TOPLEFT", BG.FBCDFrame, totalwidth - 5, -10 - height * n + line_height)
+                l:SetThickness(1)
+                l:SetColorTexture(RGB("808080", 1))
             end
 
             do -- 合计
@@ -1003,6 +896,30 @@ function BG.RoleOverviewUI()
         end
         f:SetSize(totalwidth, 10 + height * n + 5)
     end
+
+    function BG.SortRoleOverview(newTbl)
+        sort(newTbl, function(a, b)
+            local s = BiaoGe.options["roleOverviewSort1"]
+            local tbl = { strsplit("-", s) }
+            for _, key in ipairs(tbl) do
+                if a[key] and b[key] then
+                    if a[key] ~= b[key] then
+                        return a[key] > b[key]
+                    end
+                end
+            end
+            return false
+        end)
+    end
+
+    BG.RegisterEvent("MODIFIER_STATE_CHANGED", function(self, event, enter)
+        if enter == "LALT" or enter == "RALT" then
+            if BG.FBCDFrame and BG.FBCDFrame:IsVisible() then
+                BG.FBCDFrame:Hide()
+                BG.SetFBCD(BG.FBCDFrame.lastSelf, BG.FBCDFrame.lastPosition)
+            end
+        end
+    end)
 
     -- 团本锁定ID
     do
@@ -1241,7 +1158,7 @@ function BG.RoleOverviewUI()
             t:SetPoint("TOPLEFT", 15, -10)
             t:SetText(BG.STC_g1(L["< 角色5人本完成总览 >"]))
             t:SetJustifyH("LEFT")
-            t:SetWordWrap(false) -- 截断
+            t:SetWordWrap(false)
             local FBCDbiaoti = t
 
             local bt = CreateFrame("Button", nil, BG.FBCD_5M_Frame)
@@ -1276,7 +1193,7 @@ function BG.RoleOverviewUI()
                 t:SetAllPoints()
                 t:SetJustifyH("LEFT")
                 t:SetText("|cff" .. v.color .. GetRealZoneText(v.fbId) .. RR)
-                t:SetWordWrap(false) -- 截断
+                t:SetWordWrap(false)
 
                 f:SetScript("OnEnter", function(self)
                     GameTooltip:SetOwner(self, "ANCHOR_LEFT", 0, 0)
@@ -1294,75 +1211,77 @@ function BG.RoleOverviewUI()
             end
 
             -- 角色CD
+            local newTbl = {}
+            for player, v in pairs(BiaoGe.FBCD[realmID]) do
+                local level = BiaoGe.playerInfo[realmID] and BiaoGe.playerInfo[realmID][player] and BiaoGe.playerInfo[realmID][player].level
+                if (level and level >= BiaoGe.options["roleOverviewNotShowLevel"]) or not level then
+                    local class = BiaoGe.playerInfo[realmID] and BiaoGe.playerInfo[realmID][player] and BiaoGe.playerInfo[realmID][player].class
+                    if class then
+                        local colorplayer = "|c" .. select(4, GetClassColor(class)) .. player .. (isAccounts and "*" or "")
+                        tinsert(newTbl, {
+                            player = player,
+                            colorplayer = colorplayer,
+                            class = class,
+                            iLevel = BiaoGe.PlayerItemsLevel[realmID][player],
+                            tbl = BG.Copy(v)
+                        })
+                    end
+                end
+            end
+            BG.SortRoleOverview(newTbl)
+
             local last
             local n = 0
-            for i, _ in ipairs(BG.PlayerItemsLevel) do
-                for p, v in pairs(BiaoGe.FBCD[realmID]) do
-                    if BG.PlayerItemsLevel[i].player == p then
-                        if type(v) == "table" and Size(v) ~= 0 then
-                            -- 玩家名字
-                            if not last then
-                                local t = BG.FBCD_5M_Frame:CreateFontString()
-                                t:SetFont(STANDARD_TEXT_FONT, fontsize, "OUTLINE")
-                                t:SetSize(width_fb, height)
-                                t:SetPoint("TOPLEFT", 15, -height * 2)
-                                t:SetJustifyH("LEFT")
-                                t:SetText(L["副本"])
-                            end
+            for _, v in ipairs(newTbl) do
+                local colorplayer = v.colorplayer
+                local player = v.player
+                local iLevel = v.iLevel
+                -- 玩家名字
+                if not last then
+                    local t = BG.FBCD_5M_Frame:CreateFontString()
+                    t:SetFont(STANDARD_TEXT_FONT, fontsize, "OUTLINE")
+                    t:SetSize(width_fb, height)
+                    t:SetPoint("TOPLEFT", 15, -height * 2)
+                    t:SetJustifyH("LEFT")
+                    t:SetText(L["副本"])
+                end
 
-                            local f = CreateFrame("Frame", nil, BG.FBCD_5M_Frame)
-                            f:SetSize(1, height)
-                            if not last then
-                                f:SetPoint("TOPLEFT", width_fb + 15, -height * 2)
-                            else
-                                f:SetPoint("TOPLEFT", last, "TOPRIGHT", 5, 0)
-                            end
-                            last = f
+                local f = CreateFrame("Frame", nil, BG.FBCD_5M_Frame)
+                f:SetSize(1, height)
+                if not last then
+                    f:SetPoint("TOPLEFT", width_fb + 15, -height * 2)
+                else
+                    f:SetPoint("TOPLEFT", last, "TOPRIGHT", 5, 0)
+                end
+                last = f
+                local t = f:CreateFontString()
+                t:SetFont(STANDARD_TEXT_FONT, fontsize, "OUTLINE")
+                t:SetPoint("CENTER")
+                t:SetJustifyH("LEFT")
+                t:SetText(colorplayer)
+                f:SetWidth(t:GetWidth())
 
-                            local t = f:CreateFontString()
-                            t:SetFont(STANDARD_TEXT_FONT, fontsize, "OUTLINE")
-                            t:SetPoint("CENTER")
-                            t:SetJustifyH("LEFT")
-                            t:SetWordWrap(true) -- 截断
-                            for i, cd in pairs(BiaoGe.FBCD[realmID][p]) do
-                                if type(cd) == "table" then
-                                    t:SetText(cd.colorplayer)
-                                    break
-                                end
-                            end
-                            f:SetWidth(t:GetWidth())
-
-                            f:SetScript("OnEnter", function(self)
-                                GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT", 0, 0)
-                                GameTooltip:ClearLines()
-                                GameTooltip:SetText(t:GetText())
-                            end)
-                            BG.GameTooltip_Hide(f)
-
-                            -- 副本CD
-                            for i, cd in pairs(BiaoGe.FBCD[realmID][p]) do
-                                for ii, vv in ipairs(BG.FBCDall_5M_table) do -- 创建cd勾勾
-                                    if cd.fbId and (cd.fbId == vv.fbId) then
-                                        local tx = f:CreateTexture(nil, "OVERLAY")
-                                        tx:SetSize(16, 16)
-                                        local width = f:GetLeft() - BG.FBCD_5M_Frame:GetLeft() + f:GetWidth() / 2
-                                        local height = -height * (2 + ii) - 2
-                                        tx:SetPoint("TOP", BG.FBCD_5M_Frame, "TOPLEFT", width, height)
-                                        tx:SetTexture("interface/raidframe/readycheck-ready")
-                                    end
-                                end
-                            end
-                            n = n + 1
-
-                            if player == p then
-                                local l = f:CreateLine(nil, "BACKGROUND")
-                                l:SetStartPoint("TOP", f, 0, 0)
-                                l:SetEndPoint("TOP", f, 0, -BG.FBCD_5M_Frame:GetHeight() + height * 2 + 5)
-                                l:SetThickness(f:GetWidth() + 2)
-                                l:SetColorTexture(GetClassRGB(nil, "player", 0.3))
-                            end
+                -- 副本CD
+                for i, cd in pairs(v.tbl) do
+                    for ii, vv in ipairs(BG.FBCDall_5M_table) do
+                        if cd.fbId and (cd.fbId == vv.fbId) then
+                            local tx = f:CreateTexture(nil, "OVERLAY")
+                            tx:SetSize(16, 16)
+                            local width = f:GetLeft() - BG.FBCD_5M_Frame:GetLeft() + f:GetWidth() / 2
+                            local height = -height * (2 + ii) - 2
+                            tx:SetPoint("TOP", BG.FBCD_5M_Frame, "TOPLEFT", width, height)
+                            tx:SetTexture("interface/raidframe/readycheck-ready")
                         end
                     end
+                end
+                n = n + 1
+
+                if player == UnitName("player") then
+                    local l = f:CreateLine(nil, "BACKGROUND")
+                    l:SetStartPoint("TOP", f, 0, 0)
+                    l:SetEndPoint("TOP", f, 0, -BG.FBCD_5M_Frame:GetHeight() + height * 2 + 5)
+                    l:SetThickness(f:GetWidth() + 2)
+                    l:SetColorTexture(GetClassRGB(nil, "player", 0.3))
                 end
             end
             if n == 0 then
@@ -1841,14 +1760,6 @@ function BG.RoleOverviewUI()
             if BG.MeetingHorn and BG.MeetingHorn.iLevelCheckButton then
                 BG.MeetingHorn.iLevelCheckButton.Text:SetText(avgLevel0)
             end
-
-            BG.PlayerItemsLevel = {}
-            for player, ilevel in pairs(BiaoGe.PlayerItemsLevel[realmID]) do
-                tinsert(BG.PlayerItemsLevel, { player = player, ilevel = tonumber(ilevel) })
-            end
-            sort(BG.PlayerItemsLevel, function(a, b)
-                return a.ilevel > b.ilevel
-            end)
         end
 
         local f = CreateFrame("Frame")
