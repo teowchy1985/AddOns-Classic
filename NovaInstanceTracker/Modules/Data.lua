@@ -165,7 +165,7 @@ function NIT:versionCheck(remoteVersion)
 	end
 	local lastVersionMsg = NIT.db.global.lastVersionMsg;
 	if (tonumber(remoteVersion) > tonumber(version) and (GetServerTime() - lastVersionMsg) > 14400) then
-		print("|cFF9CD6DE" .. L["versionOutOfDate"]);
+		print("|TInterface\\AddOns\\NovaInstanceTracker\\Media\\portal:12:12:0:0|t |cFF9CD6DE" .. L["versionOutOfDate"]);
 		NIT.db.global.lastVersionMsg = GetServerTime();
 	end
 	if (tonumber(remoteVersion) > tonumber(version)) then
@@ -547,7 +547,9 @@ end
 local lootCurrency = {
 	[21229] = "Qiraji Lord's Insignia",
 	--SoD.
-    [226404] = "Tarnished Undermine Real",
+	[226404] = "Tarnished Undermine Real",
+	[235786] = "Karazhan Curio",
+	[236397] = "Remnants of Valor",
 };
 
 function NIT:chatMsgLoot(...)

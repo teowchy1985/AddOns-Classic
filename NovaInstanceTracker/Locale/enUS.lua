@@ -619,3 +619,5 @@ L["lootReminderMysRelicDesc"] = "Show middle of the screen/chat window msgs when
 
 L["lootReminderMysRelicPartyTitle"] = "Mys Relic Party Msg";
 L["lootReminderMysRelicPartyDesc"] = "Do a party chat message when someone loots a Mysterious Relic in Karazhan Crypts.";
+
+L["Remnants of Valor"] = "Remnants of Valor";

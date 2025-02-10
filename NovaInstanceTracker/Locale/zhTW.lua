@@ -497,6 +497,7 @@ L["lootReminderMysRelicDesc"] = "當有人在卡拉贊地穴中拾取神秘的�
 L["lootReminderMysRelicPartyTitle"] = "神秘的遺物隊伍訊息";
 L["lootReminderMysRelicPartyDesc"] = "當有人在卡拉贊地穴中拾取神秘的遺物時，在隊伍頻道發送訊息。";
 
+L["Remnants of Valor"] = "Remnants of Valor";
 
 --增加
 L["Nova Instance Tracker"] = "Nova 副本進度追蹤";
