@@ -33,14 +33,7 @@ function plugin:OnClick(button) --function plugin.OnClick(self, button)
 end
 
 function plugin:OnEnter(button)
-    BG.SetFBCD("minimap")
-    BG.FBCDFrame:ClearAllPoints()
-    if BG.ButtonIsInRight(self) then
-        BG.FBCDFrame:SetPoint("TOPRIGHT", self, "BOTTOMLEFT", 0, 0)
-    else
-        BG.FBCDFrame:SetPoint("TOPLEFT", self, "BOTTOMRIGHT", 0, 0)
-    end
-    BG.FBCDFrame:Show()
+    BG.SetFBCD(self, "minimap")
 end
 
 function plugin:OnLeave(button)
@@ -67,4 +60,3 @@ frame:SetScript("OnEvent", function()
     end)
 end)
 frame:RegisterEvent("PLAYER_LOGIN")
-

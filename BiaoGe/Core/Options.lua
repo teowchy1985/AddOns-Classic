@@ -20,6 +20,9 @@ local GetItemID                         = ns.GetItemID
 local Maxb                              = ns.Maxb
 local Maxi                              = ns.Maxi
 
+local player                            = UnitName("player")
+local realmID                           = GetRealmID()
+
 local pt                                = print
 
 local O                                 = {}
@@ -1866,7 +1869,7 @@ BG.Init(function()
         -- 删除按钮
         local bt = CreateFrame("Button", nil, roleOverview)
         bt:SetHeight(22)
-        bt:SetPoint("TOPRIGHT", BG.optionsBackground:GetWidth()-45, -5)
+        bt:SetPoint("TOPRIGHT", BG.optionsBackground:GetWidth() - 45, -5)
         bt:SetNormalFontObject(BG.FontRed15)
         bt:SetDisabledFontObject(BG.FontDis15)
         bt:SetHighlightFontObject(BG.FontWhite15)
@@ -1878,17 +1881,10 @@ BG.Init(function()
             if BG.DropDownListIsVisible(self) then
                 _G.L_DropDownList1:Hide()
             else
-                BG.SetFBCD()
-                local RealmId = GetRealmID()
                 local channelTypeMenu = {
                     {
                         isTitle = true,
-                        text = L["删除角色"],
-                        notCheckable = true,
-                    },
-                    {
-                        isTitle = true,
-                        text = L["总览数据"],
+                        text = L["删除角色总览数据"],
                         notCheckable = true,
                     },
                     {
@@ -1898,30 +1894,39 @@ BG.Init(function()
                     },
                 }
 
-                for i, _ in ipairs(BG.PlayerItemsLevel) do
-                    for p, v in pairs(BiaoGe.Money[RealmId]) do
-                        if BG.PlayerItemsLevel[i].player == p then
-                            local a = {
-                                text = v.colorplayer,
-                                notCheckable = true,
-                                func = function()
-                                    BiaoGe.Money[RealmId][p] = nil
-                                    BiaoGe.FBCD[RealmId][p] = nil
-                                    BiaoGe.PlayerItemsLevel[RealmId][p] = nil
-                                    BiaoGe.QuestCD[RealmId][p] = nil
-                                    if BiaoGe.tradeSkillCooldown and BiaoGe.tradeSkillCooldown[RealmId] then
-                                        BiaoGe.tradeSkillCooldown[RealmId][p] = nil
-                                    end
-                                    for i = #BG.PlayerItemsLevel, 1, -1 do
-                                        if BG.PlayerItemsLevel[i].player == p then
-                                            tremove(BG.PlayerItemsLevel, i)
-                                        end
-                                    end
-                                end
-                            }
-                            tinsert(channelTypeMenu, a)
-                        end
+                local newTbl = {}
+                for player, v in pairs(BiaoGe.Money[realmID]) do
+                    local class = BiaoGe.playerInfo[realmID] and BiaoGe.playerInfo[realmID][player] and BiaoGe.playerInfo[realmID][player].class
+                    if class then
+                        local colorplayer = "|c" .. select(4, GetClassColor(class)) .. player
+                        local level = BiaoGe.playerInfo[realmID][player].level
+                        tinsert(newTbl, {
+                            player = player,
+                            colorplayer = colorplayer,
+                            class = class,
+                            iLevel = BiaoGe.PlayerItemsLevel[realmID][player],
+                            level = level,
+                        })
                     end
+                end
+                BG.SortRoleOverview(newTbl)
+                for _, v in ipairs(newTbl) do
+                    local player = v.player
+                    local colorplayer = v.colorplayer
+                    local level = v.level
+                    tinsert(channelTypeMenu, {
+                        text = colorplayer .. " |cff808080(".. level..")",
+                        notCheckable = true,
+                        func = function()
+                            BiaoGe.Money[realmID][player] = nil
+                            BiaoGe.FBCD[realmID][player] = nil
+                            BiaoGe.PlayerItemsLevel[realmID][player] = nil
+                            BiaoGe.QuestCD[realmID][player] = nil
+                            if BiaoGe.tradeSkillCooldown and BiaoGe.tradeSkillCooldown[realmID] then
+                                BiaoGe.tradeSkillCooldown[realmID][player] = nil
+                            end
+                        end
+                    })
                 end
 
                 local a = {
