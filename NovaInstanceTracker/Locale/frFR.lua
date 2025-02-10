@@ -603,3 +603,5 @@ L["skipRealMsgIfCappedDesc"] = "Ignore le message de butin des Réaux de Terremi
 
 L["lootTheItem"] = "Fouille %s"; --Example: Loot the Tarnished Undermine Real
 L["Qiraji Lord's Insignia"] = "Insigne de seigneur qiraji";
+
+L["Remnants of Valor"] = "Vestiges de valeur";

@@ -320,3 +320,5 @@ L["First Aid"] = "Первая помощь";
 L["Tarnished Undermine Real"] = "Потускневший реал Нижней шахты";
 
 L["Qiraji Lord's Insignia"] = "Знаки различия киражского владыки";
+
+L["Remnants of Valor"] = "Останки доблести";

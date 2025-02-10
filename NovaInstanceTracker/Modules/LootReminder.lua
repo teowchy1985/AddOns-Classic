@@ -410,6 +410,8 @@ local turBossesUsingEncounter = {
 --Bosses with a lockout like the world bosses and ony, no need to track coins just send a loot reminder when they die.
 --Mapped to npcID.
 local turBossesNoRecord = {
+	[14695] = {name = "Lord Blackwood", instanceID = 289}, --Scholo.
+	[14684] = {name = "Balzaphon", instanceID = 329}, --Strath.
 	[6109] = {name = "Azuregos", instanceID = 2791},
 	[230302] = {name = "Lord Kazzak", instanceID = 2789},
 	[10184] = {name = "Onyxia", instanceID = 249},
@@ -504,6 +506,25 @@ local qirajiBossesNoRecordEncounter = {
 	[715] = {name = "Twin Emperors"},
 	[716] = {name = "Ouro"},
 	[717] = {name = "C'Thun"},
+};
+
+local remnantsBossesNoRecordEncounter = {
+	--Naxx.
+	[1107] = {name = "Anub'Rekhan"},
+	[1110] = {name = "Grand Widow Faerlina"},
+	[1116] = {name = "Maexxna"},
+	[1117] = {name = "Noth the Plaguebringer"},
+	[1112] = {name = "Heigan the Unclean"},
+	[1115] = {name = "Loatheb"},
+	[1113] = {name = "Instructor Razuvious"},
+	[1109] = {name = "Gothik the Harvester"},
+	[1121] = {name = "Baron Rivendare"},
+	[1118] = {name = "Patchwerk"},
+	[1111] = {name = "Grobbulus"},
+	[1108] = {name = "Gluth"},
+	[1120] = {name = "Thaddius"},
+	[1119] = {name = "Sapphiron"},
+	[1114] = {name = "Kel'Thuzad"},
 };
 
 local function getTotalDailyReals()
@@ -898,7 +919,7 @@ local function chatMsgLoot(...)
 							end
 							lastLootNpcID = nil;
 						end
-					elseif (itemID == 21229) then
+					elseif (itemID == 21229 or itemID == 236397) then
 		    			hideMiddleMsg();
 		    		end
 		    	end
@@ -971,13 +992,13 @@ local function encounterEndSuccess(encounterID)
 			addMsg(string.format(L["lootTheItem"], L["Tarnished Undermine Real"]) .. "!", 10);
 		end
 	elseif (qirajiBossesNoRecordEncounter[encounterID]) then
-		if (not skipRealMsgIfCapped()) then
-			local _, _, standing = GetFactionInfoByID(910); --Brood of Nozdormu.
-			local _, _, standing2 = GetFactionInfoByID(609); --Cenarion Circle.
-			if ((standing and standing < 8 and standing ~= 0) or (standing2 and standing2 < 8 and standing2 ~= 0)) then
-				addMsg(string.format(L["lootTheItem"], L["Qiraji Lord's Insignia"]) .. "!", 10);
-			end
+		local _, _, standing = GetFactionInfoByID(910); --Brood of Nozdormu.
+		local _, _, standing2 = GetFactionInfoByID(609); --Cenarion Circle.
+		if ((standing and standing < 8 and standing ~= 0) or (standing2 and standing2 < 8 and standing2 ~= 0)) then
+			addMsg(string.format(L["lootTheItem"], L["Qiraji Lord's Insignia"]) .. "!", 10);
 		end
+	elseif (remnantsBossesNoRecordEncounter[encounterID]) then
+		addMsg(string.format(L["lootTheItem"], L["Remnants of Valor"]) .. "!", 10);
 	end
 end
 

@@ -320,3 +320,5 @@ L["First Aid"] = "急救";
 L["Tarnished Undermine Real"] = "褪色的安德麦雷亚尔";
 
 L["Qiraji Lord's Insignia"] = "其拉领主徽记";
+
+L["Remnants of Valor"] = "勇气的残迹";

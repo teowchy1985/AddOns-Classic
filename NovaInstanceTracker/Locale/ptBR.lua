@@ -606,3 +606,5 @@ L["skipRealMsgIfCappedDesc"] = "Pule a mensagem de saque de Real da Inframina De
 
 L["lootTheItem"] = "Saquea %s"; --Example: Loot the Tarnished Undermine Real
 L["Qiraji Lord's Insignia"] = "Insígnia do Lorde Qiraji";
+
+L["Remnants of Valor"] = "Vestígio de Bravura";
