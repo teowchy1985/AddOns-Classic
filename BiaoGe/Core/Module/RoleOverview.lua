@@ -230,6 +230,17 @@ function BG.RoleOverviewUI()
             { name = "zhubao", name2 = L["珠宝"], color = "FF8C00", type = "quest" },
             { name = "cooking", name2 = L["烹饪"], color = "FF8C00", type = "quest" },
             { name = "fish", name2 = L["钓鱼"], color = "FF8C00", type = "quest" },
+            -- 专业
+            { name = "alchemy_yanjiu", name2 = L["炼金研究"], color = "ADFF2F", type = "profession" },
+            { name = "alchemy_zhuanhua", name2 = L["炼金转化"], color = "ADFF2F", type = "profession" },
+            { name = "inscription_dadiaowen", name2 = L["大雕文"], color = "ADFF2F", type = "profession" },
+            { name = "inscription_xiaodiaowen", name2 = L["小雕文"], color = "ADFF2F", type = "profession" },
+            { name = "jewelcrafting_bingdonglingzhu", name2 = L["冰冻棱柱"], color = "ADFF2F", type = "profession" },
+            { name = "forge_taitanjinggang", name2 = L["泰坦精钢"], color = "ADFF2F", type = "profession" },
+            { name = "tailor_fawenbu", name2 = L["法纹布"], color = "ADFF2F", type = "profession" },
+            { name = "tailor_wuwenbu", name2 = L["乌纹布"], color = "ADFF2F", type = "profession" },
+            { name = "tailor_yueyingbu", name2 = L["月影布"], color = "ADFF2F", type = "profession" },
+            { name = "tailor_bingchuanbeibao", name2 = L["冰川背包"], color = "ADFF2F", type = "profession" },
         }
 
         BG.MONEYall_table = {
@@ -318,6 +329,7 @@ function BG.RoleOverviewUI()
     local fontsize = 13
     local fontsize2 = 14
     local fontsize3 = 15
+    local fontsize0 = 12
     local height = 20
     local width_jiange = 5
     local line_height = 4
@@ -541,9 +553,9 @@ function BG.RoleOverviewUI()
                         if (cd.fbId and (cd.fbId == vv.fbId)) and ((cd.num and (cd.num == vv.num)) or (not vv.num)) then
                             local tx = BG.FBCDFrame:CreateTexture(nil, "OVERLAY")
                             tx:SetSize(16, 16)
-                            tx:SetPoint("TOP", BG.FBCDFrame, "TOPLEFT",
+                            tx:SetPoint("CENTER", BG.FBCDFrame, "TOPLEFT",
                                 (FBCDchoice_table[ii].width + text_table[ii]:GetWidth() / 2),
-                                (-8 - height * n))
+                                (-16 - height * n))
                             tx:SetTexture("interface/raidframe/readycheck-ready")
                         end
                     end
@@ -556,9 +568,9 @@ function BG.RoleOverviewUI()
                             if name == vv.name then
                                 local tx = BG.FBCDFrame:CreateTexture(nil, "OVERLAY")
                                 tx:SetSize(16, 16)
-                                tx:SetPoint("TOP", BG.FBCDFrame, "TOPLEFT",
+                                tx:SetPoint("CENTER", BG.FBCDFrame, "TOPLEFT",
                                     (FBCDchoice_table[ii].width + text_table[ii]:GetWidth() / 2),
-                                    (-8 - height * n))
+                                    (-16 - height * n))
                                 tx:SetTexture("interface/raidframe/readycheck-ready")
                             end
                         end
@@ -569,9 +581,9 @@ function BG.RoleOverviewUI()
                             if name == vv.name then
                                 local tx = BG.FBCDFrame:CreateTexture(nil, "OVERLAY")
                                 tx:SetSize(16, 16)
-                                tx:SetPoint("TOP", BG.FBCDFrame, "TOPLEFT",
+                                tx:SetPoint("CENTER", BG.FBCDFrame, "TOPLEFT",
                                     (FBCDchoice_table[ii].width + text_table[ii]:GetWidth() / 2),
-                                    (-8 - height * n))
+                                    (-16 - height * n))
                                 tx:SetTexture("interface/raidframe/readycheck-ready")
                             end
                         end
@@ -585,15 +597,16 @@ function BG.RoleOverviewUI()
                         for ii, vv in ipairs(FBCDchoice_table) do
                             if profession == vv.name then
                                 local t = f:CreateFontString()
-                                t:SetFont(STANDARD_TEXT_FONT, fontsize, "OUTLINE")
-                                t:SetPoint("TOP", BG.FBCDFrame, "TOPLEFT",
+                                t:SetPoint("CENTER", BG.FBCDFrame, "TOPLEFT",
                                     (FBCDchoice_table[ii].width + text_table[ii]:GetWidth() / 2),
-                                    (-8 - height * n))
+                                    (-16 - height * n))
                                 if v.ready then
-                                    t:SetTextColor(RGB("00FF00"))
+                                    t:SetFont(STANDARD_TEXT_FONT, fontsize, "OUTLINE")
+                                    t:SetTextColor(0,1,0)
                                     t:SetText(READY)
                                 else
-                                    t:SetTextColor(RGB("FFD100"))
+                                    t:SetFont(STANDARD_TEXT_FONT, fontsize0, "OUTLINE")
+                                    t:SetTextColor(1,.82,0)
                                     t:SetText(BG.SecondsToTime(v.resettime))
                                 end
                             end
@@ -604,15 +617,16 @@ function BG.RoleOverviewUI()
                         for ii, vv in ipairs(FBCDchoice_table) do
                             if profession == vv.name then
                                 local t = f:CreateFontString()
-                                t:SetFont(STANDARD_TEXT_FONT, fontsize, "OUTLINE")
-                                t:SetPoint("TOP", BG.FBCDFrame, "TOPLEFT",
+                                t:SetPoint("CENTER", BG.FBCDFrame, "TOPLEFT",
                                     (FBCDchoice_table[ii].width + text_table[ii]:GetWidth() / 2),
-                                    (-8 - height * n))
+                                    (-16 - height * n))
                                 if v.ready then
-                                    t:SetTextColor(RGB("00FF00"))
+                                    t:SetFont(STANDARD_TEXT_FONT, fontsize, "OUTLINE")
+                                    t:SetTextColor(0,1,0)
                                     t:SetText(READY)
                                 else
-                                    t:SetTextColor(RGB("FFD100"))
+                                    t:SetFont(STANDARD_TEXT_FONT, fontsize0, "OUTLINE")
+                                    t:SetTextColor(1,.82,0)
                                     t:SetText(BG.SecondsToTime(v.resettime))
                                 end
                             end
@@ -1791,8 +1805,9 @@ function BG.RoleOverviewUI()
             BiaoGe.tradeSkillCooldown[realmID][player] = {}
         end
 
-        if BG.IsVanilla_Sod then
-            local tbl = {
+        local tbl
+        if BG.IsVanilla then
+            tbl = {
                 alchemy = {
                     name = L["炼金转化"],
                     name2 = L["炼金术"],
@@ -1810,88 +1825,144 @@ function BG.RoleOverviewUI()
                     -- spell = 20600  -- test
                 },
             }
-
-            local function GetCooldown()
-                local time = GetServerTime()
-                for profession, v in pairs(tbl) do
-                    local startTime, duration = GetSpellCooldown(v.spell)
-                    startTime = startTime > GetTime() and (startTime - 2 ^ 32 / 1000) or startTime
-                    local cooldown = startTime + duration - GetTime()
-                    if cooldown > 0 then
-                        BiaoGe.tradeSkillCooldown[realmID][player][profession] = {
-                            class = select(2, UnitClass("player")),
-                            resettime = cooldown,
-                            endtime = cooldown + time,
-                            ready = nil,
-                        }
-                    end
-                end
-            end
-            local function UpdateProfessionCD()
-                local time = GetServerTime()
-                for p, _ in pairs(BiaoGe.tradeSkillCooldown[realmID]) do -- 检查其他角色cd是否到期
-                    local i = 3
-                    for profession, v in pairs(BiaoGe.tradeSkillCooldown[realmID][p]) do
-                        if v.endtime then
-                            if time >= v.endtime then
-                                v.resettime = nil
-                                v.endtime = nil
-                                v.ready = true
-                                local color
-                                if v.class then
-                                    color = select(4, GetClassColor(v.class))
-                                end
-                                local name = color and "|c" .. color .. p .. "|r: " or p .. ": "
-                                if p == UnitName("player") then
-                                    name = color and "|c" .. color .. L["我"] .. "|r: " or L["我"] .. ": "
-                                end
-                                BG.After(i, function()
-                                    SendSystemMessage(BG.BG .. BG.STC_g1(format(L["%s%s已就绪！"],
-                                        name, tbl[profession].name)))
-                                    SendSystemMessage(BG.BG .. BG.STC_g1(format(L["%s%s已就绪！"],
-                                        name, tbl[profession].name)))
-                                    SendSystemMessage(BG.BG .. BG.STC_g1(format(L["%s%s已就绪！"],
-                                        name, tbl[profession].name)))
-                                    PlaySoundFile(BG["sound_" .. profession .. "Ready" .. BiaoGe.options.Sound], "Master")
-                                end)
-                                i = i + 3
-                            elseif time < v.endtime then
-                                v.resettime = v.endtime - time
-                            end
-                        end
-                    end
-                end
-            end
-
-            local _msg = TRADESKILL_LOG_FIRSTPERSON:gsub("%%s", "(.+)")
-            BG.RegisterEvent("CHAT_MSG_TRADESKILLS", function(self, event, msg)
-                if not strfind(msg, _msg) then return end
-                GetCooldown()
-            end)
-
-            BG.Init2(function()
-                GetCooldown()
-                UpdateProfessionCD()
-            end)
-            C_Timer.NewTicker(60, function()
-                UpdateProfessionCD()
-            end)
-
-            BG.RegisterEvent("SKILL_LINES_CHANGED", function(self, event)
-                for profession, v in pairs(tbl) do
-                    local isLearned
-                    for i = 1, GetNumSkillLines() do
-                        if GetSkillLineInfo(i) == v.name2 then
-                            isLearned = true
-                            break
-                        end
-                    end
-                    if not isLearned then
-                        BiaoGe.tradeSkillCooldown[realmID][player][profession] = nil
-                    end
-                end
-            end)
+        else
+            tbl = {
+                alchemy_yanjiu = {
+                    name = L["炼金研究"],
+                    name2 = L["炼金术"],
+                    spell = 60893
+                },
+                alchemy_zhuanhua = {
+                    name = L["炼金转化"],
+                    name2 = L["炼金术"],
+                    spell = 66660
+                },
+                inscription_dadiaowen = {
+                    name = L["大雕文"],
+                    name2 = L["铭文"],
+                    spell = 61177
+                },
+                inscription_xiaodiaowen = {
+                    name = L["小雕文"],
+                    name2 = L["铭文"],
+                    spell = 61288
+                },
+                jewelcrafting_bingdonglingzhu = {
+                    name = L["冰冻棱柱"],
+                    name2 = L["珠宝加工"],
+                    spell = 62242
+                },
+                forge_taitanjinggang = {
+                    name = L["泰坦精钢"],
+                    name2 = L["熔炉"],
+                    spell = 55208
+                },
+                tailor_fawenbu = {
+                    name = L["法纹布"],
+                    name2 = L["裁缝"],
+                    spell = 56003
+                },
+                tailor_wuwenbu = {
+                    name = L["乌纹布"],
+                    name2 = L["裁缝"],
+                    spell = 56002
+                },
+                tailor_yueyingbu = {
+                    name = L["月影布"],
+                    name2 = L["裁缝"],
+                    spell = 56001
+                },
+                tailor_bingchuanbeibao = {
+                    name = L["冰川背包"],
+                    name2 = L["裁缝"],
+                    spell = 56005
+                },
+            }
         end
+
+        local function GetCooldown()
+            local time = GetServerTime()
+            local _time = GetTime()
+            for profession, v in pairs(tbl) do
+                local startTime, duration = GetSpellCooldown(v.spell)
+                startTime = startTime > _time and (startTime - 2 ^ 32 / 1000) or startTime
+                local cooldown = startTime + duration - _time
+                if cooldown > 0 then
+                    BiaoGe.tradeSkillCooldown[realmID][player][profession] = {
+                        class = select(2, UnitClass("player")),
+                        resettime = cooldown,
+                        endtime = cooldown + time,
+                        ready = nil,
+                    }
+                end
+            end
+        end
+        local function UpdateProfessionCD()
+            local time = GetServerTime()
+            for p in pairs(BiaoGe.tradeSkillCooldown[realmID]) do -- 检查其他角色cd是否到期
+                local i = 3
+                for profession, v in pairs(BiaoGe.tradeSkillCooldown[realmID][p]) do
+                    if v.endtime then
+                        if time >= v.endtime then
+                            v.resettime = nil
+                            v.endtime = nil
+                            v.ready = true
+                            local color
+                            if v.class then
+                                color = select(4, GetClassColor(v.class))
+                            end
+                            local name = color and "|c" .. color .. p .. "|r: " or p .. ": "
+                            if p == UnitName("player") then
+                                name = color and "|c" .. color .. L["我"] .. "|r: " or L["我"] .. ": "
+                            end
+                            local msg=BG.BG .. BG.STC_g1(format(L["%s%s已就绪！"],name, tbl[profession].name))
+                            BG.After(i, function()
+                                SendSystemMessage(msg)
+                                SendSystemMessage(msg)
+                                SendSystemMessage(msg)
+                                if BG["sound_" .. profession .. "Ready" .. BiaoGe.options.Sound] then
+                                    PlaySoundFile(BG["sound_" .. profession .. "Ready" .. BiaoGe.options.Sound], "Master")
+                                else
+                                    PlaySoundFile("Interface\\AddOns\\BiaoGe\\Media\\sound\\other\\done.mp3", "Master")
+                                end
+                            end)
+                            i = i + 3
+                        elseif time < v.endtime then
+                            v.resettime = v.endtime - time
+                        end
+                    end
+                end
+            end
+        end
+
+        local _msg = TRADESKILL_LOG_FIRSTPERSON:gsub("%%s", "(.+)")
+        BG.RegisterEvent("CHAT_MSG_TRADESKILLS", function(self, event, msg)
+            if not strfind(msg, _msg) then return end
+            GetCooldown()
+        end)
+
+        BG.Init2(function()
+            GetCooldown()
+            UpdateProfessionCD()
+        end)
+        C_Timer.NewTicker(60, function()
+            UpdateProfessionCD()
+        end)
+
+        BG.RegisterEvent("SKILL_LINES_CHANGED", function(self, event)
+            for profession, v in pairs(tbl) do
+                local isLearned
+                for i = 1, GetNumSkillLines() do
+                    if GetSkillLineInfo(i) == v.name2 then
+                        isLearned = true
+                        break
+                    end
+                end
+                if not isLearned then
+                    BiaoGe.tradeSkillCooldown[realmID][player][profession] = nil
+                end
+            end
+        end)
     end
 end
 

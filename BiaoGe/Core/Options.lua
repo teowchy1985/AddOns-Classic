@@ -2052,7 +2052,16 @@ BG.Init(function()
                 text:SetText("|cffFF8C00" .. (QUESTS_LABEL .. "*") .. RR)
                 height = height - height_jiange
                 O.CreateLine(roleOverview, height + line_height)
-                height = CreateFBCDbutton(35, #BG.FBCDall_table, width, height, 100, height_jiange)
+                height = CreateFBCDbutton(35, 40, width, height, 100, height_jiange)
+
+                -- 专业
+                height = height - height_jiange - height_jiange
+                local text = roleOverview:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+                text:SetPoint("TOPLEFT", width, height)
+                text:SetText("|cffADFF2F" .. (TRADE_SKILLS .. "*") .. RR)
+                height = height - height_jiange
+                O.CreateLine(roleOverview, height + line_height)
+                height = CreateFBCDbutton(41, #BG.FBCDall_table, width, height, 100, height_jiange)
 
                 -- 货币
                 height = height - height_jiange - height_jiange
