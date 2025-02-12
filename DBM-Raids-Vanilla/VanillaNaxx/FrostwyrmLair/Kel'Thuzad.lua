@@ -7,7 +7,7 @@ else
 	mod.statTypes = "normal"
 end
 
-mod:SetRevision("20250208102925")
+mod:SetRevision("20250211214838")
 mod:SetCreatureID(15990)
 mod:SetEncounterID(1114)
 --mod:SetModelID(15945)--Doesn't work at all, doesn't even render.
@@ -15,7 +15,11 @@ mod:SetMinCombatTime(60)
 mod:SetUsedIcons(1, 2, 3, 4, 5, 6, 7, 8)
 mod:SetZone(533)
 
-mod:RegisterCombat("combat_yell", L.Yell)
+if DBM:IsSeasonal("SeasonOfDiscovery") then
+	mod:RegisterCombat("combat")
+else
+	mod:RegisterCombat("combat_yell", L.Yell)
+end
 
 mod:RegisterEventsInCombat(
 	"SPELL_AURA_APPLIED 27808 27819 28410",
@@ -28,10 +32,9 @@ mod:RegisterEventsInCombat(
 -- New spell ID found in logs on SoD
 -- 364341 (Survivor of the Damned) cast on kill, ID looks like SoM, seems irrelevant
 
--- TODO: we currently trigger on yell because this mod predates all of the encounter stuff
--- But it looks like the encounter_start and the first yell are only about 3 seconds apart, with encounter_start triggering earlier
--- let's use that once confirmed, at least for SoD
-local phase1Duration = DBM:IsSeasonal("SeasonOfDiscovery") and 234 or 330
+-- On SoD ENCOUTNER_START triggers shortly before the yell and is the better trigger. Phase 1 is shorter on SoD
+-- Not sure about Era, still using old logic there until we can confirm that ENCOUTNER_START works the same way.
+local phase1Duration = DBM:IsSeasonal("SeasonOfDiscovery") and 247 or 330
 
 --[[
 ability.id = 27810 or ability.id = 27819 or ability.id = 27808 and type = "cast"
@@ -53,9 +56,9 @@ local yellFissure			= mod:NewYell(27810)
 
 --Fissure timer is 13-30 or something pretty wide, so no timer
 local timerManaBomb			= mod:NewCDTimer(20, 27819, nil, nil, nil, 3)--20-50 (still true in vanilla, kind of shitty variation too)
-local timerFrostBlastCD		= mod:NewCDTimer(33.5, 27808, nil, nil, nil, 3, nil, DBM_COMMON_L.DEADLY_ICON)--33-46
+local timerFrostBlastCD		= mod:NewVarTimer("v33.5-46", 27808, nil, nil, nil, 3, nil, DBM_COMMON_L.DEADLY_ICON)--33-46
 local timerfrostBlast		= mod:NewBuffActiveTimer(4, 27808, nil, nil, nil, 5, nil, DBM_COMMON_L.HEALER_ICON)
-local timerMCCD				= mod:NewCDTimer(90, 28410, nil, nil, nil, 3)--actually 60 second cdish but its easier to do it this way for the first one.
+local timerMCCD				= mod:NewCDTimer(90, 28410, nil, nil, nil, 3)--Probably should also be made a var timer with good variance data
 local timerPhase2			= mod:NewTimer(phase1Duration, "TimerPhase2", "136116", nil, nil, 6)
 
 mod:AddSetIconOption("SetIconOnMC2", 28410, false, 0, {1, 2, 3, 4, 5})

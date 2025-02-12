@@ -34,7 +34,7 @@
 ## X-Curse-Project-ID: 16442
 ## X-WoWI-ID: 11700
 ## X-Wago-ID: 7x61xpN1
-## Version: r778
+## Version: r779
 
 locale.generated.lua
 
@@ -55,6 +55,7 @@ Polyfills.lua
 Blocks\Gtfo.lua
 
 VanillaNaxx\SoD_Hardmode.lua
+VanillaNaxx\NaxxTrash.lua
 VanillaNaxx\ArachnidQuarter\Anub'Rekhan.lua
 VanillaNaxx\ArachnidQuarter\Faerlina.lua
 VanillaNaxx\ArachnidQuarter\Maexxna.lua
