@@ -2,7 +2,7 @@ if not DBM:IsSeasonal("SeasonOfDiscovery") then return end
 local mod	= DBM:NewMod("SoD_NaxxHardmode", "DBM-Raids-Vanilla", 1)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20250211214807")
+mod:SetRevision("20250213211958")
 mod.isTrashMod = true
 mod.isTrashModBossFightAllowed = true
 mod:SetZone(533)
@@ -186,6 +186,7 @@ end
 
 function mod:CHAT_MSG_RAID_WARNING(msg, playerName, ...)
 	local senderGuid = select(10, ...)
+	playerName = string.split("-", playerName or "") -- Do not use DBM:GetShortServerName() as it does option stuff and custom names, we never want that here
 	-- On PTR UnitGUID was enough, but I've seen some evidence that this wasn't working reliably for people.
 	--  Unfortunately it didn't trigger even once for me, so I don't have a log, but let's also check player name for now
 	if senderGuid == UnitGUID("player") or playerName == UnitName("player") then
