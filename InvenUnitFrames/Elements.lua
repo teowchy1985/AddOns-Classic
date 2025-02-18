@@ -533,7 +533,8 @@ local function setupSkinElement(object, element, width, height)
 			elseif element == "eliteFrame" then
 				object[element].use = object.db.eliteFrameUse
 				if object.db.eliteFrameIsLeft then
-					object.eliteFrame.tex:SetTexCoord(1, 0, 0, 1)
+--					object.eliteFrame.tex:SetTexCoord(1, 0, 0, 1)
+
 				else
 					object.eliteFrame.tex:SetTexCoord(0, 1, 0, 1)
 				end
