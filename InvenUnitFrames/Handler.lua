@@ -294,6 +294,8 @@ handlers:SetScript("OnEvent", function(self, event, unit, ...)
 		if IUF.units.player then
 			handlers[event](IUF.units.player)
 		end
+
+
 		
 	elseif event == "GROUP_ROSTER_UPDATE" then
 		for unit, object in pairs(IUF.units) do
@@ -369,6 +371,9 @@ function handlers:PLAYER_ENTERING_WORLD()
 				self.feedbackFrame.feedbackStartTime = nil
 			end
 		end
+
+	handlers.PLAYER_UPDATE_RESTING(IUF.units.player) --added
+	handlers.UNIT_HEALTH(IUF.units.player)--added
 	end
 end
 
@@ -475,6 +480,7 @@ function handlers:UNIT_HAPPINESS()
 end
 
 function handlers:UNIT_HEALTH()
+	if not self then return end
 	self.values.health = UnitHealth(self.unit)
 	self.values.dead = UnitIsDead(self.unit)
 	self.values.ghost = UnitIsGhost(self.unit)
@@ -564,10 +570,12 @@ function handlers:UNIT_PET()
 end
 
 function handlers:PLAYER_UPDATE_RESTING()
+	if self then
 	if self.objectType == "player" then
 		self.values.resting = IsResting()
 	else
 		self.values.resting = nil
+	end
 	end
 end
 
@@ -656,7 +664,7 @@ function handlers:GROUP_ROSTER_UPDATE()
 --~ 		else
 			self.values.role = nil
 --~ 		end
-		if UnitIsGroupLeader(self.realunit) then
+		if UnitIsGroupLeader(self.realunit) and IsInGroup(self.realunit) then
 			self.values.leader = 1
 			self.values.looter = GetLootMethod() == "master" and 1 or nil
 		else

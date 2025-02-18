@@ -6,19 +6,19 @@ local pairs = _G.pairs
 local random = _G.random
 local UnitClass = _G.UnitClass
 
-local objectName = { ["player"] = "플레이어", ["pet"] = "소환수", ["pettarget"] = "소환수의 대상", ["target"] = "대상", ["targettarget"] = "대상의 대상", ["targettargettarget"] = "대상의 대상의 대상", ["focus"] = "주시대상", ["focustarget"] = "주시대상의 대상", ["focustargettarget"] = "주시대상의 대상의 대상" }
+local objectName = { ["player"] = "Player", ["pet"] = "Pet", ["pettarget"] = "Pet target", ["target"] = "Target", ["targettarget"] = "ToT", ["targettargettarget"] = "ToToT", ["focus"] = "Focus", ["focustarget"] = "FocusTarget", ["focustargettarget"] = "FocusToT" }
 for i = 1, MAX_PARTY_MEMBERS do
-	objectName["party"..i] = "파티"..i
-	objectName["partypet"..i] = "파티"..i.."의 소환수"
-	objectName["party"..i.."target"] = "파티"..i.."의 대상"
-	objectName["party"..i.."targettarget"] = "파티"..i.."의 대상의 대상"
+	objectName["party"..i] = "Party"..i
+	objectName["partypet"..i] = "Party"..i.."Pet"
+	objectName["party"..i.."target"] = "Party"..i.."Target"
+	objectName["party"..i.."targettarget"] = "Party"..i.."ToT"
 end
 for i = 1, MAX_BOSS_FRAMES do
-	objectName["boss"..i] = "보스"..i
+	objectName["boss"..i] = "Boss"..i
 end
 
 local objectClass = { "WARRIOR", "PALADIN", "DEATHKNIGHT", "ROGUE", "PRIEST", "MAGE", "WARLOCK", "HUNTER", "DRUID", "SHAMAN", "MONK" }
-local classText = { ["WARRIOR"] = "전사", ["PALADIN"] = "성기사", ["DEATHKNIGHT"] = "죽음의 기사", ["ROGUE"] = "도적", ["PRIEST"] = "사제", ["MAGE"] = "마법사", ["WARLOCK"] = "흑마법사", ["HUNTER"] = "사냥꾼", ["DRUID"] = "드루이드", ["SHAMAN"] = "주술사", ["MONK"] = "수도사" }
+local classText = { ["WARRIOR"] = "WARRIOR", ["PALADIN"] = "PALADIN", ["DEATHKNIGHT"] = "DEATHKNIGHT", ["ROGUE"] = "ROGUE", ["PRIEST"] = "PRIEST", ["MAGE"] = "MAGE", ["WARLOCK"] = "WARLOCK", ["HUNTER"] = "HUNTER", ["DRUID"] = "DRUID", ["SHAMAN"] = "SHAMAN", ["MONK"] = "MONK" }
 local classPowerType = { ["WARRIOR"] = 1, ["ROGUE"] = 3, ["DEATHKNIGHT"] = 6 }
 
 local dummy = function() end
@@ -107,7 +107,7 @@ local function previewOnUpdate(preview, timer)
 			preview.values.castingIcon = select(3, GetSpellInfo(random(10, 60000))) or "Interface\\Icons\\Temp"
 			preview.values.castingStartTime = preview.currentTime * 1000
 			preview.values.castingEndTime = (preview.currentTime + random(15, 50) / 10) * 1000
-			preview.values.castingName = "시전바"
+			preview.values.castingName = "Casting Bar"
 			IUF.callbacks.CastingBar(preview)
 			IUF.callbacks.CastingBarColor(preview)
 		end
@@ -326,7 +326,7 @@ function IUF:SetPreviewMode(mode)
 		objectName, objectClass, classPowerType = nil
 		IUF.movingFrame2:Show()
 		if IUF.optionFrame.previewButton then
-			IUF.optionFrame.previewButton.title:SetText("미리보기 끄기")
+			IUF.optionFrame.previewButton.title:SetText("Close preview")
 			IUF.optionFrame.previewButton.arg1 = nil
 		end
 	else
@@ -337,7 +337,7 @@ function IUF:SetPreviewMode(mode)
 		end
 		IUF.movingFrame2:Hide()
 		if IUF.optionFrame.previewButton then
-			IUF.optionFrame.previewButton.title:SetText("미리보기 켜기")
+			IUF.optionFrame.previewButton.title:SetText("Open preview")
 			IUF.optionFrame.previewButton.arg1 = true
 		end
 	end
@@ -356,7 +356,7 @@ local function createAura(preview, idx, isbuff)
 	btn = IUF.CreateAuraButton(preview, isbuff)
 	btn:SetScript("OnEnter", auraonenter)
 	btn:SetScript("OnLeave", GameTooltip_Hide)
-	btn.tooltipText = (isbuff and "버프 " or "디버프 ")..idx
+	btn.tooltipText = (isbuff and "Buff" or "Debuff ")..idx
 	btn.icon:SetTexture("Interface\\Icons\\Spell_Charge"..(isbuff and "Positive" or "Negative"))
 	btn.count:SetText(idx)
 	btn.icon.SetTexture = dummy

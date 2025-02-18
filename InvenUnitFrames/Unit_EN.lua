@@ -665,7 +665,7 @@ function callbacks:State()
 				self.stateText:SetText(nil)
 			end
 		else
-			self.stateText:SetText("오프")
+			self.stateText:SetText("Off")
 		end
 	else
 		self.stateText:SetText(nil)
@@ -732,7 +732,7 @@ function callbacks:Elite()
 				self.eliteFrame.tex:SetTexture("Interface\\AddOns\\InvenUnitFrames\\Texture\\Elite")
 				self.eliteFrame.tex:SetVertexColor(1, 1, 1)
 				self.eliteFrame:Show()
-			elseif self.values.classification == "rare" then
+			elseif  self.values.classification == "rare" then
 				self.eliteFrame.tex:SetTexture("Interface\\AddOns\\InvenUnitFrames\\Texture\\Rare")
 				self.eliteFrame.tex:SetVertexColor(1, 1, 1)
 				self.eliteFrame:Show()
