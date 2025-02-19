@@ -1,3 +1,94 @@
+Version 3.183-catac  
+  
+  
+Known issues:  
+-- Spells by rank can be specified using a rank suffix:  
+--  Example: Lesser Heal(Rank 1)  
+-- Debuff tooltips are currently bugged when using ElvUI  
+--   Deselect 'VuhDo Options > Panels > Tooltips > Tooltips > Debuffs'  
+-- Spell trace only works for known spells in the player's spellbook  
+-- Group roster changes will not be reflected during combat  
+--   Swapping a player between groups during combat will cause  
+--   unpredictable, negative results.  Be warned!  
+  
+  
+Bugfixes:  
+  
+  
+Improvements:  
+  
+  
+--------------------------------------------------------------  
+Version 3.183  
+  
+  
+Known issues:  
+-- Debuff tooltips are currently bugged when using ElvUI  
+--   Deselect 'VuhDo Options > Panels > Tooltips > Tooltips > Debuffs'  
+-- Blizzard continues to have a bug that breaks proper spell targeting.  
+--   Under 'Game Menu > Options > Gameplay > Combat' deselect 'Auto Self Cast'  
+--   and set 'Self Cast Key' to 'None'  
+  
+  
+Bugfixes:  
+-- Fixed loading of HoTs from legacy key layouts  
+-- Fixed key layout naming when copying imported profiles on a fresh character  
+-- Fixed loading of currently selected key layout on login  
+-- Fixed DC shield for characters over the legacy macro limit  
+-- Fixed default bouquet 'PvP Flag Carriers' in Temple of Kotmogu  
+-- Fixed maximum brightness for class color text and status bars  
+  
+  
+Improvements:  
+-- Added settings search to VuhDo Options  
+  
+  
+--------------------------------------------------------------  
+Version 3.182-catac  
+  
+  
+Known issues:  
+-- Spells by rank can be specified using a rank suffix:  
+--  Example: Lesser Heal(Rank 1)  
+-- Debuff tooltips are currently bugged when using ElvUI  
+--   Deselect 'VuhDo Options > Panels > Tooltips > Tooltips > Debuffs'  
+-- Spell trace only works for known spells in the player's spellbook  
+-- Group roster changes will not be reflected during combat  
+--   Swapping a player between groups during combat will cause  
+--   unpredictable, negative results.  Be warned!  
+  
+  
+Bugfixes:  
+  
+  
+Improvements:  
+  
+  
+--------------------------------------------------------------  
+Version 3.182  
+  
+  
+Known issues:  
+-- Debuff tooltips are currently bugged when using ElvUI  
+--   Deselect 'VuhDo Options > Panels > Tooltips > Tooltips > Debuffs'  
+-- Blizzard continues to have a bug that breaks proper spell targeting.  
+--   Under 'Game Menu > Options > Gameplay > Combat' deselect 'Auto Self Cast'  
+--   and set 'Self Cast Key' to 'None'  
+  
+  
+Bugfixes:  
+-- Fixed incorrectly showing non-friendly units as dispelable  
+  
+  
+Improvements:  
+-- Added per panel HoT Icon and HoT Bar settings  
+-- Added two more HoT Icon slots 8 and 9  
+-- Added more defensives to default bouquet 'Raid Cooldowns'  
+-- Added standard debuff filters for source and destination  
+-- Added new default bouquet 'Spell Trace (Incoming)'  
+  
+  
+--------------------------------------------------------------  
 Version 3.181-catac  
   
   
