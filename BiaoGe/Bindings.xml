@@ -1,5 +1,5 @@
 <Bindings>
-  <Binding name="BIAOGE" Category="ADDONS">
+  <Binding name="BIAOGE" header="BiaoGe" category="ADDONS">
       if BG.MainFrame and not BG.MainFrame:IsVisible() then
           BG.MainFrame:Show()
       else
