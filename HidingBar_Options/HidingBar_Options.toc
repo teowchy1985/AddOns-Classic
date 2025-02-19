@@ -1,7 +1,7 @@
 ## Interface: 40401
 ## Title: HidingBar Options
 ## Author: sfmict
-## Version: v4.4.10
+## Version: v4.4.11
 ## IconTexture: Interface\AddOns\HidingBar\media\icon
 ## Notes: HidingBar Options
 ## LoadOnDemand: 1
