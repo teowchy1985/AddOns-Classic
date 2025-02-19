@@ -269,7 +269,7 @@ function NWB:versionCheck(remoteVersion, distribution, sender)
 	if (distribution == "GUILD" or distribution == "PARTY" or distribution == "RAID") then
 		local lastVersionMsg = NWB.db.global.lastVersionMsg;
 		if (tonumber(remoteVersion) > tonumber(version) and (GetServerTime() - lastVersionMsg) > 14400) then
-			print(NWB.prefixColor .. L["versionOutOfDate"]);
+			print("|TInterface\\Icons\\inv_misc_head_dragon_01:12:12:0:0|t " .. NWB.prefixColor .. L["versionOutOfDate"]);
 			NWB.db.global.lastVersionMsg = GetServerTime();
 		end
 		if (tonumber(remoteVersion) > tonumber(version)) then
@@ -1098,6 +1098,30 @@ function NWB:createDataLayered(distribution, noLayerMap, noLogs, type, forceLaye
 					data.layers[layer]['GUID'] = NWB.data.layers[layer].GUID;
 				end]]
 			end
+			if (data.layers[layer] and NWB.data.layers[layer] and NWB.data.layers[layer].spawn and NWB.data.layers[layer].spawn > 0) then
+				data.layers[layer].spawn = NWB.data.layers[layer].spawn;
+			end
+			--Testing on my realm, will be disabled again soon.
+			--[[if (NWB.realm == "Crusader Strike" and NWB.data.layers[layer].GUID and NWB.data.layers[layer].guid ~= "other"
+					and NWB.data.layers[layer].lastSeenNPC > GetServerTime() - layerExpireTime) then
+				if (not data.layers) then
+					data.layers = {};
+				end
+				if (not data.layers[layer]) then
+					data.layers[layer] = {};
+				end
+				data.layers[layer].GUID = NWB.data.layers[layer].GUID;
+			end]]
+			--[[if (NWB.realm == "Crusader Strike" and NWB.data.layers[layer].npcID
+					and NWB.data.layers[layer].lastSeenNPC > GetServerTime() - layerExpireTime) then
+				if (not data.layers) then
+					data.layers = {};
+				end
+				if (not data.layers[layer]) then
+					data.layers[layer] = {};
+				end
+				data.layers[layer].npcID = NWB.data.layers[layer].npcID;
+			end]]
 		end
 		if (type ~= "wintergrasp") then
 			if (not NWB.layeredSongflowers) then
@@ -1182,9 +1206,7 @@ function NWB:createDataLayered(distribution, noLayerMap, noLogs, type, forceLaye
 		end
 	end
 	--NWB:debug(data);
-	--data['faction'] = NWB.faction;
 	data = NWB:convertKeys(data, true, distribution);
-	--NWB:debug(data);
 	return data;
 end
 
@@ -1400,6 +1422,7 @@ NWB.validKeys = {
 	["faction"] = true,
 	["GUID"] = true,
 	["lastSeenNPC"] = true,
+	["spawn"] = true,
 	["timerLog"] = true,
 	["ashenvale"] = true,
 	["ashenvaleTime"] = true,
@@ -1699,6 +1722,20 @@ function NWB:receivedData(dataReceived, sender, distribution, elapsed)
 															else
 																NWB.data.layers[layer][k] = v;
 															end
+														elseif (k == "spawn") then
+															if (NWB.data.layers[layer] and NWB.data.layers[layer].spawn and NWB.data.layers[layer].spawn ~= 0) then
+																--Only record older spawn timestamps.
+																if (v < NWB.data.layers[layer].spawn) then
+																	NWB.data.layers[layer][k] = v;
+																end
+															else
+																NWB.data.layers[layer][k] = v;
+															end
+														elseif (k == "created") then
+															if (NWB.data.layers[layer] and not NWB.data.layers[layer].created) then
+																--Don't overwrite if we have this timestamp already, we want earliest created timestamp possible.
+																NWB.data.layers[layer][k] = v;
+															end
 														else
 															--Ignore data if we've set this buff type to 0 cooldown.
 															local type = strmatch(k, "(%a+)Timer$");
@@ -1707,7 +1744,7 @@ function NWB:receivedData(dataReceived, sender, distribution, elapsed)
 															end
 														end
 														if (not string.match(k, "lastSeenNPC") and not string.match(k, "terokTowers")
-																and not string.match(k, "hellfireRep")) then
+																and not string.match(k, "hellfireRep") and k ~= "spawn") then
 															hasNewData = true;
 														end
 														if (string.match(k, "flower")) then
@@ -1744,7 +1781,7 @@ function NWB:receivedData(dataReceived, sender, distribution, elapsed)
 											NWB:debug("Layermap error:", sender, v);
 											NWB:debug(data);
 										end
-									elseif (v ~= nil and k ~= "layers") then
+									elseif (v ~= nil and k ~= "layers" and k ~= "npcID" and k ~= "spawn") then
 										if (not NWB.validKeys[k]) then
 											--NWB:debug(data)
 											NWB:debug("Invalid key received:", k, v);
@@ -2188,6 +2225,8 @@ local shortKeys = {
 	["ab"] = "ashenvaleTime",
 	["ac"] = "lastAshenvaleGuildMsg",
 	["ad"] = "stvData",
+	["ae"] = "npcID",
+	["af"] = "spawn",
 	["f1"] = "flower1",
 	["f2"] = "flower2",
 	["f3"] = "flower3",
@@ -2702,13 +2741,13 @@ function NWB:recalcTimerLogFrame()
 				end
 				local keyText = "unknownTimer";
 				if (v.type == "r") then
-					keyText = "|cffFFFF00Rend|r";
+					keyText = "|cffFFFF00" .. L["rend"] .. "|r";
 				elseif (v.type == "o") then
-					keyText = "|cffFFFF00Onyxia|r";
+					keyText = "|cffFFFF00" .. L["onyxia"] .. "|r";
 				elseif (v.type == "n") then
-					keyText = "|cffFFFF00Nefarian|r";
+					keyText = "|cffFFFF00" .. L["nefarian"] .. "|r";
 				elseif (v.type == "q") then
-					keyText = "|cffFFFF00Rend handed in by " .. v.who .. "|r";
+					keyText = "|cffFFFF00" .. L["Rend handed in by"] .. " " .. v.who .. "|r";
 				end
 				local timeText = NWB:getTimeFormat(v.timestamp, true, true);
 				local space = "";
@@ -2717,11 +2756,11 @@ function NWB:recalcTimerLogFrame()
 					--Make things line up a little better with shorter times.
 					space = "  ";
 				end
-				local agoText = " |cff9CD6DE(Dropped "
-						.. NWB:getTimeString(GetServerTime() - v.timestamp, true, NWB.db.global.timeStringType) .. " ago)|r";
+				local agoText = " |cff9CD6DE(" .. L["Dropped"] .. " "
+						.. NWB:getTimeString(GetServerTime() - v.timestamp, true, NWB.db.global.timeStringType) .. " " .. L["ago"] .. ")|r";
 				if (v.type == "q") then
 					agoText = " |cff9CD6DE("
-							.. NWB:getTimeString(GetServerTime() - v.timestamp, true, NWB.db.global.timeStringType) .. " ago)|r";
+							.. NWB:getTimeString(GetServerTime() - v.timestamp, true, NWB.db.global.timeStringType) .. " " .. L["ago"] .. ")|r";
 				end
 				--If the next line is the same time within a few seconds and same drop type then merge the msgs together.
 				if (NWB.db.global.timerLogMergeLayers and sorted[k + 1] and sorted[k + 1].timestamp
@@ -2750,7 +2789,7 @@ function NWB:recalcTimerLogFrame()
 							end
 						end
 						layerText = "|cff00ff00[Layers " .. layerString .. "]|r ";]]
-						layerText = "|cff00ff00[Unknown Layer]|r ";
+						layerText = "|cff00ff00[" .. L["Unknown Layer"] .. "]|r ";
 						layers = {};
 					elseif (NWB.isLayered) then
 						layerText = "|cff00ff00[" .. L["Layer"] .. " " .. layerNum .. "]|r ";
@@ -2759,11 +2798,11 @@ function NWB:recalcTimerLogFrame()
 					if (v.type == "r") then
 						local timeLeft = NWB.rendCooldownTime - (GetServerTime() - v.timestamp);
 						if (timeLeft > 0) then
-							timeLeftString = " |cFFB0B0B0(Cooldown " .. NWB:getTimeString(timeLeft, true, "short", true) .. ")|r";
+							timeLeftString = " |cFFB0B0B0(" .. L["Cooldown"] .. " " .. NWB:getTimeString(timeLeft, true, "short", true) .. ")|r";
 						end
 					end
 					if (v.type == "q") then
-						layerNumText = "|cFF989898(zone " .. v.layerID .. ")|r ";
+						layerNumText = "|cFF989898(" .. L["zone"] .. " " .. v.layerID .. ")|r ";
 					end
 					lineCount = lineCount + 1;
 					line = lineCount .. ") |cFFFFAE42" .. timeText .. space .. "|r " .. layerText .. layerNumText .. keyText

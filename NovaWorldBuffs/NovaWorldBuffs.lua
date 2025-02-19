@@ -2158,7 +2158,7 @@ function NWB:recordChronoData(trade)
 			if (item) then
 				local itemID = item:GetItemID(item);
 				local itemName = item:GetItemName(item);
-				if (itemID and itemID == 184937) then
+				if (itemID and (itemID == 184937 or itemID == 212160)) then
 					found = true;
 					local startTime, duration, isEnabled = GetContainerItemCooldown(bag, slot);
 					if (startTime) then
@@ -2180,9 +2180,20 @@ function NWB:recordChronoData(trade)
 			if (isEnabled == 1 and startTime > 0 and duration > 0) then
 				NWB.data.myChars[UnitName("player")].chronoCooldown = endTime;
 			end
+		else
+			--Check for new SoD version.
+			local startTime, duration, isEnabled = GetItemCooldown(212160);
+			--Why is startTime nil for some people since Ulduar patch? It should always be 0.
+			--Possibly only happens during loading screens.
+			if (startTime) then
+				local endTime = GetCooldownLeft(startTime, duration) + GetServerTime();
+				if (isEnabled == 1 and startTime > 0 and duration > 0) then
+					NWB.data.myChars[UnitName("player")].chronoCooldown = endTime;
+				end
+			end
 		end
 	end
-	NWB.data.myChars[UnitName("player")].chronoCount = (GetItemCount(184937) or 0);
+	NWB.data.myChars[UnitName("player")].chronoCount = (GetItemCount(184937) or GetItemCount(212160) or 0);
 	if (trade) then
 		NWB:recalcBuffListFrame();
 	end
@@ -2721,7 +2732,7 @@ f:SetScript("OnEvent", function(self, event, ...)
 		NWB:leftCombat();
 	elseif (event == "UNIT_SPELLCAST_START") then
 		local unit, GUID, spellID = ...;
-		if (unit == "player" and spellID == 349858) then
+		if (unit == "player" and (spellID == 349858 or spellID == 1223679)) then
 			NWB:trackUnitDamage();
 			NWB:storeBuffs();
 			--Run another check of buffs every second before the cast ends.
@@ -2732,7 +2743,7 @@ f:SetScript("OnEvent", function(self, event, ...)
 		end
 	elseif (event == "UNIT_SPELLCAST_INTERRUPTED" or event == "UNIT_SPELLCAST_STOP") then
 		local unit, GUID, spellID = ...;
-		if (unit == "player" and spellID == 349858) then
+		if (unit == "player" and (spellID == 349858 or spellID == 1223679)) then
 			NWB:clearTempStoredBuffs();
 			if (storeBuffsTimer) then
 				storeBuffsTimer:Cancel();
@@ -2745,7 +2756,7 @@ f:SetScript("OnEvent", function(self, event, ...)
 				NWB:doVanish();
 			elseif (spellID == 5384) then
 				NWB:doFeign();
-			elseif (spellID == 349858) then
+			elseif (spellID == 349858 or spellID == 1223679) then
 				NWB:recordStoredBuffs();
 				--Cancel this timer incase haste buffs can be used on chronoboon and it goes off before this timer ends.
 				if (storeBuffsTimer) then
@@ -3936,7 +3947,11 @@ function NWB:updateMinimapButton(tooltip, frame)
 					end
 				end
 			end]]
-			tooltip:AddLine("|cff00ff00[" .. L["Layer"] .. " " .. count .. "]|r  |cFF989898(" .. L["zone"] .. " " .. k .. ") " .. wintergraspTexture .. buffTextures .. "|r");
+			local ageText = "";
+			if (v.spawn and v.spawn > 0) then
+				ageText = " |cFF989898(" .. L["Active"] .. " " .. NWB:getTimeString(GetServerTime() - v.spawn, true, "short") .. ")|r ";
+			end
+			tooltip:AddLine("|cff00ff00[" .. L["Layer"] .. " " .. count .. "]|r  |cFF989898(" .. L["Zone"] .. " " .. k .. ") " .. ageText .. wintergraspTexture .. buffTextures .. "|r");
 			if (not noWorldBuffTimers) then
 				if ((NWB.isClassic or (not NWB.db.global.hideMinimapBuffTimers
 						and not (NWB.db.global.disableBuffTimersMaxBuffLevel and UnitLevel("player") > 64)))
@@ -8687,7 +8702,11 @@ function NWB:recalclayerFrame(isLogon, copyPaste)
 					end
 				end
 			end
-			text = text .. "\n|cff00ff00[" .. L["Layer"] .. " " .. count .. "]|r  |cFF989898(" .. L["zone"] .. " " .. k .. ")|r " .. wintergraspTextures .. buffTextures .. "\n";
+			local ageText = "";
+			if (v.spawn and v.spawn > 0) then
+				ageText = " |cFF989898(" .. L["Active"] .. " " .. NWB:getTimeString(GetServerTime() - v.spawn, true, "short") .. ")|r ";
+			end
+			text = text .. "\n|cff00ff00[" .. L["Layer"] .. " " .. count .. "]|r  |cFF989898(" .. NWB.mapName .. " " .. k .. ")|r " .. ageText .. wintergraspTextures .. buffTextures .. "\n";
 			text = text .. NWB.chatColor;
 			if (not _G["NWBDisableLayerButton" .. count]) then
 				NWB:createDisableLayerButton(count);
@@ -8701,9 +8720,12 @@ function NWB:recalclayerFrame(isLogon, copyPaste)
 			--local _, lineCount = string.gsub(NWBlayerFrame.EditBox:GetText(), "\n", "");
 			local _, lineCount = string.gsub(text, "\n", "");
 			lineCount = lineCount - 1;
-			NWB["NWBDisableLayerButton" .. count]:SetPoint("TOPLEFT", 215, -(lineCount * 14.25));
+			NWB["NWBDisableLayerButton" .. count]:SetPoint("TOPLEFT", 275, -(lineCount * 14.25));
 			--Set the layer ID this button will disable.
 			NWB["NWBDisableLayerButton" .. count].layer = k;
+			--if (v.spawn and v.spawn > 0) then
+			--	text = text .. "|cFF9CD6DE[Layer age:|r |cFF9CD6DE" .. NWB:getTimeString(GetServerTime() - v.spawn, true) .. "]|r\n";
+			--end
 			if (not noWorldBuffTimers) then
 				local msg = "";
 				if (NWB.faction == "Horde" or NWB.db.global.allianceEnableRend) then
@@ -8889,7 +8911,7 @@ function NWB:recalclayerFrame(isLogon, copyPaste)
 				end
 				text = text .. msg .. "\n";
 			end
-			if (NWB.isDebug) then
+			--[[if (NWB.isDebug) then
 				if (v.lastSeenNPC) then
 					text = text .. "|cFF9CD6DELast seen:|r " .. NWB:getTimeString(GetServerTime() - v.lastSeenNPC, true) .. " ago.\n";
 					if (v.lastSeenNPC < v.created) then
@@ -8909,7 +8931,7 @@ function NWB:recalclayerFrame(isLogon, copyPaste)
 						text = text .. "|cFF9CD6DENPC:|r " .. v.npcID .. "\n";
 					end
 				end
-			end
+			end]]
 			if ((v.rendTimer + 3600) > (GetServerTime() - NWB.rendCooldownTime)
 					or (v.onyTimer + 3600) > (GetServerTime() - NWB.onyCooldownTime)
 					or (v.nefTimer + 3600) > (GetServerTime() - NWB.nefCooldownTime)) then
@@ -9661,9 +9683,9 @@ function NWB:setCurrentLayerText(unit)
 	end
 	local _, _, zone = NWB:GetPlayerZonePosition();
 	local GUID = UnitGUID(unit);
-	local unitType, zoneID, npcID;
+	local unitType, zoneID, npcID, spawnUID;
 	if (GUID) then
-		unitType, _, _, _, zoneID, npcID = strsplit("-", GUID);
+		unitType, _, _, _, zoneID, npcID, spawnUID = strsplit("-", GUID);
 	end
 	if (not zoneID) then
 		--NWBlayerFrame.fs2:SetText("|cFF9CD6DETarget any NPC in Orgrimmar to see your current layer.|r");
@@ -9734,8 +9756,24 @@ function NWB:setCurrentLayerText(unit)
 				--NWB.lastCurrentZoneID is not reset when joining group.
 				--So when you join a group you can't get another valid zoneID from the same layer and then phase over after it bringing the wrong zoneID with you.
 				NWB.lastCurrentZoneID = tonumber(zoneID);
-				NWB.data.layers[k].lastSeenNPC = GetServerTime();
+				v.lastSeenNPC = GetServerTime();
+				v.GUID = GUID;
+				v.npcID = tonumber(npcID);
 				NWB.lastKnownLayerMapID_Mapping = tonumber(zoneID);
+				
+				if (spawnUID) then
+					local spawnEpoch = GetServerTime() - (GetServerTime() % 2^23);
+					local spawnEpochOffset = bit.band(tonumber(strsub(spawnUID, 5), 16), 0x7fffff);
+					local spawnIndex = bit.rshift(bit.band(tonumber(strsub(spawnUID, 1, 5), 16), 0xffff8), 3);
+					local spawnTime = spawnEpoch + spawnEpochOffset;
+					if (spawnTime > GetServerTime()) then
+						-- This only occurs if the epoch has rolled over since a unit has spawned.
+						spawnTime = spawnTime - ((2^23) - 1);
+					end
+					if (not v.spawn or spawnTime < v.spawn) then
+						v.spawn = spawnTime;
+					end
+				end
 			end
 			return;
 		end
@@ -11867,13 +11905,13 @@ end)]]
 end)]]
 
 --Credit to the addon "unitscan" for how to scan in classic. https://www.curseforge.com/wow/addons/unitscan
---Really great idea the author had for detection method.
+--This is all disabled now, it worked well but isn't really within good addon practices.
 local doScan = false;
-local scanFrame = CreateFrame("Frame");
+--local scanFrame = CreateFrame("Frame");
 local lastPoisChange = 0;
 local lastPoisZone;
 local scanCheckEnabled;
-addon.c = c;
+--[[addon.c = c;
 scanFrame:RegisterEvent("ADDON_ACTION_FORBIDDEN");
 scanFrame:RegisterEvent("PLAYER_ENTERING_WORLD");
 scanFrame:RegisterEvent("AREA_POIS_UPDATED");
@@ -12000,14 +12038,14 @@ function NWB:heraldFound(sender, layer)
 		if (_G["DBM"] and _G["DBM"].CreatePizzaTimer and NWB.isClassic) then
 			_G["DBM"]:CreatePizzaTimer(time, timerMsg);
 		end
-		--[[if (IsAddOnLoaded("BigWigs") and NWB.db.global.bigWigsSupport) then
-			if (not SlashCmdList.BIGWIGSLOCALBAR) then
-				LoadAddOn("BigWigs_Plugins");
-			end
-			if (SlashCmdList.BIGWIGSLOCALBAR) then
-				SlashCmdList.BIGWIGSLOCALBAR(time .. " " .. timerMsg);
-			end
-		end]]
+		--if (IsAddOnLoaded("BigWigs") and NWB.db.global.bigWigsSupport) then
+		--	if (not SlashCmdList.BIGWIGSLOCALBAR) then
+		--		LoadAddOn("BigWigs_Plugins");
+		--	end
+		--	if (SlashCmdList.BIGWIGSLOCALBAR) then
+		--		SlashCmdList.BIGWIGSLOCALBAR(time .. " " .. timerMsg);
+		--	end
+		--end
 		NWB:sendBigWigs(time, timerMsg);
 	end
 end
@@ -12022,7 +12060,7 @@ function NWB:verifyHeraldPosition()
 		return;
 	end
 	return true;
-end
+end]]
 
 --Backup timer set from the yell incase the NPC wasn't found.
 function NWB:heraldYell()

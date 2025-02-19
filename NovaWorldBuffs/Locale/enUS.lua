@@ -203,7 +203,7 @@ L["Reset Data"] = "Reset Data"; --A button to Reset buffs window data.
 
 ---New translations to do---
 L["layerFrameMsgOne"] = "Old layers will still show for a few hours after server restarts."; --Msg at bottom of layer timers frame.
-L["layerFrameMsgTwo"] = "Layers will disappear from here 6 hours after not existing."; --Msg at bottom of layer timers frame.
+L["layerFrameMsgTwo"] = "Layers will disappear from here within a few hours after not existing."; --Msg at bottom of layer timers frame.
 L["You are currently on"] = "You are currently on"; --You are currently on [Layer 2]
 
 
@@ -1059,3 +1059,15 @@ L["skipDmfCookieDesc"] = "Enable this to skip getting the Fortune Cookie after y
 
 L["No layers found yet."] = "No layers found yet.";
 L["Bi-Weekly raid reset"] = "Bi-Weekly raid reset";
+
+L["Min Level"] = "Min Level";
+L["Rend handed in by"] = "Rend handed in by";
+L["ago"] = "ago";
+L["Dropped"] = "Dropped";
+L["Yes"] = "Yes";
+L["No"] = "No";
+L["Delete buff data?"] = "Delete buff data?";
+L["No characters with buffs found."] = "No characters with buffs found.";
+L["Unknown Layer"] = "Unknown Layer";
+
+L["Active"] = "Active";

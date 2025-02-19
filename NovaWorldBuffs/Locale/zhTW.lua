@@ -203,7 +203,7 @@ L["noLayerYetAlliance"] = "請點選暴風城的任何NPC\n來取得鏡像資訊
 L["Reset Data"] = "重置資料"; --A button to Reset buffs window data.
 
 L["layerFrameMsgOne"] = "伺服器重啟後，舊的鏡像依會保持顯示幾個小時。"; --Msg at bottom of layer timers frame.
-L["layerFrameMsgTwo"] = "沒有計時器後的六個小時鏡像會消失。"; --Msg at bottom of layer timers frame.
+L["layerFrameMsgTwo"] = "沒有計時器後的幾個小時鏡像會消失。"; --Msg at bottom of layer timers frame.
 L["You are currently on"] = "你目前正在"; --You are currently on [Layer 2]
 
 
@@ -1153,3 +1153,15 @@ L["skipDmfCookieDesc"] = "啟用此選項在獲得 DMF 增益後跳過取得幸�
 
 L["No layers found yet."] = "還沒發現鏡像。";
 L["Bi-Weekly raid reset"] = "雙週團隊重置";
+
+L["Min Level"] = "最低等級";
+L["Rend handed in by"] = "Rend handed in by";
+L["ago"] = "前";
+L["Dropped"] = "已刪除";
+L["Yes"] = "是";
+L["No"] = "否";
+L["Delete buff data?"] = "是否要刪除增益資料?";
+L["No characters with buffs found."] = "沒有找到有增益效果的角色。";
+L["Unknown Layer"] = "未知的鏡像";
+
+L["Active"] = "啟用";
