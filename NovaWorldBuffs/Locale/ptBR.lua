@@ -1080,3 +1080,15 @@ L["skipDmfCookieTitle"] = "Pular sorte";
 L["skipDmfCookieDesc"] = "Ativa isto para pular o recebimento da Sorte da Feira de Negraluna após obter o bônus da Feira de Negraluna.";
 
 L["No layers found yet."] = "Nenhuma camada encontrada ainda.";
+
+L["Min Level"] = "Nível mínimo";
+L["Rend handed in by"] = "Laceral entregue por";
+L["ago"] = "atrás";
+L["Dropped"] = "Caiu";
+L["Yes"] = "Sim";
+L["No"] = "Não";
+L["Delete buff data?"] = "Excluir dados de bônus?";
+L["No characters with buffs found."] = "Nenhum personagem com bônus encontrado.";
+L["Unknown Layer"] = "Camada desconhecida";
+
+L["Active"] = "Ativo";

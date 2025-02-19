@@ -1129,3 +1129,15 @@ L["skipDmfCookieTitle"] = "Omitir fortuna";
 L["skipDmfCookieDesc"] = "Activa esto para omitir recibir la fortuna de la Feria de la Luna Negra después de obtener el beneficio de la Feria de la Luna Negra.";
 
 L["No layers found yet."] = "No se encontraron capas aún.";
+
+L["Min Level"] = "Nivel mínimo";
+L["Rend handed in by"] = "Desgarro entregado por";
+L["ago"] = "atrás";
+L["Dropped"] = "Cayó";
+L["Yes"] = "Sí";
+L["No"] = "No";
+L["Delete buff data?"] = "¿Eliminar datos de beneficios?";
+L["No characters with buffs found."] = "No se encontraron personajes con beneficios.";
+L["Unknown Layer"] = "Capa desconocida";
+
+L["Active"] = "Activo";

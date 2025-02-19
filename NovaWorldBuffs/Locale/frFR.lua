@@ -978,7 +978,7 @@ L["Offline"] = "Hors ligne";
 L["Rested"] = "Reposé";
 L["Not Rested"] = "Non reposé";
 L["No zones mapped for this layer yet."] = "Aucune zone n'a encore été cartographiée pour ce couche.";
-L["Cooldown"] = "Temps de recharge";
+L["Cooldown"] = "Recharge";
 L["dmfLogonBuffResetMsg"] = "Ces personnages ont été déconnectés pendant plus de 8 heures dans une zone de repos et le temps de recharge du buff de la Foire de Sombrelune a été réinitialisé";
 L["dmfOfflineStatusTooltip"] = "Temps de recharge de la Foire de Sombrelune de plus de 8 heures hors ligne dans une zone de repos";
 L["chronoboonReleased"] = "Le Déplaceur de chronochance surchargé a restauré le buff de la Foire de Sombrelune. Un nouveau temps de recharge de 4 heures a commencé.";
@@ -1069,4 +1069,16 @@ L["chronoboonReleasedNoCooldown"] = "Vous avez relâché un buff de la Foire de 
 L["skipDmfCookieTitle"] = "Ignorer la prédiction";
 L["skipDmfCookieDesc"] = "Activez ceci pour ignorer la réception de la prédiction de la Foire de Sombrelune après avoir reçu le buff de la Foire de Sombrelune.";
 
-L["No layers found yet."] = "Aucune couche trouvée pour le moment."
+L["No layers found yet."] = "Aucune couche trouvée pour le moment.";
+
+L["Min Level"] = "Niveau minimum";
+L["Rend handed in by"] = "Rend remis par";
+L["ago"] = "il y a";
+L["Dropped"] = "Posé";
+L["Yes"] = "Oui";
+L["No"] = "Non";
+L["Delete buff data?"] = "Supprimer les données de buffs ?";
+L["No characters with buffs found."] = "Aucun personnage avec des buffs trouvé.";
+L["Unknown Layer"] = "Couche inconnue";
+
+L["Active"] = "Actif";

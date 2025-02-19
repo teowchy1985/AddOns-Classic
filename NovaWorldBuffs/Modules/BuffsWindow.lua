@@ -183,9 +183,9 @@ NWBbuffListFrameWipeButton:SetText(L["Reset Data"]);
 NWBbuffListFrameWipeButton:SetNormalFontObject("GameFontNormalSmall");
 NWBbuffListFrameWipeButton:SetScript("OnClick", function(self, arg)
 	StaticPopupDialogs["NWB_BUFFDATARESET"] = {
-	  text = "Delete buff data?",
-	  button1 = "Yes",
-	  button2 = "No",
+	  text = L["Delete buff data?"],
+	  button1 = L["Yes"],
+	  button2 = L["No"],
 	  OnAccept = function()
 	      NWB:resetBuffData();
 	  end,
@@ -769,7 +769,7 @@ function NWB:recalcBuffListFrame()
 	end
 	if (not foundChars) then
 		NWBbuffListFrame.fs2:SetText("");
-		NWB:insertBuffsLineFrameString("|cffffff00No characters with buffs found.");
+		NWB:insertBuffsLineFrameString("|cffffff00" .. L["No characters with buffs found."]);
 	else
 		NWBbuffListFrame.fs2:SetText("|cffffff00" .. L["Mouseover char names for extra info"]);
 	end
