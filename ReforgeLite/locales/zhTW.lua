@@ -33,6 +33,7 @@ L["Inactive window color"] = "非當前視窗的顏色"
 --[[Translation missing --]]
 --[[ L["Masterfrost"] = ""--]] 
 L["Melee DW hit cap"] = "進戰雙持命中上限"
+L["Melee Haste"] = "近戰加速"
 L["Melee hit cap"] = "進戰命中上限"
 --[[Translation missing --]]
 --[[ L["Monocat"] = ""--]] 
