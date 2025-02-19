@@ -10250,7 +10250,13 @@ NRC.fort = {
 		desc = "+132 Stam",
 		maxRank = true,
 	},
-	[86507] = {
+	[86507] = { --There's 2 versions of this?
+		name = "Runescroll of Fortitude II",
+		icon = 237449,
+		desc = "+468 Stam",
+		maxRank = true,
+	},
+	[96175] = {
 		name = "Runescroll of Fortitude II",
 		icon = 237449,
 		desc = "+468 Stam",

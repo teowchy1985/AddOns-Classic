@@ -493,6 +493,12 @@ NRC.zones = {
 		expansion = "classic",
 		noLockout = true,
 	},
+	[2875] = { --Treat this as a raid for logging.
+		name = L["Karazhan Crypts"],
+		--type = "raid",
+		type = "dungeon",
+		expansion = "classic", --SoD.
+	},
 };
 
 NRC.flasks = {
@@ -680,6 +686,12 @@ NRC.battleElixirs = {
 	},
 	[17038] = {
 		name = "Winterfall Firewater",
+		icon = 134872,
+		desc = "Increase melee attack power by 35",
+		maxRank = true,
+	},
+	[473469] = {
+		name = "Cleansed Firewater",
 		icon = 134872,
 		desc = "Increase melee attack power by 35",
 		maxRank = true,
@@ -894,6 +906,18 @@ NRC.foods = {
 		desc = "+10 Spirit",
 		maxRank = true,
 	},
+	[18125] = {
+		name = "Blessed Sunfruit",
+		icon = 136000,
+		desc = "+10 Strength",
+		maxRank = true,
+	},
+	[18193] = {
+		name = "Increased Spirit",
+		icon = 136000,
+		desc = "+10 Spirit",
+		maxRank = true,
+	},
 	[18222] = {
 		name = "Health Regeneration",
 		icon = 136000,
@@ -924,6 +948,13 @@ NRC.foods = {
 		desc = "+22 Healing",
 		maxRank = true,
 	},
+	[15852] = {
+		name = "Dragonbreath Chili",
+		icon = 132804,
+		desc = "Occasionally belch flame at enemies struck in melee",
+		quality = 1,
+		maxRank = true,
+	},
 };
 
 --"Food" buffs used in RaidStatus to show player is currently eating buff food, these must match all foods above.
@@ -939,6 +970,8 @@ NRC.eating = {
 	[18229] = "Food", --+10 Stamina, 35.
 	[18230] = "Food", --+10 Agility, 35.
 	[18231] = "Food", --+10 Spirit, 35.
+	[18140] = "Food", --+10 Spirit.
+	[18124] = "Food", --+10 Strength.
 	[18232] = "Food", --+6 Health every 5 seconds, 35.
 	[18233] = "Food", --+8 Mana every 5 seconds, 35.
 	[18234] = "Food", --+10 Stamina, 55, has level 35 equivalent.
@@ -1427,6 +1460,13 @@ NRC.trackedConsumes = {
 		itemID = 23123,
 		quality = 2,
 	},
+	[1224410] = { --SoD version.
+		name = "Blessed Wizard Oil",
+		icon = 134806,
+		desc = "Increases spell damage against undead by up to 60.",
+		itemID = 238234,
+		quality = 2,
+	},
 	[25123] = {
 		name = "Brilliant Mana Oil",
 		icon = 134722,
@@ -1446,6 +1486,20 @@ NRC.trackedConsumes = {
 		icon = 135249,
 		desc = "Increases attack power against undead by 100.",
 		itemID = 23122,
+		quality = 2,
+	},
+	[1224422] = { --SoD version.
+		name = "Consecrated Sharpening Stone",
+		icon = 135249,
+		desc = "Increases attack power against undead by 100.",
+		itemID = 238241,
+		quality = 2,
+	},
+	[1223689] = {
+		name = "Weighted Consecrated Sharpening Stone",
+		icon = 135248,
+		desc = "Increases 2h weapon attack power against undead by 200.",
+		itemID = 237810,
 		quality = 2,
 	},
 	[16138] = {
@@ -1530,6 +1584,41 @@ NRC.trackedConsumes = {
 		icon = 254118,
 		desc = "Drains 1075 to 1525 mana from those in the blast radius and does 50% of the mana drained in damage to the target. Also Silences targets in the blast for 5 sec.",
 		itemID = 233984,
+		quality = 1,
+	},
+	[1214004] = {
+		name = "Enchanted Repellent",
+		icon = 134723,
+		desc = "Increases spell damage by up to 45 and increases spell critical strike rating by 1%.",
+		itemID = 233996,
+		quality = 1,
+	},
+	[471401] = {
+		name = "Magnificent Trollshine",
+		icon = 134876,
+		desc = "Increases spell damage by up to 36 and increases spell critical strike rating by 1%.",
+		itemID = 232611,
+		quality = 1,
+	},
+	[15852] = {
+		name = "Dragonbreath Chili",
+		icon = 132804,
+		desc = "Occasionally belch flame at enemies struck in melee for the next 10 min.",
+		itemID = 12217,
+		quality = 1,
+	},
+	[22789] = {
+		name = "Gordok Green Grog",
+		icon = 132790,
+		desc = "Increases Stamina by 10 for 15 min",
+		itemID = 18269,
+		quality = 1,
+	},
+	[25804] = {
+		name = "Rumsey Rum Black Label",
+		icon = 132791,
+		desc = "Increases Stamina by 15 for 15 min",
+		itemID = 21151,
 		quality = 1,
 	},
 };
@@ -1836,6 +1925,9 @@ NRC.npcs = {
 
 NRC.ignoredLoot = {
 	--Badges etc.
+	[236397] = true; --Remants of Valor.
+	[22484] = true; --Necrotic rune.
+	[226404] = true; --Tarnished Undermine Real.
 };
 
 NRC.distractingShot = {
@@ -2093,6 +2185,13 @@ NRC.tempEnchants = {
 		name = "Consecrated Sharpening Stone",
 		icon = 135249,
 		desc = "Increases attack power against undead by 100.",
+		duration = 1800,
+		maxRank = true,
+	},
+	[7896] = { --SoD.
+		name = "Weighted Consecrated Sharpening Stone",
+		icon = 135248,
+		desc = "Increases 2h weapon attack power against undead by 200.",
 		duration = 1800,
 		maxRank = true,
 	},
@@ -2530,6 +2629,12 @@ NRC.tempEnchants = {
 		desc = "While applied to target weapon or shield it increases spell damage by up to 45 and increases Spell Critical chance by 1%.",
 		duration = 1800,
 		maxRank = true,
+	},
+	[7644] = {
+		name = "Magnificent Trollshine",
+		icon = 134876,
+		desc = "Increases spell damage by up to 36 and increases spell critical strike rating by 1%.",
+		itemID = 1800,
 	},
 };
 
@@ -3363,6 +3468,7 @@ if (NRC.isSOD) then
 	NRC.instanceTextures[2791] = {"Storm Cliffs", "", 26752, 1385753, 1396589, 329121, 0};
 	NRC.instanceTextures[2789] = {"The Tainted Scar", "", 64119, 1134508, 1396592, 136361, 0, 9};
 	NRC.instanceTextures[2804] = {"The Crystal Vale", "", 342914, 342914, 1396592, 136361, 0, 9};
+	NRC.instanceTextures[2875] = {"Karazhan Crypts", "", 1396458, 1396503, 1396584, 136343, 0, 1}; --Use kara artwork.
 	
 	--Add hunter kings buff to paladin table.
 	NRC.pal[409583] = {

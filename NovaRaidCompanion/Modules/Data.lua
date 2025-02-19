@@ -222,7 +222,7 @@ function NRC:versionCheck(remoteVersion, distribution, sender)
 	if (distribution == "GUILD" or distribution == "PARTY" or distribution == "RAID") then
 		local lastVersionMsg = NRC.db.global.lastVersionMsg;
 		if (tonumber(remoteVersion) > tonumber(version) and (GetServerTime() - lastVersionMsg) > 14400) then
-			NRC:print("|cFF0096FF" .. L["versionOutOfDate"]);
+			NRC:print("|TInterface\\AddOns\\NovaRaidCompanion\\Media\\nrc_icon2:12:12:0:0|t |cFF0096FF" .. L["versionOutOfDate"]);
 			NRC.db.global.lastVersionMsg = GetServerTime();
 		end
 		if (tonumber(remoteVersion) > tonumber(version)) then

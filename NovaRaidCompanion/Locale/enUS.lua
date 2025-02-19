@@ -853,8 +853,11 @@ L["raidManaEnabledDesc"] = "Enable the raid mana module.";
 L["raidManaEnabledEverywhereTitle"] = "Everywhere";
 L["raidManaEnabledEverywhereDesc"] = "Enabled everywhere including outside of raids (Except Arena/Battlegounrds, they have own config option).";
 
-L["raidManaEnabledRaidTitle"] = "Raids/Dungeons";
-L["raidManaEnabledRaidDesc"] = "Enabled inside raids and dungeons.";
+L["raidManaEnabledRaidTitle"] = "Raids";
+L["raidManaEnabledRaidDesc"] = "Enabled inside raids.";
+
+L["raidManaEnabledPartyTitle"] = "Dungeons";
+L["raidManaEnabledPartyDesc"] = "Enabled inside 5 man dungeons.";
 
 L["raidManaEnabledPvPTitle"] = "PvP";
 L["raidManaEnabledPvPDesc"] = "Enabled in battlegrounds and arenas.";
@@ -1263,3 +1266,29 @@ L["raidLogFrameWidthDesc"] = "Set width for the main raid log window when you ri
 
 L["raidLogFrameHeightTitle"] = "Raid Log Height";
 L["raidLogFrameHeightDesc"] = "Set height for the main raid log window when you right click minimap button.";
+
+L["otherDamageMyPI"] = "%s gained %s extra damage from my Power Infusion.";
+L["otherDamageOtherPI"] = "%s gained %s extra damage from %s Power Infusion.";
+L["otherTransferedDamagePIMine"] = "You gained %s extra damage from %s Power Infusion.";
+L["otherDamagePIMine"] = "You gave me %s extra damage from Power Infusion.";
+L["mePIWhisper"] = "You gained %s extra damage from my Power Infusion.";
+
+L["piMyTextDesc"] = "This will show how much damage your PI gave to a player, there are also option here for any class to show how much damage they got when a priest gives you PI.";
+
+L["piSendDamagePrintTitle"] = "Print My PI Casts";
+L["piSendDamagePrintDesc"] = "|cFFFFFF00(For |cFFFFFFFFPriests|r Only)|r Print to the chat window how much damage my Power nfusion cast gave a player during the 15 seconds uptime.";
+
+L["piSendDamagePrintToMeTitle"] = "Print My PI Damage Gains";
+L["piSendDamagePrintToMeDesc"] = "|cFFFFFF00(All Classes)\r Print to the chat window how much damage I gained during the 15 seconds uptime when a priest casts PI on me.";
+
+L["piSendDamagePrintOtherTitle"] = "Print All Priests PI Casts";
+L["piSendDamagePrintOtherDesc"] = "|cFFFFFF00(All Classes)|r Print damage gained for all PI casts from ALL priests and even when cast on other players.";
+
+L["piSendDamageWhisperTitle"] = "Whisper My PI Casts Damage Given";
+L["piSendDamageWhisperDesc"] = "|cFFFFFF00(For |cFFFFFFFFPriests|r Only)|r Send a whisper to my Power Infusion targets telling them how much extra damage I gave them.";
+
+L["piSendDamageWhisperYouGaveMeTitle"] = "Whisper My Damage Gain to Priests";
+L["piSendDamageWhisperYouGaveMeDesc"] = "|cFFFFFF00(All Classes)|r Send a whisper to any priest that gives me power infusion to show them how much extra damage I did.";
+
+L["logKaraCryptsTitle"] = "Log Kara Crypts";
+L["logKaraCryptsDesc"] = "Enable this to record Karazhan Crypts to the raid log like it's a normal raid.";

@@ -7,7 +7,7 @@
 local addonName, NRC = ...;
 local L = LibStub("AceLocale-3.0"):GetLocale("NovaRaidCompanion");
 local raidStatusFrame;
-local flaskSlot, foodSlot, scrollSlot, intSlot, fortSlot, spiritSlot, shadowSlot, motwSlot, palSlot, duraSlot, worldBuffsSlot;
+local specialSlot, flaskSlot, foodSlot, scrollSlot, intSlot, fortSlot, spiritSlot, shadowSlot, motwSlot, palSlot, duraSlot, worldBuffsSlot;
 local armorSlot, holyResSlot, fireResSlot, natureResSlot, frostResSlot, shadowResSlot, arcaneResSlot, weaponEnchantsSlot, talentsSlot;
 local slotCount, lastRaidRequest, lastDuraRequest, columCount = 0, 0, 0, 0;
 local readyCheckStatus, readyCheckRunning, readyCheckEndedTimer, readyCheckEndedTimer2 = {};
@@ -20,6 +20,7 @@ local numWorldBuffs = 0; --Counted further down when loading db.
 local firstUpdate = true;
 local getClassColor = NRC.getClassColor;
 local isClassic = NRC.isClassic;
+local isSOD = NRC.isSOD;
 local pairs, ipairs = pairs, ipairs;
 local gsub = gsub;
 local GetNormalizedRealmName = GetNormalizedRealmName;
@@ -709,6 +710,15 @@ end
 	frame.updateTooltip(tooltipText);
 end]]
 
+local function updateTooltipSpecialSlot(frame, name, classHex, tooltipString)
+	local nameString = "|c" .. classHex .. name .. "|r";
+	local tooltipText = "|cFFDEDE42" .. nameString .. "|r";
+	if (tooltipString) then
+		tooltipText = tooltipText .. "\n" .. tooltipString;
+	end
+	frame.updateTooltip(tooltipText);
+end
+
 local function updateGridTooltipTalents(frame, name, classHex, talentCount, specName, specIcon, treeData, showOnyCloak, hasOnyCloak, hasDataShare, addonVersion, helperVersion)
 	local nameString = "|c" .. classHex .. name .. "|r";
 	local tooltipText = "|cFFDEDE42" .. nameString .. "|r";
@@ -1255,7 +1265,7 @@ function NRC:updateRaidStatusFrames(updateLayout)
 				else
 					auras = NRC.auraCache[v.guid];
 				end
-				local elixirs, pallyBuffs, scrollBuffs, enchantBuffs, wBuffs = {}, {}, {}, {}, {};
+				local elixirs, pallyBuffs, foodBuffs, scrollBuffs, enchantBuffs, wBuffs = {}, {}, {}, {}, {}, {};
 				local eating;
 				if (auras and next(auras) and (v.online or NRC.raidStatusCache)) then
 					local elixirCount = 1;
@@ -1365,8 +1375,28 @@ function NRC:updateRaidStatusFrames(updateLayout)
 							scrollBuffs[#scrollBuffs].order = NRC.scrolls[buffID].order;
 							hasScroll = true;
 						end
-						if (foodSlot and NRC.foods[buffID]) then
-							local frame = raidStatusFrame.subFrames[rowName .. foodSlot];
+						if (foodSlot and validFoods[buffID]) then
+							eating = buffData.endTime or 0;
+						elseif (foodSlot and NRC.foods[buffID]) then
+							tinsert(foodBuffs, buffData);
+							--Merge some db data with our player auras data.
+							foodBuffs[#foodBuffs].buffID = buffID;
+							foodBuffs[#foodBuffs].icon = NRC.foods[buffID].icon;
+							foodBuffs[#foodBuffs].rank = NRC.foods[buffID].rank;
+							foodBuffs[#foodBuffs].desc = NRC.foods[buffID].desc;
+							foodBuffs[#foodBuffs].maxRank = NRC.foods[buffID].maxRank;
+							foodBuffs[#foodBuffs].order = NRC.foods[buffID].order;
+							hasFood = true;
+							
+							--A little hacky sorting for now, going to rewrite this whole func at some point.
+							--Display chilli on the right always.
+							if (foodBuffs[1] and foodBuffs[2] and foodBuffs[1].buffID == 15852) then
+								local temp = foodBuffs[1];
+								foodBuffs[1] = foodBuffs[2]
+								foodBuffs[2] = temp;
+							end
+							
+							--[[local frame = raidStatusFrame.subFrames[rowName .. foodSlot];
 							frame.fs:SetText("");
 							frame.texture:SetTexture(NRC.foods[buffID].icon);
 							frame.texture:SetSize(16, 16);
@@ -1388,9 +1418,7 @@ function NRC:updateRaidStatusFrames(updateLayout)
 							if (not InCombatLockdown()) then
 								frame:SetAttribute("macrotext", "/target " .. name);
 							end
-							updateCooldownSwipe(frame.texture, buffData.endTime, buffData.duration);
-						elseif (foodSlot and validFoods[buffID]) then
-							eating = buffData.endTime or 0;
+							updateCooldownSwipe(frame.texture, buffData.endTime, buffData.duration);]]
 						end
 						if (intSlot and int[buffID]) then
 							local frame = raidStatusFrame.subFrames[rowName .. intSlot];
@@ -1853,7 +1881,7 @@ function NRC:updateRaidStatusFrames(updateLayout)
 									frame.texture2:SetTexture();
 									frame.fs:SetPoint("CENTER", 0, 0);
 								end
-							elseif (v.hasDataShare) then
+							else
 								frame.texture:ClearAllPoints();
 								frame.texture:SetPoint("CENTER", 0, 0);
 								frame.texture2:SetTexture();
@@ -1864,6 +1892,65 @@ function NRC:updateRaidStatusFrames(updateLayout)
 							frame.texture:SetPoint("CENTER", 0, 0);
 							frame.texture2:SetTexture();
 							frame.fs:SetPoint("CENTER", 0, 0);
+						end
+					end
+				end
+				if (v.specialSlotData) then
+					local frame = raidStatusFrame.subFrames[rowName .. specialSlot];
+					local specialData = v.specialSlotData;
+					if (specialData == true) then
+						--If data is only true and not a table then no data for this special display was found, display it as missing.
+						frame.fs:SetText("--");
+						frame.updateTooltip();
+						frame.texture:ClearAllPoints();
+						frame.texture:SetPoint("CENTER", 0, 0);
+						frame.fs:ClearAllPoints();
+						frame.fs:SetPoint("CENTER", 0, 0);
+						frame.texture:SetTexture();
+					else
+						if (specialData.type == "naxx") then
+							--frame.texture:SetPoint("RIGHT", frame, "CENTER", -2.5, 0);
+							frame.texture:SetPoint("LEFT", frame, "LEFT", 1, 0);
+							frame.texture:SetSize(15, 15);
+							frame.fs:SetPoint("CENTER", 9, 0);
+							--frame.texture:SetTexture(specialData.icon);
+							frame.texture:SetTexture("Interface\\LFGFrame\\UI-LFG-ICON-PORTRAITROLES");
+							local role = specialData.role;
+							if (role == "Damage") then
+								--UnitPopupSharedButtonMixins.lua
+								--/dump INLINE_DAMAGER_ICON
+								--Interface\\LFGFrame\\UI-LFG-ICON-PORTRAITROLES.blp:16:16:0:0:64:64:20:39:1:20
+								frame.texture:SetTexCoord(GetTexCoordsForRoleSmallCircle("DAMAGER"));
+							elseif (role == "Heals") then
+								frame.texture:SetTexCoord(GetTexCoordsForRoleSmallCircle("HEALER"));
+							else
+								frame.texture:SetTexCoord(GetTexCoordsForRoleSmallCircle("TANK"));
+							end
+							frame.fs:ClearAllPoints();
+							frame.fs:SetPoint("CENTER", 9, 0);
+							frame.fs:SetFont(NRC.regionFont, 10);
+							local percent = specialData.percent;
+							local percentText;
+							--[[if (percent > 37) then
+								--Rank 10
+								percentText = "|cFF00FF00" .. specialData.percent .. "%|r";
+							elseif (percent > 28) then
+								--Rank 8+
+								percentText = "|cFFFFAE42" .. specialData.percent .. "%|r";
+							elseif (percent > 16) then
+								--Rank 6+
+								percentText = "|cFFFFFF00" .. specialData.percent .. "%|r";
+							elseif (percent > 6) then
+								--Rank 3+
+								percentText = "|cFF9CD6DE" .. specialData.percent .. "%|r";
+							else
+								percentText = "|cFFFFFFFF" .. specialData.percent .. "%|r";
+							end]]
+							--Show all as yellow for now, may adust colors based on level later.
+							percentText = "|cFFFFFF00" .. specialData.percent .. "%|r";
+							frame.fs:SetText(percentText);
+							local tooltipString = specialData.name .. "\n+" .. percentText .. "\n|T" .. specialData.icon .. ":11:11|t |cFFFFFF00" .. specialData.role;
+							updateTooltipSpecialSlot(frame, name, classHex, tooltipString);
 						end
 					end
 				end
@@ -1939,6 +2026,38 @@ function NRC:updateRaidStatusFrames(updateLayout)
 						stopCooldownSwipe(frame.texture2);
 						stopCooldownSwipe(frame.texture3);
 					end
+				end
+				if (eating) then
+					local frame = raidStatusFrame.subFrames[rowName .. foodSlot];
+					frame.texture:SetTexture();
+					frame.texture2:SetTexture();
+					frame.texture3:SetTexture();
+					--frame.texture4:SetTexture();
+					stopCooldownSwipe(frame.texture);
+					stopCooldownSwipe(frame.texture2);
+					stopCooldownSwipe(frame.texture3);		
+				elseif (next(foodBuffs) and not eating) then
+					local frame = raidStatusFrame.subFrames[rowName .. foodSlot];
+					if (not InCombatLockdown()) then
+						frame:SetAttribute("macrotext", "/target " .. name);
+					end
+					NRC:raidStatusSortMultipleIcons(frame, foodBuffs, 4, true, true, nil, isClassic and 60);
+					if (foodBuffs[1]) then
+						updateCooldownSwipe(frame.texture, foodBuffs[1].endTime, foodBuffs[1].duration);
+					else
+						stopCooldownSwipe(frame.texture);
+					end
+					if (foodBuffs[2]) then
+						updateCooldownSwipe(frame.texture2, foodBuffs[2].endTime, foodBuffs[2].duration);
+					else
+						stopCooldownSwipe(frame.texture2);
+					end
+					if (foodBuffs[3]) then			
+						updateCooldownSwipe(frame.texture3, foodBuffs[3].endTime, foodBuffs[3].duration);
+					else
+						stopCooldownSwipe(frame.texture3);
+					end
+					--Never add duration to 4th texture, they're too small to see properly if showing 4.
 				end
 				if (next(scrollBuffs)) then
 					local frame = raidStatusFrame.subFrames[rowName .. scrollSlot];
@@ -2063,8 +2182,35 @@ function NRC:updateRaidStatusFrames(updateLayout)
 					stopCooldownSwipe(frame.texture3);
 					stopCooldownSwipe(frame.texture4);
 				end
-				if (foodSlot and not hasFood) then
+				if (foodSlot and eating) then
 					local frame = raidStatusFrame.subFrames[rowName .. foodSlot];
+					frame.texture:SetTexture();
+					frame.texture2:SetTexture();
+					frame.texture3:SetTexture();
+					frame.updateTooltip();
+					local eatingString = L["Eating"];
+					if (eating > 0 and not LOCALE_koKR and not LOCALE_zhCN and not LOCALE_zhTW) then
+						if (not NRC.raidStatusCache) then
+							eatingString = eatingString .. " " .. math.floor(eating - GetServerTime()) .. "s";
+						end
+					end
+					frame.fs:SetText(eatingString);
+				elseif (foodSlot and not hasFood) then
+					local frame = raidStatusFrame.subFrames[rowName .. foodSlot];
+					frame.texture:SetTexture();
+					frame.texture2:SetTexture();
+					frame.texture3:SetTexture();
+					frame.fs:SetText("|cFFFF0000X|r");
+					frame.updateTooltip();
+					frame:SetBackdropColor(0, 0, 0, 0);
+					frame:SetBackdropBorderColor(1, 1, 1, 0);
+					if (not InCombatLockdown()) then
+						frame:SetAttribute("macrotext", "/target " .. name);
+					end
+					stopCooldownSwipe(frame.texture);
+					stopCooldownSwipe(frame.texture2);
+					stopCooldownSwipe(frame.texture3);
+					--[[local frame = raidStatusFrame.subFrames[rowName .. foodSlot];
 					frame.texture:SetTexture();
 					--frame.fs:SetText("|cFFFF0000X|r");
 					frame.updateTooltip();
@@ -2084,14 +2230,13 @@ function NRC:updateRaidStatusFrames(updateLayout)
 					if (not InCombatLockdown()) then
 						frame:SetAttribute("macrotext", "/target " .. name);
 					end
-					stopCooldownSwipe(frame.texture);
+					stopCooldownSwipe(frame.texture);]]
 				end
 				if (scrollSlot and not hasScroll) then
 					local frame = raidStatusFrame.subFrames[rowName .. scrollSlot];
 					frame.texture:SetTexture();
 					frame.texture2:SetTexture();
 					frame.texture3:SetTexture();
-					frame.texture4:SetTexture();
 					frame.fs:SetText("|cFFFF0000X|r");
 					frame.updateTooltip();
 					frame:SetBackdropColor(0, 0, 0, 0);
@@ -2302,7 +2447,7 @@ function NRC:updateRaidStatusFrames(updateLayout)
 	--print("Elapsed:", pTime - debugprofilestop());
 end
 
-function NRC:raidStatusSortMultipleIcons(frame, spellData, maxPossible, checkMaxRank, checkDuration, isPallyBuffs)
+function NRC:raidStatusSortMultipleIcons(frame, spellData, maxPossible, checkMaxRank, checkDuration, isPallyBuffs, customLowDuration)
 	--Sort spells by order.
 	local order = true;
 	for k, v in pairs(spellData) do
@@ -2329,7 +2474,7 @@ function NRC:raidStatusSortMultipleIcons(frame, spellData, maxPossible, checkMax
 		if (not spellData[1].maxRank) then
 			missingMaxRank = true;
 		end
-		if (spellData[1].endTime and spellData[1].endTime - GetServerTime() < lowDurationTime and spellData[1].duration ~= 0) then
+		if (spellData[1].endTime and spellData[1].endTime - GetServerTime() < (customLowDuration or lowDurationTime) and spellData[1].duration ~= 0) then
 			lowDurationFound = true;
 		end
 	end
@@ -2344,7 +2489,7 @@ function NRC:raidStatusSortMultipleIcons(frame, spellData, maxPossible, checkMax
 		if (not spellData[2].maxRank) then
 			missingMaxRank = true;
 		end
-		if (spellData[2].endTime and spellData[2].endTime - GetServerTime() < lowDurationTime and spellData[2].duration ~= 0) then
+		if (spellData[2].endTime and spellData[2].endTime - GetServerTime() < (customLowDuration or lowDurationTime) and spellData[2].duration ~= 0) then
 			lowDurationFound = true;
 		end
 	end
@@ -2359,7 +2504,7 @@ function NRC:raidStatusSortMultipleIcons(frame, spellData, maxPossible, checkMax
 		if (not spellData[3].maxRank) then
 			missingMaxRank = true;
 		end
-		if (spellData[3].endTime and spellData[3].endTime - GetServerTime() < lowDurationTime and spellData[3].duration ~= 0) then
+		if (spellData[3].endTime and spellData[3].endTime - GetServerTime() < (customLowDuration or lowDurationTime) and spellData[3].duration ~= 0) then
 			lowDurationFound = true;
 		end
 	end
@@ -2374,7 +2519,7 @@ function NRC:raidStatusSortMultipleIcons(frame, spellData, maxPossible, checkMax
 		if (not spellData[4].maxRank) then
 			missingMaxRank = true;
 		end
-		if (spellData[4].endTime and spellData[4].endTime - GetServerTime() < lowDurationTime and spellData[4].duration ~= 0) then
+		if (spellData[4].endTime and spellData[4].endTime - GetServerTime() < (customLowDuration or lowDurationTime) and spellData[4].duration ~= 0) then
 			lowDurationFound = true;
 		end
 	end
@@ -2752,13 +2897,248 @@ local function addChar(v, guid, name)
 	end
 end
 
+local naxxSealLevels = {};
+if (NRC.isSOD) then
+	naxxSealLevels = {
+		--Level 1.
+		[1219539] = {
+			name = "|cFFFFFFFF[Aspirant's Seal of the Dawn]|r",
+			icon = 236690,
+			percent = 1.25,
+			role = "Damage",
+			itemID = 236354,
+		},
+		[1219548] = {
+			name = "|cFFFFFFFF[Aspirant's Seal of the Dawn]|r",
+			icon = 134501,
+			percent = 1.25,
+			role = "Heals",
+			itemID = 236385,
+		},
+		[1220514] = {
+			name = "|cFFFFFFFF[Aspirant's Seal of the Dawn]|r",
+			icon = 236689,
+			percent = 1.25,
+			role = "Tank",
+			itemID = 236396,
+		},
+		--Level 2.
+		[1223348] = {
+			name = "|cFFFFFFFF[Initiate's Seal of the Dawn]|r",
+			icon = 236690,
+			percent = 4.38,
+			role = "Damage",
+			itemID = 236355,
+		},
+		[1223379] = {
+			name = "|cFFFFFFFF[Initiate's Seal of the Dawn]|r",
+			icon = 134501,
+			percent = 4.38,
+			role = "Heals",
+			itemID = 1223379,
+		},
+		[1223367] = {
+			name = "|cFFFFFFFF[Initiate's Seal of the Dawn]|r",
+			icon = 236689,
+			percent = 4.38,
+			role = "Tank",
+			itemID = 236395,
+		},
+		--Level 3.
+		[1223349] = {
+			name = "|cFF1eff00[Squire's Seal of the Dawn]|r",
+			icon = 236690,
+			percent = 6.25,
+			role = "Damage",
+			itemID = 236356,
+		},
+		[1223380] = {
+			name = "|cFF1eff00[Squire's Seal of the Dawn]|r",
+			icon = 134501,
+			percent = 6.25,
+			role = "Heals",
+			itemID = 236383,
+		},
+		[1223368] = {
+			name = "|cFF1eff00[Squire's Seal of the Dawn]|r",
+			icon = 236689,
+			percent = 6.25,
+			role = "Tank",
+			itemID = 236394,
+		},
+		--Level 4.
+		[1223350] = {
+			name = "|cFF1eff00[Knight's Seal of the Dawn]|r",
+			icon = 236690,
+			percent = 10,
+			role = "Damage",
+			itemID = 236357,
+		},
+		[1223381] = {
+			name = "|cFF1eff00[Knight's Seal of the Dawn]|r",
+			icon = 134501,
+			percent = 10,
+			role = "Heals",
+			itemID = 236382,
+		},
+		[1223370] = {
+			name = "|cFF1eff00[Knight's Seal of the Dawn]|r",
+			icon = 236689,
+			percent = 10,
+			role = "Tank",
+			itemID = 236393,
+		},
+		--Level 5.
+		[1223351] = {
+			name = "|cFF0070dd[Templar's Seal of the Dawn]|r",
+			icon = 236690,
+			percent = 12.50,
+			role = "Damage",
+			itemID = 236358,
+		},
+		[1223382] = {
+			name = "|cFF0070dd[Templar's Seal of the Dawn]|r",
+			icon = 134501,
+			percent = 12.50,
+			role = "Heals",
+			itemID = 236380,
+		},
+		[1223371] = {
+			name = "|cFF0070dd[Templar's Seal of the Dawn]|r",
+			icon = 236689,
+			percent = 12.50,
+			role = "Tank",
+			itemID = 236392,
+		},
+		--Level 6.
+		[1223352] = {
+			name = "|cFF0070dd[Champion's Seal of the Dawn]|r",
+			icon = 236690,
+			percent = 18.13,
+			role = "Damage",
+			itemID = 236360,
+		},
+		[1223383] = {
+			name = "|cFF0070dd[Champion's Seal of the Dawn]|r",
+			icon = 134501,
+			percent = 18.13,
+			role = "Heals",
+			itemID = 236379,
+		},
+		[1223372] = {
+			name = "|cFF0070dd[Champion's Seal of the Dawn]|r",
+			icon = 236689,
+			percent = 18.13,
+			role = "Tank",
+			itemID = 236391,
+		},
+		--Level 7.
+		[1223353] = {
+			name = "|cFFa335ee[Vanguard's Seal of the Dawn]|r",
+			icon = 236690,
+			percent = 21.25,
+			role = "Damage",
+			itemID = 236361,
+		},
+		[1223384] = {
+			name = "|cFFa335ee[Vanguard's Seal of the Dawn]|r",
+			icon = 134501,
+			percent = 21.25,
+			role = "Heals",
+			itemID = 236378,
+		},
+		[1223373] = {
+			name = "|cFFa335ee[Vanguard's Seal of the Dawn]|r",
+			icon = 236689,
+			percent = 21.25,
+			role = "Tank",
+			itemID = 236390,
+		},
+		--Level 8.
+		[1223354] = {
+			name = "|cFFa335ee[Crusader's Seal of the Dawn]|r",
+			icon = 236690,
+			percent = 28.13,
+			role = "Damage",
+			itemID = 236362,
+		},
+		[1223385] = {
+			name = "|cFFa335ee[Crusader's Seal of the Dawn]|r",
+			icon = 134501,
+			percent = 28.13,
+			role = "Heals",
+			itemID = 236376,
+		},
+		[1223374] = {
+			name = "|cFFa335ee[Crusader's Seal of the Dawn]|r",
+			icon = 236689,
+			percent = 28.13,
+			role = "Tank",
+			itemID = 236389,
+		},
+		--Level 9.
+		[1223355] = {
+			name = "|cFFa335ee[Commander's Seal of the Dawn]|r",
+			icon = 236690,
+			percent = 32.50,
+			role = "Damage",
+			itemID = 236363,
+		},
+		[1223386] = {
+			name = "|cFFa335ee[Commander's Seal of the Dawn]|r",
+			icon = 134501,
+			percent = 32.50,
+			role = "Heals",
+			itemID = 236374,
+		},
+		[1223375] = {
+			name = "|cFFa335ee[Commander's Seal of the Dawn]|r",
+			icon = 236689,
+			percent = 32.50,
+			role = "Tank",
+			itemID = 236388,
+		},
+		--Level 10.
+		[1223357] = {
+			name = "|cFFa335ee[Highlord's Seal of the Dawn]|r",
+			icon = 236690,
+			percent = 37.50,
+			role = "Damage",
+			itemID = 236364,
+		},
+		[1223387] = {
+			name = "|cFFa335ee[Highlord's Seal of the Dawn]|r",
+			icon = 134501,
+			percent = 37.50,
+			role = "Heals",
+			itemID = 236375,
+		},
+		[1223376] = {
+			name = "|cFFa335ee[Highlord's Seal of the Dawn]|r",
+			icon = 236689,
+			percent = 37.50,
+			role = "Tank",
+			itemID = 236386,
+		},
+	};
+end
+
 function NRC:createRaidStatusData(updateLayout)
 	local data = {};
 	data.rows = {};
 	data.chars = {};
+	local usingSpecialSlot;
+	if (isSOD) then
+		--For now it's only in classic and going to track seal of dawn mechanic in SoD.
+		--Track even while outside the raid for now.
+		--if (NRC.currentInstanceID == 533 and not NRC.raidStatusCache) then
+			--Set header name.
+			usingSpecialSlot = "|T236690:12:12:0:-1|t|cFF00FF00Naxx";
+		--end
+	end
 	if (updateLayout) then
 		raidStatusFrame.hideAllRows();
-		flaskSlot, foodSlot, scrollSlot, intSlot, fortSlot, spiritSlot = nil, nil, nil, nil, nil, nil;
+		specialSlot, flaskSlot, foodSlot, scrollSlot, intSlot, fortSlot, spiritSlot = nil, nil, nil, nil, nil, nil, nil;
 		shadowSlot, motwSlot, palSlot, duraSlot, worldBuffsSlot = nil, nil, nil, nil, nil;
 		armorSlot, holyResSlot, fireResSlot, natureResSlot, frostResSlot, shadowResSlot, arcaneResSlot = nil, nil, nil, nil, nil, nil, nil;
 		slotCount = 0;
@@ -2773,6 +3153,17 @@ function NRC:createRaidStatusData(updateLayout)
 			},
 		};
 		slotCount = slotCount + 1;
+		
+		--Extra column for tracking special per instance stuff.
+		if (usingSpecialSlot) then
+			local slot = #data.columns + 1;
+			data.columns[slot] = {
+				name = usingSpecialSlot,
+			};
+			specialSlot = slot;
+			slotCount = slotCount + 1;
+		end
+		
 		if (NRC.config.raidStatusFlask) then
 			local slot = #data.columns + 1;
 			data.columns[slot] = {
@@ -3109,37 +3500,42 @@ function NRC:createRaidStatusData(updateLayout)
 			data.chars[count] = addChar(v, v.guid, k);
 			local char = data.chars[count];
 			local auraCache = NRC.auraCache[v.guid];
+			if (usingSpecialSlot) then
+				--If this is still true when it reaches the frame recalc then it merans there was no data to display, it's "missing" for this char;
+				char.specialSlotData = true;
+			end
 			local fullName;
 			if (v.realm) then
 				fullName = k .. "-" .. v.realm;
 			else
-				fullName = k .. "-" .. GetNormalizedRealmName();
+				if (GetNormalizedRealmName()) then
+					fullName = k .. "-" .. GetNormalizedRealmName();
+				else
+					fullName = k;
+				end
 			end
 			if (auraCache) then
-				for buffID, buffData in NRC:pairsByKeys(auraCache) do
+				--for buffID, buffData in NRC:pairsByKeys(auraCache) do
+				for buffID, buffData in pairs(auraCache) do
 					if (NRC.flasks[buffID]) then
 						char.flask = buffData;
-					end
-					if (NRC.foods[buffID]) then
+					elseif (NRC.foods[buffID]) then
 						char.food = buffData;
-					end
-					if (int[buffID]) then
+					elseif (int[buffID]) then
 						char.int = buffData;
-					end
-					if (fort[buffID]) then
+					elseif (fort[buffID]) then
 						char.fort = buffData;
-					end
-					if (spirit[buffID]) then
+					elseif (spirit[buffID]) then
 						char.spirit = buffData;
-					end
-					if (shadow[buffID]) then
+					elseif (shadow[buffID]) then
 						char.shadow = buffData;
-					end
-					if (motw[buffID]) then
+					elseif (motw[buffID]) then
 						char.motw = buffData;
-					end
-					if (pal[buffID]) then
+					elseif (pal[buffID]) then
 						char.pal = buffData;
+					elseif (usingSpecialSlot and naxxSealLevels[buffID]) then
+						char.specialSlotData = naxxSealLevels[buffID];
+						char.specialSlotData.type = "naxx";
 					end
 					--if (worldBuffs[buffID]) then
 					--	char.worldBuffs = buffData;

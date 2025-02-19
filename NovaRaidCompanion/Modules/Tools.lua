@@ -870,7 +870,7 @@ function NRC:isMe(who)
 		return true;
 	end
 	local nameOnly = strsplit("-", who);
-	if (who == UnitName("player") or who == nameOnly) then
+	if (who == UnitName("player") or nameOnly == UnitName("player")) then
 		return true;
 	end
 end

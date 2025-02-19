@@ -341,6 +341,7 @@ local portals = {
 
 if (NRC.isSOD) then
 	cauldrons[429961] = 133662; --Sleeping bag.
+	repairBots[1213955] = 136172;
 end
 
 local trackAnnounce = {};
