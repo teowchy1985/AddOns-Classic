@@ -12,6 +12,8 @@ L["At most"] = "Не выше"
 --[[Translation missing --]]
 --[[ L["Bearweave"] = ""--]] 
 L["Best Result"] = "Лучший результат"
+--[[Translation missing --]]
+--[[ L["Buffs"] = ""--]] 
 L["Cap value"] = "Пороговое значение"
 L["Click an item to lock it"] = "Нажмите на предмет, чтобы его заблокировать"
 L["Compute"] = "Посчитать"
@@ -50,6 +52,8 @@ L["Show reforged stats in item tooltips"] = "Показывать переков
 L["Slide to the left if the calculation slows your game too much."] = "Сдвиньте влево, если расчет слишком сильно замедляет вашу игру."
 --[[Translation missing --]]
 --[[ L["Source stat color"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["Spell Haste"] = ""--]] 
 L["Spell hit cap"] = "Заклинания - меткость"
 L["Spirit to hit"] = "Дух в меткость"
 L["Stat Weights"] = "Веса"

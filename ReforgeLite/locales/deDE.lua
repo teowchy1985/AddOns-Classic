@@ -12,6 +12,8 @@ L["At most"] = "Maximal"
 --[[Translation missing --]]
 --[[ L["Bearweave"] = ""--]] 
 L["Best Result"] = "Bestes Resultat"
+--[[Translation missing --]]
+--[[ L["Buffs"] = ""--]] 
 L["Cap value"] = "Capwert tooltip"
 L["Click an item to lock it"] = "Klicken um einen Gegenstand zu sperren"
 L["Compute"] = "Berechnen"
@@ -57,6 +59,8 @@ L["Show reforged stats in item tooltips"] = "Zeige umgeschmiedete Werte im Gegen
 L["Slide to the left if the calculation slows your game too much."] = "Schieben Sie es nach links, wenn die Berechnung Ihr Spiel zu sehr verlangsamt."
 --[[Translation missing --]]
 --[[ L["Source stat color"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["Spell Haste"] = ""--]] 
 L["Spell hit cap"] = "Zaubertrefferwertungscap"
 L["Spirit to hit"] = "Willenskraft in Trefferwertung"
 L["Stat Weights"] = "Gewichtung"

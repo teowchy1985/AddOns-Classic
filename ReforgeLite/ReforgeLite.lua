@@ -34,12 +34,13 @@ local DefaultDB = {
     speed = addonTable.MAX_LOOPS * 0.8,
     activeWindowTitle = {0.6, 0, 0},
     inactiveWindowTitle = {0.5, 0.5, 0.5},
-    highlightTooltip = false,
+    highlightTooltip = true,
     highlightSourceStatColor = {1, 0.501, 0.501,1},
     highlightDestStatColor = {0, 1, 0.74,1},
   },
   char = {
     targetLevel = 3,
+    meleeHaste = true,
     spellHaste = true,
     darkIntent = false,
     buffs = {},
@@ -795,19 +796,19 @@ function ReforgeLite:CreateFrame()
 end
 
 function ReforgeLite:CreateItemTable ()
-  self.itemLevel = self:CreateFontString (nil, "OVERLAY", "GameFontNormal")
-  self.itemLevel:SetPoint ("TOPLEFT", 12, -28)
-  self.itemLevel:SetTextColor (1, 1, 0.8)
-
-  self.itemTable = GUI:CreateTable (#self.itemSlots + 1, #self.itemStats, ITEM_SIZE, ITEM_SIZE + 4, {0.5, 0.5, 0.5, 1}, self)
-  self.itemTable:SetPoint ("TOPLEFT", self.itemLevel, "BOTTOMLEFT", 0, -10)
-  self.itemTable:SetPoint ("BOTTOM", 0, 10)
-  self.itemTable:SetWidth (400)
-
   local lockTip = self:CreateFontString (nil, "OVERLAY", "GameFontNormal")
   lockTip:SetTextColor (1, 1, 1)
   lockTip:SetText (L["Click an item to lock it"])
-  lockTip:SetPoint ("BOTTOMRIGHT", self.itemTable, "TOPRIGHT", 0, 10)
+  lockTip:SetPoint ("TOPLEFT", 12, -28)
+
+  self.itemTable = GUI:CreateTable (#self.itemSlots + 1, #self.itemStats, ITEM_SIZE, ITEM_SIZE + 4, {0.5, 0.5, 0.5, 1}, self)
+  self.itemTable:SetPoint ("TOPLEFT", lockTip, "BOTTOMLEFT", 0, -10)
+  self.itemTable:SetPoint ("BOTTOM", 0, 10)
+  self.itemTable:SetWidth (400)
+
+  self.itemLevel = self:CreateFontString (nil, "OVERLAY", "GameFontNormal")
+  self.itemLevel:SetPoint ("BOTTOMRIGHT", self.itemTable, "TOPRIGHT", 0, 10)
+  self.itemLevel:SetTextColor (1, 1, 0.8)
 
   for i, v in ipairs (self.itemStats) do
     self.itemTable:SetCellText (0, i, v.tip)
@@ -854,6 +855,12 @@ function ReforgeLite:CreateItemTable ()
     self.itemData[i].locked = self.itemData[i]:CreateTexture (nil, "OVERLAY")
     self.itemData[i].locked:SetAllPoints (self.itemData[i])
     self.itemData[i].locked:SetTexture ("Interface\\PaperDollInfoFrame\\UI-GearManager-LeaveItem-Transparent")
+    self.itemData[i].quality = self.itemData[i]:CreateTexture (nil, "OVERLAY")
+    self.itemData[i].quality:SetTexture("Interface\\Buttons\\UI-ActionButton-Border")
+    self.itemData[i].quality:SetBlendMode("ADD")
+    self.itemData[i].quality:SetAlpha(0.75)
+    self.itemData[i].quality:SetSize(44,44)
+    self.itemData[i].quality:SetPoint ("CENTER", self.itemData[i])
 
     self.itemData[i].stats = {}
     for j, s in ipairs (self.itemStats) do
@@ -979,7 +986,6 @@ function ReforgeLite:RemoveCapPoint (i, point, loading)
     self.pdb.caps[i].stat = 0
     self.statCaps[i].add:Disable()
     self.statCaps[i].stat:SetValue(0)
-    self.statCaps:ToggleDarkIntentButton()
   end
 end
 function ReforgeLite:ReorderCapPoint (i, point)
@@ -1079,7 +1085,6 @@ function ReforgeLite:SetStatWeights (weights, caps)
     for i=1,2 do
       self:UpdateCapPoints (i)
     end
-    self.statCaps:ToggleDarkIntentButton()
     self.statCaps:ToggleStatDropdownToCorrectState()
     self.statCaps.onUpdate ()
     self:UpdateContentSize ()
@@ -1291,6 +1296,38 @@ function ReforgeLite:CreateOptionList ()
   self:SetAnchor(self.targetLevel.text, "TOPLEFT", self.tankingModel or self.pawnButton, "BOTTOMLEFT", 0, -8)
   self.targetLevel:SetPoint("BOTTOMLEFT", self.targetLevel.text, "BOTTOMLEFT", self.targetLevel.text:GetStringWidth(), -20)
 
+  self.buffsContextMenu = CreateFrame("DropdownButton", nil, self.content, "WowStyle1FilterDropdownTemplate")
+  self.buffsContextMenu:SetText(L["Buffs"])
+  self.buffsContextMenu.resizeToTextPadding = 25
+  self.statWeightsCategory:AddFrame(self.buffsContextMenu)
+  self:SetAnchor(self.buffsContextMenu, "TOPLEFT", self.targetLevel, "TOPRIGHT", 0 , 5)
+
+  self.buffsContextMenu:SetupMenu(function(dropdown, rootDescription)
+    local function IsSelected(value)
+        return self.pdb[value]
+    end
+    local function SetSelected(value)
+        self.pdb[value] = not self.pdb[value]
+        for capIndex, cap in ipairs(self.pdb.caps) do
+          for pointIndex, point in ipairs(cap.points) do
+            local oldValue = point.value
+            self:UpdateCapPreset(capIndex, pointIndex)
+            if oldValue ~= point.value then
+              self:ReorderCapPoint (capIndex, pointIndex)
+            end
+          end
+        end
+    end
+    local buffsContextValues = {
+      { text = CreateSimpleTextureMarkup(463285, 20, 20) .. " " .. C_Spell.GetSpellName(80398), key = "darkIntent"},
+      { text = CreateSimpleTextureMarkup(136092, 20, 20) .. " " .. L["Spell Haste"], key = "spellHaste"},
+      { text = CreateSimpleTextureMarkup(236181, 20, 20) .. " " .. L["Melee Haste"], key = "meleeHaste"}
+    }
+    for _, box in ipairs(buffsContextValues) do
+        rootDescription:CreateCheckbox(box.text, IsSelected, SetSelected, box.key)
+    end
+  end)
+
   self.statWeights = GUI:CreateTable (ceil (#self.itemStats / 2), 4)
   self:SetAnchor (self.statWeights, "TOPLEFT", self.targetLevel.text, "BOTTOMLEFT", 0, -8)
   self.statWeights:SetPoint ("RIGHT", -5, 0)
@@ -1308,15 +1345,6 @@ function ReforgeLite:CreateOptionList ()
   local statList = {{value = 0, name = NONE}}
   for i, v in ipairs (self.itemStats) do
     tinsert (statList, {value = i, name = v.long})
-  end
-  self.statCaps.ToggleDarkIntentButton = function(caps)
-    for _, cap in ipairs(caps) do
-      if cap.stat.selectedValue == self.STATS.HASTE then
-        cap.darkIntent:Show()
-      else
-        cap.darkIntent:Hide()
-      end
-    end
   end
   self.statCaps.ToggleStatDropdownToCorrectState = function(caps)
     for i = 2, #caps do
@@ -1343,7 +1371,6 @@ function ReforgeLite:CreateOptionList ()
         if val == 0 then
           self:CollapseStatCaps()
         end
-        self.statCaps:ToggleDarkIntentButton()
         self.statCaps:ToggleStatDropdownToCorrectState()
       end,
       width = 110,
@@ -1356,26 +1383,8 @@ function ReforgeLite:CreateOptionList ()
       self:AddCapPoint (i)
     end)
     GUI:SetTooltip (self.statCaps[i].add, L["Add cap"])
-    self.statCaps[i].darkIntent = GUI:CreateCheckButton(
-      self.statCaps,
-      CreateSimpleTextureMarkup(463285, 20, 20),
-      self.pdb.darkIntent,
-      function(val)
-        self.pdb.darkIntent = val
-        for pointIndex, point in ipairs(self.pdb.caps[i].points) do
-          local oldValue = point.value
-          self:UpdateCapPreset(i, pointIndex)
-          if oldValue ~= point.value then
-            self:ReorderCapPoint (i, pointIndex)
-          end
-        end
-      end
-    )
-    self.statCaps[i].darkIntent:Hide()
-    GUI:SetTooltip (self.statCaps[i].darkIntent, { spellID = 85767 })
     self.statCaps:SetCell (i, 0, self.statCaps[i].stat, "LEFT", -20, -10)
     self.statCaps:SetCell (i, 2, self.statCaps[i].add, "LEFT")
-    self.statCaps:SetCell (i, 3, self.statCaps[i].darkIntent, "LEFT")
   end
   for i = 1, 2 do
     for point in ipairs(self.pdb.caps[i].points) do
@@ -1386,7 +1395,6 @@ function ReforgeLite:CreateOptionList ()
       self:RemoveCapPoint(i)
     end
   end
-  self.statCaps:ToggleDarkIntentButton()
   self.statCaps:ToggleStatDropdownToCorrectState()
   self.statCaps.onUpdate = function ()
     local row = 1
@@ -1776,7 +1784,7 @@ function ReforgeLite:GetReforgeTableIndex(src, dst)
   return UNFORGE_INDEX
 end
 
-local function SearchTooltipForReforgeID(tip)
+function ReforgeLite:SearchTooltipForReforgeID(tip)
   local _, item = tip:GetItem()
   local existingStats = GetItemStats(item)
   local srcStat, destStat
@@ -1792,13 +1800,13 @@ local function SearchTooltipForReforgeID(tip)
         if statValue then
           if not existingStats[statInfo.name] then
             destStat = statId
-            if ReforgeLite.db.highlightTooltip then
-              region:SetTextColor(unpack(ReforgeLite.db.highlightDestStatColor))
+            if self.db.highlightTooltip then
+              region:SetTextColor(unpack(self.db.highlightDestStatColor))
             end
           elseif existingStats[statInfo.name] - tonumber(statValue) > 0 then
             srcStat = statId
-            if ReforgeLite.db.highlightTooltip then
-              region:SetTextColor(unpack(ReforgeLite.db.highlightSourceStatColor))
+            if self.db.highlightTooltip then
+              region:SetTextColor(unpack(self.db.highlightSourceStatColor))
             end
           end
         end
@@ -1806,22 +1814,22 @@ local function SearchTooltipForReforgeID(tip)
       if srcStat and destStat then break end
     end
   end
-  return ReforgeLite:GetReforgeTableIndex(srcStat, destStat)
+  return self:GetReforgeTableIndex(srcStat, destStat)
 end
 
 local reforgeIdTooltip
-function GetReforgeIdForInventorySlot(slotId)
+function ReforgeLite:GetReforgeIdForInventorySlot(slotId)
     if ignoredSlots[slotId] then return end
     if not reforgeIdTooltip then
         reforgeIdTooltip = CreateFrame("GameTooltip", addonName.."Tooltip", nil, "GameTooltipTemplate")
         reforgeIdTooltip:SetOwner(UIParent, "ANCHOR_NONE")
     end
     reforgeIdTooltip:SetInventoryItem("player", slotId)
-    return SearchTooltipForReforgeID(reforgeIdTooltip)
+    return self:SearchTooltipForReforgeID(reforgeIdTooltip)
 end
 
 function ReforgeLite:GetReforgeID (slotId)
-  local reforgeId = GetReforgeIdForInventorySlot(slotId)
+  local reforgeId = self:GetReforgeIdForInventorySlot(slotId)
   if reforgeId and reforgeId > UNFORGE_INDEX then
     return reforgeId
   end
@@ -1839,6 +1847,9 @@ function ReforgeLite:UpdateItems()
       v.ilvl = item:GetCurrentItemLevel()
       v.itemGUID = item:GetItemGUID()
       v.texture:SetTexture(item:GetItemIcon())
+      v.qualityColor = item:GetItemQualityColor()
+      v.quality:SetVertexColor(v.qualityColor.r, v.qualityColor.g, v.qualityColor.b)
+      v.quality:Show()
       stats = GetItemStats(v.item)
       v.reforge = self:GetReforgeID(v.slotId)
       if v.reforge then
@@ -1854,7 +1865,10 @@ function ReforgeLite:UpdateItems()
       v.ilvl = nil
       v.reforge = nil
       v.itemGUID = nil
+      v.qualityColor = nil
       v.texture:SetTexture (v.slotTexture)
+      v.quality:SetVertexColor(1,1,1)
+      v.quality:Hide()
     end
     if self.pdb.itemsLocked[v.itemGUID] then
       v.locked:Show()
@@ -2057,6 +2071,13 @@ function ReforgeLite:CreateMethodWindow()
     self.methodWindow.items[i].texture:SetAllPoints (self.methodWindow.items[i])
     self.methodWindow.items[i].texture:SetTexture (self.methodWindow.items[i].slotTexture)
 
+    self.methodWindow.items[i].quality = self.methodWindow.items[i]:CreateTexture(nil, "OVERLAY")
+    self.methodWindow.items[i].quality:SetTexture("Interface\\Buttons\\UI-ActionButton-Border")
+    self.methodWindow.items[i].quality:SetBlendMode("ADD")
+    self.methodWindow.items[i].quality:SetAlpha(0.75)
+    self.methodWindow.items[i].quality:SetSize(44,44)
+    self.methodWindow.items[i].quality:SetPoint("CENTER", self.methodWindow.items[i])
+
     self.methodWindow.items[i].reforge = self.methodWindow.itemTable:CreateFontString (nil, "OVERLAY", "GameFontNormal")
     self.methodWindow.itemTable:SetCell (i, 3, self.methodWindow.items[i].reforge, "LEFT")
     self.methodWindow.items[i].reforge:SetTextColor (1, 1, 1)
@@ -2095,9 +2116,15 @@ function ReforgeLite:RefreshMethodWindow()
     if not item:IsItemEmpty() then
       v.item = item:GetItemLink()
       v.texture:SetTexture(item:GetItemIcon())
+      v.qualityColor = item:GetItemQualityColor()
+      v.quality:SetVertexColor(v.qualityColor.r, v.qualityColor.g, v.qualityColor.b)
+      v.quality:Show()
     else
       v.item = nil
       v.texture:SetTexture (v.slotTexture)
+      v.qualityColor = nil
+      v.quality:SetVertexColor(1,1,1)
+      v.quality:Hide()
     end
     local slotInfo = self.pdb.method.items[i]
     if slotInfo.reforge then
@@ -2282,7 +2309,7 @@ function ReforgeLite:OnTooltipSetItem (tip)
   if not item then return end
   for _, region in pairs({tip:GetRegions()}) do
     if region:GetObjectType() == "FontString" and region:GetText() == REFORGED then
-      local reforgeId = SearchTooltipForReforgeID(tip)
+      local reforgeId = self:SearchTooltipForReforgeID(tip)
       if not reforgeId or reforgeId == UNFORGE_INDEX or not self.db.updateTooltip then return end
       local srcId, destId = unpack(reforgeTable[reforgeId])
       region:SetText(("%s (%s > %s)"):format(REFORGED, self.itemStats[srcId].long, self.itemStats[destId].long))
@@ -2293,15 +2320,14 @@ end
 
 function ReforgeLite:SetUpHooks ()
   local tooltips = {
-    "GameTooltip",
-    "ShoppingTooltip1",
-    "ShoppingTooltip2",
-    "ItemRefTooltip",
-    "ItemRefShoppingTooltip1",
-    "ItemRefShoppingTooltip2",
+    GameTooltip,
+    ShoppingTooltip1,
+    ShoppingTooltip2,
+    ItemRefTooltip,
+    ItemRefShoppingTooltip1,
+    ItemRefShoppingTooltip2,
   }
-  for _,tooltipName in ipairs(tooltips) do
-    local tooltip = _G[tooltipName]
+  for _, tooltip in ipairs(tooltips) do
     if tooltip then
       tooltip:HookScript("OnTooltipSetItem", function(tip) self:OnTooltipSetItem(tip) end)
     end
@@ -2363,6 +2389,13 @@ function ReforgeLite:OnCommand (cmd)
   self:Show ()
 end
 
+function ReforgeLite:PLAYER_REGEN_DISABLED()
+  if self.methodWindow then
+    self.methodWindow:Hide()
+  end
+  self:Hide()
+end
+
 function ReforgeLite:ADDON_LOADED (addon)
   if addon ~= addonName then return end
   self:Hide()
@@ -2383,6 +2416,7 @@ function ReforgeLite:ADDON_LOADED (addon)
   self:SetUpHooks()
   self:RegisterEvent("FORGE_MASTER_OPENED")
   self:RegisterEvent("FORGE_MASTER_CLOSED")
+  self:RegisterEvent("PLAYER_REGEN_DISABLED")
 
   for event in pairs(queueUpdateEvents) do
     self:RegisterEvent(event)

@@ -1,16 +1,13 @@
-## Interface: 40401
+## Interface: 40402
 ## Author: d07.RiV (Iroared) (Continued by Brues)
 ## Title: ReforgeLite Classic
 ## Notes: Calculates optimal reforging for given weights/caps.
-## Version: v1.9.9
+## Version: v1.9.10
 ## SavedVariables: ReforgeLiteDB
 ## OptionalDeps: Ace3, LibStub, !LibUIDropDownMenu, Pawn
 ## X-Website: https://github.com/skyler-code/ReforgeLite/issues
 ## X-Curse-Project-ID: 1004227
 
-#@no-lib-strip@
-embeds.xml
-#@end-no-lib-strip@
 
 util\json.lua
 util\tables.lua

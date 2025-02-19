@@ -12,6 +12,8 @@ L["At most"] = "Como maximo"
 --[[Translation missing --]]
 --[[ L["Bearweave"] = ""--]] 
 L["Best Result"] = "Mejor resultado"
+--[[Translation missing --]]
+--[[ L["Buffs"] = ""--]] 
 L["Cap value"] = "Valor de cap"
 --[[Translation missing --]]
 --[[ L["Click an item to lock it"] = ""--]] 
@@ -55,6 +57,8 @@ L["Score"] = "Puntuacion"
 L["Slide to the left if the calculation slows your game too much."] = "Deslízate hacia la izquierda si el cálculo ralentiza demasiado tu juego."
 --[[Translation missing --]]
 --[[ L["Source stat color"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["Spell Haste"] = ""--]] 
 L["Spell hit cap"] = "Cap de golpe con hechizos"
 L["Spirit to hit"] = "Espiritu a Golpe"
 L["Stat Weights"] = "Peso de Estadisticas"

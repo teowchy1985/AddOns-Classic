@@ -12,6 +12,8 @@ L["At most"] = "最多（不超過）"
 --[[Translation missing --]]
 --[[ L["Bearweave"] = ""--]] 
 L["Best Result"] = "最佳結果"
+--[[Translation missing --]]
+--[[ L["Buffs"] = ""--]] 
 L["Cap value"] = "上限值"
 L["Click an item to lock it"] = "點擊物品鎖定"
 L["Compute"] = "計算"
@@ -50,6 +52,8 @@ L["Show reforged stats in item tooltips"] = "在浮動提示資訊顯示物品�
 L["Slide to the left if the calculation slows your game too much."] = "如果計算使遊戲速度減慢太多，請向左滑動。"
 --[[Translation missing --]]
 --[[ L["Source stat color"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["Spell Haste"] = ""--]] 
 L["Spell hit cap"] = "法術命中上限"
 L["Spirit to hit"] = "精神轉命中"
 L["Stat Weights"] = "屬性比重"

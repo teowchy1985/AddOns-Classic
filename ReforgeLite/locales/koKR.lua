@@ -12,6 +12,8 @@ L["At most"] = "최대"
 --[[Translation missing --]]
 --[[ L["Bearweave"] = ""--]] 
 L["Best Result"] = "최고 결과"
+--[[Translation missing --]]
+--[[ L["Buffs"] = ""--]] 
 L["Cap value"] = "조건 값"
 L["Click an item to lock it"] = "재연마하지 않을 아이템은 클릭하세요"
 L["Compute"] = "계산"
@@ -52,6 +54,8 @@ L["Show reforged stats in item tooltips"] = "아이템 툴팁에 재연마된 �
 L["Slide to the left if the calculation slows your game too much."] = "계산으로 인해 게임 속도가 너무 느려지면 왼쪽으로 밉니다."
 --[[Translation missing --]]
 --[[ L["Source stat color"] = ""--]] 
+--[[Translation missing --]]
+--[[ L["Spell Haste"] = ""--]] 
 L["Spell hit cap"] = "주문 만적중"
 L["Spirit to hit"] = "정신력으로 인한 적중도"
 L["Stat Weights"] = "스탯 가중치"
