@@ -35,6 +35,7 @@
 				["0.43:0.93:0.61:0.75:0.56:0.61:0.51:0.57"] = 534, -- Booty Bay, Stonard, Flame Crest, Thorium Point
 				["0.43:0.93:0.55:0.57:0.44:0.19:0.67:0.30"] = 1112, -- Booty Bay, Kargath, Undercity, Revantusk Village
 				["0.43:0.93:0.55:0.57:0.44:0.19:0.70:0.16"] = 1092, -- Booty Bay, Kargath, Undercity, Light's Hope Chapel
+				["0.43:0.93:0.55:0.57:0.56:0.61"] = 492, -- Booty Bay, Kargath, Flame Crest
 
 				-- Horde: Flame Crest (Burning Steppes)
 				["0.56:0.61:0.61:0.75:0.43:0.93"] = 472, -- Flame Crest, Stonard, Booty Bay
@@ -332,7 +333,7 @@
 				["0.53:0.61:0.56:0.53:0.61:0.80"] = 383, -- Camp Taurajo, Crossroads, Gadgetzan
 
 				-- Horde: Cenarion Hold (Silithus)
-				["0.42:0.79:0.61:0.80"] = 241, -- Cenarion Hold, Gadgetzan
+				["0.42:0.79:0.61:0.80"] = 241, -- Cenarion Hold, Gadgetzan (Andreas reported 97)
 				["0.42:0.79:0.44:0.69:0.55:0.73"] = 236, -- Cenarion Hold, Camp Mojache, Freewind Post
 				["0.42:0.79:0.50:0.76"] = 97, -- Cenarion Hold, Marshal's Refuge
 				["0.42:0.79:0.44:0.69"] = 129, -- Cenarion Hold, Camp Mojache
