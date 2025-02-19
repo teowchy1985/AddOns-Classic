@@ -1293,6 +1293,16 @@ BG.Init(function()
             text:SetWordWrap(false)
             bts.money = text
         end
+        -- 已拍未交易
+        do
+            -- if v.type==1 and BG.IsML then
+            --     local text = bts.frame:CreateFontString()
+            --     text:SetFont(STANDARD_TEXT_FONT, 14, "OUTLINE")
+            --     text:SetPoint("TOPRIGHT", -1, -1)
+            --     text:SetText(L["未交易"])
+            --     text:SetTextColor(1,0,0)
+            -- end
+        end
     end
 
     function CancelAllChoose()
@@ -1622,7 +1632,7 @@ BG.Init(function()
         end
     end)
 
-    -- 自动清理超过半小时的记录
+    -- 自动清理超过1小时的记录
     C_Timer.NewTicker(60, function()
         if TradeFrame:IsVisible() then return end
         local time = GetServerTime()
@@ -1754,8 +1764,9 @@ BG.Init(function()
             if not BiaoGe.auctionTrade[targetName] then return end
             if not TradeFrame:IsVisible() then return end
             ClearCursor()
-            for _, v in ipairs(BiaoGe.auctionTrade[targetName]) do
-                local yes
+            local function GiveItem(index)
+                local v = BiaoGe.auctionTrade[targetName][index]
+                if not v then return end
                 for b = 0, NUM_BAG_SLOTS do
                     for i = 1, C_Container.GetContainerNumSlots(b) do
                         local info = C_Container.GetContainerItemInfo(b, i)
@@ -1788,18 +1799,20 @@ BG.Init(function()
                                             C_Container.PickupContainerItem(b, i)
                                             _G["TradePlayerItem" .. ii .. "ItemButton"]:Click()
                                             ClearCursor()
-                                            yes = true
-                                            break
+                                            BG.After(0, function()
+                                                GiveItem(index + 1)
+                                            end)
+                                            return
                                         end
                                     end
                                 end
                             end
                         end
-                        if yes then break end
                     end
-                    if yes then break end
                 end
+                GiveItem(index + 1)
             end
+            GiveItem(1)
         end)
         BG.RegisterEvent("TRADE_PLAYER_ITEM_CHANGED", function(self, ...)
             sumTargetMoney = 0

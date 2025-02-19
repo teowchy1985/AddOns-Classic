@@ -168,13 +168,13 @@ function BG.RoleOverviewUI()
         }
     elseif BG.IsVanilla_60 then
         BG.FBCDall_table = {
-            { name = "NAXX", color = "00BFFF", fbId = 533, num = 40, type = "fb" },
-            { name = "TAQ", color = "00BFFF", fbId = 531, num = 40, type = "fb" },
-            { name = "BWL", color = "00BFFF", fbId = 469, num = 40, type = "fb" },
-            { name = "OL", color = "00BFFF", fbId = 249, num = 40, type = "fb" },
-            { name = "MC", color = "00BFFF", fbId = 409, num = 40, type = "fb" },
-            { name = "AQL", color = "BA55D3", fbId = 509, num = 20, type = "fb" },
-            { name = "ZUG", color = "BA55D3", fbId = 309, num = 20, type = "fb" },
+            { name = "NAXX", name2 = L["纳克萨玛斯"], color = "00BFFF", fbId = 533, num = 40, type = "fb" },
+            { name = "TAQ", name2 = L["安其拉"], color = "00BFFF", fbId = 531, num = 40, type = "fb" },
+            { name = "BWL", name2 = L["黑翼"], color = "00BFFF", fbId = 469, num = 40, type = "fb" },
+            { name = "OL", name2 = L["黑龙"], color = "00BFFF", fbId = 249, num = 40, type = "fb" },
+            { name = "MC", name2 = L["熔火之心"], color = "00BFFF", fbId = 409, num = 40, type = "fb" },
+            { name = "AQL", name2 = L["废墟"], color = "BA55D3", fbId = 509, num = 20, type = "fb" },
+            { name = "ZUG", name2 = L["祖格"], color = "BA55D3", fbId = 309, num = 20, type = "fb" },
             -- 专业
             { name = "alchemy", name2 = L["炼金转化"], color = "ADFF2F", type = "profession" },
             { name = "leatherworking", name2 = L["制皮筛盐"], color = "ADFF2F", type = "profession" },
@@ -187,42 +187,42 @@ function BG.RoleOverviewUI()
     elseif BG.IsWLK then
         BG.FBCDall_table = {
             --WLK
-            { name = "25RS", color = "FF4500", fbId = 724, num = 25, type = "fb" },
-            { name = "10RS", color = "FF4500", fbId = 724, num = 10, type = "fb" },
-            { name = "25ICC", color = "9370DB", fbId = 631, num = 25, type = "fb" },
-            { name = "10ICC", color = "9370DB", fbId = 631, num = 10, type = "fb" },
-            { name = "25TOC", color = "FF69B4", fbId = 649, num = 25, type = "fb" },
-            { name = "10TOC", color = "FF69B4", fbId = 649, num = 10, type = "fb" },
-            { name = "25OL", color = "FFA500", fbId = 249, num = 25, type = "fb" },
-            { name = "10OL", color = "FFA500", fbId = 249, num = 10, type = "fb" },
-            { name = "25ULD", color = "00BFFF", fbId = 603, num = 25, type = "fb" },
-            { name = "10ULD", color = "00BFFF", fbId = 603, num = 10, type = "fb" },
-            { name = "25NAXX", color = "32CD32", fbId = 533, num = 25, type = "fb" },
-            { name = "10NAXX", color = "32CD32", fbId = 533, num = 10, type = "fb" },
-            { name = "25EOE", color = "1E90FF", fbId = 616, num = 25, type = "fb" },
-            { name = "10EOE", color = "1E90FF", fbId = 616, num = 10, type = "fb" },
-            { name = "25OS", color = "8B4513", fbId = 615, num = 25, type = "fb" },
-            { name = "10OS", color = "8B4513", fbId = 615, num = 10, type = "fb" },
-            { name = "25VOA", color = "FFFF00", fbId = 624, num = 25, type = "fb" },
-            { name = "10VOA", color = "FFFF00", fbId = 624, num = 10, type = "fb" },
+            { name = "25RS", name2 = L["25红玉"], color = "FF4500", fbId = 724, num = 25, type = "fb" },
+            { name = "10RS", name2 = L["10红玉"], color = "FF4500", fbId = 724, num = 10, type = "fb" },
+            { name = "25ICC", name2 = L["25冰冠"], color = "9370DB", fbId = 631, num = 25, type = "fb" },
+            { name = "10ICC", name2 = L["10冰冠"], color = "9370DB", fbId = 631, num = 10, type = "fb" },
+            { name = "25TOC", name2 = L["25十字军"], color = "FF69B4", fbId = 649, num = 25, type = "fb" },
+            { name = "10TOC", name2 = L["10十字军"], color = "FF69B4", fbId = 649, num = 10, type = "fb" },
+            { name = "25OL", name2 = L["25黑龙"], color = "FFA500", fbId = 249, num = 25, type = "fb" },
+            { name = "10OL", name2 = L["10黑龙"], color = "FFA500", fbId = 249, num = 10, type = "fb" },
+            { name = "25ULD", name2 = L["25奥杜尔"], color = "00BFFF", fbId = 603, num = 25, type = "fb" },
+            { name = "10ULD", name2 = L["10奥杜尔"], color = "00BFFF", fbId = 603, num = 10, type = "fb" },
+            { name = "25NAXX", name2 = L["25纳克"], color = "32CD32", fbId = 533, num = 25, type = "fb" },
+            { name = "10NAXX", name2 = L["10纳克"], color = "32CD32", fbId = 533, num = 10, type = "fb" },
+            { name = "25EOE", name2 = L["25蓝龙"], color = "1E90FF", fbId = 616, num = 25, type = "fb" },
+            { name = "10EOE", name2 = L["10蓝龙"], color = "1E90FF", fbId = 616, num = 10, type = "fb" },
+            { name = "25OS", name2 = L["25黑曜石"], color = "8B4513", fbId = 615, num = 25, type = "fb" },
+            { name = "10OS", name2 = L["10黑曜石"], color = "8B4513", fbId = 615, num = 10, type = "fb" },
+            { name = "25VOA", name2 = L["25宝库"], color = "FFFF00", fbId = 624, num = 25, type = "fb" },
+            { name = "10VOA", name2 = L["10宝库"], color = "FFFF00", fbId = 624, num = 10, type = "fb" },
             --TBC
-            { name = "SW", color = "D3D3D3", fbId = 580, num = 25, type = "fb" },
-            { name = "BT", color = "D3D3D3", fbId = 564, num = 25, type = "fb" },
-            { name = "HS", color = "D3D3D3", fbId = 534, num = 25, type = "fb" },
-            { name = "TK", color = "D3D3D3", fbId = 550, num = 25, type = "fb" },
-            { name = "SSC", color = "D3D3D3", fbId = 548, num = 25, type = "fb" },
-            { name = "GL", color = "D3D3D3", fbId = 565, num = 25, type = "fb" },
-            { name = "ML", color = "D3D3D3", fbId = 544, num = 25, type = "fb" },
-            { name = "ZA", color = "D3D3D3", fbId = 568, num = 10, type = "fb" },
-            { name = "KZ", color = "D3D3D3", fbId = 532, num = 10, type = "fb" },
-            { name = "PT", color = "D3D3D3", fbId = 585, num = 5, type = "fb" },
-            { name = "STK", color = "D3D3D3", fbId = 556, num = 5, type = "fb" },
+            { name = "SW", name2 = L["太阳井"], color = "D3D3D3", fbId = 580, num = 25, type = "fb" },
+            { name = "BT", name2 = L["黑庙"], color = "D3D3D3", fbId = 564, num = 25, type = "fb" },
+            { name = "HS", name2 = L["海山"], color = "D3D3D3", fbId = 534, num = 25, type = "fb" },
+            { name = "TK", name2 = L["风暴"], color = "D3D3D3", fbId = 550, num = 25, type = "fb" },
+            { name = "SSC", name2 = L["毒蛇"], color = "D3D3D3", fbId = 548, num = 25, type = "fb" },
+            { name = "GL", name2 = L["格鲁尔"], color = "D3D3D3", fbId = 565, num = 25, type = "fb" },
+            { name = "ML", name2 = L["玛胖"], color = "D3D3D3", fbId = 544, num = 25, type = "fb" },
+            { name = "ZA", name2 = L["祖阿曼"], color = "D3D3D3", fbId = 568, num = 10, type = "fb" },
+            { name = "KZ", name2 = L["卡拉赞"], color = "D3D3D3", fbId = 532, num = 10, type = "fb" },
+            { name = "PT", name2 = L["平台"], color = "D3D3D3", fbId = 585, num = 5, type = "fb" },
+            { name = "STK", name2 = L["塞泰克"], color = "D3D3D3", fbId = 556, num = 5, type = "fb" },
             --CLASSIC
-            { name = "TAQ", color = "D3D3D3", fbId = 531, num = 40, type = "fb" },
-            { name = "AQL", color = "D3D3D3", fbId = 509, num = 20, type = "fb" },
-            { name = "BWL", color = "D3D3D3", fbId = 469, num = 40, type = "fb" },
-            { name = "MC", color = "D3D3D3", fbId = 409, num = 40, type = "fb" },
-            { name = "ZUG", color = "D3D3D3", fbId = 309, num = 20, type = "fb" },
+            { name = "TAQ", name2 = L["安其拉"], color = "D3D3D3", fbId = 531, num = 40, type = "fb" },
+            { name = "AQL", name2 = L["废墟"], color = "D3D3D3", fbId = 509, num = 20, type = "fb" },
+            { name = "ZUG", name2 = L["祖格"], color = "D3D3D3", fbId = 309, num = 20, type = "fb" },
+            { name = "BWL", name2 = L["黑翼"], color = "D3D3D3", fbId = 469, num = 40, type = "fb" },
+            { name = "MC", name2 = L["熔火之心"], color = "D3D3D3", fbId = 409, num = 40, type = "fb" },
             -- 日常
             { name = "week1", name2 = L["周常"], color = "FF8C00", type = "quest" },
             { name = "gamma", name2 = L["泰坦"], color = "FF8C00", type = "quest" },
@@ -301,9 +301,9 @@ function BG.RoleOverviewUI()
             --CLASSIC
             { name = "TAQ", color = "D3D3D3", fbId = 531, num = 40, type = "fb" },
             { name = "AQL", color = "D3D3D3", fbId = 509, num = 20, type = "fb" },
+            { name = "ZUG", color = "D3D3D3", fbId = 309, num = 20, type = "fb" },
             { name = "BWL", color = "D3D3D3", fbId = 469, num = 40, type = "fb" },
             { name = "MC", color = "D3D3D3", fbId = 409, num = 40, type = "fb" },
-            { name = "ZUG", color = "D3D3D3", fbId = 309, num = 20, type = "fb" },
         }
 
         BG.MONEYall_table = {
@@ -333,8 +333,23 @@ function BG.RoleOverviewUI()
     local height = 20
     local width_jiange = 5
     local line_height = 4
-    function BG.SetFBCD(self, position)
+    local savePoint
+    function BG.SetFBCD(self, position, click, refresh)
+        if click then
+            if BG.FBCDFrame then
+                if BG.FBCDFrame.click and BG.FBCDFrame:IsVisible() and not refresh then
+                    BG.FBCDFrame:Hide()
+                    return
+                end
+                BG.FBCDFrame:Hide()
+            end
+        else
+            if BG.FBCDFrame and BG.FBCDFrame.click and BG.FBCDFrame:IsVisible() then
+                return
+            end
+        end
         BG.UpdateFBCD()
+
         FBCDchoice_table = {}
         MONEYchoice_table = {}
         -- 根据你选择的副本，生成table
@@ -354,11 +369,26 @@ function BG.RoleOverviewUI()
                 end
             end
         end
-        tinsert(MONEYchoice_table, 1, { name = L["角色"] .. " " .. BG.STC_dis("(" .. LEVEL .. ")"), color = "FFFFFF", width = 105 })
+        local nameWidth
+        if BiaoGe.options.roleOverviewDefaultShow == "one" then
+            if IsShiftKeyDown() then
+                nameWidth = 165
+            else
+                nameWidth = 105
+            end
+        else
+            if IsShiftKeyDown() then
+                nameWidth = 105
+            else
+                nameWidth = 165
+            end
+        end
+
+        tinsert(MONEYchoice_table, 1, { name = L["角色"] .. " " .. BG.STC_dis("(" .. LEVEL .. ")"), color = "FFFFFF", width = nameWidth })
         -- 计算货币表格的总宽度
         local Moneywidth = 30
-        for key, value in pairs(MONEYchoice_table) do
-            Moneywidth = Moneywidth + value.width
+        for _, v in pairs(MONEYchoice_table) do
+            Moneywidth = Moneywidth + v.width
         end
 
         local n = 1
@@ -366,110 +396,158 @@ function BG.RoleOverviewUI()
 
         -- 创建框体UI
         local f = CreateFrame("Frame", nil, UIParent, "BackdropTemplate")
-        f:SetBackdrop({
-            bgFile = "Interface/ChatFrame/ChatFrameBackground",
-            edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
-            edgeSize = 16,
-            insets = { left = 3, right = 3, top = 3, bottom = 3 }
-        })
-        f:SetBackdropColor(0, 0, 0, 0.9)
-        f:SetBackdropBorderColor(GetClassRGB(nil, "player"))
-        f:SetFrameStrata("FULLSCREEN_DIALOG")
-        f:SetFrameLevel(100)
-        f:SetSize(300, 100)
-        f:SetClampedToScreen(true)
-        f:EnableMouse(true)
-        f.lastPosition = position
-        f.lastSelf = self
-        if BiaoGe.options.scale then
-            f:SetScale(BiaoGe.options.scale)
-        end
-        BG.FBCDFrame = f
-        f:SetScript("OnEnter", function(self)
-            f.isOnEnter = true
-        end)
-        f:SetScript("OnLeave", function(self)
-            f.isOnEnter = nil
-            f:Hide()
-        end)
-        if position and position == "minimap" then
-            if BG.ButtonIsInRight(self) then
-                BG.FBCDFrame:SetPoint("TOPRIGHT", self, "BOTTOMLEFT", 0, 0)
-            else
-                BG.FBCDFrame:SetPoint("TOPLEFT", self, "BOTTOMRIGHT", 0, 0)
+        do
+            f:SetBackdrop({
+                bgFile = "Interface/ChatFrame/ChatFrameBackground",
+                edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
+                edgeSize = 16,
+                insets = { left = 3, right = 3, top = 3, bottom = 3 }
+            })
+            f:SetBackdropColor(0, 0, 0, 0.9)
+            f:SetBackdropBorderColor(GetClassRGB(nil, "player"))
+            f:SetFrameLevel(100)
+            f:SetSize(300, 100)
+            f.lastPosition = position
+            f.lastSelf = self
+            if BiaoGe.options.scale then
+                f:SetScale(BiaoGe.options.scale)
             end
-        else
-            BG.FBCDFrame:SetPoint("BOTTOMRIGHT", self, "TOPRIGHT", 0, 0)
+            BG.FBCDFrame = f
+            if click then
+                f.click = true
+                f:SetFrameStrata("HIGH")
+                f:SetToplevel(true)
+                f:SetClampedToScreen(false)
+                f:EnableMouse(true)
+                f:SetMovable(true)
+                if savePoint then
+                    f:SetPoint(unpack(savePoint))
+                else
+                    f:SetPoint("CENTER", UIParent, "CENTER", 0, 0)
+                end
+                f:SetScript("OnMouseUp", function(self)
+                    self:StopMovingOrSizing()
+                    savePoint = { self:GetPoint(1) }
+                end)
+                f:SetScript("OnMouseDown", function(self)
+                    self:StartMoving()
+                end)
+
+                f.CloseButton = CreateFrame("Button", nil, f, "UIPanelCloseButton")
+                f.CloseButton:SetPoint("TOPRIGHT", f, "TOPRIGHT", 2, 2)
+
+                local bt = CreateFrame("Button", nil, f)
+                bt:SetSize(18, 18)
+                bt:SetNormalTexture(851904)
+                bt:SetHighlightTexture(851904)
+                bt:SetPoint("TOPRIGHT", -35, -5)
+                bt:RegisterForClicks("AnyUp")
+                bt:SetScript("OnClick", function(self)
+                    BG.PlaySound(1)
+                    BG.SetFBCD(nil, nil, true, true)
+                end)
+            else
+                f.click = nil
+                f:SetFrameStrata("FULLSCREEN_DIALOG")
+                f:SetClampedToScreen(true)
+                f:EnableMouse(false)
+                f:SetMovable(false)
+                if position and position == "minimap" then
+                    if BG.ButtonIsInRight(self) then
+                        f:SetPoint("TOPRIGHT", self, "BOTTOMLEFT", 0, 0)
+                    else
+                        f:SetPoint("TOPLEFT", self, "BOTTOMRIGHT", 0, 0)
+                    end
+                else
+                    f:SetPoint("BOTTOMRIGHT", self, "TOPRIGHT", 0, 0)
+                end
+            end
         end
 
         --------- 角色团本完成总览 ---------
-        local t = f:CreateFontString()
-        t:SetFont(STANDARD_TEXT_FONT, fontsize2, "OUTLINE")
-        t:SetPoint("TOPLEFT", 15, -10 - (n - 1) * height)
-        t:SetText(BG.STC_g1(L["< 角色团本完成总览 >"]))
-        t:SetJustifyH("LEFT")
-        t:SetWordWrap(false)
-        local FBCDTitle = t
-        local FBCDResetTitle
-        n = n + 1
-        -- 设置重置时间
-        local text3 = ""
-        local text7 = ""
-        local function IsSmallRaid(FBID)
-            -- ZUG ZA AQL 黑暗深渊 诺莫瑞根 风暴悬崖 腐烂之痕 水晶谷
-            local tbl = { 309, 568, 509, 48, 90, 2791, 2789, 2804 }
-            if BG.IsVanilla_Sod then
-                tinsert(tbl, 249) -- 奥妮克希亚
-            end
-            for i, _FBID in ipairs(tbl) do
-                if FBID == _FBID then
-                    return true
+        -- 大标题
+        local FBCDTitle, FBCDResetTitle
+        do
+            local t = f:CreateFontString()
+            t:SetFont(STANDARD_TEXT_FONT, fontsize2, "OUTLINE")
+            t:SetPoint("TOPLEFT", 15, -10 - (n - 1) * height)
+            t:SetText(BG.STC_g1(L["< 角色团本完成总览 >"]))
+            t:SetJustifyH("LEFT")
+            t:SetWordWrap(false)
+            FBCDTitle = t
+            n = n + 1
+            -- 设置重置时间
+            local text3 = ""
+            local text7 = ""
+            local function IsSmallRaid(FBID)
+                -- ZUG ZA AQL 黑暗深渊 诺莫瑞根 风暴悬崖 腐烂之痕 水晶谷
+                local tbl = { 309, 568, 509, 48, 90, 2791, 2789, 2804 }
+                if BG.IsVanilla_Sod then
+                    tinsert(tbl, 249) -- 奥妮克希亚
                 end
-            end
-        end
-        for p, v in pairs(BiaoGe.FBCD[realmID]) do
-            for i, cd in pairs(BiaoGe.FBCD[realmID][p]) do
-                if cd.resettime then
-                    if IsSmallRaid(cd.fbId) then
-                        text3 = format(L["小团本%s"], SecondsToTime(cd.resettime, true, nil, 2))
-                    elseif cd.num ~= 5 then
-                        text7 = SecondsToTime(cd.resettime, true, nil, 2)
+                for i, _FBID in ipairs(tbl) do
+                    if FBID == _FBID then
+                        return true
                     end
                 end
             end
-        end
-        if text3 ~= "" or text7 ~= "" then
-            local douhao = ""
-            if text3 ~= "" and text7 ~= "" then
-                douhao = ", "
+            for p, v in pairs(BiaoGe.FBCD[realmID]) do
+                for i, cd in pairs(BiaoGe.FBCD[realmID][p]) do
+                    if cd.resettime then
+                        if IsSmallRaid(cd.fbId) then
+                            text3 = format(L["小团本%s"], SecondsToTime(cd.resettime, true, nil, 2))
+                        elseif cd.num ~= 5 then
+                            text7 = SecondsToTime(cd.resettime, true, nil, 2)
+                        end
+                    end
+                end
             end
-            local resettext = format("|cff808080" .. L["（团本重置时间：%s）"] .. RR, text7 .. douhao .. text3)
-            if BG.IsVanilla then
-                local t_end = f:CreateFontString()
-                t_end:SetFont(STANDARD_TEXT_FONT, fontsize, "OUTLINE")
-                t_end:SetPoint("TOPLEFT", t, "BOTTOMLEFT", 0, -3)
-                t_end:SetText(BG.STC_dis(resettext:gsub("（", ""):gsub("）", ""):gsub("%(", ""):gsub("%)", "")))
-                t_end:SetJustifyH("LEFT")
-                t_end:SetWordWrap(false)
-                FBCDResetTitle = t_end
-            else
-                t:SetText(t:GetText() .. resettext)
+            if text3 ~= "" or text7 ~= "" then
+                local douhao = ""
+                if text3 ~= "" and text7 ~= "" then
+                    douhao = ", "
+                end
+                local resettext = format("|cff808080" .. L["（团本重置时间：%s）"] .. RR, text7 .. douhao .. text3)
+                if BG.IsVanilla then
+                    local t_end = f:CreateFontString()
+                    t_end:SetFont(STANDARD_TEXT_FONT, fontsize, "OUTLINE")
+                    t_end:SetPoint("TOPLEFT", t, "BOTTOMLEFT", 0, -3)
+                    t_end:SetText(BG.STC_dis(resettext:gsub("（", ""):gsub("）", ""):gsub("%(", ""):gsub("%)", "")))
+                    t_end:SetJustifyH("LEFT")
+                    t_end:SetWordWrap(false)
+                    FBCDResetTitle = t_end
+                else
+                    t:SetText(t:GetText() .. resettext)
+                end
             end
         end
-
-        -- FBCD标题
+        -- FB标题
         local text_table = {}
         do
             local right
             local lastwidth
             local FBCDwidth = 0
+            local nameWidth
+            if BiaoGe.options.roleOverviewDefaultShow == "one" then
+                if IsShiftKeyDown() then
+                    nameWidth = 200
+                else
+                    nameWidth = 140
+                end
+            else
+                if IsShiftKeyDown() then
+                    nameWidth = 140
+                else
+                    nameWidth = 200
+                end
+            end
             for i, v in ipairs(FBCDchoice_table) do
                 local t = f:CreateFontString()
                 t:SetFont(STANDARD_TEXT_FONT, fontsize, "OUTLINE")
                 if i == 1 then
                     t:SetPoint("TOPLEFT", f, "TOPLEFT", 15, -10 - height * n)
                 elseif i == 2 then
-                    t:SetPoint("TOPLEFT", f, "TOPLEFT", 140, -10 - height * n)
+                    t:SetPoint("TOPLEFT", f, "TOPLEFT", nameWidth, -10 - height * n)
                 else
                     t:SetPoint("TOPLEFT", right, "TOPRIGHT", width_jiange, 0)
                 end
@@ -479,7 +557,7 @@ function BG.RoleOverviewUI()
                     FBCDchoice_table[i].width = 15
                     lastwidth = FBCDchoice_table[i].width
                 elseif i == 2 then
-                    FBCDchoice_table[i].width = 140
+                    FBCDchoice_table[i].width = nameWidth
                     lastwidth = FBCDchoice_table[i].width
                 else
                     FBCDchoice_table[i].width = lastwidth + right:GetWidth() + width_jiange
@@ -506,23 +584,51 @@ function BG.RoleOverviewUI()
         -- 角色CD
         do
             local newTbl = {}
-
             local function AddDB(db, isAccounts)
-                if db and db.FBCD and db.FBCD[realmID] then
-                    for player, v in pairs(db.FBCD[realmID]) do
-                        if not isAccounts or not (BiaoGe.FBCD[realmID] and BiaoGe.FBCD[realmID][player]) then
-                            local level = db.playerInfo[realmID] and db.playerInfo[realmID][player] and db.playerInfo[realmID][player].level
-                            if (level and level >= BiaoGe.options["roleOverviewNotShowLevel"]) or not level then
-                                local class = db.playerInfo[realmID] and db.playerInfo[realmID][player] and db.playerInfo[realmID][player].class
-                                if class then
-                                    local colorplayer = "|c" .. select(4, GetClassColor(class)) .. player .. (isAccounts and "*" or "")
-                                    tinsert(newTbl, {
-                                        player = player,
-                                        colorplayer = colorplayer,
-                                        class = class,
-                                        iLevel = db.PlayerItemsLevel[realmID][player],
-                                        tbl = BG.Copy(v)
-                                    })
+                if db and db.FBCD then
+                    local function _AddDB(realmID)
+                        if db.FBCD[realmID] then
+                            for player, v in pairs(db.FBCD[realmID]) do
+                                if not isAccounts or not (BiaoGe.FBCD[realmID] and BiaoGe.FBCD[realmID][player]) then
+                                    local level = db.playerInfo[realmID] and db.playerInfo[realmID][player] and db.playerInfo[realmID][player].level
+                                    if (level and level >= BiaoGe.options["roleOverviewNotShowLevel"]) then
+                                        local class = db.playerInfo[realmID][player].class
+                                        local iLevel = db.playerInfo[realmID][player].iLevel or (db.PlayerItemsLevel and db.PlayerItemsLevel[realmID][player])
+                                        if class and iLevel then
+                                            local colorplayer = "|c" .. select(4, GetClassColor(class)) .. player .. (isAccounts and "*" or "")
+                                            tinsert(newTbl, {
+                                                player = player,
+                                                colorplayer = colorplayer,
+                                                class = class,
+                                                iLevel = iLevel,
+                                                realmID = realmID,
+                                                realmName = BiaoGe.realmName[realmID] or realmID,
+                                                tbl = BG.Copy(v)
+                                            })
+                                        end
+                                    end
+                                end
+                            end
+                        end
+                    end
+
+                    if BiaoGe.options.roleOverviewDefaultShow == "one" then
+                        if IsShiftKeyDown() then
+                            for realmID, v in pairs(db.FBCD) do
+                                if type(realmID) == "number" and type(v) == "table" then
+                                    _AddDB(realmID)
+                                end
+                            end
+                        else
+                            _AddDB(realmID)
+                        end
+                    else
+                        if IsShiftKeyDown() then
+                            _AddDB(realmID)
+                        else
+                            for realmID, v in pairs(db.FBCD) do
+                                if type(realmID) == "number" and type(v) == "table" then
+                                    _AddDB(realmID)
                                 end
                             end
                         end
@@ -540,12 +646,27 @@ function BG.RoleOverviewUI()
                 local colorplayer = v.colorplayer
                 local player = v.player
                 local iLevel = v.iLevel
+                local realmID = v.realmID
                 -- 玩家名字
+                local realmName
+                if BiaoGe.options.roleOverviewDefaultShow =="one" then
+                    if IsShiftKeyDown() then
+                        realmName = "|c" .. select(4, GetClassColor(v.class)) .. v.realmName .. "-|r"
+                    else
+                        realmName = ""
+                    end
+                else
+                    if IsShiftKeyDown() then
+                        realmName = ""
+                    else
+                        realmName = "|c" .. select(4, GetClassColor(v.class)) .. v.realmName .. "-|r"
+                    end
+                end
                 local t = BG.FBCDFrame:CreateFontString()
                 t:SetFont(STANDARD_TEXT_FONT, fontsize, "OUTLINE")
                 t:SetPoint("TOPLEFT", BG.FBCDFrame, "TOPLEFT",
                     FBCDchoice_table[1].width, -10 - height * n)
-                t:SetText(colorplayer .. " |cff808080(" .. Round(iLevel, 0) .. ")|r")
+                t:SetText(realmName .. colorplayer .. " |cff808080(" .. Round(iLevel, 0) .. ")|r")
 
                 -- 副本CD
                 for _, cd in pairs(v.tbl) do
@@ -562,7 +683,7 @@ function BG.RoleOverviewUI()
                 end
 
                 -- 日常
-                if BiaoGe.QuestCD[realmID][player] then
+                if BiaoGe.QuestCD[realmID] and BiaoGe.QuestCD[realmID][player] then
                     for name in pairs(BiaoGe.QuestCD[realmID][player]) do
                         for ii, vv in ipairs(FBCDchoice_table) do
                             if name == vv.name then
@@ -592,7 +713,7 @@ function BG.RoleOverviewUI()
                 end
 
                 -- 专业
-                if BiaoGe.tradeSkillCooldown and BiaoGe.tradeSkillCooldown[realmID] and BiaoGe.tradeSkillCooldown[realmID][player] then
+                if BiaoGe.tradeSkillCooldown[realmID] and BiaoGe.tradeSkillCooldown[realmID][player] then
                     for profession, v in pairs(BiaoGe.tradeSkillCooldown[realmID][player]) do
                         for ii, vv in ipairs(FBCDchoice_table) do
                             if profession == vv.name then
@@ -602,11 +723,11 @@ function BG.RoleOverviewUI()
                                     (-16 - height * n))
                                 if v.ready then
                                     t:SetFont(STANDARD_TEXT_FONT, fontsize, "OUTLINE")
-                                    t:SetTextColor(0,1,0)
+                                    t:SetTextColor(0, 1, 0)
                                     t:SetText(READY)
                                 else
                                     t:SetFont(STANDARD_TEXT_FONT, fontsize0, "OUTLINE")
-                                    t:SetTextColor(1,.82,0)
+                                    t:SetTextColor(1, .82, 0)
                                     t:SetText(BG.SecondsToTime(v.resettime))
                                 end
                             end
@@ -622,11 +743,11 @@ function BG.RoleOverviewUI()
                                     (-16 - height * n))
                                 if v.ready then
                                     t:SetFont(STANDARD_TEXT_FONT, fontsize, "OUTLINE")
-                                    t:SetTextColor(0,1,0)
+                                    t:SetTextColor(0, 1, 0)
                                     t:SetText(READY)
                                 else
                                     t:SetFont(STANDARD_TEXT_FONT, fontsize0, "OUTLINE")
-                                    t:SetTextColor(1,.82,0)
+                                    t:SetTextColor(1, .82, 0)
                                     t:SetText(BG.SecondsToTime(v.resettime))
                                 end
                             end
@@ -661,42 +782,50 @@ function BG.RoleOverviewUI()
         end
 
         --------- 角色货币总览 ---------
-        n = n + 1
-        local accountsText = ""
-        if BiaoGeAccounts then
-            accountsText = L["，长按ALT仅显示本账号角色"]
-        end
-        local minimapText = L["|cff808080（右键打开设置%s）|r"]
-        if position == "minimap" then
-            minimapText = L["|cff808080（左键打开表格，右键打开设置%s）|r"]
-        end
-        local t = f:CreateFontString()
-        t:SetFont(STANDARD_TEXT_FONT, fontsize2, "OUTLINE")
-        t:SetPoint("TOPLEFT", 15, -10 - height * n)
-        t:SetText(BG.STC_g1(L["< 角色货币总览 >"]))
-        t:SetJustifyH("LEFT")
-        t:SetWordWrap(false)
-        t:SetWidth(totalwidth - 20)
+        -- 大标题
+        do
+            n = n + 1
 
-        if BG.IsVanilla_Sod then
-            local t_end = f:CreateFontString()
-            t_end:SetFont(STANDARD_TEXT_FONT, fontsize, "OUTLINE")
-            t_end:SetPoint("TOPLEFT", t, "BOTTOMLEFT", 0, -3)
-            t_end:SetText(BG.STC_dis((minimapText:gsub("（", ""):gsub("）", ""):gsub("%(", ""):gsub("%)", ""))))
-            t_end:SetJustifyH("LEFT")
-            t_end:SetWordWrap(false)
-            t_end:SetWidth(totalwidth - 20)
-            FBCDResetTitle = t_end
-        else
-            t:SetText(t:GetText() .. format(minimapText, accountsText))
-        end
+            local t = f:CreateFontString()
+            t:SetFont(STANDARD_TEXT_FONT, fontsize2, "OUTLINE")
+            t:SetPoint("TOPLEFT", 15, -10 - height * n)
+            t:SetText(BG.STC_g1(L["< 角色货币总览 >"]))
+            t:SetJustifyH("LEFT")
+            t:SetWordWrap(false)
+            t:SetWidth(totalwidth - 20)
 
-        FBCDTitle:SetWidth(totalwidth - 20) -- 标题设置宽度
-        if FBCDResetTitle then
-            FBCDResetTitle:SetWidth(totalwidth - 20)
-        end
+            if not click then
+                local accountsText = ""
+                if BiaoGeAccounts then
+                    accountsText = L["，长按ALT仅显示本账号角色"]
+                end
+                local tipsText
+                if BiaoGe.options.roleOverviewDefaultShow =="one" then
+                    tipsText = L["|cff808080（CTRL+左键固定显示，长按SHIFT显示全服务器角色%s）|r"]
+                else
+                    tipsText = L["|cff808080（CTRL+左键固定显示，长按SHIFT显示当前服务器角色%s）|r"]
+                end
+                if BG.IsVanilla_Sod then
+                    local t_end = f:CreateFontString()
+                    t_end:SetFont(STANDARD_TEXT_FONT, fontsize, "OUTLINE")
+                    t_end:SetPoint("TOPLEFT", t, "BOTTOMLEFT", 0, -3)
+                    t_end:SetText(BG.STC_dis((tipsText:gsub("（", ""):gsub("）", ""):gsub("%(", ""):gsub("%)", ""))))
+                    t_end:SetJustifyH("LEFT")
+                    t_end:SetWordWrap(false)
+                    t_end:SetWidth(totalwidth - 20)
+                    FBCDResetTitle = t_end
+                else
+                    t:SetText(t:GetText() .. format(tipsText, accountsText))
+                end
+            end
 
-        n = n + 2
+            FBCDTitle:SetWidth(totalwidth - 20) -- 标题设置宽度
+            if FBCDResetTitle then
+                FBCDResetTitle:SetWidth(totalwidth - 20)
+            end
+
+            n = n + 2
+        end
 
         local function GetCount(pz, id)
             local count
@@ -711,32 +840,58 @@ function BG.RoleOverviewUI()
             end
             return count
         end
-
         local copyTbl1 = {} -- 用于复制数据
         local copyTbl2 = {}
         local sum = {}
         do
             -- 初始化数据
             local function DefaultDB(db, copyTbl)
-                if db and db.Money and db.Money[realmID] then
-                    for player, vv in pairs(db.Money[realmID]) do
-                        copyTbl[player] = BG.Copy(vv)
-                        for i, v in ipairs(MONEYchoice_table) do
-                            if tonumber(v.id) and not copyTbl[player][v.id] then -- 牌子，给空值设为0，主要是为了填补一些旧角色缺少某些新数据
-                                copyTbl[player][v.id] = {
-                                    count = 0,
-                                    tex = BG.IsVanilla and v.tex or C_CurrencyInfo.GetCurrencyInfo(v.id).iconFileID,
-                                    isNotKnow = true
-                                }
-                            elseif v.id == "money" and not copyTbl[player][v.id] then -- 如果是金币
-                                copyTbl[player][v.id] = 0
+                if db and db.Money then
+                    local function _AddDB(realmID)
+                        if db.Money[realmID] then
+                            for player, vv in pairs(db.Money[realmID]) do
+                                copyTbl[player] = BG.Copy(vv)
+                                for i, v in ipairs(MONEYchoice_table) do
+                                    if tonumber(v.id) and not copyTbl[player][v.id] then -- 牌子，给空值设为0，主要是为了填补一些旧角色缺少某些新数据
+                                        copyTbl[player][v.id] = {
+                                            count = 0,
+                                            tex = BG.IsVanilla and v.tex or C_CurrencyInfo.GetCurrencyInfo(v.id).iconFileID,
+                                            isNotKnow = true
+                                        }
+                                    elseif v.id == "money" and not copyTbl[player][v.id] then -- 如果是金币
+                                        copyTbl[player][v.id] = 0
+                                    end
+                                end
+                                if not copyTbl[player].player then
+                                    copyTbl[player].player = player
+                                end
+                                if not copyTbl[player].colorplayer then
+                                    copyTbl[player].colorplayer = BG.STC_dis(player)
+                                end
+                                copyTbl[player].realmID = realmID
                             end
                         end
-                        if not copyTbl[player].player then
-                            copyTbl[player].player = player
+                    end
+
+                    if BiaoGe.options.roleOverviewDefaultShow == "one" then
+                        if IsShiftKeyDown() then
+                            for realmID, v in pairs(db.Money) do
+                                if type(realmID) == "number" and type(v) == "table" then
+                                    _AddDB(realmID)
+                                end
+                            end
+                        else
+                            _AddDB(realmID)
                         end
-                        if not copyTbl[player].colorplayer then
-                            copyTbl[player].colorplayer = BG.STC_dis(player)
+                    else
+                        if IsShiftKeyDown() then
+                            _AddDB(realmID)
+                        else
+                            for realmID, v in pairs(db.Money) do
+                                if type(realmID) == "number" and type(v) == "table" then
+                                    _AddDB(realmID)
+                                end
+                            end
                         end
                     end
                 end
@@ -746,8 +901,7 @@ function BG.RoleOverviewUI()
                 DefaultDB(BiaoGeAccounts, copyTbl2)
             end
         end
-
-        -- Money标题
+        -- 货币标题
         do
             local right
             for i, v in ipairs(MONEYchoice_table) do
@@ -781,25 +935,28 @@ function BG.RoleOverviewUI()
             l:SetEndPoint("TOPLEFT", BG.FBCDFrame, totalwidth - 5, -10 - height * n + line_height)
             l:SetThickness(1)
         end
-
         -- 角色货币
         do
             local newTbl = {}
 
             local function AddDB(db, copyTbl, isAccounts)
                 for player, v in pairs(copyTbl) do
+                    local realmID = v.realmID
                     if not isAccounts or not (BiaoGe.Money[realmID] and BiaoGe.Money[realmID][player]) then
                         local level = db.playerInfo[realmID] and db.playerInfo[realmID][player] and db.playerInfo[realmID][player].level
-                        if (level and level >= BiaoGe.options["roleOverviewNotShowLevel"]) or not level then
-                            local class = db.playerInfo[realmID] and db.playerInfo[realmID][player] and db.playerInfo[realmID][player].class
-                            if class then
+                        if (level and level >= BiaoGe.options["roleOverviewNotShowLevel"]) then
+                            local class = db.playerInfo[realmID][player].class
+                            local iLevel = db.playerInfo[realmID][player].iLevel or (db.PlayerItemsLevel and db.PlayerItemsLevel[realmID][player])
+                            if class and iLevel then
                                 local colorplayer = "|c" .. select(4, GetClassColor(class)) .. player .. (isAccounts and "*" or "")
                                 tinsert(newTbl, {
                                     player = player,
                                     colorplayer = colorplayer,
                                     class = class,
-                                    iLevel = db.PlayerItemsLevel[realmID][player],
+                                    iLevel = iLevel,
                                     level = level,
+                                    realmID = realmID,
+                                    realmName = BiaoGe.realmName[realmID] or realmID,
                                     tbl = v
                                 })
                             end
@@ -827,12 +984,27 @@ function BG.RoleOverviewUI()
                 local level = v.level
                 local right
                 -- 名字
+                local realmName
+                if BiaoGe.options.roleOverviewDefaultShow =="one" then
+                    if IsShiftKeyDown() then
+                        realmName = "|c" .. select(4, GetClassColor(v.class)) .. v.realmName .. "-|r"
+                    else
+                        realmName = ""
+                    end
+                else
+                    if IsShiftKeyDown() then
+                        realmName = ""
+                    else
+                        realmName = "|c" .. select(4, GetClassColor(v.class)) .. v.realmName .. "-|r"
+                    end
+                end
+
                 local levelText = ""
                 if level then levelText = BG.STC_dis(" (" .. level .. ")") end
                 local t_name = f:CreateFontString()
                 t_name:SetFont(STANDARD_TEXT_FONT, fontsize, "OUTLINE")
                 t_name:SetPoint("TOPLEFT", BG.FBCDFrame, "TOPLEFT", 15, -10 - height * n)
-                t_name:SetText(colorplayer .. levelText)
+                t_name:SetText(realmName .. colorplayer .. levelText)
                 right = t_name
 
                 -- 牌子
@@ -913,6 +1085,20 @@ function BG.RoleOverviewUI()
 
     function BG.SortRoleOverview(newTbl)
         sort(newTbl, function(a, b)
+            if (BiaoGe.options.roleOverviewDefaultShow =="one" and IsShiftKeyDown())
+            or BiaoGe.options.roleOverviewDefaultShow =="all" and not IsShiftKeyDown() then
+                local a_val = a.realmID
+                local b_val = b.realmID
+                if a_val ~= b_val then
+                    if a_val == realmID then
+                        return true
+                    elseif b_val == realmID then
+                        return false
+                    end
+                    return a_val > b_val
+                end
+            end
+
             local s = BiaoGe.options["roleOverviewSort1"]
             local tbl = { strsplit("-", s) }
             for _, key in ipairs(tbl) do
@@ -927,11 +1113,9 @@ function BG.RoleOverviewUI()
     end
 
     BG.RegisterEvent("MODIFIER_STATE_CHANGED", function(self, event, enter)
-        if enter == "LALT" or enter == "RALT" then
-            if BG.FBCDFrame and BG.FBCDFrame:IsVisible() then
-                BG.FBCDFrame:Hide()
-                BG.SetFBCD(BG.FBCDFrame.lastSelf, BG.FBCDFrame.lastPosition)
-            end
+        if BG.FBCDFrame and not BG.FBCDFrame.click and BG.FBCDFrame:IsVisible() then
+            BG.FBCDFrame:Hide()
+            BG.SetFBCD(BG.FBCDFrame.lastSelf, BG.FBCDFrame.lastPosition)
         end
     end)
 
@@ -1228,15 +1412,16 @@ function BG.RoleOverviewUI()
             local newTbl = {}
             for player, v in pairs(BiaoGe.FBCD[realmID]) do
                 local level = BiaoGe.playerInfo[realmID] and BiaoGe.playerInfo[realmID][player] and BiaoGe.playerInfo[realmID][player].level
-                if (level and level >= BiaoGe.options["roleOverviewNotShowLevel"]) or not level then
-                    local class = BiaoGe.playerInfo[realmID] and BiaoGe.playerInfo[realmID][player] and BiaoGe.playerInfo[realmID][player].class
-                    if class then
+                if (level and level >= BiaoGe.options["roleOverviewNotShowLevel"]) then
+                    local class = BiaoGe.playerInfo[realmID][player].class
+                    local iLevel = BiaoGe.playerInfo[realmID][player].iLevel
+                    if class and iLevel then
                         local colorplayer = "|c" .. select(4, GetClassColor(class)) .. player .. (isAccounts and "*" or "")
                         tinsert(newTbl, {
                             player = player,
                             colorplayer = colorplayer,
                             class = class,
-                            iLevel = BiaoGe.PlayerItemsLevel[realmID][player],
+                            iLevel = iLevel,
                             tbl = BG.Copy(v)
                         })
                     end
@@ -1755,38 +1940,23 @@ function BG.RoleOverviewUI()
 
     ------------------角色装等------------------
     do
-        if not BiaoGe.PlayerItemsLevel then
-            BiaoGe.PlayerItemsLevel = {}
-        end
-        if not BiaoGe.PlayerItemsLevel[realmID] then
-            BiaoGe.PlayerItemsLevel[realmID] = {}
-        end
-        if not BiaoGe.PlayerItemsLevel[realmID][player] then
-            BiaoGe.PlayerItemsLevel[realmID][player] = 0
-        end
-
         local function GetPlayerItemsLevel()
             local _, avgLevel = GetAverageItemLevel()
+            BiaoGe.playerInfo[realmID][player].iLevel = avgLevel or 0
             local avgLevel0 = Round(avgLevel, 0)
-            BiaoGe.PlayerItemsLevel[realmID][player] = avgLevel
-
             -- 更新集结号密语装等
             if BG.MeetingHorn and BG.MeetingHorn.iLevelCheckButton then
                 BG.MeetingHorn.iLevelCheckButton.Text:SetText(avgLevel0)
             end
         end
 
-        local f = CreateFrame("Frame")
-        f:RegisterEvent("PLAYER_ENTERING_WORLD")
-        f:SetScript("OnEvent", function(self, event, ...)
+        BG.Init2(function()
             C_Timer.After(1, function()
                 GetPlayerItemsLevel()
             end)
         end)
 
-        local f = CreateFrame("Frame")
-        f:RegisterEvent("UNIT_INVENTORY_CHANGED")
-        f:SetScript("OnEvent", function(self, event, ...)
+        BG.RegisterEvent("UNIT_INVENTORY_CHANGED", function(self, event, ...)
             C_Timer.After(0.5, function()
                 GetPlayerItemsLevel()
             end)
@@ -1897,44 +2067,51 @@ function BG.RoleOverviewUI()
                 end
             end
         end
-        local function UpdateProfessionCD()
+        local function UpdateProfessionCD() -- 检查其他角色cd是否到期
             local time = GetServerTime()
-            for p in pairs(BiaoGe.tradeSkillCooldown[realmID]) do -- 检查其他角色cd是否到期
-                local i = 3
-                for profession, v in pairs(BiaoGe.tradeSkillCooldown[realmID][p]) do
-                    if v.endtime then
-                        if time >= v.endtime then
-                            v.resettime = nil
-                            v.endtime = nil
-                            v.ready = true
-                            local color
-                            if v.class then
-                                color = select(4, GetClassColor(v.class))
-                            end
-                            local name = color and "|c" .. color .. p .. "|r: " or p .. ": "
-                            if p == UnitName("player") then
-                                name = color and "|c" .. color .. L["我"] .. "|r: " or L["我"] .. ": "
-                            end
-                            local msg=BG.BG .. BG.STC_g1(format(L["%s%s已就绪！"],name, tbl[profession].name))
-                            BG.After(i, function()
-                                SendSystemMessage(msg)
-                                SendSystemMessage(msg)
-                                SendSystemMessage(msg)
-                                if BG["sound_" .. profession .. "Ready" .. BiaoGe.options.Sound] then
-                                    PlaySoundFile(BG["sound_" .. profession .. "Ready" .. BiaoGe.options.Sound], "Master")
-                                else
-                                    PlaySoundFile("Interface\\AddOns\\BiaoGe\\Media\\sound\\other\\done.mp3", "Master")
+            local i = 3
+            local function Update(db)
+                if db and db.tradeSkillCooldown and db.tradeSkillCooldown[realmID] then
+                    for player in pairs(db.tradeSkillCooldown[realmID]) do
+                        for profession, v in pairs(db.tradeSkillCooldown[realmID][player]) do
+                            if v.endtime then
+                                if time >= v.endtime then
+                                    v.resettime = nil
+                                    v.endtime = nil
+                                    v.ready = true
+                                    if db == BiaoGe then
+                                        local color
+                                        if v.class then
+                                            color = select(4, GetClassColor(v.class))
+                                        end
+                                        local name = color and "|c" .. color .. player .. "|r: " or player .. ": "
+                                        if player == UnitName("player") then
+                                            name = color and "|c" .. color .. L["我"] .. "|r: " or L["我"] .. ": "
+                                        end
+                                        local msg = BG.BG .. BG.STC_g1(format(L["%s%s已就绪！"], name, tbl[profession].name))
+                                        BG.After(i, function()
+                                            SendSystemMessage(msg)
+                                            -- SendSystemMessage(msg)
+                                            -- SendSystemMessage(msg)
+                                            if BG["sound_" .. profession .. "Ready" .. BiaoGe.options.Sound] then
+                                                PlaySoundFile(BG["sound_" .. profession .. "Ready" .. BiaoGe.options.Sound], "Master")
+                                            else
+                                                PlaySoundFile("Interface\\AddOns\\BiaoGe\\Media\\sound\\other\\done.mp3", "Master")
+                                            end
+                                        end)
+                                        i = i + 3
+                                    end
+                                elseif time < v.endtime then
+                                    v.resettime = v.endtime - time
                                 end
-                            end)
-                            i = i + 3
-                        elseif time < v.endtime then
-                            v.resettime = v.endtime - time
+                            end
                         end
                     end
                 end
             end
+            Update(BiaoGe)
+            Update(BiaoGeAccounts)
         end
-
         local _msg = TRADESKILL_LOG_FIRSTPERSON:gsub("%%s", "(.+)")
         BG.RegisterEvent("CHAT_MSG_TRADESKILLS", function(self, event, msg)
             if not strfind(msg, _msg) then return end

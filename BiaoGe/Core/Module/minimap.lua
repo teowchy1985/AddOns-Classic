@@ -16,10 +16,10 @@ local plugin = ldb:NewDataObject(AddonName, { type = "data source", icon = "Inte
 
 function plugin:OnClick(button) --function plugin.OnClick(self, button)
     if button == "LeftButton" then
-        if BG.MainFrame and not BG.MainFrame:IsVisible() then
-            BG.MainFrame:Show()
+        if IsControlKeyDown() then
+            BG.SetFBCD(nil, nil, true)
         else
-            BG.MainFrame:Hide()
+            BG.MainFrame:SetShown(not BG.MainFrame:IsVisible())
         end
     elseif button == "RightButton" then
         if SettingsPanel:IsVisible() then
@@ -28,8 +28,8 @@ function plugin:OnClick(button) --function plugin.OnClick(self, button)
             ns.InterfaceOptionsFrame_OpenToCategory("|cff00BFFFBiaoGe|r")
             BG.MainFrame:Hide()
         end
-        BG.PlaySound(1)
     end
+    BG.PlaySound(1)
 end
 
 function plugin:OnEnter(button)
@@ -37,7 +37,7 @@ function plugin:OnEnter(button)
 end
 
 function plugin:OnLeave(button)
-    if BG.FBCDFrame then
+    if BG.FBCDFrame and not BG.FBCDFrame.click then
         BG.FBCDFrame:Hide()
     end
     GameTooltip:Hide()

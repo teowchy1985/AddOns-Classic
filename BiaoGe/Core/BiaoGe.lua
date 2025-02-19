@@ -169,7 +169,6 @@ BG.Init(function()
         f:SetSize(t:GetStringWidth(), 20)
         BG.ShuoMingShu = f
         BG.ShuoMingShuText = t
-
         local function OnEnter(self)
             self.OnEnter = true
             GameTooltip:SetOwner(self, "ANCHOR_NONE")
@@ -209,6 +208,71 @@ BG.Init(function()
         BG.MainFrame.ErrorText:SetWidth(BG.MainFrame:GetWidth() - 50)
         BG.MainFrame.ErrorText:SetTextColor(1, 0, 0)
         BG.MainFrame.ErrorText:SetText(L["插件加载错误，请把报错发给作者，谢谢。（Q群322785325）\n\n如果你不知道怎么看报错，请你安装BugSack和BugGrabber插件。"])
+
+        -- VIP
+        BG.Init2(function()
+            if not BiaoGeVIP then
+                BG.VIPVerText = CreateFrame("Frame", nil, BG.MainFrame)
+                BG.VIPVerText:SetPoint("LEFT", BG.VerText, "RIGHT", 10, 0)
+                local t = BG.VIPVerText:CreateFontString()
+                t:SetPoint("CENTER")
+                t:SetFont(STANDARD_TEXT_FONT, 12, "OUTLINE")
+                t:SetTextColor(.5, .5, .5)
+                t:SetText(L["订阅模块"])
+                BG.VIPVerText:SetSize(t:GetWidth(), 15)
+                BG.VIPVerText:SetScript("OnEnter", function(self)
+                    GameTooltip:SetOwner(self, "ANCHOR_NONE", 0, 0)
+                    GameTooltip:SetPoint("TOP", self, "BOTTOM", 0, 0)
+                    GameTooltip:ClearLines()
+                    for i, text in ipairs(ns.VIPinstructionsText) do
+                        GameTooltip:AddLine(text)
+                    end
+                    GameTooltip:Show()
+                end)
+                BG.VIPVerText:SetScript("OnLeave", function()
+                    GameTooltip:Hide()
+                end)
+            end
+            if not BiaoGeAccounts then
+                BG.AccountsVerText = CreateFrame("Frame", nil, BG.MainFrame)
+                BG.AccountsVerText:SetPoint("LEFT", BG.VIPVerText or (BGV and BGV.VerText) or BG.VerText, "RIGHT", 10, 0)
+                local t = BG.AccountsVerText:CreateFontString()
+                t:SetPoint("CENTER")
+                t:SetFont(STANDARD_TEXT_FONT, 12, "OUTLINE")
+                t:SetTextColor(.5, .5, .5)
+                t:SetText(L["同步模块"])
+                BG.AccountsVerText:SetSize(t:GetWidth(), 15)
+                BG.AccountsVerText:SetScript("OnEnter", function(self)
+                    GameTooltip:SetOwner(self, "ANCHOR_NONE", 0, 0)
+                    GameTooltip:SetPoint("TOP", self, "BOTTOM", 0, 0)
+                    GameTooltip:ClearLines()
+                    for i, text in ipairs(ns.AccountsinstructionsText) do
+                        GameTooltip:AddLine(text)
+                    end
+                    GameTooltip:Show()
+                end)
+                BG.AccountsVerText:SetScript("OnLeave", function()
+                    GameTooltip:Hide()
+                end)
+            end
+
+            BG.HistoryMainFrame:HookScript("OnShow", function(self)
+                if BG.VIPVerText then
+                    BG.VIPVerText:Hide()
+                end
+                if BG.AccountsVerText then
+                    BG.AccountsVerText:Hide()
+                end
+            end)
+            BG.HistoryMainFrame:HookScript("OnHide", function(self)
+                if BG.VIPVerText then
+                    BG.VIPVerText:Show()
+                end
+                if BG.AccountsVerText then
+                    BG.AccountsVerText:Show()
+                end
+            end)
+        end)
     end
     tinsert(UISpecialFrames, "BG.MainFrame")
     ----------接收表格主界面----------
@@ -3576,17 +3640,21 @@ BG.Init(function()
             function BG.UpdateButtonClearBiaoGeMoney()
                 local FB = BG.FB1
                 local f = BG.ButtonClearBiaoGeMoney
-                if not (BiaoGe.clearBiaoGeMoney and BiaoGe.clearBiaoGeMoney[FB]) or
-                    not (BiaoGe.clearBiaoGeMoney[FB].realmID == realmID and
-                        BiaoGe.clearBiaoGeMoney[FB].name == player and
-                        GetServerTime() - BiaoGe.clearBiaoGeMoney[FB].time <= 3600 * 24) then
+                if not (BiaoGe.clearBiaoGeMoney and BiaoGe.clearBiaoGeMoney[FB]) then
                     f:Hide()
                 else
-                    f:Show()
                     local jine = BG.Frame[FB]["boss" .. Maxb[FB] + 2].jine5
+                    f:Show()
                     f:ClearAllPoints()
                     f:SetPoint("TOPLEFT", jine, "BOTTOMLEFT", 0, -2)
                     f.Text:SetText(BiaoGe.clearBiaoGeMoney[FB].money)
+                    if BiaoGe.clearBiaoGeMoney[FB].realmID == realmID and BiaoGe.clearBiaoGeMoney[FB].name == player then
+                        f.Text:SetTextColor(1, .82, 0)
+                        f.title.Text:SetTextColor(1, .82, 0)
+                    else
+                        f.Text:SetTextColor(.5, .5, .5)
+                        f.title.Text:SetTextColor(.5, .5, .5)
+                    end
                 end
             end
 
@@ -3607,6 +3675,7 @@ BG.Init(function()
             f:SetSize(0, 20)
             f:SetPoint("RIGHT", BG.ButtonClearBiaoGeMoney, "LEFT", 0, 0)
             poit = f
+            BG.ButtonClearBiaoGeMoney.title = f
             local t = f:CreateFontString()
             t:SetFontObject(ChatFontNormal)
             t:SetPoint("RIGHT")
@@ -3959,6 +4028,18 @@ do
         end
     end
 
+    function BG.ImML()
+        if GetLootMethod() == "master" then
+            if BG.masterLooter and BG.masterLooter == UnitName("player") then
+                return true
+            end
+        else
+            if BG.IsLeader then
+                return true
+            end
+        end
+    end
+
     BG.Init2(function()
         C_Timer.After(1, function()
             BG.UpdateRaidRosterInfo()
@@ -4013,6 +4094,12 @@ do
         BG.MainFrame:Hide()
     end
     SLASH_BIAOGEOPTIONS1 = "/bgo"
+
+    -- 角色总览
+    SlashCmdList["BiaoGeRoleOverview"] = function()
+        BG.SetFBCD(nil, nil, true)
+    end
+    SLASH_BiaoGeRoleOverview1 = "/bgr"
 end
 
 --DEBUG
