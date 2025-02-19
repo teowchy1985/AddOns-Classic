@@ -7,6 +7,7 @@ local lootReminderFrame, lootReminderListFrame, remnantsFrame;
 local lastLootNpcID, lastBossNpcID, lastBossTime, lastEncounterID;
 local tinsert = tinsert;
 local GetItemInfo = GetItemInfo or C_Item.GetItemInfo;
+local GetPlayerAuraBySpellID = C_UnitAuras.GetPlayerAuraBySpellID;
 
 local msgTimer, fadeTimer;
 local function hideMiddleMsg()
@@ -200,14 +201,22 @@ function NIT:argentDawnTrinketReminder()
 		if (standing and standing < 8 and standing ~= 0) then
 			local trinkets = {
 				[1] = {
+					itemID = 23206,
+					name = "|cFFa335ee[Mark of the Champion]|r",
+				},
+				[2] = {
+					itemID = 23207,
+					name = "|cFFa335ee[Mark of the Champion]|r",
+				},
+				[3] = {
 					itemID = 13209,
 					name = "|cFF0070DD[Seal of the Dawn]|r",
 				},
-				[2] = {
+				[4] = {
 					itemID = 19812,
 					name = "|cFF0070DD[Rune of the Dawn]|c",
 				},
-				[3] = {
+				[5] = {
 					itemID = 12846,
 					name = "|cFFFFFFFF[Argent Dawn Commission]|r",
 				},
@@ -218,7 +227,8 @@ function NIT:argentDawnTrinketReminder()
 					isEquipped = true;
 				end
 			end
-			if (not isEquipped) then
+			local hasBuff = GetPlayerAuraBySpellID(17670); --Now we have to check for buff becaus of sod naxx buff.
+			if (not isEquipped and not hasBuff) then
 				for k, v in ipairs(trinkets) do
 					local trinket = C_Item.GetItemCount(v.itemID);
 					if (trinket and trinket > 0) then
