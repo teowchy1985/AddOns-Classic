@@ -60,15 +60,17 @@ end
 EngraverOptionsFrameMixin = {}
 
 function EngraverOptionsFrameMixin:OnLoad()
-	self.isSettingDefaults = false
-	self:RegisterEvent("ADDON_LOADED")
-	self.name = localAddonName
-	self.category, self.layout = Settings.RegisterCanvasLayoutCategory(self, localAddonName, localAddonName);
-	self.category.ID = localAddonName
-	Settings.RegisterAddOnCategory(self.category);
-	self:InitSettingsList()
-	self:CreateSettingsInitializers()
-	self.settingsList:Display(self.initializers);
+	if C_Engraving:IsEngravingEnabled() then
+		self.isSettingDefaults = false
+		self:RegisterEvent("ADDON_LOADED")
+		self.name = localAddonName
+		self.category, self.layout = Settings.RegisterCanvasLayoutCategory(self, localAddonName, localAddonName);
+		self.category.ID = localAddonName
+		Settings.RegisterAddOnCategory(self.category);
+		self:InitSettingsList()
+		self:CreateSettingsInitializers()
+		self.settingsList:Display(self.initializers);
+	end
 end
 
 StaticPopupDialogs["ENGRAVER_SETTINGS_APPLY_DEFAULTS"] = {
@@ -268,7 +270,7 @@ function EngraverOptionsFrameMixin:CreateSettingsInitializers()
 		{
 			name = "Community Discord",
 			tooltip = "If you have any questions, suggestions, or comments please post in the Community Discord.",
-			text = "https://discord.gg/xwkZnnKfsC"
+			text = "https://discord.gg/QgDbJe5Nma"
 		})
 	end -- Discord
 	do -- Github
