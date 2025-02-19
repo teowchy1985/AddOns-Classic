@@ -1,6 +1,6 @@
 ## Interface: 30403, 40401
 ## Author: Snowflame0
-## Version: v4.2.3
+## Version: v4.3.0-Rainbow
 ## Dependencies: AtlasLootClassic
 ## LoadOnDemand: 1
 
