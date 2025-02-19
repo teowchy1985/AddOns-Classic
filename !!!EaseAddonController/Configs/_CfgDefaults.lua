@@ -2092,7 +2092,7 @@ D["RollTrackerClassicZ"] = {
 	}
 };
 D["ReforgeLite"] = {
-    defaultEnable = 0,
+    defaultEnable = 1,
 	tags = { "ITEM" },
 	title = "重鑄助手",
 	desc = "可匯入或設定權重，計算後自動重鑄最優屬性。``重鑄裝備時會自動顯示視窗。`",
