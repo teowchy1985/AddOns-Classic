@@ -95,6 +95,8 @@ AL["Lunar Festival"] = "Festival Lunar"
 AL["Lunar Festival Fireworks Pack"] = "Paquete de fuegos artificiales del Festival Lunar"
 AL["Masks"] = "Máscaras"
 AL["Midsummer Festival"] = "Festival de Fuego del Solsticio de Verano"
+--[[Translation missing --]]
+--[[ AL["Molten Front"] = "Molten Front"--]] 
 AL["Noblegarden"] = "Jardín Noble"
 AL["One-Handed Weapons"] = "Armas de una mano"
 --[[Translation missing --]]

@@ -1,6 +1,6 @@
-## Interface: 40401
+## Interface: 40402
 ## Author: Snowflame0
-## Version: v4.2.3
+## Version: v4.3.0-beta
 ## Dependencies: AtlasLootClassic
 ## LoadOnDemand: 1
 
@@ -22,7 +22,7 @@
 ## Notes-esMX: AtlasLoot tablas de botín de JcJ
 ## Notes-frFR: Tables de butin JcJ
 ## Notes-itIT: AtlasLoot loot tables from PvP
-## Notes-koKR: L["Notes-PvP"] = "AtlasLoot PvP 아이템 전리품 목록"
+## Notes-koKR: AtlasLoot PvP 아이템 전리품 목록
 ## Notes-ptBR: Tabelas de saque AtlasLoot de JxJ
 ## Notes-ruRU: Таблицы добычи AtlasLoot -  PvP
 ## Notes-zhCN: AtlasLoot - PVP 奖励物品列表

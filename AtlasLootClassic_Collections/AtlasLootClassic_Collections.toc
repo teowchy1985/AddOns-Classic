@@ -1,6 +1,6 @@
-## Interface: 40401
+## Interface: 40402
 ## Author: Snowflame0
-## Version: v4.2.3
+## Version: v4.3.0-beta
 ## Dependencies: AtlasLootClassic
 ## LoadOnDemand: 1
 
@@ -22,7 +22,7 @@
 ## Notes-esMX: AtlasLoot tablas de botín de Colecciones
 ## Notes-frFR: Tables de butin des collections
 ## Notes-itIT: AtlasLoot loot tables from Collections
-## Notes-koKR: L["Notes-Collections"] = "AtlasLoot 수집품 전리품 목록"
+## Notes-koKR: AtlasLoot 수집품 전리품 목록
 ## Notes-ptBR: Tabelas de saque AtlasLoot das Coleções
 ## Notes-ruRU: Таблицы добычи AtlasLoot -  Коллекции
 ## Notes-zhCN: AtlasLoot - 收藏品列表
