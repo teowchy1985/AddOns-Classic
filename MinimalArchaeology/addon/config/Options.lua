@@ -1,18 +1,33 @@
-local ADDON, MinArch = ...
+local ADDON, _ = ...
+---@type MinArch
 
-MinArch.Options = MinArch.Ace:NewModule("Options");
+---@class MinArchOptions
+local Options = MinArch:LoadModule("MinArchOptions");
+---@type MinArchMain
+local Main = MinArch:LoadModule("MinArchMain")
+---@type MinArchDigsites
+local Digsites = MinArch:LoadModule("MinArchDigsites")
+---@type MinArchHistory
+local History = MinArch:LoadModule("MinArchHistory")
+---@type MinArchCompanion
+local Companion = MinArch:LoadModule("MinArchCompanion")
+---@type MinArchCommon
+local Common = MinArch:LoadModule("MinArchCommon")
+---@type MinArchLDB
+local MinArchLDB = MinArch:LoadModule("MinArchLDB")
+---@type MinArchNavigation
+local Navigation = MinArch:LoadModule("MinArchNavigation")
 
-local Options = MinArch.Options;
-local parent = MinArch;
+local L = LibStub("AceLocale-3.0"):GetLocale("MinArch")
 
 local ArchRaceGroupText = {
-	"庫爾提拉斯、祖達薩",
-	"破碎群島",
-	"德拉諾",
-	"潘達利亞",
-	"北裂境",
-	"外域",
-	"東部王國、卡林多"
+	L["GLOBAL_KUL_TIRAS"] .. ", " .. L["GLOBAL_ZANDALAR"],
+	L["GLOBAL_BROKEN_ISLES"],
+	L["GLOBAL_DRAENOR"],
+	L["GLOBAL_PANDARIA"],
+	L["GLOBAL_NORTHREND"],
+	L["GLOBAL_OUTLAND"],
+	L["GLOBAL_EASTERN_KINGDOMS"] .. ", " .. L["GLOBAL_KALIMDOR"]
 };
 
 local ArchRaceGroups = {
@@ -35,7 +50,7 @@ local function updateOrdering(frame, newValue)
     end
 
     MinArch.db.profile.companion.features[frame].order = newValue;
-    MinArch.Companion:Update();
+    Companion:Update();
 end
 
 
@@ -92,72 +107,72 @@ local function updatePrioOrdering(group, currentRace, newValue, ignoreCrossCheck
 end
 
 local home = {
-	name = "考古小幫手 v" .. C_AddOns.GetAddOnMetadata("MinimalArchaeology", "Version"),
+	name = L["OPTIONS_REGISTER_MINARCH_TITLE"] .. " v" .. C_AddOns.GetAddOnMetadata("MinimalArchaeology", "Version"),
 	handler = MinArch,
 	type = "group",
 	args = {
         message = {
             type = "description",
-            name = "感謝您使用考古小幫手",  --  翻譯 X 部分
+            name = L["OPTIONS_THANKS"],
             fontSize = "small",
             width = "full",
             order = 1,
         },
 		info = {
             type = "description",
-            name = "如需配置選項，請展開左側的專業-考古選項。以下是插件和設置的概述：",  --  翻譯 X 部分
+            name = L["OPTIONS_INTRO"],
             fontSize = "small",
             width = "full",
             order = 2,
         },
 		general = {
 			type = "group",
-            name = "通用設置 - 主窗口",  --  翻譯 X 部分
+            name = L["OPTIONS_GENERAL_MAIN_TITLE"],
             inline = true,
             order = 3,
 			args = {
 				message = {
 					type = "description",
-					name = "打開此部分以配置 |cFFF96854雙擊右鍵勘測|r，以及 |cFFF96854主窗口|r、|cFFF96854歷史|r 和 |cFFF96854挖掘點|r 窗口。如果您不熟悉 MinArch，請點擊下面的按鈕來切換每個特定窗口。",  --  翻譯 X 部分 
+					name = L["OPTIONS_GENERAL_MAIN_WINDOWS"],
 					fontSize = "small",
 					width = "full",
 					order = 1,
 				},
 				main = {
 					type = "execute",
-					name = "切換主窗口",  --  翻譯 X 部分
+					name = L["OPTIONS_TOGGLE_MAIN"],
 					order = 2,
 					func = function ()
-						MinArchMain:Toggle()
+						Main:ToggleWindow()
 					end,
                 },
                 digsites = {
 					type = "execute",
-					name = "切換歷史",  --  翻譯 X 部分
+					name = L["OPTIONS_TOGGLE_HISTORY"],
 					order = 3,
 					func = function ()
-						MinArchHist:Toggle()
+						History:ToggleWindow()
 					end,
 				},
 				history = {
 					type = "execute",
-					name = "切換挖掘點",  --  翻譯 X 部分
+					name = L["OPTIONS_TOGGLE_DIGSITES"],
 					order = 4,
 					func = function ()
-						MinArchDigsites:Toggle()
+						Digsites:ToggleWindow()
 					end,
 				},
 			}
 		},
 		companion = {
 			type = "group",
-            name = "小幫手設定",
+            name = L["OPTIONS_COMPANION_TITLE"],
             inline = true,
             order = 4,
 			args = {
 				message = {
 					type = "description",
-					name = "助手 |cFFF96854Companion|r 是一個小型浮動視窗，包含距離追蹤器、航點按鈕、解答、箱子和召喚隨機坐騎的按鈕。每個按鈕都可以禁用，您也可以自訂它們的順序。助手具有與其他視窗不同的縮放和自動顯示/隱藏功能。",
+					name = L["OPTIONS_COMPANION_DESCRIPTION"],
 					fontSize = "small",
 					width = "full",
 					order = 1,
@@ -166,13 +181,13 @@ local home = {
 		},
 		race = {
 			type = "group",
-            name = "種族設定",
+            name = L["OPTIONS_RACE_TITLE"],
             inline = true,
             order = 5,
 			args = {
 				message = {
 					type = "description",
-					name = "種族相關選項：|cFFF96854隱藏|r 或 |cFFF96854優先|r 種族，設定 |cFFF96854農夫模式|r 或啟用 |cFFF96854自動石板|r 應用。",
+					name = L["OPTIONS_RACE_DESCRIPTION"],
 					fontSize = "small",
 					width = "full",
 					order = 1,
@@ -182,13 +197,13 @@ local home = {
 
 		navigation = {
 			type = "group",
-			name = "導航設定", -- Navigation Settings
+            name = L["OPTIONS_NAVIGATION_TITLE"],
             inline = true,
             order = 6,
 			args = {
 				message = {
 					type = "description",
-					name = "|cFFF96854TomTom|r 整合選項和暴雪 |cFFF96854航點|r 系統支持（如果可用）。",
+					name = L["OPTIONS_NAVIGATION_DESCRIPTION"],
 					fontSize = "small",
 					width = "full",
 					order = 1,
@@ -199,20 +214,20 @@ local home = {
 }
 
 local general = {
-    name = "一般設定", -- General Settings
+	name = L["OPTIONS_GENERAL_TITLE"],
 	handler = MinArch,
 	type = "group",
 	args = {
         surveying = {
             type = "group",
-            name = "測量", -- Surveying
+            name = L["OPTIONS_SURVEYING_TITLE"],
             inline = true,
             order = 3,
             args = {
                 dblClick = {
 					type = "toggle",
-                    name = "雙擊右鍵測量", -- Survey on Double Right Click
-                    desc = "啟用後，當您使用鼠標右鍵雙擊時將施放測量。",
+					name = L["OPTIONS_SURVEY_ON_DBL_RCLICK_TITLE"],
+					desc = L["OPTIONS_SURVEY_ON_DBL_RCLICK_DESC"],
 					get = function () return MinArch.db.profile.surveyOnDoubleClick end,
 					set = function (_, newValue)
 						MinArch.db.profile.surveyOnDoubleClick = newValue;
@@ -222,8 +237,8 @@ local general = {
                 },
                 disableMounted = {
                     type = "toggle",
-                    name = "騎乘時不施放", -- Don't cast while mounted
-                    desc = "勾選此選項可防止在您騎乘時施放測量。",
+					name = L["OPTIONS_SURVEY_DONT_MOUNTED_TITLE"],
+					desc = L["OPTIONS_SURVEY_DONT_MOUNTED_DESC"],
 					get = function () return MinArch.db.profile.dblClick.disableMounted end,
 					set = function (_, newValue)
 						MinArch.db.profile.dblClick.disableMounted = newValue;
@@ -233,8 +248,8 @@ local general = {
                 },
                 disableInFlight = {
                     type = "toggle",
-                    name = "飛行時不施放", -- Don't cast while flying
-                    desc = "勾選此選項可防止在您飛行時施放測量。",
+					name = L["OPTIONS_SURVEY_DONT_FLYING_TITLE"],
+					desc = L["OPTIONS_SURVEY_DONT_FLYING_DESC"],
 					get = function () return MinArch.db.profile.dblClick.disableInFlight end,
 					set = function (_, newValue)
 						MinArch.db.profile.dblClick.disableInFlight = newValue;
@@ -243,10 +258,10 @@ local general = {
 					order = 3,
                 },
 				doubleClickButton = {
-					name = 'Double click button',
-					desc = "Button for double click surveying.",
+					name = L["OPTIONS_SURVEY_ON_DBL_CLICK_BTN_TITLE"],
+					desc = L["OPTIONS_SURVEY_ON_DBL_CLICK_BTN_DESC"],
 					type = "select",
-					values = {[1] = 'Right Mouse Button', [2] = 'Left Mouse Button'},
+					values = {[1] = L["OPTIONS_SURVEY_ON_DBL_CLICK_BTN_RMB"], [2] = L["OPTIONS_SURVEY_ON_DBL_CLICK_BTN_LMB"]},
 					get = function () return MinArch.db.profile.dblClick.button end,
 					set = function (_, newValue)
 						MinArch.db.profile.dblClick.button = newValue;
@@ -258,21 +273,21 @@ local general = {
         },
 		misc = {
 			type = 'group',
-			name = '雜項選項', -- Miscellaneous options
+			name = L["OPTIONS_MISC_TITLE"],
 			inline = true,
 			order = 4,
 			args = {
 				scale = {
 					type = "range",
-					name = "Window Scale",
-					desc = "Scale for the Main, History and Digsites windows. The Companion is scaled using a separate slider in the Companion section.",
+					name = L["OPTIONS_WINDOW_SCALE_TITLE"],
+					desc = L["OPTIONS_WINDOW_SCALE_DESC"],
 					min = 30,
 					max = 200,
 					step = 5,
 					get = function () return MinArch.db.profile.frameScale end,
 					set = function (_, newValue)
 						MinArch.db.profile.frameScale = newValue;
-						MinArch:CommonFrameScale(newValue);
+						Common:FrameScale(newValue);
 					end,
 					order = 1,
 				},
@@ -286,42 +301,43 @@ local general = {
 				},
 				hideMinimapButton = {
 					type = "toggle",
-					name = "隱藏小地圖按鈕", -- Hide Minimap Button
-					desc = "隱藏小地圖按鈕",
+					name = L["OPTIONS_HIDE_MINIMAPBUTTON_TITLE"],
+					desc = L["OPTIONS_HIDE_MINIMAPBUTTON_DESC"],
 					get = function () return MinArch.db.profile.minimap.hide end,
 					set = function (_, newValue)
 						MinArch.db.profile.minimap.hide = newValue;
 
-						MinArch:RefreshMinimapButton();
+						MinArchLDB:RefreshMinimapButton();
 					end,
-					order = 1,
+					order = 3,
 				},
 				disableSound = {
 					type = "toggle",
-					name = "禁用音效", -- Disable Sound
-					desc = "禁用在可以解謎神器時播放的聲音。",
+					name = L["OPTIONS_DISABLE_SOUND_TITLE"],
+					desc = L["OPTIONS_DISABLE_SOUND_DESC"],
 					get = function () return MinArch.db.profile.disableSound end,
 					set = function (_, newValue)
 						MinArch.db.profile.disableSound = newValue;
 					end,
-					order = 2,
+					order = 4,
 				},
 				showWorldMapOverlay = {
 					type = "toggle",
-					name = "顯示世界地圖覆蓋圖示", -- Show world map overlay icons
-					desc = "在世界地圖上的挖掘地點旁邊顯示種族圖示。",
+					name = L["OPTIONS_SHOW_WORLD_MAP_ICONS_TITLE"],
+					desc = L["OPTIONS_SHOW_WORLD_MAP_ICONS_DESC"],
 					get = function () return MinArch.db.profile.showWorldMapOverlay end,
 					set = function (_, newValue)
 						MinArch.db.profile.showWorldMapOverlay = newValue;
-						MinArch:ShowRaceIconsOnMap();
+						Digsites:ShowRaceIconsOnMap();
 					end,
+
 					width = "double",
 					order = 5,
 				},
-				scale = {
+				pinScale = {
 					type = "range",
-					name = "縮放", -- Scale
-					desc = "主要、歷史和挖掘地點視窗的縮放比例。助手使用助手部分中的單獨滑塊進行縮放。",
+					name = L["OPTIONS_MAP_PIN_SCALE_TITLE"],
+					desc = L["OPTIONS_MAP_PIN_SCALE_DESC"],
 					min = 50,
 					max = 500,
 					step = 5,
@@ -337,21 +353,21 @@ local general = {
         },
         startup = {
             type = "group",
-            name = "啟動設定", -- Startup settings
+            name = L["OPTIONS_STARTUP_SETTINGS_TITLE"],
             inline = true,
             order = 5,
             args = {
 				note = {
                     type = "description",
-                    name = "注意：這些設定不影響助手框架。", -- Note: these settings do not affect the Companion frame.
+                    name = L["OPTIONS_STARTUP_NOTE"],
                     -- fontSize = "small",
                     width = "full",
                     order = 1,
 			    },
                 startHidden = {
 					type = "toggle",
-					name = "隱藏啟動", -- Start Hidden
-					desc = "始終隱藏啟動 Minimal Archaeology。",
+					name = L["OPTIONS_START_HIDDEN_TITLE"],
+					desc = L["OPTIONS_START_HIDDEN_DESC"],
 					get = function () return MinArch.db.profile.startHidden end,
 					set = function (_, newValue)
 						MinArch.db.profile.startHidden = newValue;
@@ -360,8 +376,8 @@ local general = {
 				},
 				rememberState = {
 					type = "toggle",
-					name = "記住視窗狀態", -- Remember window states
-					desc = "記住登出（或重新載入 UI）時哪些 MinArch 視窗是打開的。",
+					name = L["OPTIONS_REMEMBER_WINDOW_STATES_TITLE"],
+					desc = L["OPTIONS_REMEMBER_WINDOW_STATES_DESC"],
 					get = function () return MinArch.db.profile.rememberState end,
 					disabled = function () return MinArch.db.profile.startHidden end,
 					set = function (_, newValue)
@@ -374,21 +390,21 @@ local general = {
 		},
 		autoHide = {
 			type = "group",
-			name = "自動隱藏主視窗", -- Auto-hide main window
+			name = L["OPTIONS_AUTOHIDE_TITLE"],
 			inline = true,
 			order = 6,
 			args = {
 			    note = {
                     type = "description",
-                    name = "注意：這些設定不影響助手框架。", -- Note: these settings do not affect the Companion frame.
+                    name = L["OPTIONS_STARTUP_NOTE"],
                     -- fontSize = "small",
                     width = "full",
                     order = 1,
 			    },
 				hideAfterDigsite = {
 					type = "toggle",
-					name = "挖掘地點後自動隱藏", -- Auto-hide after digsites
-					desc = "完成挖掘地點後隱藏 Minimal Archaeology。",
+					name = L["OPTIONS_HIDE_AFTER_DIGSITES_TITLE"],
+					desc = L["OPTIONS_HIDE_AFTER_DIGSITES_DESC"],
 					get = function () return MinArch.db.profile.hideAfterDigsite end,
 					set = function (_, newValue)
 						MinArch.db.profile.hideAfterDigsite = newValue;
@@ -397,8 +413,8 @@ local general = {
 				},
 				waitForSolve = {
 					type = "toggle",
-					name = "等待解謎神器", -- Wait to solve artifacts
-					desc = "等待所有神器都被解謎後再自動隱藏。",
+					name = L["OPTIONS_HIDE_WATE_FOR_SOLVES_TITLE"],
+					desc = L["OPTIONS_HIDE_WATE_FOR_SOLVES_DESC"],
 					get = function () return MinArch.db.profile.waitForSolve end,
 					set = function (_, newValue)
 						MinArch.db.profile.waitForSolve = newValue;
@@ -408,8 +424,8 @@ local general = {
 				},
 				hideInCombat = {
 					type = "toggle",
-					name = "戰鬥中自動隱藏", -- Auto-hide in combat
-					desc = "戰鬥開始時隱藏 Minimal Archaeology，戰鬥結束後重新打開。",
+					name = L["OPTIONS_HIDE_IN_COMBAT_DESC"],
+					desc = L["OPTIONS_HIDE_IN_COMBAT_TITLE"],
 					get = function () return MinArch.db.profile.hideInCombat end,
 					set = function (_, newValue)
 						MinArch.db.profile.hideInCombat = newValue;
@@ -420,14 +436,14 @@ local general = {
 		},
 		autoShow = {
 			type = 'group',
-			name = '自動顯示主視窗', -- Auto-show main window
+			name = L["OPTIONS_AUTOSHOW_TITLE"],
 			inline = true,
 			order = 7,
 			args = {
 				autoShowInDigsites = {
 					type = "toggle",
-					name = "在挖掘地點顯示", -- Show in digsites
-					desc = "在挖掘地點移動時自動顯示 Minimal Archaeology。",
+					name = L["OPTIONS_AUTOSHOW_DIGSITES_TITLE"],
+					desc = L["OPTIONS_AUTOSHOW_DIGSITES_DESC"],
 					get = function () return MinArch.db.profile.autoShowInDigsites end,
 					set = function (_, newValue)
 						MinArch.db.profile.autoShowInDigsites = newValue;
@@ -437,8 +453,8 @@ local general = {
 				},
 				autoShowOnSurvey = {
 					type = "toggle",
-					name = "測量時顯示", -- Show when surveying
-					desc = "在挖掘地點測量時自動顯示 Minimal Archaeology。",
+					name = L["OPTIONS_AUTOSHOW_SURVEY_TITLE"],
+					desc = L["OPTIONS_AUTOSHOW_SURVEY_DESC"],
 					get = function () return MinArch.db.profile.autoShowOnSurvey end,
 					set = function (_, newValue)
 						MinArch.db.profile.autoShowOnSurvey = newValue;
@@ -448,8 +464,8 @@ local general = {
 				},
 				autoShowOnSolve = {
 					type = "toggle",
-					name = "解謎時顯示", -- Show for solves
-					desc = "當可以解謎時自動顯示 Minimal Archaeology。",
+					name = L["OPTIONS_AUTOSHOW_SOLVES_TITLE"],
+					desc = L["OPTIONS_AUTOSHOW_SOLVES_DESC"],
 					get = function () return MinArch.db.profile.autoShowOnSolve end,
 					set = function (_, newValue)
 						MinArch.db.profile.autoShowOnSolve = newValue;
@@ -458,8 +474,8 @@ local general = {
 				},
 				autoShowOnCap = {
 					type = "toggle",
-					name = "達到上限時顯示", -- Show on cap
-					desc = "當種族碎片達到上限時自動顯示 Minimal Archaeology。",
+					name = L["OPTIONS_AUTOSHOW_CAP_TITLE"],
+					desc = L["OPTIONS_AUTOSHOW_CAP_DESC"],
 					get = function () return MinArch.db.profile.autoShowOnCap end,
 					set = function (_, newValue)
 						MinArch.db.profile.autoShowOnCap = newValue;
@@ -470,44 +486,44 @@ local general = {
         },
         history = {
 			type = 'group',
-			name = '歷史視窗設定', -- History Window settings
+			name = L["OPTIONS_HISTORY_WINDOW_TITLE"],
 			inline = true,
 			order = 8,
 			args = {
                 autoResize = {
 					type = "toggle",
-					name = "自動調整大小", -- Auto-resize
-					desc = "啟用後將自動調整歷史視窗的大小以適合所有項目",
+					name = L["OPTIONS_HISTORY_AUTORESIZE_TITLE"],
+					desc = L["OPTIONS_HISTORY_AUTORESIZE_DESC"] ,
 					get = function () return MinArch.db.profile.history.autoResize end,
 					set = function (_, newValue)
                         MinArch.db.profile.history.autoResize = newValue;
-                        MinArch:CreateHistoryList(MinArchOptions['CurrentHistPage'], "Options");
+                        History:CreateHistoryList(MinArchOptions['CurrentHistPage'], "Options");
 					end,
 					order = 1,
 				},
 				showStats = {
 					type = "toggle",
-					name = "顯示統計",
-					desc = "顯示每個種族的進度和總解謎數。",
+					name = L["OPTIONS_HISTORY_SHOW_STATS_TITLE"],
+					desc = L["OPTIONS_HISTORY_SHOW_STATS_DESC"],
 					get = function () return MinArch.db.profile.history.showStats end,
 					set = function (_, newValue)
                         MinArch.db.profile.history.showStats = newValue;
 						if newValue then
-							MinArchHist.statsFrame:Show()
+							History.statsFrame:Show()
 						else
-							MinArchHist.statsFrame:Hide()
+							History.statsFrame:Hide()
 						end
 					end,
 					order = 2,
 				},
 				groupByProgress = {
 					type = "toggle",
-					name = "按進度分組",
-					desc = "如果啟用，文物將按進度分組：當前 > 未完成 > 已完成。",
+					name = L["OPTIONS_HISTORY_GROUP_TITLE"],
+					desc = L["OPTIONS_HISTORY_GROUP_DESC"],
 					get = function () return MinArch.db.profile.history.groupByProgress end,
 					set = function (_, newValue)
                         MinArch.db.profile.history.groupByProgress = newValue;
-                        MinArch:CreateHistoryList(MinArchOptions['CurrentHistPage'], "Options");
+                        History:CreateHistoryList(MinArchOptions['CurrentHistPage'], "Options");
 					end,
 					order = 3,
 				},
@@ -517,60 +533,60 @@ local general = {
 }
 
 local raceSettings = {
-	name = "種族設定", -- Race Settings
+	name = L["OPTIONS_RACE_SECTION_TITLE"],
 	handler = MinArch,
 	type = "group",
 	childGroups = "tab",
 	args = {
 		relevancy = {
 			type = 'group',
-			name = '關聯性', -- Relevancy
+			name = L["OPTIONS_RACE_RELEVANCY_TITLE"],
 			inline = false,
 			order = 1,
 			args = {
 				message = {
 					type = "description",
-					name = "自訂當切換相關種族開關時，您希望在主視窗中顯示哪些種族。\n",
+					name = L["OPTIONS_RACE_RELEVANCY_DESC"],
 					fontSize = "medium",
 					width = "full",
 					order = 1,
 				},
 				relevancySub = {
 					type = 'group',
-					name = '自訂關聯性', -- Customize relevancy
+					name = L["OPTIONS_RACE_RELEVANCY_CUSTOMIZE"],
 					order = 2,
 					inline = true,
 					args = {
 						nearby = {
 							type = "toggle",
-							name = "附近可用", -- Available nearby
-							desc = "顯示目前您所在的大陸上具有可用挖掘地點的種族。",
+							name = L["OPTIONS_RACE_RELEVANCY_NEARBY_TITLE"],
+							desc = L["OPTIONS_RACE_RELEVANCY_NEARBY_DESC"],
 							get = function () return MinArch.db.profile.relevancy.nearby end,
 							set = function (_, newValue)
 								MinArch.db.profile.relevancy.nearby = newValue;
-								MinArch:UpdateMain();
+								Main:Update();
 							end,
 							order = 1,
 						},
 						continentSpecific = {
 							type = "toggle",
-							name = "資料片特定", -- Expansion-specific
-							desc = "顯示可能在您當前大陸（或資料片）上可用的種族，即使它們目前沒有活躍的挖掘地點。",
+							name = L["OPTIONS_RACE_RELEVANCY_EXPANSION_TITLE"],
+							desc = L["OPTIONS_RACE_RELEVANCY_EXPANSION_DESC"],
 							get = function () return MinArch.db.profile.relevancy.continentSpecific end,
 							set = function (_, newValue)
 								MinArch.db.profile.relevancy.continentSpecific = newValue;
-								MinArch:UpdateMain();
+								Main:Update();
 							end,
 							order = 2,
 						},
 						solvable = {
 							type = "toggle",
-							name = "可解謎", -- Solvable
-							desc = "顯示具有可用解謎的種族，即使它們與您當前大陸無關或不可用。",
+							name = L["OPTIONS_RACE_RELEVANCY_SOLVABLE_TITLE"],
+							desc = L["OPTIONS_RACE_RELEVANCY_SOLVABLE_DESC"],
 							get = function () return MinArch.db.profile.relevancy.solvable end,
 							set = function (_, newValue)
 								MinArch.db.profile.relevancy.solvable = newValue;
-								MinArch:UpdateMain();
+								Main:Update();
 							end,
 							order = 3,
                         },
@@ -578,18 +594,18 @@ local raceSettings = {
                 },
                 relevancyOverrides = {
 					type = 'group',
-					name = '關聯性覆蓋', -- Relevancy overrides
+					name = L["OPTIONS_RACE_RELEVANCY_OVERRIDES_TITLE"],
 					order = 2,
 					inline = true,
 					args = {
                         hideCapped = {
                             type = "toggle",
-							name = "隱藏設定為農夫模式（碎片上限）的種族的無關解謎", -- Hide irrelevant solves for races set to Farming mode (fragment-capped)
-							desc = "啟用後，當設定為農夫模式（碎片上限）的種族具有可用解謎時，即使它們基於其他關聯性設定是無關的，也會將其視為無關。",
+							name = L["OPTIONS_RACE_RELEVANCY_OVERRIDE_FRAGCAP_TITLE"],
+							desc = L["OPTIONS_RACE_RELEVANCY_OVERRIDE_FRAGCAP_DESC"],
 							get = function () return MinArch.db.profile.relevancy.hideCapped end,
 							set = function (_, newValue)
 								MinArch.db.profile.relevancy.hideCapped = newValue;
-                                MinArch:UpdateMain();
+                                Main:Update();
                             end,
                             width = "full",
 							order = 5,
@@ -600,26 +616,26 @@ local raceSettings = {
 		},
 		hide = {
 			type = "group",
-			name = "隱藏", -- Hide
+			name = L["OPTIONS_RACE_HIDE_TITLE"],
 			order = 2,
 			inline = false,
 			args = {
 				message = {
 					type = "description",
-					name = "勾選您希望始終隱藏的種族。這將覆蓋關聯性設定。\n\n隱藏的種族不會顯示在主視窗中，助手也不會顯示它們的解謎。",
+					name = L["OPTIONS_RACE_HIDE_DESC"],
 					fontSize = "medium",
 					width = "full",
 					order = 1,
 				},
 				wpIgnoreHidden = {
 					type = "toggle",
-					name = "創建路點時忽略隱藏種族",
-					desc = "啟用此選項可讓創建路點時忽略隱藏種族。",
+					name = L["OPTIONS_RACE_HIDE_WPIGNORE_TITLE"],
+					desc = L["OPTIONS_RACE_HIDE_WPIGNORE_DESC"],
 					get = function () return MinArch.db.profile.TomTom.ignoreHidden end,
                     set = function (_, newValue)
 						MinArch.db.profile.TomTom.ignoreHidden = newValue;
 					end,
-                    disabled = function () return (MinArch:IsNavigationEnabled() == false) end,
+                    disabled = function () return (Navigation:IsNavigationEnabled() == false) end,
 					width = "full",
 					order = 2,
                 },
@@ -627,13 +643,13 @@ local raceSettings = {
 		},
 		cap = {
 			type = "group",
-			name = "農夫模式", -- Farming mode
+			name = L["OPTIONS_RACE_CAP_TITLE"],
 			order = 3,
 			inline = false,
 			args = {
 				message = {
 					type = "description",
-					name = "如果您為一個種族啟用農夫模式，主視窗將顯示該種族的碎片上限，而不是當前解謎所需的碎片。這對於收集暗月馬戲團的化石碎片很有用。",
+					name = L["OPTIONS_RACE_CAP_DESC"],
 					fontSize = "medium",
 					width = "full",
 					order = 1,
@@ -641,8 +657,8 @@ local raceSettings = {
                 solveConfirmation = {
                     width = "full",
 					type = "toggle",
-					name = "顯示碎片上限解謎確認", -- Show confirmation for fragment-capped solves
-					desc = "在為啟用農夫模式的種族解謎神器之前顯示確認",
+					name = L["OPTIONS_RACE_CAP_CONFIRM_TITLE"],
+					desc = L["OPTIONS_RACE_CAP_CONFIRM_DESC"],
 					get = function () return MinArch.db.profile.showSolvePopup end,
 					set = function (_, newValue)
 						MinArch.db.profile.showSolvePopup = newValue;
@@ -653,13 +669,13 @@ local raceSettings = {
 		},
 		keystone = {
 			type = "group",
-			name = "自動石板", -- Auto-keystone 
+			name = L["OPTIONS_RACE_CAP_KEYSTONE_TITLE"],
 			order = 4,
 			inline = false,
 			args = {
 				message = {
 					type = "description",
-					name = "自動為勾選的種族應用石板（不常見的碎片）。",
+					name = L["OPTIONS_RACE_CAP_KEYSTONE_DESC"],
 					fontSize = "medium",
 					width = "full",
 					order = 1,
@@ -668,26 +684,26 @@ local raceSettings = {
 		},
 		priority = {
 			type = "group",
-			name = "優先順序",
+			name = L["OPTIONS_RACE_CAP_PRIORITY_TITLE"],
 			order = 5,
 			inline = false,
 			args = {
 				message = {
 					type = "description",
-					name = "目前，優先順序僅適用於航點生成順序。自動航點將首先指向優先順序較高的種族，然後才會指向其他（即使是更近的）挖掘點。數字越小，優先順序越高。",
+					name = L["OPTIONS_RACE_CAP_PRIORITY_DESC"],
 					fontSize = "medium",
 					width = "full",
 					order = 1,
 				},
 				reset = {
 					type = "execute",
-					name = "全部重置",
+					name = L["OPTIONS_RACE_CAP_PRIORITY_RESETALL"],
 					order = 2,
 					func = function ()
 						for i=1, ARCHAEOLOGY_NUM_RACES do
 							MinArch.db.profile.raceOptions.priority[i] = nil
 						end
-						MinArch:UpdateMain();
+						Main:Update();
 					end,
 				}
 			}
@@ -696,150 +712,149 @@ local raceSettings = {
 }
 
 local companionSettings = {
-    name = "助手設定", -- Companion Settings
+    name = L["OPTIONS_COMPANION_TITLE"],
 	handler = MinArch,
 	type = "group",
 	args = {
         general = {
 			type = "group",
-			name = "一般設定", -- General settings
+			name = L["OPTIONS_COMPANION_GENERAL_TITLE"],
 			order = 1,
 			inline = true,
 			args = {
                 enable = {
 					type = "toggle",
-					name = "啟用助手框架", -- Enable the Companion frame
-                    desc = "切換 MinArch 的助手框架插件。助手是一個帶有距離追蹤器和航點/測量/解謎/箱子按鈕的小框架。",
+					name = L["OPTIONS_COMPANION_GENERAL_ENABLE_TITLE"],
+                    desc = L["OPTIONS_COMPANION_GENERAL_ENABLE_DESC"],
                     width = 1.5,
 					get = function () return MinArch.db.profile.companion.enable end,
 					set = function (_, newValue)
 						MinArch.db.profile.companion.enable = newValue;
 
 						if (newValue) then
-							MinArch.Companion:Enable();
+							Companion:Enable();
 						else
-							MinArch.Companion:Disable();
+							Companion:Disable();
 						end
 					end,
 					order = 1,
 				},
 				alwaysShow = {
 					type = "toggle",
-					name = "始終顯示", -- Always show
-					desc = "啟用後始終顯示助手框架，即使您不在挖掘地點（除非在副本中或啟用了“戰鬥中隱藏”）。",
+					name = L["OPTIONS_COMPANION_GENERAL_ALWAYS_SHOW_TITLE"],
+					desc = L["OPTIONS_COMPANION_GENERAL_ALWAYS_SHOW_DESC"],
 					get = function () return MinArch.db.profile.companion.alwaysShow end,
 					set = function (_, newValue)
                         MinArch.db.profile.companion.alwaysShow = newValue;
-                        MinArch.Companion:AutoToggle()
+                        Companion:AutoToggle()
                     end,
                     disabled = function () return (MinArch.db.profile.companion.enable == false) end,
 					order = 2,
                 },
                 hideInCombat = {
                     type = "toggle",
-                    name = "戰鬥中隱藏", -- Hide in combat
-                    desc = "啟用後在戰鬥中隱藏（即使啟用了始終顯示）。",
+                    name = L["OPTIONS_COMPANION_GENERAL_HIDEINCOMBAT_TITLE"],
+                    desc = L["OPTIONS_COMPANION_GENERAL_HIDEINCOMBAT_DESC"],
                     get = function () return MinArch.db.profile.companion.hideInCombat end,
                     set = function (_, newValue)
                         MinArch.db.profile.companion.hideInCombat = newValue;
-                        MinArch.Companion:AutoToggle()
+                        Companion:AutoToggle()
                     end,
-                    disabled = function () return (MinArch.db.profile.companion.hideInCombat == false) end,
+                    disabled = function () return (MinArch.db.profile.companion.enable == false) end,
                     order = 3,
                 },
 				hideWhenUnavailable = {
                     type = "toggle",
-                    name = "無可用地點時隱藏",
-                    desc = "啟用後，當世界地圖上沒有挖掘地點時隱藏。",
+                    name = L["OPTIONS_COMPANION_GENERAL_HIDENA_TITLE"],
+                    desc = L["OPTIONS_COMPANION_GENERAL_HIDENA_DESC"],
                     get = function () return MinArch.db.profile.companion.hideWhenUnavailable end,
                     set = function (_, newValue)
                         MinArch.db.profile.companion.hideWhenUnavailable = newValue;
-                        MinArch.Companion:AutoToggle()
+                        Companion:AutoToggle()
                     end,
                     disabled = function () return (MinArch.db.profile.companion.enable == false) end,
                     order = 3,
                 },
                 hrC = {
                     type = "description",
-                    name = "|n顏色", -- Coloring
+                    name = L["OPTIONS_COMPANION_GENERAL_COLORING_TITLE"],
                     width = "full",
                     order = 4,
                 },
                 background = {
                     type = "color",
-                    name = "背景顏色", -- Background color
+                    name = L["OPTIONS_COMPANION_GENERAL_COLORING_BG_TITLE"],
                     get = function () return MinArch.db.profile.companion.bg.r, MinArch.db.profile.companion.bg.g, MinArch.db.profile.companion.bg.b end,
                     set = function (_, r, g, b, a)
                         MinArch.db.profile.companion.bg.r = r;
                         MinArch.db.profile.companion.bg.g = g;
                         MinArch.db.profile.companion.bg.b = b;
-                        MinArchCompanion:Update();
+                        Companion:Update();
                     end,
                     disabled = function () return (MinArch.db.profile.companion.enable == false) end,
                     order = 5,
                 },
                 bgOpacity = {
                     type = "range",
-                    name = "背景不透明度", -- Background opacity
-                    desc = "設定助手的大小。默認：50%。",
+                    name = L["OPTIONS_COMPANION_GENERAL_COLORING_OPACITY_TITLE"],
                     min = 0,
                     max = 100,
                     step = 1,
                     get = function () return MinArch.db.profile.companion.bg.a * 100 end,
                     set = function (_, newValue)
                         MinArch.db.profile.companion.bg.a = newValue / 100;
-                        MinArch.Companion:Update();
+                        Companion:Update();
                     end,
                     disabled = function () return (MinArch.db.profile.companion.enable == false) end,
                     order = 6,
                 },
                 hr = {
                     type = "description",
-                    name = "尺寸", -- Sizing
+                    name = L["OPTIONS_COMPANION_GENERAL_SIZING_TITLE"],
                     width = "full",
                     order = 97,
                 },
                 buttonSpacing = {
                     type = "range",
-                    name = "按鈕間距", -- Button spacing
-                    desc = "設定按鈕之間的間距大小。默認：2。",
+                    name = L["OPTIONS_COMPANION_GENERAL_SIZING_SPACING_TITLE"],
+                    desc = L["OPTIONS_COMPANION_GENERAL_SIZING_SPACING_DESC"],
                     min = 0,
                     max = 20,
                     step = 1,
                     get = function () return MinArch.db.profile.companion.buttonSpacing end,
                     set = function (_, newValue)
                         MinArch.db.profile.companion.buttonSpacing = newValue;
-                        MinArch.Companion:Update();
+                        Companion:Update();
                     end,
                     disabled = function () return (MinArch.db.profile.companion.enable == false) end,
                     order = 98,
                 },
                 padding = {
                     type = "range",
-                    name = "填充大小", -- Padding size
-                    desc = "設定助手框架的填充大小。默認：3。",
+                    name = L["OPTIONS_COMPANION_GENERAL_SIZING_PADDING_TITLE"],
+                    desc = L["OPTIONS_COMPANION_GENERAL_SIZING_PADDING_DESC"],
                     min = 0,
                     max = 20,
                     step = 1,
                     get = function () return MinArch.db.profile.companion.padding end,
                     set = function (_, newValue)
                         MinArch.db.profile.companion.padding = newValue;
-                        MinArch.Companion:Update();
+                        Companion:Update();
                     end,
                     disabled = function () return (MinArch.db.profile.companion.enable == false) end,
                     order = 98,
                 },
                 scale = {
                     type = "range",
-                    name = "縮放", -- Scale
-                    desc = "設定助手的大小。默認：100。",
+                    name = L["OPTIONS_COMPANION_GENERAL_SIZING_SCALE_TITLE"],
+                    desc = L["OPTIONS_COMPANION_GENERAL_SIZING_SCALE_DESC"],
                     min = 30,
                     max = 300,
                     step = 5,
                     get = function () return MinArch.db.profile.companion.frameScale end,
                     set = function (_, newValue)
                         MinArch.db.profile.companion.frameScale = newValue;
-                        MinArch.Companion:SetFrameScale(newValue);
+                        Companion:SetFrameScale(newValue);
                     end,
                     disabled = function () return (MinArch.db.profile.companion.enable == false) end,
                     order = 99,
@@ -848,14 +863,14 @@ local companionSettings = {
         },
         positioning = {
             type = "group",
-            name = "位置", -- Positioning
+            name = L["OPTIONS_COMPANION_POSITION_TITLE"],
             order = 2,
             inline = true,
             args = {
                 lock = {
 					type = "toggle",
-					name = "鎖定位置", -- Lock in place
-					desc = "禁用在助手框架上拖動，但您仍然可以通過在此選項頁面上手動修改偏移量來移動它。",
+					name = L["OPTIONS_COMPANION_POSITION_LOCK_TITLE"],
+					desc = L["OPTIONS_COMPANION_POSITION_LOCK_DESC"],
 					get = function () return MinArch.db.profile.companion.lock end,
 					set = function (_, newValue)
                         MinArch.db.profile.companion.lock = newValue;
@@ -871,13 +886,13 @@ local companionSettings = {
                 },
                 savePos = {
 					type = "toggle",
-					name = "在設定檔中儲存位置", -- Save position in profile
-					desc = "啟用後將位置儲存在設定檔中，以便助手在所有使用相同設定檔的角色上都位於相同的位置。",
+					name = L["OPTIONS_COMPANION_POSITION_SAVEPOS_TITLE"],
+					desc = L["OPTIONS_COMPANION_POSITION_SAVEPOS_DESC"],
 					get = function () return MinArch.db.profile.companion.savePos end,
 					set = function (_, newValue)
                         MinArch.db.profile.companion.savePos = newValue;
                         if newValue then
-                            MinArch.Companion:SavePosition()
+                            Companion:SavePosition()
                         end
                     end,
                     disabled = function () return (MinArch.db.profile.companion.enable == false) end,
@@ -885,16 +900,16 @@ local companionSettings = {
                 },
                 x = {
 					type = "input",
-					name = "水平偏移", -- Horizontal offset
-					desc = "螢幕上的水平位置",
+					name = L["OPTIONS_COMPANION_POSITION_HOFFSET_TITLE"],
+					desc = L["OPTIONS_COMPANION_POSITION_HOFFSET_DESC"],
 					get = function () return tostring(MinArch.db.profile.companion.posX) end,
                     set = function (_, newValue)
                         if (MinArch.db.profile.companion.enable and MinArch.db.profile.companion.savePos) then
                             MinArch.db.profile.companion.posX = tonumber(newValue);
-                            local point, relativeTo, relativePoint, xOfs, yOfs = MinArchCompanion:GetPoint();
-                            MinArch.Companion:ClearAllPoints();
-                            MinArch.Companion:SetPoint(point, UIParent, relativePoint, tonumber(newValue), yOfs);
-                            MinArch.Companion:SavePosition()
+                            local point, relativeTo, relativePoint, xOfs, yOfs = Companion.frame:GetPoint();
+                            Companion.frame:ClearAllPoints();
+                            Companion.frame:SetPoint(point, UIParent, relativePoint, tonumber(newValue), yOfs);
+                            Companion.frame:SavePosition()
                         end
                     end,
                     disabled = function () return (MinArch.db.profile.companion.enable == false or MinArch.db.profile.companion.savePos == false) end,
@@ -902,16 +917,16 @@ local companionSettings = {
                 },
                 y = {
 					type = "input",
-					name = "垂直偏移", -- Vertical offset
-					desc = "螢幕上的垂直位置",
+					name = L["OPTIONS_COMPANION_POSITION_VOFFSET_TITLE"],
+					desc = L["OPTIONS_COMPANION_POSITION_VOFFSET_DESC"],
 					get = function () return tostring(MinArch.db.profile.companion.posY) end,
                     set = function (_, newValue)
                         if (MinArch.db.profile.companion.enable and MinArch.db.profile.companion.savePos) then
                             MinArch.db.profile.companion.posY = tonumber(newValue);
-                            local point, relativeTo, relativePoint, xOfs, yOfs = MinArchCompanion:GetPoint();
-                            MinArch.Companion:ClearAllPoints();
-                            MinArch.Companion:SetPoint(point, UIParent, relativePoint, xOfs, tonumber(newValue));
-                            MinArch.Companion:SavePosition();
+                            local point, relativeTo, relativePoint, xOfs, yOfs = Companion.frame:GetPoint();
+                            Companion.frame:ClearAllPoints();
+                            Companion.frame:SetPoint(point, UIParent, relativePoint, xOfs, tonumber(newValue));
+                            Companion.frame:SavePosition();
                         end
                     end,
                     disabled = function () return (MinArch.db.profile.companion.enable == false or MinArch.db.profile.companion.savePos == false) end,
@@ -919,41 +934,41 @@ local companionSettings = {
 				},
                 resetButton = {
 					type = "execute",
-					name = "重置位置", -- Reset position
+					name = L["OPTIONS_COMPANION_POSITION_RESET"],
 					order = 6,
 					func = function ()
-                        MinArch.Companion:ResetPosition();
+                        Companion:ResetPosition();
 					end,
                 },
             }
         },
-		featureOpts = {
+        featureOpts = {
             type = "group",
-            name = "自訂助手功能", -- Customize Companion features
+            name = L["OPTIONS_COMPANION_FEATURES_TITLE"],
             order = 3,
             inline = true,
             args = {
                 distanceTracker = {
                     type = "group",
-                    name = "距離追蹤器設定", -- Distance Tracker settings
+                    name = L["OPTIONS_COMPANION_POSITION_FEATURES_DT_TITLE"],
                     order = 1,
                     inline = true,
                     args = {
                         toggleDistanceTracker = {
                             type = "toggle",
-                            name = "顯示距離追蹤器", -- Show distance tracker
-                            desc = "切換助手框架上的距離追蹤器",
+                            name = L["OPTIONS_COMPANION_POSITION_FEATURES_DT_SHOW_TITLE"],
+                            desc = L["OPTIONS_COMPANION_POSITION_FEATURES_DT_SHOW_DESC"],
                             get = function () return MinArch.db.profile.companion.features.distanceTracker.enabled end,
                             set = function (_, newValue)
                                 MinArch.db.profile.companion.features.distanceTracker.enabled = newValue;
-                                MinArch.Companion:Update();
+                                Companion:Update();
                             end,
                             disabled = function () return (MinArch.db.profile.companion.enable == false) end,
                             order = 1,
                         },
                         distanceTrackerOrder = {
                             type = "select",
-                            name = "順序", -- Order
+                            name = L["OPTIONS_GLOBAL_ORDER_TITLE"],
                             values = {1, 2, 3, 4, 5, 6},
                             get = function () return MinArch.db.profile.companion.features.distanceTracker.order end,
                             set = function (info, newValue)
@@ -965,37 +980,37 @@ local companionSettings = {
                         },
                         shape = {
                             type = "select",
-                            name = "形狀", -- Shape
-                            values = {"圓形", "方形", "三角形"}, -- "Circle", "Square", "Triangle"
+                            name = L["OPTIONS_COMPANION_POSITION_FEATURES_DT_SHAPE_TITLE"],
+                            values = {L["OPTIONS_GLOBAL_CIRCLE"], L["OPTIONS_GLOBAL_SQUARE"], L["OPTIONS_GLOBAL_TRIANGLE"]},
                             get = function () return MinArch.db.profile.companion.features.distanceTracker.shape end,
                             set = function (info, newValue)
                                 MinArch.db.profile.companion.features.distanceTracker.shape = newValue
-                                MinArch.Companion:UpdateIndicatorFrameTexture()
+                                Companion:UpdateIndicatorFrameTexture()
                             end,
                         }
                     }
                 },
                 waypointButton = {
                     type = "group",
-                    name = "航點按鈕設定", -- Waypoint button settings
+                    name = L["OPTIONS_COMPANION_POSITION_FEATURES_WP_TITLE"],
                     order = 2,
                     inline = true,
                     args = {
                         toggleWaypointButton = {
                             type = "toggle",
-                            name = "顯示航點按鈕", -- Show waypoint button
-                            desc = "在助手框架上顯示自動航點按鈕",
+                            name = L["OPTIONS_COMPANION_POSITION_FEATURES_WP_SHOW_TITLE"],
+                            desc = L["OPTIONS_COMPANION_POSITION_FEATURES_WP_SHOW_DESC"],
                             get = function () return MinArch.db.profile.companion.features.waypointButton.enabled end,
                             set = function (_, newValue)
                                 MinArch.db.profile.companion.features.waypointButton.enabled = newValue;
-                                MinArch.Companion:Update();
+                                Companion:Update();
                             end,
                             disabled = function () return (MinArch.db.profile.companion.enable == false) end,
                             order = 6,
                         },
                         waypointButtonOrder = {
                             type = "select",
-                            name = "順序", -- Order
+                            name = L["OPTIONS_GLOBAL_ORDER_TITLE"],
                             values = {1, 2, 3, 4, 5, 6},
                             get = function () return MinArch.db.profile.companion.features.waypointButton.order end,
                             set = function (info, newValue)
@@ -1009,25 +1024,25 @@ local companionSettings = {
                 },
                 surveyButton = {
                     type = "group",
-                    name = "測量按鈕設定", -- Survey button settings
+                    name = L["OPTIONS_COMPANION_POSITION_FEATURES_SURVEY_TITLE"],
                     order = 3,
                     inline = true,
                     args = {
                         toggleSurveyButton = {
                             type = "toggle",
-                            name = "顯示測量按鈕", -- Show Survey button
-                            desc = "在助手框架上顯示測量按鈕",
+                            name = L["OPTIONS_COMPANION_POSITION_FEATURES_SURVEY_SHOW_TITLE"],
+                            desc = L["OPTIONS_COMPANION_POSITION_FEATURES_SURVEY_SHOW_DESC"],
                             get = function () return MinArch.db.profile.companion.features.surveyButton.enabled end,
                             set = function (_, newValue)
                                 MinArch.db.profile.companion.features.surveyButton.enabled = newValue;
-                                MinArch.Companion:Update();
+                                Companion:Update();
                             end,
                             disabled = function () return (MinArch.db.profile.companion.enable == false) end,
                             order = 3,
                         },
                         solveButtonOrder = {
                             type = "select",
-                            name = "順序", -- Order
+                            name = L["OPTIONS_GLOBAL_ORDER_TITLE"],
                             values = {1, 2, 3, 4, 5, 6},
                             get = function () return MinArch.db.profile.companion.features.surveyButton.order end,
                             set = function (info, newValue)
@@ -1041,25 +1056,25 @@ local companionSettings = {
                 },
                 solveButton = {
                     type = "group",
-                    name = "解謎按鈕設定", -- Solve button settings
+                    name = L["OPTIONS_COMPANION_POSITION_FEATURES_SOLVE_TITLE"],
                     order = 4,
                     inline = true,
                     args = {
                         toggleSolveButton = {
                             type = "toggle",
-                            name = "顯示解謎按鈕", -- Show Solve button
-                            desc = "在助手框架上顯示解謎按鈕",
+                            name = L["OPTIONS_COMPANION_POSITION_FEATURES_SOLVE_SHOW_TITLE"],
+                            desc = L["OPTIONS_COMPANION_POSITION_FEATURES_SOLVE_SHOW_DESC"],
                             get = function () return MinArch.db.profile.companion.features.solveButton.enabled end,
                             set = function (_, newValue)
                                 MinArch.db.profile.companion.features.solveButton.enabled = newValue;
-                                MinArch.Companion:Update();
+                                Companion:Update();
                             end,
                             disabled = function () return (MinArch.db.profile.companion.enable == false) end,
                             order = 20,
                         },
                         solveButtonOrder = {
                             type = "select",
-                            name = "順序", -- Order
+                            name = L["OPTIONS_GLOBAL_ORDER_TITLE"],
                             values = {1, 2, 3, 4, 5, 6},
                             get = function () return MinArch.db.profile.companion.features.solveButton.order end,
                             set = function (info, newValue)
@@ -1071,12 +1086,12 @@ local companionSettings = {
                         },
                         relevantOnly = {
                             type = "toggle",
-                            name = "僅限相關", -- For relevant only
-                            desc = "啟用後僅顯示相關種族（在種族部分中自訂）的解謎",
+                            name = L["OPTIONS_COMPANION_POSITION_FEATURES_SOLVE_SHOW_RELEVANT_TITLE"],
+                            desc = L["OPTIONS_COMPANION_POSITION_FEATURES_SOLVE_SHOW_RELEVANT_DESC"],
                             get = function () return MinArch.db.profile.companion.relevantOnly end,
                             set = function (_, newValue)
                                 MinArch.db.profile.companion.relevantOnly = newValue;
-                                MinArch.Companion:Update();
+                                Companion:Update();
                             end,
                             disabled = function () return (MinArch.db.profile.companion.enable == false) end,
 							width = "full",
@@ -1084,12 +1099,12 @@ local companionSettings = {
                         },
 						alwaysShowNearest = {
                             type = "toggle",
-                            name = "顯示進行中的文物",
-                            desc = "啟用後，即使您還無法解決專案，也會顯示與最近挖掘地點相關的專案",
+                            name = L["OPTIONS_COMPANION_POSITION_FEATURES_SOLVE_SHOW_NEAREST_TITLE"],
+                            desc = L["OPTIONS_COMPANION_POSITION_FEATURES_SOLVE_SHOW_NEAREST_DESC"],
                             get = function () return MinArch.db.profile.companion.features.solveButton.alwaysShowNearest end,
                             set = function (_, newValue)
                                 MinArch.db.profile.companion.features.solveButton.alwaysShowNearest = newValue;
-                                MinArch.Companion:Update();
+                                Companion:Update();
                             end,
                             disabled = function () return (MinArch.db.profile.companion.enable == false) end,
 							width = 1.5,
@@ -1097,11 +1112,12 @@ local companionSettings = {
                         },
 						alwaysShowSolvable = {
                             type = "toggle",
-                            name = "始終顯示可解文物",
-                            desc = "啟用後，將覆蓋先前設定，顯示可解決的專案，即使它與最近挖掘地點無關",                            get = function () return MinArch.db.profile.companion.features.solveButton.alwaysShowSolvable end,
+                            name = L["OPTIONS_COMPANION_POSITION_FEATURES_SOLVE_SHOW_SOLVABLE_TITLE"],
+                            desc = L["OPTIONS_COMPANION_POSITION_FEATURES_SOLVE_SHOW_SOLVABLE_DESC"],
+                            get = function () return MinArch.db.profile.companion.features.solveButton.alwaysShowSolvable end,
                             set = function (_, newValue)
                                 MinArch.db.profile.companion.features.solveButton.alwaysShowSolvable = newValue;
-                                MinArch.Companion:Update();
+                                Companion:Update();
                             end,
                             disabled = function () return (MinArch.db.profile.companion.enable == false) end,
 							width = 1.5,
@@ -1109,12 +1125,12 @@ local companionSettings = {
                         },
 						keystone = {
                             type = "toggle",
-                            name = "顯示石板",
-                            desc = "啟用此功能可以在解決按鈕上顯示石板（如果當前解決方案可用）。此外，還可以讓你應用/移除石板（如果未設定自動應用）。",
+                            name = L["OPTIONS_COMPANION_POSITION_FEATURES_SOLVE_SHOW_KEYSTONES_TITLE"],
+                            desc = L["OPTIONS_COMPANION_POSITION_FEATURES_SOLVE_SHOW_KEYSTONES_DESC"],
                             get = function () return MinArch.db.profile.companion.features.solveButton.keystone end,
                             set = function (_, newValue)
                                 MinArch.db.profile.companion.features.solveButton.keystone = newValue;
-                                MinArch.Companion:Update();
+                                Companion:Update();
                             end,
                             disabled = function () return (MinArch.db.profile.companion.enable == false) end,
                             order = 57,
@@ -1123,25 +1139,25 @@ local companionSettings = {
                 },
                 crateButton = {
                     type = "group",
-                    name = "箱子按鈕設定", -- Crate button settings
+                    name = L["OPTIONS_COMPANION_POSITION_FEATURES_CRATE_TITLE"],
                     order = 5,
                     inline = true,
                     args = {
                         toggleCrateButton = {
                             type = "toggle",
-                            name = "顯示箱子按鈕", -- Show Crate button
-                            desc = "在助手框架上顯示箱子按鈕",
+                            name = L["OPTIONS_COMPANION_POSITION_FEATURES_CRATE_SHOW_TITLE"],
+                            desc = L["OPTIONS_COMPANION_POSITION_FEATURES_CRATE_SHOW_DESC"],
                             get = function () return MinArch.db.profile.companion.features.crateButton.enabled end,
                             set = function (_, newValue)
                                 MinArch.db.profile.companion.features.crateButton.enabled = newValue;
-                                MinArch.Companion:Update();
+                                Companion:Update();
                             end,
                             disabled = function () return (MinArch.db.profile.companion.enable == false) end,
                             order = 51,
                         },
                         crateButtonOrder = {
                             type = "select",
-                            name = "順序", -- Order
+                            name = L["OPTIONS_GLOBAL_ORDER_TITLE"],
                             values = {1, 2, 3, 4, 5, 6},
                             get = function () return MinArch.db.profile.companion.features.crateButton.order end,
                             set = function (info, newValue)
@@ -1155,25 +1171,25 @@ local companionSettings = {
                 },
                 mountButton = {
                     type = "group",
-                    name = "隨機坐騎按鈕設定", -- Random mount button settings
+                    name = L["OPTIONS_COMPANION_POSITION_FEATURES_MOUNT_TITLE"],
                     order = 6,
                     inline = true,
                     args = {
                         toggleMountButton = {
                             type = "toggle",
-                            name = "顯示隨機坐騎按鈕", -- Show random mount button
-                            desc = "在助手框架上顯示隨機坐騎按鈕",
+                            name = L["OPTIONS_COMPANION_POSITION_FEATURES_MOUNT_SHOW_TITLE"],
+                            desc = L["OPTIONS_COMPANION_POSITION_FEATURES_MOUNT_SHOW_DESC"],
                             get = function () return MinArch.db.profile.companion.features.mountButton.enabled end,
                             set = function (_, newValue)
                                 MinArch.db.profile.companion.features.mountButton.enabled = newValue;
-                                MinArch.Companion:Update();
+                                Companion:Update();
                             end,
                             disabled = function () return (MinArch.db.profile.companion.enable == false) end,
                             order = 6,
                         },
                         mountButtonOrder = {
                             type = "select",
-                            name = "順序", -- Order
+                            name = L["OPTIONS_GLOBAL_ORDER_TITLE"],
                             values = {1, 2, 3, 4, 5, 6},
                             get = function () return MinArch.db.profile.companion.features.mountButton.order end,
                             set = function (info, newValue)
@@ -1187,18 +1203,18 @@ local companionSettings = {
                 },
 				skillBar = {
                     type = "group",
-                    name = "技能條設定",
+                    name = L["OPTIONS_COMPANION_POSITION_FEATURES_SKILLBAR_TITLE"],
                     order = 6,
                     inline = true,
                     args = {
                         toggleMountButton = {
                             type = "toggle",
-							name = "顯示技能條",
-                            desc = "在夥伴框架上顯示技能進度條",
+                            name = L["OPTIONS_COMPANION_POSITION_FEATURES_SKILLBAR_SHOW_TITLE"],
+                            desc = L["OPTIONS_COMPANION_POSITION_FEATURES_SKILLBAR_SHOW_DESC"],
                             get = function () return MinArch.db.profile.companion.features.skillBar.enabled end,
                             set = function (_, newValue)
                                 MinArch.db.profile.companion.features.skillBar.enabled = newValue;
-                                MinArch.Companion:Update();
+                                Companion:Update();
                             end,
                             disabled = function () return (MinArch.db.profile.companion.enable == false) end,
                             order = 1,
@@ -1207,42 +1223,42 @@ local companionSettings = {
                 },
 				progressBar = {
                     type = "group",
-                    name = "進度條設定",
+                    name = L["OPTIONS_COMPANION_POSITION_FEATURES_PROGBAR_TITLE"],
                     order = 8,
                     inline = true,
                     args = {
                         toggleMountButton = {
                             type = "toggle",
-                            name = "顯示進度條",
-                            desc = "在夥伴框架上顯示文物進度條",
+                            name = L["OPTIONS_COMPANION_POSITION_FEATURES_PROGBAR_SHOW_TITLE"],
+                            desc = L["OPTIONS_COMPANION_POSITION_FEATURES_PROGBAR_SHOW_DESC"],
                             get = function () return MinArch.db.profile.companion.features.progressBar.enabled end,
                             set = function (_, newValue)
                                 MinArch.db.profile.companion.features.progressBar.enabled = newValue;
-                                MinArch.Companion:Update();
+                                Companion:Update();
                             end,
                             disabled = function () return (MinArch.db.profile.companion.enable == false) end,
                             order = 1,
                         },
 						showTooltip = {
                             type = "toggle",
-                            name = "顯示提示",
-                            desc = "在滑鼠懸停在進度條上時顯示文物提示",
+                            name = L["OPTIONS_COMPANION_POSITION_FEATURES_PROGBAR_TOOLTIP_TITLE"],
+                            desc = L["OPTIONS_COMPANION_POSITION_FEATURES_PROGBAR_TOOLTIP_DESC"],
                             get = function () return MinArch.db.profile.companion.features.progressBar.showTooltip end,
                             set = function (_, newValue)
                                 MinArch.db.profile.companion.features.progressBar.showTooltip = newValue;
-                                MinArch.Companion:Update();
+                                Companion:Update();
                             end,
                             disabled = function () return (MinArch.db.profile.companion.enable == false) end,
                             order = 1,
                         },
 						solveOnClick = {
                             type = "toggle",
-                            name = "點擊解決",
-                            desc = "點擊進度條時解決當前激活的文物",
+                            name = L["OPTIONS_COMPANION_POSITION_FEATURES_PROGBAR_CLICK_TITLE"],
+                            desc = L["OPTIONS_COMPANION_POSITION_FEATURES_PROGBAR_CLICK_DESC"],
                             get = function () return MinArch.db.profile.companion.features.progressBar.solveOnClick end,
                             set = function (_, newValue)
                                 MinArch.db.profile.companion.features.progressBar.solveOnClick = newValue;
-                                MinArch.Companion:Update();
+                                Companion:Update();
                             end,
                             disabled = function () return (MinArch.db.profile.companion.enable == false) end,
                             order = 1,
@@ -1257,20 +1273,20 @@ local companionSettings = {
 }
 
 local devSettings = {
-	name = "測試/開發者設定", -- Tester/Developer Settings
+	name = L["OPTIONS_DEV_TITLE"],
 	handler = MinArch,
 	type = "group",
 	args = {
 		dev = {
 			type = 'group',
-			name = '除錯訊息', -- Debug messages
+			name = L["OPTIONS_DEV_DEBUG_TITLE"],
 			inline = true,
 			order = 1,
 			args = {
 				showStatusMessages = {
 					type = "toggle",
-					name = "顯示狀態訊息", -- Show status messages
-					desc = "在聊天中顯示 Minimal Archaeology 狀態訊息。",
+					name = L["OPTIONS_DEV_DEBUG_STATUS_TITLE"],
+					desc = L["OPTIONS_DEV_DEBUG_STATUS_DESC"],
 					get = function () return MinArch.db.profile.showStatusMessages end,
 					set = function (_, newValue)
 						MinArch.db.profile.showStatusMessages = newValue;
@@ -1279,8 +1295,8 @@ local devSettings = {
 				},
 				showDebugMessages = {
 					type = "toggle",
-					name = "顯示除錯訊息", -- Show debug messages
-					desc = "在聊天中顯示除錯訊息。除錯訊息比狀態訊息顯示更多關於插件的詳細資訊。",
+					name = L["OPTIONS_DEV_DEBUG_DEV_TITLE"],
+					desc = L["OPTIONS_DEV_DEBUG_DEV_DESC"],
 					get = function () return MinArch.db.profile.showDebugMessages end,
 					set = function (_, newValue)
 						MinArch.db.profile.showDebugMessages = newValue;
@@ -1291,20 +1307,21 @@ local devSettings = {
 		},
 		message = {
             type = "description",
-            name = "實驗性功能放在這裡，因為它們處於測試階段，可能需要額外的開發和回饋。實驗性功能可以在不啟用除錯訊息的情況下使用，但在某些情況下，如果出現問題，我可能會要求提供這些訊息。",            fontSize = "normal",
+            name = L["OPTIONS_DEV_EXPERIMENTAL_DESC"],
+            fontSize = "normal",
             width = "full",
             order = 1,
         },
 		experimental = {
 			type = 'group',
-			name = '實驗性功能',
+			name = L["OPTIONS_DEV_EXPERIMENTAL_TITLE"],
 			inline = true,
 			order = 2,
 			args = {
 				optimizePath = {
                     type = "toggle",
-					name = "優化路徑",
-                    desc = "路點並非總是指向最近的場地，而是試圖優化長途旅行的時間。",
+					name = L["OPTIONS_DEV_EXPERIMENTAL_OPTIMIZE_TITLE"],
+                    desc = L["OPTIONS_DEV_EXPERIMENTAL_OPTIMIZE_DESC"],
                     get = function () return MinArch.db.profile.TomTom.optimizePath end,
                     set = function (_, newValue)
 						MinArch.db.profile.TomTom.optimizePath = newValue;
@@ -1313,15 +1330,15 @@ local devSettings = {
                 },
 				optimizeModifier = {
 					type = "range",
-					name = "優化修飾符",
-					desc = "將優化修飾符設定為自訂值。",
+					name = L["OPTIONS_DEV_EXPERIMENTAL_OPTIMIZE_MOD_TITLE"],
+					desc = L["OPTIONS_DEV_EXPERIMENTAL_OPTIMIZE_MOD_DESC"],
 					min = 1,
 					max = 5,
 					step = 0.05,
 					get = function () return MinArch.db.profile.TomTom.optimizationModifier end,
 					set = function (_, newValue)
 						MinArch.db.profile.TomTom.optimizationModifier = newValue;
-						MinArch:SetWayToNearestDigsite()
+						Navigation:SetWayToNearestDigsite()
 					end,
 					order = 2,
 				},
@@ -1331,25 +1348,25 @@ local devSettings = {
 }
 
 local TomTomSettings = {
-	name = "MinArch - TomTom",
+	name = L["OPTIONS_NAV_TITLE"],
 	handler = MinArch,
 	type = "group",
 	args = {
         blizzway = {
 			type = 'group',
-			name = '暴雪航點', -- Blizzard Waypoints
+			name = L["OPTIONS_NAV_BLIZZ_TITLE"],
 			inline = true,
 			order = 1,
 			args = {
                 uiMapPoint = {
 					type = "toggle",
-					name = "地圖圖釘", -- Map pin
-					desc = "啟用後在挖掘地點上建立地圖圖釘（僅在正式服可用）。",
+					name = L["OPTIONS_NAV_BLIZZ_PIN_TITLE"],
+					desc = L["OPTIONS_NAV_BLIZZ_PIN_DESC"],
 					get = function () return MinArch.db.profile.TomTom.enableBlizzWaypoint end,
 					set = function (_, newValue)
                         MinArch.db.profile.TomTom.enableBlizzWaypoint = newValue;
                         if MinArch.db.char.TomTom.uiMapPoint and not newValue then
-                            MinArch:ClearUiWaypoint()
+                            Navigation:ClearUiWaypoint()
                         end
 					end,
 					disabled = function () return (MINARCH_EXPANSION == 'Cata') end,
@@ -1357,8 +1374,8 @@ local TomTomSettings = {
                 },
                 superTrack = {
 					type = "toggle",
-					name = "顯示浮動圖釘", -- Show floating pin
-					desc = "啟用後在目的地上方顯示浮動圖釘（僅在正式服可用）。",
+					name = L["OPTIONS_NAV_BLIZZ_FLOATPIN_TITLE"],
+					desc = L["OPTIONS_NAV_BLIZZ_FLOATPIN_DESC"],
 					get = function () return MinArch.db.profile.TomTom.superTrack end,
 					set = function (_, newValue)
                         MinArch.db.profile.TomTom.superTrack = newValue;
@@ -1375,97 +1392,97 @@ local TomTomSettings = {
         },
 		tomtom = {
 			type = 'group',
-			name = 'TomTom 選項', -- TomTom Options
+			name = L["OPTIONS_NAV_TOMTOM_TITLE"],
 			inline = true,
 			order = 2,
-			disabled = function () return (_G.TomTom == nil) end,
+			disabled = function () return (_G["TomTom"] == nil) end,
 			args = {
 				enable = {
 					type = "toggle",
-					name = "在 MinArch 中啟用 TomTom 整合", -- Enable TomTom integration in MinArch
-					desc = "切換 MinArch 中的 TomTom 整合。禁用 TomTom 整合將移除 MinArch 建立的所有航點",
+					name = L["OPTIONS_NAV_TOMTOM_ENABLE_TITLE"],
+					desc = L["OPTIONS_NAV_TOMTOM_ENABLE_DESC"],
 					width = "full",
 					get = function () return MinArch.db.profile.TomTom.enableTomTom end,
 					set = function (_, newValue)
 						MinArch.db.profile.TomTom.enableTomTom = newValue;
 
 						if (newValue) then
-							MinArchMainAutoWayButton:Show();
-							MinArchDigsitesAutoWayButton:Show();
+							Main.frame.autoWaypointButton:Show();
+							Digsites.wpButton:Show();
 						else
-							MinArch:ClearAllDigsiteWaypoints();
-							MinArchMainAutoWayButton:Hide();
-							MinArchDigsitesAutoWayButton:Hide();
+							Navigation:ClearAllDigsiteWaypoints();
+							Main.frame.autoWaypointButton:Hide();
+							Digsites.wpButton:Hide();
 						end
 					end,
 					order = 1,
 				},
 				arrow = {
 					type = "toggle",
-					name = "顯示箭頭", -- Show Arrow
-					desc = "顯示 MinArch 建立的航點的箭頭。這不會更改現有的航點。",
+					name = L["OPTIONS_NAV_TOMTOM_ARROW_TITLE"],
+					desc = L["OPTIONS_NAV_TOMTOM_ARROW_DESC"],
 					get = function () return MinArch.db.profile.TomTom.arrow end,
 					set = function (_, newValue)
 						MinArch.db.profile.TomTom.arrow = newValue;
 					end,
-					disabled = function () return (MinArch:IsTomTomAvailable() == false) end,
+					disabled = function () return (Navigation:IsTomTomAvailable() == false) end,
 					order = 2,
 				},
 				persistent = {
 					type = "toggle",
-					name = "持久航點", -- Persist waypoints
-					desc = "切換航點持久性。這不會更改現有的航點。",
+					name = L["OPTIONS_NAV_TOMTOM_WP_TITLE"],
+					desc = L["OPTIONS_NAV_TOMTOM_WP_DESC"],
 					get = function () return MinArch.db.profile.TomTom.persistent end,
 					set = function (_, newValue)
 						MinArch.db.profile.TomTom.persistent = newValue;
 					end,
-					disabled = function () return (MinArch:IsTomTomAvailable() == false) end,
+					disabled = function () return (Navigation:IsTomTomAvailable() == false) end,
 					order = 3,
 				},
 			},
 		},
 		autoway = {
 			type = 'group',
-			name = '自動為最近的挖掘地點建立航點。', -- Automatically create waypoints for the closest digsite.
+			name = L["OPTIONS_NAV_AUTO_TITLE"],
 			inline = true,
 			order = 3,
 			args = {
 				autoWayOnMove = {
 					type = "toggle",
-					name = "連續", -- Continuously
-					desc = "連續建立/更新到最近挖掘地點的自動航點。",
+					name = L["OPTIONS_NAV_AUTO_CONT_TITLE"],
+					desc = L["OPTIONS_NAV_AUTO_CONT_DESC"],
 					get = function () return MinArch.db.profile.TomTom.autoWayOnMove end,
 					set = function (_, newValue)
 						MinArch.db.profile.TomTom.autoWayOnMove = newValue;
 					end,
-					disabled = function () return (MinArch:IsNavigationEnabled() == false) end,
+					disabled = function () return (Navigation:IsNavigationEnabled() == false) end,
 					order = 1,
 				},
 				autoWayOnComplete = {
 					type = "toggle",
-					name = "完成時", -- When completed
-					desc = "完成一個挖掘地點後自動建立到最近挖掘地點的航點。",
+					name = L["OPTIONS_NAV_AUTO_ONCOMPLETE_TITLE"],
+					desc = L["OPTIONS_NAV_AUTO_ONCOMPLETE_DESC"],
 					get = function () return MinArch.db.profile.TomTom.autoWayOnComplete end,
 					set = function (_, newValue)
 						MinArch.db.profile.TomTom.autoWayOnComplete = newValue;
 					end,
-					disabled = function () return (MinArch:IsNavigationEnabled() == false) end,
+					disabled = function () return (Navigation:IsNavigationEnabled() == false) end,
 					order = 2,
                 },
 				ignoreHidden = {
 					type = "toggle",
-					name = "忽略隱藏種族",
-					desc = "啟用此選項以在創建路點時忽略隱藏種族。",
+					name = L["OPTIONS_NAV_AUTO_IGNOREHIDDEN_TITLE"],
+					desc = L["OPTIONS_NAV_AUTO_IGNOREHIDDEN_DESC"],
 					get = function () return MinArch.db.profile.TomTom.ignoreHidden end,
                     set = function (_, newValue)
 						MinArch.db.profile.TomTom.ignoreHidden = newValue;
 					end,
-                    disabled = function () return (MinArch:IsNavigationEnabled() == false) end,
+                    disabled = function () return (Navigation:IsNavigationEnabled() == false) end,
 					order = 4,
                 },
 				message = {
 					type = "description",
-					name = "注意：優先級選項已移至種族設定區",
+					name = L["OPTIONS_NAV_AUTO_PRIORITY_NOTE"],
 					fontSize = "normal",
 					width = "full",
 					order = 5,
@@ -1474,14 +1491,14 @@ local TomTomSettings = {
 		},
 		taxi = {
 			type = 'group',
-			name = '飛行坐騎選項',
+			name = L["OPTIONS_NAV_TAXI_TITLE"],
 			inline = true,
 			order = 4,
 			args = {
 				enable = {
 					type = "toggle",
-					name = "導航至最近的飛行大師",
-					desc = "啟用此功能，如果最近的挖掘地點距離超過配置的距離限制，則將路點設定為最近的飛行大師。",
+					name = L["OPTIONS_NAV_TAXI_ENABLE_TITLE"],
+					desc = L["OPTIONS_NAV_TAXI_ENABLE_DESC"],
 					get = function () return MinArch.db.profile.TomTom.taxi.enabled end,
 					set = function (_, newValue)
 						MinArch.db.profile.TomTom.taxi.enabled = newValue;
@@ -1494,8 +1511,8 @@ local TomTomSettings = {
 				},
 				distance = {
 					type = "range",
-					name = "距離限制",
-					desc = "If enabled, waypoints will be created to the nearest flight master, if the nearest digsite is farther than the configured distance limit.",
+					name = L["OPTIONS_NAV_TAXI_DISTANCE_TITLE"],
+					desc = L["OPTIONS_NAV_TAXI_DISTANCE_DESC"],
 					min = 2000,
 					max = 10000,
 					step = 100,
@@ -1514,8 +1531,8 @@ local TomTomSettings = {
 				},
 				pinAlpha = {
 					type = "range",
-					name = "圖釘透明度",
-					desc = "Set the opacity of unrelated taxi nodes on the flight map",
+					name = L["OPTIONS_NAV_TAXI_PINOPA_TITLE"],
+					desc = L["OPTIONS_NAV_TAXI_PINOPA_DESC"],
 					min = 0,
 					max = 100,
 					step = 5,
@@ -1527,8 +1544,8 @@ local TomTomSettings = {
 				},
 				autoToggle = {
 					type = "toggle",
-					name = "自動啟用",
-					desc = "當 MinArch 創建路點時，在飛行地圖上自動啟用考古模式",
+					name = L["OPTIONS_NAV_TAXI_AUTOENABLE_TITLE"],
+					desc = L["OPTIONS_NAV_TAXI_AUTOENABLE_DESC"],
 					get = function () return MinArch.db.profile.TomTom.taxi.autoEnableArchMode end,
 					set = function (_, newValue)
 						MinArch.db.profile.TomTom.taxi.autoEnableArchMode = newValue;
@@ -1537,34 +1554,34 @@ local TomTomSettings = {
 				},
 				disableOnLogin = {
 					type = "toggle",
-					name = "自動停用",
-					desc = "當世界地圖上沒有挖掘地點以及登入時，自動在飛行地圖上停用考古模式",
+					name = L["OPTIONS_NAV_TAXI_AUTODISABLE_TITLE"],
+					desc = L["OPTIONS_NAV_TAXI_AUTODISABLE_DESC"],
 					get = function () return MinArch.db.profile.TomTom.taxi.autoDisableArchMode end,
 					set = function (_, newValue)
 						MinArch.db.profile.TomTom.taxi.autoDisableArchMode = newValue;
 					end,
 					order = 6,
-				},				
+				},
 			}
 		}
 	}
 }
 
 local PatronSettings = {
-	name = "MinArch 贊助者", -- MinArch Patrons
+	name = L["OPTIONS_PATRONS_TITLE"],
 	handler = MinArch,
 	type = "group",
 	args = {
 		message = {
             type = "description",
-            name = "感謝您使用考古小幫手。如果您喜歡這個插件，請考慮通過 |cFFF96854patreon.com/minarch|r 成為贊助者來支持開發。",
+            name = L["OPTIONS_PATRONS_DESC"],
             fontSize = "normal",
             width = "full",
             order = 1,
         },
 		patrons = {
 			type = "group",
-			name = "贊助者", -- Patrons
+			name = L["OPTIONS_PATRONS_SUBTITLE"],
 			inline = true,
 			order = 3,
 			args = {
@@ -1578,7 +1595,7 @@ local PatronSettings = {
 			}
 		},
 	}
-	}
+}
 
 function Options:OnInitialize()
 	local count = 1;
@@ -1619,7 +1636,7 @@ function Options:OnInitialize()
                 }
             };
 			local values = {}
-			values[0] = '無優先順序'
+			values[0] = 'No priority'
 			for idx=1, #races do
 				values[idx] = tostring(idx)
 			end
@@ -1630,26 +1647,26 @@ function Options:OnInitialize()
                         type = "toggle",
                         name = function () return GetArchaeologyRaceInfo(i) end,
                         desc = function ()
-                            return "隱藏 "..MinArch['artifacts'][i]['race'].." 文物欄，即使它已被發現。"
+                            return L["OPTIONS_RACE_HIDE_THE"]..MinArch['artifacts'][i]['race']..L["OPTIONS_RACE_HIDE_EVEN"]
                         end,
                         order = i,
                         get = function () return MinArch.db.profile.raceOptions.hide[i] end,
                         set = function (_, newValue)
                             MinArch.db.profile.raceOptions.hide[i] = newValue;
-                            MinArch:UpdateMain();
+                            Main:Update();
                         end,
                     };
                     raceSettings.args.cap.args[groupkey].args['race' .. tostring(i)] = {
                         type = "toggle",
                         name = function () return GetArchaeologyRaceInfo(i) end,
                         desc = function ()
-                            return "使用"..MinArch['artifacts'][i]['race'].."文物欄的碎片上限。"
+                            return L["OPTIONS_RACE_CAP_USE"]..MinArch['artifacts'][i]['race']..L["OPTIONS_RACE_CAP_USE_FOR"]
                         end,
                         order = i,
                         get = function () return MinArch.db.profile.raceOptions.cap[i] end,
                         set = function (_, newValue)
                             MinArch.db.profile.raceOptions.cap[i] = newValue;
-                            MinArch:UpdateMain();
+                            Main:Update();
                         end,
                     };
                     raceSettings.args.keystone.args[groupkey].args['race' .. tostring(i)] = {
@@ -1660,14 +1677,14 @@ function Options:OnInitialize()
                             local RaceName = MinArch['artifacts'][i]['race'];
 
                             if (RuneName ~= nil and RaceName ~= nil) then
-                                return "始終使用所有可用的 "..RuneName.." 來解決 "..RaceName.." 文物。";
+                                return L["OPTIONS_RACE_CAP_ALWAYS"]..RuneName..L["OPTIONS_RACE_CAP_ALWAYS_USE_TO_SOLVE"]..RaceName..L["OPTIONS_RACE_CAP_ALWAYS_USE"];
                             end
                         end,
                         order = i,
                         get = function () return MinArch.db.profile.raceOptions.keystone[i] end,
                         set = function (_, newValue)
                             MinArch.db.profile.raceOptions.keystone[i] = newValue;
-                            MinArch:UpdateMain();
+                            Main:Update();
                         end,
                         disabled = (i == ARCHAEOLOGY_RACE_FOSSIL)
                     };
@@ -1677,15 +1694,15 @@ function Options:OnInitialize()
                         name = function ()
 							local suffix = ''
 							if i == ARCHAEOLOGY_RACE_NERUBIAN then
-								suffix = ' (同時影響北裂境和東部王國)'
+								suffix = L["OPTIONS_RACE_AFFECTS_BOTH"]
 							end
 							return MinArch['artifacts'][i]['race'] .. suffix
 						end,
                         desc = function ()
                             local RaceName = MinArch['artifacts'][i]['race'];
 
-                            if (RuneName ~= nil and RaceName ~= nil) then
-                                return "Set " .. RaceName .. " pirority";
+                            if (RaceName ~= nil) then
+                                return L["OPTIONS_RACE_SET"] .. RaceName .. L["OPTIONS_RACE_SET_PRIORITY"];
                             end
                         end,
                         order = i,
@@ -1696,7 +1713,7 @@ function Options:OnInitialize()
 							else
 								updatePrioOrdering(group, i, newValue)
 							end
-                            MinArch:UpdateMain();
+                            Main:Update();
                         end,
                     };
                 end
@@ -1711,26 +1728,26 @@ end
 
 function Options:RegisterMenus()
 	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("MinArch", home);
-	self.menu = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("MinArch", "專業-考古");
+	self.menu = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("MinArch", L["OPTIONS_REGISTER_MINARCH"]);
 
-	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("MinArch General Settings", general);
-	self.general = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("MinArch General Settings", "一般選項", "專業-考古");
+	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable(L["OPTIONS_REGISTER_MINARCH_GENERAL_TITLE"], general);
+	self.general = LibStub("AceConfigDialog-3.0"):AddToBlizOptions(L["OPTIONS_REGISTER_MINARCH_GENERAL_TITLE"], L["OPTIONS_REGISTER_MINARCH_GENERAL_SUBTITLE"], L["OPTIONS_REGISTER_MINARCH"]);
 
-	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("MinArch Companion Settings", companionSettings);
-	self.companionSettings = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("MinArch Companion Settings", "助手選項", "專業-考古");
+	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable(L["OPTIONS_REGISTER_MINARCH_COMPANION_TITLE"], companionSettings);
+	self.companionSettings = LibStub("AceConfigDialog-3.0"):AddToBlizOptions(L["OPTIONS_REGISTER_MINARCH_COMPANION_TITLE"], L["OPTIONS_REGISTER_MINARCH_COMPANION_SUBTITLE"], L["OPTIONS_REGISTER_MINARCH"]);
 
-	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("MinArch Race Settings", raceSettings);
-	self.raceSettings = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("MinArch Race Settings", "種族選項", "專業-考古");
+	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable(L["OPTIONS_REGISTER_MINARCH_RACE_TITLE"], raceSettings);
+	self.raceSettings = LibStub("AceConfigDialog-3.0"):AddToBlizOptions(L["OPTIONS_REGISTER_MINARCH_RACE_TITLE"], L["OPTIONS_REGISTER_MINARCH_RACE_SUBTITLE"], L["OPTIONS_REGISTER_MINARCH"]);
 
-	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("MinArch Navigation Settings", TomTomSettings);
-	self.TomTomSettings = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("MinArch Navigation Settings", "導航選項", "專業-考古");
+	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable(L["OPTIONS_REGISTER_MINARCH_NAV_TITLE"], TomTomSettings);
+	self.TomTomSettings = LibStub("AceConfigDialog-3.0"):AddToBlizOptions(L["OPTIONS_REGISTER_MINARCH_NAV_TITLE"], L["OPTIONS_REGISTER_MINARCH_NAV_SUBTITLE"], L["OPTIONS_REGISTER_MINARCH"]);
 
-	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("MinArch Developer Settings", devSettings);
-    self.devSettings = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("MinArch Developer Settings", "開發者選項", "專業-考古");
+	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable(L["OPTIONS_REGISTER_MINARCH_DEV_TITLE"], devSettings);
+    self.devSettings = LibStub("AceConfigDialog-3.0"):AddToBlizOptions(L["OPTIONS_REGISTER_MINARCH_DEV_TITLE"], L["OPTIONS_REGISTER_MINARCH_DEV_SUBTITLE"], L["OPTIONS_REGISTER_MINARCH"]);
 
-	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("MinArch Patrons", PatronSettings);
-    self.patrons = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("MinArch Patrons", "贊助者", "專業-考古");
+	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable(L["OPTIONS_REGISTER_MINARCH_PATRONS_TITLE"], PatronSettings);
+    self.patrons = LibStub("AceConfigDialog-3.0"):AddToBlizOptions(L["OPTIONS_REGISTER_MINARCH_PATRONS_TITLE"], L["OPTIONS_REGISTER_MINARCH_PATRONS_SUBTITLE"], L["OPTIONS_REGISTER_MINARCH"]);
 
-	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("MinArch Profiles", LibStub("AceDBOptions-3.0"):GetOptionsTable(parent.db));
-    self.profiles = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("MinArch Profiles", "設定檔", "專業-考古");
+	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable(L["OPTIONS_REGISTER_MINARCH_PROFILES_TITLE"], LibStub("AceDBOptions-3.0"):GetOptionsTable(MinArch.db));
+    self.profiles = LibStub("AceConfigDialog-3.0"):AddToBlizOptions(L["OPTIONS_REGISTER_MINARCH_PROFILES_TITLE"], L["OPTIONS_REGISTER_MINARCH_PROFILES_SUBTITLE"], L["OPTIONS_REGISTER_MINARCH"]);
 end
