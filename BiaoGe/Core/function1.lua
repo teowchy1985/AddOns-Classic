@@ -59,7 +59,7 @@ ns.RGB_16 = RGB_16
 
 function SetColorName(name, r, g, b)
     if not (r and g and b) then
-       return name
+        return name
     end
     local r = format("%X", tonumber(r) * 255)
     if r and strlen(r) == 1 then
@@ -127,8 +127,10 @@ local function AddTexture(Texture, y, coord)
         return t
     elseif Texture == "QUEST" then -- 黄色感叹号
         tex = "Interface\\GossipFrame\\AvailableQuestIcon"
-    elseif Texture == "VIP" then   -- 黄色感叹号
+    elseif Texture == "VIP" then
         return "|TInterface\\AddOns\\BiaoGe\\Media\\icon\\VIP:0:0:0:0:100:100:10:90:10:90|t"
+    elseif Texture == "VIP2" then
+        return "|TInterface\\AddOns\\BiaoGe\\Media\\icon\\VIP2:0:0:0:0:100:100:10:90:10:90|t"
     elseif Texture == "BOX" then
         tex = "Interface\\AddOns\\BiaoGe\\Media\\icon\\BOX"
     elseif Texture == "DD" then
@@ -620,3 +622,4 @@ function BG.Copy(table)
         return table
     end
 end
+

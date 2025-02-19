@@ -23,21 +23,59 @@ local Maxb = ns.Maxb
 local Maxi = ns.Maxi
 
 local pt = print
-local RealmId = GetRealmID()
+local realmID = GetRealmID()
 local player = UnitName("player")
+local realmName = GetRealmName()
 
 local AFDtbl = {
+    -- ffff00 = {
+    -- 1200
+    "wlk怀旧-范沃森-Selendis",
     -- 600
     "露露缇娅",
     "陈",
+    -- },
     -- 360
+    "全能小霸王",
     "龙之召唤<破冰>粥糟-粥枣",
     -- 300
     "永恒",
     -- 180
+    "满心欢喜",
+    "伊梅尔达",
+    "超级小奶爸",
     "水晶之牙-Rich Only",
     -- 90
     -- 30
+    "Veda",
+    "无畏-多拂朗明哥-PatrickStar",
+    "安德",
+    "夏天冷",
+    "假寐的死神",
+    "Choo",
+    "遇见",
+    "五郎八卦棍",
+    "龙之召唤-轻舟",
+    "抹茶慕斯-奥罗-白雪公主",
+    "弑神死骑",
+    "DarkAlexPPP",
+    "狮心董卓",
+    "萨弗拉斯-魔剑美神",
+    "W",
+    "漫漫",
+    "lyl",
+    "比格沃斯",
+    "koy_czq",
+    "HappyM0802",
+    "龙之召唤-面包金团",
+    "死亡猎手-memory",
+    "makabakas",
+    "斯内克",
+    "abbiy921",
+    "布朗熊",
+    "老周不想取名",
+    "正夏-【夜宴】-埃提耶什",
+    "单脚跳",
     "霜语—猫空半日—萬神殿",
     "铁血-诺诺吖",
     "法尔班克斯-《骚年远征军》-雪见月十九",
@@ -52,7 +90,6 @@ local AFDtbl = {
     "龙之召唤-天府一街",
     "灰烬使者-部落-Revenger公会",
     "大栓",
-    "萨弗拉斯-魔剑美神",
     "兜兜里好多糖",
     "伽蓝",
     "龙之召唤-承筱诺",
@@ -70,9 +107,7 @@ local AFDtbl = {
     -- "",
     -- "",
     -- "",
-    -- "",
-    -- "",
-    --最后更新时间：25/2/10 18:00
+    --最后更新时间：25/2/17 21:15
 }
 
 
@@ -98,19 +133,19 @@ BG.Init(function()
             BG.SetFBCD(self)
         end)
         bt:SetScript("OnLeave", function(self)
-            if BG.FBCDFrame:GetHeight() > BG.MainFrame:GetHeight() - 30 then
-                BG.After(0, function()
-                    if not BG.FBCDFrame.isOnEnter then
-                        BG.FBCDFrame:Hide()
-                    end
-                end)
-            else
+            if BG.FBCDFrame and not BG.FBCDFrame.click then
                 BG.FBCDFrame:Hide()
             end
         end)
-        bt:SetScript("OnMouseUp", function(self)
-            ns.InterfaceOptionsFrame_OpenToCategory("|cff00BFFFBiaoGe|r")
-            BG.MainFrame:Hide()
+        bt:SetScript("OnMouseUp", function(self, button)
+            if button == "LeftButton" then
+                if IsControlKeyDown() then
+                    BG.SetFBCD(nil, nil, true)
+                end
+            elseif button == "RightButton" then
+                ns.InterfaceOptionsFrame_OpenToCategory("|cff00BFFFBiaoGe|r")
+                BG.MainFrame:Hide()
+            end
             BG.PlaySound(1)
         end)
     end
@@ -150,7 +185,9 @@ BG.Init(function()
                 BiaoGeTooltip2:AddLine(L["版本："] .. ns.ver, 1, 0.82, 0, true)
                 BiaoGeTooltip2:AddLine(L["时间："] .. e.time, 1, 0.82, 0, true)
                 BiaoGeTooltip2:AddLine(L["错误："] .. e.counter .. "x " .. e.message, .5, .5, .5, true)
-                BiaoGeTooltip2:AddLine(L["栈："] .. e.stack, .5, .5, .5, true)
+                if e.stack then
+                    BiaoGeTooltip2:AddLine(L["栈："] .. e.stack, .5, .5, .5, true)
+                end
                 BiaoGeTooltip2:Show()
             end
         end)
@@ -202,6 +239,7 @@ BG.Init(function()
         bt:SetHighlightFontObject(BG.FontWhite13)
         bt:SetText(AddTexture("Interface\\AddOns\\BiaoGe\\Media\\icon\\AFD") .. L["爱发电"])
         bt:SetWidth(bt:GetFontString():GetStringWidth())
+        bt.maxLine = 40
         BG.ButtonAFD = bt
         lastBt = bt
 
@@ -210,13 +248,47 @@ BG.Init(function()
             GameTooltip:ClearLines()
             GameTooltip:AddLine(self:GetText(), 1, 1, 1, true)
             GameTooltip:AddLine(L["感谢以下玩家的发电："], 1, 1, 1, true)
+            local text = ""
             for i, name in ipairs(AFDtbl) do
-                GameTooltip:AddLine(name, 1, 0.82, 0, true)
+                if name:find(realmName, 1, true) then
+                    name = BG.STC_g1(name)
+                end
+                if i == #AFDtbl then
+                    text = text .. name
+                else
+                    text = text .. name .. BG.STC_dis("，")
+                end
             end
+            GameTooltip:AddLine(text, 1, 0.82, 0, true)
+
+            -- for i = 1, self.maxLine do
+            --     local name = AFDtbl[i]
+            --     if not name then break end
+            --     GameTooltip:AddLine(name, 1, 0.82, 0, true)
+            -- end
+            GameTooltip:AddLine(L["你可以在这里订阅我的账号苍穹之霜。"], 1, 1, 1, true)
             GameTooltip:AddLine(L["（点击复制网址）"], 1, 0.82, 0, true)
             GameTooltip:Show()
+
+            -- if #AFDtbl > self.maxLine then
+            --     BiaoGeTooltip2:SetOwner(GameTooltip, "ANCHOR_NONE", 0, 0)
+            --     BiaoGeTooltip2:SetPoint("BOTTOMLEFT", GameTooltip, "BOTTOMRIGHT", 0, 0)
+            --     BiaoGeTooltip2:ClearLines()
+            --     BiaoGeTooltip2:AddLine(" ", 1, 1, 1, true)
+            --     -- BiaoGeTooltip2:AddLine(self:GetText(), 1, 1, 1, true)
+            --     -- BiaoGeTooltip2:AddLine(L["感谢以下玩家的发电："], 1, 1, 1, true)
+            --     for i = self.maxLine + 1, #AFDtbl do
+            --         local name = AFDtbl[i]
+            --         if not name then break end
+            --         BiaoGeTooltip2:AddLine(name, 1, 0.82, 0, true)
+            --     end
+            --     BiaoGeTooltip2:Show()
+            -- end
         end)
-        bt:SetScript("OnLeave", GameTooltip_Hide)
+        bt:SetScript("OnLeave", function(self)
+            GameTooltip:Hide()
+            BiaoGeTooltip2:Hide()
+        end)
         bt:SetScript("OnClick", function(self)
             BG.PlaySound(1)
             ChatEdit_ActivateChat(ChatEdit_ChooseBoxForSend())
@@ -282,7 +354,7 @@ BG.Init(function()
             GameTooltip:AddLine(self:GetText(), 1, 1, 1, true)
             GameTooltip:AddLine(L["集插件管理、配置分享、云端备份、游戏攻略、游戏工具于一体。"], 1, 0.82, 0, true)
             GameTooltip:AddLine(L["你可以在这里更新BiaoGe插件。"], 1, 0.82, 0, true)
-            GameTooltip:AddLine(L["也可以在这里订阅我的账号苍穹之霜，提前体验BiaoGeVIP插件。"], 1, 0.82, 0, true)
+            GameTooltip:AddLine(L["你可以在这里订阅我的账号苍穹之霜。"], 1, 1, 1, true)
             GameTooltip:AddLine(L["（点击复制网址）"], 1, 0.82, 0, true)
             GameTooltip:Show()
         end)

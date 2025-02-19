@@ -1102,18 +1102,6 @@ BG.Init(function()
 
     -- 交易打开时
     do
-        function BG.ImML()
-            if GetLootMethod() == "master" then
-                if BG.masterLooter == UnitName("player") then
-                    return true
-                end
-            else
-                if BG.IsLeader then
-                    return true
-                end
-            end
-        end
-
         local f = CreateFrame("Frame")
         f:RegisterEvent("TRADE_SHOW")
         f:SetScript("OnEvent", function(self, ...)

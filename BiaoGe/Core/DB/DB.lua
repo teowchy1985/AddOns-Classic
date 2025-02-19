@@ -104,7 +104,7 @@ do
             AddDB("BWLsod", mainFrameWidth, 810, 3, 9, { 0, 5, 7 })
             AddDB("Worldsod", mainFrameWidth, 810, 3, 10, { 0, 4, 9 })
         elseif BG.IsVanilla_60 then
-            AddDB("MC", mainFrameWidth, 873, 3, 13, { 0, 8, 12 })
+            AddDB("MC", mainFrameWidth, 810, 3, 13, { 0, 7, 12 })
             AddDB("BWL", mainFrameWidth, 810, 3, 10, { 0, 5, 9 })
             AddDB("ZUG", mainFrameWidth, 810, 3, 12, { 0, 6, 11 })
             AddDB("AQL", mainFrameWidth, 810, 3, 8, { 0, 5, 8 })
@@ -801,10 +801,24 @@ local function DataBase()
         BiaoGe.playerInfo[realmID][player] = BiaoGe.playerInfo[realmID][player] or {}
         BiaoGe.playerInfo[realmID][player].class = select(2, UnitClass("player"))
         BiaoGe.playerInfo[realmID][player].level = UnitLevel("player")
+        BiaoGe.playerInfo[realmID][player].iLevel = select(2, GetAverageItemLevel()) or 0
 
         BG.RegisterEvent("PLAYER_LEVEL_UP", function(self, event, level)
             BiaoGe.playerInfo[realmID][player].level = level
         end)
+
+        if BiaoGe.PlayerItemsLevel then
+            for realmID in pairs(BiaoGe.PlayerItemsLevel) do
+                if type(realmID) == "number" and BiaoGe.playerInfo[realmID] then
+                    for player, iLevel in pairs(BiaoGe.PlayerItemsLevel[realmID]) do
+                        if type(iLevel) == "number" and BiaoGe.playerInfo[realmID][player] then
+                            BiaoGe.playerInfo[realmID][player].iLevel = iLevel
+                        end
+                    end
+                end
+            end
+            BiaoGe.PlayerItemsLevel = nil
+        end
     end
 
     -- 修正数据

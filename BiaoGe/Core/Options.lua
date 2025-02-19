@@ -53,52 +53,55 @@ end
 
 BG.Init(function()
     local main = CreateFrame("Frame", nil, UIParent)
-    main:Hide()
-    main.name = L["BiaoGe"]
-    ns.InterfaceOptions_AddCategory(main)
-    local t = main:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
-    t:SetText("|cff" .. "00BFFF" .. L["< BiaoGe > 金 团 表 格"] .. "|r")
-    t:SetPoint("TOPLEFT", main, 15, 0)
-    local top = t
-    local t = main:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall2")
-    t:SetText(L["|cff808080（带*的设置为即时生效，否则需要重载才能生效）|r"])
-    t:SetPoint("BOTTOMLEFT", top, "BOTTOMRIGHT", 5, 0)
-    -- RL
-    local bt = BG.CreateButton(main)
-    bt:SetSize(80, 20)
-    bt:SetPoint("TOPRIGHT", -5, 0)
-    bt:SetText(L["重载界面"])
-    bt:SetScript("OnClick", function(self)
-        ReloadUI()
-    end)
-    bt:SetScript("OnEnter", function(self)
-        GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT", 0, 0)
-        GameTooltip:ClearLines()
-        GameTooltip:SetText(L["不能即时生效的设置在重载后生效"])
-    end)
-    bt:SetScript("OnLeave", function(self)
-        GameTooltip:Hide()
-    end)
+    do
+        main:Hide()
+        main.name = L["BiaoGe"]
+        ns.InterfaceOptions_AddCategory(main)
+        local t = main:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
+        t:SetText("|cff" .. "00BFFF" .. L["< BiaoGe > 金 团 表 格"] .. "|r")
+        t:SetPoint("TOPLEFT", main, 15, 0)
+        local top = t
+        local t = main:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall2")
+        t:SetText(L["|cff808080（带*的设置为即时生效，否则需要重载才能生效）|r"])
+        t:SetPoint("BOTTOMLEFT", top, "BOTTOMRIGHT", 5, 0)
+        -- 重载
+        local bt = BG.CreateButton(main)
+        bt:SetSize(80, 20)
+        bt:SetPoint("TOPRIGHT", -5, 0)
+        bt:SetText(L["重载界面"])
+        bt:SetScript("OnClick", function(self)
+            ReloadUI()
+        end)
+        bt:SetScript("OnEnter", function(self)
+            GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT", 0, 0)
+            GameTooltip:ClearLines()
+            GameTooltip:SetText(L["不能即时生效的设置在重载后生效"])
+        end)
+        bt:SetScript("OnLeave", function(self)
+            GameTooltip:Hide()
+        end)
+    end
     -- 背景框
-    local f = CreateFrame("Frame", nil, main, "BackdropTemplate")
-    f:SetBackdrop({
-        bgFile = "Interface/ChatFrame/ChatFrameBackground",
-        edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
-        edgeSize = 16,
-        insets = { left = 3, right = 3, top = 3, bottom = 3 }
-    })
-    f:SetBackdropColor(0, 0, 0, 0.4)
-    f:SetPoint("TOPLEFT", SettingsPanel.Container, 5, -60)
-    f:SetPoint("BOTTOMRIGHT", SettingsPanel.Container, -5, 0)
-    BG.optionsBackground = f
-    -- 点空白处取消光标
-    SettingsPanel.Container:HookScript("OnMouseDown", function(self, enter)
-        local f = GetCurrentKeyBoardFocus()
-        if f then
-            f:ClearFocus()
-        end
-    end)
-
+    do
+        local f = CreateFrame("Frame", nil, main, "BackdropTemplate")
+        f:SetBackdrop({
+            bgFile = "Interface/ChatFrame/ChatFrameBackground",
+            edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
+            edgeSize = 16,
+            insets = { left = 3, right = 3, top = 3, bottom = 3 }
+        })
+        f:SetBackdropColor(0, 0, 0, 0.4)
+        f:SetPoint("TOPLEFT", SettingsPanel.Container, 5, -60)
+        f:SetPoint("BOTTOMRIGHT", SettingsPanel.Container, -5, 0)
+        BG.optionsBackground = f
+        -- 点空白处取消光标
+        SettingsPanel.Container:HookScript("OnMouseDown", function(self, enter)
+            local f = GetCurrentKeyBoardFocus()
+            if f then
+                f:ClearFocus()
+            end
+        end)
+    end
 
     -- 子选项
     local Frames = {}
@@ -166,7 +169,6 @@ BG.Init(function()
             BG.FrameOptions_biaoge:GetParent():SetEnabled(false)
         end
     end
-
 
     -- 模板
     do
@@ -1900,11 +1902,12 @@ BG.Init(function()
                     if class then
                         local colorplayer = "|c" .. select(4, GetClassColor(class)) .. player
                         local level = BiaoGe.playerInfo[realmID][player].level
+                        local iLevel = BiaoGe.playerInfo[realmID][player].iLevel
                         tinsert(newTbl, {
                             player = player,
                             colorplayer = colorplayer,
                             class = class,
-                            iLevel = BiaoGe.PlayerItemsLevel[realmID][player],
+                            iLevel = iLevel,
                             level = level,
                         })
                     end
@@ -1915,12 +1918,12 @@ BG.Init(function()
                     local colorplayer = v.colorplayer
                     local level = v.level
                     tinsert(channelTypeMenu, {
-                        text = colorplayer .. " |cff808080(".. level..")",
+                        text = colorplayer .. " |cff808080(" .. level .. ")",
                         notCheckable = true,
                         func = function()
                             BiaoGe.Money[realmID][player] = nil
                             BiaoGe.FBCD[realmID][player] = nil
-                            BiaoGe.PlayerItemsLevel[realmID][player] = nil
+                            BiaoGe.playerInfo[realmID][player] = nil
                             BiaoGe.QuestCD[realmID][player] = nil
                             if BiaoGe.tradeSkillCooldown and BiaoGe.tradeSkillCooldown[realmID] then
                                 BiaoGe.tradeSkillCooldown[realmID][player] = nil
@@ -2035,7 +2038,7 @@ BG.Init(function()
                 text:SetText(BG.STC_r3(EXPANSION_NAME1 .. "*"))
                 height = height - height_jiange
                 O.CreateLine(roleOverview, height + line_height)
-                height = CreateFBCDbutton(19, 29, width, height, 65, height_jiange)
+                height = CreateFBCDbutton(19, 29, width, height, 100, height_jiange)
 
                 height = height - height_jiange - height_jiange
                 local text = roleOverview:CreateFontString(nil, "ARTWORK", "GameFontNormal")
@@ -2043,7 +2046,7 @@ BG.Init(function()
                 text:SetText(BG.STC_g2(LFG_LIST_LEGACY .. "*"))
                 height = height - height_jiange
                 O.CreateLine(roleOverview, height + line_height)
-                height = CreateFBCDbutton(30, 34, width, height, 65, height_jiange)
+                height = CreateFBCDbutton(30, 34, width, height, 100, height_jiange)
 
                 -- 任务
                 height = height - height_jiange - height_jiange
@@ -2154,7 +2157,60 @@ BG.Init(function()
 
                 local dropDown = LibBG:Create_UIDropDownMenu(nil, roleOverview)
                 dropDown:SetPoint("LEFT", BG.options.roleOverviewSortText1, "RIGHT", -10, -2)
-                LibBG:UIDropDownMenu_SetWidth(dropDown, 160)
+                LibBG:UIDropDownMenu_SetWidth(dropDown, 150)
+                LibBG:UIDropDownMenu_SetText(dropDown, SetText(BiaoGe.options[name]))
+                LibBG:UIDropDownMenu_SetAnchor(dropDown, -10, 0, "TOPRIGHT", dropDown, "BOTTOMRIGHT")
+                BG.dropDownToggle(dropDown)
+                BG.options["button" .. name] = dropDown
+
+                LibBG:UIDropDownMenu_Initialize(dropDown, function(self, level)
+                    for i, v in ipairs(tbl) do
+                        local info = LibBG:UIDropDownMenu_CreateInfo()
+                        info.text = v.text
+                        info.func = function()
+                            BiaoGe.options[name] = v.key
+                            LibBG:UIDropDownMenu_SetText(dropDown, SetText(BiaoGe.options[name]))
+                        end
+                        if BiaoGe.options[name] == v.key then
+                            info.checked = true
+                        end
+                        LibBG:UIDropDownMenu_AddButton(info)
+                    end
+                end)
+            end
+        end
+        height = height - 35
+
+        -- 默认显示
+        do
+            local name = "roleOverviewDefaultShow"
+            BG.options[name .. "reset"] = "one"
+            BiaoGe.options[name] = BiaoGe.options[name] or BG.options[name .. "reset"]
+
+            local tbl = {
+                { key = "one", text = L["当前服务器角色"] },
+                { key = "all", text = L["全部服务器角色"] },
+            }
+
+            local t = roleOverview:CreateFontString()
+            t:SetFont(STANDARD_TEXT_FONT, 15, "OUTLINE")
+            t:SetPoint("TOPLEFT", 15, height)
+            t:SetTextColor(1, 1, 1)
+            t:SetText(AddTexture("QUEST") .. L["角色总览的默认显示："])
+            BG.options.roleOverviewDefaultShow1 = t
+            -- 选项
+            do
+                local function SetText(key)
+                    for i, v in ipairs(tbl) do
+                        if v.key == key then
+                            return v.text
+                        end
+                    end
+                end
+
+                local dropDown = LibBG:Create_UIDropDownMenu(nil, roleOverview)
+                dropDown:SetPoint("LEFT", BG.options.roleOverviewDefaultShow1, "RIGHT", -10, -2)
+                LibBG:UIDropDownMenu_SetWidth(dropDown, 150)
                 LibBG:UIDropDownMenu_SetText(dropDown, SetText(BiaoGe.options[name]))
                 LibBG:UIDropDownMenu_SetAnchor(dropDown, -10, 0, "TOPRIGHT", dropDown, "BOTTOMRIGHT")
                 BG.dropDownToggle(dropDown)
@@ -2188,7 +2244,7 @@ BG.Init(function()
             t:SetFont(STANDARD_TEXT_FONT, 15, "OUTLINE")
             t:SetPoint("TOPLEFT", 15, height)
             t:SetTextColor(1, 1, 1)
-            t:SetText(AddTexture("QUEST") .. L["不显示低于该等级的角色："])
+            t:SetText(L["不显示低于该等级的角色："])
 
             local edit = CreateFrame("EditBox", nil, roleOverview, "InputBoxTemplate")
             edit:SetSize(50, 20)
@@ -3086,9 +3142,6 @@ BG.Init(function()
                 end
                 if BiaoGe.playerInfo[choose.realmID] then
                     BiaoGe.playerInfo[choose.realmID][choose.player] = nil
-                end
-                if BiaoGe.PlayerItemsLevel[choose.realmID] then
-                    BiaoGe.PlayerItemsLevel[choose.realmID][choose.player] = nil
                 end
 
                 if realmID == choose.realmID and player == choose.player then

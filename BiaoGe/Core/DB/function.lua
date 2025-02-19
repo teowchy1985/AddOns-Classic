@@ -96,8 +96,6 @@ if ver >= 40401 then
     BG.IsNewUI = true
 end
 
-
-
 function BG.IsWLKFB(FB)
     local FB = FB or BG.FB1
     if (FB == "NAXX" and not BG.IsVanilla) or FB == "ULD" or FB == "TOC" or FB == "ICC" then

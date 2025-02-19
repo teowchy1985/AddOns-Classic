@@ -29,7 +29,8 @@ if BG.IsVanilla_Sod then
     buttonCount.BWLsod = { 4, 4, 4, 4, 8, 5, 21, 7, 5, }
     buttonCount.Worldsod = { 10, 5, 5, 5, 5, 5, 5, 5, 4, 5 }
 elseif BG.IsVanilla_60 then
-    buttonCount.MC = { 3, 3, 3, 4, 3, 3, 4, 3, 4, 5, 8, 11, 15, }
+    buttonCount.MC = { 3, 3, 3, 4, 3, 3, 4, 3, 4, 5, 8, 13, 4, }
+    BG.zaxiang.MC = { i = 6 }
     buttonCount.BWL = { 5, 5, 5, 5, 5, 5, 5, 6, 9, 12, }
     buttonCount.ZUG = { 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 9, 10, }
     buttonCount.AQL = { 5, 5, 5, 5, 5, 5, 10, 11, }
