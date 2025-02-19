@@ -60,15 +60,17 @@ end
 EngraverOptionsFrameMixin = {}
 
 function EngraverOptionsFrameMixin:OnLoad()
-	self.isSettingDefaults = false
-	self:RegisterEvent("ADDON_LOADED")
-	self.name = localAddonName
-	self.category, self.layout = Settings.RegisterCanvasLayoutCategory(self, "符文", localAddonName);
-	self.category.ID = localAddonName
-	Settings.RegisterAddOnCategory(self.category);
-	self:InitSettingsList()
-	self:CreateSettingsInitializers()
-	self.settingsList:Display(self.initializers);
+	if C_Engraving:IsEngravingEnabled() then
+		self.isSettingDefaults = false
+		self:RegisterEvent("ADDON_LOADED")
+		self.name = localAddonName
+		self.category, self.layout = Settings.RegisterCanvasLayoutCategory(self, "符文", localAddonName);
+		self.category.ID = localAddonName
+		Settings.RegisterAddOnCategory(self.category);
+		self:InitSettingsList()
+		self:CreateSettingsInitializers()
+		self.settingsList:Display(self.initializers);
+	end
 end
 
 StaticPopupDialogs["ENGRAVER_SETTINGS_APPLY_DEFAULTS"] = {
@@ -268,7 +270,7 @@ function EngraverOptionsFrameMixin:CreateSettingsInitializers()
 		{
 			name = "Discord 社群",
 			tooltip = "如果你有任何問題、建議或意見，請貼在 Discord 社群。",
-			text = "https://discord.gg/xwkZnnKfsC"
+			text = "https://discord.gg/QgDbJe5Nma"
 		})
 	end -- Discord
 	do -- Github

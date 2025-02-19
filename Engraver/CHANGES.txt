@@ -1,10 +1,16 @@
-lightweight tag 3fff0f32b15ec247d1b6e1277fc638eb1beed4b5 v1.16.16
-Author:	GitHub <noreply@github.com>
-Date:	Fri Feb 7 16:27:41 2025 -0500
+lightweight tag aea30ba4838b9e176704042f627dc14c3df44ad6 v1.16.18
+Author:	Mike D <mcd8604@users.noreply.github.com>
+Date:	Wed Feb 19 01:27:04 2025 -0500
 
-commit 3fff0f32b15ec247d1b6e1277fc638eb1beed4b5
+commit aea30ba4838b9e176704042f627dc14c3df44ad6
 Author: Mike D <mcd8604@users.noreply.github.com>
-Date:   Fri Feb 7 16:27:41 2025 -0500
+Date:   Wed Feb 19 01:27:04 2025 -0500
+
+    IsEngravingEnabled check
+
+commit 25f1f42cae7adde58963f7b5fb92b5a6c170a703
+Author: Mike D <mcd8604@users.noreply.github.com>
+Date:   Wed Feb 19 01:01:18 2025 -0500
 
     Update EngraverOptions.lua
 
