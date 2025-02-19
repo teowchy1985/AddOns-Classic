@@ -694,7 +694,7 @@ data["ObsidianFragments"] = {
         }
     },
     {
-        name = ALIL["Finger"],
+        name = ALIL["Ring"],
         [VENDOR_DIFF] = {
             { 1, 78440 }, -- Curled Twilight Claw
             { 2, 78497 }, -- Breathstealer Band
