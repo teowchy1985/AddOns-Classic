@@ -55,6 +55,15 @@ NRC.cooldowns = {
 			[22812] = "Barkskin", --Rank 1.
 		},
 	},
+	["Challenging Roar"] = {
+		class = "DRUID",
+		icon = "Interface\\Icons\\ability_druid_challangingroar",
+		cooldown = 600,
+		minLevel = 28,
+		spellIDs = {
+			[5209] = "Challenging Roar", --Rank 1.
+		},
+	},
 	--Hunter.
 	--No misdirection in classic.
 	--Mage.
@@ -340,7 +349,20 @@ NRC.cooldowns = {
 			[871] = "Shield Wall", --Rank 1.
 		},
 	},
-
+	["Last Stand"] = {
+		class = "WARRIOR",
+		icon = "Interface\\Icons\\spell_holy_ashestoashes",
+		cooldown = 600,
+		minLevel = 20,
+		talentOnly = {
+			tabIndex = 3,
+			talentIndex = 6,
+		},
+		spellIDs = {
+			[12975] = "Last Stand", --Rank 1.
+		},
+	},
+	
 	--Used for testing.
 	--[[["Fel Armor"] = {
 		class = "WARLOCK",

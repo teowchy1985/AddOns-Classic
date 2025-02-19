@@ -132,14 +132,6 @@ local function updateChronodata(guid, buffData, unit)
 	end
 end
 
-
-
-
-
-
-
-
-
 --auraTest = {};
 local function scanUnit(unit)
 	local serverTime = GetServerTime();

@@ -29,8 +29,10 @@ local GetItemQualityColor = GetItemQualityColor or C_Item.GetItemQualityColor;
 local GetSpellLink = GetSpellLink or C_Spell.GetSpellLink;
 local GetSpellInfo = NRC.GetSpellInfo;
 NRC.currentInstanceID = 0;
+local inRaid;
 	
 local lastLooted = {};
+
 function NRC:chatMsgLoot(...)
 	if (not NRC.raid) then
 		return;
@@ -428,6 +430,77 @@ local overkillCache, deathCache = {}, {};
 local function combatLogEventUnfiltered(...)
 	local timestamp, subEvent, hideCaster, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, 
 			destName, destFlags, destRaidFlags, spellID, spellName = ...;
+	if (inRaid) then
+		if (subEvent == "SPELL_CAST_SUCCESS") then
+			if (NRC.trackedItems[spellID]) then
+				if (NRC:inOurGroup(sourceGUID)) then
+					if (not castCache[sourceGUID] or not castCache[sourceGUID][spellID] or GetTime() - castCache[sourceGUID][spellID] > 0.8) then
+						NRC:addTrackedItem(sourceGUID, spellID);
+					end
+					if (not castCache[sourceGUID]) then
+						castCache[sourceGUID] = {};
+					end
+					castCache[sourceGUID][spellID] = GetTime();
+				end
+			end
+		elseif (subEvent == "UNIT_DIED") then
+			local raid = NRC.raid;
+			local _, _, _, _, zoneID, npcID = strsplit("-", destGUID);
+			--zoneID = tonumber(zoneID);
+			npcID = tonumber(npcID);
+			if (strfind(destGUID, "Creature")
+					and bitband(destFlags, COMBATLOG_OBJECT_REACTION_HOSTILE) == COMBATLOG_OBJECT_REACTION_HOSTILE) then
+				if (not NRC.critterCreatures[npcID] and not NRC.companionCreatures[npcID] and not NRC.ignoredCreatures[npcID]) then
+					if (not raid.npcDeaths[npcID]) then
+						raid.npcDeaths[npcID] = {};
+						raid.npcDeaths[npcID].name = destName;
+						raid.npcDeaths[npcID].count = 1;
+					else
+						raid.npcDeaths[npcID].count = raid.npcDeaths[npcID].count + 1;
+					end
+					if (not raid.firstTrash) then
+						raid.firstTrash = GetServerTime();
+					end
+				end
+			end
+			if (npcID == 21216) then
+				--Hydross the Unstable has no encounter_end success event so add it manually.
+				--Just incase it one day starts working add a check for success already there.
+				--Not sure if encounter end fires first or death event fires first always in the same order.
+				--So check if encounter still running first.
+				--if (encounter and encounter.encounterID == 623) then
+				--	encounter.success = 1;
+				--elseif (raid) then
+				if (raid) then
+					--I think sometimes death fires before encounter_end and then encounter_end overwrites our success here with a failure.
+					--So add a short delay.
+					C_Timer.After(2, function()
+						--Make sure Hydross was the last encounter and only update the last entry.
+						local last;
+						local count;
+						for k, v in ipairs(raid.encounters) do
+							last = v;
+							count = k;
+						end
+						if (last.encounterID == 623) then
+							if (raid.encounters[count].success ~= 1) then
+								raid.encounters[count].success = 1;
+								--Update kill stats for this boss.
+								addEncounterCount(623, 1);
+								removeEncounterWipeCount(623);
+							end
+						end
+					end)
+				end
+			end
+		end
+	end
+end
+
+--Disabled player deaths tracking for now.
+--[[local function combatLogEventUnfiltered(...)
+	local timestamp, subEvent, hideCaster, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, 
+			destName, destFlags, destRaidFlags, spellID, spellName = ...;
 	if (NRC.raid) then
 		local raid = NRC.raid;
 		if (subEvent == "SWING_DAMAGE" or subEvent == "SPELL_DAMAGE" or subEvent == "RANGE_DAMAGE"
@@ -620,7 +693,7 @@ local function combatLogEventUnfiltered(...)
 			end
 		end
 	end
-end
+end]]
 
 local function getEncounterData(id)
 	if (NRC.encounters[id]) then
@@ -952,6 +1025,9 @@ local function getLootData(logID, minQuality, exactQuality, showKtWeapons, encou
 		ignoreList[34664] = "Sunmote";
 		ignoreList[32428] = "Heart of Darkness";
     end
+    for k, v in pairs(NRC.ignoredLoot) do
+    	ignoreList[k] = v;
+    end
     
     --Set this stuff in the main raid loot funcs below.
     --[[raidLogFrame.filterFrame.tooltipText = L["filterTooltip"];
@@ -964,9 +1040,10 @@ local function getLootData(logID, minQuality, exactQuality, showKtWeapons, encou
 	
 	local count, bossCount, trashCount = 0, 0, 0;
 	local lootData = {};
+	--NRC:debug(data.loot)
 	if (data.loot) then
 		local filtered = data.loot;
-		local filter = raidLogFrame.filterFrame.filterString;
+		local filter = raidLogFrame.scrollChild.filterFrame.filterString;
 		if (filter and filter ~= "") then
 			filtered = {};
 			filter = strlower(filter);
@@ -1319,7 +1396,9 @@ local function clearRaidLogFrame(filterUpdate)
 	local childFrames = {raidLogFrame.scrollChild:GetChildren()};
 	for k, v in pairs(childFrames) do
 		--Handle clearing the scrollchild in a neater way later, but for now during dev just hide them.
-		v:Hide();
+		if not (v == raidLogFrame.scrollChild.filterFrame and filterUpdate) then
+			v:Hide();
+		end
 	end
 	if (NRCRaidLogRenameFrame) then
 		NRCRaidLogRenameFrame:Hide();
@@ -1382,13 +1461,13 @@ local function clearRaidLogFrame(filterUpdate)
 	end
 	
 	if (not filterUpdate) then
-		raidLogFrame.filterFrame:SetText("");
-		raidLogFrame.filterFrame.tooltipText = nil;
-		raidLogFrame.filterFrame.filterString = nil;
-		raidLogFrame.filterFrame:ClearAllPoints();
-		raidLogFrame.filterFrame.resetButton:Hide();
-		raidLogFrame.filterFrame.updateFunction = nil;
-		raidLogFrame.filterFrame:Hide();
+		raidLogFrame.scrollChild.filterFrame:SetText("");
+		raidLogFrame.scrollChild.filterFrame.tooltipText = nil;
+		raidLogFrame.scrollChild.filterFrame.filterString = nil;
+		raidLogFrame.scrollChild.filterFrame:ClearAllPoints();
+		raidLogFrame.scrollChild.filterFrame.resetButton:Hide();
+		raidLogFrame.scrollChild.filterFrame.updateFunction = nil;
+		raidLogFrame.scrollChild.filterFrame:Hide();
 	end
 	
 	raidLogFrame.titleText3:SetText("");
@@ -1618,6 +1697,13 @@ function NRC:recalcRaidLog(clearRaidLog)
 			raidLogFrame.scrollFrame.selectedTab = 1;
 			PanelTemplates_UpdateTabs(raidLogFrame.scrollFrame);
 		end
+	end
+	if (not NRC.db.global.instances[1]) then
+		raidLogFrame.scrollChild.fs:ClearAllPoints();
+		raidLogFrame.scrollChild.fs:SetPoint("TOPLEFT", raidLogFrame.scrollChild, "TOPLEFT", 50, -30);
+		raidLogFrame.scrollChild.fs:SetText("|cFF9CD6DE" .. L["noRaidsRecordedYet"]);
+		raidLogFrame.scrollChild.fs:Show();
+		return;
 	end
 	local framesUsed = {};
 	if (raidLogFrame.frameType == "log") then
@@ -2431,9 +2517,10 @@ function NRC:loadRaidLogDeaths(logID)
 		text3 = text3 .. "\n|cFFA1A1A1" .. NRC:getTimeFormat(v.timestamp, nil, true, true, true) .. "|r  |c" .. classColorHex .. v.name .. "|r  |cFFcccccc" .. dmgText .. "|r";
 		rText = rText .. "\n" .. encounterText;
 	end
-	raidLogFrame.scrollChild.fs:SetText(text);
-	raidLogFrame.scrollChild.fs2:SetText(text2);
-	NRC:splitAndAnchorFontstring(text3, 50, raidLogFrame.scrollChild, 148, -70);
+	raidLogFrame.scrollChild.fs2:SetText("|cFFFFFF00The death log is temporarily disabled for a performance improvement rewrite.");
+	--raidLogFrame.scrollChild.fs:SetText(text);
+	--raidLogFrame.scrollChild.fs2:SetText(text2);
+	--NRC:splitAndAnchorFontstring(text3, 50, raidLogFrame.scrollChild, 148, -70);
 	raidLogFrame.scrollChild.rfs:SetText(rText);
 	setBottomText(data, logID);
 end
@@ -2686,11 +2773,13 @@ function NRC:loadRaidLogLoot(logID, filterUpdate)
 	updateFrames();
 	setInstanceTexture(logID);
 	local data = NRC.db.global.instances[logID];
-	raidLogFrame.filterFrame.tooltipText = L["lootFilterTooltip"];
-	raidLogFrame.filterFrame:SetPoint("TOPLEFT", raidLogFrame.scrollChild, "TOPLEFT", 100, -5);
-	raidLogFrame.filterFrame.resetButton:Hide();
-	raidLogFrame.filterFrame:Show();
-	raidLogFrame.filterFrame.updateFunction = function()
+	raidLogFrame.scrollChild.filterFrame.tooltipText = L["lootFilterTooltip"];
+	raidLogFrame.scrollChild.filterFrame:SetPoint("TOPLEFT", raidLogFrame.scrollChild, "TOPLEFT", 120, -5);
+	if (not filterUpdate) then
+		raidLogFrame.scrollChild.filterFrame.resetButton:Hide();
+	end
+	raidLogFrame.scrollChild.filterFrame:Show();
+	raidLogFrame.scrollChild.filterFrame.updateFunction = function()
 		NRC:loadRaidLogLoot(logID, true);
 	end
 	raidLogFrame.scrollChild.fs:ClearAllPoints();
@@ -5312,6 +5401,9 @@ function NRC:recalcLockoutsFrame()
 					class = charData.englishClass,
 					savedInstances = charData.savedInstances,
 				};
+				if (k ~= NRC.realm) then
+					t.char = char .. "-" .. k;
+				end
 				tinsert(data, t);
 			end
 		end
@@ -5323,6 +5415,9 @@ function NRC:recalcLockoutsFrame()
 					class = charData.englishClass,
 					savedInstances = charData.savedInstances,
 				};
+				if (k ~= NRC.realm) then
+					t.char = char .. "-" .. k;
+				end
 				tinsert(data, t);
 			end
 		end
@@ -5342,9 +5437,6 @@ function NRC:recalcLockoutsFrame()
 					local name = instanceData.name;
 					if (instanceData.name and instanceData.difficultyName) then
 						name = GetDungeonNameWithDifficulty(instanceData.name, instanceData.difficultyName);
-					end
-					if (v.realm ~= NRC.realm) then
-						name = name .. "-" .. v.realm;
 					end
 					text2 = text2 .. "\n  |cFFFFFF00-|r|cFFFFAE42" .. name .. "|r |cFF9CD6DE" .. timeString .. "|r";
 					--This will be done in it's own module.
@@ -5703,8 +5795,11 @@ function NRC:enteredInstanceRD(isReload, isLogon)
 		--Override if we have the instance set as a raid in db, used for sod raids.
 		instanceType = "raid";
 	end
-	--if (instance == true and (instanceType == "raid" or NRC.config.logDungeons) and type ~= "arena" and type ~= "bg") then
-	if (instance == true and ((instanceType == "raid" and NRC.config.logRaids) or (instanceType == "party" and NRC.config.logDungeons))
+	if (NRC.db.global.logKaraCrypts and instanceID == 2875) then
+		instanceType = "raid";
+	end
+	--if (instance == true and (instanceType == "raid" or NRC.db.global.logDungeons) and type ~= "arena" and type ~= "bg") then
+	if (instance == true and ((instanceType == "raid" and NRC.db.global.logRaids) or (instanceType == "party" and NRC.db.global.logDungeons))
 			and type ~= "arena" and type ~= "bg") then
 		if (NRC.inInstance and NRC.lastInstanceName ~= instanceName) then
 			--If we zone from one instance into another instance and the instance name if different (UBRS to BWL etc).
@@ -5754,6 +5849,7 @@ function NRC:enteredInstanceRD(isReload, isLogon)
 		NRC.currentInstanceID = instanceID;
 		NRC.lastRaidID = raidID;
 		NRC.raid = NRC.db.global.instances[1];
+		inRaid = true;
 		NRC:equipDurabilityCheck();
 		C_Timer.After(0.5, function()
 			NRC.inInstance = GetServerTime();
@@ -5787,6 +5883,7 @@ function NRC:leftInstanceRD()
 	end
 	NRC:recordLockoutData();
 	NRC.raid = nil;
+	inRaid = nil;
 	NRC.inInstance = nil;
 	NRC.currentInstanceID = 0;
 	NRC.lastNpcID = 999999999;
@@ -5985,6 +6082,7 @@ function NRC:mergeInstancesRD(instanceOne, instanceTwo, GUID, source)
 		NRC.raid = NRC.db.global.instances[1];
 		NRC.lastRaidGroupInstanceID = NRC.raid.instanceID;
 		NRC.lastRaidID = NRC.raid.raidID;
+		inRaid = true;
 	end
 end
 

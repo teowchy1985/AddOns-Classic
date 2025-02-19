@@ -83,8 +83,10 @@ function NRC:updateRaidManaState(func)
 			raidManaEnabled = true;
 		end
 	end
-	if (NRC.config.raidManaEnabledRaid and instance and (instanceType == "party" or instanceType == "raid")
-			and not NRC:isPvp()) then
+	if (NRC.config.raidManaEnabledRaid and instance and instanceType == "raid" and not NRC:isPvp()) then
+		raidManaEnabled = true;
+	end
+	if (NRC.config.raidManaEnabledParty and instance and instanceType == "party" and not NRC:isPvp()) then
 		raidManaEnabled = true;
 	end
 	if (NRC.config.raidManaEnabledPvP and NRC:isPvp()) then
@@ -197,6 +199,7 @@ function NRC:updateRaidManaFramesLayout()
 		v.fs:SetFont(NRC.LSM:Fetch("font", db.raidManaFontNumbers), db.raidManaFontSize, db.raidManaFontOutline);
 		v.fs2:SetFont(NRC.LSM:Fetch("font", db.raidManaFont), db.raidManaFontSize + 2, db.raidManaFontOutline);
 		v.fs3:SetFont(NRC.LSM:Fetch("font", db.raidManaFont),db.raidManaFontSize + 2, db.raidManaFontOutline);
+		v.buffFrame.fs:SetFont(NRC.LSM:Fetch("font", db.raidManaFontNumbers), db.raidManaFontSize, db.raidManaFontOutline);
 		--v.fs2:SetFont(NRC.LSM:Fetch("font", db.raidManaFont), lineFrameHeight - 1);
 		--v.fs3:SetFont(NRC.LSM:Fetch("font", db.raidManaFont), lineFrameHeight - 1);
 	end
@@ -249,20 +252,35 @@ local function isCharTracked(name)
 	end
 end
 
---local drink = L["Drink"];
---local refreshment = L["Refreshment"];
 local drinks = {
 	[L["Drink"]] = true,
 	[L["Refreshment"]] = true,
-	[L["Jungle Durian"]] = true,
-	[L["Stratholme Holy Water"]] = true,
 };
+if (NRC.isSOD) then
+	drinks[L["Jungle Durian"]] = true;
+	drinks[L["Stratholme Holy Water"]] = true;
+end
 local function isDrinking(unit)
 	for k, v in pairs(drinks) do
 		local data = FindAuraByName(k, unit, "HELPFUL");
 		if (data) then
 			return true;
 		end
+	end
+end
+
+local innervateLocale;
+local function hasInnervate(unit)
+	if (innervateLocale) then
+		--local data = C_UnitAuras.GetAuraBySpellID(29166); --when blizzard?
+		local data = C_UnitAuras.GetAuraDataBySpellName(unit, innervateLocale, "HELPFUL");
+		if (data and data.expirationTime) then
+			local duration = math.floor(data.expirationTime - GetTime());
+			return duration;
+		end
+	else
+		--Should only run once or twice.
+		innervateLocale = NRC.GetSpellInfo(29166);
 	end
 end
 
@@ -463,7 +481,7 @@ function NRC:updateManaFrame()
 					lineFrame.fs2:SetText(text);
 					lineFrame.fs:SetText(manaString);
 					local unit = NRC:getUnitFromName(name);
-					local drinking, dead, offline;
+					local drinking, dead, offline, innervate;
 					local inForm;
 					if (unit) then
 						if (UnitIsDead(unit) or UnitIsGhost(unit)) then
@@ -472,10 +490,14 @@ function NRC:updateManaFrame()
 						if (isDrinking(unit)) then
 							drinking = true;
 						end
+						if (hasInnervate(unit)) then
+							innervate = hasInnervate(unit);
+						end
 						if (not UnitIsConnected(unit)) then
 							offline = true;
 						end
 					end
+					local isResurrecting = isResurrecting[name];
 					if (offline) then
 						text = "|c" .. classColorHex ..  strsub(name, 1, 3) .. "|r";
 						text = text .. "|cFFA1A1A1(" .. L["Offline"] .. ")|r";
@@ -485,8 +507,15 @@ function NRC:updateManaFrame()
 					end
 					if (drinking) then
 						lineFrame.texture:SetTexture(132794);
+						lineFrame.buffFrame:Hide();
+					elseif (innervate and not isResurrecting) then
+						lineFrame.buffFrame.texture:SetTexture(136048);
+						lineFrame.buffFrame:Show();
+						lineFrame.buffFrame.fs:SetText("|cFFFFFF00" .. innervate .. "s");
+						ActionButton_ShowOverlayGlow(lineFrame.buffFrame);
 					else
 						lineFrame.texture:SetTexture(v.icon);
+						lineFrame.buffFrame:Hide();
 					end
 					if (not dead and not offline) then
 						hasManaCount = hasManaCount + 1;
@@ -494,8 +523,8 @@ function NRC:updateManaFrame()
 					end
 					lineFrame.fs2:SetText(text);
 					lineFrame.fs:SetText(manaString);
-					if (showRes and isResurrecting[name]) then
-						local data = isResurrecting[name];
+					if (showRes and isResurrecting) then
+						local data = isResurrecting;
 						if (data.destClass) then
 							local _, _, _, classHex = NRC.getClassColor(data.destClass);
 							local destName = "|c" .. classHex .. data.destName .. "|r";
@@ -522,7 +551,7 @@ function NRC:updateManaFrame()
 							end
 							lineFrame.castBar:Show();
 							lineFrame.borderFrame:Show();
-							lineFrame.texture:SetTexture(isResurrecting[name].icon);
+							lineFrame.texture:SetTexture(isResurrecting.icon);
 						else
 							lineFrame.castBar:Hide();
 							lineFrame.borderFrame:Hide();

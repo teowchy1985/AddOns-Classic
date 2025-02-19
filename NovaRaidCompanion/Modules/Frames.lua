@@ -393,6 +393,12 @@ function NRC:createListFrame(name, width, height, x, y, desc, isSubFrame, label)
 				--If we declare an update function for this frame to run when shown.
 				NRC[frame.onUpdateFunction]();
 			end
+			if (frame.isSubFrame) then
+				--Backup quick fix for an issue of raid ooldown tooltips not hiding sometimes.
+				if (not frame:IsMouseOver() and not frame:GetParent():IsMouseOver()) then
+					frame:Hide();
+				end
+			end
 		end
 	end)
 	if (NRC.db.global[frame:GetName() .. "_point"]) then
@@ -1556,7 +1562,7 @@ function NRC:createMainFrame(name, width, height, x, y, tabs)
 		--Set this in the frame recalc.
 	--end)
 
-	frame.filterFrame = NRC:createTextInputOnly("NRCRaidLogFilterFrame", 150, 70, frame);
+	--[[frame.filterFrame = NRC:createTextInputOnly("NRCRaidLogFilterFrame", 150, 70, frame);
 	frame.filterFrame.resetButton:SetPoint("LEFT", frame.filterFrame, "RIGHT", 15, -1);
 	frame.filterFrame.resetButton:SetSize(55, 18);
 	frame.filterFrame.resetButton:SetText(L["Reset"] .. " " .. L["Filter"]);
@@ -1611,7 +1617,7 @@ function NRC:createMainFrame(name, width, height, x, y, tabs)
 	end)
 	frame.filterFrame.fs:SetText(L["Filter"]);
 	frame.filterFrame.fs:Show();
-	frame.filterFrame:Hide();
+	frame.filterFrame:Hide();]]
 	
 	local icon = frame:CreateTexture("$parentIcon", "OVERLAY", nil, -8);
 	icon:SetSize(60, 60);
@@ -1701,6 +1707,66 @@ function NRC:createMainFrame(name, width, height, x, y, tabs)
 	scrollChild:SetHyperlinksEnabled(true);
 	scrollChild:SetScript("OnHyperlinkClick", ChatFrame_OnHyperlinkShow);
 	frame.scrollChild = scrollChild;
+	
+	frame.scrollChild.filterFrame = NRC:createTextInputOnly("NRCRaidLogFilterFrame", 150, 70, frame.scrollChild);
+	frame.scrollChild.filterFrame.resetButton:SetPoint("LEFT", frame.scrollChild.filterFrame, "RIGHT", 15, -1);
+	frame.scrollChild.filterFrame.resetButton:SetSize(55, 18);
+	frame.scrollChild.filterFrame.resetButton:SetText(L["Reset"] .. " " .. L["Filter"]);
+	frame.scrollChild.filterFrame.resetButton:Show();
+	frame.scrollChild.filterFrame:ClearAllPoints();
+	frame.scrollChild.filterFrame.tooltip:SetPoint("BOTTOM", frame.scrollChild.filterFrame, "TOP", 20, -20);
+	frame.scrollChild.filterFrame.OnEnterPressed = function()
+		local text = frame.scrollChild.filterFrame:GetText();
+		if (text ~= "") then
+			frame.scrollChild.filterFrame.filterString = string.lower(text);
+			--frame.scrollChild.filterFrame:SetText("");
+			frame.scrollChild.filterFrame:ClearFocus();
+			frame.scrollChild.filterFrame.fs:Hide();
+			if (frame.scrollChild.filterFrame.updateFunction) then
+				frame.scrollChild.filterFrame.updateFunction();
+			end
+		else
+			frame.scrollChild.filterFrame.filterString = nil;
+			frame.scrollChild.filterFrame:ClearFocus();
+			frame.scrollChild.filterFrame.fs:Show();
+			if (frame.scrollChild.filterFrame.updateFunction) then
+				frame.scrollChild.filterFrame.updateFunction();
+			end
+		end
+	end
+	frame.scrollChild.filterFrame:SetScript("OnEnterPressed", frame.scrollChild.filterFrame.OnEnterPressed);
+	frame.scrollChild.filterFrame.OnTextChanged = function()
+		local text = frame.scrollChild.filterFrame:GetText();
+		if (text ~= "") then
+			frame.scrollChild.filterFrame.filterString = string.lower(text);
+			frame.scrollChild.filterFrame.fs:Hide();
+			frame.scrollChild.filterFrame.resetButton:Show();
+			if (frame.scrollChild.filterFrame.updateFunction) then
+				frame.scrollChild.filterFrame.updateFunction();
+			end
+		else
+			frame.scrollChild.filterFrame.filterString = nil;
+			frame.scrollChild.filterFrame.fs:Show();
+			frame.scrollChild.filterFrame.resetButton:Hide();
+			if (frame.scrollChild.filterFrame.updateFunction) then
+				frame.scrollChild.filterFrame.updateFunction();
+			end
+		end
+	end
+	frame.scrollChild.filterFrame:SetScript("OnTextChanged", frame.scrollChild.filterFrame.OnTextChanged);
+	frame.scrollChild.filterFrame.resetButton:SetScript("OnClick", function(self, arg)
+		frame.scrollChild.filterFrame.filterString = nil;
+		frame.scrollChild.filterFrame:SetText("");
+		frame.scrollChild.filterFrame:ClearFocus();
+		frame.scrollChild.filterFrame.fs:Show();
+		self:Hide();
+		if (frame.scrollChild.filterFrame.updateFunction) then
+			frame.scrollChild.filterFrame.updateFunction();
+		end
+	end)
+	frame.scrollChild.filterFrame.fs:SetText(L["Filter"]);
+	frame.scrollChild.filterFrame.fs:Show();
+	frame.scrollChild.filterFrame:Hide();
 	
 	frame.scrollChild.normalButton = CreateFrame("Button", "$parentNormalButton", frame.scrollChild, "UIPanelButtonTemplate");
 	--frame.scrollChild.normalButton:SetNormalFontObject("NRC_Game10Font");
@@ -3818,6 +3884,17 @@ function NRC:createRaidDataFrame(name, width, height, x, y)
 			insets = {top = 0, left = 0, bottom = 0, right = 0},
 		});
 		lineFrame:SetBackdropColor(0, 0, 0, 0);
+		
+		lineFrame.texture = lineFrame:CreateTexture(nil, "ARTWORK");
+		lineFrame.texture:SetTexture("error");
+		lineFrame.texture:SetPoint("LEFT", 1, 0);
+		lineFrame.texture:SetSize(parent.lineFrameHeight, parent.lineFrameHeight);
+		
+		--lineFrame.texture2 = lineFrame:CreateTexture(nil, "ARTWORK");
+		--lineFrame.texture2:SetTexture("error");
+		--lineFrame.texture2:SetPoint("RIGHT", lineFrame, "LEFT", -3, 0);
+		--lineFrame.texture2:SetSize(parent.lineFrameHeight, parent.lineFrameHeight);
+		
 		lineFrame.fs = lineFrame:CreateFontString("$parentLineFrameFS", "ARTWORK");
 		lineFrame.fs:SetPoint("LEFT", parent.lineFrameHeight + 3, 0);
 		lineFrame.fs:SetJustifyH("LEFT");
@@ -3833,15 +3910,26 @@ function NRC:createRaidDataFrame(name, width, height, x, y)
 		lineFrame.fs3:SetPoint("RIGHT", lineFrame, "LEFT", -10, 0);
 		lineFrame.fs3:SetFont(NRC.regionFont, parent.lineFrameHeight - 1);
 		lineFrame.fs3:SetJustifyH("RIGHT");
+		--lineFrame.fsBuff = lineFrame:CreateFontString("$parentLineFrameFSBuff", "ARTWORK");
+		--lineFrame.fsBuff:SetPoint("RIGHT", lineFrame.texture2, "LEFT", -1, 0);
+		--lineFrame.fsBuff:SetJustifyH("LEFT");
 		
 		lineFrame.fs:SetFont(NRC.LSM:Fetch("font", frame.lineFrameFontNumbers), frame.lineFrameFontSize, frame.lineFrameFontOutline);
 		lineFrame.fs2:SetFont(NRC.LSM:Fetch("font", frame.lineFrameFont), frame.lineFrameFontSize + 2, frame.lineFrameFontOutline);
 		lineFrame.fs3:SetFont(NRC.LSM:Fetch("font", frame.lineFrameFont), frame.lineFrameFontSize + 2, frame.lineFrameFontOutline);
+		--lineFrame.fsBuff:SetFont(NRC.LSM:Fetch("font", frame.lineFrameFontNumbers), frame.lineFrameFontSize, frame.lineFrameFontOutline);
 		
-		lineFrame.texture = lineFrame:CreateTexture(nil, "ARTWORK");
-		lineFrame.texture:SetTexture("error");
-		lineFrame.texture:SetPoint("LEFT", 1, 0);
-		lineFrame.texture:SetSize(parent.lineFrameHeight - 0, parent.lineFrameHeight - 0);
+		lineFrame.buffFrame = CreateFrame("Frame", "%parentLineFrameBuff" .. count, lineFrame);
+		lineFrame.buffFrame:SetSize(parent.lineFrameHeight, parent.lineFrameHeight);
+		lineFrame.buffFrame:SetPoint("RIGHT", lineFrame, "LEFT", -3, 0);
+		lineFrame.buffFrame.fs = lineFrame.buffFrame:CreateFontString("$parentLineFrameFSBuff", "ARTWORK");
+		lineFrame.buffFrame.fs:SetPoint("RIGHT", lineFrame.buffFrame, "LEFT", -2, 0);
+		lineFrame.buffFrame.fs:SetFont(NRC.LSM:Fetch("font", frame.lineFrameFontNumbers), frame.lineFrameFontSize, frame.lineFrameFontOutline);
+		lineFrame.buffFrame.texture = lineFrame.buffFrame:CreateTexture(nil, "ARTWORK");
+		lineFrame.buffFrame.texture:SetAllPoints();
+		lineFrame.buffFrame.texture:SetSize(parent.lineFrameHeight, parent.lineFrameHeight);
+		lineFrame.buffFrame:Hide();
+		
 		lineFrame.tooltip = CreateFrame("Frame", parent:GetName() .. "Tooltip", frame, "TooltipBorderedFrameTemplate");
 		lineFrame.tooltip:SetPoint("CENTER", lineFrame, "CENTER", 0, 0);
 		lineFrame.tooltip:SetFrameStrata("TOOLTIP");

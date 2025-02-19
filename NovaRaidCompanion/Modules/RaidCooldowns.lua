@@ -353,18 +353,18 @@ function NRC:updateRaidCooldownFramesLayout()
 			
 			for k, v in pairs(frame.lineFrames) do
 				v.fs:SetFont(NRC.LSM:Fetch("font", db.raidCooldownsFont), db.raidCooldownsFontSize, db.raidCooldownsFontOutline);
-				v.fs2:SetFont(NRC.LSM:Fetch("font", db.raidCooldownsFont), db.raidCooldownsFontSize - 1, db.raidCooldownsFontOutline);
-				v.fs3:SetFont(NRC.LSM:Fetch("font", db.raidCooldownsFont), db.raidCooldownsFontSize - 1, db.raidCooldownsFontOutline);
-				v.fs4:SetFont(NRC.LSM:Fetch("font", db.raidCooldownsFontNumbers), db.raidCooldownsFontSize + 1, db.raidCooldownsFontOutline);
+				v.fs2:SetFont(NRC.LSM:Fetch("font", db.raidCooldownsFont), db.raidCooldownsFontSize, db.raidCooldownsFontOutline);
+				v.fs3:SetFont(NRC.LSM:Fetch("font", db.raidCooldownsFont), db.raidCooldownsFontSize, db.raidCooldownsFontOutline);
+				v.fs4:SetFont(NRC.LSM:Fetch("font", db.raidCooldownsFontNumbers), db.raidCooldownsFontSize, db.raidCooldownsFontOutline);
 				if (v.subFrame) then
 					v.subFrame.lineFrameWidth = db.raidCooldownsWidth;
 					v.subFrame.lineFrameHeight = db.raidCooldownsHeight;
 					v.subFrame.updateDimensions();
 					for kk, vv in pairs(v.subFrame.lineFrames) do
 						vv.fs:SetFont(NRC.LSM:Fetch("font", db.raidCooldownsFont), db.raidCooldownsFontSize, db.raidCooldownsFontOutline);
-						vv.fs2:SetFont(NRC.LSM:Fetch("font", db.raidCooldownsFont), db.raidCooldownsFontSize - 1, db.raidCooldownsFontOutline);
-						vv.fs3:SetFont(NRC.LSM:Fetch("font", db.raidCooldownsFont), db.raidCooldownsFontSize - 1, db.raidCooldownsFontOutline);
-						vv.fs4:SetFont(NRC.LSM:Fetch("font", db.raidCooldownsFontNumbers), db.raidCooldownsFontSize + 1, db.raidCooldownsFontOutline);
+						vv.fs2:SetFont(NRC.LSM:Fetch("font", db.raidCooldownsFont), db.raidCooldownsFontSize, db.raidCooldownsFontOutline);
+						vv.fs3:SetFont(NRC.LSM:Fetch("font", db.raidCooldownsFont), db.raidCooldownsFontSize, db.raidCooldownsFontOutline);
+						vv.fs4:SetFont(NRC.LSM:Fetch("font", db.raidCooldownsFontNumbers), db.raidCooldownsFontSize, db.raidCooldownsFontOutline);
 					end
 				end
 				

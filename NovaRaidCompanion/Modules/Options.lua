@@ -2353,11 +2353,19 @@ NRC.options = {
 					get = "getRaidManaEnabledRaid",
 					set = "setRaidManaEnabledRaid",
 				},
+				raidManaEnabledParty = {
+					type = "toggle",
+					name = L["raidManaEnabledPartyTitle"],
+					desc = L["raidManaEnabledPartyDesc"],
+					order = 7,
+					get = "getRaidManaEnabledParty",
+					set = "setRaidManaEnabledParty",
+				},
 				raidManaEnabledPvP = {
 					type = "toggle",
 					name = L["raidManaEnabledPvPTitle"],
 					desc = L["raidManaEnabledPvPDesc"],
-					order = 7,
+					order = 8,
 					get = "getRaidManaEnabledPvP",
 					set = "setRaidManaEnabledPvP",
 				},
@@ -3732,6 +3740,64 @@ function NRC:loadExtraOptions()
 			get = "getRaidStatusWorldBuffs",
 			set = "setRaidStatusWorldBuffs",
 		};
+		NRC.options.args.classPriest.args.classPriestLayoutHeader = {
+			type = "header",
+			name = "|cFFFFFF00" .. L["Power Infusion"] .. " Damage Bonus Tracker (can be enabled for any class)",
+			order = 1,
+		};
+		NRC.options.args.classPriest.args.piMyText = {
+			type = "description",
+			name = "|cFFDEDE42" .. L["piMyTextDesc"],
+			fontSize = "medium",
+			order = 2,
+		};
+		NRC.options.args.classPriest.name = "   |cFFFFFFFFPriest |cFFFF10F0(New!)";
+		NRC.options.args.classPriest.args.comingSoon = nil;
+		NRC.options.args.classPriest.args.piSendDamagePrint = {
+			type = "toggle",
+			name = L["piSendDamagePrintTitle"],
+			desc = L["piSendDamagePrintDesc"],
+			order = 3,
+			get = "getPISendDamagePrint",
+			set = "setPISendDamagePrint",
+			width = 3,
+		};
+		NRC.options.args.classPriest.args.piSendDamagePrintToMe = {
+			type = "toggle",
+			name = L["piSendDamagePrintToMeTitle"],
+			desc = L["piSendDamagePrintToMeDesc"],
+			order = 4,
+			get = "getPISendDamagePrintToMe",
+			set = "setPISendDamagePrintToMe",
+			width = 3,
+		};
+		NRC.options.args.classPriest.args.piSendDamagePrintOther = {
+			type = "toggle",
+			name = L["piSendDamagePrintOtherTitle"],
+			desc = L["piSendDamagePrintOtherDesc"],
+			order = 5,
+			get = "getPISendDamagePrintOther",
+			set = "setPISendDamagePrintOther",
+			width = 3,
+		};
+		NRC.options.args.classPriest.args.piSendDamageWhisper = {
+			type = "toggle",
+			name = L["piSendDamageWhisperTitle"],
+			desc = L["piSendDamageWhisperDesc"],
+			order = 6,
+			get = "getPISendDamageWhisper",
+			set = "setPISendDamageWhisper",
+			width = 3,
+		};
+		NRC.options.args.classPriest.args.piSendDamageWhisperYouGaveMe = {
+			type = "toggle",
+			name = L["piSendDamageWhisperYouGaveMeTitle"],
+			desc = L["piSendDamageWhisperYouGaveMeDesc"],
+			order = 7,
+			get = "getPISendDamageWhisperYouGaveMe",
+			set = "setPISendDamageWhisperYouGaveMe",
+			width = 3,
+		};
 	end
 	--[[if (NRC.faction == "Alliance") then
 		NRC.options.args.raidCooldowns.args["raidCooldownHeroism"] = {
@@ -4651,37 +4717,16 @@ function NRC:loadExtraOptions()
 			set = function(info, value) NRC.config.raidCooldownShatteringThrowFrame = value; NRC:reloadRaidCooldowns(); end,
 		};]]
 	end
-	--[[if (NRC.isSOD) then
-		NRC.options.args.raidCooldowns.args.raidCooldownDispersion = {
+	if (NRC.isSOD) then
+		NRC.options.args.dataOptions.args.logKaraCrypts = {
 			type = "toggle",
-			name = "|cFFFFFFFF" .. L["Dispersion"],
-			desc =  string.format(L["raidCooldownUniversalDesc"], L["Dispersion"]),
-			order = 628,
-			width = spellWidth,
-			get = "getRaidCooldownDispersion",
-			set = "setRaidCooldownDispersion",
+			name = L["logKaraCryptsTitle"],
+			desc = L["logKaraCryptsDesc"],
+			order = 14,
+			get = "getLogKaraCrypts",
+			set = "setLogKaraCrypts",
 		};
-		NRC.options.args.raidCooldowns.args.raidCooldownDispersionMerged = {
-			type = "toggle",
-			name = "|cFFFFFFFF" .. L["Merged"],
-			desc = string.format(L["mergedDesc"], L["Dispersion"]),
-			order = 629,
-			width = mergedWidth,
-			get = function(info) return NRC.config.raidCooldownDispersionMerged; end,
-			set = function(info, value) NRC.config.raidCooldownDispersionMerged = value; NRC:reloadRaidCooldowns(); end,
-		};
-		NRC.options.args.raidCooldowns.args.raidCooldownDispersionFrame = {
-			type = "select",
-			name = "",
-			desc = string.format(L["frameDesc"], L["Dispersion"]),
-			values = setCooldownFrameOption(true),
-			sorting = setCooldownFrameOption(),
-			order = 630,
-			width = frameWidth,
-			get = function(info) return NRC.config.raidCooldownDispersionFrame; end,
-			set = function(info, value) NRC.config.raidCooldownDispersionFrame = value; NRC:reloadRaidCooldowns(); end,
-		};
-	end]]
+	end
 	if (NRC.expansionNum < 4) then
 		NRC.options.args.raidStatus.args.raidStatusSpirit = {
 			type = "toggle",
@@ -4830,6 +4875,7 @@ NRC.optionDefaults = {
 		raidCooldownsNecksRaidOnly = true,
 		logDungeons = false,
 		logRaids = true,
+		logKaraCrypts = true,
 		summonStoneMsg = true,
 		duraWarning = true,
 		showMoneyTradedChat = false,
@@ -5007,6 +5053,7 @@ NRC.optionDefaults = {
 		raidManaShowSelf = true,
 		raidManaEnabledEverywhere = true,
 		raidManaEnabledRaid = true,
+		raidManaEnabledParty = true,
 		raidManaEnabledPvP = false,
 		raidManaAverage = true,
 		raidManaResurrection = true,
@@ -5234,6 +5281,16 @@ NRC.optionDefaults = {
 		tricksOtherRoguesMineGained = true,
 		tricksSendDamageGroupOther = false,
 		tricksOnlyWhenDamage = false,
+		
+		piSendDamageGroup = false,
+		piSendDamagePrint = true,
+		piSendDamagePrintOther = true,
+		piSendDamagePrintToMe = true,
+		piSendDamageGroupOther = false,
+		piSendDamageWhisper = false,
+		piSendDamageWhisperYouGaveMe = true,
+		piOtherPriestsMineGained = true,
+		
 		--Shaman.
 		--[[raidCooldownEarthElemental = false,
 		raidCooldownEarthElementalMerged = true,
@@ -5556,81 +5613,106 @@ function NRC:refreshConfig(event, database, newProfileKey)
 	self.config = database.profile;
 end
 
-local linesVersion;
-local function loadNewVersionFrame()
-	local frame = NRC:createSimpleScrollFrame("NRCNewVersionFrame", 600, 470, 0, 0, true);
-	frame:SetFrameStrata("HIGH");
-	frame:SetClampedToScreen(true);
-	frame.scrollChild.fs:SetFont(NRC.regionFont, 14);
-	frame.scrollChild.fs2:SetFontObject(Game15Font);
-	frame.scrollChild.fs3:SetFont(NRC.regionFont, 14);
-	frame.scrollChild.fs:ClearAllPoints();
-	frame.scrollChild.fs2:ClearAllPoints();
-	frame.scrollChild.fs3:ClearAllPoints();
-	frame.scrollChild.fs:SetPoint("TOP", 0, -5);
-	frame.scrollChild.fs2:SetPoint("TOP", 0, -19);
-	frame.scrollChild.fs3:SetPoint("TOPLEFT", 10, -40);
-	frame.scrollChild.fs3:SetPoint("RIGHT", 0, -40);
-	frame.scrollChild.fs3:SetJustifyH("LEFT");
-	frame.scrollChild.fs3:CanWordWrap(true);
-	frame.scrollChild.fs3:CanNonSpaceWrap(true);
-	frame.scrollChild.fs3:SetNonSpaceWrap(true);
-	frame.scrollChild.fs3:SetWordWrap(true);
-	frame.scrollChild.fs:SetText("|cFFFFFF00Nova Raid Companion");
-	frame.scrollChild.fs2:SetText("|cFFFFFF00New in version|r |cFFFF6900" .. string.format("%.2f", NRC.version));
-	frame:Hide();
-	linesVersion = 1.57;
-	local lines = {
-		--"|cFF00FF00[General Changes]|r",
-		"Added a search filter box to the raid log loot window.",
-		"Reincarnate cooldowns will now show when the shaman is dead instead of being a skull icon.",
-		"Fixed the talents frame when inspecting a player, sometimes it would wrongly show a raid member instead of your inspect target.",
-		"Fixed pain sup cooldown to 3 minutes.",
-		"Fixed the boss specific loot button in raid log not showing for newer items added to the game.",
-		"Fixed the lockouts window so it shows characters on all realms and factions at the same time.",
-		"Added coffer keys to the loot log so you can see who looted.",
-		"Added sappers/dynamite/arcane bom to the consumes tracker, and also the new SoD bombs.",
-		"Added new SoD flasks/potions/food to the raid buffs window.",
-		"Added new SoD world buffs to the raid buffs window.",
-	};
-	local text = "";
-	--Seperator lines couldn't be used because the wow client won't render 1 pixel frames if they are in certain posotions.
-	--Not sure what causes some frame lines to render thicker than others and some not render at all.
-	local separatorText = "-";
-	while (frame.scrollFrame:GetWidth() - 55 > frame.scrollChild.fs3:GetStringWidth()) do
-		separatorText = separatorText .. "-";
-		frame.scrollChild.fs3:SetText(separatorText);
-	end
-	text = text .. separatorText .. "\n";
-	if (lines) then
-		for k, v in ipairs(lines) do
-			text = text .. "|cFF9CD6DE" .. v .. "|r\n";
-			text = text .. separatorText .. "\n";
-			frame.scrollChild.fs3:SetText(text);
-			--[[if (not frame.separators[k]) then
-				frame.separators[k] = frame.scrollChild:CreateTexture(nil, "BORDER");
-				frame.separators[k]:SetColorTexture(0.6, 0.6, 0.6, 0.5);
-				frame.separators[k]:SetHeight(2);
+local function loadNewVersionFrame(version, notes, title, icon, x, y)
+ 	if (not _G[addonName .. "UpdateNotesFrame"]) then
+ 		local frame = CreateFrame("Frame", _G[addonName .. "UpdateNotesFrame"], UIParent, "BackdropTemplate");
+		frame:SetToplevel(true);
+		frame:SetMovable(true);
+		frame:EnableMouse(true);
+		frame:SetUserPlaced(false);
+		frame:SetFrameStrata("HIGH");
+		frame:SetSize(500, 500);
+		frame:SetPoint("TOP", UIParent, "CENTER", x, y);
+		frame:SetBackdrop({
+			bgFile = "Interface\\Buttons\\WHITE8x8",
+			edgeFile = [[Interface/Buttons/WHITE8X8]],
+			edgeSize = 1,
+			insets = {top = 4, left = 4, bottom = 4, right = 4},
+		});
+		frame:SetBackdropColor(0, 0, 0, 1);
+		frame:SetBackdropBorderColor(1, 1, 1, 0.5);
+		frame.title = frame:CreateFontString("$parentFS", "ARTWORK");
+		frame.title:SetFontObject(Game15Font);
+		frame.title:SetPoint("TOP", 0, -8);
+		frame.title2 = frame:CreateFontString("$parentFS", "ARTWORK");
+		frame.title2:SetFontObject(Game15Font);
+		frame.title2:SetPoint("TOP", 0, -24);
+		frame.fs = frame:CreateFontString("$parentFS", "ARTWORK");
+		frame.fs:SetFontObject(Game12Font);
+		frame.fs:SetPoint("TOPLEFT", 15, -52);
+		frame.fs:SetPoint("TOPRIGHT", -15, -52);
+		frame.fs:SetJustifyH("LEFT");
+		frame.texture = frame:CreateTexture(nil, "ARTWORK");
+		--frame.texture:SetPoint("TOPLEFT", 10, -10);
+		frame.texture:SetPoint("TOPRIGHT", frame.title, "TOPLEFT", -10, 0);
+		frame.texture:SetSize(30, 30);
+		frame.closeButton = CreateFrame("Button", "$parentClose", frame, "UIPanelCloseButton");
+		frame.closeButton:SetPoint("TOPRIGHT", frame, "TOPRIGHT", -1, -1);
+		frame.closeButton:SetWidth(26);
+		frame.closeButton:SetHeight(26);
+		frame.closeButton:SetFrameLevel(15);
+		frame.closeButton:SetScript("OnClick", function(self, arg)
+			frame:Hide();
+		end)
+		frame:SetScript("OnMouseDown", function(self, button)
+			if (button == "LeftButton" and not self.isMoving) then
+				self:StartMoving();
+				self.isMoving = true;
 			end
-			if (k ~= #lines) then
-				local offset = frame.scrollChild.fs3:GetStringHeight() - (frame.scrollChild.fs3:GetLineHeight() / 2);
-				frame.separators[k]:SetPoint("TOPLEFT", frame.scrollChild.fs3, "TOPLEFT", 0, -offset);
-				frame.separators[k]:SetPoint("TOPRIGHT", frame.scrollChild.fs3, "TOPRIGHT", 0, -offset);
-			end]]
+		end)
+		frame:SetScript("OnMouseUp", function(self, button)
+			if (button == "LeftButton" and self.isMoving) then
+				self:StopMovingOrSizing();
+				self.isMoving = false;
+				frame:SetUserPlaced(false);
+			end
+		end)
+		frame:SetScript("OnHide", function(self)
+			if (self.isMoving) then
+				self:StopMovingOrSizing();
+				self.isMoving = false;
+			end
+	end)
+		_G[addonName .. "UpdateNotesFrame"] = frame;
+ 	end
+ 	local frame = _G[addonName .. "UpdateNotesFrame"];
+ 	frame.texture:SetTexture(icon);
+ 	frame.title:SetText("|cFFFFFF00" .. title);
+	frame.title2:SetText("|cFF00FF00New in|r |cFFFF6900v" .. string.format("%.2f", version) .. "");
+ 	local text = "";
+	if (notes) then
+		for k, v in ipairs(notes) do
+			text = text .. "|TInterface\\QUESTFRAME\\UI-Quest-BulletPoint:12:12:0:0|t |cFFFFFFFF" .. v .. "|r\n\n";
 		end
 	end
-	if (text ~= "" and linesVersion == NRC.version) then
-		frame.scrollChild.fs3:SetText(text);
+	if (text ~= "") then
+		frame.fs:SetText(text);
+		local height = frame.fs:GetStringHeight();
+		frame:SetHeight(height + 75);
 		frame:Show();
 	end
 end
 
 function NRC:checkNewVersion()
-	--loadNewVersionFrame();
+	--NRC.db.global.versions = {};
 	if (NRC.version and NRC.version ~= 9999) then
 		if (not NRC.db.global.versions[NRC.version]) then
 			--if (NRC.isClassic) then
-				loadNewVersionFrame();
+				local notes = {
+					--"|cFF00FF00[General Changes]|r",
+					"Added SoD Naxx Seal of the Dawn buff status to the raid buffs frame, an extra column shows when you open the frame while inside Naxx.",
+					"The raid mana frame now shows when a healer gets innervated and how long left.",
+					"The raid status frame now shows Dragonbreath Chili beside other food.",
+					"Added option to hide raid mana in 5 man dungeons (separated show in raid and dungeon settings).",
+					"Added Dragonbreath Chili/Gordok Green Grog/Rumsey Rum Black Label to consumes log.",
+					"Added Blessed Sunfuit +10 strength food.",
+					"Added option under \"Data Management\" to record SoD dungeon Karazhan Crypts in the raid log (enabled by default).",
+					"Removed Remants/Necrotic rune/Reals from being shown in the loot log.",
+					"If you had \"Log Dungeons\" enabled in data management you will need to retick that option in this update.",
+					"Fixed spell ID for Runescroll of Fortitude II in cata.",
+					"A bunch of other other small bug fixes and performance updates.",
+				};
+				loadNewVersionFrame(NRC.version, notes, "Nova Raid Companion", "Interface\\AddOns\\NovaRaidCompanion\\Media\\nrc_icon2", 0, 300);
 			--end
 			--NRC:setLockAllFrames(nil, false);
 			--Wipe old data.
@@ -5669,20 +5751,29 @@ end
 
 --Log dungeons.
 function NRC:setLogDungeons(info, value)
-	self.config.logDungeons = value;
+	self.db.global.logDungeons = value;
 end
 
 function NRC:getLogDungeons(info)
-	return self.config.logDungeons;
+	return self.db.global.logDungeons;
 end
 
 --Log raids.
 function NRC:setLogRaids(info, value)
-	self.config.logRaids = value;
+	self.db.global.logRaids = value;
 end
 
 function NRC:getLogRaids(info)
-	return self.config.logRaids;
+	return self.db.global.logRaids;
+end
+
+--Log dungeons.
+function NRC:setLogKaraCrypts(info, value)
+	self.db.global.logKaraCrypts = value;
+end
+
+function NRC:getLogKaraCrypts(info)
+	return self.db.global.logKaraCrypts;
 end
 
 --Attunement warnings.
@@ -7793,6 +7884,16 @@ function NRC:getRaidManaEnabledRaid(info)
 	return self.config.raidManaEnabledRaid;
 end
 
+--Raid mana enabled party.
+function NRC:setRaidManaEnabledParty(info, value)
+	self.config.raidManaEnabledParty = value;
+	NRC:loadRaidManaFrame();
+end
+
+function NRC:getRaidManaEnabledParty(info)
+	return self.config.raidManaEnabledParty;
+end
+
 --Raid mana enabled pvp.
 function NRC:setRaidManaEnabledPvP(info, value)
 	self.config.raidManaEnabledPvP = value;
@@ -8520,4 +8621,49 @@ end
 
 function NRC:getRaidLogFrameHeight(info)
 	return self.db.global.raidLogFrameHeight;
+end
+
+--Power infusion print self.
+function NRC:setPISendDamagePrint(info, value)
+	self.db.global.piSendDamagePrint = value;
+end
+
+function NRC:getPISendDamagePrint(info)
+	return self.db.global.piSendDamagePrint;
+end
+
+--Power infusion print to me.
+function NRC:setPISendDamagePrintToMe(info, value)
+	self.db.global.piSendDamagePrintToMe = value;
+end
+
+function NRC:getPISendDamagePrintToMe(info)
+	return self.db.global.piSendDamagePrintToMe;
+end
+
+--Power infusion print other.
+function NRC:setPISendDamagePrintOther(info, value)
+	self.db.global.piSendDamagePrintOther = value;
+end
+
+function NRC:getPISendDamagePrintOther(info)
+	return self.db.global.piSendDamagePrintOther;
+end
+
+--Power infusion whisper.
+function NRC:setPISendDamageWhisper(info, value)
+	self.db.global.piSendDamageWhisper = value;
+end
+
+function NRC:getPISendDamageWhisper(info)
+	return self.db.global.piSendDamageWhisper;
+end
+
+--Power infusion whisper you gave me.
+function NRC:setPISendDamageWhisperYouGaveMe(info, value)
+	self.db.global.piSendDamageWhisperYouGaveMe = value;
+end
+
+function NRC:getPISendDamageWhisperYouGaveMe(info)
+	return self.db.global.piSendDamageWhisperYouGaveMe;
 end
