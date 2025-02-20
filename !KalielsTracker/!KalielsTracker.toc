@@ -1,7 +1,7 @@
 ## Interface: 40402
 ## Title: Kaliel's Tracker
 ## Notes: Cataclysm Classic Objective Tracker
-## Version: 4.1.0
+## Version: 4.1.0 Fix
 ## Author: Kaliel (Marouan Sabbagh)
 
 ## SavedVariables: KalielsTrackerDB
