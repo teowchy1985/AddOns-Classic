@@ -1050,7 +1050,7 @@ BG.Init(function()
             end)
 
             if BiaoGe.options["countDown"] ~= 1 then
-                f:Hide()
+                dropDown:Hide()
             end
         end
         h = h + 50
@@ -1869,7 +1869,7 @@ BG.Init(function()
         end
 
         -- 删除按钮
-        local bt = CreateFrame("Button", nil, roleOverview)
+--[[         local bt = CreateFrame("Button", nil, roleOverview)
         bt:SetHeight(22)
         bt:SetPoint("TOPRIGHT", BG.optionsBackground:GetWidth() - 45, -5)
         bt:SetNormalFontObject(BG.FontRed15)
@@ -1950,7 +1950,7 @@ BG.Init(function()
                 LibBG:EasyMenu(channelTypeMenu, dropDown, bt, 0, 0, "MENU", 3)
             end
             BG.PlaySound(1)
-        end)
+        end) ]]
 
         -- 创建多选按钮
         local width = 15
@@ -2143,7 +2143,7 @@ BG.Init(function()
             t:SetPoint("TOPLEFT", 15, height)
             t:SetTextColor(1, 1, 1)
             t:SetText(AddTexture("QUEST") .. L["角色总览的排序方式："])
-            BG.options.roleOverviewSortText1 = t
+            BG.options["Text"..name] = t
 
             -- 选项
             do
@@ -2156,7 +2156,7 @@ BG.Init(function()
                 end
 
                 local dropDown = LibBG:Create_UIDropDownMenu(nil, roleOverview)
-                dropDown:SetPoint("LEFT", BG.options.roleOverviewSortText1, "RIGHT", -10, -2)
+                dropDown:SetPoint("LEFT", BG.options["Text"..name], "RIGHT", -10, -2)
                 LibBG:UIDropDownMenu_SetWidth(dropDown, 150)
                 LibBG:UIDropDownMenu_SetText(dropDown, SetText(BiaoGe.options[name]))
                 LibBG:UIDropDownMenu_SetAnchor(dropDown, -10, 0, "TOPRIGHT", dropDown, "BOTTOMRIGHT")
@@ -2197,7 +2197,7 @@ BG.Init(function()
             t:SetPoint("TOPLEFT", 15, height)
             t:SetTextColor(1, 1, 1)
             t:SetText(AddTexture("QUEST") .. L["角色总览的默认显示："])
-            BG.options.roleOverviewDefaultShow1 = t
+            BG.options["Text"..name] = t
             -- 选项
             do
                 local function SetText(key)
@@ -2209,7 +2209,60 @@ BG.Init(function()
                 end
 
                 local dropDown = LibBG:Create_UIDropDownMenu(nil, roleOverview)
-                dropDown:SetPoint("LEFT", BG.options.roleOverviewDefaultShow1, "RIGHT", -10, -2)
+                dropDown:SetPoint("LEFT", BG.options["Text"..name], "RIGHT", -10, -2)
+                LibBG:UIDropDownMenu_SetWidth(dropDown, 150)
+                LibBG:UIDropDownMenu_SetText(dropDown, SetText(BiaoGe.options[name]))
+                LibBG:UIDropDownMenu_SetAnchor(dropDown, -10, 0, "TOPRIGHT", dropDown, "BOTTOMRIGHT")
+                BG.dropDownToggle(dropDown)
+                BG.options["button" .. name] = dropDown
+
+                LibBG:UIDropDownMenu_Initialize(dropDown, function(self, level)
+                    for i, v in ipairs(tbl) do
+                        local info = LibBG:UIDropDownMenu_CreateInfo()
+                        info.text = v.text
+                        info.func = function()
+                            BiaoGe.options[name] = v.key
+                            LibBG:UIDropDownMenu_SetText(dropDown, SetText(BiaoGe.options[name]))
+                        end
+                        if BiaoGe.options[name] == v.key then
+                            info.checked = true
+                        end
+                        LibBG:UIDropDownMenu_AddButton(info)
+                    end
+                end)
+            end
+        end
+        height = height - 35
+
+        -- 布局
+        do
+            local name = "roleOverviewLayout"
+            BG.options[name .. "reset"] = "up_down"
+            BiaoGe.options[name] = BiaoGe.options[name] or BG.options[name .. "reset"]
+
+            local tbl = {
+                { key = "up_down", text = L["上下布局"] },
+                { key = "left_right", text = L["左右布局"] },
+            }
+
+            local t = roleOverview:CreateFontString()
+            t:SetFont(STANDARD_TEXT_FONT, 15, "OUTLINE")
+            t:SetPoint("TOPLEFT", 15, height)
+            t:SetTextColor(1, 1, 1)
+            t:SetText(AddTexture("QUEST") .. L["角色总览的布局方式："])
+            BG.options["Text"..name] = t
+            -- 选项
+            do
+                local function SetText(key)
+                    for i, v in ipairs(tbl) do
+                        if v.key == key then
+                            return v.text
+                        end
+                    end
+                end
+
+                local dropDown = LibBG:Create_UIDropDownMenu(nil, roleOverview)
+                dropDown:SetPoint("LEFT", BG.options["Text"..name], "RIGHT", -10, -2)
                 LibBG:UIDropDownMenu_SetWidth(dropDown, 150)
                 LibBG:UIDropDownMenu_SetText(dropDown, SetText(BiaoGe.options[name]))
                 LibBG:UIDropDownMenu_SetAnchor(dropDown, -10, 0, "TOPRIGHT", dropDown, "BOTTOMRIGHT")
@@ -2838,7 +2891,7 @@ BG.Init(function()
             wipe(buttons)
 
             for realmID, v in pairs(BiaoGe.Hope) do
-                if Size(v) ~= 0 then
+                if next(v) then
                     local bt = CreateFrame("Button", nil, child)
                     if not buttons[1] then
                         bt:SetPoint("TOPLEFT", child, 0, 0)
@@ -2891,11 +2944,9 @@ BG.Init(function()
                             t:SetTextColor(r, g, b)
                             tex:SetVertexColor(r, g, b)
                             bt:SetText("   " .. player .. " (" .. BiaoGe.playerInfo[realmID][player].level .. ")")
-                            -- bt:SetText("   " .. player .. " (" .. "Lv" .. BiaoGe.playerInfo[realmID][player].level .. ")")
-                            -- bt:SetText("   " .. "lv" .. BiaoGe.playerInfo[realmID][player].level .. "-" .. player)
                         else
-                            t:SetTextColor(1, 1, 1)
-                            tex:SetVertexColor(1, 1, 1)
+                            t:SetTextColor(.5, .5, .5)
+                            tex:SetVertexColor(.5, .5, .5)
                         end
 
                         bt:SetScript("OnClick", function(self)
@@ -2995,7 +3046,7 @@ BG.Init(function()
                 for i, bt in ipairs(button2s) do
                     if bt:GetChecked() then
                         if chooseText ~= "" then
-                            chooseText = chooseText .. "/" .. bt.text
+                            chooseText = chooseText .. "|cffFFD100/|r" .. bt.text
                         else
                             chooseText = bt.text
                         end
@@ -3022,7 +3073,7 @@ BG.Init(function()
                 for i, bt in ipairs(button2s) do
                     if bt:GetChecked() then
                         if chooseText ~= "" then
-                            chooseText = chooseText .. "/" .. bt.text
+                            chooseText = chooseText .. "|cffffffff/|r" .. bt.text
                         else
                             chooseText = bt.text
                         end
@@ -3117,33 +3168,9 @@ BG.Init(function()
             button1 = L["是"],
             button2 = L["否"],
             OnAccept = function()
-                -- BG.PlaySound(2)
                 local realmID = GetRealmID()
                 local player = UnitName("player")
-                BiaoGe.Hope[choose.realmID][choose.player] = nil
-                BiaoGe.FilterClassItemDB[choose.realmID][choose.player] = nil
-                if BiaoGe.MeetingHorn[choose.realmID] then
-                    BiaoGe.MeetingHorn[choose.realmID][choose.player] = nil
-                end
-                if BiaoGe.MeetingHornWhisper[choose.realmID] then
-                    BiaoGe.MeetingHornWhisper[choose.realmID][choose.player] = nil
-                end
-                if BiaoGe.FBCD[choose.realmID] then
-                    BiaoGe.FBCD[choose.realmID][choose.player] = nil
-                end
-                if BiaoGe.QuestCD[choose.realmID] then
-                    BiaoGe.QuestCD[choose.realmID][choose.player] = nil
-                end
-                if BiaoGe.Money[choose.realmID] then
-                    BiaoGe.Money[choose.realmID][choose.player] = nil
-                end
-                if BiaoGe.filterClassNum[choose.realmID] then
-                    BiaoGe.filterClassNum[choose.realmID][choose.player] = nil
-                end
-                if BiaoGe.playerInfo[choose.realmID] then
-                    BiaoGe.playerInfo[choose.realmID][choose.player] = nil
-                end
-
+                BG.DeletePlayerData(choose.realmID,choose.player)
                 if realmID == choose.realmID and player == choose.player then
                     ReloadUI()
                 else

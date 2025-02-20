@@ -1,9 +1,8 @@
 <Bindings>
-  <Binding name="BIAOGE" header="BiaoGe" category="ADDONS">
-      if BG.MainFrame and not BG.MainFrame:IsVisible() then
-          BG.MainFrame:Show()
-      else
-          BG.MainFrame:Hide()
-      end
-  </Binding>
+    <Binding name="BIAOGE" header="BiaoGe" Category="ADDONS">
+        BG.MainFrame:SetShown(not BG.MainFrame:IsVisible())
+    </Binding>
+    <Binding name="RoleOverview" Category="ADDONS">
+        BG.SetFBCD(nil, nil, true)
+    </Binding>
 </Bindings>

@@ -33,8 +33,10 @@ elseif BG.IsVanilla_60 then
     BG.zaxiang.MC = { i = 6 }
     buttonCount.BWL = { 5, 5, 5, 5, 5, 5, 5, 6, 9, 12, }
     buttonCount.ZUG = { 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 9, 10, }
-    buttonCount.AQL = { 5, 5, 5, 5, 5, 5, 10, 11, }
-    buttonCount.TAQ = { 4, 4, 4, 4, 4, 4, 4, 4, 5, 12, 12, }
+    buttonCount.AQL = { 5, 5, 5, 5, 5, 5, 28, 5, }
+    BG.zaxiang.AQL = { i = 23 }
+    buttonCount.TAQ = { 4, 4, 4, 4, 4, 4, 4, 4, 5, 20, 5, }
+    BG.zaxiang.TAQ = { i = 14 }
     buttonCount.NAXX = { 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 5, 12, 12, }
 elseif BG.IsWLK then
     buttonCount.NAXX = { 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 6, 6, 14, 6, 6, 5, }
@@ -75,8 +77,6 @@ function BG.CreateFBUI(FB)
     -- 复原之前拆分表格导致的问题
     local wow
     if BG.IsWLK then
-        -- BiaoGe.options.SearchHistory["WLKFB240703"] = nil
-        -- /run BiaoGe.History.TOC={}
         wow = "WLK"
         BG.Once(wow .. "FB", 240703, function()
             local FB = "NAXX"
@@ -147,21 +147,6 @@ function BG.CreateFBUI(FB)
                     end
                 end
             end
-
-            -- local tbl = { "BWD", "TOF",  }
-            -- for i, FB in ipairs(tbl) do
-            --     BiaoGe[FB] = nil
-            --     BiaoGe.History[FB] = nil
-            --     BiaoGe.HistoryList[FB] = nil
-            --     BiaoGe.BossFrame[FB] = nil
-            --     for realmID in pairs(BiaoGe.Hope) do
-            --         for player in pairs(BiaoGe.Hope[realmID]) do
-            --             for _ in pairs(BiaoGe.Hope[realmID][player]) do
-            --                 BiaoGe.Hope[realmID][player][FB] = nil
-            --             end
-            --         end
-            --     end
-            -- end
         end)
     elseif BG.IsCTM then
         wow = "CTM"

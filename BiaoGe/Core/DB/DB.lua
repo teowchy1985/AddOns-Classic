@@ -19,7 +19,8 @@ BiaoGeTooltip3 = CreateFrame("GameTooltip", "BiaoGeTooltip3", UIParent, "GameToo
 
 -- 游戏按键设置
 BINDING_HEADER_BIAOGE = "BiaoGe"
-BINDING_NAME_BIAOGE = L["显示/关闭表格"]
+BINDING_NAME_BIAOGE = L["打开/关闭表格"]
+BINDING_NAME_RoleOverview = L["打开/关闭角色总览"]
 
 
 local realmID = GetRealmID()
@@ -107,7 +108,7 @@ do
             AddDB("MC", mainFrameWidth, 810, 3, 13, { 0, 7, 12 })
             AddDB("BWL", mainFrameWidth, 810, 3, 10, { 0, 5, 9 })
             AddDB("ZUG", mainFrameWidth, 810, 3, 12, { 0, 6, 11 })
-            AddDB("AQL", mainFrameWidth, 810, 3, 8, { 0, 5, 8 })
+            AddDB("AQL", mainFrameWidth, 810, 3, 8, { 0, 5, 7 })
             AddDB("TAQ", mainFrameWidth, 810, 3, 11, { 0, 6, 10 })
             AddDB("NAXX", 1715, 810, 4, 17, { 0, 6, 12, 16 })
         elseif BG.IsWLK then

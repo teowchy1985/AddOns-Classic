@@ -4073,11 +4073,7 @@ end
 do
     ----------插件命令----------
     SlashCmdList["BIAOGE"] = function()
-        if BG.MainFrame and not BG.MainFrame:IsVisible() then
-            BG.MainFrame:Show()
-        else
-            BG.MainFrame:Hide()
-        end
+        BG.MainFrame:SetShown(not BG.MainFrame:IsVisible())
     end
     SLASH_BIAOGE1 = "/biaoge"
     SLASH_BIAOGE2 = "/gbg"
