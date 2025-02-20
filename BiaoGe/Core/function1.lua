@@ -623,3 +623,38 @@ function BG.Copy(table)
     end
 end
 
+function BG.DeletePlayerData(realmID,player)
+    if BiaoGe.Hope and BiaoGe.Hope[realmID] then
+        BiaoGe.Hope[realmID][player] = nil
+    end
+    if BiaoGe.FilterClassItemDB and  BiaoGe.FilterClassItemDB[realmID] then
+        BiaoGe.FilterClassItemDB[realmID][player] = nil
+    end
+    if BiaoGe.filterClassNum and BiaoGe.filterClassNum[realmID] then
+        BiaoGe.filterClassNum[realmID][player] = nil
+    end
+    if BiaoGe.MeetingHorn and BiaoGe.MeetingHorn[realmID] then
+        BiaoGe.MeetingHorn[realmID][player] = nil
+    end
+    if BiaoGe.MeetingHornWhisper and BiaoGe.MeetingHornWhisper[realmID] then
+        BiaoGe.MeetingHornWhisper[realmID][player] = nil
+    end
+    if BiaoGe.FBCD and BiaoGe.FBCD[realmID] then
+        BiaoGe.FBCD[realmID][player] = nil
+    end
+    if BiaoGe.QuestCD and BiaoGe.QuestCD[realmID] then
+        BiaoGe.QuestCD[realmID][player] = nil
+    end
+    if BiaoGe.Money and BiaoGe.Money[realmID] then
+        BiaoGe.Money[realmID][player] = nil
+    end
+    if BiaoGe.tradeSkillCooldown and BiaoGe.tradeSkillCooldown[realmID] then
+        BiaoGe.tradeSkillCooldown[realmID][player] = nil
+    end
+    if BiaoGe.PlayerItemsLevel and BiaoGe.PlayerItemsLevel[realmID] then
+        BiaoGe.PlayerItemsLevel[realmID][player] = nil
+    end
+    if BiaoGe.playerInfo and BiaoGe.playerInfo[realmID] then
+        BiaoGe.playerInfo[realmID][player] = nil
+    end
+end

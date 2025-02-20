@@ -28,25 +28,34 @@ local player = UnitName("player")
 local realmName = GetRealmName()
 
 local AFDtbl = {
-    -- ffff00 = {
     -- 1200
     "wlk怀旧-范沃森-Selendis",
     -- 600
     "露露缇娅",
     "陈",
-    -- },
     -- 360
     "全能小霸王",
     "龙之召唤<破冰>粥糟-粥枣",
     -- 300
     "永恒",
     -- 180
-    "满心欢喜",
+    "霜语-丑死我了", -- 满心欢喜
     "伊梅尔达",
     "超级小奶爸",
     "水晶之牙-Rich Only",
     -- 90
     -- 30
+    "老年呆贼",
+    "有才",
+    "不再留恋",
+    "拉萨",
+    "青椒回锅肉",
+    "匕首岭-冷疯-逐风工会",
+    "硬汉-晨时微凉丶",
+    "咩咩米",
+    "奥金斧-Shameles",
+    "千夕",
+    "鸟窝",
     "Veda",
     "无畏-多拂朗明哥-PatrickStar",
     "安德",
@@ -74,14 +83,14 @@ local AFDtbl = {
     "abbiy921",
     "布朗熊",
     "老周不想取名",
-    "正夏-【夜宴】-埃提耶什",
+    "埃提耶什-<夜宴>-正夏",
     "单脚跳",
-    "霜语—猫空半日—萬神殿",
+    "霜语-猫空半日-萬神殿",
     "铁血-诺诺吖",
-    "法尔班克斯-《骚年远征军》-雪见月十九",
+    "法尔班克斯-<骚年远征军>-雪见月十九",
     "水晶之牙-Equipo Octavo",
     "碧玉矿洞-八汤",
-    "维系度斯 你看我牛牛吗",
+    "维系度斯-你看我牛牛吗",
     "关青龙",
     "灰灰丶",
     "好好学习",
@@ -107,7 +116,7 @@ local AFDtbl = {
     -- "",
     -- "",
     -- "",
-    --最后更新时间：25/2/17 21:15
+    --最后更新时间：25/2/19 22:50
 }
 
 
@@ -173,6 +182,7 @@ BG.Init(function()
             GameTooltip:ClearLines()
             GameTooltip:AddLine(self.title, 1, 1, 1, true)
             GameTooltip:AddLine(L["Q群："] .. "322785325", 1, 0.82, 0, true)
+            GameTooltip:AddLine(L["密码：金团表格"], 1, 0.82, 0, true)
             GameTooltip:AddLine(L["（点击复制Q群）"], 1, 0.82, 0, true)
             GameTooltip:Show()
 
@@ -217,7 +227,7 @@ BG.Init(function()
                             self:SetNormalFontObject(BG.FontRed13)
                             self:SetText(self.title2)
                             self:SetScript("OnShow", nil)
-                            BG.MainFrame.ErrorText:SetText(L["插件加载错误，请查看右下角的红字报错，把报错内容截图发给作者，谢谢。（Q群322785325）"])
+                            BG.MainFrame.ErrorText:SetText(L["插件加载错误，请查看右下角的红字报错，把报错内容截图发给作者，谢谢。（Q群：322785325，密码：金团表格）"])
                             break
                         end
                     end
@@ -260,30 +270,9 @@ BG.Init(function()
                 end
             end
             GameTooltip:AddLine(text, 1, 0.82, 0, true)
-
-            -- for i = 1, self.maxLine do
-            --     local name = AFDtbl[i]
-            --     if not name then break end
-            --     GameTooltip:AddLine(name, 1, 0.82, 0, true)
-            -- end
             GameTooltip:AddLine(L["你可以在这里订阅我的账号苍穹之霜。"], 1, 1, 1, true)
             GameTooltip:AddLine(L["（点击复制网址）"], 1, 0.82, 0, true)
             GameTooltip:Show()
-
-            -- if #AFDtbl > self.maxLine then
-            --     BiaoGeTooltip2:SetOwner(GameTooltip, "ANCHOR_NONE", 0, 0)
-            --     BiaoGeTooltip2:SetPoint("BOTTOMLEFT", GameTooltip, "BOTTOMRIGHT", 0, 0)
-            --     BiaoGeTooltip2:ClearLines()
-            --     BiaoGeTooltip2:AddLine(" ", 1, 1, 1, true)
-            --     -- BiaoGeTooltip2:AddLine(self:GetText(), 1, 1, 1, true)
-            --     -- BiaoGeTooltip2:AddLine(L["感谢以下玩家的发电："], 1, 1, 1, true)
-            --     for i = self.maxLine + 1, #AFDtbl do
-            --         local name = AFDtbl[i]
-            --         if not name then break end
-            --         BiaoGeTooltip2:AddLine(name, 1, 0.82, 0, true)
-            --     end
-            --     BiaoGeTooltip2:Show()
-            -- end
         end)
         bt:SetScript("OnLeave", function(self)
             GameTooltip:Hide()
