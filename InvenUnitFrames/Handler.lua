@@ -372,8 +372,7 @@ function handlers:PLAYER_ENTERING_WORLD()
 			end
 		end
 
-	handlers.PLAYER_UPDATE_RESTING(IUF.units.player) --added
-	handlers.UNIT_HEALTH(IUF.units.player)--added
+
 	end
 end
 
@@ -672,7 +671,8 @@ function handlers:GROUP_ROSTER_UPDATE()
 		end
 		self.values.group = nil
 	else
-		self.values.group, self.values.leader, self.values.looter, self.values.role = nil
+
+		self.values.group, self.values.leader, self.values.looter, self.values.role = nil,nil,nil,nil
 	end
 	
 end
