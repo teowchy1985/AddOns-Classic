@@ -1,9 +1,9 @@
-## Interface: 11506, 30403, 40401, 110005, 110007
+## Interface: 11506, 30403, 40402, 110005, 110007
 ## X-Min-Interface: 110007
 ## X-Min-Interface-Classic: 11506
 ## X-Min-Interface-BCC: 20504
 ## X-Min-Interface-Wrath: 30403
-## X-Min-Interface-Cata: 40401
+## X-Min-Interface-Cata: 40402
 ## Title: GTFO
 ## Notes: GTFO, you're dying!
 ## Author: Zensunim of Dragonblight

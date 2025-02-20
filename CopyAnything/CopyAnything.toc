@@ -1,4 +1,4 @@
-## Interface: 11506, 40401, 110002
+## Interface: 11506, 40402, 110002
 ## Title: Copy Anything
 ## Notes: Copy text from any frame.
 ## Author: Oppzippy

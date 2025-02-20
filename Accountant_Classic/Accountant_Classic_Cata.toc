@@ -1,4 +1,4 @@
-## Interface: 40401
+## Interface: 40402
 #@non-debug@
 ## Title: Accountant Classic
 ## Title-deDE: Accountant Classic

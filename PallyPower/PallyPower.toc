@@ -1,4 +1,4 @@
-## Interface: 40401
+## Interface: 40402
 ## Author: Aznamir, Dyaxler, Es, gallantron
 ## Title: PallyPower Classic
 ## Version: v1.5.13-classic

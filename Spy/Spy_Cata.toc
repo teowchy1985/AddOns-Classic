@@ -1,4 +1,4 @@
-﻿## Interface: 40401
+﻿## Interface: 40402
 ## Title: Spy
 ## Version: 4.0.2
 ## Notes: Detects and alerts you to the presence of nearby enemy players.

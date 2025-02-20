@@ -1,6 +1,6 @@
-## Interface: 40401
+## Interface: 40402
 ## Author: lightspark
-## Version: 40401.02
+## Version: 40402.02
 ## Title: LS: |cff00cc99Toasts|r
 ## Notes: Better toasts, cheers!
 ## SavedVariables: LS_TOASTS_GLOBAL_CONFIG
