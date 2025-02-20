@@ -18,6 +18,6 @@ function AuctionatorConfigTabMixin:OpenOptions()
     Settings.OpenToCategory(AUCTIONATOR_L_ADDON_OPTIONS)
   else
     InterfaceOptionsFrame:Show()
-    InterfaceOptionsFrame_OpenToCategory(AUCTIONATOR_L_ADDON_OPTIONS)
+    InterfaceOptionsFrame_OpenToCategory(AUCTIONATOR_L_CONFIG_BASIC_OPTIONS_CATEGORY)
   end
 end
