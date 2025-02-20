@@ -1,11 +1,10 @@
 ## Interface: 40402
 ## Author: Aznamir, Dyaxler, Es, gallantron
 ## Title: PallyPower Classic
-## Version: v1.5.13-classic
+## Version: v1.5.13-classic Fix
 ## Notes: Raid/Party Paladin buffs
 ## Notes-esES: Buffs de Paladín para Grupo/Banda
 ## Notes-zhCN: 圣骑士祝福管理
-## DefaultState: enabled
 ## Dependencies:
 ## OptionalDeps: Ace3, LibSharedMedia-3.0, SharedMedia
 ## X-Category: Paladin
@@ -26,4 +25,4 @@ locale\zhTW.lua
 PallyPower.lua
 PallyPowerValues.lua
 PallyPowerOptions.lua
-PallyPower_Wrath.xml
+PallyPower_Vanilla.xml
