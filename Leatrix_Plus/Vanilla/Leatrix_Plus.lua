@@ -1,5 +1,5 @@
 ﻿----------------------------------------------------------------------
--- 	Leatrix Plus 1.15.75 (12th February 2025)
+-- 	Leatrix Plus 1.15.76 (21st February 2025)
 ----------------------------------------------------------------------
 
 --	01:Functions 02:Locks   03:Restart 40:Player   45:Rest
@@ -19,7 +19,7 @@
 	local void
 
 	-- Version
-	LeaPlusLC["AddonVer"] = "1.15.75"
+	LeaPlusLC["AddonVer"] = "1.15.76"
 
 	-- Get locale table
 	local void, Leatrix_Plus = ...
@@ -8535,7 +8535,7 @@
 				QuestFramePushQuestButton:SetPoint("LEFT", QuestLogFrameAbandonButton, "RIGHT", -3, 0)
 
 				-- Add map button
-				local logMapButton = CreateFrame("Button", nil, QuestLogFrame, "UIPanelButtonTemplate")
+				local logMapButton = CreateFrame("Button", "LeaPlusGlobalQuestLogMapButton", QuestLogFrame, "UIPanelButtonTemplate")
 				logMapButton:SetText(L["Map"])
 				logMapButton:ClearAllPoints()
 				logMapButton:SetPoint("LEFT", QuestFramePushQuestButton, "RIGHT", -3, 0)

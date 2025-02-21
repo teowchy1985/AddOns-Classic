@@ -1,4 +1,7 @@
-﻿4.0.46 - 5th February 2025
+﻿4.0.48 - 21st February 2021
+- Updated for game version 4.4.2.
+
+4.0.46 - 5th February 2025
 - Fixed an issue with 'Use class colors in chat' ('Chat') which prevented class colors from being used.
 
 4.0.45 - 29th January 2025
