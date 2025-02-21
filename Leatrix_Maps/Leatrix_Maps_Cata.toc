@@ -1,9 +1,9 @@
-## Interface: 40401, 40402
+## Interface: 40402
 
 ## Title: Leatrix Maps
 ## Notes: Enhancements for your maps.
 
-## Version: 4.0.47
+## Version: 4.0.48
 ## Author: Leatrix
 ## SavedVariables: LeaMapsDB
 
