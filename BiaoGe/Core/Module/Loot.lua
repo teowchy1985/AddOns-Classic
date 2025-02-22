@@ -483,7 +483,7 @@ BG.Init(function()
         local itemID = GetItemInfoInstant(link)
         if bindType == 4 then return end          -- 属于任务物品的不记录
 
-        for i, id in ipairs(BG.Loot.blacklist) do -- 过滤黑名单物品
+        for _, id in ipairs(BG.Loot.blacklist) do -- 过滤黑名单物品
             if itemID == id then
                 return
             end
@@ -498,7 +498,7 @@ BG.Init(function()
 
         local Iswhitelist
         if not BG.DeBug then
-            for i, id in ipairs(BG.Loot.whitelist) do -- 过滤白名单物品
+            for _, id in ipairs(BG.Loot.whitelist) do -- 过滤白名单物品
                 if itemID == id then
                     Iswhitelist = true
                     break
@@ -519,7 +519,7 @@ BG.Init(function()
                         return
                     end
                     if FB == "ICC" then
-                        for i, _itemId in ipairs(BG.Loot.ICC.Faction["1156"]) do -- 过滤ICC声望戒指
+                        for _, _itemId in ipairs(BG.Loot.ICC.Faction["1156"]) do -- 过滤ICC声望戒指
                             if itemID == _itemId then
                                 return
                             end
@@ -593,6 +593,13 @@ BG.Init(function()
         -- 经典旧世的图纸、牌子、宝石记录到杂项
         if BG.IsVanilla then
             if typeID == 9 or typeID == 10 or typeID == 3 then
+                local numb = Maxb[FB] - 1
+                AddLootItem(FB, numb, link, Texture, level, Hope, count, typeID, lootplayer)
+                return
+            end
+        else 
+            -- WLK的图纸记到杂项
+            if typeID == 9 then
                 local numb = Maxb[FB] - 1
                 AddLootItem(FB, numb, link, Texture, level, Hope, count, typeID, lootplayer)
                 return

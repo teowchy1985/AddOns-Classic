@@ -3,7 +3,7 @@
 ## Notes: 插件命令：/BiaoGe 或 /GBG
 ## Author: 苍穹之霜, 伊弗斯 <夜半時光> 修改
 ## SavedVariables: BiaoGe
-## Version: 1.14.7++
+## Version: 1.14.8++
 
 ## Title-zhTW: |cffFF7F00[團隊]|r 金團表格
 ## Notes-zhTW: <BiaoGe> |n|n好用的金團記錄表單，可設定願望清單，可以通報帳單流拍或消費及欠款等。|n|n|cffffd200使用方法: |r點小地圖按鈕，從Esc>選項>插件>金團表格，進行設定。
