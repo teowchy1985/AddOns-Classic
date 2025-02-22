@@ -51,7 +51,7 @@ function BG.HopeUI(FB)
             version:SetWidth(titlewidth)
             version:SetWordWrap(false)
             version:SetJustifyH("RIGHT")
-            if BG.IsWLKFB(FB) then
+            if BG.IsCTMFB(FB) then
                 if n == 1 then
                     version:SetText(L["< |cffFFFFFF10人|r|cff00BFFF普通|r >"])
                 elseif n == 2 then

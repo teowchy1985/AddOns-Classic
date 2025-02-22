@@ -44,8 +44,9 @@ elseif BG.IsWLK then
     buttonCount.TOC = { 5, 5, 5, 5, 5, 7, 8, 12, 14, }
     buttonCount.ICC = { 3, 3, 3, 5, 3, 3, 5, 3, 5, 3, 5, 8, 3, 8, 7, }
 elseif BG.IsCTM then
-    buttonCount.BOT = { 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 8, 24, 5, }
-    BG.zaxiang.BOT = { i = 12 }
+    buttonCount.FL = { 10, 10, 10, 10, 10, 10, 10, 21, 15, }
+    buttonCount.DS = { 12, 12, 12, 12, 12, 12, 12, 12, 12, 20, }
+	
 end
 
 function BG.GetBossButtonCount(FB, bossNum)
@@ -151,7 +152,7 @@ function BG.CreateFBUI(FB)
     elseif BG.IsCTM then
         wow = "CTM"
         BG.Once(wow .. "FB", 240703, function()
-            local FB = "BOT"
+            local FB = "FL"
             BiaoGe[FB]["boss" .. 8] = {} -- 支出
             BiaoGe[FB]["boss" .. 9] = {} -- 总览
             for DT in pairs(BiaoGe.History[FB]) do

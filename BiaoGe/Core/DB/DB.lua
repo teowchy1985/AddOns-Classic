@@ -117,7 +117,12 @@ do
             AddDB("ULD", mainFrameWidth, 875, 3, 16, { 0, 7, 13 }, 2)
             AddDB("NAXX", 1715, 945, 4, 19, { 0, 6, 12, 16 }, 2)
         elseif BG.IsCTM then
-            AddDB("BOT", 1715, 930, 4, 15, { 0, 5, 10, 14 }, 2)
+        --  AddDB("BOT", 1715, 930, 4, 15, { 0, 5, 10, 14 }, 2)
+            AddDB("FL", 1715, 900, 4, 9, { 0, 3, 6, 8 }, 2)
+			AddDB("DS", 1735, 1050, 4, 10, { 0, 3, 6, 9 }, 2)
+			
+		--  AddDB("副本縮寫", 視窗寬度, 視窗高度, 總共幾列, BOSS數量+2, { 0, 第一列幾隻王, 第二列幾隻王, 第三列幾隻王+雜項 }, 2)	
+		
         end
     end
 
@@ -216,27 +221,36 @@ do
             BG.FBfromBossPosition["ICC"][13] = { name = "RS", localName = GetRealZoneText(724) }
             BG.instanceIDfromBossPosition["ICC"][13] = 724
         elseif BG.IsCTM then
-            BG.FB1 = "BOT"
+            BG.FB1 = "FL"
             BG.fullLevel = 85
-            BG.theEndBossID = { 1082, 1026, 1034, 1203, 1299, }   -- BOT BWD TOF FL DS
-            AddDB("BOT", 671, "P1", nil, nil, nil, nil, { 1, 5 }) -- 暮光堡垒
+            BG.theEndBossID = {  1082, 1026, 1034, 1203, 1299, }   -- BOT BWD TOF FL DS
+          --AddDB("BOT", 671, "P1", nil, nil, nil, nil, { 1, 5 }) -- 暮光堡垒
+            AddDB("FL", 720, "P2", nil, nil, nil, { "FL", "DS" }, { 1, 7 }) -- 火源之界
+            AddDB("DS", 967, "P3", nil, nil, nil, { "FL", "DS" }, { 1, 8 }) -- 巨龙之魂
 
-            BG.FBIDtable[669] = "BOT"                             -- 黑翼血环
-            BG.bossPositionStartEnd[669] = { 6, 11 }
-            for i = 6, 11 do
-                BG.FBfromBossPosition["BOT"][i] = { name = "BWD", localName = GetRealZoneText(669) }
-                BG.instanceIDfromBossPosition["BOT"][i] = 669
-            end
+          --BG.FBIDtable[669] = "BOT"                             -- 黑翼血环
+          --BG.bossPositionStartEnd[669] = { 6, 11 }
+          --for i = 6, 11 do
+          --    BG.FBfromBossPosition["BOT"][i] = { name = "BWD", localName = GetRealZoneText(669) }
+          --    BG.instanceIDfromBossPosition["BOT"][i] = 669
+          --end
 
-            BG.FBIDtable[754] = "BOT" -- 风神王座
-            BG.bossPositionStartEnd[754] = { 12, 13 }
-            for i = 12, 13 do
-                BG.FBfromBossPosition["BOT"][i] = { name = "TOF", localName = GetRealZoneText(754) }
-                BG.instanceIDfromBossPosition["BOT"][i] = 754
-            end
-
-            -- AddDB("FL", 720, "P2") -- 火焰之地
-            -- AddDB("DS", 967, "P3") -- 巨龙之魂
+          --BG.FBIDtable[754] = "BOT" -- 风神王座
+          --BG.bossPositionStartEnd[754] = { 12, 13 }
+          --for i = 12, 13 do
+          --    BG.FBfromBossPosition["BOT"][i] = { name = "TOF", localName = GetRealZoneText(754) }
+          --    BG.instanceIDfromBossPosition["BOT"][i] = 754
+          --end
+			
+            BG.FBIDtable[720] = "FL"
+            BG.bossPositionStartEnd[720] = { 1, 7 }
+            BG.FBfromBossPosition["FL"][7] = { name = "FL", localName = GetRealZoneText(720) }
+            BG.instanceIDfromBossPosition["FL"][7] = 720
+		
+			BG.FBIDtable[967] = "DS"
+            BG.bossPositionStartEnd[967] = { 1, 8 }
+            BG.FBfromBossPosition["DS"][8] = { name = "DS", localName = GetRealZoneText(967) }
+            BG.instanceIDfromBossPosition["DS"][8] = 967			
         end
     end
 

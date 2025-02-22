@@ -457,9 +457,9 @@ do
     end
     local function GetNanDu(bossnum)
         local FB = BG.FB1
-        if BG.IsWLKFB() then
+        if BG.IsCTMFB() then
             local nandutable = {
-                NAXX = {
+                FL = {
                     [3] = "N10",
                     [175] = "N10",
                     [4] = "N25",
@@ -469,7 +469,8 @@ do
                     [6] = "N25",
                     [194] = "N25",
                 },
-                TOC = {
+                DS = {
+
                     [3] = "N10",
                     [175] = "N10",
                     [4] = "N25",
@@ -480,8 +481,6 @@ do
                     [194] = "H25",
                 },
             }
-            nandutable.ULD = nandutable.NAXX
-            nandutable.ICC = nandutable.TOC
             return nandutable[FB][GetRaidDifficultyID()]
         else
             local nandutable = {
@@ -498,7 +497,7 @@ do
         end
     end
     local function GetHopeNanDu(hopenandu)
-        if BG.IsWLKFB() then
+        if BG.IsCTMFB() then
             local hopenandutable = {
                 [1] = "N10",
                 [2] = "N25",
@@ -518,15 +517,15 @@ do
         local name, link, quality, level, _, _, _, _, _, Texture, _, typeID, _, bindType = GetItemInfo(self.itemID)
         self.link = link
 
-        local ICCH = "" -- 277套装徽记的H标记
-        if BG.FB1 == "ICC" then
+        local CTMH = "" -- 277套装徽记的H标记
+        if BG.FB1 == "CTM" then
             if self.itemID == 52030 or self.itemID == 52029 or self.itemID == 52028 then
-                ICCH = "H"
+                CTMH = "H"
             end
         end
         if typeID == 2 or typeID == 4 then
-            self:SetText(link .. ICCH .. "|cff" .. "808080" .. "(" .. level .. ")")
-            -- self:SetText(link .. ICCH .. "|cff" .. "9370DB" .. "(" .. level .. ")")
+            self:SetText(link .. CTMH .. "|cff" .. "808080" .. "(" .. level .. ")")
+            -- self:SetText(link .. CTMH .. "|cff" .. "9370DB" .. "(" .. level .. ")")
         else
             self:SetText(link .. ICCH)
         end

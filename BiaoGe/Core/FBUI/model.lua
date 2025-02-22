@@ -281,25 +281,6 @@ function BG.CreateBossModel()
         model:SetPitch(0.3)
         model:SetRoll(0)
         -- CreateAllTestButton(model)
-    elseif BG.IsCTM then
-        local model = CreateBossModel("BOT", 5, 40, 110, 45213, 0.7)
-        model:SetPosition(-2, 0, 0) -- Z,X,Y
-        model:SetFacing(-0.1)       -- 左右
-        model:SetPitch(0)           -- 上下
-        model:SetRoll(0)            -- 倾斜
-        -- -- CreateAllTestButton(model)
-        local model = CreateBossModel("BOT", 11, 60, -30, 41376, 0.7)
-        model:SetPosition(-8, 0, 0) -- Z,X,Y
-        model:SetFacing(-0.4)       -- 左右
-        model:SetPitch(0)           -- 上下
-        model:SetRoll(0)            -- 倾斜
-        -- CreateAllTestButton(model)
-        local model = CreateBossModel("BOT", 13, 0, -20, 46753, 0.6)
-        model:SetPosition(-20, 0, 0) -- Z,X,Y
-        model:SetFacing(0)           -- 左右
-        model:SetPitch(0)            -- 上下
-        model:SetRoll(0)             -- 倾斜
-        -- -- CreateAllTestButton(model)
     end
 end
 
