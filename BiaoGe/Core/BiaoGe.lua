@@ -812,7 +812,9 @@ BG.Init(function()
                 if BG.ButtonNewBee then
                     BG.ButtonNewBee:Show()
                 end
-                BG.History.chooseNum = nil
+                if not self:IsShown() then
+                    BG.History.chooseNum = nil
+                end
             end)
         end
     end
@@ -1250,7 +1252,6 @@ BG.Init(function()
 
             -- 装备库
             if BG.ItemLibMainFrame:IsShown() then
-                -- if BG.ItemLibMainFrame:IsVisible() then
                 local samePhaseFB
                 for k, _FB in pairs(BG.phaseFBtable[lastClickFB]) do
                     if _FB == FB then
@@ -1284,6 +1285,7 @@ BG.Init(function()
             BG.UpdateMoLingButton()
             BG.UpdateBiaoGeAllIsHaved()
             BG.UpdateAuctionLogFrame()
+            BG.UpdateItemGuoQiFrame()
             if BG.UpdateAchievementFrame then
                 BG.UpdateAchievementFrame()
             end
@@ -1351,19 +1353,40 @@ BG.Init(function()
         BG.ReportMainFrameTabNum = 7
         BG.BossMainFrameTabNum = 8
 
+        local r, g, b = GetClassRGB(nil, "player")
+        local blackup = CreateColor(.3, .3, .3, .7)
+        local blackdown = CreateColor(0, 0, 0, .7)
+        local classColorup = CreateColor(r, g, b, .7)
+        local classColordown = CreateColor(r, g, b, .1)
+        local function SetColor(bt, isOnEnter)
+            if isOnEnter then
+                local r, g, b = GetClassRGB(nil, "player")
+                bt.bg:SetGradient("VERTICAL", CreateColor(r, g, b, 8), CreateColor(r, g, b, .2))
+            else
+                bt.bg:SetGradient("VERTICAL", CreateColor(0, 0, 0, 1), CreateColor(0, 0, 0, .2))
+            end
+            -- local borderAlpha=BG.borderAlpha
+            -- if isOnEnter then
+            --     bt.bg:SetGradient("VERTICAL", classColordown, classColorup)
+            --     bt:SetBackdropBorderColor(r, g, b, borderAlpha)
+            --     bt:GetFontString():SetTextColor(1, 1, 1)
+            -- else
+            --     bt.bg:SetGradient("VERTICAL", blackdown, blackup)
+            --     bt:SetBackdropBorderColor(0, 0, 0, borderAlpha)
+            --     bt:GetFontString():SetTextColor(1, .82, 0)
+            -- end
+        end
         function BG.ClickTabButton(num)
             for _, v in ipairs(BG.tabButtons) do
                 local bt = v.button
                 if v.num == num then
                     bt:Disable()
-                    local r, g, b = GetClassRGB(nil, "player")
-                    bt.bg:SetGradient("VERTICAL", CreateColor(r, g, b, .6), CreateColor(r, g, b, .1))
+                    SetColor(bt, true)
                     bt:GetFontString():SetTextColor(1, 1, 1)
                     v.frame:Show()
                 else
                     bt:Enable()
-                    local r, g, b = 0, 0, 0
-                    bt.bg:SetGradient("VERTICAL", CreateColor(r, g, b, .8), CreateColor(r, g, b, .2))
+                    SetColor(bt, false)
                     bt:GetFontString():SetTextColor(1, .82, 0)
                     v.frame:Hide()
                 end
@@ -1412,13 +1435,11 @@ BG.Init(function()
                 BG.PlaySound(1)
             end)
             bt:SetScript("OnEnter", function(self)
-                local r, g, b = GetClassRGB(nil, "player")
-                self.bg:SetGradient("VERTICAL", CreateColor(r, g, b, .6), CreateColor(r, g, b, .1))
+                SetColor(bt, true)
             end)
             bt:SetScript("OnLeave", function(self)
                 GameTooltip:Hide()
-                local r, g, b = 0, 0, 0
-                self.bg:SetGradient("VERTICAL", CreateColor(r, g, b, .8), CreateColor(r, g, b, .2))
+                SetColor(bt)
             end)
             return bt
         end
@@ -1477,7 +1498,7 @@ BG.Init(function()
             GameTooltip:Show()
         end)
         local dropDown = LibBG:Create_UIDropDownMenu(nil, bt)
-        LibBG:UIDropDownMenu_SetAnchor(dropDown, -5, 0, "BOTTOM", bt, "TOP")
+        LibBG:UIDropDownMenu_SetAnchor(dropDown, 0, 0, "BOTTOM", bt, "TOP")
         bt:SetScript("OnMouseDown", function(self, enter)
             if enter == "RightButton" then
                 GameTooltip:Hide()
@@ -2157,7 +2178,7 @@ BG.Init(function()
         end
 
         local parent = ElvLootFrame or XLootFrame or LootFrame
-        local bt = BG.CreateButton(parent, true)
+        local bt = BG.CreateButton(parent)
         bt:SetPoint("BOTTOM", parent, "TOP", 0, 0)
         bt:SetText(L["一键分配"])
         bt:SetSize(bt:GetFontString():GetWidth() + 10, 25)
@@ -3884,12 +3905,11 @@ BG.Init(function()
             ver = ver:gsub("g", 7)
             ver = ver:gsub("h", 8)
             ver = ver:gsub("i", 9)
-            ver = ver:gsub("j", 10)
-            ver = ver:gsub("k", 11)
-            ver = ver:gsub("l", 12)
-            ver = ver:gsub("m", 13)
-            ver = ver:gsub("n", 14)
-            ver = ver:gsub("o", 15)
+            local start, middle, last = strsplit(".", ver)
+            if middle:len() == 1 then
+                middle = middle .. "0"
+            end
+            ver = start .. middle .. last
             ver = ver:gsub("%D", "")
             ver = tonumber(ver)
             return ver
@@ -4202,6 +4222,10 @@ do
                 ChatFrame1EditBox:HighlightText()
                 BG.PlaySound(1)
             end)
+        end
+
+        if BGV.HistoryMainFrame then
+            -- BGV.HistoryMainFrame:SetShown(not BGV.HistoryMainFrame:IsVisible())
         end
     end
     SLASH_BIAOGETEST1 = "/bgdebug"

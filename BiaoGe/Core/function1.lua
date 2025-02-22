@@ -435,7 +435,9 @@ function BG.dropDownToggle(dropDown)
         LibBG:ToggleDropDownMenu(nil, nil, self)
         BG.PlaySound(1)
     end)
+    BG.SkinDropDown(dropDown)
 end
+
 
 ------------------是国服或亚服吗------------------
 function BG.IsCN()
@@ -658,3 +660,4 @@ function BG.DeletePlayerData(realmID,player)
         BiaoGe.playerInfo[realmID][player] = nil
     end
 end
+

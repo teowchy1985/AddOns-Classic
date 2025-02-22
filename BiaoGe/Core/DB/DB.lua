@@ -723,6 +723,10 @@ local function DataBase()
         end
     end
 
+--[[ 
+/run BiaoGe.HistoryList=nil BiaoGe.History=nil ReloadUI()
+]]
+
     if not BiaoGe.History then
         BiaoGe.History = {}
     end
