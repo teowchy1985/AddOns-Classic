@@ -263,7 +263,7 @@ function BG.DuiZhangUI()
     dropDown:SetPoint("BOTTOM", BG.MainFrame, "BOTTOM", 0, 30)
     LibBG:UIDropDownMenu_SetWidth(dropDown, 450)
     LibBG:UIDropDownMenu_SetText(dropDown, L["无"])
-    LibBG:UIDropDownMenu_SetAnchor(dropDown, -15, 0, "BOTTOMRIGHT", dropDown, "TOPRIGHT")
+    LibBG:UIDropDownMenu_SetAnchor(dropDown, 0, 0, "BOTTOM", dropDown, "TOP")
     BG.dropDownToggle(dropDown)
     BG.DuiZhangDropDown.DropDown = dropDown
 

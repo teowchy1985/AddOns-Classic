@@ -161,6 +161,7 @@ do
         end
     end
     function BG.FilterAll(itemID, typeID, EquipLoc, subclassID, tooltipText)
+        if typeID == 9 then return false end
         local TooltipText = tooltipText or BG.GetTooltipTextLeftAll(itemID)
         if FilterArmor(typeID, EquipLoc, subclassID) then
             return true
@@ -1932,8 +1933,13 @@ function BG.GoToItemLib(button)
     if itemEquipLoc then
         for i, bt in ipairs(BG.itemLib_Inv_Buttons) do
             if bt.inv == itemEquipLoc then
-                BG.ClickTabButton(BG.ItemLibMainFrameTabNum)
-                BG.InvOnClick(bt)
+                if BG.ItemLibMainFrame.first then
+                    BG.InvOnClick(bt)
+                    BG.ClickTabButton(BG.ItemLibMainFrameTabNum)
+                else
+                    BG.ClickTabButton(BG.ItemLibMainFrameTabNum)
+                    BG.InvOnClick(bt)
+                end
                 return
             end
         end
@@ -2148,30 +2154,28 @@ function BG.FindDropdownItem(dropdown, text)
 end
 
 local r, g, b = GetClassColor(select(2, UnitClass("player")))
-local _r, _g, _b = r, g, b
-function BG.CreateButton(parent, dark, blackBorder)
-    local alpha_normal = .3
-    local alpha_highlight = .6
-    local borderAlpha = .6
-    if dark then
-        alpha_normal = .6
-        alpha_highlight = .8
-        borderAlpha = 1
-    end
-    if blackBorder then
-        _r, _g, _b = 0, 0, 0
-    end
+function BG.CreateButton(parent)
+    local blackup = CreateColor(.3, .3, .3, .7)
+    local blackdown = CreateColor(0, 0, 0, .7)
+
+    local classColorup = CreateColor(r, g, b, .7)
+    local classColordown = CreateColor(r, g, b, .1)
+
+    local disColorup = CreateColor(.5, .5, .5, .7)
+    local disColordown = CreateColor(0, 0, 0, .3)
+
+    local borderAlpha = 1
 
     local bt = CreateFrame("Button", nil, parent, "BackdropTemplate")
     bt:SetBackdrop({
         edgeFile = "Interface/ChatFrame/ChatFrameBackground",
         edgeSize = 1,
     })
-    bt:SetBackdropBorderColor(_r, _g, _b, borderAlpha)
+    bt:SetBackdropBorderColor(0, 0, 0, borderAlpha)
     bt.bg = bt:CreateTexture(nil, "BACKGROUND")
     bt.bg:SetAllPoints()
     bt.bg:SetTexture("Interface\\Buttons\\WHITE8x8")
-    bt.bg:SetGradient("VERTICAL", CreateColor(_r, _g, _b, alpha_normal), CreateColor(_r, _g, _b, .0))
+    bt.bg:SetGradient("VERTICAL", blackdown, blackup)
     local t = bt:CreateFontString()
     t:SetAllPoints()
     t:SetTextColor(1, .82, 0)
@@ -2181,25 +2185,25 @@ function BG.CreateButton(parent, dark, blackBorder)
     hooksecurefunc(bt, "SetScript", function(arg1, arg2, ...)
         if arg2 == "OnEnter" then
             bt:HookScript("OnEnter", function()
-                bt.bg:SetGradient("VERTICAL", CreateColor(_r, _g, _b, alpha_highlight), CreateColor(_r, _g, _b, .1))
+                bt.bg:SetGradient("VERTICAL", classColordown, classColorup)
+                bt:SetBackdropBorderColor(r, g, b, borderAlpha)
                 bt:GetFontString():SetTextColor(1, 1, 1)
             end)
         elseif arg2 == "OnLeave" then
             bt:HookScript("OnLeave", function()
                 GameTooltip:Hide()
-                bt.bg:SetGradient("VERTICAL", CreateColor(_r, _g, _b, alpha_normal), CreateColor(_r, _g, _b, .0))
+                bt.bg:SetGradient("VERTICAL", blackdown, blackup)
+                bt:SetBackdropBorderColor(0, 0, 0, borderAlpha)
                 bt:GetFontString():SetTextColor(1, .82, 0)
             end)
         end
     end)
     hooksecurefunc(bt, "SetEnabled", function(arg1, arg2, ...)
         if arg2 == true then
-            bt:SetBackdropBorderColor(_r, _g, _b, borderAlpha)
-            bt.bg:SetGradient("VERTICAL", CreateColor(_r, _g, _b, alpha_normal), CreateColor(_r, _g, _b, .0))
+            bt.bg:SetGradient("VERTICAL", blackdown, blackup)
             bt:GetFontString():SetTextColor(1, .82, 0)
         elseif arg2 == false then
-            bt:SetBackdropBorderColor(.5, .5, .5, borderAlpha)
-            bt.bg:SetGradient("VERTICAL", CreateColor(.5, .5, .5, .5), CreateColor(.5, .5, .5, .0))
+            bt.bg:SetGradient("VERTICAL", disColordown, disColorup)
             bt:GetFontString():SetTextColor(.5, .5, .5)
         end
     end)
@@ -2214,6 +2218,46 @@ function BG.CreateButton(parent, dark, blackBorder)
     bt:SetScript("OnEnter", nil)
     bt:SetScript("OnLeave", nil)
     return bt
+end
+
+function BG.SkinDropDown(dropDown)
+    local borderAlpha = 1
+    local bt = dropDown.Button
+    bt:Hide()
+    dropDown.Left:Hide()
+    dropDown.Middle:Hide()
+    dropDown.Right:Hide()
+    dropDown.Text:ClearAllPoints()
+    dropDown.Text:SetPoint("TOPLEFT", 18, -8)
+    dropDown.Text:SetPoint("TOPRIGHT", -40, -8)
+    dropDown.Text:SetJustifyH("RIGHT")
+
+    local f = CreateFrame("Frame", nil, dropDown, "BackdropTemplate")
+    f:SetBackdrop({
+        bgFile = "Interface/ChatFrame/ChatFrameBackground",
+        edgeFile = "Interface/ChatFrame/ChatFrameBackground",
+        edgeSize = 1,
+
+    })
+    f:SetBackdropColor(0, 0, 0, 0.5)
+    f:SetBackdropBorderColor(.3, .3, .3, borderAlpha)
+    f:SetPoint("TOPLEFT", 15, 0)
+    f:SetPoint("BOTTOMRIGHT", -15, 7)
+    f:SetFrameLevel(dropDown:GetFrameLevel())
+
+    local tex = dropDown:CreateTexture("OVERLAY")
+    tex:SetPoint("TOPLEFT", bt, "TOPLEFT", 2, -2)
+    tex:SetPoint("BOTTOMRIGHT", bt, "BOTTOMRIGHT", -2, 2)
+    tex:SetTexture("Interface/AddOns/BiaoGe/Media/textures/arrow.tga")
+    tex:SetRotation(math.pi)
+    dropDown:HookScript("OnEnter", function(self)
+        f:SetBackdropColor(r, g, b, 0.3)
+        f:SetBackdropBorderColor(r, g, b, borderAlpha)
+    end)
+    dropDown:HookScript("OnLeave", function(self)
+        f:SetBackdropColor(0, 0, 0, 0.5)
+        f:SetBackdropBorderColor(.3, .3, .3, borderAlpha)
+    end)
 end
 
 function BG.CreateHighLightAnim(self, w, h)

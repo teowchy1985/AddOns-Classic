@@ -495,7 +495,7 @@ BG.Init(function()
 
                 local dropDown = LibBG:Create_UIDropDownMenu(nil, mainFrame)
                 dropDown:SetScale(0.95)
-                dropDown:SetPoint("TOPLEFT", mainFrame.Text3, "BOTTOMLEFT", -17, 3)
+                dropDown:SetPoint("TOPLEFT", mainFrame.Text3, "BOTTOMLEFT", -17, 2)
                 LibBG:UIDropDownMenu_SetText(dropDown, tbl[BiaoGe.Auction.mod])
                 dropDown.Text:SetJustifyH("LEFT")
                 LibBG:UIDropDownMenu_SetWidth(dropDown, width + 5)
@@ -535,7 +535,8 @@ BG.Init(function()
 
             -- 开始拍卖
             do
-                local bt = CreateFrame("Button", nil, mainFrame, "UIPanelButtonTemplate")
+                -- local bt = CreateFrame("Button", nil, mainFrame, "UIPanelButtonTemplate")
+                local bt= BG.CreateButton(mainFrame)
                 bt:SetSize(width + 19, 25)
                 bt:SetPoint("TOPLEFT", mainFrame.Text3, "BOTTOMLEFT", -1, -35)
                 bt.itemIDs = itemIDs

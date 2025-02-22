@@ -20,6 +20,8 @@ local GetItemID = ns.GetItemID
 
 local Maxb = ns.Maxb
 local Maxi = ns.Maxi
+local Width = ns.Width
+local Height = ns.Height
 
 local pt = print
 local RealmId = GetRealmID()
@@ -88,7 +90,7 @@ BG.Init(function()
         bt:SetScript("OnLeave", GameTooltip_Hide)
     end
 
-    local frame, child
+    local frame, child,scroll
     local CancelAllChoose
 
     local f = CreateFrame("Frame", nil, BG.MainFrame, "BackdropTemplate")
@@ -102,7 +104,7 @@ BG.Init(function()
             })
             f:SetBackdropColor(0, 0, 0, 0.8)
             f:SetBackdropBorderColor(GetClassRGB(nil, "player", BG.borderAlpha))
-            f:SetSize(220, 700)
+            f:SetSize(220, Height[BG.FB1])
             f:SetPoint("TOPRIGHT", BG.MainFrame, "TOPLEFT", 1, 0)
             f:EnableMouse(true)
             BG.auctionLogFrame = f
@@ -223,15 +225,30 @@ BG.Init(function()
 
         -- 滚动框
         do
-            frame, child = BG.CreateScrollFrame(BG.auctionLogFrame,
-                BG.auctionLogFrame:GetWidth() - 10,
-                BG.auctionLogFrame:GetHeight() - 145)
+            frame = CreateFrame("Frame", nil, BG.auctionLogFrame, "BackdropTemplate")
             frame:SetBackdrop({
                 edgeFile = "Interface/ChatFrame/ChatFrameBackground",
                 edgeSize = 1,
             })
             frame:SetBackdropBorderColor(.5, .5, .5, .5)
-            frame:SetPoint("TOP", 0, -55)
+            frame:SetBackdropColor(0, 0, 0, 0.8)
+            frame:SetPoint("TOPLEFT", 5, -55)
+            frame:SetPoint("BOTTOMRIGHT", -5, 90)
+            frame:EnableMouse(true)
+    
+            scroll = CreateFrame("ScrollFrame", nil, frame, "UIPanelScrollFrameTemplate")
+            scroll:SetPoint("TOPLEFT", 5, -5)
+            scroll:SetPoint("BOTTOMRIGHT", -26, 5)
+            scroll.ScrollBar.scrollStep = BG.scrollStep
+            frame.scroll = scroll
+            BG.CreateSrollBarBackdrop(scroll.ScrollBar)
+            BG.HookScrollBarShowOrHide(scroll, alwaysHide)
+    
+            child = CreateFrame("Frame", nil, scroll)
+            child:SetAllPoints()
+            child:SetWidth(scroll:GetWidth())
+            child:SetHeight(scroll:GetHeight())
+            scroll:SetScrollChild(child)
 
             local _f = CreateFrame("Frame", nil, frame)
             _f:SetSize(1, 1)
@@ -249,7 +266,7 @@ BG.Init(function()
 
         -- 开始拍卖
         do
-            local bt = BG.CreateButton(frame, true)
+            local bt = BG.CreateButton(frame)
             bt:SetPoint("TOPLEFT", frame, "BOTTOM", -10, 30)
             bt:SetPoint("BOTTOMRIGHT", frame, -22, 2)
             bt:SetFrameLevel(110)
@@ -267,7 +284,7 @@ BG.Init(function()
                 CancelAllChoose()
             end)
 
-            local bt = BG.CreateButton(BG.auctionLogFrame.ButtonStartAuction, true)
+            local bt = BG.CreateButton(BG.auctionLogFrame.ButtonStartAuction)
             bt:SetPoint("TOPLEFT", frame, "BOTTOMLEFT", 2, 30)
             bt:SetPoint("BOTTOMRIGHT", frame, "BOTTOM", -8, 2)
             bt:SetFrameLevel(110)
@@ -1326,8 +1343,14 @@ BG.Init(function()
         end
     end
 
+    local function UpdateFrameSize()
+        BG.auctionLogFrame:SetHeight(Height[BG.FB1])
+        child:SetHeight(scroll:GetHeight())
+    end
+
     function BG.UpdateAuctionLogFrame(notSetDown, notSetUp)
         if not BG.auctionLogFrame:IsVisible() then return end
+        UpdateFrameSize()
         for i, v in ipairs(BG.auctionLogFrame.buttons) do
             v.frame:Hide()
         end
@@ -1376,7 +1399,6 @@ BG.Init(function()
             BG.auctionLogFrame.title:SetText(L["自动拍卖记录"])
             BG.auctionLogFrame.title:SetTextColor(1, 1, 1)
         end
-
         if tbl then
             local num = 0
             for i, v in ipairs(tbl) do

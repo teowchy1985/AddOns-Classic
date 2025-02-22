@@ -2229,10 +2229,10 @@ function BG.ItemLibUI()
 end
 
 BG.Init2(function()
-    local first = true
+    mainFrame.first = true
     mainFrame:HookScript("OnShow", function(self)
         if BG.lastItemLibFB ~= BG.FB1 or BG.itemLibNeedUpdate then
-            BG.After(first and 0.2 or 0, function()
+            BG.After(mainFrame.first and 0.2 or 0, function()
                 BG.UpdateItemLib()
             end)
         end
@@ -2241,6 +2241,6 @@ BG.Init2(function()
         BG.UpdateItemLib_LeftLib_IsLooted_All()
         BG.UpdateItemLib_RightHope_All()
         BG.lastItemLibFB = BG.FB1
-        first = nil
+        mainFrame.first = nil
     end)
 end)
