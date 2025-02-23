@@ -1833,7 +1833,7 @@ BG.Init(function()
         end
     end
     ----------在线玩家数----------
-    if BG.IsVanilla_Sod or BG.IsCTM then
+    if not BG.IsWLK then
         BG.RegisterEvent("PLAYER_ENTERING_WORLD", function(self, event, isLogin, isReload)
             if not (isLogin or isReload) then return end
             if not IsAddOnLoaded("Blizzard_Communities") then

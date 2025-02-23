@@ -7,7 +7,7 @@ local c1 = ns.c1
 
 do --繁体说明书
     ns.instructionsText = {
-        "|cff00BFFF< 說明書 >（本插件支持CTM、60服，不再支持WLK、探索賽季）",
+        "|cff00BFFF< 說明書 >（本插件支持CTM、WLK、60服，不再支持探索賽季）",
         " ",
         "|cffFFFFFF-打開命令：|r/BiaoGe或/GBG，或遊戲設置裡綁定按鍵。小地圖圖標： " .. "|TInterface\\AddOns\\BiaoGe\\Media\\icon\\icon:0 |t",
         "|cffFFFFFF-快捷操作：|r點空白處取消光標，右鍵輸入框清除內容",

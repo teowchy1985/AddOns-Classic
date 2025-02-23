@@ -81,6 +81,8 @@ function BG.RoleOverviewUI()
                 ["BWD"] = 1,
                 ["TOF"] = 1,
                 ["BH"] = 1,
+                ["FL"] = 1,
+                ["DS"] = 1,
             }
         end
     end
@@ -270,10 +272,12 @@ function BG.RoleOverviewUI()
         elseif BG.IsCTM then
             BG.FBCDall_table = {
                 -- CTM
-                { name = "BOT", color = "FFFF00", fbId = 671, type = "fb" },
-                { name = "BWD", color = "FF1493", fbId = 669, type = "fb" },
-                { name = "TOF", color = "87CEFA", fbId = 754, type = "fb" },
-                { name = "BH", color = "FF4500", fbId = 757, type = "fb" },
+				{ name = "BOT", color = "FFFF00", fbId = 671, type = "fb" },
+				{ name = "BWD", color = "FF1493", fbId = 669, type = "fb" },
+				{ name = "TOF", color = "87CEFA", fbId = 754, type = "fb" },
+				{ name = "BH", color = "FF4500", fbId = 757, type = "fb" },
+				{ name = "FL", color = "FF69B4", fbId = 720, type = "fb" },
+				{ name = "DS", color = "00BFFF", fbId = 967, type = "fb" },
                 --WLK
                 { name = "25RS", color = "FF4500", fbId = 724, num = 25, type = "fb" },
                 { name = "10RS", color = "FF4500", fbId = 724, num = 10, type = "fb" },
@@ -318,6 +322,8 @@ function BG.RoleOverviewUI()
                 { name = C_CurrencyInfo.GetCurrencyInfo(395).name, color = "00BFFF", id = 395, tex = C_CurrencyInfo.GetCurrencyInfo(395).iconFileID, width = 70 }, -- 正义点数
                 { name = C_CurrencyInfo.GetCurrencyInfo(390).name, color = "FF3333", id = 390, tex = C_CurrencyInfo.GetCurrencyInfo(390).iconFileID, width = 70 }, -- 征服
                 { name = C_CurrencyInfo.GetCurrencyInfo(1901).name, color = "CC0033", id = 1901, tex = C_CurrencyInfo.GetCurrencyInfo(1901).iconFileID, width = 70 }, -- 荣誉
+				{ name = C_CurrencyInfo.GetCurrencyInfo(3148).name, color = "FFFFFF", id = 3148, tex = C_CurrencyInfo.GetCurrencyInfo(3148).iconFileID, width = 70 }, -- 裂縫石
+				{ name = C_CurrencyInfo.GetCurrencyInfo(3281).name, color = "00FF00", id = 3281, tex = C_CurrencyInfo.GetCurrencyInfo(3281).iconFileID, width = 70 }, -- 黑曜石碎片
                 { name = C_CurrencyInfo.GetCurrencyInfo(2711).name, color = "00FF00", id = 2711, tex = C_CurrencyInfo.GetCurrencyInfo(2711).iconFileID, width = 70 }, -- 天灾石
                 { name = C_CurrencyInfo.GetCurrencyInfo(2589).name, color = "00FFFF", id = 2589, tex = C_CurrencyInfo.GetCurrencyInfo(2589).iconFileID, width = 70 }, -- 赛德精华
                 { name = C_CurrencyInfo.GetCurrencyInfo(241).name, color = "FFFFFF", id = 241, tex = C_CurrencyInfo.GetCurrencyInfo(241).iconFileID, width = 70 }, -- 冠军印章

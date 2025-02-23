@@ -1449,7 +1449,7 @@ BG.Init(function()
         h = h + 30
 
         -- 自动获取在线人数
-        if BG.IsVanilla_Sod or BG.IsCTM then
+        if not BG.IsWLK then
             do
                 local name = "autoGetOnline"
                 BG.options[name .. "reset"] = 0
@@ -2091,7 +2091,7 @@ BG.Init(function()
                 text:SetText(BG.STC_b1(EXPANSION_NAME2 .. "*"))
                 height = height - height_jiange
                 O.CreateLine(roleOverview, height + line_height)
-                height = CreateFBCDbutton(#BG.FBCDall_table - 33, #BG.FBCDall_table - 14, width, height, 100, height_jiange)
+                height = CreateFBCDbutton(#BG.FBCDall_table - 33, #BG.FBCDall_table - 16, width, height, 100, height_jiange)
 
                 height = height - height_jiange - height_jiange
                 local text = roleOverview:CreateFontString(nil, "ARTWORK", "GameFontNormal")
