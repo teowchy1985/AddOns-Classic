@@ -2316,7 +2316,7 @@ elseif ns.locale == "zhTW" then
 	
 	--自行加入
 	ns.L["Useful to quickly toggle on/off ALL pins"] = "快速開/關所有地圖圖示"
-	ns.L["Will also hide completed Mage Books, Rings, Skill Books"] = "也會隱藏已完成的法師書籍、戒指、技能書"
+	ns.L["Will also hide completed Mage Books, Rings, Skill Books.\n\nNote that to hide Rune Brokers you must not show Skill Books"] = "也會隱藏已完成的法師書籍、戒指、技能書。\n\n請注意，要隱藏 Rune Broker，您不能顯示技能書。"
 	ns.L["Hide the rune name"] = "隱藏符文名稱"
 	ns.L["This is the object/book/reward item you must acquire. It's not necessarily the same as the learnt spell name. It is typically the second line of a Tooltip. Hide this for less text clutter / better readability"] = "這是你必須取得的物品/書籍/獎勵物品，它不一定與習得的法術名稱相同，通常是說明文字的第二行。隱藏此資訊以減少文字雜亂/提高可讀性。"
 	

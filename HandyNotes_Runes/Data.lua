@@ -949,7 +949,8 @@ ns.runes = {
 		["Combat Potency"]={ rune="Rune of Potency", phase=3, spellID=432259, level=40, icon=23, slot=1,
 				start=ns.wildGodsStart },
 		["Honor Among Thieves"]={ rune="Rune of the Coterie", phase=3, spellID=432264, level=45, icon=24, slot=1,
-				start="You need to have visited Ravenholdt previously and to have completed the Pyrewood Dead Drop quests/runes. Then at L45 you'll receive a letter sending you back to Ravenholdt Manor" },
+				start="You need to have visited Ravenholdt previously and to have completed the Pyrewood Dead Drop "
+					.."quests/runes. Then at L45 you'll receive a letter sending you back to Ravenholdt Manor" },
 		-- Phase 4
 		["Fan of Knives"]={ rune="Rune of Knives", phase=4, spellID=409240, level=1, icon=25, slot=15,
 				start="Loot a wooden chest in Winterfall Village, Winterspring (L55-59" },
@@ -3941,7 +3942,7 @@ points[ 1439 ] = { -- Darkshore
 					quest={ 78124, }, questName={ "Nar'thalas Almanac", }, tip="Go down the stairs at the Ruins of Mathystra" },
 }
 points[ 1457 ] = { -- Darnassus
-	[28603900] = { npc=233335, name="Rune Broker", skillBook=true, guide=ns.runeBroker, faction="Alliance", },
+	[28523942] = { npc=233335, name="Rune Broker", skillBook=true, guide=ns.runeBroker, faction="Alliance", },
 	[39800940] = { npc=209948, name="Relaeron", class={ "HUNTER" }, spell={ "Carve" },
 					guide={ ns.hunter.carve } },
 	[60005640] = { npc=214101, name="Marcy Baker", faction="Alliance",

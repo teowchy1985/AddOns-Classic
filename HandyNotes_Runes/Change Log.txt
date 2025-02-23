@@ -7,6 +7,15 @@ To Do / Ideas
 * I noticed a mage ring pin chain in Searing gorge - several on the continent.
 		ideally like normal pins: just the first one with extras suppressed
 
+== v3.09 - 23rd February 2025
+* Darnassus Rune Broker coordinates tweaked
+* TOC update to 1.15.6
+
+== v3.08 - 11th December 2024
+* Added class texture as a selectable texture
+* This is now the new default for Mage Books
+* Added popup note about Rune Brokers in the options
+
 == v3.07 - 6th December 2024
 * Paladin gifted Skill Book created a unique data inconsistency which I was aware of and noted in core.lua
     but... I didn't actually test for it
