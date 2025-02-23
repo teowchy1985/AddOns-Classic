@@ -1,3 +1,15 @@
+== v1.21 - 23rd February 2025
+* Added Chests up to Item level 30
+  (More to come)
+* TOC update to 1.15.6
+
+== v1.20 - 17th December 2024
+* Maladath OCE server added
+* Zixil (Void Touched Gear Guide) pathing pins more accurate
+
+== v1.19 - 10th December 2024
+* Added note "Source of Felcloth and Demonic/Dark Runes" to Fel Runes
+
 == v1.18 - 3rd December 2024
 * Pin title and name fields now support translation, if it exists!
 * Translations added for the various fel portal types
