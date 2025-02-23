@@ -1,3 +1,10 @@
+== v1.21 - 23rd February 2025
+* Added Chests up to Item level 30
+  (More to come)
+* TOC update to 1.15.6
+
+== v1.20 - 17th December 2024
+* Maladath OCE server added
 * Zixil (Void Touched Gear Guide) pathing pins more accurate
 
 == v1.19 - 10th December 2024

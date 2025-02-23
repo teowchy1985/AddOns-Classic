@@ -3,7 +3,7 @@
 
                                         Chests, Gear and More
 
-                                     v1.19 - 10th December 2024
+                                     v1.21 - 23rd February 2025
                                 Copyright (C) Taraezor / Chris Birch
                                          All Rights Reserved
 
@@ -23,10 +23,9 @@ ns.colour.highlight = "\124cFF954535" -- Chestnut
 ns.colour.plaintext = "\124cFF7F5217" -- Red Dirt
 
 local defaults = { profile = { iconScale = 2.5, iconAlpha = 1, showCoords = false,
-								chest1 = 1, chest2 = 2, chest3 = 3, voidTouched = 4,
-								bestPets = 5, cozySleeping = 6, felPortal = 10,
-								priest = 9, gnomeregan = 13, nightmare = 12,
-								nightmareSeed = 7 } }
+								chest1 = 1, chest2 = 2, chest3 = 3, chest4 = 19, chest5 = 20, chest6 = 17, chest7 = 18, 
+								voidTouched = 4, bestPets = 5, cozySleeping = 6, felPortal = 10,
+								priest = 9, gnomeregan = 13, nightmare = 12, nightmareSeed = 7 } }
 local pluginHandler = {}
 
 ns.continents = {}
@@ -60,8 +59,8 @@ function pluginHandler:OnEnter(mapFile, coord)
 	local pin = ns.points[mapFile] and ns.points[mapFile][coord]
 	
 	GameTooltip:SetText( ns.colour.prefix ..ns.L[ pin.title ] )
-	if pin.icon < 4 then
-		GameTooltip:AddLine( ns.colour.highlight ..ns.L["Chest Rank"] ..pin.icon )
+	if pin.icon < 15 then
+		GameTooltip:AddLine( ns.colour.highlight ..ns.L["Chest Rank"] ..pin.icon ) -- Localisation has the " "
 	else
 		GameTooltip:AddLine( ns.colour.highlight ..ns.L[ pin.name ] )
 	end
@@ -140,7 +139,7 @@ do
 		while coord do
 			if ( pin.faction == nil ) or ( pin.faction == ns.faction ) then
 				if ( pin.class == nil ) or ( pin.class == ns.class ) then
-					if pin.icon < 4 then
+					if pin.icon < 15 then
 						ns.chestPin = "chest" ..tostring( pin.icon )
 						if  ns.db[ ns.chestPin ] > 0 then
 							if ns.continents[ ns.mapID ] then
@@ -151,22 +150,22 @@ do
 									ns.db.iconScale * ns.scaling[ ns.db[ ns.chestPin ] ] * 0.8, ns.db.iconAlpha
 							end
 						end
-					elseif pin.icon == 4 then
+					elseif pin.icon == 15 then
 						if ns.db.voidTouched > 0 then
 							return coord, nil, ns.textures[ ns.db.voidTouched ],
 								ns.db.iconScale * ns.scaling[ ns.db.voidTouched ], ns.db.iconAlpha
 						end		
-					elseif pin.icon == 5 then
+					elseif pin.icon == 16 then
 						if ns.db.bestPets > 0 then
 							return coord, nil, ns.textures[ ns.db.bestPets ],
 								ns.db.iconScale * ns.scaling[ ns.db.bestPets ], ns.db.iconAlpha
 						end		
-					elseif pin.icon == 6 then
+					elseif pin.icon == 17 then
 						if ns.db.cozySleeping > 0 then
 							return coord, nil, ns.textures[ ns.db.cozySleeping ],
 								ns.db.iconScale * ns.scaling[ ns.db.cozySleeping ], ns.db.iconAlpha
 						end		
-					elseif pin.icon == 7 then
+					elseif pin.icon == 18 then
 						if ns.db.felPortal > 0 then
 							if ns.continents[ ns.mapID ] then
 								return coord, nil, ns.textures[ ns.db.felPortal ],
@@ -176,22 +175,22 @@ do
 									ns.db.iconScale * ns.scaling[ ns.db.felPortal ] * 0.8, ns.db.iconAlpha
 							end		
 						end		
-					elseif pin.icon == 8 then
+					elseif pin.icon == 19 then
 						if ( ns.db.priest > 0 ) then
 							return coord, nil, ns.textures[ ns.db.priest ],
 								ns.db.iconScale * ns.scaling[ ns.db.priest ], ns.db.iconAlpha
 						end		
-					elseif pin.icon == 9 then
+					elseif pin.icon == 20 then
 						if ( ns.db.gnomeregan > 0 ) then
 							return coord, nil, ns.textures[ ns.db.gnomeregan ],
 								ns.db.iconScale * ns.scaling[ ns.db.gnomeregan ], ns.db.iconAlpha
 						end		
-					elseif pin.icon == 10 then
+					elseif pin.icon == 21 then
 						if ( ns.db.nightmare > 0 ) then
 							return coord, nil, ns.textures[ ns.db.nightmare ],
 								ns.db.iconScale * ns.scaling[ ns.db.nightmare ], ns.db.iconAlpha
 						end		
-					elseif pin.icon == 11 then
+					elseif pin.icon == 22 then
 						if ( ns.db.nightmareSeed > 0 ) then
 							return coord, nil, ns.textures[ ns.db.nightmareSeed ],
 								ns.db.iconScale * ns.scaling[ ns.db.nightmareSeed ] * 0.8, ns.db.iconAlpha
@@ -267,91 +266,123 @@ ns.options = {
 			args = {
 				chest1 = {
 					type = "range",
-					name = ns.L["Battered Chest"].." 1",
+					name = ns.L["Battered Chest"].." (10)",
 					desc = ns.choices,
-					min = 0, max = 19, step = 1,
+					min = 0, max = 20, step = 1,
 					arg = "chest1",
-					order = 4,
+					order = 10,
 				},
 				chest2 = {
 					type = "range",
-					name = ns.L["Battered Chest"].." 2",
+					name = ns.L["Battered Chest"].." (25)",
 					desc = ns.choices,
-					min = 0, max = 19, step = 1,
+					min = 0, max = 20, step = 1,
 					arg = "chest2",
-					order = 5,
+					order = 11,
 				},
 				chest3 = {
 					type = "range",
-					name = ns.L["Battered Chest"].." 3",
+					name = ns.L["Solid Chest"].." (25)",
 					desc = ns.choices,
-					min = 0, max = 19, step = 1,
+					min = 0, max = 20, step = 1,
 					arg = "chest3",
-					order = 6,
+					order = 12,
 				},
-				voidTouched = {
+				chest4 = {
+					type = "range",
+					name = ns.L["Solid Chest"].." (30)",
+					desc = ns.choices,
+					min = 0, max = 20, step = 1,
+					arg = "chest4",
+					order = 13,
+				},
+--[[				chest5 = {
+					type = "range",
+					name = ns.L["Solid Chest"].." (35)",
+					desc = ns.choices,
+					min = 0, max = 20, step = 1,
+					arg = "chest5",
+					order = 14,
+				},
+				chest6 = {
+					type = "range",
+					name = ns.L["Solid Chest"].." (40)",
+					desc = ns.choices,
+					min = 0, max = 20, step = 1,
+					arg = "chest6",
+					order = 15,
+				},
+				chest7 = {
+					type = "range",
+					name = ns.L["Solid Chest"].." (45)",
+					desc = ns.choices,
+					min = 0, max = 20, step = 1,
+					arg = "chest7",
+					order = 16,
+				},
+]]				voidTouched = {
 					type = "range",
 					name = ns.L["Void Touched"],
 					desc = ns.choices,
-					min = 0, max = 19, step = 1,
+					min = 0, max = 20, step = 1,
 					arg = "voidTouched",
-					order = 7,
+					order = 20,
 				},
 				gnomeregan = {
 					type = "range",
 					name = ns.L["Gnomeregan"],
 					desc = ns.choices,
-					min = 0, max = 19, step = 1,
+					min = 0, max = 20, step = 1,
 					arg = "gnomeregan",
-					order = 8,
+					order = 21,
 				},
 				nightmare = {
 					type = "range",
 					name = ns.L["Nightmare"],
 					desc = ns.choices,
-					min = 0, max = 19, step = 1,
+					min = 0, max = 20, step = 1,
 					arg = "nightmare",
-					order = 9,
+					order = 22,
 				},
 				nightmareSeed = {
 					type = "range",
 					name = ns.L["Nightmare Bloom / Seed"],
 					desc = ns.choices,
-					min = 0, max = 19, step = 1,
+					min = 0, max = 20, step = 1,
 					arg = "nightmareSeed",
-					order = 10,
+					order = 23,
 				},
 				bestPets = {
 					type = "range",
 					name = ns.L["Best Hunter Pets"],
 					desc = ns.choices,
-					min = 0, max = 19, step = 1,
+					min = 0, max = 20, step = 1,
 					arg = "bestPets",
-					order = 11,
+					order = 24,
 				},
 				cozySleeping = {
 					type = "range",
 					name = ns.L["Cozy Sleeping Bag"],
 					desc = ns.choices,
-					min = 0, max = 19, step = 1,
+					min = 0, max = 20, step = 1,
 					arg = "cozySleeping",
-					order = 12,
+					order = 25,
 				},
 				felPortal = {
 					type = "range",
 					name = ns.L["Fel Portal"],
 					desc = ns.choices,
-					min = 0, max = 19, step = 1,
+					min = 0, max = 20, step = 1,
 					arg = "felPortal",
-					order = 13,
+					order = 26,
 				},
 				priest = {
 					type = "range",
 					name = ns.L["Priest"],
 					desc = ns.choices,
-					min = 0, max = 19, step = 1,
+					min = 0, max = 20, step = 1,
 					arg = "priest",
-					order = 14,
+					order = 27,
 				},
 			},
 		},
@@ -382,16 +413,16 @@ function pluginHandler:OnEnable()
 			end
 		end
 	end
-	HandyNotes:RegisterPluginDB("Chests", pluginHandler, ns.options)
-	ns.db = LibStub("AceDB-3.0"):New("HandyNotes_ChestsDB", defaults, "Default").profile
+	HandyNotes:RegisterPluginDB( "Chests", pluginHandler, ns.options )
+	ns.db = LibStub( "AceDB-3.0" ):New( "HandyNotes_ChestsDB", defaults, "Default" ).profile
 	pluginHandler:Refresh()
 end
 
 function pluginHandler:Refresh()
-	self:SendMessage("HandyNotes_NotifyUpdate", "Chests")
+	self:SendMessage( "HandyNotes_NotifyUpdate", "Chests" )
 end
 
-LibStub("AceAddon-3.0"):NewAddon(pluginHandler, "HandyNotes_ChestsDB", "AceEvent-3.0")
+LibStub( "AceAddon-3.0" ):NewAddon( pluginHandler, "HandyNotes_ChestsDB", "AceEvent-3.0" )
 
 -- ---------------------------------------------------------------------------------------------------------------------------------
 
