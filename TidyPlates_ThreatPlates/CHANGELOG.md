@@ -1,3 +1,3 @@
-# 12.0.13 (2024-12-20)
+# 12.0.15 (2025-02-23)
 
-* Updated TOC version for Patch 4.4.1 for Cataclysm Classic.
+* Fixed a bug that caused supercharged combo points to not be displayed in the Combo Points widget [GH-567].
