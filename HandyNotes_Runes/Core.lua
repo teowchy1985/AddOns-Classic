@@ -3,7 +3,7 @@
 
                                                 Runes
 
-                                      v3.07 - 6th December 2024
+                                     v3.09 - 23rd February 2025
                                 Copyright (C) Taraezor / Chris Birch
                                          All Rights Reserved
 
@@ -31,7 +31,7 @@ ns.colour.daily		= "\124cFF1E90FF" -- Dodger Blue
 
 ns.defaults = { profile = { iconScale = 2.5, iconAlpha = 1, showCoords = false,
 							hideIfRuneLearnt = true, hideRuneName = false, selfShow = true,
-							skillBook = 20, ring=19, mageBook=18,
+							skillBook = 20, ring=19, mageBook=21,
 							phase1 = 15, phase2 = 16, phase3 = 17, phase4 = 18, 
 							rune101 = 6, rune102 = 6, rune103 = 6, rune104 = 6, rune105 = 6,
 							rune106 = 6, rune107 = 6, rune108 = 6, rune109 = 6, rune110 = 6, 
@@ -431,7 +431,7 @@ local function CheckAndShow( coord, pin )
 					return
 				end
 			else
---				print( "c=" ..coord .." m=" ..ns.mapID)
+		--		print( "c=" ..coord .." m=" ..ns.mapID)
 		--		print("HN Runes. Please report error: Null class for n=" ..(pin.name or "nil") .." t=" ..(pin.tip or "nil")
 		--				.." c="..coord.." m="..ns.mapID)
 			end
@@ -665,6 +665,7 @@ ns.iconStandard = "1 = " ..ns.L["White"] .."\n2 = " ..ns.L["Purple"] .."\n3 = " 
 					.."\n14 = " ..ns.L["Screw"]
 					.."\n15 = " ..ns.L["Adrenaline"] .."\n16 = " ..ns.L["Arcane"] .."\n17 = " ..ns.L["Demonic"]
 					.."\n18 = " ..ns.L["Duty"] .."\n19 = " ..ns.L["Frozen"] .."\n20 = " ..ns.L["Metamorphosis"]
+					.."\n21 = " ..ns.L["Class"]
 ns.iconStandardNoPin = "0 = " ..ns.L["No Map Pin"] .."\n" ..ns.iconStandard	
 		
 -- Interface -> Addons -> Handy Notes -> Plugins -> Runes options
@@ -708,19 +709,20 @@ ns.options = {
 		player = { type = "group", name = ns.L[ "Runes" ], inline = true, order = 70,
 			args = {
 				hideIfRuneLearnt = { type = "toggle", name = ns.L["Hide if learnt"], width = 1.2, arg = "hideIfRuneLearnt",
-								desc = "Will also hide completed Mage Books, Rings, Skill Books", order = 71, },
+								desc = "Will also hide completed Mage Books, Rings, Skill Books.\n\n"
+										.."Note that to hide Rune Brokers you must not show Skill Books", order = 71, },
 				hideRuneName = { type = "toggle", name = ns.L["Hide the rune name"], width = 1.2, arg = "hideRuneName",
 								desc = "This is the object/book/reward item you must acquire. "
 									.."It's not necessarily the same as the learnt spell name. "
 									.."It is typically the second line of a Tooltip. Hide this "
 									.."for less text clutter / better readability", order = 72, },
 				separator1 = { type = "header", name = "", order = 73, },
-				skillBook = { type = "range", name = ns.L["Skill Book"], width = 0.8, min = 0, max = 20, step = 1, 
+				skillBook = { type = "range", name = ns.L["Skill Book"], width = 0.8, min = 0, max = 21, step = 1, 
 								arg = "skillBook", order = 74, desc = ns.iconStandardNoPin, },
-				ring = { type = "range", name = ns.L["Ring"], width = 0.8, min = 0, max = 20, step = 1, 
+				ring = { type = "range", name = ns.L["Ring"], width = 0.8, min = 0, max = 21, step = 1, 
 								arg = "ring", order = 75, desc = ns.iconStandardNoPin, },
 				mageBook = ( ns.class == "MAGE" ) and { type = "range", name = ns.L["Mage Book"], width = 0.8, min = 0,
-								max = 20, step = 1, arg = "mageBook", order = 76, desc = ns.iconStandardNoPin, } or nil,
+								max = 21, step = 1, arg = "mageBook", order = 76, desc = ns.iconStandardNoPin, } or nil,
 				separator2 = { type = "header", name = "", order = 80, },
 				rune101 = { type = "range", name = ns.L[ "Rune" ] .." 1", desc = ns.iconChoice, width = 0.8,
 								min = 1, max = 7, step = 1, arg = "rune101", order = 101, },
