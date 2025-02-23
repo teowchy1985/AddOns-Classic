@@ -513,7 +513,7 @@ BG.Init(function()
             dropDown:SetPoint("TOPLEFT", 430, height - h + 0)
             LibBG:UIDropDownMenu_SetWidth(dropDown, 120)
             LibBG:UIDropDownMenu_SetText(dropDown, Settext(BiaoGe.options[name]))
-            LibBG:UIDropDownMenu_SetAnchor(dropDown, 0, 0, "TOP", dropDown, "BOTTOM")
+            LibBG:UIDropDownMenu_SetAnchor(dropDown, -10, 0, "TOPRIGHT", dropDown, "BOTTOMRIGHT")
             BG.dropDownToggle(dropDown)
             BG.options["button" .. name] = dropDown
 
@@ -1022,7 +1022,7 @@ BG.Init(function()
             dropDown:SetPoint("TOPLEFT", 0, height - h - 2)
             LibBG:UIDropDownMenu_SetWidth(dropDown, 170)
             LibBG:UIDropDownMenu_SetText(dropDown, RaidText(BiaoGe.options[name]))
-            LibBG:UIDropDownMenu_SetAnchor(dropDown, 0, 0, "TOP", dropDown, "BOTTOM")
+            LibBG:UIDropDownMenu_SetAnchor(dropDown, -10, 0, "TOPRIGHT", dropDown, "BOTTOMRIGHT")
             BG.dropDownToggle(dropDown)
             BG.options["button" .. name] = dropDown
 
@@ -1338,7 +1338,7 @@ BG.Init(function()
             dropDown:SetPoint("TOPLEFT", 220, height - h - 20)
             LibBG:UIDropDownMenu_SetWidth(dropDown, 180)
             LibBG:UIDropDownMenu_SetText(dropDown, GetName())
-            LibBG:UIDropDownMenu_SetAnchor(dropDown, 0, 0, "TOP", dropDown, "BOTTOM")
+            LibBG:UIDropDownMenu_SetAnchor(dropDown, -10, 0, "TOPRIGHT", dropDown, "BOTTOMRIGHT")
             BG.dropDownToggle(dropDown)
             BG.options["button" .. name] = dropDown
 
@@ -2159,7 +2159,7 @@ BG.Init(function()
                 dropDown:SetPoint("LEFT", BG.options["Text"..name], "RIGHT", -10, -2)
                 LibBG:UIDropDownMenu_SetWidth(dropDown, 150)
                 LibBG:UIDropDownMenu_SetText(dropDown, SetText(BiaoGe.options[name]))
-                LibBG:UIDropDownMenu_SetAnchor(dropDown, 0, 0, "TOP", dropDown, "BOTTOM")
+                LibBG:UIDropDownMenu_SetAnchor(dropDown, -10, 0, "TOPRIGHT", dropDown, "BOTTOMRIGHT")
                 BG.dropDownToggle(dropDown)
                 BG.options["button" .. name] = dropDown
 
@@ -2212,7 +2212,7 @@ BG.Init(function()
                 dropDown:SetPoint("LEFT", BG.options["Text"..name], "RIGHT", -10, -2)
                 LibBG:UIDropDownMenu_SetWidth(dropDown, 150)
                 LibBG:UIDropDownMenu_SetText(dropDown, SetText(BiaoGe.options[name]))
-                LibBG:UIDropDownMenu_SetAnchor(dropDown, 0, 0, "TOP", dropDown, "BOTTOM")
+                LibBG:UIDropDownMenu_SetAnchor(dropDown, -10, 0, "TOPRIGHT", dropDown, "BOTTOMRIGHT")
                 BG.dropDownToggle(dropDown)
                 BG.options["button" .. name] = dropDown
 
@@ -2265,7 +2265,7 @@ BG.Init(function()
                 dropDown:SetPoint("LEFT", BG.options["Text"..name], "RIGHT", -10, -2)
                 LibBG:UIDropDownMenu_SetWidth(dropDown, 150)
                 LibBG:UIDropDownMenu_SetText(dropDown, SetText(BiaoGe.options[name]))
-                LibBG:UIDropDownMenu_SetAnchor(dropDown, 0, 0, "TOP", dropDown, "BOTTOM")
+                LibBG:UIDropDownMenu_SetAnchor(dropDown, -10, 0, "TOPRIGHT", dropDown, "BOTTOMRIGHT")
                 BG.dropDownToggle(dropDown)
                 BG.options["button" .. name] = dropDown
 

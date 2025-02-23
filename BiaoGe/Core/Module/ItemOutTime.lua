@@ -20,21 +20,16 @@ local GetItemID = ns.GetItemID
 
 local Maxb = ns.Maxb
 local Maxi = ns.Maxi
-local Width = ns.Width
-local Height = ns.Height
 
 local pt = print
-local RealmID = GetRealmID()
+local RealmId = GetRealmID()
 local player = UnitName("player")
 
 BG.Init(function()
     BiaoGe.options.showGuoQiFrame = BiaoGe.options.showGuoQiFrame or 0
     BiaoGe.lastGuoQiTime = BiaoGe.lastGuoQiTime or 0
 
-    local function GetMaxButton()
-        return floor((Height[BG.FB1]-35)/20-1)
-    end
-    local maxButton = GetMaxButton()
+    local maxButton = 20
     local notItem
 
     local bt = CreateFrame("Button", nil, BG.MainFrame)
@@ -77,11 +72,10 @@ BG.Init(function()
         })
         f:SetBackdropColor(0, 0, 0, 0.8)
         f:SetBackdropBorderColor(GetClassRGB(nil, "player", BG.borderAlpha))
-        f:SetSize(200, Height[BG.FB1])
+        f:SetSize(200, (maxButton + 1) * 20 + 35)
         f:SetPoint("TOPLEFT", BG.MainFrame, "TOPRIGHT", -1, 0)
         f:EnableMouse(true)
         BG.itemGuoQiFrame = f
-        BG.itemGuoQiFrame.maxButton=maxButton
         if BiaoGe.options.showGuoQiFrame ~= 1 then
             f:Hide()
         else
@@ -98,7 +92,7 @@ BG.Init(function()
             self:RegisterEvent("BAG_UPDATE_DELAYED")
         end)
         f:SetScript("OnHide", function(self)
-            self:UnregisterEvent("BAG_UPDATE_DELAYED")
+            self:UnregisterAllEvents()
         end)
         f:SetScript("OnEvent", function(self)
             BG.After(0.2, function()
@@ -121,14 +115,7 @@ BG.Init(function()
     BG.itemGuoQiFrame.tbl = {}
     BG.itemGuoQiFrame.buttons = {}
 
-    local function UpdateFrameSize()
-        BG.itemGuoQiFrame:SetHeight(Height[BG.FB1])
-        maxButton = GetMaxButton()
-    end
-
     function BG.UpdateItemGuoQiFrame()
-        if not BG.itemGuoQiFrame:IsVisible() then return end
-        UpdateFrameSize()
         wipe(BG.itemGuoQiFrame.tbl)
         for i, v in ipairs(BG.itemGuoQiFrame.buttons) do
             v:Hide()
@@ -195,37 +182,6 @@ BG.Init(function()
             { time = 28, link = "|cffa335ee|Hitem:45289::::::::80:::::::::|h[生命火花面甲]|h|r", itemID = 45289, b = 0, i = 1 },
             { time = 28, link = "|cffa335ee|Hitem:45289::::::::80:::::::::|h[生命火花面甲]|h|r", itemID = 45289, b = 0, i = 1 },
             { time = 28, link = "|cffa335ee|Hitem:45289::::::::80:::::::::|h[生命火花面甲]|h|r", itemID = 45289, b = 0, i = 1 },
-            { time = 28, link = "|cffa335ee|Hitem:45289::::::::80:::::::::|h[生命火花面甲]|h|r", itemID = 45289, b = 0, i = 1 },
-            { time = 28, link = "|cffa335ee|Hitem:45289::::::::80:::::::::|h[生命火花面甲]|h|r", itemID = 45289, b = 0, i = 1 },
-            { time = 28, link = "|cffa335ee|Hitem:45289::::::::80:::::::::|h[生命火花面甲]|h|r", itemID = 45289, b = 0, i = 1 },
-            { time = 28, link = "|cffa335ee|Hitem:45289::::::::80:::::::::|h[生命火花面甲]|h|r", itemID = 45289, b = 0, i = 1 },
-            { time = 28, link = "|cffa335ee|Hitem:45289::::::::80:::::::::|h[生命火花面甲]|h|r", itemID = 45289, b = 0, i = 1 },
-            { time = 28, link = "|cffa335ee|Hitem:45289::::::::80:::::::::|h[生命火花面甲]|h|r", itemID = 45289, b = 0, i = 1 },
-            { time = 28, link = "|cffa335ee|Hitem:45289::::::::80:::::::::|h[生命火花面甲]|h|r", itemID = 45289, b = 0, i = 1 },
-            { time = 28, link = "|cffa335ee|Hitem:45289::::::::80:::::::::|h[生命火花面甲]|h|r", itemID = 45289, b = 0, i = 1 },
-            { time = 28, link = "|cffa335ee|Hitem:45289::::::::80:::::::::|h[生命火花面甲]|h|r", itemID = 45289, b = 0, i = 1 },
-            { time = 28, link = "|cffa335ee|Hitem:45289::::::::80:::::::::|h[生命火花面甲]|h|r", itemID = 45289, b = 0, i = 1 },
-            { time = 28, link = "|cffa335ee|Hitem:45289::::::::80:::::::::|h[生命火花面甲]|h|r", itemID = 45289, b = 0, i = 1 },
-            { time = 28, link = "|cffa335ee|Hitem:45289::::::::80:::::::::|h[生命火花面甲]|h|r", itemID = 45289, b = 0, i = 1 },
-            { time = 28, link = "|cffa335ee|Hitem:45289::::::::80:::::::::|h[生命火花面甲]|h|r", itemID = 45289, b = 0, i = 1 },
-            { time = 28, link = "|cffa335ee|Hitem:45289::::::::80:::::::::|h[生命火花面甲]|h|r", itemID = 45289, b = 0, i = 1 },
-            { time = 28, link = "|cffa335ee|Hitem:45289::::::::80:::::::::|h[生命火花面甲]|h|r", itemID = 45289, b = 0, i = 1 },
-            { time = 28, link = "|cffa335ee|Hitem:45289::::::::80:::::::::|h[生命火花面甲]|h|r", itemID = 45289, b = 0, i = 1 },
-            { time = 28, link = "|cffa335ee|Hitem:45289::::::::80:::::::::|h[生命火花面甲]|h|r", itemID = 45289, b = 0, i = 1 },
-            { time = 28, link = "|cffa335ee|Hitem:45289::::::::80:::::::::|h[生命火花面甲]|h|r", itemID = 45289, b = 0, i = 1 },
-            { time = 28, link = "|cffa335ee|Hitem:45289::::::::80:::::::::|h[生命火花面甲]|h|r", itemID = 45289, b = 0, i = 1 },
-            { time = 28, link = "|cffa335ee|Hitem:45289::::::::80:::::::::|h[生命火花面甲]|h|r", itemID = 45289, b = 0, i = 1 },
-            { time = 28, link = "|cffa335ee|Hitem:45289::::::::80:::::::::|h[生命火花面甲]|h|r", itemID = 45289, b = 0, i = 1 },
-            { time = 28, link = "|cffa335ee|Hitem:45289::::::::80:::::::::|h[生命火花面甲]|h|r", itemID = 45289, b = 0, i = 1 },
-            { time = 28, link = "|cffa335ee|Hitem:45289::::::::80:::::::::|h[生命火花面甲]|h|r", itemID = 45289, b = 0, i = 1 },
-            -- { time = 28, link = "|cffa335ee|Hitem:45289::::::::80:::::::::|h[生命火花面甲]|h|r", itemID = 45289, b = 0, i = 1 },
-            -- { time = 28, link = "|cffa335ee|Hitem:45289::::::::80:::::::::|h[生命火花面甲]|h|r", itemID = 45289, b = 0, i = 1 },
-            -- { time = 28, link = "|cffa335ee|Hitem:45289::::::::80:::::::::|h[生命火花面甲]|h|r", itemID = 45289, b = 0, i = 1 },
-            -- { time = 28, link = "|cffa335ee|Hitem:45289::::::::80:::::::::|h[生命火花面甲]|h|r", itemID = 45289, b = 0, i = 1 },
-            -- { time = 28, link = "|cffa335ee|Hitem:45289::::::::80:::::::::|h[生命火花面甲]|h|r", itemID = 45289, b = 0, i = 1 },
-            -- { time = 28, link = "|cffa335ee|Hitem:45289::::::::80:::::::::|h[生命火花面甲]|h|r", itemID = 45289, b = 0, i = 1 },
-            -- { time = 28, link = "|cffa335ee|Hitem:45289::::::::80:::::::::|h[生命火花面甲]|h|r", itemID = 45289, b = 0, i = 1 },
-            -- { time = 28, link = "|cffa335ee|Hitem:45289::::::::80:::::::::|h[生命火花面甲]|h|r", itemID = 45289, b = 0, i = 1 },
         } ]]
         sort(BG.itemGuoQiFrame.tbl, function(a, b)
             return a.time < b.time
@@ -245,9 +201,9 @@ BG.Init(function()
             local link, itemID, time, b, i = vv.link, vv.itemID, vv.time, vv.b, vv.i
 
             local f = CreateFrame("Frame", nil, BG.itemGuoQiFrame, "BackdropTemplate")
-            f:SetSize(BG.itemGuoQiFrame:GetWidth()-4, 20)
+            f:SetSize(BG.itemGuoQiFrame:GetWidth(), 20)
             if ii == 1 then
-                f:SetPoint("TOPRIGHT", BG.itemGuoQiFrame, "TOPRIGHT", -2, -30)
+                f:SetPoint("TOPRIGHT", BG.itemGuoQiFrame, "TOPRIGHT", 0, -30)
             else
                 f:SetPoint("TOPRIGHT", BG.itemGuoQiFrame.buttons[ii - 1], "BOTTOMRIGHT", 0, 0)
             end
@@ -304,13 +260,13 @@ BG.Init(function()
             t:SetFont(STANDARD_TEXT_FONT, 15, "OUTLINE")
             t:SetPoint("LEFT", 18, 0)
             t:SetJustifyH("LEFT")
-            t:SetText(link:gsub("%[",""):gsub("%]",""))
+            t:SetText(link)
             t:SetWidth(90)
             t:SetWordWrap(false)
 
             local sb = CreateFrame("StatusBar", nil, f)
-            sb:SetPoint("LEFT",t,"RIGHT", 2, 0)
-            sb:SetSize(55, 15)
+            sb:SetPoint("RIGHT", -35, 0)
+            sb:SetSize(60, 15)
             sb:SetMinMaxValues(0, 120)
             sb:SetValue(time)
             sb:SetStatusBarTexture("Interface\\Buttons\\WHITE8x8")

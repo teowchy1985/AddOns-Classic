@@ -916,7 +916,7 @@ BG.Init(function()
             end
 
             local bt = BG.CreateButton(BG.YYMainFrame.search)
-            bt:SetSize(130, 22)
+            bt:SetSize(130, 20)
             bt:SetPoint("LEFT", edit, "RIGHT", 10, 0)
             bt:SetText(L["查询"])
             BG.YYMainFrame.search.cd = 0
@@ -1594,7 +1594,7 @@ BG.Init(function()
             local channelTypeMenu = {
                 {
                     isTitle = true,
-                    text = L["团长YY(根据聊天记录生成)"],
+                    text = L["团长YY（根据聊天记录帮你生成）"],
                     notCheckable = true,
                 },
                 {
@@ -1630,7 +1630,7 @@ BG.Init(function()
                 end,
             }
             tinsert(channelTypeMenu, a)
-            LibBG:UIDropDownMenu_SetAnchor(dropDown, 0, 0, "BOTTOM", edit, "TOP")
+            LibBG:UIDropDownMenu_SetAnchor(dropDown, 0, 0, "BOTTOMLEFT", edit, "TOPLEFT")
             LibBG:EasyMenu(channelTypeMenu, dropDown, edit, 0, 0, "MENU", 15)
         end
     end
@@ -2259,7 +2259,7 @@ f:SetScript("OnEvent", function(self, event, ...)
         BG.YYMainFrame.searchText.sumpingjia[pingjia] = BG.YYMainFrame.searchText.sumpingjia[pingjia] + 1
         if #BG.YYMainFrame.searchText.all >= Y.maxSearchText then return end -- 最多收集300个评价详细
         if BG.DeBug and BG.YYMainFrame.search.edit:GetText() == "34229022" and pingjia == 3 then
-            print(senderFullName, date, edit)
+            pt(senderFullName, date, edit)
         end
         tinsert(BG.YYMainFrame.searchText.all, { date = date, pingjia = pingjia, edit = edit })
     elseif event == "CHAT_MSG_CHANNEL" then

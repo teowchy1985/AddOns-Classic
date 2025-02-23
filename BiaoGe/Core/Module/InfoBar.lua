@@ -44,18 +44,7 @@ local AFDtbl = {
     "超级小奶爸",
     "水晶之牙-Rich Only",
     -- 90
-    "小戆戆",
     -- 30
-    -- "",
-    -- "",
-    -- "",
-    -- "",
-    -- "",
-    "Endearment",
-    "糖果与火焰山-死亡猎手",
-    "收藏家",
-    "阡陌小熊",
-    "肝坚强",
     "老年呆贼",
     "有才",
     "不再留恋",
@@ -127,7 +116,7 @@ local AFDtbl = {
     -- "",
     -- "",
     -- "",
-    --最后更新时间：25/2/22 16:30
+    --最后更新时间：25/2/19 22:50
 }
 
 
@@ -181,7 +170,7 @@ BG.Init(function()
         end
         bt:SetNormalFontObject(BG.FontYellow13)
         bt:SetHighlightFontObject(BG.FontWhite13)
-        bt.title = AddTexture("Interface\\AddOns\\BiaoGe\\Media\\icon\\icon") .. L["交流群"]
+        bt.title = AddTexture("Interface\\AddOns\\BiaoGe\\Media\\icon\\icon") .. L["提交BUG"]
         bt.title2 = AddTexture("Interface\\AddOns\\BiaoGe\\Media\\icon\\icon") .. L["有报错！"]
         bt:SetText(bt.title)
         bt:SetWidth(bt:GetFontString():GetStringWidth())
@@ -191,7 +180,7 @@ BG.Init(function()
         bt:SetScript("OnEnter", function(self)
             GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT", 0, 0)
             GameTooltip:ClearLines()
-            GameTooltip:AddLine(L["BiaoGe沟通交流群"], 1, 1, 1, true)
+            GameTooltip:AddLine(self.title, 1, 1, 1, true)
             GameTooltip:AddLine(L["Q群："] .. "322785325", 1, 0.82, 0, true)
             GameTooltip:AddLine(L["密码：金团表格"], 1, 0.82, 0, true)
             GameTooltip:AddLine(L["（点击复制Q群）"], 1, 0.82, 0, true)
@@ -247,40 +236,6 @@ BG.Init(function()
         end)
     end
 
-        -- 更新计划
-        do
-            local bt = CreateFrame("Button", nil, BG.MainFrame)
-            bt:SetSize(20, hight)
-            if lastBt then
-                bt:SetPoint("RIGHT", lastBt, "LEFT", -10, 0)
-            else
-                bt:SetPoint("BOTTOMRIGHT", -10, 1)
-            end
-            bt:SetNormalFontObject(BG.FontYellow13)
-            bt:SetHighlightFontObject(BG.FontWhite13)
-            bt:SetText("|A:Class:15:15|a" .. L["更新计划"])
-            bt:SetWidth(bt:GetFontString():GetStringWidth())
-            BG.ButtonUpdateLate = bt
-            lastBt = bt
-    
-            bt:SetScript("OnEnter", function(self)
-                GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT", 0, 0)
-                GameTooltip:ClearLines()
-                GameTooltip:AddLine(self:GetText(), 1, 1, 1, true)
-                GameTooltip:AddLine(L["BiaoGe插件未来的更新计划共享在在线文档。"], 1, 0.82, 0, true)
-                GameTooltip:AddLine(L["你可以浏览该内容，留下你的建议。"], 1, 0.82, 0, true)
-                GameTooltip:AddLine(L["（点击复制文档地址）"], 1, 0.82, 0, true)
-                GameTooltip:Show()
-            end)
-            bt:SetScript("OnLeave", GameTooltip_Hide)
-            bt:SetScript("OnClick", function(self)
-                BG.PlaySound(1)
-                ChatEdit_ActivateChat(ChatEdit_ChooseBoxForSend())
-                ChatEdit_ChooseBoxForSend():SetText("https://docs.qq.com/doc/DYVFDaU5uR21sanJm")
-                ChatEdit_ChooseBoxForSend():HighlightText()
-            end)
-        end
-
     -- 爱发电
     do
         local bt = CreateFrame("Button", nil, BG.MainFrame)
@@ -315,7 +270,7 @@ BG.Init(function()
                 end
             end
             GameTooltip:AddLine(text, 1, 0.82, 0, true)
-            GameTooltip:AddLine(L["你可以在这里订阅我的账号苍穹之霜，提前体验订阅模块和同步模块。"], 1, 1, 1, true)
+            GameTooltip:AddLine(L["你可以在这里订阅我的账号苍穹之霜。"], 1, 1, 1, true)
             GameTooltip:AddLine(L["（点击复制网址）"], 1, 0.82, 0, true)
             GameTooltip:Show()
         end)
@@ -388,7 +343,7 @@ BG.Init(function()
             GameTooltip:AddLine(self:GetText(), 1, 1, 1, true)
             GameTooltip:AddLine(L["集插件管理、配置分享、云端备份、游戏攻略、游戏工具于一体。"], 1, 0.82, 0, true)
             GameTooltip:AddLine(L["你可以在这里更新BiaoGe插件。"], 1, 0.82, 0, true)
-            GameTooltip:AddLine(L["你可以在这里订阅我的账号苍穹之霜，提前体验订阅模块和同步模块。"], 1, 1, 1, true)
+            GameTooltip:AddLine(L["你可以在这里订阅我的账号苍穹之霜。"], 1, 1, 1, true)
             GameTooltip:AddLine(L["（点击复制网址）"], 1, 0.82, 0, true)
             GameTooltip:Show()
         end)

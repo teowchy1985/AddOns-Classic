@@ -18,8 +18,9 @@ local AddTexture = ns.AddTexture
 local GetItemID = ns.GetItemID
 
 local pt = print
-local RealmID = GetRealmID()
+local RealmId = GetRealmID()
 local player = UnitName("player")
+local itemlib
 
 BG.HopeJingzheng = {}
 
@@ -108,11 +109,11 @@ function BG.HopeUI(FB)
                     bt.icon = bt:CreateTexture(nil, 'ARTWORK')
                     bt.icon:SetPoint('LEFT', -22, 0)
                     bt.icon:SetSize(16, 16)
-                    if BiaoGe.Hope[RealmID][player][FB]["nandu" .. n]["boss" .. b]["zhuangbei" .. i] then
-                        if BiaoGe.Hope[RealmID][player][FB]["nandu" .. n]["boss" .. b]["zhuangbei" .. i] ~= "" then
-                            bt:SetText(BiaoGe.Hope[RealmID][player][FB]["nandu" .. n]["boss" .. b]["zhuangbei" .. i])
+                    if BiaoGe.Hope[RealmId][player][FB]["nandu" .. n]["boss" .. b]["zhuangbei" .. i] then
+                        if BiaoGe.Hope[RealmId][player][FB]["nandu" .. n]["boss" .. b]["zhuangbei" .. i] ~= "" then
+                            bt:SetText(BiaoGe.Hope[RealmId][player][FB]["nandu" .. n]["boss" .. b]["zhuangbei" .. i])
                         else
-                            BiaoGe.Hope[RealmID][player][FB]["nandu" .. n]["boss" .. b]["zhuangbei" .. i] = nil
+                            BiaoGe.Hope[RealmId][player][FB]["nandu" .. n]["boss" .. b]["zhuangbei" .. i] = nil
                         end
                     end
                     BG.HopeFrame[FB]["nandu" .. n]["boss" .. b]["zhuangbei" .. i] = bt
@@ -775,7 +776,7 @@ function BG.HopeUI(FB)
         BG.dropDownToggle(dropDown)
         dropDown:SetPoint("TOP", f, "BOTTOM", 0, -5)
         LibBG:UIDropDownMenu_SetWidth(dropDown, 100)
-        LibBG:UIDropDownMenu_SetAnchor(dropDown, 0, 0, "TOP", dropDown, "BOTTOM")
+        LibBG:UIDropDownMenu_SetAnchor(dropDown, -10, 0, "TOPRIGHT", dropDown, "BOTTOMRIGHT")
         LibBG:UIDropDownMenu_SetText(dropDown, BG.HopeSendTable[BiaoGe.HopeSendChannel])
         LibBG:UIDropDownMenu_Initialize(dropDown, function(self, level, menuList)
             FrameHide(0)
@@ -935,7 +936,7 @@ function BG.HopeDaoChuUI()
                                             local _, link = GetItemInfo(itemID)
                                             if link then
                                                 BG.HopeFrame[FB]["nandu" .. n]["boss" .. b]["zhuangbei" .. _i]:SetText(link)
-                                                BiaoGe.Hope[RealmID][player][FB]["nandu" .. n]["boss" .. b]["zhuangbei" .. _i] = link
+                                                BiaoGe.Hope[RealmId][player][FB]["nandu" .. n]["boss" .. b]["zhuangbei" .. _i] = link
                                                 count = count + 1
                                             end
                                         end)

@@ -21,8 +21,6 @@ pt( "|cFFA335EE".."啊~")
 pt( "|cFF0070FF".."啊~")
 pt( "|cFF1EFF00".."啊~")
 pt( "|cFF666666".."啊~")
-
-5046匕首岭
  ]]
 
 function BG.Expand(v)
@@ -92,7 +90,7 @@ end
 
 local function GetWCLinfo(name)
     -- test
-    -- WP_Database["苍刃"] = "RT:(鲜血)148.26/57.8%LD:(鲜血)130.91/98.8%|13"
+    -- WP_Database["苍刃"] = "SD:(鲜血)1598.93/99.6%|1"
     -- STOP_Database["苍刃"] = "1血DK,3符文DK,3血DKDPS"
 
     local tbl = {}
@@ -105,13 +103,11 @@ local function GetWCLinfo(name)
         end
     end
     if wclText then
-        wclText = strsplit("|", wclText)
-        local yes
+        wclText = wclText:sub(1, #wclText - 2)
         for k, str in pairs({ strsplit("%", wclText) }) do
             local FB = 0
             local ED = str:match("(.+):")
-            if ED and ED:find("T") then
-                yes = true
+            if ED then
                 ED = strsub(ED, 1, 1)
                 if ED == "r" then
                     FB = 9
@@ -128,22 +124,18 @@ local function GetWCLinfo(name)
                 elseif ED == "V" then
                     FB = 4
                 end
-                local topfen = tonumber(str:match("/(.+)"))
-                if topfen then
-                    topfen = topfen / 100 + FB
-                    if not tbl.topfen then
-                        tbl.topfen = topfen
-                    elseif topfen > tbl.topfen then
-                        tbl.topfen = topfen
-                    end
+            end
+            local topfen = tonumber(str:match("/(.+)"))
+            if topfen then
+                topfen = topfen / 100 + FB
+                if not tbl.topfen then
+                    tbl.topfen = topfen
+                elseif topfen > tbl.topfen then
+                    tbl.topfen = topfen
                 end
             end
         end
-        if not yes then
-            tbl.topfen = 1
-        end
-        tbl.colortext = BG.Expand(wclText):gsub("%).-/", ")")
-        tbl.colortext =tbl.colortext :gsub(" ","").." "
+        tbl.colortext = BG.Expand(wclText):gsub("%).+/", ")")
         tbl.text = tbl.colortext:gsub("|c[fF][fF]......", ""):gsub("|r", "")
         if pmText then
             tbl.colortext = tbl.colortext .. "\n" .. pmText
@@ -178,7 +170,7 @@ end
 
 local yes
 function BG.WCLUI(lastbt)
-    local bt = BG.CreateButton(BG.ButtonZhangDan)
+    local bt=BG.CreateButton(BG.ButtonZhangDan)
     bt:SetSize(BG.ButtonZhangDan:GetWidth(), BG.ButtonZhangDan:GetHeight())
     bt:SetPoint("LEFT", lastbt, "RIGHT", BG.ButtonZhangDan.jiange, 0)
     bt:SetText("WCL")
@@ -239,14 +231,14 @@ function BG.WCLUI(lastbt)
 end
 
 local function AddWCLColor(self, event, msg, player, l, cs, t, flag, channelId, ...)
-    if not yes then return false end
+    if not yes then return false, msg, player, l, cs, t, flag, channelId, ... end
     local num, name, wcl, pm = strsplit(" ", msg)
     if num and name and wcl then
         name = SetClassCFF(name)
 
         local newwcl = ""
         for k, str in pairs { strsplit("%", wcl) } do
-            local topfen = tonumber(str:match("%)(%d+)"))
+            local topfen = tonumber(str:match("%)(.+)"))
             local color = "666666"
             if topfen then
                 if topfen >= 100 then

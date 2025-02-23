@@ -467,7 +467,7 @@ function BG.RoleOverviewUI()
 
         --------- 角色团本完成总览 ---------
         -- 大标题
-        local FBCDTitle
+        local FBCDTitle, FBCDResetTitle
         do
             local t = f:CreateFontString()
             t:SetFont(STANDARD_TEXT_FONT, fontsize2, "OUTLINE")
@@ -509,7 +509,17 @@ function BG.RoleOverviewUI()
                     douhao = ", "
                 end
                 local resettext = format("|cff808080" .. L["（团本重置时间：%s）"] .. RR, text7 .. douhao .. text3)
-                t:SetText(t:GetText() .. resettext)
+                if BG.IsVanilla then
+                    local t_end = f:CreateFontString()
+                    t_end:SetFont(STANDARD_TEXT_FONT, fontsize, "OUTLINE")
+                    t_end:SetPoint("TOPLEFT", t, "BOTTOMLEFT", 0, -3)
+                    t_end:SetText(BG.STC_dis(resettext:gsub("（", ""):gsub("）", ""):gsub("%(", ""):gsub("%)", "")))
+                    t_end:SetJustifyH("LEFT")
+                    t_end:SetWordWrap(false)
+                    FBCDResetTitle = t_end
+                else
+                    t:SetText(t:GetText() .. resettext)
+                end
             end
         end
         -- FB标题
@@ -560,9 +570,6 @@ function BG.RoleOverviewUI()
             FBCDLineWidth = totalwidth - 5
             if BiaoGe.options.roleOverviewLayout == "left_right" then
                 FBCDLineWidth = FBCDwidth - 10
-                FBCDTitle:SetWidth(FBCDwidth - 20)      -- 标题设置宽度
-            else
-                FBCDTitle:SetWidth(totalwidth - 20)     -- 标题设置宽度
             end
 
             local l = f:CreateLine()
@@ -771,11 +778,7 @@ function BG.RoleOverviewUI()
             t:SetText(BG.STC_g1(L["< 角色货币总览 >"]))
             t:SetJustifyH("LEFT")
             t:SetWordWrap(false)
-            if BiaoGe.options.roleOverviewLayout == "left_right" then
-                t:SetWidth(Moneywidth - 20)      -- 标题设置宽度
-            else
-                t:SetWidth(totalwidth - 20)     -- 标题设置宽度
-            end
+            t:SetWidth(totalwidth - 20)
 
             if not click then
                 local accountsText = ""
@@ -788,7 +791,23 @@ function BG.RoleOverviewUI()
                 else
                     tipsText = L["|cff808080（CTRL+左键固定显示，长按SHIFT显示当前服务器角色%s）|r"]
                 end
-                t:SetText(t:GetText() .. format(tipsText, accountsText))
+                if BG.IsVanilla_Sod then
+                    local t_end = f:CreateFontString()
+                    t_end:SetFont(STANDARD_TEXT_FONT, fontsize, "OUTLINE")
+                    t_end:SetPoint("TOPLEFT", t, "BOTTOMLEFT", 0, -3)
+                    t_end:SetText(BG.STC_dis((tipsText:gsub("（", ""):gsub("）", ""):gsub("%(", ""):gsub("%)", ""))))
+                    t_end:SetJustifyH("LEFT")
+                    t_end:SetWordWrap(false)
+                    t_end:SetWidth(totalwidth - 20)
+                    FBCDResetTitle = t_end
+                else
+                    t:SetText(t:GetText() .. format(tipsText, accountsText))
+                end
+            end
+
+            FBCDTitle:SetWidth(totalwidth - 20) -- 标题设置宽度
+            if FBCDResetTitle then
+                FBCDResetTitle:SetWidth(totalwidth - 20)
             end
 
             n = n + 2
@@ -1236,7 +1255,7 @@ function BG.RoleOverviewUI()
             end
         end
         local parent = LFGParentFrame or PVEFrame
-        parent:HookScript("OnShow", function()
+        parent:HookScript("OnShow",function ()
             BG.UpdateFBCD_5M()
         end)
 
@@ -1244,7 +1263,7 @@ function BG.RoleOverviewUI()
             if BG.FBCD_5M_Frame then
                 BG.FBCD_5M_Frame:Hide()
             end
-            if BiaoGe.options["FB5M"] ~= 1 then
+            if BiaoGe.options["FB5M"] == 0 then
                 return
             end
             -- 创建框体UI
@@ -1666,7 +1685,7 @@ function BG.RoleOverviewUI()
                 },
                 forge_taitanjinggang = {
                     name = L["泰坦精钢"],
-                    name2 = L["采矿"],
+                    name2 = L["熔炉"],
                     spell = 55208
                 },
                 tailor_fawenbu = {
@@ -1709,8 +1728,7 @@ function BG.RoleOverviewUI()
                 end
             end
         end
-        -- 检查其他角色cd是否到期
-        local function UpdateProfessionCD() 
+        local function UpdateProfessionCD() -- 检查其他角色cd是否到期
             local time = GetServerTime()
             local i = 3
             local function Update(db)
@@ -1723,7 +1741,7 @@ function BG.RoleOverviewUI()
                                         v.resettime = nil
                                         v.endtime = nil
                                         v.ready = true
-                                        if db == BiaoGe and BiaoGe.FBCDchoice[profession] and BiaoGe.FBCDchoice[profession]==1 then
+                                        if db == BiaoGe then
                                             local color
                                             if v.class then
                                                 color = select(4, GetClassColor(v.class))
@@ -2047,6 +2065,7 @@ function BG.RoleOverviewUI()
             -- local isChecked = button:GetChecked();
         end)
     end
+
 
     -- 团本锁定ID
     do
