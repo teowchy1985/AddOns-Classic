@@ -614,7 +614,7 @@ end
 function callbacks:LeaderIcon()
 	if self.leaderIcon.use then
 		self.leaderIcon:Show()
-		if self.values.leader then
+		if self.values.leader and (self.values.leader==1 or self.values.leader ==2) then
 			self.leaderIcon:SetTexture("Interface\\GroupFrame\\UI-Group-"..(self.values.leader == 1 and "Leader" or "Assistant").."Icon")
 			self.leaderIcon:SetWidth(self.leaderIcon:GetHeight())
 		else

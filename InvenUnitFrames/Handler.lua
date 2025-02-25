@@ -139,6 +139,9 @@ function IUF:RegisterHandlerEvents()
 	self:RegisterObjectValueHandler("combo", "Combo")
 	self:RegisterObjectValueHandler("heal", "Heal")
 	handlers:RegisterEvent("PLAYER_ENTERING_WORLD")
+	handlers:RegisterEvent("ZONE_CHANGED_NEW_AREA") -- added for resting event adjustment
+	handlers:RegisterEvent("PARTY_LEADER_CHANGED")-- added for leader event adjustment
+	handlers:RegisterEvent("GROUP_LEFT")-- added for leader event adjustment
 	handlers:RegisterEvent("PLAYER_TARGET_CHANGED")
 --	handlers:RegisterEvent("PLAYER_FOCUS_CHANGED")
 	handlers:RegisterEvent("PLAYER_UPDATE_RESTING")
@@ -306,7 +309,15 @@ handlers:SetScript("OnEvent", function(self, event, unit, ...)
 				IUF:UpdateObject(object)
 			end
 		end
-		
+	elseif event=="PARTY_LEADER_CHANGED" then
+		if IUF.units.player then
+			handlers.GROUP_ROSTER_UPDATE(IUF.units.player)
+		end
+
+	elseif event=="GROUP_LEFT" then
+		if IUF.units.player then
+			handlers.GROUP_ROSTER_UPDATE(IUF.units.player)
+		end		
 	elseif handlers[event] then
 		if unit then
 			if IUF.links[unit] and IUF.visibleObject[IUF.links[unit]] then
@@ -372,6 +383,21 @@ function handlers:PLAYER_ENTERING_WORLD()
 			end
 		end
 
+
+	handlers.PLAYER_UPDATE_RESTING(IUF.units.player) --added
+	handlers.UNIT_HEALTH(IUF.units.player)--added
+		if IUF.units.player then
+			handlers.GROUP_ROSTER_UPDATE(IUF.units.player)
+		end
+
+	end
+end
+
+function handlers:ZONE_CHANGED_NEW_AREA()
+
+	if self.objectType == "player" then
+		handlers.PLAYER_UPDATE_RESTING(IUF.units.player) --added
+		handlers.UNIT_HEALTH(IUF.units.player)--added
 
 	end
 end
@@ -632,17 +658,30 @@ local raidIndex, raidRank, raidGroup, roleIsTank, roleIsHeal, roleIsDPS
 
 function handlers:GROUP_ROSTER_UPDATE()
 
-	if UnitInRaid(self.realunit) and IsInGroup() and IsInRaid() then
+	if (UnitInRaid(self.realunit) or UnitInBattleground(self.realunit)) and IsInGroup() and (IsInRaid() or UnitInBattleground("player") ) then
 		self.values.role = nil
-		raidIndex = UnitInRaid(self.realunit)
+		self.values.leader = nil
+
+		raidIndex = UnitInRaid(self.realunit) or UnitInBattleground(self.realunit)
 		raidRank, raidGroup, _, _, _, _, _, _, _, self.values.looter = select(2, GetRaidRosterInfo(raidIndex))
+--[[
 		if raidRank == 2 then
-			self.values.leader = 1
+			self.values.leader = 1 --leader
 		elseif raidRank == 1 then
-			self.values.leader = 2
+			self.values.leader = 2 --assist
 		else
 			self.values.leader = nil
 		end
+--]]
+
+		if UnitIsGroupLeader(self.realunit) then 
+			self.values.leader =1 
+		elseif UnitIsGroupAssistant(self.realunit) then 
+			self.values.leader =2 
+		else
+			self.values.leader =nil
+		end
+
 		if self.objectType == "player" or self.objectType == "target" or self.objectType == "focus" then
 			self.values.group = raidGroup
 		else
@@ -663,13 +702,14 @@ function handlers:GROUP_ROSTER_UPDATE()
 --~ 		else
 			self.values.role = nil
 --~ 		end
-		if UnitIsGroupLeader(self.realunit) and IsInGroup(self.realunit) then
+		if UnitIsGroupLeader(self.realunit) and IsInGroup(self.realunit)  then
 			self.values.leader = 1
 			self.values.looter = GetLootMethod() == "master" and 1 or nil
 		else
-			self.values.leader, self.values.looter = nil
+			self.values.leader, self.values.looter = nil, nil
 		end
 		self.values.group = nil
+		self.values.role = nil
 	else
 
 		self.values.group, self.values.leader, self.values.looter, self.values.role = nil,nil,nil,nil
