@@ -1,6 +1,9 @@
+== v1.22 - 25th February 2025
+* Colourising text / better AddOn text descriptions
+* Added Chests up to Item level 45
+
 == v1.21 - 23rd February 2025
 * Added Chests up to Item level 30
-  (More to come)
 * TOC update to 1.15.6
 
 == v1.20 - 17th December 2024
