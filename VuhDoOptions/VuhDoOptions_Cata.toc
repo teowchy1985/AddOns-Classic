@@ -2,13 +2,25 @@
 
 ## Title: VuhDo ['vu:du:] - Options
 ## Author: Iza@Gilneas, humfras, Ivaria@Hyjal
-## Version: 3.183-catac
+## Version: 3.184-catac
 ## Notes: VuhDo Options
 ## Title-zhTW: |cffFF7F00[團隊]|r 框架 (巫毒)-設定選項
 ## Notes-zhTW: VuhDo ['vu:du:] - Options |n|n巫毒治療框架的設定選項。|n|n|cffffd200使用方法: |r點小地圖按鈕開啟設定。
 ## X-Category-zhTW: 團隊
 ## DefaultState: disabled
 ## IconTexture: Interface\AddOns\VuhDo\Images\TemporaryPortrait-Female-BloodElf-VuhDo
+
+## Category-enUS: Unit Frames
+## Category-deDE: Einheitenfenster
+## Category-esES: Marcos de unidades
+## Category-esMX: Marcos de unidades
+## Category-frFR: Portraits d'unités
+## Category-itIT: Riquadri delle unità
+## Category-koKR: 개체창
+## Category-ptBR: Quadros de unidade
+## Category-ruRU: Рамки портретов
+## Category-zhCN: 单位框体
+## Category-zhTW: 單位框架
 
 ## X-Curse-Project-ID: 7950
 ## X-WoWI-ID: 26722
