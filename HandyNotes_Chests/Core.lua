@@ -3,7 +3,7 @@
 
                                         Chests, Gear and More
 
-                                     v1.21 - 23rd February 2025
+                                     v1.22 - 25th February 2025
                                 Copyright (C) Taraezor / Chris Birch
                                          All Rights Reserved
 
@@ -36,6 +36,7 @@ ns.continents[ 1415 ] = true -- Eastern Kingdoms
 -- Upvalues
 local GameTooltip = _G.GameTooltip
 local GetMapChildrenInfo = C_Map.GetMapChildrenInfo
+local gsub = string.gsub
 local IsQuestFlaggedCompleted = C_QuestLog.IsQuestFlaggedCompleted
 local LibStub = _G.LibStub
 local UIParent = _G.UIParent
@@ -209,6 +210,11 @@ end
 
 -- ---------------------------------------------------------------------------------------------------------------------------------
 
+local function AddColouredText( inputText )
+	local hash = gsub( ns.L[ inputText ], "%%e", ns.colour.highlight )
+	return gsub( hash, "%%s", ns.colour.prefix )
+end
+
 ns.choices = "0 = No Map Pin\n1 = " ..ns.L["White"] .."\n2 = " ..ns.L["Purple"] .."\n3 = " ..ns.L["Red"] .."\n4 = " 
 				..ns.L["Yellow"] .."\n5 = " ..ns.L["Green"] .."\n6 = " ..ns.L["Grey"] .."\n7 = " ..ns.L["Mana Orb"]
 				.."\n8 = " ..ns.L["Phasing"] .."\n9 = " ..ns.L["Raptor egg"] .."\n10 = " ..ns.L["Stars"]
@@ -220,7 +226,7 @@ ns.choices = "0 = No Map Pin\n1 = " ..ns.L["White"] .."\n2 = " ..ns.L["Purple"] 
 ns.options = {
 	type = "group",
 	name = ns.L["Chests"],
-	desc = ns.L["AddOn Description"],
+	desc = AddColouredText( "AddOn Description" ),
 	get = function(info) return ns.db[info[#info]] end,
 	set = function(info, v)
 		ns.db[info[#info]] = v
@@ -296,7 +302,7 @@ ns.options = {
 					arg = "chest4",
 					order = 13,
 				},
---[[				chest5 = {
+				chest5 = {
 					type = "range",
 					name = ns.L["Solid Chest"].." (35)",
 					desc = ns.choices,
@@ -320,7 +326,7 @@ ns.options = {
 					arg = "chest7",
 					order = 16,
 				},
-]]				voidTouched = {
+				voidTouched = {
 					type = "range",
 					name = ns.L["Void Touched"],
 					desc = ns.choices,

@@ -1,5 +1,5 @@
 ## Interface: 11506
-## Version: 1.21
+## Version: 1.22
 ## Author: Taraezor
 ## IconTexture: Interface\Icons\inv_crate_05
 ## Title: Chests
@@ -13,17 +13,17 @@
 ## Title-ruRU: Cундук
 ## Title-zhCN: 宝箱
 ## Title-zhTW: 寶箱
-## Notes: All the |cFFB86500Battered/Solid Chests ++
-## Notes-deDE: Alle |cFFB86500Ramponierten/Robuste Truhen ++
-## Notes-esES: Todos los |cFFB86500Cofres maltratados/Sólido ++
-## Notes-esMX: Todos los |cFFB86500Cofres maltratados/Sólido ++
-## Notes-frFR: Tous les |cFFB86500Coffres Endommagé/Solide ++
-## Notes-koKR: 모든 |cFFB86500낡은/단단한 궤짝 ++
-## Notes-ptBR: Todos os |cFFB86500Baús Desgastado/Sólido ++
-## Notes-ptPT: Todos os |cFFB86500Baús Desgastado/Sólido ++
-## Notes-ruRU: Все |cFFB86500Побитые/Добротный Сундуки ++
-## Notes-zhCN: 所有|cFFB86500破损的箱子/坚固的箱子 ++
-## Notes-zhTW: 所有|cFFB86500破損的箱子/堅固的箱子 ++
+## Notes: |cFF954535All the |cFFB86500Battered/Solid Chests|cFF954535 (And more!)
+## Notes-deDE: |cFF954535Alle |cFFB86500Ramponierten/Robuste Truhen|cFF954535 (Und mehr!)
+## Notes-esES: |cFF954535Todos los |cFFB86500Cofres maltratados/Sólido|cFF954535 (¡Y más!)
+## Notes-esMX: |cFF954535Todos los |cFFB86500Cofres maltratados/Sólido|cFF954535 (¡Y más!)
+## Notes-frFR: |cFF954535Tous les |cFFB86500Coffres Endommagé/Solide|cFF954535 (Et plus!)
+## Notes-koKR: |cFF954535모든 |cFFB86500낡은/단단한 궤짝|cFF954535 (그리고 더!)
+## Notes-ptBR: |cFF954535Todos os |cFFB86500Baús Desgastado/Sólido|cFF954535 (E mais!)
+## Notes-ptPT: |cFF954535Todos os |cFFB86500Baús Desgastado/Sólido|cFF954535 (E mais!)
+## Notes-ruRU: |cFF954535Все |cFFB86500Побитые/Добротный Сундуки|cFF954535 (И более!)
+## Notes-zhCN: |cFF954535所有|cFFB86500破损的箱子/坚固的箱子。|cFF954535 （和更多！）。
+## Notes-zhTW: |cFF954535所有|cFFB86500破損的箱子/堅固的箱子。|cFF954535 （和更多！）。
 ## RequiredDeps: HandyNotes
 ## SavedVariablesPerCharacter: HandyNotes_ChestsDB
 

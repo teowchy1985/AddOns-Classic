@@ -3,7 +3,7 @@ local _, ns = ...
 -- Translations specific to the Chests AddOn
 
 if ns.locale == "deDE" then
-	ns.L["AddOn Description"] = "Alle Ramponierte/Robuste Truhen"
+	ns.L["AddOn Description"] = "%eAlle %sRamponierte/Robuste Truhen %e(Und mehr!)"
 	ns.L["AoPD"] = "Aura des paralysierenden Schreckens"
 	ns.L["Battered Chest"] = "Ramponierte Truhe"
 	ns.L["Best Hunter Pets"] = "Beste Jägerhaustiere"
@@ -15,7 +15,7 @@ if ns.locale == "deDE" then
 	ns.L["Void Touched"] = "Leerenberührte"
 	
 elseif ns.locale == "esES" or ns.locale == "esMX" then
-	ns.L["AddOn Description"] = "Todos los cofres Maltrecho/Sólido"
+	ns.L["AddOn Description"] = "%eTodos los %sCofres Maltrecho/Sólido %e(¡Y más!)"
 	ns.L["AoPD"] = "Aura de terror paralizante"
 	ns.L["Battered Chest"] = "Cofre Maltrecho"
 	ns.L["Best Hunter Pets"] = "Mascotas de cazador"
@@ -27,7 +27,7 @@ elseif ns.locale == "esES" or ns.locale == "esMX" then
 	ns.L["Void Touched"] = "Tocados por el Vacío"
 
 elseif ns.locale == "frFR" then
-	ns.L["AddOn Description"] = "Tous les Coffres Endommagé/Solide"
+	ns.L["AddOn Description"] = "%eTous les %sCoffres Endommagé/Solide %e(Et plus!)"
 	ns.L["AoPD"] = "Aura d’effroi paralysant"
 	ns.L["Battered Chest"] = "Coffre Endommagé"
 	ns.L["Best Hunter Pets"] = "Meilleurs mascotte de cazador"
@@ -39,7 +39,7 @@ elseif ns.locale == "frFR" then
 	ns.L["Void Touched"] = "Touché par le Vide"
 
 elseif ns.locale == "koKR" then
-	ns.L["AddOn Description"] = "모든 낡은/단단한 궤짝"
+	ns.L["AddOn Description"] = "%e모든 %s낡은/단단한 궤짝 %e(그리고 더!)"
 	ns.L["AoPD"] = "마비의 공포 오라"
 	ns.L["Battered Chest"] = "낡은 궤짝"
 	ns.L["Best Hunter Pets"] = "최고의 사냥꾼 야수"
@@ -52,7 +52,7 @@ elseif ns.locale == "koKR" then
 	ns.L["Void Touched"] = "공허에 물든"
 
 elseif ns.locale == "ptBR" or ns.locale == "ptPT" then
-	ns.L["AddOn Description"] = "Todos os Baús Desgastado/Sólido"
+	ns.L["AddOn Description"] = "%eTodos os %sBaús Desgastado/Sólido %e(E mais!)"
 	ns.L["AoPD"] = "Aura de Horror Paralisante"
 	ns.L["Battered Chest"] = "Baú Desgastado"
 	ns.L["Best Hunter Pets"] = "Os melhores Ajudante de Caçador"
@@ -64,7 +64,7 @@ elseif ns.locale == "ptBR" or ns.locale == "ptPT" then
 	ns.L["Void Touched"] = "Tocadas pelo Caos"
 
 elseif ns.locale == "ruRU" then
-	ns.L["AddOn Description"] = "Все Побитые/Добротный сундукии"
+	ns.L["AddOn Description"] = "%eВсе %sПобитые/Добротный сундукии %e(И более!)"
 	ns.L["AoPD"] = "Аура парализующего ужаса"
 	ns.L["Battered Chest"] = "Побитый Сундук"
 	ns.L["Best Hunter Pets"] = "Лучшие питомцы для охотников"
@@ -77,7 +77,7 @@ elseif ns.locale == "ruRU" then
 	ns.L["Void Touched"] = "Меченные Бездной"
 
 elseif ns.locale == "zhCN" then
-	ns.L["AddOn Description"] = "所有破损的箱子/坚固的箱子"
+	ns.L["AddOn Description"] = "%e所有%s破损的箱子/坚固的箱子。 %e（和更多！）。"
 	ns.L["AoPD"] = "痹体恐惧氛围"
 	ns.L["Battered Chest"] = "破损的箱子"
 	ns.L["Best Hunter Pets"] = "最佳猎人宠物"
@@ -89,7 +89,7 @@ elseif ns.locale == "zhCN" then
 	ns.L["Void Touched"] = "虚空触动"
 
 elseif ns.locale == "zhTW" then
-	ns.L["AddOn Description"] = "所有破損的箱子/堅固的箱子"
+	ns.L["AddOn Description"] = "%e所有%s破損的箱子/堅固的箱子。 %e（和更多！）。"
 	ns.L["AoPD"] = "麻痺體恐懼氛圍"
 	ns.L["Battered Chest"] = "破損的箱子"
 	ns.L["Best Hunter Pets"] = "最佳獵人寵物"
@@ -101,7 +101,7 @@ elseif ns.locale == "zhTW" then
 	ns.L["Void Touched"] = "虛空觸動"
 
 else
-	ns.L["AddOn Description"] = "Helps you to collect Battered/Solid Chests"
+	ns.L["AddOn Description"] = "%eHelps you to collect %sBattered/Solid Chests %e(And more!)"
 	ns.L["AoPD"] = "Aura of Paralyzing Dread"
 	ns.L["Chest Rank"] = "Chest Rank: "
 	ns.L["Void Touched"] = "Void-Touched"
