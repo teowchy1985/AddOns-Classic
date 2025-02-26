@@ -391,15 +391,101 @@ BG.Init(function()
     do
         local f = CreateFrame("Frame", nil, TradeFrame)
         f:SetFrameStrata("HIGH")
-        local text = f:CreateFontString()
-        text:SetPoint("BOTTOMRIGHT", TradeRecipientMoneyBg, "TOPRIGHT", 0, 0)
-        text:SetFont(STANDARD_TEXT_FONT, 15, "OUTLINE")
-        text:SetTextColor(RGB(BG.r1))
-        text:SetText(L["金币已超上限！"])
-        text:Hide()
-        BG.tradeGoldTop = text
-        -- BG.tradeGoldTop.num=214745
-        BG.tradeGoldTop.num = 999999
+        local t = f:CreateFontString()
+        t:SetPoint("BOTTOMRIGHT", TradeRecipientMoneyBg, "TOPRIGHT", 0, 0)
+        t:SetFont(STANDARD_TEXT_FONT, 15, "OUTLINE")
+        t:SetTextColor(RGB(BG.r1))
+        t:SetText(L["金币已超上限！"])
+        t:Hide()
+        BG.tradeGoldTop = t
+        if BG.IsVanilla then
+            BG.tradeGoldTop.num = 214745
+        else
+            BG.tradeGoldTop.num = 999999
+        end
+    end
+
+    -- 重复交易
+    local a
+    do
+        local f = CreateFrame("Frame", nil, TradeFrame)
+        f:SetFrameStrata("HIGH")
+        local t = f:CreateFontString()
+        t:SetPoint("BOTTOMLEFT", TradePlayerInputMoneyFrame, "TOPLEFT", 0, 0)
+        t:SetFont(STANDARD_TEXT_FONT, 15, "OUTLINE")
+        t:SetTextColor(RGB(BG.r1))
+        t:SetText(L["重复交易！"])
+        f:Hide()
+        BG.tradeSaveMoney = f
+        BG.tradeSaveMoney.trade = {}
+        -- 提示
+        local bt = CreateFrame("Button", nil, f)
+        bt:SetSize(16, 16)
+        bt:SetPoint("BOTTOMLEFT", t, "BOTTOMRIGHT", 0, 0)
+        local tex = bt:CreateTexture()
+        tex:SetPoint("CENTER")
+        tex:SetSize(bt:GetWidth() + 10, bt:GetHeight() + 10)
+        tex:SetTexture(616343)
+        local tex = bt:CreateTexture()
+        tex:SetPoint("CENTER")
+        tex:SetSize(bt:GetWidth() + 10, bt:GetHeight() + 10)
+        tex:SetTexture(616343)
+        bt:SetHighlightTexture(tex)
+        bt:SetScript("OnEnter", function(self)
+            GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT")
+            GameTooltip:ClearLines()
+            GameTooltip:AddLine(L["重复交易"], 1, 1, 1, true)
+            GameTooltip:AddLine(format(L["你%s秒前曾交给他相同的金币！"], BG.tradeSaveMoney.beforeTime), 1, 0.82, 0, true)
+            GameTooltip:Show()
+        end)
+        bt:SetScript("OnLeave", GameTooltip_Hide)
+
+        function BG.tradeSaveMoney:SaveTradeMoney()
+            if not (BiaoGe.options["autoTrade"] == 1 and BiaoGe.options["tradeSameMoney"] == 1) then return end
+            if next(BG.trade.targetitems) or next(BG.trade.playeritems)
+                or (BG.trade.playermoney and BG.trade.playermoney == 0)
+                or not BG.trade.target
+            then
+                return
+            end
+            self.trade[BG.trade.target] = self.trade[BG.trade.target] or {}
+            tinsert(self.trade[BG.trade.target], {
+                time = time(),
+                money = BG.trade.playermoney,
+            })
+        end
+
+        function BG.tradeSaveMoney:UpdateFrame()
+            self:Hide()
+            if not (BiaoGe.options["autoTrade"] == 1 and BiaoGe.options["tradeSameMoney"] == 1) then return end
+            local money = BG.trade.playermoney
+            if not money or money == 0 or not BG.trade.target or not self.trade[BG.trade.target] then return end
+            local isSame
+            for _, v in ipairs(self.trade[BG.trade.target]) do
+                if v.money == money then
+                    isSame = true
+                    self.beforeTime = time() - v.time
+                    break
+                end
+            end
+            if not isSame then return end
+            if next(BG.trade.targetitems) or next(BG.trade.playeritems) or not BG.trade.target then
+                return
+            end
+            self:Show()
+        end
+
+        C_Timer.NewTicker(30, function()
+            local time = time()
+            for name in pairs(BG.tradeSaveMoney.trade) do
+                for i = #BG.tradeSaveMoney.trade[name], 1, -1 do
+                    local v = BG.tradeSaveMoney.trade[name][i]
+                    if time - v.time >= 60 * 2 then
+                        tremove(BG.tradeSaveMoney.trade[name], i)
+                    end
+                end
+            end
+        end)
     end
 
     -- 欠款记录
@@ -1126,6 +1212,7 @@ BG.Init(function()
             end
 
             BG.tradeGoldTop:Hide()
+            BG.tradeSaveMoney:Hide()
 
             if BiaoGe.options["autoTrade"] == 1 and BiaoGe.options["lastTrade"] == 1 then
                 if BG.ImML() then
@@ -1139,7 +1226,7 @@ BG.Init(function()
         end)
     end
 
-    -- 交易框物品高亮
+    -- 交易框对应的物品高亮
     do
         local function PlayerOnEnter(self)
             local ID = self:GetParent():GetID()
@@ -1229,6 +1316,7 @@ BG.Init(function()
         -- 我输入金币时
         TradePlayerInputMoneyFrameGold:HookScript("OnTextChanged", function()
             BG.GetTradeInfo()
+            BG.tradeSaveMoney:UpdateFrame()
             BG.tradeFrame.text:SetText(BG.TradeText())
         end)
 
@@ -1237,6 +1325,7 @@ BG.Init(function()
         f:RegisterEvent("TRADE_PLAYER_ITEM_CHANGED")
         f:RegisterEvent("TRADE_TARGET_ITEM_CHANGED")
         f:RegisterEvent("TRADE_MONEY_CHANGED")
+        f:RegisterEvent("TRADE_ACCEPT_UPDATE")
         f:SetScript("OnEvent", function(...)
             BG.GetTradeInfo()
             BG.tradeFrame.text:SetText(BG.TradeText())
@@ -1250,6 +1339,7 @@ BG.Init(function()
                     BG.tradeGoldTop:Hide()
                 end
             end
+            BG.tradeSaveMoney:UpdateFrame()
         end)
 
         local f = CreateFrame("Frame")
@@ -1257,6 +1347,7 @@ BG.Init(function()
         f:SetScript("OnEvent", function(self, event, _, text)
             if text == ERR_TRADE_COMPLETE then
                 if BiaoGe.options["autoTrade"] ~= 1 or not IsInRaid(1) then return end
+                BG.tradeSaveMoney:SaveTradeMoney()
                 local text = BG.TradeText("saved")
                 if #BG.trade.many > 1 then
                     local FBs = {}

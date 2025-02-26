@@ -188,20 +188,13 @@ BG.Init(function()
     local lasttime = 0
     local _time
     local start
-
-    local function PrintLootBoss(FB, event, numb, text)
-        if BiaoGe.options["autoLoot"] ~= 1 then return end
-        SendSystemMessage(BG.BG .. text .. "，" .. L["当前装备自动记录位置："] ..
-            "|cff" .. BG.Boss[FB]["boss" .. numb].color .. BG.Boss[FB]["boss" .. numb].name2 .. RR)
-    end
-
     local function IsBWLsod_boss5orboss6(bossID)
         if BG.IsVanilla_Sod and (bossID == 614 or bossID == 615) then
             return 5
         end
     end
-
     -- 获取BOSS战ID
+    local remindUpdateFrame = CreateFrame("Frame")
     local f = CreateFrame("Frame")
     f:RegisterEvent("ENCOUNTER_START")
     f:RegisterEvent("ENCOUNTER_END")
@@ -218,8 +211,6 @@ BG.Init(function()
                     if bossID and (bossID == _bossID) then
                         numb = _numb
                         lasttime = GetTime()
-                        -- local text = BG.STC_g1(L["BOSS战开始"])
-                        -- PrintLootBoss(FB, event, numb, text)
                         return
                     end
                 end
@@ -235,11 +226,22 @@ BG.Init(function()
                             numb = _numb
                             lasttime = GetTime()
                             start = nil
-                            -- local text = BG.STC_g1(L["BOSS击杀成功"])
-                            -- PrintLootBoss(FB, event, numb, text)
                             BiaoGe[FB].raidRoster = { time = GetServerTime(), realm = GetRealmName(), roster = {} }
                             for i, v in ipairs(BG.raidRosterInfo) do
                                 tinsert(BiaoGe[FB].raidRoster.roster, v.name)
+                            end
+                            if BiaoGe.options.autoLoot == 1 and BiaoGe.options.autolootRemind == 1 and BG.ImML() and GetLootMethod() == "master" then
+                                remindUpdateFrame.elapsed = 0
+                                remindUpdateFrame:SetScript("OnUpdate", function(self, elapsed)
+                                    self.elapsed = self.elapsed + elapsed
+                                    if self.elapsed >= 30 then
+                                        if BG.ImML() then
+                                            BG.FrameLootMsg:AddMessage(BG.STC_r1(L["提醒：你可能还没拾取刚击杀BOSS的掉落哦！"]))
+                                            PlaySoundFile("Interface\\AddOns\\BiaoGe\\Media\\sound\\other\\remind.mp3", "Master")
+                                        end
+                                        self:SetScript("OnUpdate", nil)
+                                    end
+                                end)
                             end
                             return
                         end
@@ -248,8 +250,6 @@ BG.Init(function()
             else
                 numb = Maxb[FB] - 1
                 start = nil
-                -- local text = BG.STC_r1(L["BOSS击杀失败"])
-                -- PrintLootBoss(FB, event, numb, text)
             end
         end
     end)
@@ -532,6 +532,7 @@ BG.Init(function()
                 end
             end
         end
+        remindUpdateFrame:SetScript("OnUpdate", nil)
 
         -- 更新装备库已掉落显示
         if BG.ItemLibMainFrame:IsVisible() then
@@ -597,7 +598,7 @@ BG.Init(function()
                 AddLootItem(FB, numb, link, Texture, level, Hope, count, typeID, lootplayer)
                 return
             end
-        else 
+        else
             -- WLK的图纸记到杂项
             if typeID == 9 then
                 local numb = Maxb[FB] - 1

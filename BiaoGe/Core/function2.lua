@@ -2244,6 +2244,7 @@ function BG.SkinDropDown(dropDown)
     f:SetPoint("TOPLEFT", 15, 0)
     f:SetPoint("BOTTOMRIGHT", -15, 7)
     f:SetFrameLevel(dropDown:GetFrameLevel())
+    dropDown.bg=f
 
     local tex = dropDown:CreateTexture("OVERLAY")
     tex:SetPoint("TOPLEFT", bt, "TOPLEFT", 2, -2)

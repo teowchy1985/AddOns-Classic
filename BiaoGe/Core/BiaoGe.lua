@@ -144,7 +144,7 @@ BG.Init(function()
         end)
 
         local TitleText = BG.MainFrame:CreateFontString()
-        TitleText:SetPoint("TOP", BG.MainFrame, "TOP", 0, -4);
+        TitleText:SetPoint("TOP",  -30, -4);
         TitleText:SetFont(STANDARD_TEXT_FONT, 15, "OUTLINE")
         TitleText:SetTextColor(RGB("00BFFF"))
         TitleText:SetText(L["<BiaoGe> 金团表格"])
@@ -213,7 +213,7 @@ BG.Init(function()
         BG.Init2(function()
             if not BiaoGeVIP then
                 BG.VIPVerText = CreateFrame("Frame", nil, BG.MainFrame)
-                BG.VIPVerText:SetPoint("LEFT", BG.VerText, "RIGHT", 10, 0)
+                BG.VIPVerText:SetPoint("LEFT", BG.VerText, "RIGHT", 5, 0)
                 local t = BG.VIPVerText:CreateFontString()
                 t:SetPoint("CENTER")
                 t:SetFont(STANDARD_TEXT_FONT, 12, "OUTLINE")
@@ -235,7 +235,7 @@ BG.Init(function()
             end
             if not BiaoGeAccounts then
                 BG.AccountsVerText = CreateFrame("Frame", nil, BG.MainFrame)
-                BG.AccountsVerText:SetPoint("LEFT", BG.VIPVerText or (BGV and BGV.VerText) or BG.VerText, "RIGHT", 10, 0)
+                BG.AccountsVerText:SetPoint("LEFT", BG.VIPVerText or (BGV and BGV.VerText) or BG.VerText, "RIGHT", 5, 0)
                 local t = BG.AccountsVerText:CreateFontString()
                 t:SetPoint("CENTER")
                 t:SetFont(STANDARD_TEXT_FONT, 12, "OUTLINE")
@@ -2059,7 +2059,6 @@ BG.Init(function()
         while _G["ChatFrame" .. i] do
             _G["ChatFrame" .. i]:HookScript("OnHyperlinkEnter", function(self, link, text)
                 BG.Show_AllHighlight(link, "chat")
-                -- pt(link)
             end)
             _G["ChatFrame" .. i]:HookScript("OnHyperlinkLeave", BG.Hide_AllHighlight)
 
@@ -2445,9 +2444,9 @@ BG.Init(function()
 
         -- 导出并举报
         local whoText
-        local bt = CreateFrame("Button", nil, WhoFrame, "UIPanelButtonTemplate")
-        bt:SetSize(100, 25)
-        bt:SetPoint("TOPRIGHT", WhoFrame, "TOPRIGHT", -20, -25)
+        local bt=BG.CreateButton(WhoFrame)
+        bt:SetSize(100, 22)
+        bt:SetPoint("TOPRIGHT", WhoFrame, "TOPRIGHT", -20, -28)
         bt:SetText(L["导出名单"])
         BG.WhoFrameSendOutButton = bt
         bt:SetScript("OnEnter", function(self)
@@ -3547,16 +3546,8 @@ BG.Init(function()
 
         -- 自动清空表格
         do
-            local lastzone = { zoneID = nil, isInInstance = nil }
-
             local function IsNotSameTeam(FB)
                 if not FB then FB = BG.FB1 end
-                -- pt(FB, BiaoGe[FB].raidRoster)
-                -- if BiaoGe[FB].raidRoster then
-                --     pt(GetServerTime(), BiaoGe[FB].raidRoster.time, GetServerTime() - BiaoGe[FB].raidRoster.time >= 86400 * 1)
-                --     pt(GetRealmName(), BiaoGe[FB].raidRoster.realm, GetRealmName() ~= BiaoGe[FB].raidRoster.realm)
-                -- end
-
                 if not IsInRaid(1) then return true end
                 -- 没有历史成员名单
                 if not BiaoGe[FB].raidRoster then return true end
@@ -3574,7 +3565,6 @@ BG.Init(function()
                         end
                     end
                 end
-                -- pt(sameCount, maxCount, sameCount / maxCount < 0.6)
                 if sameCount / maxCount < 0.6 then
                     return true
                 end
@@ -3948,6 +3938,7 @@ BG.Init(function()
                     end)
                 elseif strfind(msg, "MyVer") and not close then
                     local _, version = strsplit("-", msg)
+                    -- pt(sender,BG.GetVerNum(version))
                     if VerGuoQi(BG.ver, version) then
                         SendSystemMessage("|cff00BFFF" .. format(L["< BiaoGe > 你的当前版本%s已过期，请更新插件。"] .. RR, BG.STC_r1(BG.ver)))
                         BG.VerText:SetTextColor(1, 0, 0)
@@ -4122,7 +4113,7 @@ end
 do
     local yes, yes2, yes3
     SlashCmdList["BIAOGETEST"] = function()
-        BG.DeBug = true
+        -- BG.DeBug = true
         local CDing
         if not yes and AtlasLoot then
             yes = true
@@ -4225,7 +4216,7 @@ do
         end
 
         if BGV.HistoryMainFrame then
-            -- BGV.HistoryMainFrame:SetShown(not BGV.HistoryMainFrame:IsVisible())
+            BGV.HistoryMainFrame:SetShown(not BGV.HistoryMainFrame:IsVisible())
         end
     end
     SLASH_BIAOGETEST1 = "/bgdebug"
