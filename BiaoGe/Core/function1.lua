@@ -408,8 +408,8 @@ end
 
 --[[
 BG.OnUpdateTime(function(self,elapsed)
-    self.timeElapsed=self.timeElapsed+elapsed
-    if self.timeElapsed then
+    self.elapsed=self.elapsed+elapsed
+    if self.elapsed then
         self:SetScript("OnUpdate",nil)
         self:Hide()
     end
@@ -502,7 +502,6 @@ end
 ----------滚动到最末----------
 function BG.SetScrollBottom(scroll, child)
     local offset = child:GetHeight() - scroll:GetHeight()
-    -- pt(child:GetHeight(),scroll:GetHeight())
     if offset > 0 then
         scroll:SetVerticalScroll(offset)
     end

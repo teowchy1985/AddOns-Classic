@@ -93,6 +93,7 @@ BG.Init(function()
     local frame, child,scroll
     local CancelAllChoose
 
+    -- 主界面
     local f = CreateFrame("Frame", nil, BG.MainFrame, "BackdropTemplate")
     local dropDown = LibBG:Create_UIDropDownMenu(nil, f)
     do

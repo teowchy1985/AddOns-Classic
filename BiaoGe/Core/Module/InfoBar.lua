@@ -34,6 +34,10 @@ local AFDtbl = {
     "露露缇娅",
     "陈",
     -- 360
+    -- "",
+    -- "",
+    "匕首岭-麻生成实",
+    "Funny",
     "全能小霸王",
     "龙之召唤<破冰>粥糟-粥枣",
     -- 300
@@ -44,13 +48,19 @@ local AFDtbl = {
     "超级小奶爸",
     "水晶之牙-Rich Only",
     -- 90
+    "超能力领域-展开",
     "小戆戆",
     -- 30
     -- "",
     -- "",
-    -- "",
-    -- "",
-    -- "",
+    "爱萝莉的格雷福斯",
+    "<狮心>圣火喵喵教---阿壶金团",
+    "我是读书人",
+    "比格沃斯-面包",
+    "咖啡",
+    "欧黄",
+    "DemonClin",
+    "龙之召唤-不是芋圆",
     "Endearment",
     "糖果与火焰山-死亡猎手",
     "收藏家",
@@ -127,7 +137,7 @@ local AFDtbl = {
     -- "",
     -- "",
     -- "",
-    --最后更新时间：25/2/22 16:30
+    --最后更新时间：25/2/26 8:40
 }
 
 
@@ -247,39 +257,39 @@ BG.Init(function()
         end)
     end
 
-        -- 更新计划
-        do
-            local bt = CreateFrame("Button", nil, BG.MainFrame)
-            bt:SetSize(20, hight)
-            if lastBt then
-                bt:SetPoint("RIGHT", lastBt, "LEFT", -10, 0)
-            else
-                bt:SetPoint("BOTTOMRIGHT", -10, 1)
-            end
-            bt:SetNormalFontObject(BG.FontYellow13)
-            bt:SetHighlightFontObject(BG.FontWhite13)
-            bt:SetText("|A:Class:15:15|a" .. L["更新计划"])
-            bt:SetWidth(bt:GetFontString():GetStringWidth())
-            BG.ButtonUpdateLate = bt
-            lastBt = bt
-    
-            bt:SetScript("OnEnter", function(self)
-                GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT", 0, 0)
-                GameTooltip:ClearLines()
-                GameTooltip:AddLine(self:GetText(), 1, 1, 1, true)
-                GameTooltip:AddLine(L["BiaoGe插件未来的更新计划共享在在线文档。"], 1, 0.82, 0, true)
-                GameTooltip:AddLine(L["你可以浏览该内容，留下你的建议。"], 1, 0.82, 0, true)
-                GameTooltip:AddLine(L["（点击复制文档地址）"], 1, 0.82, 0, true)
-                GameTooltip:Show()
-            end)
-            bt:SetScript("OnLeave", GameTooltip_Hide)
-            bt:SetScript("OnClick", function(self)
-                BG.PlaySound(1)
-                ChatEdit_ActivateChat(ChatEdit_ChooseBoxForSend())
-                ChatEdit_ChooseBoxForSend():SetText("https://docs.qq.com/doc/DYVFDaU5uR21sanJm")
-                ChatEdit_ChooseBoxForSend():HighlightText()
-            end)
+    -- 更新计划
+    do
+        local bt = CreateFrame("Button", nil, BG.MainFrame)
+        bt:SetSize(20, hight)
+        if lastBt then
+            bt:SetPoint("RIGHT", lastBt, "LEFT", -10, 0)
+        else
+            bt:SetPoint("BOTTOMRIGHT", -10, 1)
         end
+        bt:SetNormalFontObject(BG.FontYellow13)
+        bt:SetHighlightFontObject(BG.FontWhite13)
+        bt:SetText("|A:Class:15:15|a" .. L["更新计划"])
+        bt:SetWidth(bt:GetFontString():GetStringWidth())
+        BG.ButtonUpdateLate = bt
+        lastBt = bt
+
+        bt:SetScript("OnEnter", function(self)
+            GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT", 0, 0)
+            GameTooltip:ClearLines()
+            GameTooltip:AddLine(self:GetText(), 1, 1, 1, true)
+            GameTooltip:AddLine(L["BiaoGe插件未来的更新计划共享在在线文档。"], 1, 0.82, 0, true)
+            GameTooltip:AddLine(L["你可以浏览该内容，留下你的建议。"], 1, 0.82, 0, true)
+            GameTooltip:AddLine(L["（点击复制文档地址）"], 1, 0.82, 0, true)
+            GameTooltip:Show()
+        end)
+        bt:SetScript("OnLeave", GameTooltip_Hide)
+        bt:SetScript("OnClick", function(self)
+            BG.PlaySound(1)
+            ChatEdit_ActivateChat(ChatEdit_ChooseBoxForSend())
+            ChatEdit_ChooseBoxForSend():SetText("https://docs.qq.com/doc/DYVFDaU5uR21sanJm")
+            ChatEdit_ChooseBoxForSend():HighlightText()
+        end)
+    end
 
     -- 爱发电
     do
@@ -332,7 +342,7 @@ BG.Init(function()
     end
 
     -- 网易DD
-    do
+    --[[     do
         local bt = CreateFrame("Button", nil, BG.MainFrame)
         bt:SetSize(20, hight)
         if lastBt then
@@ -364,7 +374,7 @@ BG.Init(function()
             ChatEdit_ChooseBoxForSend():SetText("https://dd.163.com/?utm_source=112231")
             ChatEdit_ChooseBoxForSend():HighlightText()
         end)
-    end
+    end ]]
 
     -- 新手盒子
     do

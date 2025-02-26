@@ -13,14 +13,14 @@ local RGB_16 = ns.RGB_16
 local pt = print
 
 --[[
-pt( "|cFFE5CC80".."啊~")
-pt( "|cFFE26880".."啊~")
-pt( "|cFFFF8000".."啊~")
-pt( "|cFFBE8200".."啊~")
-pt( "|cFFA335EE".."啊~")
-pt( "|cFF0070FF".."啊~")
-pt( "|cFF1EFF00".."啊~")
-pt( "|cFF666666".."啊~")
+print( "|cFFE5CC80".."啊~")
+print( "|cFFE26880".."啊~")
+print( "|cFFFF8000".."啊~")
+print( "|cFFBE8200".."啊~")
+print( "|cFFA335EE".."啊~")
+print( "|cFF0070FF".."啊~")
+print( "|cFF1EFF00".."啊~")
+print( "|cFF666666".."啊~")
 
 5046匕首岭
  ]]

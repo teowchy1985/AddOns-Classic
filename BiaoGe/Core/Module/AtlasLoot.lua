@@ -82,7 +82,7 @@ BG.Init2(function()
         elseif self.id == "AtlasLootClassic_DungeonsAndRaids" then
             -- 地下城和团队副本
             _G["AtlasLoot_GUI-Frame"].subCatSelect:SetSelected("TrialoftheCrusader")
-            ClickSelectButton(9, 1, "notRefresh")
+            ClickSelectButton(10, 1, "notRefresh")
             AtlasLoot.GUI.ItemFrame:Refresh(true)
         elseif self.id == "AtlasLootClassic_Crafting" then
             -- 专业制造
