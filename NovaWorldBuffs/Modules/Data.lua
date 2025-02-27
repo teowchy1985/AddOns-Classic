@@ -159,6 +159,8 @@ function NWB:OnCommReceived(commPrefix, string, distribution, sender)
 		--NWB:extractSettings(data, sender, distribution);
 		--Just ignore versions this old now.
 		NWB:debug("version missing", sender, cmd, remoteVersion);
+		local res, d = NWB.serializer:Deserialize(data);
+		NWB:debug(d);
 		return;
 	end
 	NWB.hasAddon[sender] = (remoteVersion or "0");
@@ -1098,7 +1100,7 @@ function NWB:createDataLayered(distribution, noLayerMap, noLogs, type, forceLaye
 					data.layers[layer]['GUID'] = NWB.data.layers[layer].GUID;
 				end]]
 			end
-			if (data.layers[layer] and NWB.data.layers[layer] and NWB.data.layers[layer].spawn and NWB.data.layers[layer].spawn > 0) then
+			if (data.layers and data.layers[layer] and NWB.data.layers[layer] and NWB.data.layers[layer].spawn and NWB.data.layers[layer].spawn > 0) then
 				data.layers[layer].spawn = NWB.data.layers[layer].spawn;
 			end
 			--Testing on my realm, will be disabled again soon.

@@ -11906,12 +11906,15 @@ end)]]
 
 --Credit to the addon "unitscan" for how to scan in classic. https://www.curseforge.com/wow/addons/unitscan
 --This is all disabled now, it worked well but isn't really within good addon practices.
+--I've renabled this after many people asked for it back, but blizzard may break it at some point or ask for it to be removed .
+--It's using a loophole the API to find the npc that probably shouldn't work.
+--Using the bugsack addon may also break this, and people using that probably wondered why they get errors in crossroads which was another reason I disabled it in the first place.
 local doScan = false;
---local scanFrame = CreateFrame("Frame");
+local scanFrame = CreateFrame("Frame");
 local lastPoisChange = 0;
 local lastPoisZone;
 local scanCheckEnabled;
---[[addon.c = c;
+addon.c = c;
 scanFrame:RegisterEvent("ADDON_ACTION_FORBIDDEN");
 scanFrame:RegisterEvent("PLAYER_ENTERING_WORLD");
 scanFrame:RegisterEvent("AREA_POIS_UPDATED");
@@ -12060,7 +12063,7 @@ function NWB:verifyHeraldPosition()
 		return;
 	end
 	return true;
-end]]
+end
 
 --Backup timer set from the yell incase the NPC wasn't found.
 function NWB:heraldYell()
