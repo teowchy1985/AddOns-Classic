@@ -1,7 +1,7 @@
-## Interface: 40402, 110005, 110007
+## Interface: 40402, 110007, 110100
 
 ## Title: Threat Plates
-## Version: 12.0.15
+## Version: 12.0.16
 ## Notes: Threat-reactive nameplates.
 ## Notes-deDE: Bedrohungsreaktive Namensplaketten.
 ## Notes-esES: Placas Identificativas de Amenaza
@@ -25,8 +25,7 @@
 
 ## Title-zhTW: |cff0099FF[介面]|r 威力血條
 ## Notes-zhTW: Threat Plates|r |n|n威力強大、能夠根據仇恨值變化血條、提供更多自訂選項的血條。還可以幫指定的怪自訂血條樣式，讓血條更清楚明顯。|n|n|cffffd200使用方法: |r輸入 /tptp 或從Esc>選項>插件>血條，進行設定。
-## X-Category-zhTW: 介面
-## IconTexture: Interface\Icons\ability_warrior_innerrage
+## Category-zhTW: 血條
 
 Libs\Libs.xml
 Locales\Locales.xml
