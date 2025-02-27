@@ -27,6 +27,9 @@ function CataItemFixes.Load()
         [2676] = { -- Shimmerweed
             [itemKeys.npcDrops] = {41121},
         },
+        [2794] = { -- An Old History Book
+            [itemKeys.startQuest] = 0,
+        },
         [2859] = { -- Vile Fin Scale
             [itemKeys.npcDrops] = {1541,1543,1544,1545},
         },
@@ -157,6 +160,9 @@ function CataItemFixes.Load()
         },
         [18960] = { -- Lookout's Spyglass
             [itemKeys.npcDrops] = {5840},
+        },
+        [19034] = { -- Lard's Lunch
+            [itemKeys.objectDrops] = {},
         },
         [19424] = { -- Sayge's Fortune #24
             [itemKeys.startQuest] = 0,
@@ -760,6 +766,9 @@ function CataItemFixes.Load()
         },
         [59522] = { -- Key of Ilgalar
             [itemKeys.class] = itemClasses.QUEST,
+        },
+        [60263] = { -- Whispering Blue Stone
+            [itemKeys.npcDrops] = {939,941,942,978,979,43910,43911,43912,43913},
         },
         [60291] = { -- Tkashi Fetish
             [itemKeys.npcDrops] = {43977},
