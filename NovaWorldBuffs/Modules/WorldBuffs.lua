@@ -131,6 +131,9 @@ function NWB:checkEventStatus(event, type, subEvent, channel)
 		if (NWB.isSOD and not NWB:isCapitalCityAction(type)) then
 			return;
 		end
+		if (type == "rend" and NWB.faction == "Alliance" and not NWB.db.global.allianceEnableRend) then
+			return;
+		end
 		--These are checked in thier parent functions atm, like yell/buff drop etc.
 		return true;
 	else
