@@ -4713,6 +4713,10 @@ function NIT:recalcAltsLineFramesTooltip(obj)
 					attunements = attunements .. "\n  " .. color1 .. L["Karazhan"] .. "|r";
 					foundAttune = true;
 				end
+				if (data.karaCrypts) then
+					attunements = attunements .. "\n  " .. color1 .. L["Karazhan Crypts"] .. "|r";
+					foundAttune = true;
+				end
 				if (data.shatteredHallsAttune) then
 					attunements = attunements .. "\n  " .. color1 .. L["The Shattered Halls"] .. "|r"; --Key.
 					foundAttune = true;

@@ -2135,6 +2135,9 @@ function NIT:recordCharacterData()
 	if (IsQuestFlaggedCompleted(9838)) then
 		NIT.data.myChars[char].karaAttune = true;
 	end
+	if (IsQuestFlaggedCompleted(86970)) then
+		NIT.data.myChars[char].karaCrypts = true;
+	end
 	if (IsQuestFlaggedCompleted(10764) or IsQuestFlaggedCompleted(10758)) then
 		NIT.data.myChars[char].shatteredHallsAttune = true;
 	end
@@ -3134,6 +3137,7 @@ local currencyItems = {
     [136192] = "Mote of Darkness",
     [132851] = "Essence of Corrupted Deathwing",
     [133449] = "Fissure Stone Fragment",
+    [135241] = "Obsidian Fragment",
 	--Profession tokens.
     [134411] = "Epicurean's Award",
     [236571] = "Chef's Award",
