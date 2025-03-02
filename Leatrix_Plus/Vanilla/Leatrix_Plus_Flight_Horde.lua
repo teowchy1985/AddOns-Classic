@@ -84,7 +84,7 @@
 				["0.62:0.31:0.67:0.30"] = 91, -- Hammerfall, Revantusk Village
 				["0.62:0.31:0.67:0.30:0.70:0.16"] = 229, -- Hammerfall, Revantusk Village, Light's Hope Chapel
 				["0.62:0.31:0.49:0.27"] = 117, -- Hammerfall, Tarren Mill
-				["0.62:0.31:0.44:0.19"] = 259, -- Hammerfall, Undercity
+				["0.62:0.31:0.44:0.19"] = 259, -- Hammerfall, Undercity (Michael Breed reported 351)
 				["0.62:0.31:0.49:0.27:0.38:0.24"] = 215, -- Hammerfall, Tarren Mill, The Sepulcher
 				["0.62:0.31:0.49:0.27:0.44:0.19:0.70:0.16"] = 441, -- Hammerfall, Tarren Mill, Undercity, Light's Hope Chapel
 				["0.62:0.31:0.44:0.19:0.38:0.24"] = 290, -- Hammerfall, Undercity, The Sepulcher
