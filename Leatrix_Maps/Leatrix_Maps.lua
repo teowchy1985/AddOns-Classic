@@ -1,6 +1,6 @@
 ﻿
 	----------------------------------------------------------------------
-	-- 	Leatrix Maps 4.0.48 (21st February 2025)
+	-- 	Leatrix Maps 4.0.50 (28th February 2025)
 	----------------------------------------------------------------------
 
 	-- 10:Func, 20:Comm, 30:Evnt, 40:Panl
@@ -12,7 +12,7 @@
 	local LeaMapsLC, LeaMapsCB, LeaDropList, LeaConfigList, LeaLockList = {}, {}, {}, {}, {}
 
 	-- Version
-	LeaMapsLC["AddonVer"] = "4.0.48"
+	LeaMapsLC["AddonVer"] = "4.0.50"
 
 	-- Get locale table
 	local void, Leatrix_Maps = ...
@@ -42,6 +42,14 @@
 	----------------------------------------------------------------------
 	-- L00: Leatrix Maps
 	----------------------------------------------------------------------
+
+	-- Replace map stop drag function locally
+	local function WorldMapTitleButton_OnDragStop()
+		WorldMapFrame:StopMovingOrSizing()
+		WorldMapScreenAnchor:StartMoving()
+		WorldMapScreenAnchor:SetPoint("TOPLEFT", WorldMapFrame)
+		WorldMapScreenAnchor:StopMovingOrSizing()
+	end
 
 	-- Main function
 	function LeaMapsLC:MainFunc()
@@ -4007,17 +4015,17 @@
 			end
 		else
 			if not WorldMapFrame:IsMaximized() then
-				-- Reset map position
-				LeaMapsLC["MapPosA"], LeaMapsLC["MapPosR"], LeaMapsLC["MapPosX"], LeaMapsLC["MapPosY"] = "CENTER", "CENTER", 0, 20
-				WorldMapFrame:ClearAllPoints()
-				WorldMapFrame:SetPoint(LeaMapsLC["MapPosA"], UIParent, LeaMapsLC["MapPosR"], LeaMapsLC["MapPosX"], LeaMapsLC["MapPosY"])
-				WorldMapTitleButton_OnDragStop()
 				-- Reset map scale
 				LeaMapsLC["MapScale"] = 1
 				LeaMapsLC:SetDim()
 				LeaMapsLC["PageF"]:Hide(); LeaMapsLC["PageF"]:Show()
 				WorldMapFrame:SetScale(LeaMapsLC["MapScale"])
 				WorldMapFrame:OnFrameSizeChanged()
+				-- Reset map position
+				LeaMapsLC["MapPosA"], LeaMapsLC["MapPosR"], LeaMapsLC["MapPosX"], LeaMapsLC["MapPosY"] = "CENTER", "CENTER", 0, 20
+				WorldMapFrame:ClearAllPoints()
+				WorldMapFrame:SetPoint(LeaMapsLC["MapPosA"], UIParent, LeaMapsLC["MapPosR"], LeaMapsLC["MapPosX"], LeaMapsLC["MapPosY"])
+				WorldMapTitleButton_OnDragStop()
 			end
 		end
 	end)

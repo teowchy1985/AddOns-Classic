@@ -1,4 +1,7 @@
-﻿4.0.48 - 21st February 2021
+﻿4.0.50 - 28th February 2021
+- Fixed an issue with map positioning.
+
+4.0.48 - 21st February 2021
 - Updated for game version 4.4.2.
 
 4.0.45 - 29th January 2024
