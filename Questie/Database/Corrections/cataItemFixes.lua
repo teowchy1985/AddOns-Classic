@@ -36,6 +36,12 @@ function CataItemFixes.Load()
         [3082] = { -- Dargol's Skull
             [itemKeys.startQuest] = 25030,
         },
+        [3897] = { -- Dizzy's Eye
+            [itemKeys.npcDrops] = {1561,1562,1563,1564,1565,1653,2545,2546,2547,2548,2549,2550,2551,4505,4506,43364,43454,43542,43636},
+        },
+        [3910] = { -- Snuff
+            [itemKeys.npcDrops] = {1561,1562,1563,1564,1565,1653,2545,2546,2547,2548,2549,2550,2551,4505,4506,43364,43454,43542,43636},
+        },
         [4106] = { -- Tumbled Crystal
             [itemKeys.npcDrops] = {1096,4260},
         },
@@ -142,6 +148,10 @@ function CataItemFixes.Load()
         },
         [16790] = { -- Damp Note
             [itemKeys.startQuest] = 0,
+        },
+        [18240] = { -- Ogre Tannin
+            [itemKeys.objectDrops] = {179499},
+            [itemKeys.npcDrops] = {},
         },
         [18597] = { -- Orcish Orphan Whistle
             [itemKeys.class] = itemClasses.QUEST,
