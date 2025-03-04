@@ -109,7 +109,7 @@ BG.Init(function()
     do
         local last
 
-        local function CreateTab(name, text) -- "Options_biaoge",L["表格"],biaoge
+        function BG.OptionsCreateTab(name, text) -- "Options_biaoge",L["表格"]
             local bt = CreateFrame("Button", "BG.Button" .. name, main)
             bt:SetHeight(25)
             bt:SetNormalFontObject(BG.FontBlue15)
@@ -152,14 +152,14 @@ BG.Init(function()
             return frame
         end
 
-        biaoge = CreateTab("Options_biaoge", L["表格"])
-        autoAuction = CreateTab("Options_autoAuction", L["自动拍卖"])
-        roleOverview = CreateTab("Options_roleOverview", L["角色总览"])
+        biaoge = BG.OptionsCreateTab("Options_biaoge", L["表格"])
+        autoAuction = BG.OptionsCreateTab("Options_autoAuction", L["自动拍卖"])
+        roleOverview = BG.OptionsCreateTab("Options_roleOverview", L["角色总览"])
         if BG.IsWLK then
-            boss = CreateTab("Options_boss", L["团本攻略"])
+            boss = BG.OptionsCreateTab("Options_boss", L["团本攻略"])
         end
-        others = CreateTab("Options_others", L["其他功能"])
-        config = CreateTab("Options_config", L["角色配置文件"])
+        others = BG.OptionsCreateTab("Options_others", L["其他功能"])
+        config = BG.OptionsCreateTab("Options_config", L["角色配置"])
 
         if BiaoGe.options.lastFrame and BG[BiaoGe.options.lastFrame] then
             BG[BiaoGe.options.lastFrame]:Show()
@@ -2628,6 +2628,22 @@ BG.Init(function()
                 local f = O.CreateCheckButton(name, L["更好的选择"] .. "*", others, 15, height - h, ontext)
                 BG.options["button" .. name] = f
             end
+            h = h + 30
+
+            -- 一键显示
+            do
+                local name = "AtlasLoot_fastChoose"
+                BG.options[name .. "reset"] = 0
+                BiaoGe.options[name] = BiaoGe.options[name] or BG.options[name .. "reset"]
+                local ontext = {
+                    L["一键显示"],
+                    L["在AtlasLoot主界面的右边，增加多个快捷按钮，点击后直接显示相应页面。"],
+                    " ",
+                    L["比如珠宝按钮，点击后直接显示珠宝页面。"],
+                }
+                local f = O.CreateCheckButton(name, L["一键显示"] .. "*", others, 15, height - h, ontext)
+                BG.options["button" .. name] = f
+            end
 
             h = h + 45
         end
@@ -2855,7 +2871,7 @@ BG.Init(function()
         end)
     end
 
-    -- 角色配置文件
+    -- 角色配置
     do
         BiaoGe.options.configChooseHope = BiaoGe.options.configChooseHope or 1
         BiaoGe.options.configChooseFilter = BiaoGe.options.configChooseFilter or 1

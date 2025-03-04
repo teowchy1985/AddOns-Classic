@@ -112,7 +112,7 @@ local function GetWCLinfo(name)
             local ED = str:match("(.+):")
             if ED and ED:find("T") then
                 yes = true
-                ED = strsub(ED, 1, 1)
+                ED = strsub(ED, 2, 2)
                 if ED == "r" then
                     FB = 9
                 elseif ED == "I" then
