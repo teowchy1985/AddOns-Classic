@@ -144,7 +144,7 @@ BG.Init(function()
         end)
 
         local TitleText = BG.MainFrame:CreateFontString()
-        TitleText:SetPoint("TOP",  -30, -4);
+        TitleText:SetPoint("TOP", -30, -4);
         TitleText:SetFont(STANDARD_TEXT_FONT, 15, "OUTLINE")
         TitleText:SetTextColor(RGB("00BFFF"))
         TitleText:SetText(L["<BiaoGe> 金团表格"])
@@ -2444,7 +2444,7 @@ BG.Init(function()
 
         -- 导出并举报
         local whoText
-        local bt=BG.CreateButton(WhoFrame)
+        local bt = BG.CreateButton(WhoFrame)
         bt:SetSize(100, 22)
         bt:SetPoint("TOPRIGHT", WhoFrame, "TOPRIGHT", -20, -28)
         bt:SetText(L["导出名单"])
@@ -2778,18 +2778,17 @@ BG.Init(function()
         end
         -- 找到合适的格子
         local function HasEmptyGeZi(link)
-            for _, FB in ipairs(BG.GetAllFB()) do
-                for b = 1, Maxb[FB] do
-                    for i = 1, Maxi[FB] do
-                        local zhuangbei = BG.Frame[FB]["boss" .. b]["zhuangbei" .. i]
-                        local maijia = BG.Frame[FB]["boss" .. b]["maijia" .. i]
-                        local jine = BG.Frame[FB]["boss" .. b]["jine" .. i]
+            local FB = BG.FB1
+            for b = 1, Maxb[FB] do
+                for i = 1, Maxi[FB] do
+                    local zhuangbei = BG.Frame[FB]["boss" .. b]["zhuangbei" .. i]
+                    local maijia = BG.Frame[FB]["boss" .. b]["maijia" .. i]
+                    local jine = BG.Frame[FB]["boss" .. b]["jine" .. i]
 
-                        if zhuangbei and GetItemID(zhuangbei:GetText()) == GetItemID(link) and
-                            maijia:GetText() == "" and jine:GetText() == "" and
-                            not BiaoGe[FB]["boss" .. b]["qiankuan" .. i] then
-                            return b, i, zhuangbei, maijia, jine, FB
-                        end
+                    if zhuangbei and GetItemID(zhuangbei:GetText()) == GetItemID(link) and
+                        maijia:GetText() == "" and jine:GetText() == "" and
+                        not BiaoGe[FB]["boss" .. b]["qiankuan" .. i] then
+                        return b, i, zhuangbei, maijia, jine, FB
                     end
                 end
             end
@@ -4114,6 +4113,10 @@ do
     local yes, yes2, yes3
     SlashCmdList["BIAOGETEST"] = function()
         -- BG.DeBug = true
+        -- if BGV.HistoryMainFrame then
+        --     BGV.HistoryMainFrame:SetShown(not BGV.HistoryMainFrame:IsVisible())
+        -- end
+
         local CDing
         if not yes and AtlasLoot then
             yes = true
@@ -4214,95 +4217,10 @@ do
                 BG.PlaySound(1)
             end)
         end
-
-        if BGV.HistoryMainFrame then
-            BGV.HistoryMainFrame:SetShown(not BGV.HistoryMainFrame:IsVisible())
-        end
     end
     SLASH_BIAOGETEST1 = "/bgdebug"
 
     SlashCmdList["BIAOGETEST2"] = function()
-        local f, edit = BG.CreateScrollFrame(UIParent, 400, 500, true)
-        f:SetPoint("CENTER")
-        edit:EnableMouse(true)
-        edit:SetScript("OnEscapePressed", function(self)
-            f:Hide()
-        end)
-
-        local colortbl = {
-            ["0.67.0.83.0.45"] = "猎人",
-            ["0.53.0.53.0.93"] = "术士",
-            ["1.1.1"] = "牧师",
-            ["0.96.0.55.0.73"] = "圣骑士",
-            ["0.25.0.78.0.92"] = "法师",
-            ["1.0.96.0.41"] = "盗贼",
-            ["1.0.49.0.04"] = "德鲁伊",
-            ["0.0.44.0.87"] = "萨满",
-            ["0.78.0.61.0.43"] = "战士",
-            ["0.77.0.12.0.23"] = "死亡骑士",
-            ["0.1.0.59"] = "MONK",
-            ["0.64.0.19.0.79"] = "DEMONHUNTER",
-        }
-
-        local db = {}
-        local FB = "ULD"
-        for dt in pairs(BiaoGe.History[FB]) do
-            for boss in pairs(BiaoGe.History[FB][dt]) do
-                for i = 1, 30 do
-                    if BiaoGe.History[FB][dt][boss]["maijia" .. i] then
-                        local maijia = BiaoGe.History[FB][dt][boss]["maijia" .. i]
-                        if not db[maijia] then
-                            local r, g, b = 1, 1, 1
-                            if BiaoGe.History[FB][dt][boss]["color" .. i] then
-                                r = Round(BiaoGe.History[FB][dt][boss]["color" .. i][1], 2)
-                                g = Round(BiaoGe.History[FB][dt][boss]["color" .. i][2], 2)
-                                b = Round(BiaoGe.History[FB][dt][boss]["color" .. i][3], 2)
-                            end
-                            local color = colortbl[r .. "." .. g .. "." .. b]
-                            db[maijia] = {
-                                maijia = maijia,
-                                color = color,
-                                sum = 0,
-                                zhuangbei = {},
-                            }
-                        end
-
-                        local item = ""
-                        if BiaoGe.History[FB][dt][boss]["zhuangbei" .. i] then
-                            item = BiaoGe.History[FB][dt][boss]["zhuangbei" .. i]:match("%[.+%]")
-                        end
-                        local money = BiaoGe.History[FB][dt][boss]["jine" .. i] or ""
-                        if item then
-                            db[maijia].sum = db[maijia].sum + (tonumber(money) or 0)
-                            tinsert(db[maijia].zhuangbei, {
-                                item = item,
-                                money = money,
-                                dt = strsub(dt, 3, 4) .. "月" .. strsub(dt, 5, 6) .. "日",
-                            })
-                        end
-                    end
-                end
-            end
-        end
-
-        local text = ""
-        for maijia in pairs(db) do
-            text = text .. maijia .. "," .. db[maijia].color .. ",,合计消费," .. db[maijia].sum .. ",\n"
-            for i, v in ipairs(db[maijia].zhuangbei) do
-                text = text .. "," .. "," .. v.dt .. "," .. v.item .. "," .. v.money .. ",\n"
-            end
-        end
-        -- pt(Size(db))
-
-        edit:SetText(text)
-        edit:HighlightText()
-        BG.After(0.5, function()
-            edit:SetFocus()
-        end)
-
-
-
-
         -- BiaoGe.AuctionLog["苍骑士仓库"] = BiaoGe.AuctionLog["苍骑士仓库"] or {}
         -- tinsert(BiaoGe.AuctionLog["苍骑士仓库"], {
         --     ["money"] = 50,
@@ -4336,9 +4254,9 @@ do
 
         -- BG.qiankuanTradeFrame.Update()
 
-        local name, link, quality, level, _, _, _, stackCount, _, Texture, _, typeID, subclassID, bindType = GetItemInfo(45087)
-        BG.AddLootItem_stackCount(BG.FB1, 15, link, Texture, level, nil, 1, typeID)
-        BG.AddLootItem_stackCount(BG.FB1, 15, link, Texture, level, nil, 2, typeID)
+        -- local name, link, quality, level, _, _, _, stackCount, _, Texture, _, typeID, subclassID, bindType = GetItemInfo(45087)
+        -- BG.AddLootItem_stackCount(BG.FB1, 15, link, Texture, level, nil, 1, typeID)
+        -- BG.AddLootItem_stackCount(BG.FB1, 15, link, Texture, level, nil, 2, typeID)
     end
     SLASH_BIAOGETEST21 = "/bgdebug2"
 end

@@ -2294,3 +2294,14 @@ function BG.CreateHighLightAnim(self, w, h)
     f.flashGroup:SetLooping("REPEAT")
     return f
 end
+
+function BG.GetAllFB(firstFB)
+    local firstFB = firstFB or BG.FB1
+    local FBtable = { firstFB }
+    for i, FB in ipairs(BG.FBtable) do
+        if FB ~= firstFB then
+            tinsert(FBtable, FB)
+        end
+    end
+    return FBtable
+end
