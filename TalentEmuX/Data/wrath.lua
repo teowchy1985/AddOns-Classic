@@ -1752,7 +1752,7 @@ DT.TalentSpecIcon = {
 	[411] = "Interface\\Icons\\Ability_Hunter_CombatExperience",
 };
 
-DT.ClassBG = {
+DT.ClassBackground = {
 	DEATHKNIGHT = {
 		"Interface\\TalentFrame\\bg-deathknight-blood",
 		"Interface\\TalentFrame\\bg-deathknight-frost",
@@ -1811,7 +1811,7 @@ DT.ClassBG = {
 	},
 };
 
-DT.SpecBG = {
+DT.SpecBackground = {
 		[283] = "Interface\\TalentFrame\\DruidBalance-TopLeft",
 		[281] = "Interface\\TalentFrame\\DruidFeralCombat-TopLeft",
 		[282] = "Interface\\TalentFrame\\DruidRestoration-TopLeft",
@@ -3694,3 +3694,27 @@ local DK = {  };
 for i = 1, 54 do DK[i] = 0; end
 for i = 55, DT.MAX_LEVEL do DK[i] = i - 9; end
 DT.LevelAvailablePointsTableClass.DEATHKNIGHT = DK;
+
+DT.ItemLevelColor = {
+	--	NAXX/EOE/OS	200/213/226
+	--	ULD			225/232, 239/245/252
+	--	TOC/ONY		232/245/252, 245/258/272
+	--	ICC			251/258/264/271, 264/271/277/284
+	--	RS			258/271, 271/284
+	step = {
+		164,	--	灰色
+		187,	--	白色
+		200,	--	绿色
+		226,	--	蓝色
+		239,	--	紫色
+		252,	--	橙色
+	},
+	list = {
+		{ 0.5, 0.5, 0.5, },	--	灰色
+		{ 1.0, 1.0, 1.0, },	--	白色
+		{ 0.0, 1.0, 0.0, },	--	绿色
+		{ 0.0, 0.5, 1.0, },	--	蓝色
+		{ 0.6, 0.2, 1.0, },	--	紫色
+		{ 1.0, 0.5, 0.0, },	--	橙色
+	},
+};

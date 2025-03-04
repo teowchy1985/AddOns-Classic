@@ -1,4 +1,4 @@
-﻿--[[--
+--[[--
 	by ALA
 --]]--
 ----------------------------------------------------------------------------------------------------
@@ -38,6 +38,7 @@ local DT = __private.DT;
 
 -->
 	local l10n = CT.l10n;
+	local _TextureFunc = MT._TextureFunc;
 
 -->		constant
 	local TUISTYLE = {
@@ -50,10 +51,42 @@ local DT = __private.DT;
 	};
 	local TTEXTURESET = {
 		UNK = CT.TEXTUREUNK,
-		CONTROL_NORMAL_COLOR = { 1.0, 1.0, 1.0, 1.0, },
+		CONTROL = {
+			NORMAL_COLOR = { 0.75, 0.75, 0.75, 1.0, },
+			PUSHED_COLOR = { 0.25, 0.25, 0.25, 1.0, },
+			DISABLED_COLOR = { 0.25, 0.25, 0.25, 1.0, },
+			HIGHLIGHT_COLOR = { 0.25, 0.25, 0.5, 1.0, },
+			CHECKED_COLOR = { 0.75, 0.75, 0.75, 1.0, },
+			CHECKEDDISABLED_COLOR = { 0.25, 0.25, 0.25, 1.0, },
+		},
 		CONTROL_PUSHED_COLOR = { 0.5, 0.5, 0.5, 1.0, },
-		CONTROL_DISABLED_COLOR = { 0.25, 0.25, 0.25, 1.0, },
 		CONTROL_HIGHLIGHT_COLOR = { 0.25, 0.25, 0.5, 0.5, },
+		CLOSE = {
+			Path = CT.TEXTUREPATH .. [[Close]],
+		},
+		REFRESH = {
+			Path = CT.TEXTUREPATH .. [[Reset]],
+		},
+		CHECK = {
+			Normal = {
+				Path = CT.TEXTUREPATH .. [[CheckButtonBorder]],
+			},
+			Pushed = {
+				Path = CT.TEXTUREPATH .. [[CheckButtonBorder]],
+			},
+			Highlight = {
+				Path = CT.TEXTUREPATH .. [[CheckButtonBorder]],
+			},
+			Disabled = {
+				Path = CT.TEXTUREPATH .. [[CheckButtonBorder]],
+			},
+			Checked = {
+				Path = CT.TEXTUREPATH .. [[CheckButtonCenter]],
+			},
+			CheckedDisabled = {
+				Path = CT.TEXTUREPATH .. [[CheckButtonCenter]],
+			},
+		},
 		CLASS = CT.TEXTUREPATH .. [[UI-Classes-Circles]],
 	};
 	local QUERY_DATA_VALIDATION = 60;
@@ -135,9 +168,9 @@ MT.BuildEnv('RAIDTOOL');
 							local A, T, M, R, Y, B, gstr = MT.ScanGemInfo(item, true);
 							if enchantable then
 								if gstr ~= "" then
-									GameTooltip:AddDoubleLine(l10n.SLOT[slot] .. " " .. link .. " |cffffffff(" .. level .. ")|r " .. gstr, enchanted and estr or l10n.MISS_ENCHANT);
+									GameTooltip:AddDoubleLine(l10n.SLOT[slot] .. " " .. link .. " |cffffffff(" .. level .. ")|r " .. gstr, enchanted and estr or l10n.RaidTool_MissingEnchant);
 								else
-									GameTooltip:AddDoubleLine(l10n.SLOT[slot] .. " " .. link .. " |cffffffff(" .. level .. ")|r", enchanted and estr or l10n.MISS_ENCHANT);
+									GameTooltip:AddDoubleLine(l10n.SLOT[slot] .. " " .. link .. " |cffffffff(" .. level .. ")|r", enchanted and estr or l10n.RaidTool_MissingEnchant);
 								end
 							else
 								if gstr ~= "" then
@@ -152,12 +185,12 @@ MT.BuildEnv('RAIDTOOL');
 								if loc == "INVTYPE_2HWEAPON" then
 									GameTooltip:AddLine(l10n.SLOT[slot] .. " -");
 								else
-									GameTooltip:AddLine(l10n.SLOT[slot] .. " " .. l10n.EMTPY_SLOT);
+									GameTooltip:AddLine(l10n.SLOT[slot] .. " " .. l10n.RaidTool_EmptySlot);
 								end
 							elseif slot == 18 and IGNORE_SLOT18[class] then
 								GameTooltip:AddLine(l10n.SLOT[slot] .. " -");
 							else
-								GameTooltip:AddLine(l10n.SLOT[slot] .. " " .. l10n.EMTPY_SLOT);
+								GameTooltip:AddLine(l10n.SLOT[slot] .. " " .. l10n.RaidTool_EmptySlot);
 							end
 						end
 					end
@@ -300,14 +333,13 @@ MT.BuildEnv('RAIDTOOL');
 						SpecIcon.Name:SetText("*");
 					end
 				end
-				local itemLevel1, itemLevel2, refresh_again = MT.CalcItemLevel(class, cache.EquData);
-				if itemLevel1 then
-					Node.ItemLevel:SetText(format("%.1f", itemLevel1));
+				if cache.EquData.AverageItemLevel then
+					Node.ItemLevel:SetText(format("%.1f", cache.EquData.AverageItemLevel));
 				else
 					Node.ItemLevel:SetText("");
 				end
-				if refresh_again then
-					MT._TimerStart(Node.Frame.UpdateScrollList, 0.2, 1);
+				if not cache.EquData.AverageItemLevel_OKay then
+					MT._TimerStart(Node.Frame.UpdateScrollList, 0.5, 1);
 				end
 				local missItems, items, missEnchants, enchants, missGems, gems = SummaryItems(class, cache.EquData);
 				if missItems then
@@ -349,7 +381,7 @@ MT.BuildEnv('RAIDTOOL');
 					Node.GemSummary:SetText("");
 				end
 			end
-			local BossModInfo = VT.ExternalAddOn["D4C"].list[name] or VT.ExternalAddOn["D4BC"].list[name] or VT.ExternalAddOn["BigWigs"].list[name];
+			local BossModInfo = VT.ExternalAddOn["D5"].list[name] or VT.ExternalAddOn["D4C"].list[name] or VT.ExternalAddOn["D4BC"].list[name] or VT.ExternalAddOn["BigWigs"].list[name];
 			if BossModInfo then
 				Node.BossModInfo:SetText(BossModInfo[1]);
 			else
@@ -511,11 +543,9 @@ MT.BuildEnv('RAIDTOOL');
 
 			local Close = CreateFrame('BUTTON', nil, Frame);
 			Close:SetSize(16, 16);
-			Close:SetNormalTexture("interface\\buttons\\ui-stopbutton");
-			Close:SetPushedTexture("interface\\buttons\\ui-stopbutton");
-			Close:GetPushedTexture():SetVertexColor(TTEXTURESET.CONTROL_PUSHED_COLOR[1], TTEXTURESET.CONTROL_PUSHED_COLOR[2], TTEXTURESET.CONTROL_PUSHED_COLOR[3], TTEXTURESET.CONTROL_PUSHED_COLOR[4]);
-			Close:SetHighlightTexture("interface\\buttons\\ui-stopbutton");
-			Close:GetHighlightTexture():SetVertexColor(TTEXTURESET.CONTROL_HIGHLIGHT_COLOR[1], TTEXTURESET.CONTROL_HIGHLIGHT_COLOR[2], TTEXTURESET.CONTROL_HIGHLIGHT_COLOR[3], TTEXTURESET.CONTROL_HIGHLIGHT_COLOR[4]);
+			_TextureFunc.SetNormalTexture(Close, TTEXTURESET.CLOSE, nil, nil, TTEXTURESET.CONTROL.NORMAL_COLOR);
+			_TextureFunc.SetPushedTexture(Close, TTEXTURESET.CLOSE, nil, nil, TTEXTURESET.CONTROL.PUSHED_COLOR);
+			_TextureFunc.SetHighlightTexture(Close, TTEXTURESET.CLOSE, nil, nil, TTEXTURESET.CONTROL.HIGHLIGHT_COLOR);
 			Close:SetPoint("TOPRIGHT", Frame, "TOPRIGHT", -4, -4);
 			Close:SetScript("OnClick", function()
 				Frame:Hide();
@@ -524,11 +554,9 @@ MT.BuildEnv('RAIDTOOL');
 
 			local Refresh = CreateFrame('BUTTON', nil, Frame);
 			Refresh:SetSize(16, 16);
-			Refresh:SetNormalTexture("interface\\buttons\\ui-refreshbutton");
-			Refresh:SetPushedTexture("interface\\buttons\\ui-refreshbutton");
-			Refresh:GetPushedTexture():SetVertexColor(TTEXTURESET.CONTROL_PUSHED_COLOR[1], TTEXTURESET.CONTROL_PUSHED_COLOR[2], TTEXTURESET.CONTROL_PUSHED_COLOR[3], TTEXTURESET.CONTROL_PUSHED_COLOR[4]);
-			Refresh:SetHighlightTexture("interface\\buttons\\ui-refreshbutton");
-			Refresh:GetHighlightTexture():SetVertexColor(TTEXTURESET.CONTROL_HIGHLIGHT_COLOR[1], TTEXTURESET.CONTROL_HIGHLIGHT_COLOR[2], TTEXTURESET.CONTROL_HIGHLIGHT_COLOR[3], TTEXTURESET.CONTROL_HIGHLIGHT_COLOR[4]);
+			_TextureFunc.SetNormalTexture(Refresh, TTEXTURESET.REFRESH, nil, nil, TTEXTURESET.CONTROL.NORMAL_COLOR);
+			_TextureFunc.SetPushedTexture(Refresh, TTEXTURESET.REFRESH, nil, nil, TTEXTURESET.CONTROL.PUSHED_COLOR);
+			_TextureFunc.SetHighlightTexture(Refresh, TTEXTURESET.REFRESH, nil, nil, TTEXTURESET.CONTROL.HIGHLIGHT_COLOR);
 			Refresh:SetPoint("RIGHT", Close, "LEFT", -4, 0);
 			Refresh:SetScript("OnClick", function()
 				Frame.Update(true);
@@ -539,37 +567,41 @@ MT.BuildEnv('RAIDTOOL');
 				local RaidToolLableItemLevel = Frame:CreateFontString(nil, "OVERLAY");
 				RaidToolLableItemLevel:SetFont(TUISTYLE.RaidToolUIFont, TUISTYLE.RaidToolUIFontSize, TUISTYLE.RaidToolUIFontOutline);
 				RaidToolLableItemLevel:SetPoint("BOTTOMLEFT", ScrollList, "TOPLEFT", 164 + (TUISTYLE.RaidToolUIFrameButtonHeight - 4 + 24) * 3 + 12, 4);
-				RaidToolLableItemLevel:SetText(l10n.RaidToolLableItemLevel);
+				RaidToolLableItemLevel:SetText(l10n.RaidTool_LableItemLevel);
 				Frame.LableItemLevel = RaidToolLableItemLevel;
 				local RaidToolLableItemSummary = Frame:CreateFontString(nil, "OVERLAY");
 				RaidToolLableItemSummary:SetFont(TUISTYLE.RaidToolUIFont, TUISTYLE.RaidToolUIFontSize, TUISTYLE.RaidToolUIFontOutline);
 				RaidToolLableItemSummary:SetPoint("LEFT", RaidToolLableItemLevel, "LEFT", 36, 0);
-				RaidToolLableItemSummary:SetText(l10n.RaidToolLableItemSummary);
+				RaidToolLableItemSummary:SetText(l10n.RaidTool_LableItemSummary);
 				Frame.LableItemSummary = RaidToolLableItemSummary;
 				local RaidToolLableEnchantSummary = Frame:CreateFontString(nil, "OVERLAY");
 				RaidToolLableEnchantSummary:SetFont(TUISTYLE.RaidToolUIFont, TUISTYLE.RaidToolUIFontSize, TUISTYLE.RaidToolUIFontOutline);
 				RaidToolLableEnchantSummary:SetPoint("LEFT", RaidToolLableItemSummary, "LEFT", 60, 0);
-				RaidToolLableEnchantSummary:SetText(l10n.RaidToolLableEnchantSummary);
+				RaidToolLableEnchantSummary:SetText(l10n.RaidTool_LableEnchantSummary);
 				Frame.LableEnchantSummary = RaidToolLableEnchantSummary;
 				local RaidToolLableGemSummary = nil;
 				if VT.__support_gem then
 					RaidToolLableGemSummary = Frame:CreateFontString(nil, "OVERLAY");
 					RaidToolLableGemSummary:SetFont(TUISTYLE.RaidToolUIFont, TUISTYLE.RaidToolUIFontSize, TUISTYLE.RaidToolUIFontOutline);
 					RaidToolLableGemSummary:SetPoint("LEFT", RaidToolLableEnchantSummary, "LEFT", 60, 0);
-					RaidToolLableGemSummary:SetText(l10n.RaidToolLableGemSummary);
+					RaidToolLableGemSummary:SetText(l10n.RaidTool_LableGemSummary);
 					Frame.LableGemSummary = RaidToolLableGemSummary;
 				end
 				local RaidToolLableBossModInfo = Frame:CreateFontString(nil, "OVERLAY");
 				RaidToolLableBossModInfo:SetFont(TUISTYLE.RaidToolUIFont, TUISTYLE.RaidToolUIFontSize, TUISTYLE.RaidToolUIFontOutline);
 				RaidToolLableBossModInfo:SetPoint("LEFT", RaidToolLableGemSummary or RaidToolLableEnchantSummary, "LEFT", 60, 0);
 				RaidToolLableBossModInfo:SetWidth(120);
-				RaidToolLableBossModInfo:SetText(l10n.RaidToolLableBossModInfo);
+				RaidToolLableBossModInfo:SetText(l10n.RaidTool_LableBossModInfo);
 				Frame.LableBossModInfo = RaidToolLableBossModInfo;
 			--
 
 			if VT.__supreme then
 				local GuildList = CreateFrame('CHECKBUTTON', nil, Frame, "OptionsBaseCheckButtonTemplate");
-				GuildList:SetSize(16, 16);
+				_TextureFunc.SetNormalTexture(GuildList, TTEXTURESET.CHECK.Normal, nil, nil, TTEXTURESET.CONTROL.NORMAL_COLOR);
+				_TextureFunc.SetPushedTexture(GuildList, TTEXTURESET.CHECK.Pushed, nil, nil, TTEXTURESET.CONTROL.PUSHED_COLOR);
+				_TextureFunc.SetHighlightTexture(GuildList, TTEXTURESET.CHECK.Highlight, nil, nil, TTEXTURESET.CONTROL.HIGHLIGHT_COLOR);
+				_TextureFunc.SetCheckedTexture(GuildList, TTEXTURESET.CHECK.Checked, nil, nil, TTEXTURESET.CONTROL.NORMAL_COLOR);
+				GuildList:SetSize(12, 12);
 				GuildList:SetHitRectInsets(0, 0, 0, 0);
 				GuildList:ClearAllPoints();
 				GuildList:Show();
@@ -585,10 +617,10 @@ MT.BuildEnv('RAIDTOOL');
 				Frame.GuildList = GuildList;
 
 				local GuildListLabel = Frame:CreateFontString(nil, "ARTWORK");
-				GuildListLabel:SetFont(TUISTYLE.RaidToolUIFont, 12, TUISTYLE.RaidToolUIFontOutline);
+				GuildListLabel:SetFont(TUISTYLE.RaidToolUIFont, TUISTYLE.RaidToolUIFontSize - 1, TUISTYLE.RaidToolUIFontOutline);
 				GuildListLabel:SetText(l10n.GuildList);
 				GuildList.Name = GuildListLabel;
-				GuildListLabel:SetPoint("RIGHT", GuildList, "LEFT", 0, 0);
+				GuildListLabel:SetPoint("RIGHT", GuildList, "LEFT", -2, 0);
 			end
 		--	Script
 			MT._RegisterCallback("CALLBACK_DATA_RECV", function()
