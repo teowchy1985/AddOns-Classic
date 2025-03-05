@@ -1109,7 +1109,7 @@ BG.Init(function()
         local width = child:GetWidth()
         local link = v.zhuangbei
         local itemID = GetItemID(link)
-        local icon,typeID = select(5, GetItemInfoInstant(link))
+        local icon, typeID = select(5, GetItemInfoInstant(link))
         local r, g, b = GetItemQualityColor(v.quality)
         local notAuctioned = v.type == 3
         bts.link = link
@@ -1300,7 +1300,7 @@ BG.Init(function()
             f.level = f:CreateFontString()
             f.level:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
             f.level:SetPoint("BOTTOM", bts.icon, 0, 1)
-            f.level:SetText((typeID==2 or typeID==4) and v.itemlevel or nil)
+            f.level:SetText((typeID == 2 or typeID == 4) and v.itemlevel or nil)
             f.level:SetTextColor(r, g, b)
             if v.bindType == 2 then
                 local text = bts.iconFrame:CreateFontString()
@@ -1783,9 +1783,11 @@ BG.Init(function()
             BG.trade.GiveYouMoneyText:Hide()
             if BiaoGe.options["autoAuctionPut"] ~= 1 then return end
             if not BG.ImML() then return end
-            local tradeName=UnitName("NPC")
+            local tradeName = UnitName("NPC")
             if not (BG.auctionTrade[tradeName] and next(BG.auctionTrade[tradeName])) then return end
             ClearCursor()
+            local bagTbl = {}
+            local tradeTbl = {}
             local function GiveItem(index)
                 if not TradeFrame:IsVisible() then return end
                 local v = BG.auctionTrade[tradeName][index]
@@ -1793,40 +1795,46 @@ BG.Init(function()
                 local itemID = GetItemID(v.zhuangbei)
                 for b = 0, NUM_BAG_SLOTS do
                     for i = 1, C_Container.GetContainerNumSlots(b) do
-                        local info = C_Container.GetContainerItemInfo(b, i)
-                        if info then
-                            local _itemID = info.itemID
-                            if itemID == _itemID then
-                                local notBound
-                                if not info.isBound then
-                                    notBound = true
-                                else
-                                    BiaoGeTooltip3:SetOwner(UIParent, "ANCHOR_NONE", 0, 0)
-                                    BiaoGeTooltip3:ClearLines()
-                                    BiaoGeTooltip3:SetBagItem(b, i)
-                                    local ii = 1
-                                    while _G["BiaoGeTooltip3TextLeft" .. ii] do
-                                        local tx = _G["BiaoGeTooltip3TextLeft" .. ii]:GetText()
-                                        if tx then
-                                            local time = tx:match(BIND_TRADE_TIME_REMAINING:gsub("%%s", "(.+)"))
-                                            if time then
-                                                notBound = true
-                                                break
+                        if not bagTbl[b .. "-" .. i] then
+                            local info = C_Container.GetContainerItemInfo(b, i)
+                            if info then
+                                local _itemID = info.itemID
+                                if itemID == _itemID and not info.isLocked then
+                                    local notBound
+                                    if not info.isBound then
+                                        notBound = true
+                                    else
+                                        BiaoGeTooltip3:SetOwner(UIParent, "ANCHOR_NONE", 0, 0)
+                                        BiaoGeTooltip3:ClearLines()
+                                        BiaoGeTooltip3:SetBagItem(b, i)
+                                        local ii = 1
+                                        while _G["BiaoGeTooltip3TextLeft" .. ii] do
+                                            local tx = _G["BiaoGeTooltip3TextLeft" .. ii]:GetText()
+                                            if tx then
+                                                local time = tx:match(BIND_TRADE_TIME_REMAINING:gsub("%%s", "(.+)"))
+                                                if time then
+                                                    notBound = true
+                                                    break
+                                                end
                                             end
+                                            ii = ii + 1
                                         end
-                                        ii = ii + 1
                                     end
-                                end
-                                if notBound and not info.isLocked then
-                                    for ii = 1, 6 do
-                                        if not GetTradePlayerItemLink(ii) then
-                                            C_Container.PickupContainerItem(b, i)
-                                            _G["TradePlayerItem" .. ii .. "ItemButton"]:Click()
-                                            ClearCursor()
-                                            BG.After(0, function()
-                                                GiveItem(index + 1)
-                                            end)
-                                            return
+                                    if notBound then
+                                        for ii = 1, 6 do
+                                            if not tradeTbl[ii] then
+                                                if not GetTradePlayerItemLink(ii) then
+                                                    C_Container.PickupContainerItem(b, i)
+                                                    _G["TradePlayerItem" .. ii .. "ItemButton"]:Click()
+                                                    ClearCursor()
+                                                    bagTbl[b .. "-" .. i] = true
+                                                    tradeTbl[ii] = true
+                                                    BG.After(0.02, function()
+                                                        GiveItem(index + 1)
+                                                    end)
+                                                    return
+                                                end
+                                            end
                                         end
                                     end
                                 end
@@ -1936,6 +1944,8 @@ BG.Init(function()
         -- 交易成功后，把拍卖记录设为已交易
         BG.RegisterEvent("UI_INFO_MESSAGE", function(self, event, _, text)
             if text ~= ERR_TRADE_COMPLETE then return end
+            local FB = BG.FB1
+            if not BiaoGe[FB].auctionLog then return end
             local tradeName, tradeTbl
             if BG.ImML() then
                 tradeName = BG.trade.target
@@ -1944,7 +1954,6 @@ BG.Init(function()
                 tradeName = BG.trade.player
                 tradeTbl = BG.trade.targetitems
             end
-            local FB = BG.FB1
             for _, vv in ipairs(tradeTbl) do
                 for _, v in ipairs(BiaoGe[FB].auctionLog) do
                     if v.type == 1 and not v.trade and v.maijia == tradeName and
