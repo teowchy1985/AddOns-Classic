@@ -220,6 +220,12 @@ BG.Init(function()
                 t:SetTextColor(.5, .5, .5)
                 t:SetText(L["订阅模块"])
                 BG.VIPVerText:SetSize(t:GetWidth(), 15)
+                BG.VIPVerText:SetScript("OnMouseDown", function(self)
+                    BG.PlaySound(1)
+                    ChatEdit_ActivateChat(ChatEdit_ChooseBoxForSend())
+                    ChatEdit_ChooseBoxForSend():SetText("https://docs.qq.com/doc/DYVd6T1JUcnNQRWdp")
+                    ChatEdit_ChooseBoxForSend():HighlightText()
+                end)
                 BG.VIPVerText:SetScript("OnEnter", function(self)
                     GameTooltip:SetOwner(self, "ANCHOR_NONE", 0, 0)
                     GameTooltip:SetPoint("TOP", self, "BOTTOM", 0, 0)
@@ -242,6 +248,12 @@ BG.Init(function()
                 t:SetTextColor(.5, .5, .5)
                 t:SetText(L["同步模块"])
                 BG.AccountsVerText:SetSize(t:GetWidth(), 15)
+                BG.AccountsVerText:SetScript("OnMouseDown", function(self)
+                    BG.PlaySound(1)
+                    ChatEdit_ActivateChat(ChatEdit_ChooseBoxForSend())
+                    ChatEdit_ChooseBoxForSend():SetText("https://docs.qq.com/doc/DYVFDaU5uR21sanJm")
+                    ChatEdit_ChooseBoxForSend():HighlightText()
+                end)
                 BG.AccountsVerText:SetScript("OnEnter", function(self)
                     GameTooltip:SetOwner(self, "ANCHOR_NONE", 0, 0)
                     GameTooltip:SetPoint("TOP", self, "BOTTOM", 0, 0)
@@ -4113,9 +4125,9 @@ do
     local yes, yes2, yes3
     SlashCmdList["BIAOGETEST"] = function()
         -- BG.DeBug = true
-        -- if BGV.HistoryMainFrame then
-        --     BGV.HistoryMainFrame:SetShown(not BGV.HistoryMainFrame:IsVisible())
-        -- end
+        if BGV.HistoryMainFrame then
+            BGV.HistoryMainFrame:SetShown(not BGV.HistoryMainFrame:IsVisible())
+        end
 
         local CDing
         if not yes and AtlasLoot then

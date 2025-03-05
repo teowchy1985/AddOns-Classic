@@ -361,7 +361,6 @@ function BG.FBZhuangBeiUI(FB, t, b, bb, i, ii, scrollFrame)
             end
         end
     end
-
     bt:SetAutoFocus(false)
     bt.FB = FB
     bt.bossnum = BossNum(FB, b, t)
@@ -1133,12 +1132,12 @@ function BG.FBBossNameUI(FB, t, b, bb, i, ii, frameName)
         f:SetPoint("TOP", BG.Frame[FB]["boss" .. boss].zhuangbei1, "TOPLEFT", -45, -2)
     end
     f:SetSize(15, 40)
-    local text = f:CreateFontString()
-    text:SetPoint("CENTER")
-    text:SetFont(STANDARD_TEXT_FONT, fontsize, "OUTLINE")
-    text:SetTextColor(RGB(BG.Boss[FB]["boss" .. boss].color))
-    text:SetText(BG.Boss[FB]["boss" .. boss].name)
-    f:SetSize(text:GetStringWidth() - 5, text:GetStringHeight())
+    f.text = f:CreateFontString()
+    f.text:SetPoint("CENTER")
+    f.text:SetFont(STANDARD_TEXT_FONT, fontsize, "OUTLINE")
+    f.text:SetTextColor(RGB(BG.Boss[FB]["boss" .. boss].color))
+    f.text:SetText(BG.Boss[FB]["boss" .. boss].name)
+    f:SetSize(f.text:GetStringWidth() - 5, f.text:GetStringHeight())
     BG.Frame[FB]["boss" .. boss].bossName = f
     if FB == "ICC" and boss <= 13 then
         f:SetScript("OnMouseUp", function(self)
@@ -1165,14 +1164,13 @@ function BG.FBBossNameUI(FB, t, b, bb, i, ii, frameName)
             GameTooltip:SetOwner(self, "ANCHOR_RIGHT", 0, 0)
             GameTooltip:ClearLines()
             GameTooltip:AddLine("|cff" .. BG.Boss[FB]["boss" .. boss].color .. BG.Boss[FB]["boss" .. boss].name2 .. RR)
-            GameTooltip:AddLine(L["SHIFT+点击："], 1, 1, 1)
-            GameTooltip:AddLine(L["查看该BOSS攻略"])
+            GameTooltip:AddLine(L["SHIFT+点击：查看该BOSS攻略"], 1, .82, 0)
             GameTooltip:Show()
-            text:SetTextColor(1, 1, 1)
+            f.text:SetTextColor(1, 1, 1)
         end)
         f:SetScript("OnLeave", function(self)
             GameTooltip:Hide()
-            text:SetTextColor(RGB(BG.Boss[FB]["boss" .. boss].color))
+            f.text:SetTextColor(RGB(BG.Boss[FB]["boss" .. boss].color))
         end)
     end
 

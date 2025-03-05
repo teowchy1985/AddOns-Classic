@@ -247,7 +247,6 @@ BG.Init(function()
                             end
                             if done then break end
                         end
-                        if done then break end
                     end
                     if returntext ~= "" then
                         return returntext
