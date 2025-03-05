@@ -1,6 +1,6 @@
 ## Interface: 30403
 ## Title: Cell
-## Version: r245-release
+## Version: r249-release
 ## Author: enderneko
 ## X-Flavor: Wrath
 ## SavedVariables: CellDB, CellDBBackup
@@ -12,7 +12,7 @@
 
 ## Title-zhTW: |cffFF7F00[團隊]|r 框架 (Cell)
 ## Notes-zhTW: Cell |n|n簡單好用的團隊框架，可自訂外觀，並且提供滑鼠點擊快速施法和其他功能。|n|n|cffffd200使用方法: |r點團隊框架左上方的小方塊，進行設定。
-## X-Category-zhTW: 團隊
+## Category-zhTW: 團隊
 ## DefaultState: disabled
 
 Locales\LoadLocales.xml
@@ -50,7 +50,7 @@ RaidFrames\UnitButton.xml
 RaidFrames\Groups\SoloFrame.lua
 RaidFrames\Groups\PartyFrame.lua
 RaidFrames\Groups\RaidFrame.lua
-RaidFrames\Groups\RaidPetFrame.lua
+RaidFrames\Groups\PetFrame.lua
 RaidFrames\Groups\NPCFrame.lua
 RaidFrames\Groups\SpotlightFrame.lua
 
