@@ -1555,7 +1555,7 @@ function BG.RoleOverviewUI()
         local function UpdateQuestEndTime()
             local time = GetServerTime()
             local function Update(db)
-                if not(db and db.QuestCD) then return end
+                if not (db and db.QuestCD) then return end
                 local function _Update(realmID)
                     if not (type(realmID) == "number" and type(db.QuestCD[realmID]) == "table") then return end
                     for player in pairs(db.QuestCD[realmID]) do
