@@ -1,70 +1,34 @@
-lightweight tag fa50b456a2ef156ddfa17f317f97b9aa0c58dbda 250301
+lightweight tag 9e8fe8650e7fc159c91056d2ae29c428efec5a87 250305
 Author:	alexqu0822 <alexqu0822@163.com>
-Date:	Mon Mar 3 21:29:32 2025 +0800
+Date:	Wed Mar 5 23:05:40 2025 +0800
 
-commit fa50b456a2ef156ddfa17f317f97b9aa0c58dbda
+commit 9e8fe8650e7fc159c91056d2ae29c428efec5a87
 Author: alexqu0822 <alexqu0822@163.com>
-Date:   Mon Mar 3 21:29:32 2025 +0800
+Date:   Wed Mar 5 23:05:40 2025 +0800
 
-    20250303 update
+    20250305 update
 
-commit a7a9ef3efbb9d06ae8e0ab20232a24588e12a8df
+commit 6daa6eb0df5227abf67f55398c23d58dfe6fb056
 Author: alexqu0822 <alexqu0822@163.com>
-Date:   Mon Mar 3 14:43:00 2025 +0800
+Date:   Tue Mar 4 23:25:13 2025 +0800
 
-    20250303 update
+    20250304 update
 
-commit b1672f7e030c58dfc8dcfd47df48e32c9e35abf3
+commit ac33e92c99806df3458987906a89e4c0d0dc727a
 Author: alexqu0822 <alexqu0822@163.com>
-Date:   Mon Mar 3 13:38:16 2025 +0800
+Date:   Tue Mar 4 22:24:39 2025 +0800
 
-    20250303 maybe looks better?
+    20250304 update
 
-commit dc342e6cd2323028deada21f398c099644a5c5a8
+commit 3cb84fb4750ddc0e1d5a3237440f6b81dcaa5309
 Author: alexqu0822 <alexqu0822@163.com>
-Date:   Mon Mar 3 10:26:56 2025 +0800
+Date:   Tue Mar 4 22:08:01 2025 +0800
 
-    20250303 font size
+    20250304 update
 
-commit c3b087d8ccabbb26f7b4b5b97966d55124982743
+commit 3cacda72de663099c936ef9274ae3d3ad538a6f5
 Author: alexqu0822 <alexqu0822@163.com>
-Date:   Mon Mar 3 10:04:03 2025 +0800
+Date:   Tue Mar 4 21:38:22 2025 +0800
 
-    20250301 update
-
-commit 41bd24c59f73de9ed3156714a36d77f2c6c5e449
-Author: alexqu0822 <alexqu0822@163.com>
-Date:   Mon Mar 3 05:06:44 2025 +0800
-
-    20250301 Item Level Color
-
-commit ca99c813bebbdbf2bc494de7e46ca56378f5571b
-Author: alexqu0822 <alexqu0822@163.com>
-Date:   Mon Mar 3 04:47:01 2025 +0800
-
-    250215 Show average item level. Fix DBM check. Del unused code.
-
-commit c7ff70ee722293ec3040922764cae6761fb8f36c
-Author: alexqu0822 <alexqu0822@163.com>
-Date:   Tue Feb 18 12:19:12 2025 +0800
-
-    20250215 update
-
-commit f19c93aab6534b77a5a5ef99b338b71c066fc606
-Author: alexqu0822 <alexqu0822@163.com>
-Date:   Mon Feb 3 15:20:33 2025 +0800
-
-    20250202
-
-commit fd65b986fc5c44b3f570b15b290437d671aedf11
-Author: alexqu0822 <alexqu0822@163.com>
-Date:   Sun Feb 2 20:40:43 2025 +0800
-
-    20250201 update
-
-commit 66f69569de726d696b825a9888a2fe5daa5b82eb
-Author: alexqu0822 <alexqu0822@163.com>
-Date:   Sun Feb 2 13:31:56 2025 +0800
-
-    20250201 nothing
+    20250304 Improve tip info.
 
