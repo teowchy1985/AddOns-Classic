@@ -41,8 +41,8 @@ elseif BG.IsVanilla_60 then
 elseif BG.IsWLK then
     buttonCount.NAXX = { 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 6, 6, 14, 6, 6, 5, }
     buttonCount.ULD = { 4, 3, 3, 4, 5, 3, 3, 4, 4, 4, 4, 4, 6, 4, 8, 5, }
-    buttonCount.TOC = { 5, 5, 5, 5, 5, 7, 8, 18, 7, }
-    BG.zaxiang.TOC = { i = 13 }
+    buttonCount.TOC = { 5, 5, 5, 5, 5, 3, 8, 22, 5, }
+    BG.zaxiang.TOC = { i = 16 }
     buttonCount.ICC = { 3, 3, 3, 5, 3, 3, 5, 3, 5, 3, 5, 8, 3, 8, 7, }
 elseif BG.IsCTM then
     buttonCount.BOT = { 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 8, 24, 5, }
