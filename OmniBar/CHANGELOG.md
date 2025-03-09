@@ -1,6 +1,16 @@
 # OmniBar
 
-## [v26](https://github.com/jordonwow/omnibar/tree/v26) (2024-10-23)
-[Full Changelog](https://github.com/jordonwow/omnibar/compare/v25...v26) [Previous Releases](https://github.com/jordonwow/omnibar/releases)
+## [v28](https://github.com/jordonwow/omnibar/tree/v28) (2025-03-07)
+[Full Changelog](https://github.com/jordonwow/omnibar/compare/v27...v28) [Previous Releases](https://github.com/jordonwow/omnibar/releases)
 
-- 11.0.5 Changes (#271)  
+- Update toc files  
+- Remove invalid spells  
+- Fix clearing arena opponents in between shuffle rounds  
+    Fixes #245, Fixes #277  
+- 11.1 Patch Changes (#281)  
+    * 11.1 Updates  
+    * Added MM Intim  
+    * Edited Dragon Charge  
+    * Added DH Hero abilities  
+    Sigil of Doom and Abyssal Gaze  
+    * Outlaw Trickster Blind  
