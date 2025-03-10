@@ -1,6 +1,8 @@
 # DBM - Vanilla and Season of Discovery
 
-## [r781](https://github.com/DeadlyBossMods/DBM-Vanilla/tree/r781) (2025-02-15)
-[Full Changelog](https://github.com/DeadlyBossMods/DBM-Vanilla/compare/r780...r781) [Previous Releases](https://github.com/DeadlyBossMods/DBM-Vanilla/releases)
+## [r783](https://github.com/DeadlyBossMods/DBM-Vanilla/tree/r783) (2025-03-09)
+[Full Changelog](https://github.com/DeadlyBossMods/DBM-Vanilla/compare/r782...r783) [Previous Releases](https://github.com/DeadlyBossMods/DBM-Vanilla/releases)
 
-- Naxx/Gothik: Add 20 sec teleport timer on SoD  
+- Update localization.ru.lua  
+- Naxx/SoD: Fix yell, icon and target warning for nerfed overcharge  
+- Outdoor Dragons: Improve SoD pull detection  
