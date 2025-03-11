@@ -1,5 +1,5 @@
 --- Kaliel's Tracker
---- Copyright (c) 2012-2024, Marouan Sabbagh <mar.sabbagh@gmail.com>
+--- Copyright (c) 2012-2025, Marouan Sabbagh <mar.sabbagh@gmail.com>
 --- All Rights Reserved.
 ---
 --- This file is part of addon Kaliel's Tracker.
@@ -253,15 +253,21 @@ local function SetupTutorials()
 			imageY = WOW_PROJECT_ID > WOW_PROJECT_CLASSIC and 9 or 16,
 			imageAbsolute = true,
 			text = "            |T"..helpPath.."help_whats-new_title:32:181:0:0:256:32:0:181:0:32|t\n\n"..
-					cTitle.."版本 4.1.0|r\n"..
-					"- 新增 - 支援 WoW 1.15.4\n"..
+					cTitle.."版本 4.2.1|r\n"..
+					"- 修正 (任務) - 儲存不正確的任務資料\n"..
+					"- 回復 - 任務等級的值為 nil \n"..
+					"\n"..
+					cTitle.."版本 4.2.0|r\n"..
+					"- 新增 - 支援 WoW 4.4.2.59346\n"..
+					"- 新增 - 支援 WoW 1.15.6.58912\n"..
+					"- 更新 - 支援插件 - ElvUI 13.86, Tukui 20.460\n"..
+					"- 更新 - 支援插件 - Questie 10.18.1\n"..
 					"- 更新 (說明) - Active Patrons\n"..
-					"- 更新 - 支援插件 - ElvUI 13.79, Tukui 20.455\n"..
-					"- 更新 - 函式庫\n"..
-					"- 更新 - 支援插件 - Questie 10.6.4\n"..
+					"- 更新 - 支援插件 - ElvUI 13.84, Tukui 20.458\n"..
+					"- 更新 - 支援插件 - Questie 10.17.0\n"..
 					"\n"..
 
-					cTitle.."WoW 4.4.0/1.15.4 - 尚無解決辦法的已知問題|r\n"..
+					cTitle.."WoW 4.4.2/1.15.6 - 尚無解決辦法的已知問題|r\n"..
 					"- 戰鬥中點擊追蹤的任務或成就不會有反應。\n"..
 					"- 戰鬥中標題列的 Q 和 A 按鈕無法運作。\n\n"..
 
@@ -325,23 +331,21 @@ local function SetupTutorials()
 		{	-- 1
 			text = cTitle.."         成為贊助者|r\n\n"..
 					"如果你喜歡 "..KT.title.."，請在 |cfff34a54Patreon|r 贊助我。\n\n"..
-					"在 CurseForge 的插件頁面點一下 |T"..helpPath.."help_patreon:20:154:1:0:256:32:0:156:0:20|t 按鈕。\n\n"..
+					"在 CurseForge 的插件頁面點一下 |T"..helpPath.."help_patreon:20:173:0:0:256:32:0:173:0:20|t 按鈕。\n\n"..
 					"經過了 10 年的插件工作後，我啟用了 Patreon，當作是開發插件所需時間的補償。\n\n"..
 					"                                    非常感謝所有贊助者  |T"..helpPath.."help_patreon:16:16:0:0:256:32:157:173:0:16|t\n\n"..
 					cTitle.."Active Patrons|r\n"..
-					SetFormatedPatronName("Legendary", "Zayah", "Vek'nilash")..
 					SetFormatedPatronName("Epic", "Haekwon", "Elune")..
 					SetFormatedPatronName("Epic", "Liothen", "Emerald Dream")..
 					SetFormatedPatronName("Rare", "A")..
 					SetFormatedPatronName("Uncommon", "Anaara", "Auchindoun")..
-					SetFormatedPatronName("Uncommon", "Calvin Jones")..
 					SetFormatedPatronName("Uncommon", "Charles Howarth")..
 					SetFormatedPatronName("Uncommon", "Flex (drantor)")..
 					SetFormatedPatronName("Uncommon", "Illidanclone", "Kazzak")..
-					SetFormatedPatronName("Uncommon", "Jeffrey Hofer")..
 					SetFormatedPatronName("Uncommon", "Mystekal")..
 					SetFormatedPatronName("Uncommon", "Semy", "Ravencrest")..
 					SetFormatedPatronName("Uncommon", "Sopleb")..
+					SetFormatedPatronName("Uncommon", "Xeelee", "Razorfen")..
 					SetFormatedPatronName("Common", "Darren Divecha")..
 					"\n"..
 					cTitle.."Testers|r\n"..

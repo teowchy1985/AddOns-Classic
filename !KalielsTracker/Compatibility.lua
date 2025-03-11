@@ -1,5 +1,5 @@
 --- Kaliel's Tracker
---- Copyright (c) 2012-2024, Marouan Sabbagh <mar.sabbagh@gmail.com>
+--- Copyright (c) 2012-2025, Marouan Sabbagh <mar.sabbagh@gmail.com>
 --- All Rights Reserved.
 ---
 --- This file is part of addon Kaliel's Tracker.
@@ -68,10 +68,9 @@ elseif WOW_PROJECT_ID == WOW_PROJECT_CLASSIC then
         end
     end
 
-    if not GetNumTrackedAchievements() then
-        GetNumTrackedAchievements = function()
-            return 0
-        end
+    -- existing function does not return a number
+    GetNumTrackedAchievements = function()
+        return 0
     end
 end
 

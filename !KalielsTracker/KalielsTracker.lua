@@ -1,5 +1,5 @@
 --- Kaliel's Tracker
---- Copyright (c) 2012-2024, Marouan Sabbagh <mar.sabbagh@gmail.com>
+--- Copyright (c) 2012-2025, Marouan Sabbagh <mar.sabbagh@gmail.com>
 --- All Rights Reserved.
 ---
 --- This file is part of addon Kaliel's Tracker.
@@ -267,7 +267,10 @@ local function SetFrames()
 			local level = ...
 			KT.playerLevel = level
 		elseif event == "CVAR_UPDATE" then
-			AUTO_QUEST_WATCH = GetCVar("autoQuestWatch")
+			local varName = ...
+			if varName == "autoQuestWatch" then
+				AUTO_QUEST_WATCH = GetCVar("autoQuestWatch")
+			end
 		end
 	end)
 	KTF:RegisterEvent("PLAYER_ENTERING_WORLD")
@@ -872,9 +875,8 @@ local function SetHooks()
 	function QUEST_TRACKER_MODULE:SetBlockHeader(block, text, questLogIndex, isQuestComplete, questID)
 		if not text then return end -- 暫時修正
 		local _, level, suggestedGroup, _, _, _, frequency, _ = GetQuestLogTitle(questLogIndex)
-		block.level = level or 0
 		if db.questsShowLevels then
-			text = KT:CreateQuestLevel(block.level)..text
+			text = KT:CreateQuestLevel(level)..text
 		end
 		block.title = text
 		if db.questsShowTags then
@@ -883,6 +885,7 @@ local function SetHooks()
 		end
 		bck_QUEST_TRACKER_MODULE_SetBlockHeader(self, block, text, questLogIndex, isQuestComplete, questID)
 		block.lineWidth = block.lineWidth or self.lineWidth - 8		-- mod default
+		block.level = level
 
 		local link, item, charges, showItemWhenComplete = GetQuestLogSpecialItemInfo(questLogIndex)
 		if item and (not isQuestComplete or showItemWhenComplete) then

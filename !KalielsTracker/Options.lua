@@ -1,5 +1,5 @@
 --- Kaliel's Tracker
---- Copyright (c) 2012-2024, Marouan Sabbagh <mar.sabbagh@gmail.com>
+--- Copyright (c) 2012-2025, Marouan Sabbagh <mar.sabbagh@gmail.com>
 --- All Rights Reserved.
 ---
 --- This file is part of addon Kaliel's Tracker.
@@ -1017,8 +1017,7 @@ local options = {
 								return (GetCVar("autoQuestWatch") == "1")
 							end,
 							set = function(_, value)
-								InterfaceOptionsDisplayPanelAutoQuestWatch:SetChecked(value)
-								InterfaceOptionsDisplayPanelAutoQuestWatch:SetValue(value)
+								SetCVar("autoQuestWatch", value)
 							end,
 							order = 1.2,
 						},
