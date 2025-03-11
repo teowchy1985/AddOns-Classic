@@ -1297,8 +1297,16 @@ BG.Init(function()
         end
 
         local function CreateLink(cleanedYY)
-            return "|cff00BFFF|Hgarrmission:BiaoGeYY:YY:" .. cleanedYY ..
-                "|h[YY:" .. cleanedYY .. PingJia(cleanedYY) .. "]|h|r"
+            local color="00BFFF"
+            for _, v in ipairs(BiaoGe.YYdb.all) do
+                if tonumber(cleanedYY) == tonumber(v.yy) then
+                    local tbl={L["00FF00"],L["FFFF00"],L["DC143C"]}
+                    color=tbl[v.pingjia]
+                    break
+                end
+            end
+            return "|cff"..color.."|Hgarrmission:BiaoGeYY:YY:" .. cleanedYY ..
+                "|h[YY:" .. cleanedYY .. PingJia(cleanedYY) .. "]".."|h|r"
         end
         local function CreateLinkForGsub(yy)
             return CreateLink(yy:gsub("%s", ""))
@@ -1458,6 +1466,7 @@ BG.Init(function()
                         tinsert(mypingjia, { name = L["频道名称："], name2 = v.name })
                         tinsert(mypingjia, { name = L["评价："], name2 = Y.Pingjia(v.pingjia) })
                         tinsert(mypingjia, { name = L["理由："], name2 = v.edit })
+                        break
                     end
                 end
                 if #mypingjia ~= 0 then

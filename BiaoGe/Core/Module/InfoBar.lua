@@ -40,9 +40,10 @@ local AFDtbl = {
     "Funny",
     "全能小霸王",
     "龙之召唤<破冰>粥糟-粥枣",
-    -- 300
-    "永恒",
     -- 180
+    -- "",
+    "铁血II-书香",
+    "铁血II-书香秘密",
     "寒脊山小径-起点-花舞",
     "霜语-丑死我了", -- 满心欢喜
     "伊梅尔达",
@@ -56,7 +57,18 @@ local AFDtbl = {
     -- "",
     -- "",
     -- "",
+    "邵拉达",
+    "大白",
+    "yyf",
+    "辛迪加<辛艾萨莉>小家猫卡琳娜",
+    "xxx794665",
+    "沙滩",
+    "范克瑞斯-逝去的青春-丶黑炭",
+    "那個尐仙",
+    "不懂英语小明",
+    "叶凡 - 龙牙",
     "Sr",
+    "碧玉矿洞-八汤",
     "憋大招",
     "龙之召唤-天府一街",
     "灰烬使者部落-Revenger公会",
@@ -126,7 +138,6 @@ local AFDtbl = {
     "铁血-诺诺吖",
     "法尔班克斯-<骚年远征军>-雪见月十九",
     "水晶之牙-Equipo Octavo",
-    "碧玉矿洞-八汤",
     "维系度斯-你看我牛牛吗",
     "关青龙",
     "灰灰丶",
@@ -150,8 +161,8 @@ local AFDtbl = {
     -- "",
     -- "",
     -- "",
-    --最后更新时间：25/3/5 11:00
 }
+    --最后更新时间：25/3/5 11:00
 
 
 BG.Init(function()
@@ -222,11 +233,16 @@ BG.Init(function()
 
             if self.hasError then
                 local e = self.errors
+                local gameVer = GetBuildInfo()
+                if BG.IsVanilla_Sod then
+                    gameVer=gameVer.." sod"
+                end
                 BiaoGeTooltip2:SetOwner(GameTooltip, "ANCHOR_TOPLEFT", 0, 0)
                 BiaoGeTooltip2:ClearLines()
                 BiaoGeTooltip2:AddLine(L["报错"], 1, 0, 0, true)
                 BiaoGeTooltip2:AddLine(L["请你把该报错截图发给作者"], 1, 0.82, 0, true)
                 BiaoGeTooltip2:AddLine(L["版本："] .. ns.ver, 1, 0.82, 0, true)
+                BiaoGeTooltip2:AddLine(L["游戏："] .. gameVer, 1, 0.82, 0, true)
                 BiaoGeTooltip2:AddLine(L["时间："] .. e.time, 1, 0.82, 0, true)
                 BiaoGeTooltip2:AddLine(L["错误："] .. e.counter .. "x " .. e.message, .5, .5, .5, true)
                 if e.stack then
@@ -271,7 +287,7 @@ BG.Init(function()
     end
 
     -- 更新计划
-    do
+--[[     do
         local bt = CreateFrame("Button", nil, BG.MainFrame)
         bt:SetSize(20, hight)
         if lastBt then
@@ -302,7 +318,7 @@ BG.Init(function()
             ChatEdit_ChooseBoxForSend():SetText("https://docs.qq.com/doc/DYVFDaU5uR21sanJm")
             ChatEdit_ChooseBoxForSend():HighlightText()
         end)
-    end
+    end ]]
 
     -- 爱发电
     do

@@ -191,7 +191,7 @@ BG.Init(function()
                                         BG.Frame[FB]["boss" .. b]["maijia" .. i]:SetCursorPosition(0)
                                         BG.Frame[FB]["boss" .. b]["maijia" .. i]:SetTextColor(GetClassRGB(Player))
                                         BiaoGe[FB]["boss" .. b]["maijia" .. i] = (Player)
-                                        for k, v in pairs(BG.playerClass) do
+                                        for k in pairs(BG.playerClass) do
                                             if Player == UnitName("player") then
                                                 BiaoGe[FB]["boss" .. b][k .. i] = BG.trade.playerinfo[k]
                                             else
@@ -228,12 +228,11 @@ BG.Init(function()
                                     if isFirstItem then
                                         local Texture = select(10, GetItemInfo(Items[items].link))
                                         returntext = (format("|cff00BFFF" ..
-                                            L["< 交易记账成功 >|r\n装备：%s\n买家：%s\n金额：%s%d|rg%s\n表格：%s\nBoss：%s%s|r"],
+                                            L["< 交易记账成功 >|r\n装备：%s\n买家：%s\n金额：%s%d|rg%s\nBoss：%s%s|r"],
                                             (AddTexture(Texture) .. Items[items].link),
                                             SetClassCFF(Player), "|cffFFD700",
                                             Money + qiankuan,
                                             qiankuantext,
-                                            BG.GetFBinfo(FB, "localName"),
                                             "|cff" .. BG.Boss[FB]["boss" .. b]["color"],
                                             BG.Boss[FB]["boss" .. b]["name2"]))
                                         BG.tradeDropDown.DropDown:Hide()
@@ -270,8 +269,14 @@ BG.Init(function()
                                         BG.Frame[FB]["boss" .. b]["jine" .. i]:SetText(Money + qiankuan)
                                         BiaoGe[FB]["boss" .. b]["zhuangbei" .. i] = (Items[1].link)
                                         BiaoGe[FB]["boss" .. b]["maijia" .. i] = (Player)
-                                        BiaoGe[FB]["boss" .. b]["color" .. i] = { GetClassRGB(Player) }
                                         BiaoGe[FB]["boss" .. b]["jine" .. i] = (Money + qiankuan)
+                                        for k in pairs(BG.playerClass) do
+                                            if Player == UnitName("player") then
+                                                BiaoGe[FB]["boss" .. b][k .. i] = BG.trade.playerinfo[k]
+                                            else
+                                                BiaoGe[FB]["boss" .. b][k .. i] = BG.trade.targetinfo[k]
+                                            end
+                                        end
                                         if qiankuan ~= 0 then
                                             BiaoGe[FB]["boss" .. b]["qiankuan" .. i] = qiankuan
                                             BG.Frame[FB]["boss" .. b]["qiankuan" .. i]:Show()
@@ -279,12 +284,11 @@ BG.Init(function()
                                     end
 
                                     local Texture = select(10, GetItemInfo(Items[1].link))
-                                    returntext = (format("|cff00BFFF" .. L["< 交易记账成功 >|r\n装备：%s\n买家：%s\n金额：%s%d|rg%s\n表格：%s\nBoss：%s%s|r"],
+                                    returntext = (format("|cff00BFFF" .. L["< 交易记账成功 >|r\n装备：%s\n买家：%s\n金额：%s%d|rg%s\nBoss：%s%s|r"],
                                         (AddTexture(Texture) .. Items[1].link),
                                         SetClassCFF(Player), "|cffFFD700",
                                         (Money + qiankuan),
                                         qiankuantext,
-                                        BG.GetFBinfo(FB, "localName"),
                                         "|cff" .. BG.Boss[FB]["boss" .. b]["color"], BG.Boss[FB]["boss" .. b]["name2"]))
                                     BG.tradeDropDown.DropDown:Show()
                                     return returntext
@@ -834,7 +838,7 @@ BG.Init(function()
             edgeFile = "Interface/ChatFrame/ChatFrameBackground",
             edgeSize = 1,
         })
-        f:SetSize(200, 200)
+        f:SetSize(200, 180)
         f:SetPoint("BOTTOMLEFT", TradeFrame, "BOTTOMRIGHT", 1, -1)
         f:EnableMouse(true)
         f:SetToplevel(true)
@@ -860,10 +864,10 @@ BG.Init(function()
         text:SetText(L["记账效果预览"])
 
         local text = f:CreateFontString()
-        text:SetPoint("TOPLEFT", f, "TOPLEFT", 8, -45)
+        text:SetPoint("TOPLEFT", f, "TOPLEFT", 8, -40)
         text:SetWidth(f:GetWidth() - 10)
         text:SetFont(STANDARD_TEXT_FONT, 15, "OUTLINE")
-        text:SetJustifyH("LEFT") -- 对齐格式
+        text:SetJustifyH("LEFT")
         BG.tradeFrame.text = text
     end
 
@@ -1333,8 +1337,8 @@ BG.Init(function()
         local bt = CreateFrame("CheckButton", nil, BG.tradeFrame.frame, "ChatConfigCheckButtonTemplate")
         bt:SetSize(25, 25)
         bt.Text:SetText(L["本次交易自动记账"])
-        bt:SetPoint("BOTTOMRIGHT", BG.tradeFrame.frame, "BOTTOMLEFT",
-            (BG.tradeFrame.frame:GetWidth() - bt.Text:GetWidth()) * 0.5, 0)
+        bt:SetPoint("BOTTOMLEFT", BG.tradeFrame.frame, "BOTTOMLEFT",
+            (BG.tradeFrame.frame:GetWidth() - bt:GetWidth() - bt.Text:GetWidth()) * 0.5-5, 0)
         bt:SetHitRectInsets(0, -bt.Text:GetWidth(), 0, 0)
         bt:SetChecked(true)
         BG.tradeFrame.CheckButton = bt

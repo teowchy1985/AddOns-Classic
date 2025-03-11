@@ -1634,7 +1634,8 @@ BG.Init(function()
             tinsert(BiaoGe[FB].auctionLog, a)
             BG.UpdateAuctionLogFrame(nil, true)
 
-            if BG.lastAuctionFrame.frame:IsVisible() and UnitName("NPC") and maijia == UnitName("NPC") then
+            local tradeName=UnitName("NPC")
+            if BG.lastAuctionFrame.frame:IsVisible() and tradeName and maijia ==tradeName then
                 BG.auctionLogFrame.GetTargetTradeTbl(maijia)
                 if BG.ImML() then
                     BG.lastAuctionFrame.UpdateChooseType()
@@ -1784,7 +1785,7 @@ BG.Init(function()
             if BiaoGe.options["autoAuctionPut"] ~= 1 then return end
             if not BG.ImML() then return end
             local tradeName = UnitName("NPC")
-            if not (BG.auctionTrade[tradeName] and next(BG.auctionTrade[tradeName])) then return end
+            if not (tradeName and BG.auctionTrade[tradeName] and next(BG.auctionTrade[tradeName])) then return end
             ClearCursor()
             local bagTbl = {}
             local tradeTbl = {}
@@ -1854,7 +1855,7 @@ BG.Init(function()
             end
             if not BG.ImML() then return end
             local tradeName = UnitName("NPC")
-            if not next(BG.auctionTrade[tradeName]) then return end
+            if not (tradeName and next(BG.auctionTrade[tradeName])) then return end
             local haveItem = {}
             for _, v in ipairs(BG.auctionTrade[tradeName]) do
                 local money = tonumber(v.jine) or 0
