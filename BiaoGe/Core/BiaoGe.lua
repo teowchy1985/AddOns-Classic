@@ -2878,12 +2878,11 @@ BG.Init(function()
                     qiankuantext = format("|cffFF0000" .. L["（欠款%d）"] .. RR, BG.ChatAccountingFrame.qiankuan)
                 end
 
-                local text = format(L["|cff00BFFF< 快速记账成功 >|r\n|cffFFFFFF装备：%s\n买家：%s\n金额：%s%s\n表格：%s\nBoss：%s"],
+                local text = format(L["|cff00BFFF< 快速记账成功 >|r\n|cffFFFFFF装备：%s\n买家：%s\n金额：%s%s\nBoss：%s"],
                     (AddTexture(Texture) .. BG.ChatAccountingFrame.itemLink),
                     maijiaText,
                     jineText,
                     qiankuantext,
-                    BG.GetFBinfo(FB, "localName"),
                     "|cff" .. BG.Boss[FB]["boss" .. b]["color"] .. BG.Boss[FB]["boss" .. b]["name2"] .. RR)
                 BG.ChatAccountingFrame.seeText:SetText(text)
             else
@@ -3569,8 +3568,8 @@ BG.Init(function()
 
                 local maxCount = max(#BG.raidRosterInfo, #BiaoGe[FB].raidRoster.roster)
                 local sameCount = 0
-                for ii, vv in ipairs(BG.raidRosterInfo) do
-                    for i, name in ipairs(BiaoGe[FB].raidRoster.roster) do
+                for _, vv in ipairs(BG.raidRosterInfo) do
+                    for _, name in ipairs(BiaoGe[FB].raidRoster.roster) do
                         if vv.name == name then
                             sameCount = sameCount + 1
                         end
@@ -3908,7 +3907,7 @@ BG.Init(function()
             ver = ver:gsub("i", 9)
             local start, middle, last = strsplit(".", ver)
             if middle:len() == 1 then
-                middle = middle .. "0"
+                middle = "0" .. middle
             end
             ver = start .. middle .. last
             ver = ver:gsub("%D", "")
@@ -3949,7 +3948,6 @@ BG.Init(function()
                     end)
                 elseif strfind(msg, "MyVer") and not close then
                     local _, version = strsplit("-", msg)
-                    -- pt(sender,BG.GetVerNum(version))
                     if VerGuoQi(BG.ver, version) then
                         SendSystemMessage("|cff00BFFF" .. format(L["< BiaoGe > 你的当前版本%s已过期，请更新插件。"] .. RR, BG.STC_r1(BG.ver)))
                         BG.VerText:SetTextColor(1, 0, 0)

@@ -364,6 +364,28 @@ function BG.PaiXuRaidRosterInfo(filter)
     return newTbl
 end
 
+------------------获取玩家所在的团队框体位置（例如5-2）------------------
+function BG.GetRaidPoint()
+    local team = {}
+    for _, v in pairs(BG.raidRosterInfo) do
+        if v.name then
+            local name = strsplit("-", v.name)
+            if not team[v.subgroup] then
+                team[v.subgroup] = {}
+            end
+            table.insert(team[v.subgroup], name)
+        end
+    end
+
+    local point = {}
+    for subgroup in pairs(team) do
+        for i, name in ipairs(team[subgroup]) do
+            point[name] = subgroup .. "-" .. i
+        end
+    end
+    return point
+end
+
 ------------------函数：装备缓存本地化------------------
 function BG.EditItemCache(self, func)
     local _itemID = GetItemID(self:GetText())
