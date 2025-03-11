@@ -1,5 +1,5 @@
 --- Kaliel's Tracker
---- Copyright (c) 2012-2024, Marouan Sabbagh <mar.sabbagh@gmail.com>
+--- Copyright (c) 2012-2025, Marouan Sabbagh <mar.sabbagh@gmail.com>
 --- All Rights Reserved.
 ---
 --- This file is part of addon Kaliel's Tracker.
@@ -20,7 +20,7 @@ local _G = _G
 
 local db
 
-local QuestieDB, ZoneDB, QuestieMap, TrackerUtils
+local QuestieDB, ZoneDB, QuestieMap, TrackerUtils, DistanceUtils
 local isQuestieDBLoaded = false
 local initTicker
 
@@ -34,6 +34,7 @@ local function GetQuestieData()
         ZoneDB = QuestieLoader:ImportModule("ZoneDB")
         QuestieMap = QuestieLoader:ImportModule("QuestieMap")
         TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
+        DistanceUtils = QuestieLoader:ImportModule("DistanceUtils")
 
         Questie.db.profile.trackerEnabled = false
 
@@ -79,16 +80,18 @@ local function SetHooks()
     IsQuestLogSpecialItemInRange = function(questLogIndex)
         local result
         if isQuestieDBLoaded then
-            local questID = KT.GetIDByQuestLogIndex(questLogIndex)
-            local quest = QuestieDB.GetQuest(questID)
+            -- C_Item.IsItemInRange is restricted to use only on hostile targets or friendly targets out of combat
+            if (UnitExists("target") and not UnitIsFriend("player", "target")) or not InCombatLockdown() then
+                local questID = KT.GetIDByQuestLogIndex(questLogIndex)
+                local quest = QuestieDB.GetQuest(questID)
 
-            if quest and quest.sourceItemId then
-                local itemName = GetItemInfo(quest.sourceItemId)
-                result = IsItemInRange(itemName, "target")
-                if result == true then
-                    result = 1
-                elseif result == false then
-                    result = 0
+                if quest and quest.sourceItemId then
+                    result = C_Item.IsItemInRange(quest.sourceItemId, "target")  -- e.g. 17757 - Amulet of Spirits
+                    if result == true then
+                        result = 1
+                    elseif result == false then
+                        result = 0
+                    end
                 end
             end
         end
@@ -213,17 +216,14 @@ local function HasMapData(quest)
 end
 
 local function ShowQuestOnMap(quest)
-    local bestSpawn
-    local bestZone
+    local bestSpawn, bestZone
     local bestDistance = 999999999
     for _, objective in pairs(quest.Objectives) do
-        local spawn, zone, _, _, _, distance = QuestieMap:GetNearestSpawn(objective)
-        if spawn then
-            if distance < bestDistance then
-                bestSpawn = spawn
-                bestZone = zone
-                bestDistance = distance
-            end
+        local spawn, zone, _, distance = DistanceUtils.GetNearestObjective(objective.spawnList)
+        if spawn and distance < bestDistance then
+            bestSpawn = spawn
+            bestZone = zone
+            bestDistance = distance
         end
     end
     if bestSpawn then
@@ -243,8 +243,9 @@ local function GetQuestZones(questID)
                 if objective.spawnList then
                     for _, spawnData in pairs(objective.spawnList) do
                         for zone, _ in pairs(spawnData.Spawns) do
-                            if not KT.IsInTable(zones, ZoneDB:GetUiMapIdByAreaId(zone)) then
-                                tinsert(zones, ZoneDB:GetUiMapIdByAreaId(zone))
+                            local uiMapId = ZoneDB:GetUiMapIdByAreaId(zone)
+                            if not KT.IsInTable(zones, uiMapId) then
+                                tinsert(zones, uiMapId)
                             end
                         end
                     end
@@ -290,7 +291,7 @@ end
 function M:OnInitialize()
     _DBG("|cffffff00Init|r - "..self:GetName(), true)
     db = KT.db.profile
-    self.isLoaded = (KT:CheckAddOn("Questie", "10.6.4") and db.addonQuestie)
+    self.isLoaded = (KT:CheckAddOn("Questie", "10.18.1") and db.addonQuestie)
 end
 
 function M:OnEnable()
@@ -322,7 +323,7 @@ function M:CreateMenu(info, questID)
     if IsAddOnLoaded("TomTom") then
         info.text = "Set |cff33ff99TomTom|r Waypoint"
         info.func = function()
-            local spawn, zone, name = QuestieMap:GetNearestQuestSpawn(quest)
+            local spawn, zone, name = DistanceUtils.GetNearestSpawnForQuest(quest)
             if spawn then
                 TrackerUtils:SetTomTomTarget(name, zone, spawn[1], spawn[2])
             end

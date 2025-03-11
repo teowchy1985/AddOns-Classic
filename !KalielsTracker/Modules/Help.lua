@@ -1,5 +1,5 @@
 --- Kaliel's Tracker
---- Copyright (c) 2012-2024, Marouan Sabbagh <mar.sabbagh@gmail.com>
+--- Copyright (c) 2012-2025, Marouan Sabbagh <mar.sabbagh@gmail.com>
 --- All Rights Reserved.
 ---
 --- This file is part of addon Kaliel's Tracker.
@@ -253,15 +253,21 @@ local function SetupTutorials()
 			imageY = WOW_PROJECT_ID > WOW_PROJECT_CLASSIC and 9 or 16,
 			imageAbsolute = true,
 			text = "            |T"..helpPath.."help_whats-new_title:32:181:0:0:256:32:0:181:0:32|t\n\n"..
-					cTitle.."Version 4.1.0|r\n"..
-					"- ADDED - support for WoW 1.15.4\n"..
+					cTitle.."Version 4.2.1|r\n"..
+					"- FIXED (quests) - incorrect quest data saved\n"..
+					"- REVERTED - nil value of quest level\n"..
+					"\n"..
+					cTitle.."Version 4.2.0|r\n"..
+					"- ADDED - support for WoW 4.4.2.59346\n"..
+					"- ADDED - support for WoW 1.15.6.58912\n"..
+					"- CHANGED - addon support - ElvUI 13.86, Tukui 20.460\n"..
+					"- CHANGED - addon support - Questie 10.18.1\n"..
 					"- CHANGED (help) - Active Patrons\n"..
-					"- CHANGED - addon support - ElvUI 13.79, Tukui 20.455\n"..
-					"- CHANGED - Libs\n"..
-					"- CHANGED - addon support - Questie 10.6.4\n"..
+					"- CHANGED - addon support - ElvUI 13.84, Tukui 20.458\n"..
+					"- CHANGED - addon support - Questie 10.17.0\n"..
 					"\n"..
 
-					cTitle.."WoW 4.4.0/1.15.4 - Known issues w/o solution|r\n"..
+					cTitle.."WoW 4.4.2/1.15.6 - Known issues w/o solution|r\n"..
 					"- Clicking on tracked quests or achievements has no response during combat.\n"..
 					"- Header buttons Q and A don't work during combat.\n\n"..
 
@@ -325,24 +331,22 @@ local function SetupTutorials()
 		{	-- 1
 			text = cTitle.."         Become a Patron|r\n\n"..
 					"If you like "..KT.title..", support me on |cfff34a54Patreon|r.\n\n"..
-					"Click on button  |T"..helpPath.."help_patreon:20:154:1:0:256:32:0:156:0:20|t  on CurseForge addon page.\n\n"..
+					"Click on button  |T"..helpPath.."help_patreon:20:173:0:0:256:32:0:173:0:20|t  on CurseForge addon page.\n\n"..
 					"After 10 years of working on an addon, I started Patreon. It's created as\na compensation for the amount "..
 					"of time that addon development requires.\n\n"..
-					"                                    Many thanks to all supporters  |T"..helpPath.."help_patreon:16:16:0:0:256:32:157:173:0:16|t\n\n"..
+					"                                    Many thanks to all supporters  |T"..helpPath.."help_patreon:16:16:0:0:256:32:174:190:0:16|t\n\n"..
 					cTitle.."Active Patrons|r\n"..
-					SetFormatedPatronName("Legendary", "Zayah", "Vek'nilash")..
 					SetFormatedPatronName("Epic", "Haekwon", "Elune")..
 					SetFormatedPatronName("Epic", "Liothen", "Emerald Dream")..
 					SetFormatedPatronName("Rare", "A")..
 					SetFormatedPatronName("Uncommon", "Anaara", "Auchindoun")..
-					SetFormatedPatronName("Uncommon", "Calvin Jones")..
 					SetFormatedPatronName("Uncommon", "Charles Howarth")..
 					SetFormatedPatronName("Uncommon", "Flex (drantor)")..
 					SetFormatedPatronName("Uncommon", "Illidanclone", "Kazzak")..
-					SetFormatedPatronName("Uncommon", "Jeffrey Hofer")..
 					SetFormatedPatronName("Uncommon", "Mystekal")..
 					SetFormatedPatronName("Uncommon", "Semy", "Ravencrest")..
 					SetFormatedPatronName("Uncommon", "Sopleb")..
+					SetFormatedPatronName("Uncommon", "Xeelee", "Razorfen")..
 					SetFormatedPatronName("Common", "Darren Divecha")..
 					"\n"..
 					cTitle.."Testers|r\n"..

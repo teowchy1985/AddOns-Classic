@@ -1,5 +1,5 @@
 --- Kaliel's Tracker
---- Copyright (c) 2012-2024, Marouan Sabbagh <mar.sabbagh@gmail.com>
+--- Copyright (c) 2012-2025, Marouan Sabbagh <mar.sabbagh@gmail.com>
 --- All Rights Reserved.
 ---
 --- This file is part of addon Kaliel's Tracker.
@@ -150,7 +150,7 @@ function KT_GetQuestWatchInfo(questLogIndex)
     local failureTime = nil
     local timeElapsed = nil
     local questType = nil
-    return questID, level or 0, title, questLogIndex, numObjectives, requiredMoney, isComplete, startEvent, isAutoComplete, failureTime, timeElapsed, questType, isTask, isBounty, isStory, isOnMap, hasLocalPOI, isHidden
+    return questID, level, title, questLogIndex, numObjectives, requiredMoney, isComplete, startEvent, isAutoComplete, failureTime, timeElapsed, questType, isTask, isBounty, isStory, isOnMap, hasLocalPOI, isHidden
 end
 
 -- Map

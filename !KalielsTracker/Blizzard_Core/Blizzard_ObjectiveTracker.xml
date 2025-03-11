@@ -1,5 +1,5 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
-..\..\..\FrameXML\UI.xsd">
+..\..\Blizzard_SharedXML\UI.xsd">
 	
 	<Script file="Blizzard_ObjectiveTracker.lua"/>
 	
@@ -77,9 +77,7 @@
 				<Alpha childKey="LineGlow" duration="0.15" order="1" fromAlpha="0" toAlpha="1"/>
 				<Alpha childKey="LineGlow" startDelay="0.25" duration="0.65" order="1" fromAlpha="1" toAlpha="0"/>
 				<Scale childKey="LineGlow" duration="0.15" order="1" fromScaleX="0.1" fromScaleY="1.5" toScaleX="2" toScaleY="1.5">
-					<Origin point="CENTER">
-						<Offset x="-50" y="0"/>
-					</Origin>
+					<Origin point="CENTER" x="-50" y="0"/>
 				</Scale>
 				<Translation childKey="LineGlow" duration="0.75" order="1" offsetX="50" offsetY="0"/>
 				<Alpha childKey="SoftGlow" duration="0.25" order="1" fromAlpha="0" toAlpha="1"/>

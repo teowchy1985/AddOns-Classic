@@ -64,7 +64,7 @@ function AUTO_QUEST_POPUP_TRACKER_MODULE:Update()
 							blockContents.QuestionMark:Hide();
 							local itemID = questItems[questID];
 							if ( itemID ) then
-                                local texture = select(10, GetItemInfo(itemID));
+                                local texture = select(10, C_Item.GetItemInfo(itemID));
                                 blockContents.Exclamation:SetTexCoord(0.078125, 0.921875, 0.078125, 0.921875);
                                 blockContents.Exclamation:SetSize(35, 35);
                                 SetPortraitToTexture(blockContents.Exclamation, texture);

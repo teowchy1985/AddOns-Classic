@@ -1,5 +1,5 @@
 --- Kaliel's Tracker
---- Copyright (c) 2012-2024, Marouan Sabbagh <mar.sabbagh@gmail.com>
+--- Copyright (c) 2012-2025, Marouan Sabbagh <mar.sabbagh@gmail.com>
 --- All Rights Reserved.
 ---
 --- This file is part of addon Kaliel's Tracker.
@@ -159,7 +159,7 @@ function KT_SanitizeQuestList()
 	local questInfo, questLogIndex
 	for i = #dbChar.trackedQuests, 1, -1 do
 		questInfo = dbChar.trackedQuests[i]
-		questLogIndex = GetQuestLogIndexByID(questInfo.id)
+		questLogIndex = questInfo.id > 0 and GetQuestLogIndexByID(questInfo.id) or nil
 		if not questLogIndex or questLogIndex <= 0 then
 			tremove(dbChar.trackedQuests, i)
 		end

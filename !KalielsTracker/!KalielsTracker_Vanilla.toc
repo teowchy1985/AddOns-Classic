@@ -1,7 +1,7 @@
-## Interface: 11504
+## Interface: 11506
 ## Title: Kaliel's Tracker
 ## Notes: Classic Era Objective Tracker
-## Version: 4.1.0
+## Version: 4.2.1
 ## Author: Kaliel (Marouan Sabbagh)
 
 ## SavedVariables: KalielsTrackerDB
