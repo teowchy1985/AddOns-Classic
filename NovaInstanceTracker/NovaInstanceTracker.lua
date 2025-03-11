@@ -5056,6 +5056,14 @@ f:SetScript('OnEvent', function(self, event, ...)
 			NIT:selectGossipOption(1);
 			return;
 		end
+		if (npcID == "11491" and isInstance) then
+			NIT:selectGossipOption(1);
+			return;
+		end
+		if (npcID == "238766" and isInstance) then
+			NIT:selectGossipOption(1);
+			return;
+		end
 		if (NIT.isWrath or NIT.isCata) then
 			if ((npcID == "211299" or npcID == "211297") and NIT.db.global.autoGammaBuff and isInstance) then
 				local buffType, buffName, role = NIT:getGammaBuffType();

@@ -496,6 +496,28 @@ local turBossesNoRecordEncounter = {
 	[790] = {name = "Gahz'ranka"},
 	--The crystal vale.
 	[3079] = {name = "Prince Thunderaan"},
+	--Aq20.
+	[718] = {name = "Kurinnaxx"},
+	[719] = {name = "General Rajaxx"},
+	[720] = {name = "Moam"},
+	[721] = {name = "Buru the Gorger"},
+	[722] = {name = "Ayamiss the Hunter"},
+	[723] = {name = "Ossirian the Unscarred"},
+	--Aq40.
+	[709] = {name = "The Prophet Skeram"},
+	[710] = {name = "Silithid Royalty"},
+	[711] = {name = "Battleguard Sartura"},
+	[712] = {name = "Fankriss the Unyielding"},
+	[713] = {name = "Viscidus"},
+	[714] = {name = "Princess Huhuran"},
+	[715] = {name = "Twin Emperors"},
+	[716] = {name = "Ouro"},
+	[717] = {name = "C'thun"},
+	--Nightmare grove.
+	[3113] = {name = "Taerar"},
+	[3114] = {name = "Ysondre"},
+	[3111] = {name = "Emeriss"},
+	[3112] = {name = "Lethon"},
 };
 
 local qirajiBossesNoRecordEncounter = {
