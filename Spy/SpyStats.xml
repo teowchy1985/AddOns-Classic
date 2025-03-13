@@ -384,7 +384,7 @@
                             </Anchor>
                             <Anchor point="BOTTOMRIGHT"></Anchor>
                         </Anchors>
-                        <Backdrop bgFile="Interface\Tooltips\UI-Tooltip-Background" edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
+<!--                    <Backdrop bgFile="Interface\Tooltips\UI-Tooltip-Background" edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
                             <EdgeSize>
                                 <AbsValue val="16"></AbsValue>
                             </EdgeSize>
@@ -394,7 +394,7 @@
                             <BackgroundInsets>
                                 <AbsInset left="4" right="4" top="4" bottom="4" />
                             </BackgroundInsets>
-                        </Backdrop>
+                        </Backdrop> -->
                         <Scripts>
                             <OnLoad>
 <!--							self:SetBackdropColor(0,0,0,.65)  -->
