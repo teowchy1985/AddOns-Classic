@@ -432,6 +432,7 @@ end
 ------------------菜单：点文本也能打开菜单------------------
 function BG.dropDownToggle(dropDown)
     dropDown:SetScript("OnMouseDown", function(self)
+        if dropDown.isDisabled then return end
         LibBG:ToggleDropDownMenu(nil, nil, self)
         BG.PlaySound(1)
     end)

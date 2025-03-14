@@ -2273,10 +2273,12 @@ function BG.SkinDropDown(dropDown)
     tex:SetTexture("Interface/AddOns/BiaoGe/Media/textures/arrow.tga")
     tex:SetRotation(math.pi)
     dropDown:HookScript("OnEnter", function(self)
+        if dropDown.isDisabled then return end
         f:SetBackdropColor(r, g, b, 0.3)
         f:SetBackdropBorderColor(r, g, b, borderAlpha)
     end)
     dropDown:HookScript("OnLeave", function(self)
+        if dropDown.isDisabled then return end
         f:SetBackdropColor(0, 0, 0, 0.5)
         f:SetBackdropBorderColor(.3, .3, .3, borderAlpha)
     end)

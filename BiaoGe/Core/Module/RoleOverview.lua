@@ -471,6 +471,30 @@ function BG.RoleOverviewUI()
             end
         end
 
+        local function SetEquipFrameFuc(bt, isAccounts, realmID, player, colorplayer, level, class, iLevel)
+            if BGV and BGV.ShowEquipFrame then
+                local r, g, b = GetClassColor(class)
+                local tex = bt:CreateTexture()
+                tex:SetPoint("CENTER")
+                tex:SetSize(bt.width + 20, bt:GetHeight() - 5)
+                tex:SetTexture("Interface\\QuestFrame\\UI-QuestLogTitleHighlight")
+                tex:SetVertexColor(r, g, b)
+                bt:SetHighlightTexture(tex)
+                bt:SetScript("OnEnter", function(self)
+                    BGV.ShowEquipFrame(nil, bt, isAccounts, realmID, player, colorplayer, level, class, iLevel)
+                end)
+                bt:SetScript("OnLeave", function(self)
+                    if BGV.equipFrame and not BGV.equipFrame.click then
+                        BGV.equipFrame:Hide()
+                    end
+                    GameTooltip:Hide()
+                end)
+                bt:SetScript("OnClick", function(self)
+                    BGV.ShowEquipFrame(true, bt, isAccounts, realmID, player, colorplayer, level, class, iLevel)
+                end)
+            end
+        end
+
         --------- 角色团本完成总览 ---------
         -- 大标题
         local FBCDTitle
@@ -597,8 +621,10 @@ function BG.RoleOverviewUI()
                                                 colorplayer = colorplayer,
                                                 class = class,
                                                 iLevel = iLevel,
+                                                level = level,
                                                 realmID = realmID,
-                                                realmName = BiaoGe.realmName[realmID] or realmID,
+                                                realmName = (db.realmName and db.realmName[realmID]) or BiaoGe.realmName[realmID] or realmID,
+                                                isAccounts = isAccounts,
                                                 tbl = BG.Copy(v)
                                             })
                                         end
@@ -631,18 +657,25 @@ function BG.RoleOverviewUI()
                 local player = v.player
                 local iLevel = v.iLevel
                 local realmID = v.realmID
+                local r, g, b, color = GetClassColor(v.class)
                 -- 玩家名字
                 local realmName
                 if ShowAllServer() then
-                    realmName = "|c" .. select(4, GetClassColor(v.class)) .. v.realmName .. "-|r"
+                    realmName = "|c" .. color .. v.realmName .. "-|r"
                 else
                     realmName = ""
                 end
-                local t = BG.FBCDFrame:CreateFontString()
+                local bt = CreateFrame("Button", nil, BG.FBCDFrame)
+                bt:SetPoint("TOPLEFT", BG.FBCDFrame, "TOPLEFT", FBCDchoice_table[1].width, -7 - height * n)
+                local t = bt:CreateFontString()
                 t:SetFont(STANDARD_TEXT_FONT, fontsize, "OUTLINE")
-                t:SetPoint("TOPLEFT", BG.FBCDFrame, "TOPLEFT",
-                    FBCDchoice_table[1].width, -10 - height * n)
+                t:SetPoint("LEFT")
                 t:SetText(realmName .. colorplayer .. " |cff808080(" .. Round(iLevel, 0) .. ")|r")
+                bt.width = t:GetWidth()
+                bt.isFBCD = true
+                bt:SetFontString(t)
+                bt:SetSize(bt.width, 20)
+                SetEquipFrameFuc(bt, v.isAccounts, realmID, player, colorplayer, v.level, v.class, v.iLevel)
 
                 -- 副本CD
                 for _, cd in pairs(v.tbl) do
@@ -917,7 +950,8 @@ function BG.RoleOverviewUI()
                                         iLevel = iLevel,
                                         level = level,
                                         realmID = realmID,
-                                        realmName = BiaoGe.realmName[realmID] or realmID,
+                                        realmName = (db.realmName and db.realmName[realmID]) or BiaoGe.realmName[realmID] or realmID,
+                                        isAccounts = isAccounts,
                                         tbl = v
                                     })
                                 end
@@ -945,22 +979,31 @@ function BG.RoleOverviewUI()
                 local player = v.player
                 local level = v.level
                 local realmID = v.realmID
+                local r, g, b, color = GetClassColor(v.class)
                 local right
                 -- 名字
                 local realmName
                 if ShowAllServer() then
-                    realmName = "|c" .. select(4, GetClassColor(v.class)) .. v.realmName .. "-|r"
+                    realmName = "|c" .. color .. v.realmName .. "-|r"
                 else
                     realmName = ""
                 end
 
                 local levelText = ""
                 if level then levelText = BG.STC_dis(" (" .. level .. ")") end
-                local t_name = f:CreateFontString()
-                t_name:SetFont(STANDARD_TEXT_FONT, fontsize, "OUTLINE")
-                t_name:SetPoint("TOPLEFT", BG.FBCDFrame, "TOPLEFT", left, -10 - height * n)
-                t_name:SetText(realmName .. colorplayer .. levelText)
-                right = t_name
+
+                local bt = CreateFrame("Button", nil, BG.FBCDFrame)
+                bt:SetPoint("TOPLEFT", BG.FBCDFrame, "TOPLEFT", left, -7 - height * n)
+                local t = bt:CreateFontString()
+                t:SetFont(STANDARD_TEXT_FONT, fontsize, "OUTLINE")
+                t:SetPoint("LEFT")
+                t:SetText(realmName .. colorplayer .. levelText)
+                bt.width = t:GetWidth()
+                bt.isMoney = true
+                bt:SetFontString(t)
+                bt:SetSize(bt.width, 20)
+                right = bt
+                SetEquipFrameFuc(bt, v.isAccounts, realmID, player, colorplayer, v.level, v.class, v.iLevel)
 
                 -- 牌子
                 local pz = v.tbl
@@ -974,7 +1017,7 @@ function BG.RoleOverviewUI()
                     local width
                     if ii == 2 then
                         width = MONEYchoice_table[ii - 1].width + MONEYchoice_table[ii].width
-                        t_paizi:SetPoint("TOPRIGHT", right, "TOPLEFT", width, 0)
+                        t_paizi:SetPoint("RIGHT", right, "LEFT", width, 0)
                     else
                         width = MONEYchoice_table[ii].width
                         t_paizi:SetPoint("TOPRIGHT", right, "TOPRIGHT", width, 0)
@@ -1840,8 +1883,32 @@ function BG.RoleOverviewUI()
         end
     end
 
-    ------------------角色装等------------------
+    ------------------角色装备和装等------------------
     do
+        BiaoGe.equip = BiaoGe.equip or {}
+        BiaoGe.equip[realmID] = BiaoGe.equip[realmID] or {}
+        BiaoGe.equip[realmID][player] = BiaoGe.equip[realmID][player] or {}
+
+        function BG.GetPlayerEquip()
+            local tbl = BiaoGe.equip[realmID][player]
+            wipe(tbl)
+            for slot = 1, 19 do
+                local link = GetInventoryItemLink("player", slot)
+                if link then
+                    local itemID = GetInventoryItemID("player", slot)
+                    local quality = GetInventoryItemQuality("player", slot)
+                    local level = select(4, GetItemInfo(itemID))
+                    slot = tostring(slot)
+                    tbl[slot] = {
+                        link = link,
+                        itemID = itemID,
+                        quality = quality,
+                        level = level,
+                    }
+                end
+            end
+        end
+
         local function GetPlayerItemsLevel()
             local _, avgLevel = GetAverageItemLevel()
             BiaoGe.playerInfo[realmID][player].iLevel = avgLevel or 0
@@ -1853,13 +1920,15 @@ function BG.RoleOverviewUI()
         end
 
         BG.Init2(function()
-            C_Timer.After(1, function()
+            BG.After(1, function()
+                BG.GetPlayerEquip()
                 GetPlayerItemsLevel()
             end)
         end)
 
         BG.RegisterEvent("UNIT_INVENTORY_CHANGED", function(self, event, ...)
-            C_Timer.After(0.5, function()
+            BG.After(0.5, function()
+                BG.GetPlayerEquip()
                 GetPlayerItemsLevel()
             end)
         end)

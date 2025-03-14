@@ -2219,7 +2219,7 @@ BG.Init(function()
                 if IsInRaid(1) and BG.masterLooter == UnitName("player") then
                     disframe:Hide()
                     bt:Enable()
-                    if BiaoGe.options["autoAllLootToMe"] == 1 then
+                    if BiaoGe.options["autoAllLootToMe"] == 1 and not IsModifierKeyDown() then
                         BG.After(0.1, function()
                             GiveLoot()
                         end)
@@ -3967,6 +3967,12 @@ BG.Init(function()
                 C_Timer.After(10, function()
                     close = true
                 end)
+            end
+        end)
+
+        BG.After(5, function()
+            if BG.GetVerNum(BG.ver) < 11500 then
+                BG.SendSystemMessage(L["你的BiaoGe插件存在问题，请删除本地插件再重新安装一次。"])
             end
         end)
     end
