@@ -3,7 +3,7 @@ local AddonName = ...
 ---@class Private
 local Private = select(2, ...)
 
-local internalVersion = 82
+local internalVersion = 83
 
 -- Lua APIs
 local insert = table.insert
@@ -1571,7 +1571,7 @@ local function GetInstanceTypeAndSize()
   local size, difficulty
   local inInstance, Type = IsInInstance()
   local _, instanceType, difficultyIndex, _, _, _, _, instanceId = GetInstanceInfo()
-  if (inInstance) then
+  if inInstance or instanceType ~= "none" then
     size = Type
     local difficultyInfo = Private.difficulty_info[difficultyIndex]
     if difficultyInfo then
@@ -3327,9 +3327,10 @@ function Private.SetRegion(data, cloneId)
       Private.validate(data, regionTypes[regionType].default);
 
       local parent = WeakAurasFrame;
-      if(data.parent) then
-        if WeakAuras.GetData(data.parent) then
-          parent = Private.EnsureRegion(data.parent)
+      if data.parent then
+        local parentRegion = Private.EnsureRegion(data.parent)
+        if parentRegion then
+          parent = parentRegion
         else
           data.parent = nil;
         end
@@ -3398,6 +3399,10 @@ local function EnsureRegion(id)
       local data = WeakAuras.GetData(id)
       tinsert(aurasToCreate, data.id)
       id = data.parent
+
+      if WeakAuras.GetRegion(id) then
+        break
+      end
     end
 
     for _, toCreateId in ipairs_reverse(aurasToCreate) do
