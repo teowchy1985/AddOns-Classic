@@ -114,6 +114,8 @@
 			{"Spirit", 73.1, 68.2, L["Spirit Healer"], nil, spTex, nil, nil},
 			{"Arrow", 24.1, 30.4, L["Western Plaguelands"], nil, arTex, nil, nil, nil, nil, nil, 0, 1422},
 			{"Arrow", 6.4, 61.5, L["Hillsbrad Foothills"], nil, arTex, nil, nil, nil, nil, nil, 2.3, 1424},
+			{"Arrow", 70.6, 63.7, L["The Overlook Cliffs"], L["Follow the westward path"], arTex, nil, nil, nil, nil, nil, 4.1, 1425},
+			{"Arrow", 76.9, 61.0, L["The Hinterlands"], L["Follow the eastward path"], arTex, nil, nil, nil, nil, nil, 1.8, 1425},
 		},
 		--[[Dun Morogh]] [1426] = {
 			{"Dungeon", 24.3, 39.8, L["Gnomeregan"], L["Dungeon"], dnTex, 29, 38},
