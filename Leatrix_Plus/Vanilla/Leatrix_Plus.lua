@@ -1,5 +1,5 @@
 ﻿----------------------------------------------------------------------
--- 	Leatrix Plus 1.15.78 (7th March 2025)
+-- 	Leatrix Plus 1.15.80 (20th March 2025)
 ----------------------------------------------------------------------
 
 --	01:Functions 02:Locks   03:Restart 40:Player   45:Rest
@@ -19,7 +19,7 @@
 	local void
 
 	-- Version
-	LeaPlusLC["AddonVer"] = "1.15.78"
+	LeaPlusLC["AddonVer"] = "1.15.80"
 
 	-- Get locale table
 	local void, Leatrix_Plus = ...
@@ -14385,7 +14385,7 @@
 				return
 			elseif str == "con" then
 				-- Show the developer console
-				C_Console.SetFontHeight(28)
+				DeveloperConsole:SetFontHeight(28)
 				DeveloperConsole:Toggle(true)
 				return
 			elseif str == "movie" then
