@@ -1,6 +1,6 @@
 # Syndicator
 
-## [181](https://github.com/Baganator/Syndicator/tree/181) (2025-03-17)
-[Full Changelog](https://github.com/Baganator/Syndicator/compare/180...181) 
+## [184](https://github.com/Baganator/Syndicator/tree/184) (2025-03-23)
+[Full Changelog](https://github.com/Baganator/Syndicator/compare/183...184) 
 
-- Fix "#tier token" not matching soulbound tokens that match current character  
+- Fixes for China Wrath, 3.4.4  
