@@ -39,7 +39,8 @@ local min, max = math.min, math.max, math;
 local CreateFrame = CreateFrame;
 local UIParent = UIParent;
 local _G = _G;
-local InterfaceOptions_AddCategory = InterfaceOptions_AddCategory;
+local Settings = Settings;
+local InterfaceOptions_AddCategory = _G.InterfaceOptions_AddCategory;
 if InterfaceOptions_AddCategory == nil then
 	function InterfaceOptions_AddCategory(frame, addOn, position)
 		-- cancel is no longer a default option. May add menu extension for this.
@@ -60,6 +61,19 @@ if InterfaceOptions_AddCategory == nil then
 		end
 	end
 end
+local InterfaceOptionsFrame_OpenToCategory = _G.InterfaceOptionsFrame_OpenToCategory;
+if InterfaceOptionsFrame_OpenToCategory == nil then
+	function InterfaceOptionsFrame_OpenToCategory(categoryIDOrFrame)
+		if __env.type(categoryIDOrFrame) == "table" then
+			local categoryID = categoryIDOrFrame.name;
+			return Settings.OpenToCategory(categoryID);
+		else
+			return Settings.OpenToCategory(categoryIDOrFrame);
+		end
+	end
+end
+
+
 
 local TEXTURE_PATH = strmatch(debugstack(), [[(Interface[^:"|]+[/\])[^/\:"|]+%.lua]]) .. [[Media\Texture\]];
 local SettingUIColWidth = 180;
@@ -843,9 +857,9 @@ local TWidgetMethod = {  };
 			FreeContainer:Hide();
 		end);
 		FreeContainer.Close = Close;
-		FreeContainer.BG = FreeContainer:CreateTexture(nil, "BACKGROUND");
-		FreeContainer.BG:SetAllPoints();
-		FreeContainer.BG:SetColorTexture(0.0, 0.0, 0.0, 0.9);
+		FreeContainer.Background = FreeContainer:CreateTexture(nil, "BACKGROUND");
+		FreeContainer.Background:SetAllPoints();
+		FreeContainer.Background:SetColorTexture(0.0, 0.0, 0.0, 0.9);
 		--
 		return FreeContainer;
 	end
@@ -866,9 +880,9 @@ local TWidgetMethod = {  };
 		Editor:SetFrameLevel(SettingUI:GetFrameLevel() + 63);
 		Editor:SetPoint("BOTTOMLEFT", 0, 0);
 		Editor:SetPoint("TOPRIGHT", 0, -32);
-		Editor.BG = Editor:CreateTexture(nil, "BACKGROUND");
-		Editor.BG:SetAllPoints();
-		Editor.BG:SetColorTexture(0.0, 0.0, 0.0, 1.0);
+		Editor.Background = Editor:CreateTexture(nil, "BACKGROUND");
+		Editor.Background:SetAllPoints();
+		Editor.Background:SetColorTexture(0.0, 0.0, 0.0, 1.0);
 		Editor.__SettingUI = SettingUI;
 		Editor.__val = 0;
 		Editor.__stepSize = 20;
@@ -877,9 +891,9 @@ local TWidgetMethod = {  };
 		local EditorScrollFrame = CreateFrame('SCROLLFRAME', nil, Editor);
 		EditorScrollFrame:SetPoint("BOTTOMLEFT", 0, 32);
 		EditorScrollFrame:SetPoint("TOPRIGHT", -20, -72);
-		EditorScrollFrame.BG = EditorScrollFrame:CreateTexture(nil, "BACKGROUND");
-		EditorScrollFrame.BG:SetAllPoints();
-		EditorScrollFrame.BG:SetColorTexture(0.25, 0.25, 0.25, 0.5);
+		EditorScrollFrame.Background = EditorScrollFrame:CreateTexture(nil, "BACKGROUND");
+		EditorScrollFrame.Background:SetAllPoints();
+		EditorScrollFrame.Background:SetColorTexture(0.25, 0.25, 0.25, 0.5);
 		EditorScrollFrame.__Editor = Editor;
 		EditorScrollFrame:SetScript("OnSizeChanged", TWidgetMethod.EditorScrollFrameOnSizeChanged);
 		EditorScrollFrame:SetScript("OnScrollRangeChanged", TWidgetMethod.EditorScrollFrameOnScrollRangeChanged);
