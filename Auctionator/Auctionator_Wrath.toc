@@ -1,6 +1,6 @@
-## Interface: 30403
+## Interface: 30404
 ## Title: Auctionator
-## Version: 268
+## Version: 269
 ## Author: Borjamacare, plusmouse
 ## X-Website: https://www.curseforge.com/wow/addons/auctionator
 ## X-Category: Auction/Economy
@@ -19,11 +19,13 @@
 
 Libs\Manifest.xml
 
-Assets_Classic.xml
+Assets_LegacyAH.xml
 
-Imports_Classic\Manifest.xml
+Imports_LegacyAH\Manifest.xml
 
 Locales\Manifest.xml
 
 Source\Manifest.xml
 Source_Classic\Manifest.xml
+Data_Cata\Suffixes.lua
+Source_LegacyAH\Manifest.xml
