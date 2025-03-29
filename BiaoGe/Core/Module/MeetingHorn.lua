@@ -980,13 +980,6 @@ BG.Init2(function()
             -- 聊天框右键菜单
             if BG.IsNewUI then
                 if BiaoGe.options["MeetingHorn_whisper"] == 1 then
-                    if not BG.IsVanilla then
-                        Menu.ModifyMenu("MENU_UNIT_FRIEND", function(owner, rootDescription, contextData)
-                            rootDescription:CreateButton(L["装等+职业"], function()
-                                SendWhisper(contextData.name, "onlylevel")
-                            end)
-                        end)
-                    end
                     Menu.ModifyMenu("MENU_UNIT_FRIEND", function(owner, rootDescription, contextData)
                         rootDescription:CreateDivider()
                         -- rootDescription:CreateTitle("My Addon")
@@ -994,13 +987,11 @@ BG.Init2(function()
                             SendWhisper(contextData.name)
                         end)
                     end)
-                    if BG.IsVanilla then
-                        Menu.ModifyMenu("MENU_UNIT_FRIEND", function(owner, rootDescription, contextData)
-                            rootDescription:CreateButton(L["装等+职业"], function()
-                                SendWhisper(contextData.name, "onlylevel")
-                            end)
+                    Menu.ModifyMenu("MENU_UNIT_FRIEND", function(owner, rootDescription, contextData)
+                        rootDescription:CreateButton(L["装等+职业"], function()
+                            SendWhisper(contextData.name, "onlylevel")
                         end)
-                    end
+                    end)
                 end
             else
                 hooksecurefunc("UnitPopup_ShowMenu", function(arg1, which)
@@ -1212,7 +1203,7 @@ BG.Init2(function()
         end
 
         -- 右键菜单
-        --[[         local function OnShow(...)
+--[[         local function OnShow(...)
             if BiaoGe.options["MeetingHorn_starRaidLeader"] ~= 1 then return end
             if (UIDROPDOWNMENU_MENU_LEVEL > 1) then return end
             local arg1, arg2, arg3, arg4, arg5 = ...

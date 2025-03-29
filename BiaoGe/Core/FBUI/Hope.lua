@@ -257,10 +257,8 @@ function BG.HopeUI(FB)
                                 GameTooltip:Show()
                                 -- BG.SetHistoryMoney(itemID)
 
-                                BG.DressUpLastButton = self
                                 if IsControlKeyDown() then
                                     SetCursor("Interface/Cursor/Inspect")
-                                    BG.DressUp()
                                 end
                                 BG.canShowTrunToItemLibCursor = true
                             end
@@ -272,10 +270,6 @@ function BG.HopeUI(FB)
                         BG.HideHistoryMoney()
                         SetCursor(nil)
                         BG.canShowTrunToItemLibCursor = nil
-                        if BG.DressUpFrame then
-                            BG.DressUpFrame:Hide()
-                        end
-                        BG.DressUpLastButton = nil
                     end)
                     -- 获得光标时
                     bt:SetScript("OnEditFocusGained", function(self)
