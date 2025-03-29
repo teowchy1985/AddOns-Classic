@@ -25,8 +25,7 @@ local player = UnitName("player")
 local R = {}
 
 BG.Init(function()
-    BiaoGe.Report=nil
-    if false then
+    if BG.IsWLK then
         BiaoGe.Report = BiaoGe.Report or {}
         BiaoGe.Report.db = BiaoGe.Report.db or {}
         BiaoGe.Report.db[RealmId] = BiaoGe.Report.db[RealmId] or {}

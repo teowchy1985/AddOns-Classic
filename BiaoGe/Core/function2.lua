@@ -505,18 +505,6 @@ do
                 },
             }
             return nandutable[FB][GetRaidDifficultyID()]
-        elseif BG.IsTBCFB() then
-            local nandutable = {
-                [3] = "N",
-                [175] = "N",
-                [4] = "N",
-                [176] = "N",
-                [5] = "N",
-                [193] = "N",
-                [6] = "N",
-                [194] = "N",
-            }
-            return nandutable[GetRaidDifficultyID()]
         else
             local nandutable = {
                 [3] = "N",
@@ -706,26 +694,20 @@ do
                     self.ds:Hide()
                     BG.HideHistoryMoney()
                 end)
-                bt:SetScript("OnMouseDown", function(self, button)
+                bt:SetScript("OnMouseDown", function(self, enter)
                     if self.link then
                         if IsShiftKeyDown() then
                             BG.InsertLink(self.link, true)
                         elseif IsControlKeyDown() then
                             BG.GoToItemLib(self)
                         elseif IsAltKeyDown() then
-                            if BG.IsML then -- 开始拍卖
-                                local link = self.link
-                                self.owner:ClearFocus()
-                                BG.StartAuction(link, self, nil, nil, button == "RightButton")
-                            else
-                                if not self.owner.hopenandu then
-                                    BiaoGe[FB]["boss" .. self.owner.bossnum]["guanzhu" .. self.owner.i] = true
-                                    BG.Frame[FB]["boss" .. self.owner.bossnum]["guanzhu" .. self.owner.i]:Show()
-                                end
-                                self.owner:SetText(self.link)
-                                self.owner:ClearFocus()
-                                BG.FrameZhuangbeiList:Hide()
+                            if not self.owner.hopenandu then
+                                BiaoGe[FB]["boss" .. self.owner.bossnum]["guanzhu" .. self.owner.i] = true
+                                BG.Frame[FB]["boss" .. self.owner.bossnum]["guanzhu" .. self.owner.i]:Show()
                             end
+                            self.owner:SetText(self.link)
+                            self.owner:ClearFocus()
+                            BG.FrameZhuangbeiList:Hide()
                         else
                             self.owner:SetText(self.link)
                             self.owner:ClearFocus()
@@ -2283,7 +2265,7 @@ function BG.SkinDropDown(dropDown)
     f:SetPoint("TOPLEFT", 15, 0)
     f:SetPoint("BOTTOMRIGHT", -15, 7)
     f:SetFrameLevel(dropDown:GetFrameLevel())
-    dropDown.bg = f
+    dropDown.bg=f
 
     local tex = dropDown:CreateTexture("OVERLAY")
     tex:SetPoint("TOPLEFT", bt, "TOPLEFT", 2, -2)
