@@ -129,6 +129,7 @@
 				["0.70:0.16:0.44:0.19:0.55:0.57:0.45:0.84:0.43:0.93"] = 1065, -- Light's Hope Chapel, Undercity, Kargath, Grom'gol, Booty Bay
 				["0.70:0.16:0.44:0.19:0.55:0.57:0.56:0.61"] = 758, -- Light's Hope Chapel, Undercity, Kargath, Flame Crest
 				["0.70:0.16:0.44:0.19:0.55:0.57:0.51:0.57"] = 729, -- Light's Hope Chapel, Undercity, Kargath, Thorium Point
+				["0.70:0.16:0.67:0.30:0.62:0.31:0.55:0.57:0.43:0.93"] = 908, -- Light's Hope Chapel, Revantusk Village, Hammerfall, Kargath, Booty Bay
 
 				-- Horde: Revantusk Village (The Hinterlands)
 				["0.67:0.30:0.62:0.31:0.55:0.57:0.45:0.84:0.43:0.93"] = 743, -- Revantusk Village, Hammerfall, Kargath, Grom'gol, Booty Bay
@@ -586,7 +587,7 @@
 				["0.61:0.55:0.56:0.53:0.57:0.64"] = 231, -- Ratchet, Crossroads, Brackenwall Village
 				["0.61:0.55:0.56:0.53:0.53:0.61"] = 158, -- Ratchet, Crossroads, Camp Taurajo
 				["0.61:0.55:0.56:0.53"] = 69, -- Ratchet, Crossroads
-				["0.61:0.55:0.56:0.53:0.63:0.44"] = 210, -- Ratchet, Crossroads, Orgrimmar (Lynwex reported 304)
+				["0.61:0.55:0.56:0.53:0.63:0.44"] = 210, -- Ratchet, Crossroads, Orgrimmar (Lynwex reported 304, Juligan reported 68)
 				["0.61:0.55:0.56:0.53:0.55:0.42"] = 231, -- Ratchet, Crossroads, Splintertree Post (Peter mcninch reported 292)
 				["0.61:0.55:0.56:0.53:0.63:0.36"] = 236, -- Ratchet, Crossroads, Valormok
 				["0.61:0.55:0.56:0.53:0.63:0.36:0.64:0.23"] = 366, -- Ratchet, Crossroads, Valormok, Everlook
@@ -661,6 +662,7 @@
 				["0.55:0.42:0.63:0.44:0.46:0.30:0.54:0.21"] = 469, -- Splintertree Post, Orgrimmar, Bloodvenom Post, Moonglade
 				["0.55:0.42:0.63:0.44:0.45:0.56:0.32:0.58"] = 480, -- Splintertree Post, Orgrimmar, Thunder Bluff, Shadowprey Village
 				["0.55:0.42:0.56:0.53:0.61:0.80"] = 464, -- Splintertree Post, Crossroads, Gadgetzan
+				["0.55:0.42:0.56:0.53:0.45:0.56"] = 343, -- Splintertree Post, Crossroads, Thunder Bluff
 
 				-- Horde: Sun Rock Retreat (Stonetalon Mountains)
 				["0.41:0.47:0.56:0.53:0.55:0.73:0.61:0.80"] = 426, -- Sun Rock Retreat, Crossroads, Freewind Post, Gadgetzan
