@@ -993,11 +993,11 @@ function NRC:getCooldownFromSpellID(spellID)
 	end]]
 end
 
---Adjust cooldown time if a player has talents that change it.
+--Adjust cooldown time if a player has talents or tier set bonuses that change it.
 --spell arg is the name of the spell in cooldowns table not the display name.
 --This is only used when updating cooldowns being used so by table name is the most efficiant.
 --Another func iterating the cooldowns table and checking spellIDs should be made later.
-function NRC:adjustCooldownFromTalents(spell, name, timestamp)
+function NRC:adjustCooldownFromTalentsAndGear(spell, name, timestamp, guid, spellID)
 	if (NRC.cooldowns[spell]) then
 		local data = NRC.cooldowns[spell].cooldownAdjust;
 		if (data) then
@@ -1014,6 +1014,8 @@ function NRC:adjustCooldownFromTalents(spell, name, timestamp)
 				timestamp = timestamp - data[talentCount];
 			end
 		end
+		--Now we also check gear for tier bonuses.
+		timestamp = NRC:getSetBonusCooldownReduction(guid, spellID, timestamp);
 	end
 	return timestamp;
 end
@@ -1062,7 +1064,7 @@ function NRC:updateCooldownList(sourceGUID, sourceName, destGUID, destName, dest
 							else
 								charData.endTime = GetServerTime() + spellData.cooldown;
 							end
-							charData.endTime = NRC:adjustCooldownFromTalents(spellData.spellName, sourceName, charData.endTime);
+							charData.endTime = NRC:adjustCooldownFromTalentsAndGear(spellData.spellName, sourceName, charData.endTime, sourceGUID, spellID);
 							charData.destName = destName;
 							charData.destClass = destClass;
 							local cooldownName, spellName = NRC:getCooldownFromSpellID(spellID);
@@ -1102,7 +1104,7 @@ function NRC:updateCooldownList(sourceGUID, sourceName, destGUID, destName, dest
 			else
 				endTime = GetServerTime() + cooldown;
 			end
-			endTime = NRC:adjustCooldownFromTalents(spellTableName, sourceName, endTime);
+			endTime = NRC:adjustCooldownFromTalentsAndGear(spellTableName, sourceName, endTime, sourceGUID, spellID);
 			if (not NRC.data.raidCooldowns[sourceGUID]) then
 				NRC.data.raidCooldowns[sourceGUID] = {};
 			end

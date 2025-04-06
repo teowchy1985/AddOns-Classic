@@ -646,7 +646,7 @@ function NRC:receivedString(cmd, dataReceived, sender, distribution)
 											--If not same realm then add it.
 											name = name .. "-" .. realm;
 										end
-										charData.endTime = NRC:adjustCooldownFromTalents(spellTableName, name, charData.endTime);
+										charData.endTime = NRC:adjustCooldownFromTalentsAndGear(spellTableName, name, charData.endTime, guid, spellID);
 										--And update our database.
 										if (cooldownName) then
 											if (not NRC.data.raidCooldowns[guid]) then
@@ -694,7 +694,7 @@ function NRC:receivedString(cmd, dataReceived, sender, distribution)
 							--If not same realm then add it.
 							name = name .. "-" .. realm;
 						end
-						endTime = NRC:adjustCooldownFromTalents(spellTableName, name, endTime);
+						endTime = NRC:adjustCooldownFromTalentsAndGear(spellTableName, name, endTime, guid, spellID);
 						if (not NRC.data.raidCooldowns[guid]) then
 							NRC.data.raidCooldowns[guid] = {};
 						end

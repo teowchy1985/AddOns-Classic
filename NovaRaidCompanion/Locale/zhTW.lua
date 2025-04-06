@@ -1250,6 +1250,7 @@ L["Enchants"] = "附魔"
 L["Jungle Durian"] = "叢林榴槤";
 L["Stratholme Holy Water"] = "斯坦索姆聖水";
 
+L["Sanctified"] = "沐聖";
 
 -- 自行加入
 L["NovaRaidCompanion"] = "團隊-夥伴";

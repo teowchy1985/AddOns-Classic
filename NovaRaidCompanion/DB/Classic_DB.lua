@@ -604,7 +604,7 @@ NRC.battleElixirs = {
 		name = "Elixir of Frost Power",
 		icon = 134714,
 		desc = "Increase spell frost damage by up to 15",
-		maxRankSodPhases = {2}, --28.
+		maxRank = true,
 	},
 	[11390] = {
 		name = "Arcane Elixir",
@@ -1621,6 +1621,27 @@ NRC.trackedConsumes = {
 		itemID = 21151,
 		quality = 1,
 	},
+	[15700] = {
+		name = "Whipper Root Tuber",
+		icon = 134011,
+		desc = "Restores 700 to 900 health",
+		itemID = 11951,
+		quality = 1,
+	},
+	[19769] = {
+		name = "Thorium Grenade",
+		icon = 133716,
+		desc = "Inflicts 300 to 500 Fire damage and stuns targets for 3 sec",
+		itemID = 15993,
+		quality = 1,
+	},
+	[4068] = {
+		name = "Iron Grenade",
+		icon = 133716,
+		desc = "Inflicts 132 to 218 Fire damage and stuns targets for 3 sec",
+		itemID = 4390,
+		quality = 1,
+	},
 };
 
 NRC.protectionPotions = {
@@ -2598,12 +2619,14 @@ NRC.tempEnchants = {
 		icon = 132108,
 		desc = "Each strike has a 30% chance of poisoning the enemy, reducing the enemy's armor by 1700 for 15 sec.",
 		duration = 1800,
+		maxRank = true,
 	},
 	[7256] = {
 		name = "Atrophic Poison",
 		icon = 132100,
 		desc = "Each strike has a 30% chance of poisoning the enemy, reducing the enemy's melee attack power by 205 for 15 sec.",
 		duration = 1800,
+		maxRank = true,
 	},
 	[7255] = {
 		name = "Numbing Poison",
@@ -2616,12 +2639,14 @@ NRC.tempEnchants = {
 		icon = 135935,
 		desc = "Each strike has a 30% chance of poisoning the enemy for 108 Nature damage over 12 sec and causing the enemy to take 4% increased Arcane, Fire, Frost, Nature, and Shadow damage. Stacks 5 times.",
 		duration = 1800,
+		maxRank = true,
 	},
 	[7651] = {
 		name = "Occult Poison II",
 		icon = 135935,
 		desc = "Each strike has a 30% chance of poisoning the enemy for 136 Nature damage over 12 sec and causing the enemy to take 4% increased Arcane, Fire, Frost, Nature, and Shadow damage. Stacks 5 times.",
 		duration = 1800,
+		maxRank = true,
 	},
 	[7650] = {
 		name = "Enchanted Repellent",
@@ -3415,12 +3440,51 @@ NRC.worldBuffs = {
 	},]]
 };
 
+NRC.pvpTrinkets = {
+	[209619] = "Insignia of the Horde",
+	[209620] = "Insignia of the Horde",
+	[209621] = "Insignia of the Horde",
+	[209622] = "Insignia of the Horde",
+	[209623] = "Insignia of the Horde",
+	[209624] = "Insignia of the Horde",
+	[209625] = "Insignia of the Horde",
+	[209626] = "Insignia of the Horde",
+	[216939] = "Greater Insignia of the Horde",
+	[18845] = "Insignia of the Horde",
+	[18846] = "Insignia of the Horde",
+	[18849] = "Insignia of the Horde",
+	[18850] = "Insignia of the Horde",
+	[18851] = "Insignia of the Horde",
+	[18852] = "Insignia of the Horde",
+	[18853] = "Insignia of the Horde",
+	[18854] = "Insignia of the Horde",
+		
+	[209611] = "Insignia of the Alliance",
+	[209612] = "Insignia of the Alliance",
+	[209613] = "Insignia of the Alliance",
+	[209614] = "Insignia of the Alliance",
+	[209615] = "Insignia of the Alliance",
+	[209616] = "Insignia of the Alliance",
+	[209617] = "Insignia of the Alliance",
+	[209618] = "Insignia of the Alliance",
+	[216938] = "Greater Insignia of the Alliance",
+	[18856] = "Insignia of the Alliance",
+	[18857] = "Insignia of the Alliance",
+	[18858] = "Insignia of the Alliance",
+	[18859] = "Insignia of the Alliance",
+	[18862] = "Insignia of the Alliance",
+	[18863] = "Insignia of the Alliance",
+	[18864] = "Insignia of the Alliance",
+	[18834] = "Insignia of the Alliance",
+	
+	[233728] = "Blood-Caked Insignia",
+};
+
 --for k, v in pairs(NRC.critterCreatures2) do
 --	if (not NRC.critterCreatures[k]) then
 --		print("[" .. k .. "] = \"" .. v .. "\",");
 --	end
 --end
-
 
 --SoD specific stuff.
 if (NRC.isSOD) then
@@ -3503,4 +3567,47 @@ if (NRC.isSOD) then
 		end
 		NRC:logonUpdateRaidStatusDatabase();
 	end
+end
+
+local function mergeFlasksAndPotions()
+	return NRC.flasks;
+end
+
+NRC.gridData = {};
+function NRC:buildRaidStatusGridData()
+	NRC.gridData[#NRC.gridData + 1] = {
+		label = "Flasks", --Display flasks and potions in one column for classic, they mostly all stack.
+		data = mergeFlasksAndPotions(),
+		width = 10,
+		height = 10,
+		maxIcons = 10,
+	};
+	NRC.gridData[#NRC.gridData + 1] = {
+		label = "Food",
+		data = NRC.potions,
+		width = 10,
+		height = 10,
+		maxIcons = 4,
+	};
+	
+	
+	--Dynamic resizing world buffs column.
+	NRC.gridData[#NRC.gridData + 1] = {
+		label = "World Buffs",
+		data = NRC.worldBuffs,
+		width = 10,
+		height = 10,
+		maxIcons = 12,
+		dynamicWidth = true, --Can grow to show more as needed, matches max width to person with the most icons to display.
+	};
+	
+	--Extra info slots.
+	NRC.gridData[#NRC.gridData + 1] = {
+		label = "Shadow Res",
+		data = NRC.worldBuffs,
+		width = 10,
+		height = 10,
+		maxIcons = 4,
+		extraInfo = true, --Displays only when the extra info button is clicked.
+	};
 end

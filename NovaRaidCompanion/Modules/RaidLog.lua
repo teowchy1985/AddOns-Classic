@@ -1517,7 +1517,7 @@ local function updateFrames()
 		raidLogFrame.backButton:Enable();
 		--raidLogFrame.hideAllExpandedFrames();
 	elseif (frameType == "instance" or frameType == "loot" or frameType == "deaths" or frameType == "consumes" or frameType == "raidTrades"
-			or frameType == "bossModel" or frameType == "bossLoot"  or frameType == "bossTalents" or frameType == "bossConsumes") then
+			or frameType == "bossModel" or frameType == "bossLoot"  or frameType == "bossTalents" or frameType == "bossConsumes"  or frameType == "rolls") then
 		raidLogFrame.Tabs[1]:Show();
 		raidLogFrame.Tabs[2]:Show();
 		raidLogFrame.Tabs[3]:Show();
@@ -1525,7 +1525,8 @@ local function updateFrames()
 		raidLogFrame.Tabs[5]:Show();
 		raidLogFrame.Tabs[1]:SetText(L["Raid"]);
 		raidLogFrame.Tabs[2]:SetText(L["Loot"]);
-		raidLogFrame.Tabs[3]:SetText(L["Deaths"]);
+		--raidLogFrame.Tabs[3]:SetText(L["Deaths"]);
+		raidLogFrame.Tabs[3]:SetText(L["Rolls"]);
 		raidLogFrame.Tabs[4]:SetText(L["Trades"]);
 		raidLogFrame.Tabs[5]:SetText(L["Consumes"]);
 		raidLogFrame.handleTabClicks = function(tabID)
@@ -1534,7 +1535,8 @@ local function updateFrames()
 			elseif (tabID == 2) then
 				NRC:loadRaidLogLoot(raidLogFrame.logID);
 			elseif (tabID == 3) then
-				NRC:loadRaidLogDeaths(raidLogFrame.logID);
+				--NRC:loadRaidLogDeaths(raidLogFrame.logID);
+				NRC:loadRaidLogRolls(raidLogFrame.logID);
 			elseif (tabID == 4) then
 				NRC:loadTrades(raidLogFrame.logID, raidLogFrame.raidID);
 			elseif (tabID == 5) then
@@ -1580,7 +1582,8 @@ end
 function NRC:raidLogBackbuttonClicked()
 	if (raidLogFrame.frameType == "instance" or raidLogFrame.frameType == "loot" or raidLogFrame.frameType == "deaths"
 			or raidLogFrame.frameType == "consumes" or raidLogFrame.frameType == "bossView"
-			or raidLogFrame.frameType == "raidTrades" or raidLogFrame.frameType == "allTrades") then
+			or raidLogFrame.frameType == "raidTrades" or raidLogFrame.frameType == "allTrades"
+			or raidLogFrame.frameType == "rolls") then
 		raidLogFrame.frameType = "log";
 		NRC:recalcRaidLog(true);
 	elseif (raidLogFrame.frameType == "bossModel" or raidLogFrame.frameType == "bossLoot"
@@ -2522,6 +2525,104 @@ function NRC:loadRaidLogDeaths(logID)
 	--raidLogFrame.scrollChild.fs2:SetText(text2);
 	--NRC:splitAndAnchorFontstring(text3, 50, raidLogFrame.scrollChild, 148, -70);
 	raidLogFrame.scrollChild.rfs:SetText(rText);
+	setBottomText(data, logID);
+end
+
+function NRC:loadRaidLogRolls(logID)
+	clearRaidLogFrame();
+	raidLogFrame.frameType = "rolls";
+	updateFrames();
+	setInstanceTexture(logID);
+	--raidLogFrame.showAllTabs();
+	local data = NRC.db.global.instances[logID];
+	raidLogFrame.scrollChild.fs:ClearAllPoints();
+	raidLogFrame.scrollChild.fs:SetPoint("TOP", raidLogFrame.scrollChild, "TOP", 0, -10);
+	raidLogFrame.scrollChild.fs:SetJustifyH("CENTER");
+	raidLogFrame.scrollChild.fs2:ClearAllPoints();
+	raidLogFrame.scrollChild.fs2:SetPoint("TOP", raidLogFrame.scrollChild, "TOP", 0, -30);
+	raidLogFrame.scrollChild.fs2:SetJustifyH("CENTER");
+	raidLogFrame.scrollChild.rfs:ClearAllPoints();
+	raidLogFrame.scrollChild.rfs:SetPoint("TOPRIGHT", raidLogFrame.scrollChild, "TOPLEFT", 143, -70);
+	raidLogFrame.scrollChild.fs:Show();
+	raidLogFrame.scrollChild.fs2:Show();
+	raidLogFrame.scrollChild.rfs:Show();
+	--Remove prefix from certain instance names.
+	local instanceName = string.gsub(data.instanceName, ".+: ", "");
+	instanceName = NRC:addDiffcultyText(instanceName, data.difficultyName, data.difficultyID);
+	raidLogFrame.titleText2.fs:SetText(instanceName);
+	raidLogFrame.titleText2:ClearAllPoints();
+	raidLogFrame.titleText2:SetPoint("TOPRIGHT", raidLogFrame, "TOPRIGHT", -92, -41);
+	--Adjust frame width the instance name text sits on so it centers.
+	raidLogFrame.titleText2:SetWidth(raidLogFrame.titleText2.fs:GetStringWidth());
+	local text = "|cFFFFFF00" .. L["Rolls"] .. ": ";
+	local text2 = "";
+	local text3 = "";
+	local rText = "|cFF9CD6DE";
+	local rolls = NRC.db.global.instances[logID] and NRC.db.global.instances[logID].rolls;
+	if (rolls) then
+		local count, count2 = 0, 0;
+		for k, v in pairs(rolls) do
+			if (v.msg) then
+				count = count + 1;
+			elseif (v.chat) then
+				count2 = count2 + 1;
+			end
+		end
+		if (count > 0) then
+			local rollsText = "|cFFFFFF00" .. L["Rolls"] .. ":|r |cFF9CD6DE" .. count .. "|r";
+			rollsText = rollsText .. "  |cFFFFFF00" .. L["Items"] .. ":|r |cFF9CD6DE" .. count2 .. "|r";
+			raidLogFrame.scrollChild.fs:SetText(rollsText);
+		else
+			raidLogFrame.scrollChild.fs:SetText("No rolls recorded during this raid.");
+		end
+	else
+		raidLogFrame.scrollChild.fs:SetText("No rolls recorded during this raid.");
+		return;
+	end
+	--Insert change the table so it can be sorted by time.
+	for k, v in ipairs(rolls) do
+		local _, _, _, classColorHex = NRC.getClassColor(v.class);
+		--Safeguard for weakauras/addons that like to overwrite and break the NRC.getClassColor() function.
+		if (not classColorHex and v.class == "SHAMAN") then
+			classColorHex = "ff0070dd";
+		elseif (not classColorHex) then
+			classColorHex = "ffffffff";
+		end
+		if (v.msg) then
+			text3 = text3 .. "\n|cFFA1A1A1" .. NRC:getTimeFormat(v.time, nil, true, true, true) .. "|r  |cFFFFFF00" .. v.msg .. "|r";
+			--text3 = text3 .. "\n|cFFA1A1A1" .. NRC:getTimeFormat(v.time, nil, true, true, true) .. "|r  |c" .. classColorHex .. v.who .. "|r  |cFFcccccc" .. v.msg .. "|r";
+		elseif (v.chat) then
+			local channelColor = "|cFFFFFFFF";
+			local channelName = "Channel";
+			if (v.event == "CHAT_MSG_PARTY") then
+				channelColor = "|cFFaaaaff";
+			elseif (v.event == "CHAT_MSG_PARTY_LEADER") then
+				channelColor = "|cFF76c8ff";
+			elseif (v.event == "CHAT_MSG_RAID") then
+				channelColor = "|cFFff7f00";
+			elseif (v.event == "CHAT_MSG_RAID_WARNING") then
+				channelColor = "|cFFff4800";
+			elseif (v.event == "CHAT_MSG_RAID_LEADER") then
+				channelColor = "|cFFff4809";
+			end
+			local message = v.chat;
+			for tag in string.gmatch(message, "%b{}") do
+				local term = strlower(string.gsub(tag, "[{}]", ""));
+				if (ICON_TAG_LIST[term] and ICON_LIST[ICON_TAG_LIST[term]]) then
+					message = string.gsub(message, tag, ICON_LIST[ICON_TAG_LIST[term]] .. "0|t");
+				end
+			end
+			--This chat can line can be long if from gargul, maybe later strip the iteLink out of parse the gargul local string and remove the start part.
+			--Global strings for channel names are same as the event names.
+			text3 = text3 .. "\n|cFFA1A1A1" .. NRC:getTimeFormat(v.time, nil, true, true, true) .. "|r  " .. channelColor .. "[" .. _G[v.event] .. "] [|c"
+					.. classColorHex .. v.who .. "|r]: " .. message .. "|r";
+		end
+		--rText = rText .. "\n" .. encounterText;
+	end
+	--raidLogFrame.scrollChild.fs:SetText(text);
+	raidLogFrame.scrollChild.fs2:SetText("|cFFA1A1A1This records the last item linked in chat before a roll.");
+	NRC:splitAndAnchorFontstring(text3, 50, raidLogFrame.scrollChild, 10, -50);
+	--raidLogFrame.scrollChild.rfs:SetText(rText);
 	setBottomText(data, logID);
 end
 
@@ -5428,7 +5529,7 @@ function NRC:recalcLockoutsFrame()
 	end)
 	for k, v in ipairs(data) do
 		local found2;
-		local _, _, _, classColorHex = GetClassColor(v.class);
+		local _, _, _, classColorHex = NRC.getClassColor(v.class);
 		local text2 = "\n|c" .. classColorHex .. v.char .. "|r";
 		if (v.savedInstances) then
 			for instance, instanceData in pairs(v.savedInstances) do
