@@ -7,6 +7,7 @@ local L = LibStub("AceLocale-3.0"):GetLocale("NovaRaidCompanion");
 NRC.equipCache = {};
 local GetInventoryItemID = GetInventoryItemID;
 local slotsChangedCache = {};
+local isSOD = NRC.isSOD;
 
 function NRC:hasOnyCloakEquipped(guid)
 	local data = NRC.equipCache[guid];

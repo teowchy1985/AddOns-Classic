@@ -172,7 +172,7 @@ function NRC:updateTalentFrame(name, talentString, frame, talentString2, showOff
 end
 
 function NRC:updateGlyphFrame(data, frame, name)
-	if (not frame) then
+	if (not frame or not NRC.isWrath) then
 		return;
 	end
 	for i = 1, 6 do
@@ -206,6 +206,8 @@ function NRC:updateGlyphFrame(data, frame, name)
 						if (w > width) then
 							width = w;
 						end
+						frame.width = width + 20;
+						frame.glyphs:SetSize(frame.width, 190);
 					end)
 				else
 					frame.glyphs["fs" .. i]:SetText("Error");
@@ -217,7 +219,8 @@ function NRC:updateGlyphFrame(data, frame, name)
 	else
 		frame.glyphs.fs1:SetText("No glyph data found.");
 	end
-	frame.glyphs:SetSize(width + 20, 190);
+	frame.width = width + 20;
+	frame.glyphs:SetSize(frame.width, 190);
 	if (frame:GetName() == "NRCInspectTalentFrame") then
 		frame.glyphs:SetScale(0.9);
 	else
@@ -453,7 +456,9 @@ function NRC:createTalentString()
 				data[tab] = {};
 				for i = 1, GetNumTalents(tab) do
 					local name, _, row, column, rank = GetTalentInfo(tab, i);
-					if (name) then
+					--This was changed because there were bugs in cata with GetTalentInfo().
+					--Arcane mage has an empty entry at talent 21, and the real 21 was at index 22.	
+					--[[if (name) then
 						data[tab][i] = {
 							rank = rank,
 							row = row,
@@ -461,6 +466,14 @@ function NRC:createTalentString()
 						};
 					else
 						break;
+					end]]
+					if (name) then
+						local t = {
+							rank = rank,
+							row = row,
+							column = column,
+						};
+						tinsert(data[tab], t);
 					end
 				end
 			end
@@ -517,19 +530,64 @@ function NRC:getTalentCount(name, tabIndex, talentIndex)
 	return 0;
 end
 
-function NRC:getTotalTalentCount(talentString)
-	local count = 0;
-	local trees = {strsplit("-", talentString, 4)};
-	for k, v in ipairs(trees) do
-		--First is classID, skip that.
-		if (k > 1) then
-			for i = 1, #v do
-			    local c = strsub(v, i, i);
-			    count = count + c;
+--Mapped to expansion numer.
+local maxTalentCountLevels = {
+	[1] = 51,
+	[2] = 61,
+	[3] = 71,
+	[4] = 41,
+	[5] = 6,
+	[6] = 7,
+	[7] = 7,
+};
+
+local function getMaxTalentPoints(level)
+	local max = 0;
+	if (level) then
+		local count = maxTalentCountLevels[NRC.expansionNum];
+		if (count) then
+			if (NRC.expansionNum == 4) then
+				--Cata.
+				--You will get your first point at level 10, just like now, but from then on you'll be getting a talent point every odd level until you hit 81.
+				--Then, from 81 to 85, you'll get a point for every level.
+				if (level == 10) then
+					max = 1;
+				elseif (level < 81) then
+					max = floor((level - 9) / 2) + 1;
+				else
+					max = count - (85 - level);
+				end
+			elseif (NRC.expansionNum > 4) then
+				--MoP and onwards just return max for now, a table needs creating for lower levels since they don't just get 1 per level.
+				max = count;
+			else
+				--Classic/TBC/Wrath.
+				max = count - (60 - level);
 			end
 		end
 	end
-	return count;
+	if (max < 0) then
+		max = 0;
+	end
+	return max;
+end
+
+function NRC:getTotalTalentCount(talentString, level)
+	local count, unspent = 0;
+	if (talentString) then
+		local trees = {strsplit("-", talentString, 4)};
+		for k, v in ipairs(trees) do
+			--First is classID, skip that.
+			if (k > 1) then
+				for i = 1, #v do
+				    local c = strsub(v, i, i);
+				    count = count + c;
+				end
+			end
+		end
+	end
+	local maxTalentPoints = getMaxTalentPoints(level);
+	return count, maxTalentPoints - count;
 end
 
 --Return a copy of the current raid talents from out talent cache (only current raid members).

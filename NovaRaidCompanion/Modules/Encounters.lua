@@ -183,7 +183,7 @@ function NRC:checkPvpTrinket(delay)
 					local itemName = GetItemInfo(itemID);
 					--There's too many trinket ids so use name for now, it will work with languages that add to the locale file.
 					if (itemName == L["Medallion of the Alliance"] or itemName == L["Insignia of the Alliance"]
-							or itemName == L["Medallion of the Horde"] or itemName == L["Insignia of the Horde"]) then
+							or itemName == L["Medallion of the Horde"] or itemName == L["Insignia of the Horde"] or itemName == L["Blood-Caked Insignia"]) then
 						if (GetServerTime() - lastPvpTrinketWarning > cooldown) then
 							NRC:sendReminder(L["pvpTrinketWarning"]);
 							lastPvpTrinketWarning = GetServerTime();
@@ -498,6 +498,9 @@ local function combatLogEventUnfiltered(...)
 			--Duelers dispel spam while in dal.
 			return;
 		end
+		if (NRC.config.dispelsTranqOnly and spellID ~= 19801 and spellID ~= 1218134) then
+			return;
+		end
 		if (NRC.config.sreShowDispels and sourceGUID and string.find(sourceGUID, "Player")) then
 			local _, sourceClass = GetPlayerInfoByGUID(sourceGUID);
 			local isSourceNpc, isDestNpc;
@@ -515,9 +518,6 @@ local function combatLogEventUnfiltered(...)
 			local _, _, icon = GetSpellInfo(spellID);
 			local _, _, destIcon = GetSpellInfo(destSpellID);
 			NRC:sreDispelEvent(spellID, spellName, destSpellName, icon, destIcon, sourceName, sourceClass, destName, destClass, isSourceNpc, isDestNpc);
-		end
-		if (NRC.config.dispelsTranqOnly and spellID ~= 19801) then
-			return;
 		end
 		local inOurGroup = NRC:inOurGroup(sourceName);
 		if (destGUID and sourceGUID == UnitGUID("player") or inOurGroup) then
@@ -542,7 +542,6 @@ local function combatLogEventUnfiltered(...)
 			if (not allow) then
 				return;
 			end
-
 			if (not spellName or spellName == "") then
 				spellName = "Unknown";
 			end

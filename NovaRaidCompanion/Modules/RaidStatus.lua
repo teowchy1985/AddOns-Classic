@@ -7,7 +7,7 @@
 local addonName, NRC = ...;
 local L = LibStub("AceLocale-3.0"):GetLocale("NovaRaidCompanion");
 local raidStatusFrame;
-local specialSlot, flaskSlot, foodSlot, scrollSlot, intSlot, fortSlot, spiritSlot, shadowSlot, motwSlot, palSlot, duraSlot, worldBuffsSlot;
+local specialSlot, specialSlot2, specialSlot3, specialSlot4, flaskSlot, foodSlot, scrollSlot, intSlot, fortSlot, spiritSlot, shadowSlot, motwSlot, palSlot, duraSlot, worldBuffsSlot;
 local armorSlot, holyResSlot, fireResSlot, natureResSlot, frostResSlot, shadowResSlot, arcaneResSlot, weaponEnchantsSlot, talentsSlot;
 local slotCount, lastRaidRequest, lastDuraRequest, columCount = 0, 0, 0, 0;
 local readyCheckStatus, readyCheckRunning, readyCheckEndedTimer, readyCheckEndedTimer2 = {};
@@ -25,6 +25,7 @@ local pairs, ipairs = pairs, ipairs;
 local gsub = gsub;
 local GetNormalizedRealmName = GetNormalizedRealmName;
 local currentMaxWorldbuffs = 0;
+local pvpTrinketIcon = NRC.faction == "Horde" and 133453 or 133452;
 
 local f = CreateFrame("Frame", "NRCRaidStatus");
 f:RegisterEvent("GROUP_FORMED");
@@ -235,12 +236,15 @@ function NRC:loadRaidStatusFrames()
 	if (not raidStatusFrame) then
 		raidStatusFrame = NRC:createGridFrame("NRCRaidStatusFrame", 500, 300, 0, 300, 3);
 		raidStatusFrame:SetBackdrop({
-			bgFile = "Interface\\Buttons\\WHITE8x8",
+			--bgFile = "interface\\garrison\\garrisonuibackground",
+			bgFile = "Interface\\FrameGeneral\\UI-Background-Marble",
+			--bgFile = "interface\\garrison\\classhallinternalbackground",
+			--bgFile = "Interface\\Buttons\\WHITE8x8",
 			insets = {top = 0, left = 2, bottom = 2, right = 2},
 		});
 		raidStatusFrame.borderFrame:SetBackdrop({
-			--edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
-			edgeFile = "Interface\\Addons\\NovaRaidCompanion\\Media\\UI-Tooltip-Border-FullTopRight",
+			edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+			--edgeFile = "Interface\\Addons\\NovaRaidCompanion\\Media\\UI-Tooltip-Border-FullTopRight",
 			tileEdge = true,
 			edgeSize = 16,
 			insets = {top = 2, left = 2, bottom = 2, right = 2},
@@ -288,7 +292,7 @@ function NRC:loadRaidStatusFrames()
 		end
 		NRC:updateRaidStatusFramesLayout();
 	end
-	raidStatusFrame:SetBackdropColor(0, 0, 0, 0.9);
+	--raidStatusFrame:SetBackdropColor(0, 0, 0, 0.9);
 	--raidStatusFrame:SetBackdropBorderColor(1, 1, 1, 0.7);
 	raidStatusFrame.descFrame:SetBackdropColor(0, 0, 0, 0.9);
 	raidStatusFrame.descFrame:SetBackdropBorderColor(1, 1, 1, 0.7);
@@ -726,7 +730,7 @@ local function updateGridTooltipTalents(frame, name, classHex, talentCount, spec
 		--tooltipText = tooltipText .. "\n|cFFDEDE42" .. specName .. "|r";
 		tooltipText = tooltipText .. "\n|T" .. specIcon .. ":12:12|t |cFFFFFF00" .. specName .. "|r";
 	end
-	if (treeData) then
+	if (treeData and treeData[3]) then
 		tooltipText = tooltipText .. "\n|cFF9CD6DE" .. treeData[1] .. " / " .. treeData[2] .. " / " .. treeData[3] .. "|r";
 	end
 	tooltipText = tooltipText .. "\n|cFFFFAE42-Click To View Talents-|r";
@@ -929,7 +933,11 @@ end
 	return tooltipText;
 end]]
 
-local function updateCharacterTooltip(frame, name, charData, auras)
+local function updateCharacterTooltip(frame, name, charData, auras, hasAlpha)
+	if (not charData) then
+		frame.updateTooltip();
+		return;
+	end
 	local _, _, _, classHex = getClassColor(charData.class);
 	local tooltipText = "|c" .. classHex .. name .. "|r";
 	local zone = charData.zone or charData.lastKnownZone;
@@ -955,13 +963,14 @@ local function updateCharacterTooltip(frame, name, charData, auras)
 			end
 		end
 	end
+	if (hasAlpha) then
+		tooltipText = tooltipText .. "\n\n|T132203:16:16|t Has Spirit of the Alpha";
+		local _, _, _, hex = NRC.getClassColor("SHAMAN");
+		tooltipText = tooltipText .. "\n       Cast by |c" .. hex.. hasAlpha .. "|r";
+	end
 	--Remove any trailing newline if buff counts matches exactly 6/12 etc.
 	--tooltipText = string.gsub(tooltipText, "\n$", "");
-	if (charData) then
-		frame.updateTooltip(tooltipText);
-	else
-		frame.updateTooltip();
-	end
+	frame.updateTooltip(tooltipText);
 	if (not InCombatLockdown()) then
 		frame:SetAttribute("macrotext", "/target " .. name);
 	end
@@ -1121,6 +1130,13 @@ local function checkWorldBuffCountChanged()
 	end
 end
 
+local armorTypes = {
+	["PRIEST"] = 132691, ["MAGE"] = 132691, ["WARLOCK"] = 132691, --inv_chest_cloth_50
+	["ROGUE"] = 132722, ["DRUID"] = 132722, ["MONK"] = 132722, --[[["Demon Hunter"] = 132722,]] --inv_chest_leather_07
+	["HUNTER"] = 132630, ["SHAMAN"] = 132630, --[[["EVOKER"] = 132630,]] --inv_chest_chain_08
+	["WARRIOR"] = 132739, ["PALADIN"] = 132739, ["DEATHKNIGHT"] = 132739, --inv_chest_plate04
+};
+
 function NRC:updateRaidStatusFrames(updateLayout)
 	--local pTime = debugprofilestop();
 	if (not raidStatusFrame:IsShown()) then
@@ -1178,7 +1194,7 @@ function NRC:updateRaidStatusFrames(updateLayout)
 	local usingCache = NRC.raidStatusCache and true;
 	local showSwipe = NRC.config.raidStatusBuffSwipe;
 	local enchantIgnoreList = NRC.enchantIgnoreList;
-	local showOnyCloak = NRC.isDebug or (isClassic and NRC.currentInstanceID == 469 and not usingCache);
+	local showOnyCloak = (isClassic and NRC.currentInstanceID == 469 and not usingCache);
 	--local showOnyCloak = true;
 	if (data) then
 		local columnCount, maxColumnCount = 0, raidStatusFrame.maxColumnCount;
@@ -1211,8 +1227,9 @@ function NRC:updateRaidStatusFrames(updateLayout)
 				count = count + 1;
 				rowCount = rowCount + 1;
 				local rowName = string.char(96 + rowCount);
-				local _, _, _, classHex = GetClassColor(v.class);
+				local _, _, _, classHex = getClassColor(v.class);
 				local nameString;
+				local hasAlpha;
 				--[[local fullName;
 				if (v.realm) then
 					fullName = name .. "-" .. v.realm;
@@ -1236,26 +1253,27 @@ function NRC:updateRaidStatusFrames(updateLayout)
 					--Sometimes bug that happens when joining a group, just delay until the next tick 1 second later.
 					return;
 				end
-				raidStatusFrame.subFrames[rowName .. "1"].fs:SetText(nameString);
-				raidStatusFrame.subFrames[rowName .. "1"].name = name;
+				local nameFrame = raidStatusFrame.subFrames[rowName .. "1"];
+				nameFrame.fs:SetText(nameString);
+				nameFrame.name = name;
 				if (subGroups) then
 					local frame = raidStatusFrame.groupFrames[v.subGroup];
 					if (not usedGroupframes[v.subGroup]) then
 						frame:ClearAllPoints();
-						if (not raidStatusFrame.subFrames[rowName .. columCount] or not raidStatusFrame.subFrames[rowName .. "1"]) then
+						if (not raidStatusFrame.subFrames[rowName .. columCount] or not nameFrame) then
 							--Looking for a bug.
-							NRC:debug(raidStatusFrame.subFrames[rowName .. columCount], raidStatusFrame.subFrames[rowName .. "1"])
+							NRC:debug(raidStatusFrame.subFrames[rowName .. columCount], nameFrame)
 						end
 						frame:SetPoint("TOPRIGHT", raidStatusFrame.subFrames[rowName .. columCount], "TOPRIGHT", 0, 0.6);
-						frame:SetPoint("TOPLEFT", raidStatusFrame.subFrames[rowName .. "1"], "TOPLEFT", -20, 0.6);
+						frame:SetPoint("TOPLEFT", nameFrame, "TOPLEFT", -20, 0.6);
 						frame:SetPoint("BOTTOMRIGHT", raidStatusFrame.subFrames[rowName .. columCount], "BOTTOMRIGHT", 0, -0.6);
-						frame:SetPoint("BOTTOMLEFT", raidStatusFrame.subFrames[rowName .. "1"], "BOTTOMLEFT", -20, -0.6);
+						frame:SetPoint("BOTTOMLEFT", nameFrame, "BOTTOMLEFT", -20, -0.6);
 						frame.bg.fs:SetText("G" .. v.subGroup);
 						frame:Show();
 						usedGroupframes[v.subGroup] = true;
 					else
 						frame:SetPoint("BOTTOMRIGHT", raidStatusFrame.subFrames[rowName .. columCount], "BOTTOMRIGHT", 0, -0.6);
-						frame:SetPoint("BOTTOMLEFT", raidStatusFrame.subFrames[rowName .. "1"], "BOTTOMLEFT", -20, -0.6);
+						frame:SetPoint("BOTTOMLEFT", nameFrame, "BOTTOMLEFT", -20, -0.6);
 					end
 				end
 				local hasFlask, hasBattle, hasGuardian, hasScroll, hasFood, hasInt, hasFort, hasSpirit, hasShadow, hasMotw, hasPal, hasWorldBuffs, hasChronoboon;
@@ -1268,6 +1286,16 @@ function NRC:updateRaidStatusFrames(updateLayout)
 				local elixirs, pallyBuffs, foodBuffs, scrollBuffs, enchantBuffs, wBuffs = {}, {}, {}, {}, {}, {};
 				local eating;
 				if (auras and next(auras) and (v.online or NRC.raidStatusCache)) then
+					if (isSOD) then
+						nameFrame.texture:ClearAllPoints();
+						nameFrame.texture:SetTexture();
+						if (auras[408696]) then
+							nameFrame.texture:SetPoint("RIGHT", -4, 0);
+							nameFrame.texture:SetSize(16, 16);
+							nameFrame.texture:SetTexture(132203);
+							hasAlpha = auras[408696].source or "Unknown";
+						end
+					end
 					local elixirCount = 1;
 					for buffID, buffData in pairs(auras) do
 						if (isClassic) then
@@ -1378,6 +1406,8 @@ function NRC:updateRaidStatusFrames(updateLayout)
 						if (foodSlot and validFoods[buffID]) then
 							eating = buffData.endTime or 0;
 						elseif (foodSlot and NRC.foods[buffID]) then
+							--local duration = buffData.endTime - GetServerTime();
+							--if (duration <)
 							tinsert(foodBuffs, buffData);
 							--Merge some db data with our player auras data.
 							foodBuffs[#foodBuffs].buffID = buffID;
@@ -1386,7 +1416,9 @@ function NRC:updateRaidStatusFrames(updateLayout)
 							foodBuffs[#foodBuffs].desc = NRC.foods[buffID].desc;
 							foodBuffs[#foodBuffs].maxRank = NRC.foods[buffID].maxRank;
 							foodBuffs[#foodBuffs].order = NRC.foods[buffID].order;
-							hasFood = true;
+							if (buffData.endTime) then
+								hasFood = buffData.endTime - GetServerTime();
+							end
 							
 							--A little hacky sorting for now, going to rewrite this whole func at some point.
 							--Display chilli on the right always.
@@ -1954,6 +1986,150 @@ function NRC:updateRaidStatusFrames(updateLayout)
 						end
 					end
 				end
+				if (v.specialSlotData2) then
+					local frame = raidStatusFrame.subFrames[rowName .. specialSlot2];
+					local specialData2 = v.specialSlotData2;
+					if (specialData2 == true) then
+						--If data is only true and not a table then no data for this special display was found, display it as missing.
+						frame.fs:SetText("--");
+						frame.updateTooltip();
+						frame.texture:ClearAllPoints();
+						frame.texture:SetPoint("CENTER", 0, 0);
+						frame.fs:ClearAllPoints();
+						frame.fs:SetPoint("CENTER", 0, 0);
+						frame.texture:SetTexture();
+					else
+						local text;
+						local tooltipString;
+						if (specialData2 < 8) then
+							text = "|cFFFFFF00" .. specialData2 .. "|cFF34FDF0 / 8";
+							tooltipString = "|cFFFFFF00" .. specialData2 .. "|cFF34FDF0 / 8 sanctified pieces equipped";
+						else
+							text = "|cFF34FDF08|cFF34FDF0 / 8";
+							tooltipString = "|cFF34FDF0" .. specialData2 .. "|cFF34FDF0 / 8 sanctified pieces equipped";
+						end
+						--frame.texture:SetPoint("CENTER", 0, 0);
+						frame.fs:SetPoint("CENTER", 0, 0);
+						frame.fs:SetText(text);
+						frame.texture:SetTexture();
+						updateTooltipSpecialSlot(frame, name, classHex, tooltipString);
+					end
+				end
+				if (v.specialSlotData3) then
+					local frame = raidStatusFrame.subFrames[rowName .. specialSlot3];
+					local specialData3 = v.specialSlotData3;
+					if (specialData3 == true) then
+						--If data is only true and not a table then no data for this special display was found, display it as missing.
+						frame.fs:SetText("--");
+						frame.updateTooltip();
+						frame.texture:ClearAllPoints();
+						frame.texture:SetPoint("CENTER", 0, 0);
+						frame.fs:ClearAllPoints();
+						frame.fs:SetPoint("CENTER", 0, 0);
+						frame.texture:SetTexture();
+						local tooltipString = "|cFFFFFF00No found data yet.\n|cFFFFFFFFUpdating equip when in range of player...";
+						updateTooltipSpecialSlot(frame, name, classHex, tooltipString);
+					else
+						--frame.texture:SetPoint("CENTER", 0, 0);
+						frame.fs:SetPoint("CENTER", 0, 0);
+						frame.fs:SetText("|cFF9CD6DE" .. v.specialSlotData3);
+						frame.texture:SetTexture();
+						local tooltipString = "|cFFFFFF00Average item level: |cFF9CD6DE" .. v.specialSlotData3;
+						updateTooltipSpecialSlot(frame, name, classHex, tooltipString);
+					end
+					--if (not InCombatLockdown()) then
+					--	frame:SetAttribute("click");
+					--	frame:SetScript("OnClick", function(self)
+					--		NRC:openEquipmentFrame(v.guid);
+					--	end)
+					--end
+				end
+				if (v.specialSlotData4) then
+					local frame = raidStatusFrame.subFrames[rowName .. specialSlot4];
+					local specialData4 = v.specialSlotData4;
+					if (specialData4 == true) then
+						--If data is only true and not a table then no data for this special display was found, display it as missing.
+						frame.fs:SetText("--");
+						frame.updateTooltip();
+						frame.texture:ClearAllPoints();
+						frame.texture2:ClearAllPoints();
+						frame.texture:SetPoint("CENTER", 0, 0);
+						frame.fs:ClearAllPoints();
+						frame.fs:SetPoint("CENTER", 0, 0);
+						frame.texture:SetTexture();
+						frame.texture2:SetTexture();
+						local tooltipString = "|cFFFFFF00No found data yet.\n|cFFFFFFFFUpdating equip when in range of player...";
+						updateTooltipSpecialSlot(frame, name, classHex, tooltipString);
+					else
+						frame.texture:SetPoint("CENTER", 0, 0);
+						--local totalIssues = NRC:getTotalIssues(v.guid);
+						local issues = NRC.issuesCache[v.guid];
+						frame.texture:ClearAllPoints();
+						frame.texture2:ClearAllPoints();
+						frame.texture:SetSize(16, 16);
+						--frame.texture2:SetSize(16, 16);
+						frame.texture:Show();
+						frame.texture2:Hide();
+						--frame.texture2:Show();
+						--frame.texture:SetTexture(626008);
+						frame.texture:SetTexture("Interface\\AddOns\\NovaRaidCompanion\\Media\\redsword.png");
+						local tooltipString = "";
+						if (issues and issues.totalIssues > 0) then
+							local totalIssues = issues.totalIssues;
+							frame.texture:SetPoint("CENTER", 0, 0);
+							frame.fs:SetPoint("CENTER", -16.5, 0);
+							if (issues.gearMissingIssues and issues.gearMissingIssues > 0) then
+								frame.fs:SetText("|cFFFF0000" .. totalIssues);
+							else
+								frame.fs:SetText("|cFFA1A1A1" .. totalIssues);
+							end
+							frame.texture:SetTexture("Interface\\AddOns\\NovaRaidCompanion\\Media\\redsword.png");
+							if (issues.talentsMissing and issues.talentsMissing > 0) then
+								frame.texture2:SetPoint("CENTER", 16.5, 0);
+								frame.texture2:SetSize(16, 16);
+								frame.texture2:SetTexture(132222);
+								frame.texture2:Show();
+							end
+							for k, v in ipairs(issues.otherIssues) do
+								if (v == L["Water Treads equipped"]) then
+									frame.texture2:SetPoint("CENTER", 16.5, 0);
+									frame.texture2:SetSize(16, 16);
+									frame.texture2:SetTexture(132539);
+									frame.texture2:Show();
+									break;
+								end
+								if (v == L["PvP Trinket equipped"]) then
+									frame.texture2:SetPoint("CENTER", 16.5, 0);
+									frame.texture2:SetSize(16, 16);
+									frame.texture2:SetTexture(pvpTrinketIcon);
+									frame.texture2:Show();
+									break;
+								end
+							end
+							--frame.texture:SetTexture(armorTypes[v.class] or 133831)
+							tooltipString = tooltipString .. "|cFFFF6900Total issues found:|r |cFF9CD6DE" .. totalIssues .. "|r";
+							tooltipString = tooltipString .. "\n" .. NRC:getIssuesString(v.guid);
+						else
+							--frame.fs:SetPoint("CENTER", 8.5, 0);
+							frame.texture:SetPoint("CENTER", 0, 0);
+							frame.fs:SetText("");
+							frame.texture:SetTexture("Interface\\AddOns\\NovaRaidCompanion\\Media\\greensword.png");
+							--frame.texture:SetTexture(armorTypes[v.class] or 133831);
+							--frame.texture:SetTexture(132739);
+							--frame.texture2:SetTexture("Interface\\RaidFrame\\ReadyCheck-Ready");
+							--frame.texture2:Show();
+							tooltipString = tooltipString .. "|cFF00FF00No issues found";
+						end
+						tooltipString = tooltipString .. "\n|cFFFFAE42[Click here to view equipment]\n";
+						updateTooltipSpecialSlot(frame, name, classHex, tooltipString);
+					end
+					if (not InCombatLockdown()) then
+						--frame:SetAttribute("click");
+						frame:SetScript("OnClick", function(self)
+							NRC:openEquipmentFrame(v.guid);
+						end)
+					end
+				end
 				if (next(elixirs)) then
 					--Sorting for max 2 icons only, and show X in missing slot (elixirs instead of a flask).
 					local frame = raidStatusFrame.subFrames[rowName .. flaskSlot];
@@ -2027,16 +2203,8 @@ function NRC:updateRaidStatusFrames(updateLayout)
 						stopCooldownSwipe(frame.texture3);
 					end
 				end
-				if (eating) then
-					local frame = raidStatusFrame.subFrames[rowName .. foodSlot];
-					frame.texture:SetTexture();
-					frame.texture2:SetTexture();
-					frame.texture3:SetTexture();
-					--frame.texture4:SetTexture();
-					stopCooldownSwipe(frame.texture);
-					stopCooldownSwipe(frame.texture2);
-					stopCooldownSwipe(frame.texture3);		
-				elseif (next(foodBuffs) and not eating) then
+				--if (next(foodBuffs) and not eating) then
+				if (next(foodBuffs)) then
 					local frame = raidStatusFrame.subFrames[rowName .. foodSlot];
 					if (not InCombatLockdown()) then
 						frame:SetAttribute("macrotext", "/target " .. name);
@@ -2058,6 +2226,15 @@ function NRC:updateRaidStatusFrames(updateLayout)
 						stopCooldownSwipe(frame.texture3);
 					end
 					--Never add duration to 4th texture, they're too small to see properly if showing 4.
+				elseif (eating) then
+					local frame = raidStatusFrame.subFrames[rowName .. foodSlot];
+					frame.texture:SetTexture();
+					frame.texture2:SetTexture();
+					frame.texture3:SetTexture();
+					--frame.texture4:SetTexture();
+					stopCooldownSwipe(frame.texture);
+					stopCooldownSwipe(frame.texture2);
+					stopCooldownSwipe(frame.texture3);		
 				end
 				if (next(scrollBuffs)) then
 					local frame = raidStatusFrame.subFrames[rowName .. scrollSlot];
@@ -2182,7 +2359,7 @@ function NRC:updateRaidStatusFrames(updateLayout)
 					stopCooldownSwipe(frame.texture3);
 					stopCooldownSwipe(frame.texture4);
 				end
-				if (foodSlot and eating) then
+				if (foodSlot and eating and (not hasFood or hasFood < 120)) then
 					local frame = raidStatusFrame.subFrames[rowName .. foodSlot];
 					frame.texture:SetTexture();
 					frame.texture2:SetTexture();
@@ -2401,7 +2578,7 @@ function NRC:updateRaidStatusFrames(updateLayout)
 						frame:SetAttribute("macrotext", "/target " .. name);
 					end
 				end
-				updateCharacterTooltip(raidStatusFrame.subFrames[rowName .. "1"], name, v, auras);
+				updateCharacterTooltip(raidStatusFrame.subFrames[rowName .. "1"], name, v, auras, hasAlpha);
 			end
 			if (subGroups) then
 				for i = 1, 8 do
@@ -3127,18 +3304,35 @@ function NRC:createRaidStatusData(updateLayout)
 	local data = {};
 	data.rows = {};
 	data.chars = {};
-	local usingSpecialSlot;
-	if (isSOD) then
-		--For now it's only in classic and going to track seal of dawn mechanic in SoD.
-		--Track even while outside the raid for now.
-		--if (NRC.currentInstanceID == 533 and not NRC.raidStatusCache) then
-			--Set header name.
-			usingSpecialSlot = "|T236690:12:12:0:-1|t|cFF00FF00Naxx";
-		--end
+	local usingSpecialSlot, usingSpecialSlot2, usingSpecialSlot3, usingSpecialSlot4;
+	local sanctifiedCache = NRC.sanctifiedCache;
+	local gearCache = NRC.gearCache;
+	local config = NRC.config;
+	if (not NRC.raidStatusCache) then
+		if (isSOD) then
+			--For now it's only in classic and going to track seal of dawn mechanic in SoD.
+			--Track even while outside the raid for now.
+			--if (NRC.currentInstanceID == 533 and not NRC.raidStatusCache) then
+				--Set header name.
+				if (config.raidStatusNaxx) then
+					usingSpecialSlot = "|T236690:12:12:0:-1|t|cFF00FF00Naxx";
+				end
+				if (config.raidStatusSanc) then
+					usingSpecialSlot2 = "|cFF34FDF0Sanc";
+				end
+				--usingSpecialSlot3 = "|cFF34FDF0Runes";
+			--end
+		end
+		if (config.raidStatusIlvl) then
+			usingSpecialSlot3 = "|cFF9CD6DEiLvl";
+		end
+		if (config.raidStatusEquip) then
+			usingSpecialSlot4 = "|cFFFFFF00Equip";
+		end
 	end
 	if (updateLayout) then
 		raidStatusFrame.hideAllRows();
-		specialSlot, flaskSlot, foodSlot, scrollSlot, intSlot, fortSlot, spiritSlot = nil, nil, nil, nil, nil, nil, nil;
+		specialSlot, specialSlot2, specialSlot3, specialSlot4, flaskSlot, foodSlot, scrollSlot, intSlot, fortSlot, spiritSlot = nil, nil, nil, nil, nil, nil, nil, nil;
 		shadowSlot, motwSlot, palSlot, duraSlot, worldBuffsSlot = nil, nil, nil, nil, nil;
 		armorSlot, holyResSlot, fireResSlot, natureResSlot, frostResSlot, shadowResSlot, arcaneResSlot = nil, nil, nil, nil, nil, nil, nil;
 		slotCount = 0;
@@ -3163,8 +3357,32 @@ function NRC:createRaidStatusData(updateLayout)
 			specialSlot = slot;
 			slotCount = slotCount + 1;
 		end
+		if (usingSpecialSlot2) then
+			local slot = #data.columns + 1;
+			data.columns[slot] = {
+				name = usingSpecialSlot2,
+			};
+			specialSlot2 = slot;
+			slotCount = slotCount + 1;
+		end
+		if (usingSpecialSlot3) then
+			local slot = #data.columns + 1;
+			data.columns[slot] = {
+				name = usingSpecialSlot3,
+			};
+			specialSlot3 = slot;
+			slotCount = slotCount + 1;
+		end
+		if (usingSpecialSlot4) then
+			local slot = #data.columns + 1;
+			data.columns[slot] = {
+				name = usingSpecialSlot4,
+			};
+			specialSlot4 = slot;
+			slotCount = slotCount + 1;
+		end
 		
-		if (NRC.config.raidStatusFlask) then
+		if (config.raidStatusFlask) then
 			local slot = #data.columns + 1;
 			data.columns[slot] = {
 				name = L["Flask"],
@@ -3172,7 +3390,7 @@ function NRC:createRaidStatusData(updateLayout)
 			flaskSlot = slot;
 			slotCount = slotCount + 1;
 		end
-		if (NRC.config.raidStatusFood) then
+		if (config.raidStatusFood) then
 			local slot = #data.columns + 1;
 			data.columns[slot] = {
 				name = L["Food"],
@@ -3180,7 +3398,7 @@ function NRC:createRaidStatusData(updateLayout)
 			foodSlot = slot;
 			slotCount = slotCount + 1;
 		end
-		if (NRC.config.raidStatusScroll) then
+		if (config.raidStatusScroll) then
 			local slot = #data.columns + 1;
 			data.columns[slot] = {
 				name = L["Scroll"],
@@ -3188,7 +3406,7 @@ function NRC:createRaidStatusData(updateLayout)
 			scrollSlot = slot;
 			slotCount = slotCount + 1;
 		end
-		if (NRC.config.raidStatusInt) then
+		if (config.raidStatusInt) then
 			local slot = #data.columns + 1;
 			data.columns[slot] = {
 				name = L["Int"],
@@ -3196,7 +3414,7 @@ function NRC:createRaidStatusData(updateLayout)
 			intSlot = slot;
 			slotCount = slotCount + 1;
 		end
-		if (NRC.config.raidStatusFort) then
+		if (config.raidStatusFort) then
 			local slot = #data.columns + 1;
 			data.columns[slot] = {
 				name = L["Fort"],
@@ -3204,7 +3422,7 @@ function NRC:createRaidStatusData(updateLayout)
 			fortSlot = slot;
 			slotCount = slotCount + 1;
 		end
-		if (NRC.config.raidStatusSpirit) then
+		if (config.raidStatusSpirit) then
 			local slot = #data.columns + 1;
 			data.columns[slot] = {
 				name = L["Spirit"],
@@ -3212,7 +3430,7 @@ function NRC:createRaidStatusData(updateLayout)
 			spiritSlot = slot;
 			slotCount = slotCount + 1;
 		end
-		if (NRC.config.raidStatusShadow and NRC.expansionNum < 4) then --No spirit buff in cata.
+		if (config.raidStatusShadow and NRC.expansionNum < 4) then --No spirit buff in cata.
 			local slot = #data.columns + 1;
 			data.columns[slot] = {
 				name = L["Shadow"],
@@ -3220,7 +3438,7 @@ function NRC:createRaidStatusData(updateLayout)
 			shadowSlot = slot;
 			slotCount = slotCount + 1;
 		end
-		if (NRC.config.raidStatusMotw) then
+		if (config.raidStatusMotw) then
 			local slot = #data.columns + 1;
 			data.columns[slot] = {
 				name = L["Motw"],
@@ -3228,7 +3446,7 @@ function NRC:createRaidStatusData(updateLayout)
 			motwSlot = slot;
 			slotCount = slotCount + 1;
 		end
-		if (NRC.config.raidStatusPal) then
+		if (config.raidStatusPal) then
 			local slot = #data.columns + 1;
 			data.columns[slot] = {
 				name = L["Pal"],
@@ -3244,7 +3462,7 @@ function NRC:createRaidStatusData(updateLayout)
 			};
 			duraSlot = slot;
 			slotCount = slotCount + 1;
-		elseif (NRC.config.raidStatusDura) then
+		elseif (config.raidStatusDura) then
 			local slot = #data.columns + 1;
 			data.columns[slot] = {
 				name = L["Durability"],
@@ -3252,7 +3470,7 @@ function NRC:createRaidStatusData(updateLayout)
 			duraSlot = slot;
 			slotCount = slotCount + 1;
 		end
-		if (NRC.config.raidStatusTalents) then
+		if (config.raidStatusTalents) then
 			local slot = #data.columns + 1;
 			data.columns[slot] = {
 				name = L["Talents"],
@@ -3356,7 +3574,7 @@ function NRC:createRaidStatusData(updateLayout)
 				slotCount = slotCount + 1;
 			end]]
 		end
-		if (NRC.isClassic and NRC.config.raidStatusWorldBuffs) then
+		if (NRC.isClassic and config.raidStatusWorldBuffs) then
 			local buffCount = 4;
 			local numBuffs = currentMaxWorldbuffs;
 			if (numBuffs > buffCount) then
@@ -3504,6 +3722,10 @@ function NRC:createRaidStatusData(updateLayout)
 				--If this is still true when it reaches the frame recalc then it merans there was no data to display, it's "missing" for this char;
 				char.specialSlotData = true;
 			end
+			if (usingSpecialSlot2) then
+				--If this is still true when it reaches the frame recalc then it merans there was no data to display, it's "missing" for this char;
+				char.specialSlotData2 = true;
+			end
 			local fullName;
 			if (v.realm) then
 				fullName = k .. "-" .. v.realm;
@@ -3540,6 +3762,28 @@ function NRC:createRaidStatusData(updateLayout)
 					--if (worldBuffs[buffID]) then
 					--	char.worldBuffs = buffData;
 					--end
+				end
+				if (usingSpecialSlot2) then
+					if (sanctifiedCache[v.guid]) then
+						char.specialSlotData2 = sanctifiedCache[v.guid];
+					else
+						char.specialSlotData2 = true;
+					end
+				end
+				if (usingSpecialSlot3) then
+					local ilvl = NRC:getAverageItemLevel(v.guid);
+					if (ilvl > 0) then
+						char.specialSlotData3 = ilvl;
+					else
+						char.specialSlotData3 = true;
+					end
+				end
+				if (usingSpecialSlot4) then
+					if (gearCache[v.guid]) then
+						char.specialSlotData4 = v.guid;
+					else
+						char.specialSlotData4 = true;
+					end
 				end
 				if (isClassic) then
 					local equip = equipCache[k];
@@ -3614,3 +3858,38 @@ end
 	end
 	return data;
 end]]
+
+--[[local specialSlot, flaskSlot, foodSlot, scrollSlot, intSlot, fortSlot, spiritSlot, shadowSlot, motwSlot, palSlot, duraSlot, worldBuffsSlot;
+local armorSlot, holyResSlot, fireResSlot, natureResSlot, frostResSlot, shadowResSlot, arcaneResSlot, weaponEnchantsSlot, talentsSlot;
+function NRC.updateRaidStatusSettings()
+	flaskSloconfig.fig.raidStatusFlask;
+end
+
+local function displayBuffMissing(frame)
+
+end
+
+local function displayFlasks(frame, data)
+
+end
+
+local function displayGeneric(frame, data)
+
+end
+
+local gridData = NRC.gridData;
+local showMore;
+
+local function updateRaidStatusFramesLayout()
+
+end]]
+
+--function NRC:updateRaidStatusFramesLayout()
+--	updateRaidStatusFramesLayout();
+--end
+
+--function NRC:updateRaidStatusFrames()
+--
+--end
+
+--tooltips load on enter and not always like before

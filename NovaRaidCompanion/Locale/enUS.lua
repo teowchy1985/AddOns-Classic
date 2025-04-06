@@ -1292,3 +1292,18 @@ L["piSendDamageWhisperYouGaveMeDesc"] = "|cFFFFFF00(All Classes)|r Send a whispe
 
 L["logKaraCryptsTitle"] = "Log Kara Crypts";
 L["logKaraCryptsDesc"] = "Enable this to record Karazhan Crypts to the raid log like it's a normal raid.";
+
+L["Sanctified"] = "Sanctified";
+L["Rolls"] = "Rolls";
+
+L["raidStatusNaxxTitle"] = "Naxx Seal of the Dawn";
+L["raidStatusNaxxDesc"] = "Display a Naxxramas Seal of the Dawn column on the Raid Status tracker?";
+
+L["raidStatusSancTitle"] = "Sanctified";
+L["raidStatusSancDesc"] = "Display a Sanctified pieces equipped column on the Raid Status tracker?";
+
+L["raidStatusIlvlTitle"] = "Average Item Level";
+L["raidStatusIlvlDesc"] = "Display a average item level of gear equipped column on the Raid Status tracker?";
+
+L["raidStatusEquipTitle"] = "Equipment";
+L["raidStatusEquipDesc"] = "Display a column you can click on any player to view their gear and enchants column on the Raid Status tracker?";

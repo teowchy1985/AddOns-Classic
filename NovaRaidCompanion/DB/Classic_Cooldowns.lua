@@ -53,6 +53,7 @@ NRC.cooldowns = {
 		minLevel = 44,
 		spellIDs = {
 			[22812] = "Barkskin", --Rank 1.
+			[428713] = "Barkskin", --SoD improved barkskin rune.
 		},
 	},
 	["Challenging Roar"] = {
@@ -519,6 +520,17 @@ NRC.castDetectCooldowns = {
 		name = "Sham Rage",
 		spellIDs = {
 			[425336] = "Shamanistic Rage", --Rune.
+		},
+	},
+	["Ancestral Guidance"] = {
+		class = "SHAMAN",
+		icon = "Interface\\Icons\\ability_druid_lunarguidance",
+		cooldown = 60,
+		minLevel = 1,
+		isRune = true,
+		name = "Anc Guidance",
+		spellIDs = {
+			[409324] = "Ancestral Guidance", --Rune.
 		},
 	},
 	--Warlock.

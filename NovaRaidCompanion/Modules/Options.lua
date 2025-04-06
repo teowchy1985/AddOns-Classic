@@ -2160,11 +2160,46 @@ NRC.options = {
 					name = L["raidStatusColumsHeaderDesc"],
 					order = 20,
 				},
+				--[[raidStatusNaxx = {
+					type = "toggle",
+					name = L["raidStatusNaxxTitle"],
+					desc = L["raidStatusNaxxDesc"],
+					order = 21,
+					get = "getRaidStatusNaxx",
+					set = "setRaidStatusNaxx",
+				},]]
+				--[[raidStatusSanc = {
+					type = "toggle",
+					name = L["raidStatusSancTitle"],
+					desc = L["raidStatusSancDesc"],
+					order = 22,
+					get = "getRaidStatusSanc",
+					set = "setRaidStatusSanc",
+				},]]
+				raidStatusIlvl = {
+					type = "toggle",
+					name = L["raidStatusIlvlTitle"],
+					desc = L["raidStatusIlvlDesc"],
+					order = 23,
+					get = "getRaidStatusIlvl",
+					set = "setRaidStatusIlvl",
+				},
+				raidStatusEquip = {
+					type = "toggle",
+					name = L["raidStatusEquipTitle"],
+					desc = L["raidStatusEquipDesc"],
+					order = 24,
+					get = "getRaidStatusEquip",
+					set = "setRaidStatusEquip",
+				},
+				
+				
+				
 				raidStatusFlask = {
 					type = "toggle",
 					name = L["raidStatusFlaskTitle"],
 					desc = L["raidStatusFlaskDesc"],
-					order = 21,
+					order = 27,
 					get = "getRaidStatusFlask",
 					set = "setRaidStatusFlask",
 				},
@@ -2172,7 +2207,7 @@ NRC.options = {
 					type = "toggle",
 					name = L["raidStatusFoodTitle"],
 					desc = L["raidStatusFoodDesc"],
-					order = 22,
+					order = 28,
 					get = "getRaidStatusFood",
 					set = "setRaidStatusFood",
 				},
@@ -2180,7 +2215,7 @@ NRC.options = {
 					type = "toggle",
 					name = L["raidStatusScrollTitle"],
 					desc = L["raidStatusScrollDesc"],
-					order = 23,
+					order = 29,
 					get = "getRaidStatusScroll",
 					set = "setRaidStatusScroll",
 				},
@@ -2188,7 +2223,7 @@ NRC.options = {
 					type = "toggle",
 					name = L["raidStatusIntTitle"],
 					desc = L["raidStatusIntDesc"],
-					order = 24,
+					order = 30,
 					get = "getRaidStatusInt",
 					set = "setRaidStatusInt",
 				},
@@ -2196,7 +2231,7 @@ NRC.options = {
 					type = "toggle",
 					name = L["raidStatusFortTitle"],
 					desc = L["raidStatusFortDesc"],
-					order = 25,
+					order = 31,
 					get = "getRaidStatusFort",
 					set = "setRaidStatusFort",
 				},
@@ -2204,7 +2239,7 @@ NRC.options = {
 					type = "toggle",
 					name = L["raidStatusSpiritTitle"],
 					desc = L["raidStatusSpiritDesc"],
-					order = 27,
+					order = 32,
 					get = "getRaidStatusSpirit",
 					set = "setRaidStatusSpirit",
 				},]]
@@ -2212,7 +2247,7 @@ NRC.options = {
 					type = "toggle",
 					name = L["raidStatusShadowTitle"],
 					desc = L["raidStatusShadowDesc"],
-					order = 28,
+					order = 33,
 					get = "getRaidStatusShadow",
 					set = "setRaidStatusShadow",
 				},
@@ -2220,7 +2255,7 @@ NRC.options = {
 					type = "toggle",
 					name = L["raidStatusMotwTitle"],
 					desc = L["raidStatusMotwDesc"],
-					order = 29,
+					order = 34,
 					get = "getRaidStatusMotw",
 					set = "setRaidStatusMotw",
 				},
@@ -2228,7 +2263,7 @@ NRC.options = {
 					type = "toggle",
 					name = L["raidStatusPalTitle"],
 					desc = L["raidStatusPalDesc"],
-					order = 30,
+					order = 35,
 					get = "getRaidStatusPal",
 					set = "setRaidStatusPal",
 				},
@@ -2236,9 +2271,17 @@ NRC.options = {
 					type = "toggle",
 					name = L["raidStatusDuraTitle"],
 					desc = L["raidStatusDuraDesc"],
-					order = 31,
+					order = 36,
 					get = "getRaidStatusDura",
 					set = "setRaidStatusDura",
+				},
+				raidStatusTalents = {
+					type = "toggle",
+					name = L["raidStatusTalentsTitle"],
+					desc = L["raidStatusTalentsDesc"],
+					order = 37,
+					get = "getRaidStatusTalents",
+					set = "setRaidStatusTalents",
 				},
 				raidStatusExpandHeader = {
 					type = "header",
@@ -2298,14 +2341,6 @@ NRC.options = {
 					order = 47,
 					get = "getRaidStatusWeaponEnchants",
 					set = "setRaidStatusWeaponEnchants",
-				},
-				raidStatusTalents = {
-					type = "toggle",
-					name = L["raidStatusTalentsTitle"],
-					desc = L["raidStatusTalentsDesc"],
-					order = 48,
-					get = "getRaidStatusTalents",
-					set = "setRaidStatusTalents",
 				},
 				raidStatusExpandAlways = {
 					type = "toggle",
@@ -3751,7 +3786,7 @@ function NRC:loadExtraOptions()
 			fontSize = "medium",
 			order = 2,
 		};
-		NRC.options.args.classPriest.name = "   |cFFFFFFFFPriest |cFFFF10F0(New!)";
+		NRC.options.args.classPriest.name = "   |cFFFFFFFFPriest";
 		NRC.options.args.classPriest.args.comingSoon = nil;
 		NRC.options.args.classPriest.args.piSendDamagePrint = {
 			type = "toggle",
@@ -4726,13 +4761,29 @@ function NRC:loadExtraOptions()
 			get = "getLogKaraCrypts",
 			set = "setLogKaraCrypts",
 		};
+		NRC.options.args.raidStatus.args.raidStatusNaxx = {
+			type = "toggle",
+			name = L["raidStatusNaxxTitle"],
+			desc = L["raidStatusNaxxDesc"],
+			order = 21,
+			get = "getRaidStatusNaxx",
+			set = "setRaidStatusNaxx",
+		};
+		NRC.options.args.raidStatus.args.raidStatusSanc = {
+			type = "toggle",
+			name = L["raidStatusSancTitle"],
+			desc = L["raidStatusSancDesc"],
+			order = 22,
+			get = "getRaidStatusSanc",
+			set = "setRaidStatusSanc",
+		};
 	end
 	if (NRC.expansionNum < 4) then
 		NRC.options.args.raidStatus.args.raidStatusSpirit = {
 			type = "toggle",
 			name = L["raidStatusSpiritTitle"],
 			desc = L["raidStatusSpiritDesc"],
-			order = 27,
+			order = 33,
 			get = "getRaidStatusSpirit",
 			set = "setRaidStatusSpirit",
 		};
@@ -4938,6 +4989,10 @@ NRC.optionDefaults = {
 		raidCooldownNeckHP5 = false,
 		raidCooldownNeckStats = false,
 		
+		raidStatusNaxx = true,
+		raidStatusSanc = true,
+		raidStatusIlvl = false,
+		raidStatusEquip = true,
 		raidStatusFlask = true,
 		raidStatusFood = true,
 		raidStatusScroll = true,
@@ -5373,6 +5428,10 @@ NRC.optionDefaults = {
 		raidCooldownNeckStatsMerged = true,
 		raidCooldownNeckStatsFrame = 1,]]
 		
+		raidStatusNaxx = true,
+		raidStatusSanc = true,
+		raidStatusIlvl = false,
+		raidStatusEquip = true,
 		raidStatusFlask = true,
 		raidStatusFood = true,
 		raidStatusScroll = true,
@@ -5638,7 +5697,7 @@ local function loadNewVersionFrame(version, notes, title, icon, x, y)
 		frame.title2:SetFontObject(Game15Font);
 		frame.title2:SetPoint("TOP", 0, -24);
 		frame.fs = frame:CreateFontString("$parentFS", "ARTWORK");
-		frame.fs:SetFontObject(Game12Font);
+		frame.fs:SetFontObject(Game13Font);
 		frame.fs:SetPoint("TOPLEFT", 15, -52);
 		frame.fs:SetPoint("TOPRIGHT", -15, -52);
 		frame.fs:SetJustifyH("LEFT");
@@ -5695,22 +5754,20 @@ end
 
 function NRC:checkNewVersion()
 	--NRC.db.global.versions = {};
-	if (NRC.version and NRC.version ~= 9999) then
+	local newVersionNotes = 1.63;
+	if (NRC.version and NRC.version == newVersionNotes) then
 		if (not NRC.db.global.versions[NRC.version]) then
 			--if (NRC.isClassic) then
 				local notes = {
 					--"|cFF00FF00[General Changes]|r",
-					"Added SoD Naxx Seal of the Dawn buff status to the raid buffs frame, an extra column shows when you open the frame while inside Naxx.",
-					"The raid mana frame now shows when a healer gets innervated and how long left.",
-					"The raid status frame now shows Dragonbreath Chili beside other food.",
-					"Added option to hide raid mana in 5 man dungeons (separated show in raid and dungeon settings).",
-					"Added Dragonbreath Chili/Gordok Green Grog/Rumsey Rum Black Label to consumes log.",
-					"Added Blessed Sunfuit +10 strength food.",
-					"Added option under \"Data Management\" to record SoD dungeon Karazhan Crypts in the raid log (enabled by default).",
-					"Removed Remants/Necrotic rune/Reals from being shown in the loot log.",
-					"If you had \"Log Dungeons\" enabled in data management you will need to retick that option in this update.",
-					"Fixed spell ID for Runescroll of Fortitude II in cata.",
-					"A bunch of other other small bug fixes and performance updates.",
+					"|cFFFFFF00A major new system has been added that keeps track of the whole raid's equipped gear, this allows for new features like the following:|r",
+					"Added new raid status column called \"Equip\", you can click any player in the raid to view their armor/weapons with a list of potential issues (missing enchants, unspent talents, pvp trinket/water treads equipped etc).",
+					"Added new raid status column called \"iLvl\" that shows average item level for all players in the raid (disabled by default, you must turn this on in config if you want it).",
+					"Added new raid status column called \"Sanc\" for SoD players that shows much santified gear is equipped for naxx.",
+					"Can now detect tier set bonuses that reduce cooldown times for spells and adjust them on the raid cooldowns frames (only SoD tier 2.5 druid set reducing rebirth/innervate cooldown has been added so far, if there are any other set bonuses that need adding please contact me).",
+					"Add a Loot Rolls history tab to the raid log, it takes the spot of the old deaths log and shows all rolls during a raid.",
+					"Added Whipper Root Tuber/Thorium Grenade/Iron Grenade to consumes used log.",
+					"Fixed the blue shamans option not working for raid status and lockouts frames.",
 				};
 				loadNewVersionFrame(NRC.version, notes, "Nova Raid Companion", "Interface\\AddOns\\NovaRaidCompanion\\Media\\nrc_icon2", 0, 300);
 			--end
@@ -6836,6 +6893,46 @@ end
 function NRC:getRaidStatusFontOutline(info)
 	return self.db.global.raidStatusFontOutline;
 end]]
+
+--Raid status naxx.
+function NRC:setRaidStatusNaxx(info, value)
+	self.config.raidStatusNaxx = value;
+	NRC:reloadRaidStatusFrames();
+end
+
+function NRC:getRaidStatusNaxx(info)
+	return self.config.raidStatusNaxx;
+end
+
+--Raid status sanc.
+function NRC:setRaidStatusSanc(info, value)
+	self.config.raidStatuSanck = value;
+	NRC:reloadRaidStatusFrames();
+end
+
+function NRC:getRaidStatusSanc(info)
+	return self.config.raidStatusSanc;
+end
+
+--Raid status ilvl.
+function NRC:setRaidStatusIlvl(info, value)
+	self.config.raidStatusIlvl = value;
+	NRC:reloadRaidStatusFrames();
+end
+
+function NRC:getRaidStatusIlvl(info)
+	return self.config.raidStatusIlvl;
+end
+
+--Raid status equip.
+function NRC:setRaidStatusEquip(info, value)
+	self.config.raidStatusEquip = value;
+	NRC:reloadRaidStatusFrames();
+end
+
+function NRC:getRaidStatusEquip(info)
+	return self.config.raidStatusEquip;
+end
 
 --Raid status flask.
 function NRC:setRaidStatusFlask(info, value)

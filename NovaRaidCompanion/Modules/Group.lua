@@ -203,6 +203,7 @@ function NRC:groupMemberJoined(name, data)
 		end)
 	end
 	NRC:throddleEventByFunc("GROUP_ROSTER_UPDATE", 1, "updateHealerCache", "groupMemberJoined");
+	NRC:inspect(data.guid);
 end
 
 function NRC:groupMemberLeft(name, data)
@@ -216,6 +217,7 @@ function NRC:groupMemberLeft(name, data)
 	NRC.chronoCache[data.guid] = nil;
 	NRC.durability[name] = nil;
 	NRC.equipCache[name] = nil;
+	--NRC:clearInspectdata(data.guid, name);
 	NRC:removeRaidManaChar(name);
 	NRC:removeFromManaCache(name);
 	NRC:removeRaidCooldownChar(data.guid);
@@ -293,6 +295,9 @@ function NRC:inOurGroup(who)
 	end
 	if (isGuid) then
 		--Check for guid match.
+		if (who == UnitGUID("player")) then
+			return true;
+		end
 		for k, v in pairs(NRC.groupCache) do
 			if (v.guid == who) then
 				return true;
@@ -347,6 +352,65 @@ function NRC:getCharDataFromGUID(guid)
 	for k, v in pairs(NRC.groupCache) do
 		if (guid == v.guid) then
 			return v;
+		end
+	end
+	--If the above fails we're not in a group.
+	if (guid == UnitGUID("player")) then
+		local data = {
+			guid = UnitGUID("player");
+			unit = "player";	
+		};
+		local _, class = UnitClass("player");
+		data.class = class;
+		local _, race = UnitRace("player");
+		data.race = race;
+		data.level = UnitLevel("player");
+		data.zone = GetRealZoneText();
+		return data;
+	end
+end
+
+function NRC:getNameFromGUID(guid)
+	if (guid) then
+		if (guid == UnitGUID("player")) then
+			local name = UnitName("player");
+			return name;
+		end
+		for k, v in pairs(NRC.groupCache) do
+			if (guid == v.guid) then
+				return k;
+			end
+		end
+		local _, _, _, _, _, name = GetPlayerInfoByGUID(guid);
+		return name;
+	end
+end
+
+function NRC:getLevelFromGUID(guid)
+	if (guid) then
+		if (guid == UnitGUID("player")) then
+			local name = UnitLevel("player");
+			return name;
+		end
+		for k, v in pairs(NRC.groupCache) do
+			if (guid == v.guid) then
+				return v.level;
+			end
+		end
+	end
+end
+
+function NRC:getLocalizedClassFromGUID(guid)
+	if (guid) then
+		if (guid == UnitGUID("player")) then
+			local class = UnitClass("player");
+			return class;
+		end
+		for k, v in pairs(NRC.groupCache) do
+			if (guid == v.guid) then
+				local class = UnitClass(v.unit);
+				return class;
+			end
 		end
 	end
 end
@@ -503,530 +567,6 @@ function NRC:isHealer(name)
 	end
 end
 
----Inspect functions, needed so we can get accurate cooldowns of talented spells like bop, and talent only spells like mana tide.
----This is messy in classic because of very short inspect range but we'll see how it goes...
----If another addon or lib inspects a player it will be removed from our queue.
----Inspect one player every inspectInterval if within inspect range and it's been inspectCooldown since last try on player.
----We wait inspectTimeout if no response from server since last inspect before trying next.
----If we get a response then inspectTimeout is reset and we inspect next.
----inspectInterval time between inspects, even if it's faster than server throddle the timeout will cover it, everyone will still get inspected.
-
-local distanceIndex = 4;
-local inspectInterval = 5;
-local inspectTimeout = 10;
-local inspectCooldown = 60;
-local inspectQueue = {};
-local lastInspectAttempt = {};
-local lastInspect = 0;
-local lastAttempt = 0;
-local inspectSuccess = {};
-local queueRunning;
-local inspectingGUID;
-local inspectFrameTalents;
-local inspectFrameTalentsGUID;
-
-local f = CreateFrame("Frame", "NRCGroup");
-f:RegisterEvent("PLAYER_ENTERING_WORLD");
-f:RegisterEvent("GROUP_ROSTER_UPDATE");
-f:RegisterEvent("INSPECT_READY");
-f:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED");
-f:SetScript('OnEvent', function(self, event, ...)
-	if (event == "UNIT_SPELLCAST_SUCCEEDED") then
-		local unit, _, spellID = ...;
-		if (strfind(unit, "party") or strfind(unit, "raid")  or unit == "player") then
-			--Spec change.
-			if (spellID == 63644 or spellID == 63645) then
-				if (unit == "player") then
-					C_Timer.After(1, function()
-						NRC:updateHealerCache("UNIT_SPELLCAST_SUCCEEDED");
-					end)
-				else
-					local guid = UnitGUID(unit);
-					if (guid) then
-						NRC:inspect(guid);
-					end
-				end
-			end
-			if (NRC.specialHealingSpells and NRC.specialHealingSpells[spellID]) then
-				local name = UnitName(unit);
-				local specialHealingSpells = NRC.specialHealingSpells[spellID];
-				if (not NRC.specialHealers[name]) then
-					NRC.specialHealers[name] = {
-						specName = specialHealingSpells.specName,
-						icon = specialHealingSpells.icon,
-						class = specialHealingSpells.class,
-					};
-					NRC:updateHealerCache("UNIT_SPELLCAST_SUCCEEDED");
-				end
-			end
-		end
-	elseif (event == "PLAYER_ENTERING_WORLD") then
-		local isLogon, isReload = ...;
-		if (isReload) then
-			C_Timer.After(5, function()
-				NRC:loadInspectQueue();
-			end)
-		end
-	elseif (event == "GROUP_ROSTER_UPDATE") then
-		if (IsInGroup()) then
-			NRC:throddleEventByFunc(event, 3, "loadInspectQueue", ...);
-		end
-	elseif (event == "INSPECT_READY") then
-		local guid = ...;
-		NRC:receivedInspect(guid);
-	end
-end)
-
-local function inspectTicker()
-	if (not IsInGroup()) then
-		NRC:stopInspectQueue();
-		return;
-	end
-	if (InspectFrame and InspectFrame:IsShown()) then
-		--Pause if InspectFrame open.
-		C_Timer.After(2, function()
-			inspectTicker();
-		end)
-		return;
-	end
-	if (next(inspectQueue)) then
-		if (GetTime() - lastInspect > inspectTimeout) then
-			NRC:stopCurrentInspect();
-			if (not UnitIsDead("player") and not InCombatLockdown()
-					and GetTime() - lastAttempt > inspectInterval) then
-				inspectingGUID = ni;
-				for k, guid in pairs(inspectQueue) do
-					local unit = NRC:getUnitFromGUID(guid);
-					if (unit and UnitExists(unit) and CheckInteractDistance(unit, distanceIndex) and UnitIsConnected(unit)
-							and (not lastInspectAttempt[guid] or GetTime() - lastInspectAttempt[guid] > inspectCooldown)) then
-						--Even though we checked range with CheckInteractDistance() it can be a little unreliable.
-						--So disable error msgs for a split second while we inspect.
-						local registerErrors, enableErrorFilter;
-						if (UIErrorsFrame:IsEventRegistered("UI_ERROR_MESSAGE")) then
-							registerErrors = true;
-							UIErrorsFrame:UnregisterEvent("UI_ERROR_MESSAGE");
-						end
-						if (ErrorFilter) then
-							--If Error Filter installed disable events for a split second and reenable them after NotifyInspect().
-							ErrorFilter:UnregisterEvent("UI_ERROR_MESSAGE");
-							enableErrorFilter = true;
-						end
-						--CanInspect() gives UI error feedback to user so run this after errors are disabled.
-						if (CanInspect(unit)) then
-							lastInspectAttempt[guid] = GetTime();
-							lastInspect = GetTime();
-							lastAttempt = GetTime(); --This is seperate to lastInspect so it can be reset to 0 for interval reasons.
-							inspectingGUID = guid;
-							NotifyInspect(unit);
-							if (registerErrors) then
-								UIErrorsFrame:RegisterEvent("UI_ERROR_MESSAGE");
-							end
-							if (enableErrorFilter) then
-								ErrorFilter:UpdateEvents();
-							end
-							break;
-						end
-						if (registerErrors) then
-							UIErrorsFrame:RegisterEvent("UI_ERROR_MESSAGE");
-						end
-						if (enableErrorFilter) then
-							ErrorFilter:UpdateEvents();
-						end
-					end
-				end
-			end
-		end
-		C_Timer.After(1, function()
-			inspectTicker();
-		end)
-	else
-		NRC:stopInspectQueue();
-	end
-end
-
---Load a queue from group cache.
-function NRC:loadInspectQueue()
-	if (IsInGroup()) then
-		inspectQueue = {};
-		local me = UnitName("player");
-		for k, v in pairs(NRC.groupCache) do
-			--For now we only inspect each player once per session.
-			if (v.guid and k ~= me and not inspectSuccess[v.guid]) then
-				tinsert(inspectQueue, v.guid);
-			end
-		end
-		if (next(inspectQueue)) then
-			NRC:startInspectQueue();
-		end
-	end
-end
-
-function NRC:startInspectQueue()
-	if (NRC.isRetail) then
-		return;
-	end
-	if (not queueRunning) then
-		--NRC:debug("starting inspect queue");
-		queueRunning = true;
-		inspectTicker();
-	end
-end
-
-function NRC:stopInspectQueue()
-	--NRC:debug("stopping inspect queue");
-	inspectQueue = {};
-	queueRunning = false;
-end
-
---Inspect a single player.
-function NRC:inspect(guid, priority)
-	local me = UnitGUID("player");
-	if (guid == me) then
-		return;
-	end
-	lastInspectAttempt[guid] = nil;
-	if (priority) then
-		tinsert(inspectQueue, guid, 1);
-	else
-		tinsert(inspectQueue, guid);
-	end
-	if (next(inspectQueue)) then
-		NRC:startInspectQueue();
-	end
-end
-
-function NRC:getGroupInspectCount()
-	local count = 0;
-	for k, v in pairs(NRC.groupCache) do
-		if (NRC.talents[k]) then
-			count = count + 1;
-		end
-	end
-	return count;
-end
-
-function NRC:sendInspectData(guid, talentString)
-
-end
-
-function NRC:receivedInspect(guid)
-	inspectFrameTalentsGUID = guid;
-	--NRC:debug("received inspect", guid);
-	if (not NRC:inOurGroup(guid)) then
-		return;
-	end
-	local name = UnitName(guid);
-	--local inspected = NRC:getGroupInspectCount() .. "/" .. GetNumGroupMembers();
-	lastAttempt = 0;
-	for k, v in pairs(inspectQueue) do
-		if (v == guid) then
-			inspectQueue[k] = nil;
-		end
-	end
-	local talentString;
-	if (guid) then
-		inspectSuccess[guid] = GetServerTime();
-		talentString = NRC:addTalentStringFromInspect(guid);
-		--NRC:buildInventoryFromInspect(guid);
-	end
-	--If the inspect result is from our queue.
-	if (guid == inspectingGUID) then
-		if (talentString) then
-			NRC:sendInspectData(guid, talentString);
-		end
-		inspectingGUID = nil;
-	end
-	NRC:updateTrackedManaCharTalents(name);
-	NRC:updateHealerCache("receivedInspect");
-	NRC:throddleEventByFunc("GROUP_ROSTER_UPDATE", 2, "loadTrackedManaChars", "receivedInspect");
-end
-
-function NRC:stopCurrentInspect()
-	inspectingGUID = nil;
-	ClearInspectPlayer();
-end
-
---Add talents to cache.
-function NRC:addTalentStringFromInspect(guid)
-	local talentString, talentString2 = NRC:createTalentStringFromInspect(guid);
-	if (talentString) then
-		local _, _, _, _, _, name, realm = GetPlayerInfoByGUID(guid);
-		local nameRealm = name .. "-" ..  realm;
-		if (NRC.groupCache[name]) then
-			--NRC:debug("added talents from inspect", name);
-			NRC.talents[name] = talentString;
-			NRC:loadRaidCooldownChar(name, NRC.groupCache[name]);
-		elseif (NRC.groupCache[nameRealm]) then
-			NRC.talents[nameRealm] = talentString;
-			NRC:loadRaidCooldownChar(nameRealm, NRC.groupCache[nameRealm]);
-		end
-		if (talentString2) then
-			if (NRC.groupCache[name]) then
-				--NRC:debug("added talents from inspect", name);
-				NRC.talents2[name] = talentString2;
-			elseif (NRC.groupCache[nameRealm]) then
-				NRC.talents2[nameRealm] = talentString2;
-			end
-		end
-		return talentString;
-	end
-end
-
---function NRC:buildInventoryFromInspect(guid)
-	--Don't use this for now, we don't want to keep inspecting for gear changes so it would be unreliable.
---end
-
-function NRC:createTalentStringFromInspect(guid)
-	if (NRC.isRetail) then
-		return "1-0-0-0";
-	end
-	local talentString, talentString2;
-	local unit = NRC:getUnitFromGUID(guid);
-	local _, class = GetPlayerInfoByGUID(guid);
-	local classID;
-	for i = 1, GetNumClasses() do
-		local className, classFile, id = GetClassInfo(i);
-		if (class == classFile) then
-			classID = id;
-			break;
-		end
-	end
-	--Fallback just incase, less reliable mapping units to group until I get NRC:getUnitFromGUID() working better.
-	if (unit and not classID) then
-		_, _, classID = UnitClass(unit);
-	end
-	if (not classID) then
-		return;
-	end
-	--Seems all 3 clients are using the new out of order system now.
-	--if (NRC.isWrath or NRC.isTBC or NRC.isClassic) then
-		if (unit or classID) then
-			local data = {
-				classID = classID,
-			};
-			local data2 = {
-				classID = classID,
-			};
-			--Number of talents varies by class, but if we get a rough num for this expansion and add 20 it should cover it.
-			--We stop iteration when we reach nil (end of talent tree) anyway.
-			local numTalents = GetNumTalents(1) + 20;
-			if (classID) then
-				talentString = tostring(classID);
-				talentString2 = tostring(classID);
-				local activeSpec = GetActiveTalentGroup(true);
-				local offSpec = (activeSpec == 1 and 2 or 1);
-				for tab = 1, GetNumTalentTabs() do
-					data[tab] = {};
-					data2[tab] = {};
-					for i = 1, numTalents do
-						local name, _, row, column, rank = GetTalentInfo(tab, i, true, nil, activeSpec);
-						if (name) then
-							data[tab][i] = {
-								rank = rank,
-								row = row,
-								column = column,
-							};
-						else
-							break;
-						end
-					end
-					for i = 1, numTalents do
-						local name, _, row, column, rank = GetTalentInfo(tab, i, true, nil, offSpec);
-						if (name) then
-							data2[tab][i] = {
-								rank = rank,
-								row = row,
-								column = column,
-							};
-						else
-							break;
-						end
-					end
-				end
-			end
-			talentString = NRC:createTalentStringFromTable(data);
-			talentString2 = NRC:createTalentStringFromTable(data2);
-		end
-		--if (talentString and not strfind(talentString, "0%-0%-0")) then
-			return talentString, talentString2;
-		--end
-	--[[else
-		if (unit or classID) then
-			--Number of talents varies by class, but if we get a rough num for this expansion and add 20 it should cover it.
-			--We stop iteration when we reach nil (end of talent tree) anyway.
-			local numTalents = GetNumTalents(1) + 20;
-			if (classID) then
-				talentString = tostring(classID);
-				for tab = 1, GetNumTalentTabs() do
-					local found;
-					local treeString = "";
-					for i = 1, numTalents do
-						local name, _, _, _, rank = GetTalentInfo(tab, i, true);
-						if (name) then
-							treeString = treeString .. rank;
-							if (rank and rank > 0) then
-								found = true;
-							end
-						else
-							break;
-						end
-					end
-					treeString = strmatch(treeString, "^(%d-)0*$");
-					if (found) then
-						talentString = talentString .. "-" .. treeString;
-					else
-						talentString = talentString .. "-0";
-					end
-				end
-			end
-		end
-		--if (talentString and not strfind(talentString, "0%-0%-0")) then
-			return talentString;
-		--end
-	end]]
-end
-
-local inspectTalentsCheckBox, inspectTalentsFrame;
-local function openInspectTalentsFrame()
-	if (not InspectFrame or not InspectFrame.unit) then
-		return;
-	end
-	if (not inspectTalentsFrame) then
-		if (NRC.isWrath) then
-			inspectTalentsFrame = NRC:createTalentFrame("NRCInspectTalentFrame", 870, 540, 0, 0, 3);
-		else
-			inspectTalentsFrame = NRC:createTalentFrame("NRCInspectTalentFrame", 870, 480, 0, 0, 3);
-		end
-		inspectTalentsFrame.closeButton:SetScript("OnClick", function(self, arg)
-			inspectTalentsFrame:Hide();
-			if (InspectFrameCloseButton and InspectFrame and InspectFrame:IsShown()) then
-				InspectFrameCloseButton:Click();
-			end
-		end)
-		inspectTalentsFrame.fs:SetText("|cFFFFFF00Nova Raid Companion");
-		inspectTalentsFrame:ClearAllPoints();
-	end
-	--local guid = inspectFrameTalentsGUID;
-	local guid = UnitGUID(InspectFrame.unit);
-	if (guid) then
-		if (InspectFrameCloseButton) then
-			inspectTalentsFrame:SetPoint("TOPLEFT", InspectFrameCloseButton, "TOPRIGHT", 20, -8);
-		else
-			inspectTalentsFrame:SetPoint("TOPLEFT", InspectFrame, "TOPRIGHT", 20, -8);
-		end
-		local _, classEnglish, _, _, _, name, realm = GetPlayerInfoByGUID(guid);
-		--[[local classID;
-		for i = 1, GetNumClasses() do
-			local className, classFile, id = GetClassInfo(i);
-			if (classEnglish == classFile) then
-				classID = id;
-				break;
-			end
-		end]]
-		local talentString, talentString2 = NRC:createTalentStringFromInspect(guid);
-		if (talentString) then
-			local isError = NRC:updateTalentFrame(name, talentString, inspectTalentsFrame, talentString2);
-			inspectTalentsFrame:SetScale(0.875);
-			if (not isError) then
-				inspectTalentsFrame:Show();
-			end
-		end
-		if (realm and realm ~= "" and realm ~= NRC.realm) then
-			name = name .. "-" .. realm;
-		end
-		if (NRC.expansionNum > 2) then
-			local isEnemy;
-			local targetName = UnitName("target");
-			if (name == targetName) then
-				--Current target should always be the inspect target if hostile since they can't be raid frames to click on etc.
-				isEnemy = UnitIsEnemy("player", "target");
-			end
-			if (not isEnemy) then
-				NRC:sendComm("WHISPER", "glyreq " .. NRC.version, name);
-			end
-		end
-	end
-end
-
-function NRC:hookTalentsFrame()
-	if (inspectTalentsCheckBox or not InspectFrame) then
-		return;
-	end
-	inspectTalentsCheckBox = CreateFrame("CheckButton", "NRCRaidStatusFrameCheckbox", InspectFrame, "ChatConfigCheckButtonTemplate");
-	inspectTalentsCheckBox.Text:SetText("|cFFFFFF00" .. L["NRC Talents"]);
-	inspectTalentsCheckBox.Text:SetFont(NRC.regionFont, 11);
-	inspectTalentsCheckBox.Text:SetPoint("LEFT", inspectTalentsCheckBox, "RIGHT", -2, 1);
-	inspectTalentsCheckBox.tooltip = L["inspectTalentsCheckBoxTooltip"];
-	inspectTalentsCheckBox:SetFrameStrata("HIGH");
-	inspectTalentsCheckBox:SetFrameLevel(9);
-	inspectTalentsCheckBox:SetWidth(20);
-	inspectTalentsCheckBox:SetHeight(20);
-	inspectTalentsCheckBox:SetPoint("TOPRIGHT", InspectFrame, -105, -53);
-	inspectTalentsCheckBox:SetHitRectInsets(0, 0, -10, 7);
-	--inspectTalentsCheckBox:SetBackdropBorderColor(0, 0, 0, 1);
-	inspectTalentsCheckBox:SetChecked(NRC.config.showInspectTalents);
-	inspectTalentsCheckBox:SetScript("OnClick", function()
-		local value = inspectTalentsCheckBox:GetChecked();
-		NRC.config.showInspectTalents = value;
-		if (not value) then
-			if (inspectTalentsFrame) then
-				inspectTalentsFrame:Hide();
-			end
-		else
-			if (InspectFrame and InspectFrame:IsShown()) then
-				openInspectTalentsFrame();
-			end
-		end
-		NRC.acr:NotifyChange("NovaRaidCompanion");
-	end);
-	InspectFrame:HookScript("OnShow", function(self)
-		if (NRC.config.showInspectTalents) then
-			openInspectTalentsFrame();
-		end
-	end)
-	InspectFrame:HookScript("OnHide", function(self)
-		inspectFrameTalentsGUID = nil;
-		if (_G["NRCInspectTalentFrame"]) then
-			inspectTalentsFrame:Hide();
-		end
-	end)
-	--Move checkbox depending on which tab is shown.
-	if (InspectPaperDollFrame) then
-		InspectPaperDollFrame:HookScript("OnShow", function(self)
-			inspectTalentsCheckBox:SetPoint("TOPRIGHT", InspectFrame, -105, -53);
-		end)
-	else
-		NRC:debug("Missing InspectPaperDollFrame frame.");
-	end
-	if (InspectPVPFrame) then
-		--Doesn't exist in era/sod.
-		InspectPVPFrame:HookScript("OnShow", function(self)
-			inspectTalentsCheckBox:SetPoint("TOPRIGHT", InspectFrame, -105, -38);
-		end)
-	end
-	if (InspectTalentFrame) then
-		InspectTalentFrame:HookScript("OnShow", function(self)
-			inspectTalentsCheckBox:SetPoint("TOPRIGHT", InspectFrame, -105, -34);
-		end)
-	end
-end
-
---Update checkbox if we change via addon config.
-function NRC:updateInspectTalentsCheckBoxFromConfig(value)
-	if (InspectFrame and InspectFrame:IsShown()) then
-		inspectTalentsCheckBox:SetChecked(value);
-	end
-	if (not value) then
-		if (inspectTalentsFrame) then
-			inspectTalentsFrame:Hide();
-		end
-	else
-		if (InspectFrame and InspectFrame:IsShown()) then
-			openInspectTalentsFrame();
-		end
-	end
-end
-
 local f = CreateFrame("Frame");
 f:RegisterEvent("GROUP_ROSTER_UPDATE");
 f:RegisterEvent("GROUP_FORMED");
@@ -1036,7 +576,6 @@ f:RegisterEvent("PLAYER_ENTERING_WORLD");
 f:RegisterEvent("PLAYER_LOGIN");
 f:RegisterEvent("UNIT_FLAGS");
 f:RegisterEvent("UNIT_CONNECTION");
-f:RegisterEvent("ADDON_LOADED");
 f:SetScript('OnEvent', function(self, event, ...)
 	if (event == "UNIT_FLAGS") then
 		local unit = ...;
@@ -1084,10 +623,6 @@ f:SetScript('OnEvent', function(self, event, ...)
 			NRC:updateGroupCache();
 		end);
 		NRC.logonTime = GetServerTime();
-		--If an addon loads the Blizzard_InspectUI before us then we load it with a hook instead of an ADDON_LOADED event.
-		if (InspectFrame) then
-			NRC:hookTalentsFrame();
-		end
 	elseif (event == "UNIT_CONNECTION") then
 		local unit = ...;
 		if (strfind(unit, "party") or strfind(unit, "raid")) then
@@ -1095,18 +630,14 @@ f:SetScript('OnEvent', function(self, event, ...)
 				NRC:updateGroupCache();
 			end);
 		end
-	elseif (event == "ADDON_LOADED") then
-		local addon = ...;
-		if (addon == "Blizzard_InspectUI") then
-			NRC:hookTalentsFrame();
-		end
 	elseif (event == "GROUP_LEFT") then
 		NRC.groupCache = {};
 		NRC.unitMap = {};
 		C_Timer.After(1, function()
 			NRC:aurasScanGroup();
 		end)
-		--NRC.healerCache = {};
-		NRC:updateHealerCache();
+		C_Timer.After(0.2, function()
+			NRC:updateHealerCache();
+		end)
 	end
 end)

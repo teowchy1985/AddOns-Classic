@@ -461,3 +461,5 @@ L["maxTradesShownDesc"] = "Maximum amount of trades to show in the trade log? Yo
 
 L["Jungle Durian"] = "Durião da Selva";
 L["Stratholme Holy Water"] = "Água Benta de Stratholme";
+
+L["Sanctified"] = "Santificado";

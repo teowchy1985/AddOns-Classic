@@ -3,7 +3,7 @@ if (not L) then
 	return;
 end
 
---Spanish (EU)
+--Spanish (AL)
 
 L["second"] = "second"; --Second (singular).
 L["seconds"] = "seconds"; --Seconds (plural).
@@ -463,3 +463,5 @@ L["maxTradesShownDesc"] = "Maximum amount of trades to show in the trade log? Yo
 
 L["Jungle Durian"] = "Durian de la selva";
 L["Stratholme Holy Water"] = "Agua bendita de Stratholme";
+
+L["Sanctified"] = "Santificado";

@@ -985,3 +985,5 @@ L["otherTransferedDamageTricksMine"] = "你从 %s 嫁祸期间获得了 %s 额�
 
 L["Jungle Durian"] = "丛林榴莲";
 L["Stratholme Holy Water"] = "斯坦索姆圣水";
+
+L["Sanctified"] = "灵巧护链";
