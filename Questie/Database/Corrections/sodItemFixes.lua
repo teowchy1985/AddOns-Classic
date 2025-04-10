@@ -265,7 +265,7 @@ function SeasonOfDiscovery:LoadItems()
             [itemKeys.objectDrops] = {600002}, -- fake for tooltips
         },
         [239764] = { -- Crimson Bladeleaf
-            [itemKeys.objectDrops] = {600004},
+            [itemKeys.objectDrops] = {528481},
         },
         [238794] = { -- Unappetizing Leftovers
             [itemKeys.objectDrops] = {526132,526143,526144},
@@ -282,8 +282,23 @@ function SeasonOfDiscovery:LoadItems()
         [238899] = { -- Assorted Fish
             [itemKeys.objectDrops] = {526809},
         },
+        [238935] = { -- Gently Plagued Meat
+            [itemKeys.npcDrops] = {8600,240247},
+        },
+        [238960] = { -- Quartermaster's Crate
+            [itemKeys.objectDrops] = {526937},
+        },
+        [239016] = { -- Holy Salts
+            [itemKeys.npcDrops] = {241120},
+        },
+        [239223] = { -- House Prop
+            [itemKeys.objectDrops] = {527821},
+        },
+        [239225] = { -- Classy Quill
+            [itemKeys.npcDrops] = {241877},
+        },
         [241652] = { -- Discolored Beast Heart
-            [itemKeys.npcDrops] = {1817,8596,8597,8598,8600,8601,8602,8603,8605},
+            [itemKeys.npcDrops] = {1816,1817,8596,8597,8598,8600,8601,8602,8603,8605},
         },
         [241655] = { -- Mishandled Healing Potion
             [itemKeys.objectDrops] = {531291},
