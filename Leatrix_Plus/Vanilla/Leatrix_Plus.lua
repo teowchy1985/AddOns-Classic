@@ -1,5 +1,5 @@
 ﻿----------------------------------------------------------------------
--- 	Leatrix Plus 1.15.82 (2nd April 2025)
+-- 	Leatrix Plus 1.15.83 (9th April 2025)
 ----------------------------------------------------------------------
 
 --	01:Functions 02:Locks   03:Restart 40:Player   45:Rest
@@ -19,7 +19,7 @@
 	local void
 
 	-- Version
-	LeaPlusLC["AddonVer"] = "1.15.82"
+	LeaPlusLC["AddonVer"] = "1.15.83"
 
 	-- Get locale table
 	local void, Leatrix_Plus = ...
@@ -1468,7 +1468,7 @@
 			-- Get localised Wowhead URL
 			local wowheadLoc
 			if GameLocale == "deDE" then wowheadLoc = "de.classic.wowhead.com"
-			elseif GameLocale == "esMX" then wowheadLoc = "es.classic.wowhead.com"
+			elseif GameLocale == "esMX" then wowheadLoc = "mx.classic.wowhead.com"
 			elseif GameLocale == "esES" then wowheadLoc = "es.classic.wowhead.com"
 			elseif GameLocale == "frFR" then wowheadLoc = "fr.classic.wowhead.com"
 			elseif GameLocale == "itIT" then wowheadLoc = "it.classic.wowhead.com"
@@ -1476,7 +1476,7 @@
 			elseif GameLocale == "ruRU" then wowheadLoc = "ru.classic.wowhead.com"
 			elseif GameLocale == "koKR" then wowheadLoc = "ko.classic.wowhead.com"
 			elseif GameLocale == "zhCN" then wowheadLoc = "cn.classic.wowhead.com"
-			elseif GameLocale == "zhTW" then wowheadLoc = "cn.classic.wowhead.com"
+			elseif GameLocale == "zhTW" then wowheadLoc = "tw.classic.wowhead.com"
 			else							 wowheadLoc = "classic.wowhead.com"
 			end
 
@@ -10846,16 +10846,20 @@
 
 		if LeaPlusLC["TipModEnable"] == "On" and not LeaLockList["TipModEnable"] then
 
+			-- Enable mouse hover events for world frame (required for hide tooltips, cursor anchor and maybe other addons)
+			-- WorldFrame:EnableMouseMotion(true) -- Using GetMouseFoci()[1] for now
+
 			----------------------------------------------------------------------
 			--	Position the tooltip
 			----------------------------------------------------------------------
 
+			-- Position general tooltip
 			hooksecurefunc("GameTooltip_SetDefaultAnchor", function(tooltip, parent)
 				if LeaPlusLC["TooltipAnchorMenu"] ~= 1 then
 					if (not tooltip or not parent) then
 						return
 					end
-					if LeaPlusLC["TooltipAnchorMenu"] == 2 or not WorldFrame:IsMouseMotionFocus() then
+					if LeaPlusLC["TooltipAnchorMenu"] == 2 or GetMouseFoci()[1] then --or not WorldFrame:IsMouseMotionFocus() then
 						local a,b,c,d,e = tooltip:GetPoint()
 						if a ~= "BOTTOMRIGHT" or c ~= "BOTTOMRIGHT" then
 							tooltip:ClearAllPoints()
@@ -14096,7 +14100,7 @@
 				if not LeaPlusLC.WowheadLock then
 					-- Set Wowhead link prefix
 						if GameLocale == "deDE" then LeaPlusLC.WowheadLock = "de.classic.wowhead.com"
-					elseif GameLocale == "esMX" then LeaPlusLC.WowheadLock = "es.classic.wowhead.com"
+					elseif GameLocale == "esMX" then LeaPlusLC.WowheadLock = "mx.classic.wowhead.com"
 					elseif GameLocale == "esES" then LeaPlusLC.WowheadLock = "es.classic.wowhead.com"
 					elseif GameLocale == "frFR" then LeaPlusLC.WowheadLock = "fr.classic.wowhead.com"
 					elseif GameLocale == "itIT" then LeaPlusLC.WowheadLock = "it.classic.wowhead.com"
@@ -14104,7 +14108,7 @@
 					elseif GameLocale == "ruRU" then LeaPlusLC.WowheadLock = "ru.classic.wowhead.com"
 					elseif GameLocale == "koKR" then LeaPlusLC.WowheadLock = "ko.classic.wowhead.com"
 					elseif GameLocale == "zhCN" then LeaPlusLC.WowheadLock = "cn.classic.wowhead.com"
-					elseif GameLocale == "zhTW" then LeaPlusLC.WowheadLock = "cn.classic.wowhead.com"
+					elseif GameLocale == "zhTW" then LeaPlusLC.WowheadLock = "tw.classic.wowhead.com"
 					else							 LeaPlusLC.WowheadLock = "classic.wowhead.com"
 					end
 				end
