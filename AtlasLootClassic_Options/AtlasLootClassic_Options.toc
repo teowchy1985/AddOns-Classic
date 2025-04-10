@@ -1,4 +1,4 @@
-## Interface: 11506, 30403, 40402
+## Interface: 11507, 30403, 40402
 ## Author: Snowflame0
 ## Version: v4.3.0-Rainbow
 ## Dependencies: AtlasLootClassic

@@ -1,4 +1,4 @@
-## Interface: 11506
+## Interface: 11507
 ## Title: OmniCD
 ## Notes: Party cooldown tracker. /oc
 ## Author: Treebonker

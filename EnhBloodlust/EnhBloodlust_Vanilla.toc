@@ -1,4 +1,4 @@
-﻿## Interface: 11506
+﻿## Interface: 11507
 ## Title: Enhanced Bloodlust
 ## Notes: Add a music in Bloodlust or Heroism!
 ## Author: Vilkku, 彩虹ui

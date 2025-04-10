@@ -1,4 +1,4 @@
-## Interface: 11506
+## Interface: 11507
 ## Version: 3.41
 ## Title: LootMonitor
 ## Author: Aoikaze

@@ -1,4 +1,4 @@
-## Interface: 11506, 30403, 40402, 110002
+## Interface: 11507, 30403, 40402, 110002
 
 ## Author: StormFX
 ## Title: Masque: Serenity

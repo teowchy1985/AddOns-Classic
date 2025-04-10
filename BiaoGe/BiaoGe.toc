@@ -1,4 +1,4 @@
-## Interface: 11506, 30403, 40402
+## Interface: 11507, 30403, 40402
 ## Title: <BiaoGe> |cff00BFFF金团表格|r
 ## Notes: 插件命令：/BiaoGe 或 /GBG
 ## Author: 苍穹之霜, 伊弗斯 <夜半時光> 修改
