@@ -8,6 +8,7 @@ local lastUpdateTime = time()
 local requestNil={dungeon="NIL",start=0,last=0,name=""}
 local isCata = WOW_PROJECT_ID == WOW_PROJECT_CATACLYSM_CLASSIC
 local isClassicEra = WOW_PROJECT_ID == WOW_PROJECT_CLASSIC
+local CUSTOM_ACTIVITY_PREFIX = "ACTIVITY_" -- prefix for unrecognized activity headers
 local ROLE_ATLASES = { -- for using with Textures
 	-- see Interface\AddOns\Blizzard_GroupFinder_VanillaStyle\Blizzard_LFGVanilla_Browse.lua
 	TANK = "groupfinder-icon-role-large-tank",
@@ -41,23 +42,64 @@ local LFGTool = {
 	requestList = {},
 	---@type LFGToolScrollFrame|Frame
 	ScrollContainer = CreateFrame("Frame", TOCNAME.."LFGToolFrame", GroupBulletinBoardFrame),
-	RefreshButton = GroupBulletinBoardFrameRefreshButton, ---@type Button
-	StatusText = GroupBulletinBoardFrameStatusText, ---@type FontString
+	RefreshButton = GroupBulletinBoardFrameHeaderContainer.RefreshButton, ---@type Button
+	StatusText = GroupBulletinBoardFrameFooterContainer.StatusText, ---@type FontString
 }
 
+local addCustomActivityToDungeonTables do
+	local currentSorted = {}
+	local infoCache = {}
+	local getBestActivityLevelRange = function(activityInfo)
+		local min = activityInfo.minLevelSuggestion or activityInfo.minLevel or 0
+		local max = activityInfo.maxLevelSuggestion or activityInfo.maxLevel or 0
+		if min == 0 then min = max end
+		return min, max
+	end
+	local aInfo, bInfo; -- variables for sort cmp fn
+	addCustomActivityToDungeonTables = function(tableKey, activityID, activityInfo)
+		if not infoCache[activityID] then infoCache[activityID] = activityInfo end;
+		if not tContains(currentSorted, activityID) then
+			tinsert(currentSorted, activityID)
+			sort(currentSorted, function(a, b)
+				aInfo = infoCache[a] or rawset(infoCache, a, C_LFGList.GetActivityInfoTable(a))[a]
+				bInfo = infoCache[b] or rawset(infoCache, b, C_LFGList.GetActivityInfoTable(b))[b]
+				if not aInfo or not bInfo then return a < b end
+				if aInfo.minLevelSuggestion ~= bInfo.minLevelSuggestion then
+					return aInfo.minLevelSuggestion < bInfo.minLevelSuggestion
+				end
+				if aInfo.maxLevelSuggestion ~= bInfo.maxLevelSuggestion then
+					return aInfo.maxLevelSuggestion < bInfo.maxLevelSuggestion
+				end
+				if aInfo.minLevel ~= bInfo.minLevel then return aInfo.minLevel < bInfo.minLevel end
+				if aInfo.maxLevel ~= bInfo.maxLevel then return aInfo.maxLevel < bInfo.maxLevel end
+				return a < b
+			end)
+			for sortIdx, activity in ipairs(currentSorted) do
+				GBB.dungeonSort[CUSTOM_ACTIVITY_PREFIX..activity] = sortIdx + 1000
+			end
+		end
+		GBB.dungeonNames[tableKey] = activityInfo.fullName
+		GBB.dungeonLevel[tableKey] = { getBestActivityLevelRange(activityInfo) }
+	end
+end
 ---@param name? string
 ---@param id number
 local getActivityDungeonKey = function(name, id)
-	local dungeonKey
-	if isClassicEra then
-		dungeonKey = GBB.GetDungeonKeyByID({activityID = id})
-	end
+	local dungeonKey = GBB.GetDungeonKeyByID({activityID = id})
+	local isCustomActivity = false
 	if not dungeonKey then
-		-- print("Dungeon key not found for activity: " .. name .. id)
-		-- DevTool:AddData(C_LFGList.GetActivityInfoTable(id), id)
-		dungeonKey = "MISC"
+		local activityInfo = C_LFGList.GetActivityInfoTable(id)
+		local categoryID = activityInfo.categoryID
+		if categoryID == LFGListCategoryEnum.Custom
+		or categoryID == LFGListCategoryEnum.QuestsAndZones
+		or categoryID == LFGListCategoryEnum.PvP
+		then
+			isCustomActivity = true
+			dungeonKey = CUSTOM_ACTIVITY_PREFIX..id
+			addCustomActivityToDungeonTables(dungeonKey, id, activityInfo)
+		else dungeonKey = "MISC" end
 	end
-	return dungeonKey
+	return dungeonKey, isCustomActivity
 end
 
 ---@param categoryID number
@@ -65,17 +107,17 @@ local function getFilteredActivitiesForCategory(categoryID)
 	local available = C_LFGList.GetAvailableActivities(categoryID)
 	local activityIDs = {}
 	for _, activityID in ipairs(available) do
-		local dungeonKey = getActivityDungeonKey(_, activityID)
-		if dungeonKey and GBB.FilterDungeon(dungeonKey) then
+		local dungeonKey, isCustomActivity = getActivityDungeonKey(_, activityID)
+		if not isCustomActivity and dungeonKey and GBB.FilterDungeon(dungeonKey) then
 			table.insert(activityIDs, activityID)
-		end
+		elseif isCustomActivity then table.insert(activityIDs, activityID) end
 	end
 	if activityIDs[1] == nil then return nil
 	else return activityIDs end;
 end
 
 LFGTool.CategoryButton = CreateFrame("Frame", nil, LFGTool.ScrollContainer, "Metal2DropdownWithSteppersAndLabelTemplate")
-LFGTool.CategoryButton:SetPoint("LEFT", GroupBulletinBoardFrameTitle, "RIGHT", 20, 0)
+LFGTool.CategoryButton:SetPoint("LEFT", GroupBulletinBoardFrameHeaderContainerTitle, "RIGHT", 20, 0)
 LFGTool.CategoryButton:SetSize(150, 15)
 LFGTool.CategoryButton.Dropdown:SetAllPoints()
 LFGTool.CategoryButton.Dropdown.Text:SetFontObject("GameFontNormalSmall")
@@ -397,7 +439,8 @@ local function InitializeHeader(header, node)
 		header.created = true
 		header:RegisterForClicks("AnyDown")
 		header.Name = header:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-		header.Name:SetAllPoints()
+		header.Name:SetPoint("TOPLEFT", header, "TOPLEFT", 0, 0)
+		header.Name:SetPoint("BOTTOMLEFT", header, "BOTTOMLEFT", 0, 0)
 		header.Name:SetFontObject(GBB.DB.FontSize)
 		header.Name:SetJustifyH("LEFT")
 		header.Name:SetJustifyV("MIDDLE")
@@ -409,16 +452,8 @@ local function InitializeHeader(header, node)
 			local levelRange = GRAY_FONT_COLOR:WrapTextInColorCode(GBB.LevelRange(dungeon))
 			local categoryColor = NORMAL_FONT_COLOR
 			if self:IsMouseOver() then categoryColor = HIGHLIGHT_FONT_COLOR
-			elseif GBB.DB.ColorOnLevel then
-				if GBB.dungeonLevel[dungeon][1] == 0 then
-					-- skip
-				elseif GBB.dungeonLevel[dungeon][2] < GBB.UserLevel then
-					categoryColor = TRIVIAL_DIFFICULTY_COLOR
-				elseif GBB.UserLevel<GBB.dungeonLevel[dungeon][1] then
-					categoryColor = IMPOSSIBLE_DIFFICULTY_COLOR
-				else
-					categoryColor = EASY_DIFFICULTY_COLOR
-				end
+			elseif GBB.DB.ColorOnLevel and GBB.dungeonLevel[dungeon][1] > 0 then
+				categoryColor = GBB.Tool.GetDungeonDifficultyColor(dungeon)
 			end
 			categoryName = categoryColor:WrapTextInColorCode(categoryName)
 			self.Name:SetFontObject(GBB.DB.FontSize)
@@ -431,6 +466,20 @@ local function InitializeHeader(header, node)
 			header:GetElementData():ToggleCollapsed(...)
 			header:UpdateTextLayout()
 		end
+		function header:UpdateInteractiveState()
+			-- Disable mouse interaction on header when frame is non-interactive
+			local isInteractive = GBB.DB.WindowSettings.isInteractive
+			self:EnableMouse(isInteractive)
+			self.Name:EnableMouse(not isInteractive)
+			self.Name:SetScript("OnMouseDown", not isInteractive and function(_, button)
+				dungeonHeaderClickHandler(self, button)
+			end or nil)
+			self.Name:SetScript("OnEnter", not isInteractive and function() self:UpdateTextLayout() end or nil)
+			self.Name:SetScript("OnLeave", not isInteractive and function() self:UpdateTextLayout() end or nil)
+			self:SetScript("OnClick", isInteractive and dungeonHeaderClickHandler or nil)
+			self:SetScript("OnEnter", isInteractive and self.UpdateTextLayout or nil)
+			self:SetScript("OnLeave", isInteractive and self.UpdateTextLayout or nil)
+		end
 		-- update highlight color on header hover
 		header:SetScript("OnEnter", header.UpdateTextLayout)
 		header:SetScript("OnLeave", header.UpdateTextLayout)
@@ -438,6 +487,7 @@ local function InitializeHeader(header, node)
 	end
 	-- regular inits
 	header:UpdateTextLayout()
+	header:UpdateInteractiveState()
 	header:Show()
 end
 
@@ -466,7 +516,7 @@ do
 		frame.Level:SetPoint("LEFT", frame.Name, "RIGHT", 2, 0)
 		frame.Level:SetJustifyH("CENTER")
 		frame.Level:SetJustifyV("MIDDLE")
-		frame.Level:SetWidth(26)
+		frame.Level:SetWidth(28)
 		frame.RoleIcon = frame:CreateTexture(nil, "ARTWORK")
 		frame.RoleIcon:SetSize(13, 13)
 		frame.RoleIcon:SetPoint("LEFT", frame.Level, "RIGHT", 2, 0)
@@ -835,10 +885,29 @@ local function InitializeEntryItem(entry, node)
 			if not self:IsVisible() then return end;
 			self.Time:SetText(GBB.formatTime(time() - self:GetData().req.last))
 		end
+		function entry:UpdateInteractiveState()
+			-- Disable mouse interaction on message text when frame is non-interactive (only name remains clickable)
+			local isInteractive = GBB.DB.WindowSettings.isInteractive
+			self:EnableMouse(isInteractive)
+			self.Name:EnableMouse(not isInteractive)
+			self.Name:SetScript("OnMouseDown", not isInteractive and function(_, button)
+				requestEntryClickHandler(self, button)
+			end or nil)
+			self.Name:SetScript("OnEnter", not isInteractive and function(_)
+				onEntryMouseover(self, true)
+			end or nil)
+			self.Name:SetScript("OnLeave", not isInteractive and function(_)
+				onEntryMouseover(self, false)
+			end or nil)
+			self:SetScript("OnMouseDown", isInteractive and requestEntryClickHandler or nil)
+			self:SetScript("OnEnter", isInteractive and GenerateClosure(onEntryMouseover, self, true) or nil)
+			self:SetScript("OnLeave", isInteractive and GenerateClosure(onEntryMouseover, self, false) or nil)
+		end
 		entry.created = true
 	end
 	-- regular inits, called when frame is acquired by the scroll view
 	entry:UpdateTextLayout()
+	entry:UpdateInteractiveState()
 	CountdownTimer:RegisterFrameMethod(entry, "UpdateTime")
 end
 
@@ -861,6 +930,9 @@ local updateScrollViewData = function(scrollView, requestList)
 	local userPlayerName = UnitNameUnmodified("player")
 	local sessionCollapsedHeaders = GBB.FoldedDungeons
 	local shouldShowRequest = function(request) ---@param request LFGToolRequestData
+		-- hack: force show unknown/misc headers just for the request list.
+		if request.dungeon == "MISC" or request.dungeon:find(CUSTOM_ACTIVITY_PREFIX, 1, true)
+		then return true end;
 		local hasFilterEnabled = GBB.FilterDungeon(request.dungeon, request.isHeroic, request.isRaid)
 		-- the `DontFilterOwn` option == "always show own requests". The var name is very confusing.
 		if not hasFilterEnabled and GBB.DBChar.DontFilterOwn then
@@ -975,7 +1047,7 @@ LFGToolScrollContainer:SetSize(400, 400)
 LFGToolScrollContainer:SetPoint("LEFT")
 LFGToolScrollContainer:SetPoint("RIGHT")
 LFGToolScrollContainer:SetPoint("TOP", 0, -30)
-LFGToolScrollContainer:SetPoint("BOTTOM", 0, 45)
+LFGToolScrollContainer:SetPoint("BOTTOM", GroupBulletinBoardFrameFooterContainer, "TOP", 0, 4)
 
 function LFGToolScrollContainer:OnLoad()
 	---@type ScrollBoxListTreeListViewMixin
@@ -1041,15 +1113,19 @@ function LFGTool:UpdateRequestList()
 			local isSelf = leaderInfo.name == UnitNameUnmodified("player")
             local listingTimestamp = time() - searchResultData.age
             local message = ""
+			-- only cata has lfg listing titles in the `name` field
+			if isCata and searchResultData.name and string.len(searchResultData.name) > 2 then
+				message = searchResultData.name;
+			end
             if searchResultData.comment ~= nil and string.len(searchResultData.comment) > 2 then
-                message = searchResultData.comment
+                message = (message ~= "" and strjoin(" ", message, searchResultData.comment)) or searchResultData.comment
             end
 			GBB.RealLevel[leaderInfo.name] = leaderInfo.level
 			for _, activityID in pairs(searchResultData.activityIDs) do
 				local activityInfo = C_LFGList.GetActivityInfoTable(activityID)
 				-- DevTool:AddData(activityInfo, resultID)
 				local dungeonKey = getActivityDungeonKey(activityInfo.fullName, activityID)
-				if dungeonKey == "MISC" then message = message .. " " .. activityInfo.fullName end
+				if dungeonKey == "MISC" then message = message..' | '..activityInfo.fullName end
 				local partyInfo = {};
 				for i = 1, searchResultData.numMembers do
 					partyInfo[i] = C_LFGList.GetSearchResultPlayerInfo(searchResultData.searchResultID, i);
@@ -1113,6 +1189,27 @@ function LFGTool.OnFrameResized()
 	LFGToolScrollContainer.scrollBox:FullUpdate(immediately)
 end
 
+function LFGTool:UpdateInteractiveState()
+	local isInteractive = GBB.DB.WindowSettings.isInteractive
+	local isMovable = GBB.DB.WindowSettings.isMovable
+	if isInteractive and isMovable then
+		self.ScrollContainer:RegisterForDrag("LeftButton")
+		self.ScrollContainer:EnableMouse(true)
+		self.ScrollContainer:SetScript("OnDragStart", function() GroupBulletinBoardFrame:StartMoving() end)
+		self.ScrollContainer:SetScript("OnDragStop", function() GroupBulletinBoardFrame:StopMovingAndSaveAnchors() end)
+		self.ScrollContainer.scrollBox.ScrollTarget:EnableMouse(true)
+	else
+		self.ScrollContainer:RegisterForDrag()
+		self.ScrollContainer:SetScript("OnDragStart", nil)
+		self.ScrollContainer:SetScript("OnDragStop", nil)
+		self.ScrollContainer.scrollBox.ScrollTarget:EnableMouse(false)
+		self.ScrollContainer:EnableMouse(false)
+	end
+    self.ScrollContainer.scrollView:ForEachFrame(function(frame, node)
+        if frame.UpdateInteractiveState then frame:UpdateInteractiveState() end
+    end)
+end
+
 function LFGTool:Load()
 	self.requestList = {}
 	self.numRequests = 0
@@ -1134,23 +1231,8 @@ function LFGTool:Load()
 end
 function GBB.UpdateLfgTool()
 	-- named differently on cata/era
-	local LFGListFrame = isCata and _G.LFGListFrame or _G.LFGBrowseFrame
-	if LFGListFrame and LFGListFrame.searching then return end
-	if isCata then -- todo, revise cataclysm support
-		if LFGListFrame and LFGListFrame.CategorySelection.selectedCategory == 120 then return end
-		if  LFGListFrame and LFGListFrame.CategorySelection.selectedCategory == nil then
-			LFGListFrame.CategorySelection.selectedCategory = 2
-		end
-
-		lastUpdateTime = time()
-
-		local category = 2
-		if LFGListFrame and LFGListFrame.CategorySelection.selectedCategory ~= nil then
-			category = LFGListFrame.CategorySelection.selectedCategory
-		end
-
-		local activities = C_LFGList.GetAvailableActivities(category)
-	end
+	local LFGBrowseFrame = isCata and _G.LFGListFrame.SearchPanel or _G.LFGBrowseFrame
+	if LFGBrowseFrame and LFGBrowseFrame.searching then return end
 	LFGTool:UpdateBoardListings()
 end
 
