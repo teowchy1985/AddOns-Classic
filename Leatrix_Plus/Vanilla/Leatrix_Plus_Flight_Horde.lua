@@ -499,6 +499,7 @@
 				["0.50:0.76:0.61:0.80:0.44:0.69:0.32:0.58"] = 513, -- Marshal's Refuge, Gadgetzan, Camp Mojache, Shadowprey Village
 				["0.50:0.76:0.61:0.80:0.45:0.56:0.32:0.58"] = 576, -- Marshal's Refuge, Gadgetzan, Thunder Bluff, Shadowprey Village
 				["0.50:0.76:0.61:0.80:0.63:0.44:0.64:0.23"] = 782, -- Marshal's Refuge, Gadgetzan, Orgrimmar, Everlook
+				["0.50:0.76:0.61:0.80:0.56:0.53:0.46:0.30"] = 666, -- Marshal's Refuge, Gadgetzan, Crossroads, Bloodvenom Post
 
 				-- Horde: Moonglade (Moonglade)
 				["0.54:0.21:0.46:0.30:0.56:0.53:0.55:0.73:0.61:0.80"] = 629, -- Moonglade, Bloodvenom Post, Crossroads, Freewind Post, Gadgetzan

@@ -1,5 +1,5 @@
 ﻿----------------------------------------------------------------------
--- 	Leatrix Plus 4.0.55 (2nd April 2025)
+-- 	Leatrix Plus 4.0.56 (9th April 2025)
 ----------------------------------------------------------------------
 
 --	01:Functions  02:Locks    03:Restart  40:Player   45:Rest
@@ -19,7 +19,7 @@
 	local void
 
 	-- Version
-	LeaPlusLC["AddonVer"] = "4.0.55"
+	LeaPlusLC["AddonVer"] = "4.0.56"
 
 	-- Get locale table
 	local void, Leatrix_Plus = ...
@@ -1745,7 +1745,7 @@
 			-- Get localised Wowhead URL
 			local wowheadLoc
 			if 	   GameLocale == "deDE" then wowheadLoc = "wowhead.com/cata/de"
-			elseif GameLocale == "esMX" then wowheadLoc = "wowhead.com/cata/es"
+			elseif GameLocale == "esMX" then wowheadLoc = "wowhead.com/cata/mx"
 			elseif GameLocale == "esES" then wowheadLoc = "wowhead.com/cata/es"
 			elseif GameLocale == "frFR" then wowheadLoc = "wowhead.com/cata/fr"
 			elseif GameLocale == "itIT" then wowheadLoc = "wowhead.com/cata/it"
@@ -1753,7 +1753,7 @@
 			elseif GameLocale == "ruRU" then wowheadLoc = "wowhead.com/cata/ru"
 			elseif GameLocale == "koKR" then wowheadLoc = "wowhead.com/cata/ko"
 			elseif GameLocale == "zhCN" then wowheadLoc = "wowhead.com/cata/cn"
-			elseif GameLocale == "zhTW" then wowheadLoc = "wowhead.com/cata/cn"
+			elseif GameLocale == "zhTW" then wowheadLoc = "wowhead.com/cata/tw"
 			else							 wowheadLoc = "wowhead.com/cata"
 			end
 
@@ -14176,7 +14176,7 @@
 				if not LeaPlusLC.WowheadLock then
 					-- Set Wowhead link prefix
 						if GameLocale == "deDE" then LeaPlusLC.WowheadLock = "wowhead.com/cata/de"
-					elseif GameLocale == "esMX" then LeaPlusLC.WowheadLock = "wowhead.com/cata/es"
+					elseif GameLocale == "esMX" then LeaPlusLC.WowheadLock = "wowhead.com/cata/mx"
 					elseif GameLocale == "esES" then LeaPlusLC.WowheadLock = "wowhead.com/cata/es"
 					elseif GameLocale == "frFR" then LeaPlusLC.WowheadLock = "wowhead.com/cata/fr"
 					elseif GameLocale == "itIT" then LeaPlusLC.WowheadLock = "wowhead.com/cata/it"
@@ -14184,7 +14184,7 @@
 					elseif GameLocale == "ruRU" then LeaPlusLC.WowheadLock = "wowhead.com/cata/ru"
 					elseif GameLocale == "koKR" then LeaPlusLC.WowheadLock = "wowhead.com/cata/ko"
 					elseif GameLocale == "zhCN" then LeaPlusLC.WowheadLock = "wowhead.com/cata/cn"
-					elseif GameLocale == "zhTW" then LeaPlusLC.WowheadLock = "wowhead.com/cata/cn"
+					elseif GameLocale == "zhTW" then LeaPlusLC.WowheadLock = "wowhead.com/cata/tw"
 					else							 LeaPlusLC.WowheadLock = "wowhead.com/cata"
 					end
 				end
