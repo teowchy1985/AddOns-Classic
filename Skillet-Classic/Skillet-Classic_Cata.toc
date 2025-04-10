@@ -1,4 +1,4 @@
-## Interface: 11507, 40402
+## Interface: 40402
 ## Title: Skillet-Classic |cff7fff7f -Ace3-|r
 ## Notes: A replacement tradeskill window
 ## Notes-esES: Una sustitucion de la ventana de Habilidades de Comercio
@@ -19,12 +19,21 @@
 ## LoadManagers: AddonLoader
 ## X-LoadOn-Always: delayed
 
-## Title-zhTW: |cffFFFF99[專業]|r 助手
-## Notes-zhTW: Skillet-Classic |n|n取代遊戲內建的專業視窗，提供更清楚的資訊、更容易瀏覽的畫面、還有排程的功能。
-## X-Category-zhTW: 交易
-## DefaultState: disabled
-
 #### List of embedded libraries
+Libs\LibStub\LibStub.lua
+Libs\CallbackHandler-1.0\CallbackHandler-1.0.xml
+Libs\AceAddon-3.0\AceAddon-3.0.xml
+Libs\AceEvent-3.0\AceEvent-3.0.xml
+Libs\AceHook-3.0\AceHook-3.0.xml
+Libs\AceDB-3.0\AceDB-3.0.xml
+Libs\AceDBOptions-3.0\AceDBOptions-3.0.xml
+Libs\AceLocale-3.0\AceLocale-3.0.xml
+Libs\AceConsole-3.0\AceConsole-3.0.xml
+Libs\AceGUI-3.0\AceGUI-3.0.xml
+Libs\AceConfig-3.0\AceConfig-3.0.xml
+Libs\AceTimer-3.0\AceTimer-3.0.xml
+Libs\LibDialog-1.0\lib.xml
+Libs\LibWindow-1.1\LibWindow-1.1.lua
 Libs\LibPeriodicTable-3.1\LibPeriodicTable-3.1.lua
 Libs\LibPeriodicTable-3.1\LibPeriodicTable-3.1-Tradeskill\LibPeriodicTable-3.1-Tradeskill.lua
 Libs\LibPeriodicTable-3.1\LibPeriodicTable-3.1-TradeskillResultMats\LibPeriodicTable-3.1-TradeskillResultMats.lua
@@ -34,6 +43,14 @@ Libs\EasySkillet\UIDropDownSkillet.xml
 
 #### Localization files
 Locale\Locale-enUS.lua
+Locale\Locale-deDE.lua
+Locale\Locale-esES.lua
+Locale\Locale-esMX.lua
+Locale\Locale-frFR.lua
+Locale\Locale-itIT.lua
+Locale\Locale-koKR.lua
+Locale\Locale-ptBR.lua
+Locale\Locale-ruRU.lua
 Locale\Locale-zhCN.lua
 Locale\Locale-zhTW.lua
 
@@ -49,7 +66,7 @@ TradeskillInfo.lua
 SkilletQueue.lua
 Upgrades.lua
 SkillLevelData.lua
-SkillLevelData2.lua
+SkillLevelData4.lua
 RecipeGroups.lua
 Inventory.lua
 SkilletPlugin.lua

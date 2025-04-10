@@ -364,6 +364,10 @@ function Skillet:OnInitialize()
 		self.db.global.MissingSkillLevels = {}
 		initSkillLevels = true
 	end
+	if not self.db.global.SkillLevels then
+		self.db.global.SkillLevels = {}
+		initSkillLevels = true
+	end
 	if not self.db.global.SkillLineAbility_era then
 		self.db.global.SkillLineAbility_era = {}
 		initSkillLevels = true
@@ -374,6 +378,10 @@ function Skillet:OnInitialize()
 	end
 	if not self.db.global.SkillLineAbility_retail then
 		self.db.global.SkillLineAbility_retail = {}
+		initSkillLevels = true
+	end
+	if not self.db.global.NameToSpellID then
+		self.db.global.NameToSpellID = {}
 		initSkillLevels = true
 	end
 	if initSkillLevels then
@@ -503,7 +511,6 @@ function Skillet:FlushRecipeData()
 	Skillet.db.global.recipeDB = {}
 	Skillet.db.global.itemRecipeUsedIn = {}
 	Skillet.db.global.itemRecipeSource = {}
-	Skillet.db.global.SkillLevels = nil
 	Skillet.db.realm.skillDB = {}
 	Skillet.db.realm.subClass = {}
 	Skillet.db.realm.invSlot = {}
@@ -1302,7 +1309,7 @@ function Skillet:SkilletShow()
 -- give Hunter Beast Training a pass
 -- for everything else bring up the appropriate Blizzard UI
 --
-		DA.DEBUG(1,"SkilletShow: (unsupported)"..self.currentTrade..", name= '"..tostring(name).."', rank= "..tostring(rank)..", maxRank= "..tostring(maxRank))
+		DA.DEBUG(1,"SkilletShow: (unsupported)"..tostring(self.currentTrade)..", name= '"..tostring(name).."', rank= "..tostring(rank)..", maxRank= "..tostring(maxRank))
 		if self.castSpellID == 5149 then
 			return
 		elseif not self:IsModKey1Down() and not UnitAffectingCombat("player") and not self.linkedSkill then
