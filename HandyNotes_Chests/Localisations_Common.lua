@@ -9,17 +9,18 @@ setmetatable( ns.L, ns.mt )
 
 ns.locale = GetLocale()
 
-ns.realm = GetNormalizedRealmName() -- On a fresh login this will return null
-ns.oceania = { AmanThul = true, Barthilas = true, Caelestrasz = true, DathRemar = true,
-			Dreadmaul = true, Frostmourne = true, Gundrak = true, JubeiThos = true, 
-			Khazgoroth = true, Nagrand = true, Saurfang = true, Thaurissan = true,
-			-- The following are Classic Era 1.15.x
-			Yojamba = true, Remulos = true, Arugal = true, Felstriker = true,
-			-- The following are Classic Seasonal (SoD) 1.15.x
-			Penance = true, Shadowstrike = true,
-			-- Classic Anniversary from 1.15.5
-			Maladath = true, }
-if ns.oceania[ ns.realm ] then
+ns.realm = GetRealmName()
+ns.oceaniaList = { -- Retail Oceania
+				["Aman'Thul"] = true, ["Barthilas"] = true, ["Caelestrasz"] = true, ["Dath'Remar"] = true,
+				["Dreadmaul"] = true, ["Frostmourne"] = true, ["Gundrak"] = true, ["Jubei'Thos"] = true,
+				["Khaz'goroth"] = true, ["Nagrand"] = true, ["Saurfang"] = true, ["Thaurissan"] = true,
+				-- Classic Oceania and Classic Era historically Oceania
+				["Arugal"] = true, ["Remulos"] = true, ["Yojamba"] = true,
+				-- Classic Era historically Oceania
+				["Felstriker"] = true, 
+				-- Classic Era SoD (first two), Classic Era Anniversary (last one)
+				["Penance (AU)"] = true, ["Shadowstrike (AU)"] = true, ["Maladath (AU)"] = true, }
+if ns.oceaniaList[ ns.realm ] then
 	ns.locale = "enGB"
 end
 

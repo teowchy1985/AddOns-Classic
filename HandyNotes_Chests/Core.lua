@@ -3,7 +3,7 @@
 
                                         Chests, Gear and More
 
-                                     v1.23 - 26th February 2025
+                                       v1.24 - 8th April 2025
                                 Copyright (C) Taraezor / Chris Birch
                                          All Rights Reserved
 
@@ -12,10 +12,6 @@
 
 local myName, ns = ...
 ns.db = {}
--- From Data.lua
-ns.points = {}
-ns.textures = {}
-ns.scaling = {}
 -- Brown theme #2
 ns.colour = {}
 ns.colour.prefix	= "\124cFFB86500" -- Dark Bisque
@@ -60,12 +56,16 @@ function pluginHandler:OnEnter(mapFile, coord)
 	local pin = ns.points[mapFile] and ns.points[mapFile][coord]
 
 	if pin.icon < 15 then
-		GameTooltip:SetText( ns.colour.prefix ..( gsub( pin.title, "%%n", pin.level ) ) )
+		if ns.seasonal then
+			GameTooltip:SetText( ns.colour.prefix ..( gsub( pin.title, "%%n", pin.level ) ) )
+			GameTooltip:AddLine( ns.colour.highlight ..ns.L[ pin.name ] )
+		else
+			GameTooltip:SetText( ns.colour.prefix ..ns.L[ pin.name ] )
+		end
 	else
 		GameTooltip:SetText( ns.colour.prefix ..ns.L[ pin.title ] )
+		GameTooltip:AddLine( ns.colour.highlight ..ns.L[ pin.name ] )
 	end
-	
-	GameTooltip:AddLine( ns.colour.highlight ..ns.L[ pin.name ] )
 	
 	if pin.quest then
 		GameTooltip:AddLine( "\n" )
@@ -109,103 +109,83 @@ end
 
 -- ---------------------------------------------------------------------------------------------------------------------------------
 
-local function ShowPinForThisClassQuest( quests )
-
-	-- I decided with v1.05 to not test for completion. If the player doesn't want
-	-- to see the icon then he/she should just select the "no display" option.
-	-- This code retained for easy future reference here or in my Runes AddOn
-
-	local completed, allZero = false, true
-	
-	if type( quests ) == "table" then
-		for j,w in ipairs( quests ) do
-			if w > 0 then
-				allZero = false
-				completed = IsQuestFlaggedCompleted( w )
-				if completed == true then return false end
-			end
-		end
-	elseif quests > 0 then
-		allZero = false
-		completed = IsQuestFlaggedCompleted( quests )
-		if completed == true then return false end
-	end
-	return not allZero
-end
-
 do	
-	local function iterator(t, prev)
+	local function iterator( t, prev )
 		if not t then return end
-		local coord, pin = next(t, prev)
+		local coord, pin = next( t, prev )
 
 		while coord do
 			if ( pin.faction == nil ) or ( pin.faction == ns.faction ) then
 				if ( pin.class == nil ) or ( pin.class == ns.class ) then
-					if pin.icon < 15 then
-						ns.chestPin = "chest" ..tostring( pin.icon )
-						if  ns.db[ ns.chestPin ] > 0 then
-							if ns.continents[ ns.mapID ] then
-								return coord, nil, ns.textures[ ns.db[ ns.chestPin ] ],
-									ns.db.iconScale * ns.scaling[ ns.db[ ns.chestPin ] ], ns.db.iconAlpha
-							else
-								return coord, nil, ns.textures[ ns.db[ ns.chestPin ] ],
-									ns.db.iconScale * ns.scaling[ ns.db[ ns.chestPin ] ] * 0.8, ns.db.iconAlpha
+					if pin.icon < 16 then
+						if pin.icon == 15 then
+							if ns.db.bestPets > 0 then
+								return coord, nil, ns.textures[ ns.db.bestPets ],
+									ns.db.iconScale * ns.scaling[ ns.db.bestPets ], ns.db.iconAlpha
+							end		
+						else
+							ns.chestPin = "chest" ..tostring( pin.icon )
+							if  ns.db[ ns.chestPin ] > 0 then
+								if ns.continents[ ns.mapID ] then
+									return coord, nil, ns.textures[ ns.db[ ns.chestPin ] ],
+										ns.db.iconScale * ns.scaling[ ns.db[ ns.chestPin ] ], ns.db.iconAlpha
+								else
+									return coord, nil, ns.textures[ ns.db[ ns.chestPin ] ],
+										ns.db.iconScale * ns.scaling[ ns.db[ ns.chestPin ] ] * 0.8, ns.db.iconAlpha
+								end
 							end
 						end
-					elseif pin.icon == 15 then
-						if ns.db.voidTouched > 0 then
-							return coord, nil, ns.textures[ ns.db.voidTouched ],
-								ns.db.iconScale * ns.scaling[ ns.db.voidTouched ], ns.db.iconAlpha
-						end		
-					elseif pin.icon == 16 then
-						if ns.db.bestPets > 0 then
-							return coord, nil, ns.textures[ ns.db.bestPets ],
-								ns.db.iconScale * ns.scaling[ ns.db.bestPets ], ns.db.iconAlpha
-						end		
-					elseif pin.icon == 17 then
-						if ns.db.cozySleeping > 0 then
-							return coord, nil, ns.textures[ ns.db.cozySleeping ],
-								ns.db.iconScale * ns.scaling[ ns.db.cozySleeping ], ns.db.iconAlpha
-						end		
-					elseif pin.icon == 18 then
-						if ns.db.felPortal > 0 then
-							if ns.continents[ ns.mapID ] then
-								return coord, nil, ns.textures[ ns.db.felPortal ],
-									ns.db.iconScale * ns.scaling[ ns.db.felPortal ], ns.db.iconAlpha
-							else
-								return coord, nil, ns.textures[ ns.db.felPortal ],
-									ns.db.iconScale * ns.scaling[ ns.db.felPortal ] * 0.8, ns.db.iconAlpha
+					elseif ns.seasonal ~= nil then
+						if pin.icon == 16 then
+							if ns.db.voidTouched > 0 then
+								return coord, nil, ns.textures[ ns.db.voidTouched ],
+									ns.db.iconScale * ns.scaling[ ns.db.voidTouched ], ns.db.iconAlpha
+							end	
+						elseif pin.icon == 17 then
+							if ns.db.cozySleeping > 0 then
+								return coord, nil, ns.textures[ ns.db.cozySleeping ],
+									ns.db.iconScale * ns.scaling[ ns.db.cozySleeping ], ns.db.iconAlpha
 							end		
-						end		
-					elseif pin.icon == 19 then
-						if ( ns.db.priest > 0 ) then
-							return coord, nil, ns.textures[ ns.db.priest ],
-								ns.db.iconScale * ns.scaling[ ns.db.priest ], ns.db.iconAlpha
-						end		
-					elseif pin.icon == 20 then
-						if ( ns.db.gnomeregan > 0 ) then
-							return coord, nil, ns.textures[ ns.db.gnomeregan ],
-								ns.db.iconScale * ns.scaling[ ns.db.gnomeregan ], ns.db.iconAlpha
-						end		
-					elseif pin.icon == 21 then
-						if ( ns.db.nightmare > 0 ) then
-							return coord, nil, ns.textures[ ns.db.nightmare ],
-								ns.db.iconScale * ns.scaling[ ns.db.nightmare ], ns.db.iconAlpha
-						end		
-					elseif pin.icon == 22 then
-						if ( ns.db.nightmareSeed > 0 ) then
-							return coord, nil, ns.textures[ ns.db.nightmareSeed ],
-								ns.db.iconScale * ns.scaling[ ns.db.nightmareSeed ] * 0.8, ns.db.iconAlpha
-						end		
+						elseif pin.icon == 18 then
+							if ns.db.felPortal > 0 then
+								if ns.continents[ ns.mapID ] then
+									return coord, nil, ns.textures[ ns.db.felPortal ],
+										ns.db.iconScale * ns.scaling[ ns.db.felPortal ], ns.db.iconAlpha
+								else
+									return coord, nil, ns.textures[ ns.db.felPortal ],
+										ns.db.iconScale * ns.scaling[ ns.db.felPortal ] * 0.8, ns.db.iconAlpha
+								end		
+							end		
+						elseif pin.icon == 19 then
+							if ( ns.db.priest > 0 ) then
+								return coord, nil, ns.textures[ ns.db.priest ],
+									ns.db.iconScale * ns.scaling[ ns.db.priest ], ns.db.iconAlpha
+							end		
+						elseif pin.icon == 20 then
+							if ( ns.db.gnomeregan > 0 ) then
+								return coord, nil, ns.textures[ ns.db.gnomeregan ],
+									ns.db.iconScale * ns.scaling[ ns.db.gnomeregan ], ns.db.iconAlpha
+							end		
+						elseif pin.icon == 21 then
+							if ( ns.db.nightmare > 0 ) then
+								return coord, nil, ns.textures[ ns.db.nightmare ],
+									ns.db.iconScale * ns.scaling[ ns.db.nightmare ], ns.db.iconAlpha
+							end		
+						elseif pin.icon == 22 then
+							if ( ns.db.nightmareSeed > 0 ) then
+								return coord, nil, ns.textures[ ns.db.nightmareSeed ],
+									ns.db.iconScale * ns.scaling[ ns.db.nightmareSeed ] * 0.8, ns.db.iconAlpha
+							end		
+						end
 					end
 				end
 			end
-			coord, pin = next(t, coord)
+			coord, pin = next( t, coord )
 		end
 	end
-	function pluginHandler:GetNodes2(mapID)
+	function pluginHandler:GetNodes2( mapID )
 		ns.mapID = mapID
-		return iterator, ns.points[mapID]
+		return iterator, ns.points[ mapID ]
 	end
 end
 
@@ -226,39 +206,39 @@ ns.choices = "0 = No Map Pin\n1 = " ..ns.L["White"] .."\n2 = " ..ns.L["Purple"] 
 -- Interface -> Addons -> Handy Notes -> Plugins -> Chests options
 ns.options = {
 	type = "group",
-	name = ns.L["Chests"],
+	name = ns.L[ "Chests" ],
 	desc = AddColouredText( "AddOn Description" ),
-	get = function(info) return ns.db[info[#info]] end,
-	set = function(info, v)
-		ns.db[info[#info]] = v
+	get = function( info ) return ns.db[ info[ #info ] ] end,
+	set = function( info, v )
+		ns.db[ info[ #info ] ] = v
 		pluginHandler:Refresh()
 	end,
 	args = {
 		options = {
 			type = "group",
-			name = " " ..ns.L["Options"],
+			name = " " ..ns.L[ "Options" ],
 			inline = true,
 			args = {
 				iconScale = {
 					type = "range",
-					name = ns.L["Map Pin Size"],
-					desc = ns.L["The Map Pin Size"],
+					name = ns.L[ "Map Pin Size" ],
+					desc = ns.L[ "The Map Pin Size" ],
 					min = 1, max = 4, step = 0.1,
 					arg = "iconScale",
 					order = 1,
 				},
 				iconAlpha = {
 					type = "range",
-					name = ns.L["Map Pin Alpha"],
-					desc = ns.L["The alpha transparency of the map pins"],
+					name = ns.L[ "Map Pin Alpha" ],
+					desc = ns.L[ "The alpha transparency of the map pins" ],
 					min = 0, max = 1, step = 0.01,
 					arg = "iconAlpha",
 					order = 2,
 				},
 				showCoords = {
 					type = "toggle",
-					name = ns.L["Show Coordinates"],
-					desc = ns.L["Show Coordinates Description"] 
+					name = ns.L[ "Show Coordinates" ],
+					desc = ns.L[ "Show Coordinates Description" ] 
 							..ns.colour.highlight .."(xx.xx,yy.yy)",
 					width = "full",
 					arg = "showCoords",
@@ -268,12 +248,12 @@ ns.options = {
 		},
 		icon = {
 			type = "group",
-			name = ns.L["Map Pin Selections"],
+			name = ns.L[ "Map Pin Selections" ],
 			inline = true,
 			args = {
 				chest1 = {
 					type = "range",
-					name = ns.L["Battered Chest"].." (10)",
+					name = ns.L[ "Battered Chest" ].." (10)",
 					desc = ns.choices,
 					min = 0, max = 20, step = 1,
 					arg = "chest1",
@@ -281,7 +261,7 @@ ns.options = {
 				},
 				chest2 = {
 					type = "range",
-					name = ns.L["Battered Chest"].." (25)",
+					name = ns.L[ "Battered Chest" ].." (25)",
 					desc = ns.choices,
 					min = 0, max = 20, step = 1,
 					arg = "chest2",
@@ -289,7 +269,7 @@ ns.options = {
 				},
 				chest3 = {
 					type = "range",
-					name = ns.L["Solid Chest"].." (25)",
+					name = ns.L[ "Solid Chest" ].." (25)",
 					desc = ns.choices,
 					min = 0, max = 20, step = 1,
 					arg = "chest3",
@@ -297,7 +277,7 @@ ns.options = {
 				},
 				chest4 = {
 					type = "range",
-					name = ns.L["Solid Chest"].." (30)",
+					name = ns.L[ "Solid Chest" ].." (30)",
 					desc = ns.choices,
 					min = 0, max = 20, step = 1,
 					arg = "chest4",
@@ -305,7 +285,7 @@ ns.options = {
 				},
 				chest5 = {
 					type = "range",
-					name = ns.L["Solid Chest"].." (35)",
+					name = ns.L[ "Solid Chest" ].." (35)",
 					desc = ns.choices,
 					min = 0, max = 20, step = 1,
 					arg = "chest5",
@@ -313,7 +293,7 @@ ns.options = {
 				},
 				chest6 = {
 					type = "range",
-					name = ns.L["Solid Chest"].." (40)",
+					name = ns.L[ "Solid Chest" ].." (40)",
 					desc = ns.choices,
 					min = 0, max = 20, step = 1,
 					arg = "chest6",
@@ -321,76 +301,76 @@ ns.options = {
 				},
 				chest7 = {
 					type = "range",
-					name = ns.L["Solid Chest"].." (45)",
+					name = ns.L[ "Solid Chest" ].." (45)",
 					desc = ns.choices,
 					min = 0, max = 20, step = 1,
 					arg = "chest7",
 					order = 16,
 				},
-				voidTouched = {
-					type = "range",
-					name = ns.L["Void Touched"],
-					desc = ns.choices,
-					min = 0, max = 20, step = 1,
-					arg = "voidTouched",
-					order = 20,
-				},
-				gnomeregan = {
-					type = "range",
-					name = ns.L["Gnomeregan"],
-					desc = ns.choices,
-					min = 0, max = 20, step = 1,
-					arg = "gnomeregan",
-					order = 21,
-				},
-				nightmare = {
-					type = "range",
-					name = ns.L["Nightmare"],
-					desc = ns.choices,
-					min = 0, max = 20, step = 1,
-					arg = "nightmare",
-					order = 22,
-				},
-				nightmareSeed = {
-					type = "range",
-					name = ns.L["Nightmare Bloom / Seed"],
-					desc = ns.choices,
-					min = 0, max = 20, step = 1,
-					arg = "nightmareSeed",
-					order = 23,
-				},
 				bestPets = {
 					type = "range",
-					name = ns.L["Best Hunter Pets"],
+					name = ns.L[ "Best Hunter Pets" ],
 					desc = ns.choices,
 					min = 0, max = 20, step = 1,
 					arg = "bestPets",
-					order = 24,
+					order = 17,
 				},
-				cozySleeping = {
+				voidTouched = ( ns.seasonal ~= nil ) and {
 					type = "range",
-					name = ns.L["Cozy Sleeping Bag"],
+					name = ns.L[ "Void Touched" ],
+					desc = ns.choices,
+					min = 0, max = 20, step = 1,
+					arg = "voidTouched",
+					order = 18,
+				} or nil,
+				gnomeregan = ( ns.seasonal ~= nil ) and {
+					type = "range",
+					name = ns.L[ "Gnomeregan" ],
+					desc = ns.choices,
+					min = 0, max = 20, step = 1,
+					arg = "gnomeregan",
+					order = 19,
+				} or nil,
+				nightmare = ( ns.seasonal ~= nil ) and {
+					type = "range",
+					name = ns.L[ "Nightmare" ],
+					desc = ns.choices,
+					min = 0, max = 20, step = 1,
+					arg = "nightmare",
+					order = 20,
+				} or nil,
+				nightmareSeed = ( ns.seasonal ~= nil ) and {
+					type = "range",
+					name = ns.L[ "Nightmare Bloom / Seed" ],
+					desc = ns.choices,
+					min = 0, max = 20, step = 1,
+					arg = "nightmareSeed",
+					order = 21,
+				} or nil,
+				cozySleeping = ( ns.seasonal ~= nil ) and {
+					type = "range",
+					name = ns.L[ "Cozy Sleeping Bag" ],
 					desc = ns.choices,
 					min = 0, max = 20, step = 1,
 					arg = "cozySleeping",
-					order = 25,
-				},
-				felPortal = {
+					order = 22,
+				} or nil,
+				felPortal = ( ns.seasonal ~= nil ) and {
 					type = "range",
-					name = ns.L["Fel Portal"],
+					name = ns.L[ "Fel Portal" ],
 					desc = ns.choices,
 					min = 0, max = 20, step = 1,
 					arg = "felPortal",
-					order = 26,
-				},
-				priest = {
+					order = 23,
+				} or nil,
+				priest = ( ns.seasonal ~= nil ) and {
 					type = "range",
-					name = ns.L["Priest"],
+					name = ns.L[ "Priest" ],
 					desc = ns.choices,
 					min = 0, max = 20, step = 1,
 					arg = "priest",
-					order = 27,
-				},
+					order = 24,
+				} or nil,
 			},
 		},
 	},

@@ -1,5 +1,5 @@
 ## Interface: 11506
-## Version: 1.22
+## Version: 1.24
 ## Author: Taraezor
 ## IconTexture: Interface\Icons\inv_crate_05
 ## Title: Chests
@@ -29,5 +29,5 @@
 
 Localisations_Common.lua
 Localisations_Chests.lua
-Core.lua
 Data.lua
+Core.lua

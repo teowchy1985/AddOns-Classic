@@ -1,5 +1,18 @@
 local _, ns = ...
-local points = ns.points
+ns.points = {}
+ns.textures = {}
+ns.scaling = {}
+
+-- ---------------------------------------------------------------------------------------------------------------------------------
+
+ns.realm = GetRealmName()
+ns.seasonalList = { ["Chaos Bolt"] = true, ["Crusader Strike"] = true, ["Lava Lash"] = true, ["Living Flame"] = true,
+				["Lone Wolf"] = true, ["Penance (AU)"] = true, ["Shadowstrike (AU)"] = true, ["Wild Growth"] = true, }
+if ns.seasonalList[ ns.realm ] then
+	ns.seasonal = true
+end
+			
+-- ---------------------------------------------------------------------------------------------------------------------------------
 
 ns.bestPet = "Arguably the best pet for a hunter is a cat.\n\nHere is a nice range of rares/elites to tame:\n\n"
 			.."Mokwa     - Level 7 west of Bloodhoof, Mulgore\nRaluk     - Level 7 in the Echo Isles, Durotar\n"
@@ -13,20 +26,27 @@ ns.bestPet = "Arguably the best pet for a hunter is a cat.\n\nHere is a nice ran
 			.."course the Young Pridewings (only) in Stonetalon\nMountains as a co-reward with gaining Kill Command"
 
 ns.chestTitle = ns.L["Waylaid Supplies"] .." - " ..ns.L[ "Level" ] .."\n< "
-ns.chest1 = ns.chestTitle ..ns.L[ "Friendly" ]
-ns.chestContent1 = "* 4 x Level 10 Mage Scrolls\n* Profession recipes\n* Greens, Whites, Greys"
-ns.chest2 = ns.chestTitle ..ns.L[ "Honored" ]
-ns.chestContent2 = "* 4 x Level 20 Mage Scrolls\n* Profession recipes\n* Greens, Greys\n* 8 slot bags"
-ns.chest3 = ns.chestTitle ..ns.L[ "Honored" ]
-ns.chestContent3 = "* 4 x Level 20 Mage Scrolls\n* Profession recipes\n* Greys, Greens, Blues\n* 10 slot bags"
-ns.chest4 = ns.chestTitle ..ns.L[ "Revered" ]
-ns.chestContent4 = "* 5 x Level 40 Mage Scrolls\n* Profession recipes\n* Greys, Greens, Blues\n* 10 slot bags"
-ns.chest5 = ns.chestTitle ..ns.L[ "Revered" ]
-ns.chestContent5 = "* 5 x Level 40 Mage Scrolls\n* Profession recipes\n* Greys, Greens, Blues\n* 12 slot bags"
-ns.chest6 = ns.chestTitle ..ns.L[ "Revered" ]
-ns.chestContent6 = "* 5 x Level 40 Mage Scrolls\n* Profession recipes\n* Greys, Greens, Blues\n* 12 slot bags"
-ns.chest7 = ns.chestTitle ..ns.L[ "Exalted" ]
-ns.chestContent7 = "* 5 x Level 40 Mage Scrolls\n* Profession recipes\n* Greys, Greens, Blues\n* 14 slot bag"
+ns.chest1 = ( ns.seasonal ~= nil ) and ( ns.chestTitle ..ns.L[ "Friendly" ] ) or nil
+ns.chestContent1 = ( ( ns.seasonal ~= nil ) and "* 4 x Level 10 Mage Scrolls (SoD)\n" or "" )
+					.."* Profession recipes\n* Greens, Whites, Greys"
+ns.chest2 = ( ns.seasonal ~= nil ) and ( ns.chestTitle ..ns.L[ "Honored" ] ) or nil
+ns.chestContent2 = ( ( ns.seasonal ~= nil ) and "* 4 x Level 20 Mage Scrolls (SoD)\n" or "" )
+					.."* Profession recipes\n* Greens, Greys\n* 8 slot bags"
+ns.chest3 = ( ns.seasonal ~= nil ) and ( ns.chestTitle ..ns.L[ "Honored" ] ) or nil
+ns.chestContent3 = ( ( ns.seasonal ~= nil ) and "* 4 x Level 20 Mage Scrolls (SoD)\n" or "" )
+					.."* Profession recipes\n* Greys, Greens, Blues\n* 10 slot bags"
+ns.chest4 = ( ns.seasonal ~= nil ) and ( ns.chestTitle ..ns.L[ "Revered" ] ) or nil
+ns.chestContent4 = ( ( ns.seasonal ~= nil ) and "* 5 x Level 40 Mage Scrolls (SoD)\n" or "" )
+					.."* Profession recipes\n* Greys, Greens, Blues\n* 10 slot bags"
+ns.chest5 = ( ns.seasonal ~= nil ) and ( ns.chestTitle ..ns.L[ "Revered" ] ) or nil
+ns.chestContent5 = ( ( ns.seasonal ~= nil ) and "* 5 x Level 40 Mage Scrolls (SoD)\n" or "" )
+					.."* Profession recipes\n* Greys, Greens, Blues\n* 12 slot bags"
+ns.chest6 = ( ns.seasonal ~= nil ) and ( ns.chestTitle ..ns.L[ "Revered" ] ) or nil
+ns.chestContent6 = ( ( ns.seasonal ~= nil ) and "* 5 x Level 40 Mage Scrolls (SoD)\n" or "" )
+					.."* Profession recipes\n* Greys, Greens, Blues\n* 12 slot bags"
+ns.chest7 = ( ns.seasonal ~= nil ) and ( ns.chestTitle ..ns.L[ "Exalted" ] ) or nil
+ns.chestContent7 = ( ( ns.seasonal ~= nil ) and "* 5 x Level 40 Mage Scrolls (SoD)\n" or "" )
+					.."* Profession recipes\n* Greys, Greens, Blues\n* 14 slot bag"
 ns.cozySleepingBag = "Step One: " ..( ( ns.faction == "Alliance" ) and "Go to Alexston Farmstead in Westfall" or
 			"Go to the burnt tower, road south of Taurajo, The Barrens" ) .."\nIn the rubble search for the Burnt-Out Remains.\n\n"
 			.."Step Two: " ..( ( ns.faction == "Alliance" ) and "Go to the burnt tower, road south of Taurajo, The Barrens." or
@@ -96,8 +116,8 @@ ns.voidTouched = "(1) Reach level 25 and 100 in one of\nBlacksmithing, Leatherwo
 
 
 -- Icons:	1 - 7 	Chests
---			15		Void-Touched
---			16		Best Pets
+--			15		Best Pets
+--			16		Void-Touched
 --			17		Cozy Sleeping Bag
 --			18		Fel Portals
 --			19		Priest L17/18 Dual Meditation
@@ -112,7 +132,7 @@ ns.voidTouched = "(1) Reach level 25 and 100 in one of\nBlacksmithing, Leatherwo
 --
 --=======================================================================================================
 
-points[ 1416 ] = { -- Alterac Mountains
+ns.points[ 1416 ] = { -- Alterac Mountains
 	[38604700] = { title=ns.chest5, level=35, name="Solid Chest", icon=5, tip=ns.chestContent5 },
 	[39805290] = { title=ns.chest5, level=35, name="Solid Chest", icon=5, tip=ns.chestContent5 },
 	[41404000] = { title=ns.chest5, level=35, name="Solid Chest", icon=5, tip=ns.chestContent5 },
@@ -139,12 +159,12 @@ points[ 1416 ] = { -- Alterac Mountains
 	[56402705] = { title=ns.chest6, level=40, name="Solid Chest", icon=6, tip=ns.chestContent6 },
 	[58403040] = { title=ns.chest6, level=40, name="Solid Chest", icon=6, tip=ns.chestContent6 },
 
-	[31007260] = { npc=14222, name="Araga", title="Best Hunter Pets", icon=16, class="HUNTER", guide=ns.bestPet },
-	[31408480] = { npc=14222, name="Araga", title="Best Hunter Pets", icon=16, class="HUNTER", guide=ns.bestPet, continent=true },
-	[38808980] = { npc=14222, name="Araga", title="Best Hunter Pets", icon=16, class="HUNTER", guide=ns.bestPet },
+	[31007260] = { npc=14222, name="Araga", title="Best Hunter Pets", icon=15, class="HUNTER", guide=ns.bestPet },
+	[31408480] = { npc=14222, name="Araga", title="Best Hunter Pets", icon=15, class="HUNTER", guide=ns.bestPet, continent=true },
+	[38808980] = { npc=14222, name="Araga", title="Best Hunter Pets", icon=15, class="HUNTER", guide=ns.bestPet },
 }
 
-points[ 1417 ] = { -- Arathi Highlands
+ns.points[ 1417 ] = { -- Arathi Highlands
 	[31102600] = { title=ns.chest5, level=35, name="Solid Chest", icon=5, tip=ns.chestContent5 },
 	[32402670] = { title=ns.chest5, level=35, name="Solid Chest", icon=5, tip=ns.chestContent5 },
 	[33453090] = { title=ns.chest5, level=35, name="Solid Chest", icon=5, tip=ns.chestContent5 },
@@ -187,7 +207,7 @@ points[ 1417 ] = { -- Arathi Highlands
 						tip="Step Six. See the Hillsbrad map\nfor where to begin this step" },
 }
 
-points[ 1418 ] = { -- Badlands
+ns.points[ 1418 ] = { -- Badlands
 	[13807500] = { title=ns.chest6, level=40, name="Solid Chest", icon=6, tip=ns.chestContent6 },
 	[29505630] = { title=ns.chest6, level=40, name="Solid Chest", icon=6, tip=ns.chestContent6, continent=true },
 	[40602590] = { title=ns.chest6, level=40, name="Solid Chest", icon=6, tip=ns.chestContent6 },
@@ -204,12 +224,12 @@ points[ 1418 ] = { -- Badlands
 	[07908570] = { title=ns.chest7, level=45, name="Solid Chest", icon=7, tip=ns.chestContent7, continent=true },
 	[09609330] = { title=ns.chest7, level=45, name="Solid Chest", icon=7, tip=ns.chestContent7 },
 
-	[45203520] = { npc=2850, name="Broken Tooth", title="Best Hunter Pets", icon=16, class="HUNTER", guide=ns.bestPet },
-	[54801480] = { npc=2850, name="Broken Tooth", title="Best Hunter Pets", icon=16, class="HUNTER", guide=ns.bestPet, continent=true },
-	[63003020] = { npc=2850, name="Broken Tooth", title="Best Hunter Pets", icon=16, class="HUNTER", guide=ns.bestPet },
+	[45203520] = { npc=2850, name="Broken Tooth", title="Best Hunter Pets", icon=15, class="HUNTER", guide=ns.bestPet },
+	[54801480] = { npc=2850, name="Broken Tooth", title="Best Hunter Pets", icon=15, class="HUNTER", guide=ns.bestPet, continent=true },
+	[63003020] = { npc=2850, name="Broken Tooth", title="Best Hunter Pets", icon=15, class="HUNTER", guide=ns.bestPet },
 }
 
-points[ 1419 ] = { -- Blasted Lands
+ns.points[ 1419 ] = { -- Blasted Lands
 	[41901320] = { title=ns.chest7, level=45, name="Solid Chest", icon=7, tip=ns.chestContent7 },
 	[42501445] = { title=ns.chest7, level=45, name="Solid Chest", icon=7, tip=ns.chestContent7 },
 	[44301210] = { title=ns.chest7, level=45, name="Solid Chest", icon=7, tip=ns.chestContent7 },
@@ -227,7 +247,7 @@ points[ 1419 ] = { -- Blasted Lands
 	[62003920] = { name="Fel Scar", title="Fel Portal", icon=18, tip=ns.felPortals, continent=true },
 }
 
-points[ 1428 ] = { -- Burning Steppes
+ns.points[ 1428 ] = { -- Burning Steppes
 	[20654345] = { name="Fel Rift", title="Fel Portal", icon=18, tip=ns.felRift },
 	[22605240] = { name="Fel Rift", title="Fel Portal", icon=18, tip=ns.felRift },
 	[24206460] = { name="Fel Rift", title="Fel Portal", icon=18, tip=ns.felRift },
@@ -242,10 +262,10 @@ points[ 1428 ] = { -- Burning Steppes
 	[93405920] = { name="Fel Rift", title="Fel Portal", icon=18, tip=ns.felRift },
 }
 
-points[ 1430 ] = { -- Deadwind Pass
+ns.points[ 1430 ] = { -- Deadwind Pass
 }
 
-points[ 1426 ] = { -- Dun Morogh
+ns.points[ 1426 ] = { -- Dun Morogh
 	[21705200] = { title=ns.chest1, level=10, name="Battered Chest", icon=1, tip=ns.chestContent1 },
 	[23105200] = { title=ns.chest1, level=10, name="Battered Chest", icon=1, tip=ns.chestContent1 },
 	[23305420] = { title=ns.chest1, level=10, name="Battered Chest", icon=1, tip=ns.chestContent1 },
@@ -279,7 +299,7 @@ points[ 1426 ] = { -- Dun Morogh
 	[79705470] = { title=ns.chest1, level=10, name="Battered Chest", icon=1, tip=ns.chestContent1 },
 }
 
-points[ 1431 ] = { -- Duskwood
+ns.points[ 1431 ] = { -- Duskwood
 	[13202730] = { title=ns.chest3, level=25, name="Solid Chest", icon=3, tip=ns.chestContent3 },
 	[14704440] = { title=ns.chest3, level=25, name="Solid Chest", icon=3, tip=ns.chestContent3 },
 	[21457345] = { title=ns.chest3, level=25, name="Solid Chest", icon=3, tip=ns.chestContent3 },
@@ -364,12 +384,12 @@ points[ 1431 ] = { -- Duskwood
 					questName={ ( ( ( ns.race == "Dwarf" ) or ( ns.race == "Human" ) ) and "Secrets of Elune (1)" or "" ), 
 							( ( ( ns.race == "Dwarf" ) or ( ns.race == "Human" ) ) and "Secrets of Elune (2)" or "" ) } },
 
-	[81801980] = { npc=3134, name="Kzixx", title=ns.voidTouchedTitle, icon=15, guide=ns.voidTouched,
+	[81801980] = { npc=3134, name="Kzixx", title=ns.voidTouchedTitle, icon=16, guide=ns.voidTouched,
 					tip="Alchemists may purchase an Elixir\nof Coalesced Regret recipe",
 					quest={ 78909 }, questName={ "Shifting Scale Talisman" }, continent=true },
 }
 
-points[ 1423 ] = { -- Eastern Plaguelands
+ns.points[ 1423 ] = { -- Eastern Plaguelands
 	[22003420] = { name="Fel Rift", title="Fel Portal", icon=18, tip=ns.felRift },
 	[24601950] = { name="Fel Rift", title="Fel Portal", icon=18, tip=ns.felRift },
 	[28704430] = { name="Fel Rift", title="Fel Portal", icon=18, tip=ns.felRift },
@@ -384,7 +404,7 @@ points[ 1423 ] = { -- Eastern Plaguelands
 	[86904250] = { name="Fel Rift", title="Fel Portal", icon=18, tip=ns.felRift },
 }
 
-points[ 1429 ] = { -- Elwynn Forest
+ns.points[ 1429 ] = { -- Elwynn Forest
 	[12463405] = { title=ns.twoMeditateTitle, npc=11397, name="Nara Meideros", icon=19, class="PRIEST", level=17, 
 					guide=ns.twoMeditate, tip="Begin here", faction="Alliance",
 					quest={ ( ( ( ns.race == "Dwarf" ) or ( ns.race == "Human" ) ) and 78194 or 0 ), 
@@ -441,7 +461,7 @@ points[ 1429 ] = { -- Elwynn Forest
 	[79705530] = { title=ns.chest1, level=10, name="Battered Chest", icon=1, tip=ns.chestContent1 },
 }
 
-points[ 1424 ] = { -- Hillsbrad Foothills
+ns.points[ 1424 ] = { -- Hillsbrad Foothills
 	[75203780] = { title=ns.chest3, level=25, name="Solid Chest", icon=3, tip=ns.chestContent3 },
 	[75304150] = { title=ns.chest3, level=25, name="Solid Chest", icon=3, tip=ns.chestContent3 },
 	[77303890] = { title=ns.chest3, level=25, name="Solid Chest", icon=3, tip=ns.chestContent3, continent=true },
@@ -474,25 +494,25 @@ points[ 1424 ] = { -- Hillsbrad Foothills
 					questName={ ( ( ns.race == "Undead" ) and "Secrets of the Loa (1)" or "" ), 
 							( ( ns.race == "Undead" ) and "Secrets of the Loa (2)" or "" ) } },
 
-	[50844945] = { npc=3537, name="Zixil", title=ns.voidTouchedTitle, icon=15, guide=ns.voidTouched,
+	[50844945] = { npc=3537, name="Zixil", title=ns.voidTouchedTitle, icon=16, guide=ns.voidTouched,
 					tip="Alchemists may purchase an Elixir\nof Coalesced Regret recipe",
 					quest={ 78909 }, questName={ "Shifting Scale Talisman" } },
-	[51593922] = { npc=3537, name="Zixil", title=ns.voidTouchedTitle, icon=15, guide=ns.voidTouched,
+	[51593922] = { npc=3537, name="Zixil", title=ns.voidTouchedTitle, icon=16, guide=ns.voidTouched,
 					tip="Alchemists may purchase an Elixir\nof Coalesced Regret recipe",
 					quest={ 78909 }, questName={ "Shifting Scale Talisman" } },
-	[55702030] = { npc=3537, name="Zixil", title=ns.voidTouchedTitle, icon=15, guide=ns.voidTouched,
+	[55702030] = { npc=3537, name="Zixil", title=ns.voidTouchedTitle, icon=16, guide=ns.voidTouched,
 					tip="Alchemists may purchase an Elixir\nof Coalesced Regret recipe",
 					quest={ 78909 }, questName={ "Shifting Scale Talisman" } },
-	[55752740] = { npc=3537, name="Zixil", title=ns.voidTouchedTitle, icon=15, guide=ns.voidTouched,
+	[55752740] = { npc=3537, name="Zixil", title=ns.voidTouchedTitle, icon=16, guide=ns.voidTouched,
 					tip="Alchemists may purchase an Elixir\nof Coalesced Regret recipe",
 					quest={ 78909 }, questName={ "Shifting Scale Talisman" }, continent=true },
-	[57013427] = { npc=3537, name="Zixil", title=ns.voidTouchedTitle, icon=15, guide=ns.voidTouched,
+	[57013427] = { npc=3537, name="Zixil", title=ns.voidTouchedTitle, icon=16, guide=ns.voidTouched,
 					tip="Alchemists may purchase an Elixir\nof Coalesced Regret recipe",
 					quest={ 78909 }, questName={ "Shifting Scale Talisman" } },
-	[60712068] = { npc=3537, name="Zixil", title=ns.voidTouchedTitle, icon=15, guide=ns.voidTouched,
+	[60712068] = { npc=3537, name="Zixil", title=ns.voidTouchedTitle, icon=16, guide=ns.voidTouched,
 					tip="Alchemists may purchase an Elixir\nof Coalesced Regret recipe",
 					quest={ 78909 }, questName={ "Shifting Scale Talisman" } },
-	[88557351] = { name="Shadowy Figure / Shard of Pure Light", title=ns.voidTouchedTitle, icon=15, guide=ns.voidTouched,
+	[88557351] = { name="Shadowy Figure / Shard of Pure Light", title=ns.voidTouchedTitle, icon=16, guide=ns.voidTouched,
 					tip="Go via Ravenholdt Manor" },
 
 	[87304960] = { name="Old Broken Cart", title="Cozy Sleeping Bag", icon=17, guide=ns.cozySleepingBag,				
@@ -502,10 +522,10 @@ points[ 1424 ] = { -- Hillsbrad Foothills
 						tip="Step Six. Begin Step six right here,\nnot from the Arathi Highlands side" },
 }
 
-points[ 1455 ] = { -- Ironforge
+ns.points[ 1455 ] = { -- Ironforge
 }
 
-points[ 1432 ] = { -- Loch Modan
+ns.points[ 1432 ] = { -- Loch Modan
 	[24803070] = { title=ns.chest1, level=10, name="Battered Chest", icon=1, tip=ns.chestContent1 },
 	[26004930] = { title=ns.chest1, level=10, name="Battered Chest", icon=1, tip=ns.chestContent1 },
 	[26504420] = { title=ns.chest1, level=10, name="Battered Chest", icon=1, tip=ns.chestContent1 },
@@ -549,7 +569,7 @@ points[ 1432 ] = { -- Loch Modan
 						"This Must Be The Place" }, tip="Step Five", continent=true },
 }
 
-points[ 1433 ] = { -- Redridge Mountains
+ns.points[ 1433 ] = { -- Redridge Mountains
 	[14506170] = { title=ns.chest2, level=25, name="Battered Chest", icon=2, tip=ns.chestContent2 },
 	[14906430] = { title=ns.chest2, level=25, name="Battered Chest", icon=2, tip=ns.chestContent2 },
 	[17106360] = { title=ns.chest2, level=25, name="Battered Chest", icon=2, tip=ns.chestContent2 },
@@ -618,7 +638,7 @@ points[ 1433 ] = { -- Redridge Mountains
 	[85054640] = { title=ns.chest3, level=25, name="Solid Chest", icon=3, tip=ns.chestContent3 },
 }
 
-points[ 1427 ] = { -- Searing Gorge
+ns.points[ 1427 ] = { -- Searing Gorge
 	[14703620] = { title=ns.chest7, level=45, name="Solid Chest", icon=7, tip=ns.chestContent7 },
 	[17803800] = { title=ns.chest7, level=45, name="Solid Chest", icon=7, tip=ns.chestContent7 },
 	[25902490] = { title=ns.chest7, level=45, name="Solid Chest", icon=7, tip=ns.chestContent7 },
@@ -637,7 +657,7 @@ points[ 1427 ] = { -- Searing Gorge
 	[62306245] = { title=ns.chest7, level=45, name="Solid Chest", icon=7, tip=ns.chestContent7 },
 }
 
-points[ 1421 ] = { -- Silverpine Forest
+ns.points[ 1421 ] = { -- Silverpine Forest
 	[36502930] = { title=ns.chest1, level=10, name="Battered Chest", icon=1, tip=ns.chestContent1 },
 	[43502250] = { title=ns.chest1, level=10, name="Battered Chest", icon=1, tip=ns.chestContent1 },
 	[43503170] = { title=ns.chest1, level=10, name="Battered Chest", icon=1, tip=ns.chestContent1 },
@@ -682,7 +702,7 @@ points[ 1421 ] = { -- Silverpine Forest
 	[60800700] = { name="Fel Sliver", title="Fel Portal", icon=18, tip=ns.felPortals },
 }
 
-points[ 1453 ] = { -- Stormwind City
+ns.points[ 1453 ] = { -- Stormwind City
 	[20685007] = { title=ns.twoMeditateTitle, npc=11397, name="Nara Meideros", icon=19, class="PRIEST", level=17, 
 					guide=ns.twoMeditate, tip="Begin here", faction="Alliance", continent=true,
 					quest={ ( ( ( ns.race == "Dwarf" ) or ( ns.race == "Human" ) ) and 78194 or 0 ), 
@@ -696,7 +716,7 @@ points[ 1453 ] = { -- Stormwind City
 							( ( ns.race == "Night Elf") and "Secrets of the Light (2)" or "" ) } },
 }
 
-points[ 1434 ] = { -- Stranglethorn Vale
+ns.points[ 1434 ] = { -- Stranglethorn Vale
 	[24401260] = { title=ns.chest5, level=35, name="Solid Chest", icon=5, tip=ns.chestContent5 },
 	[24402480] = { title=ns.chest5, level=35, name="Solid Chest", icon=5, tip=ns.chestContent5 },
 	[25002300] = { title=ns.chest5, level=35, name="Solid Chest", icon=5, tip=ns.chestContent5 },
@@ -762,10 +782,10 @@ points[ 1434 ] = { -- Stranglethorn Vale
 	[51802760] = { title=ns.chest7, level=45, name="Solid Chest", icon=7, tip=ns.chestContent7 },
 	[52702830] = { title=ns.chest7, level=45, name="Solid Chest", icon=7, tip=ns.chestContent7 },
 
-	[38603560] = { npc=731, name="King Bangalash", title="Best Hunter Pets", icon=16, class="HUNTER", guide=ns.bestPet, continent=true },
-	[47602880] = { npc=728, name="Bhag'thera", title="Best Hunter Pets", icon=16, class="HUNTER", guide=ns.bestPet },
-	[49002060] = { npc=728, name="Bhag'thera", title="Best Hunter Pets", icon=16, class="HUNTER", guide=ns.bestPet },
-	[49802460] = { npc=728, name="Bhag'thera", title="Best Hunter Pets", icon=16, class="HUNTER", guide=ns.bestPet },
+	[38603560] = { npc=731, name="King Bangalash", title="Best Hunter Pets", icon=15, class="HUNTER", guide=ns.bestPet, continent=true },
+	[47602880] = { npc=728, name="Bhag'thera", title="Best Hunter Pets", icon=15, class="HUNTER", guide=ns.bestPet },
+	[49002060] = { npc=728, name="Bhag'thera", title="Best Hunter Pets", icon=15, class="HUNTER", guide=ns.bestPet },
+	[49802460] = { npc=728, name="Bhag'thera", title="Best Hunter Pets", icon=15, class="HUNTER", guide=ns.bestPet },
 
 	[27507740] = { title=ns.gnomereganTitle, npc=7853, name="Scooty", icon=20, guide=ns.gnomeregan,
 					quest={ 79626, 79705, 79981, 79984, 79982 }, continent=true,
@@ -786,7 +806,7 @@ points[ 1434 ] = { -- Stranglethorn Vale
 						"The Lost Vambraces", "Waking the Nightmare" }, },
 }
 
-points[ 1435 ] = { -- Swamp of Sorrows
+ns.points[ 1435 ] = { -- Swamp of Sorrows
 	[04903160] = { title=ns.chest6, level=40, name="Solid Chest", icon=6, tip=ns.chestContent6 },
 	[11603410] = { title=ns.chest6, level=40, name="Solid Chest", icon=6, tip=ns.chestContent6 },
 	[13857145] = { title=ns.chest6, level=40, name="Solid Chest", icon=6, tip=ns.chestContent6 },
@@ -841,7 +861,7 @@ points[ 1435 ] = { -- Swamp of Sorrows
 						"The Lost Vambraces", "Waking the Nightmare" }, },
 }
 
-points[ 1425 ] = { -- The Hinterlands
+ns.points[ 1425 ] = { -- The Hinterlands
 	[45453980] = { title=ns.chest7, level=45, name="Solid Chest", icon=7, tip=ns.chestContent7 },
 	[50255335] = { title=ns.chest7, level=45, name="Solid Chest", icon=7, tip=ns.chestContent7, continent=true },
 	[53103870] = { title=ns.chest7, level=45, name="Solid Chest", icon=7, tip=ns.chestContent7 },
@@ -877,7 +897,7 @@ points[ 1425 ] = { -- The Hinterlands
 	[49206850] = { title=ns.chest7, level=45, name="Solid Chest", icon=7, tip=ns.chestContent7 },
 }
 
-points[ 1420 ] = { -- Tirisfal Glades
+ns.points[ 1420 ] = { -- Tirisfal Glades
 	[25304870] = { title=ns.chest1, level=10, name="Battered Chest", icon=1, tip=ns.chestContent1 },
 	[31704610] = { title=ns.chest1, level=10, name="Battered Chest", icon=1, tip=ns.chestContent1 },
 	[34704100] = { title=ns.chest1, level=10, name="Battered Chest", icon=1, tip=ns.chestContent1 },
@@ -902,7 +922,7 @@ points[ 1420 ] = { -- Tirisfal Glades
 							( ( ns.race == "Troll" ) and "Secrets of Undeath (2)" or "" ) }, continent=true, },
 }
 
-points[ 1458 ] = { -- Undercity
+ns.points[ 1458 ] = { -- Undercity
 	[47201960] = { title=ns.twoMeditateTitle, npc=211225, name="Baj'ura", icon=19, class="PRIEST", level=18,
 					faction="Horde", guide=ns.twoMeditate, tip="Begin the first quest here", continent=true,
 					quest={ ( ( ns.race == "Undead" ) and 78198 or 0 ), ( ( ns.race == "Undead" ) and 78199 or 0 ) }, 
@@ -910,10 +930,10 @@ points[ 1458 ] = { -- Undercity
 							( ( ns.race == "Undead" ) and "Secrets of the Loa (2)" or "" ) } },
 }
 
-points[ 1422 ] = { -- Western Plaguelands
+ns.points[ 1422 ] = { -- Western Plaguelands
 }
 
-points[ 1436 ] = { -- Westfall
+ns.points[ 1436 ] = { -- Westfall
 	[29104880] = { title=ns.chest1, level=10, name="Battered Chest", icon=1, tip=ns.chestContent1 },
 	[29204590] = { title=ns.chest1, level=10, name="Battered Chest", icon=1, tip=ns.chestContent1 },
 	[29304960] = { title=ns.chest1, level=10, name="Battered Chest", icon=1, tip=ns.chestContent1 },
@@ -996,7 +1016,7 @@ points[ 1436 ] = { -- Westfall
 	[62502630] = { name="Fel Sliver", title="Fel Portal", icon=18, tip=ns.felPortals },
 }
 
-points[ 1437 ] = { -- Wetlands
+ns.points[ 1437 ] = { -- Wetlands
 	[13454145] = { title=ns.chest3, level=25, name="Solid Chest", icon=3, tip=ns.chestContent3 },
 	[13603810] = { title=ns.chest3, level=25, name="Solid Chest", icon=3, tip=ns.chestContent3 },
 	[13903020] = { title=ns.chest3, level=25, name="Solid Chest", icon=3, tip=ns.chestContent3 },
@@ -1067,7 +1087,7 @@ points[ 1437 ] = { -- Wetlands
 --
 --=======================================================================================================
 
-points[ 1440 ] = { -- Ashenvale
+ns.points[ 1440 ] = { -- Ashenvale
 	[07101230] = { title=ns.chest2, level=25, name="Battered Chest", icon=2, tip=ns.chestContent2 },
 	[10402260] = { title=ns.chest2, level=25, name="Battered Chest", icon=2, tip=ns.chestContent2 },
 	[11102690] = { title=ns.chest2, level=25, name="Battered Chest", icon=2, tip=ns.chestContent2 },
@@ -1116,7 +1136,7 @@ points[ 1440 ] = { -- Ashenvale
 	[80454975] = { title=ns.chest4, level=30, name="Solid Chest", icon=4, tip=ns.chestContent4 },
 	[81804945] = { title=ns.chest4, level=30, name="Solid Chest", icon=4, tip=ns.chestContent4 },
 
-	[17202660] = { npc=212334, name="Dead Twilight Cultist", title=ns.voidTouchedTitle, icon=15, guide=ns.voidTouched,
+	[17202660] = { npc=212334, name="Dead Twilight Cultist", title=ns.voidTouchedTitle, icon=16, guide=ns.voidTouched,
 					quest={ 78909 }, questName={ "Shifting Scale Talisman" }, continent=true },
 	[86006700] = { name=ns.L["AoPD"], title=ns.nightmareTitle, icon=21, guide=ns.nightmare,
 					tip="This is the approximate location, once\n"
@@ -1215,7 +1235,7 @@ points[ 1440 ] = { -- Ashenvale
 	[93205130] = { name="Resonating Nightmare Bloom", title="Nightmare Seed", icon=22, tip=ns.nightmareSeed },
 }
 
-points[ 1447 ] = { -- Azshara
+ns.points[ 1447 ] = { -- Azshara
 	[15007310] = { title=ns.chest7, level=45, name="Solid Chest", icon=7, tip=ns.chestContent7 },
 	[17606890] = { title=ns.chest7, level=45, name="Solid Chest", icon=7, tip=ns.chestContent7 },
 	[20456245] = { title=ns.chest7, level=45, name="Solid Chest", icon=7, tip=ns.chestContent7 },
@@ -1241,7 +1261,7 @@ points[ 1447 ] = { -- Azshara
 	[33008150] = { name="Fel Scar", title="Fel Portal", icon=18, tip=ns.felPortals },
 }
 
-points[ 1439 ] = { -- Darkshore
+ns.points[ 1439 ] = { -- Darkshore
 	[37604380] = { title=ns.twoMeditateTitle, npc=211298, name="Syrnoya", icon=19, class="PRIEST", level=17, continent=true,
 					guide=ns.twoMeditate, tip="Complete the second quest here. /kneel always!", faction="Alliance",
 					quest={ ( ( ( ns.race == "Dwarf" ) or ( ns.race == "Human" ) ) and 78194 or 0 ),
@@ -1284,7 +1304,7 @@ points[ 1439 ] = { -- Darkshore
 	[61501930] = { title=ns.chest2, level=25, name="Battered Chest", icon=2, tip=ns.chestContent2 },
 	[61902160] = { title=ns.chest2, level=25, name="Battered Chest", icon=2, tip=ns.chestContent2 },
 
-	[40604080] = { npc=2175, name="Shadowclaw", title="Best Hunter Pets", icon=16, class="HUNTER", guide=ns.bestPet, continent=true },
+	[40604080] = { npc=2175, name="Shadowclaw", title="Best Hunter Pets", icon=15, class="HUNTER", guide=ns.bestPet, continent=true },
 
 	[35808280] = { name="Fel Sliver", title="Fel Portal", icon=18, tip=ns.felPortals },
 	[37606380] = { name="Fel Sliver", title="Fel Portal", icon=18, tip=ns.felPortals, continent=true },
@@ -1300,7 +1320,7 @@ points[ 1439 ] = { -- Darkshore
 	[59802180] = { name="Fel Sliver", title="Fel Portal", icon=18, tip=ns.felPortals },
 }
 
-points[ 1457 ] = { -- Darnassus
+ns.points[ 1457 ] = { -- Darnassus
 	[38608880] = { title=ns.twoMeditateTitle, npc=211188, name="Maethra Slagheart", icon=19, class="PRIEST", level=17,
 					guide=ns.twoMeditate, tip="Begin the first quest here", faction="Alliance", continent=true,
 					quest={ ( ( ns.race == "Night elf" ) and 78192 or 0 ), ( ( ns.race == "Night elf" ) and 78193 or 0 ) }, 
@@ -1308,7 +1328,7 @@ points[ 1457 ] = { -- Darnassus
 							( ( ns.race == "Night Elf" ) and "Secrets of the Light (2)" or "" ) } },
 }
 
-points[ 1443 ] = { -- Desolace
+ns.points[ 1443 ] = { -- Desolace
 	[52502850] = { title=ns.chest5, level=35, name="Solid Chest", icon=5, tip=ns.chestContent5 },
 	[54302820] = { title=ns.chest5, level=35, name="Solid Chest", icon=5, tip=ns.chestContent5 },
 	[54902620] = { title=ns.chest5, level=35, name="Solid Chest", icon=5, tip=ns.chestContent5 },
@@ -1362,7 +1382,7 @@ points[ 1443 ] = { -- Desolace
 						"Quadrangulation", "Warranty Claim" }, },
 }
 
-points[ 1411 ] = { -- Durotar
+ns.points[ 1411 ] = { -- Durotar
 	[39405380] = { title=ns.chest1, level=10, name="Battered Chest", icon=1, tip=ns.chestContent1 },
 	[40803040] = { title=ns.chest1, level=10, name="Battered Chest", icon=1, tip=ns.chestContent1 },
 	[42102710] = { title=ns.chest1, level=10, name="Battered Chest", icon=1, tip=ns.chestContent1 },
@@ -1412,7 +1432,7 @@ points[ 1411 ] = { -- Durotar
 	[68308510] = { title=ns.chest1, level=10, name="Battered Chest", icon=1, tip=ns.chestContent1 },
 	[68407150] = { title=ns.chest1, level=10, name="Battered Chest", icon=1, tip=ns.chestContent1 },
 
-	[68607160] = { npc=208124, name="Raluk", title="Best Hunter Pets", icon=16, class="HUNTER", guide=ns.bestPet, continent=true },
+	[68607160] = { npc=208124, name="Raluk", title="Best Hunter Pets", icon=15, class="HUNTER", guide=ns.bestPet, continent=true },
 
 	[68707110] = { title=ns.twoMeditateTitle, object=410168, name="Voodoo Pile", icon=19, class="PRIEST", level=18,
 					faction="Horde", guide=ns.twoMeditate, tip="Ignore the quest directions. Climb the\nhill on the northern-most island",
@@ -1421,7 +1441,7 @@ points[ 1411 ] = { -- Durotar
 							( ( ns.race == "Undead" ) and "Secrets of the Loa (2)" or "" ) }, continent=true, },
 }
 
-points[ 1445 ] = { -- Dustwallow Marsh
+ns.points[ 1445 ] = { -- Dustwallow Marsh
 	[30702245] = { title=ns.chest6, level=40, name="Solid Chest", icon=6, tip=ns.chestContent6 },
 	[30902060] = { title=ns.chest6, level=40, name="Solid Chest", icon=6, tip=ns.chestContent6 },
 	[31502160] = { title=ns.chest6, level=40, name="Solid Chest", icon=6, tip=ns.chestContent6, continent=true },
@@ -1459,7 +1479,7 @@ points[ 1445 ] = { -- Dustwallow Marsh
 						"Quadrangulation", "Warranty Claim" }, },
 }
 
-points[ 1444 ] = { -- Feralas
+ns.points[ 1444 ] = { -- Feralas
 	[68205880] = { name="Fel Scar", title="Fel Portal", icon=18, tip=ns.felPortals, continent=true },
 	[70606250] = { name="Fel Scar", title="Fel Portal", icon=18, tip=ns.felPortals },
 	[72506380] = { name="Fel Scar", title="Fel Portal", icon=18, tip=ns.felPortals },
@@ -1482,7 +1502,7 @@ points[ 1444 ] = { -- Feralas
 						"Quadrangulation", "Warranty Claim" }, },
 }
 
-points[ 1450 ] = { -- Moonglade
+ns.points[ 1450 ] = { -- Moonglade
 	[52404050] = { npc=12042, name="Loganaar", title=ns.nightmareTitle, icon=21,
 					guide=ns.nightmare, continent=true,
 					tip="Ensure you are friendly with the Cenarion Circle",
@@ -1492,7 +1512,7 @@ points[ 1450 ] = { -- Moonglade
 						"The Lost Vambraces", "Waking the Nightmare" }, },
 }
 
-points[ 1412 ] = { -- Mulgore					
+ns.points[ 1412 ] = { -- Mulgore					
 	[28502120] = { title=ns.chest1, level=10, name="Battered Chest", icon=1, tip=ns.chestContent1 },
 	[29302350] = { title=ns.chest1, level=10, name="Battered Chest", icon=1, tip=ns.chestContent1 },
 	[29602590] = { title=ns.chest1, level=10, name="Battered Chest", icon=1, tip=ns.chestContent1 },
@@ -1531,11 +1551,11 @@ points[ 1412 ] = { -- Mulgore
 	[65604090] = { title=ns.chest1, level=10, name="Battered Chest", icon=1, tip=ns.chestContent1 },
 	[66906860] = { title=ns.chest1, level=10, name="Battered Chest", icon=1, tip=ns.chestContent1 },
 
-	[36605660] = { npc=205382, name="Mokwa", title="Best Hunter Pets", icon=16, class="HUNTER", guide=ns.bestPet, continent=true },
-	[51801840] = { npc=5807, name="The Rake", title="Best Hunter Pets", icon=16, class="HUNTER", guide=ns.bestPet },
+	[36605660] = { npc=205382, name="Mokwa", title="Best Hunter Pets", icon=15, class="HUNTER", guide=ns.bestPet, continent=true },
+	[51801840] = { npc=5807, name="The Rake", title="Best Hunter Pets", icon=15, class="HUNTER", guide=ns.bestPet },
 }
 
-points[ 1454 ] = { -- Orgrimmar
+ns.points[ 1454 ] = { -- Orgrimmar
 	[35748823] = { title=ns.twoMeditateTitle, npc=211229, name="Dietrich Praice", icon=19, class="PRIEST", faction="Horde",
 					level=18, guide=ns.twoMeditate, tip="Begin the first quest here", continent=true,
 					quest={ ( ( ns.race == "Troll" ) and 78196 or 0 ), ( ( ns.race == "Troll" ) and 78197 or 0 ) }, 
@@ -1543,7 +1563,7 @@ points[ 1454 ] = { -- Orgrimmar
 							( ( ns.race == "Troll" ) and "Secrets of Undeath (2)" or "" ) } },							
 }
 
-points[ 1442 ] = { -- Stonetalon Mountains
+ns.points[ 1442 ] = { -- Stonetalon Mountains
 	[43303880] = { title=ns.chest2, level=25, name="Battered Chest", icon=2, tip=ns.chestContent2 },
 	[45104600] = { title=ns.chest2, level=25, name="Battered Chest", icon=2, tip=ns.chestContent2 },
 	[50904380] = { title=ns.chest2, level=25, name="Battered Chest", icon=2, tip=ns.chestContent2, continent=true },
@@ -1583,7 +1603,7 @@ points[ 1442 ] = { -- Stonetalon Mountains
 						"This Must Be The Place" }, tip="Step Three", continent=true },
 }
 
-points[ 1446 ] = { -- Tanaris
+ns.points[ 1446 ] = { -- Tanaris
 	[38705680] = { title=ns.chest7, level=45, name="Solid Chest", icon=7, tip=ns.chestContent7 },
 	[39905430] = { title=ns.chest7, level=45, name="Solid Chest", icon=7, tip=ns.chestContent7 },
 	[41205700] = { title=ns.chest7, level=45, name="Solid Chest", icon=7, tip=ns.chestContent7 },
@@ -1618,7 +1638,7 @@ points[ 1446 ] = { -- Tanaris
 						"Quadrangulation", "Warranty Claim" }, },
 }
 
-points[ 1438 ] = { -- Teldrassil
+ns.points[ 1438 ] = { -- Teldrassil
 	[31503170] = { title=ns.chest1, level=10, name="Battered Chest", icon=1, tip=ns.chestContent1 },
 	[33202850] = { title=ns.chest1, level=10, name="Battered Chest", icon=1, tip=ns.chestContent1 },
 	[33903560] = { title=ns.chest1, level=10, name="Battered Chest", icon=1, tip=ns.chestContent1 },
@@ -1648,11 +1668,11 @@ points[ 1438 ] = { -- Teldrassil
 	[68705190] = { title=ns.chest1, level=10, name="Battered Chest", icon=1, tip=ns.chestContent1 },
 	[69605320] = { title=ns.chest1, level=10, name="Battered Chest", icon=1, tip=ns.chestContent1 },
 
-	[53807680] = { npc=14430, name="Duskstalker", title="Best Hunter Pets", icon=16, class="HUNTER", guide=ns.bestPet, continent=true },
-	[60207560] = { npc=14430, name="Duskstalker", title="Best Hunter Pets", icon=16, class="HUNTER", guide=ns.bestPet },
+	[53807680] = { npc=14430, name="Duskstalker", title="Best Hunter Pets", icon=15, class="HUNTER", guide=ns.bestPet, continent=true },
+	[60207560] = { npc=14430, name="Duskstalker", title="Best Hunter Pets", icon=15, class="HUNTER", guide=ns.bestPet },
 }
 
-points[ 1413 ] = { -- The Barrens
+ns.points[ 1413 ] = { -- The Barrens
 	[42102470] = { title=ns.chest1, level=10, name="Battered Chest", icon=1, tip=ns.chestContent1 },
 	[43402370] = { title=ns.chest1, level=10, name="Battered Chest", icon=1, tip=ns.chestContent1 },
 	[43602650] = { title=ns.chest1, level=10, name="Battered Chest", icon=1, tip=ns.chestContent1 },
@@ -1709,14 +1729,14 @@ points[ 1413 ] = { -- The Barrens
 	[43108320] = { title=ns.chest3, level=25, name="Solid Chest", icon=3, tip=ns.chestContent3 },
 	[44308290] = { title=ns.chest3, level=25, name="Solid Chest", icon=3, tip=ns.chestContent3 },
 
-	[62043955] = { npc=214208, name="N'ora Anyheart", title=ns.voidTouchedTitle, icon=15, guide=ns.voidTouched,
+	[62043955] = { npc=214208, name="N'ora Anyheart", title=ns.voidTouchedTitle, icon=16, guide=ns.voidTouched,
 					tip="Don't come to her before you've\ncompleted the previous steps.\n\n"
 						.."The Shifting Scale Talisman is a\nvery valuable +5 Spirit Trinket",
 					quest={ 78909 }, questName={ "Shifting Scale Talisman" }, continent=true },
 
-	[50001660] = { npc=5865, name="Dishu", title="Best Hunter Pets", icon=16, class="HUNTER", guide=ns.bestPet, continent=true },
-	[51802800] = { npc=5865, name="Dishu", title="Best Hunter Pets", icon=16, class="HUNTER", guide=ns.bestPet },
-	[62603440] = { npc=5828, name="Humar the Pridelord", title="Best Hunter Pets", icon=16, class="HUNTER", guide=ns.bestPet },
+	[50001660] = { npc=5865, name="Dishu", title="Best Hunter Pets", icon=15, class="HUNTER", guide=ns.bestPet, continent=true },
+	[51802800] = { npc=5865, name="Dishu", title="Best Hunter Pets", icon=15, class="HUNTER", guide=ns.bestPet },
+	[62603440] = { npc=5828, name="Humar the Pridelord", title="Best Hunter Pets", icon=15, class="HUNTER", guide=ns.bestPet },
 
 	[46407390] = { name="Burned-Out Remains", title="Cozy Sleeping Bag", icon=17, guide=ns.cozySleepingBag,
 					quest={ ( ( ns.faction == "Alliance" ) and 79008 or 79007 ), 79192, 79980, 79974, 79975, 79976 }, 
@@ -1765,7 +1785,7 @@ points[ 1413 ] = { -- The Barrens
 	[61803200] = { name="Fel Sliver", title="Fel Portal", icon=18, tip=ns.felPortals },
 }
 
-points[ 1441 ] = { -- Thousand Needles
+ns.points[ 1441 ] = { -- Thousand Needles
 	[09803420] = { title=ns.chest4, level=30, name="Solid Chest", icon=4, tip=ns.chestContent4 },
 	[11503680] = { title=ns.chest4, level=30, name="Solid Chest", icon=4, tip=ns.chestContent4 },
 	[13903890] = { title=ns.chest4, level=30, name="Solid Chest", icon=4, tip=ns.chestContent4 },
@@ -1793,10 +1813,10 @@ points[ 1441 ] = { -- Thousand Needles
 	[71208510] = { title=ns.chest5, level=35, name="Solid Chest", icon=5, tip=ns.chestContent5 },
 }
 
-points[ 1456 ] = { -- Thunder Bluff
+ns.points[ 1456 ] = { -- Thunder Bluff
 }
 
-points[ 1452 ] = { -- Winterspring
+ns.points[ 1452 ] = { -- Winterspring
 	[52405480] = { name="Growing Fel Rift", title="Fel Portal", icon=18, tip=ns.felRift },
 	[52805420] = { name="Growing Fel Rift", title="Fel Portal", icon=18, tip=ns.felRift },
 	[52805620] = { name="Growing Fel Rift", title="Fel Portal", icon=18, tip=ns.felRift },
