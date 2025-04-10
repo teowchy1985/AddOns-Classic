@@ -44,6 +44,7 @@ GBB.MAXCOMPACTWIDTH=350
 GBB.ShouldReset = false
 
 local isClassicEra = WOW_PROJECT_ID == WOW_PROJECT_CLASSIC
+local OptionsUtil = GBB.OptionsBuilder
 -- Tools
 -------------------------------------------------------------------------------------
 local debug = false -- dev override
@@ -344,19 +345,141 @@ function GBB.BtnClose()
 	GBB.HideWindow()
 end
 
-function GBB.BtnSettings(button )
-	if button == "LeftButton" then
-		local shouldOpen = GBB.PopupDynamic:Wipe("SettingsButtonMenu");
-		if shouldOpen then
-			GBB.PopupDynamic:AddItem(FILTERS, false, GBB.OptionsBuilder.OpenCategoryPanel, 2)
-			GBB.PopupDynamic:AddItem(ALL_SETTINGS, false, GBB.OptionsBuilder.OpenCategoryPanel, 1)
-			GBB.PopupDynamic:AddItem(GBB.L["BtnCancel"], false, nil, nil, nil, true)
-			GBB.PopupDynamic:Show(GroupBulletinBoardFrameSettingsButton,0,0)
-		end
-		PlaySound(SOUNDKIT.IG_MAINMENU_OPTION, "SFX")
-	else
-		GBB.Popup_Minimap("cursor",false)
+local function setBulletinBoardMovableState(isMovable)
+    local Header, Footer = GroupBulletinBoardFrameHeaderContainer, GroupBulletinBoardFrameFooterContainer
+    local RequestListScroll, LFGToolScroll = GroupBulletinBoardFrame_ScrollFrame, GBB.LfgTool.ScrollContainer
+    local isInteractive = GBB.DB.WindowSettings.isInteractive
+    local containers = {Header, Footer, RequestListScroll, LFGToolScroll}
+    for _, container in ipairs(containers) do
+        local isScrollFrame = container == LFGToolScroll or container == RequestListScroll
+        local shouldEnableMouse = (not isScrollFrame or isInteractive) and isMovable
+        container:EnableMouse(shouldEnableMouse)
+        if isMovable then container:RegisterForDrag("LeftButton")
+        else container:RegisterForDrag() end
+        if not isScrollFrame or isInteractive then
+            container:SetScript("OnDragStart", isMovable and function() GroupBulletinBoardFrame:StartMoving() end or nil)
+            container:SetScript("OnDragStop", isMovable and function() GroupBulletinBoardFrame:StopMovingAndSaveAnchors() end or nil)
+        end
+        if container == Header or container == Footer then
+            -- Darken the header/footer backgrounds slightly when they handle dragging
+            container.Background:SetColorTexture(0, 0, 0, (isMovable and 0.17 or 0))
+        end
+    end
+end
+--------------------------------------------------------------------------------
+-- Bulletin Board Settings Button Setup
+--------------------------------------------------------------------------------
+
+local getSettingsButtonMenuDescription do
+	local isSavedVarSelected = function(table, var)
+		return function() return table[var] end;
 	end
+	local toggleSavedVar = function(table, var)
+		return function() table[var] = (not table[var]) end;
+	end
+	local getSavedVarCheckBoxArgs = function(table, var)
+		return GBB.L["Cbox"..var], isSavedVarSelected(table, var), toggleSavedVar(table, var)
+	end
+    local windowSettings = setmetatable({}, { ---@type table<string, SavedVarHandle>
+        __index = function(t, k)
+            local value = OptionsUtil.GetSavedVarHandle(GBB.DB.WindowSettings, k)
+            assert(value, "windowSettings: handle is nil. Don't index table until after ADDON_LOADED", k)
+            rawset(t, k, value); return value;
+        end
+    })
+    local isBoardFrameLocked = function() return not windowSettings.isMovable:GetValue() end
+    local toggleBoardFrameLock = function()
+        windowSettings.isMovable:SetValue(not windowSettings.isMovable:GetValue())
+    end
+    local isBoardFrameNonInteractive = function() return not windowSettings.isInteractive:GetValue() end
+    local setBoardFrameNonInteractive = function()
+        windowSettings.isInteractive:SetValue(not windowSettings.isInteractive:GetValue())
+    end
+    local setBoardFrameOpacity = function(opacity)
+		windowSettings.opacity:SetValue(opacity)
+    end
+    local opacityRadioButtonArgs = function(opacity)
+        local isSelected = function()
+            return floor(GroupBulletinBoardFrame:GetAlpha()*10)/10 == opacity
+        end
+        local onSelected = setBoardFrameOpacity
+        local displayText = ("%d%%"):format(opacity * 100)
+        return displayText, isSelected, onSelected, opacity
+    end
+	getSettingsButtonMenuDescription = function(clickType)
+		local description = MenuUtil.CreateRootMenuDescription(MenuStyle2Mixin)
+		---@cast description RootMenuDescriptionProxy
+		description:CreateButton(FILTERS, function() OptionsUtil.OpenCategoryPanel(2) end)
+		if clickType == "RightButton" then
+			do -- Notification Settings
+				local submenu = description:CreateButton(COMMUNITIES_NOTIFICATION_SETTINGS)
+				-- sound
+				submenu:CreateCheckbox(getSavedVarCheckBoxArgs(GBB.DB, "NotifySound"))
+				-- chat
+				submenu:CreateCheckbox(getSavedVarCheckBoxArgs(GBB.DB, "NotifyChat"))
+			end
+		end
+        do -- Board window/frame settings
+            description:CreateDivider()
+            description:CreateTitle(GBB.L.WINDOW_SETTINGS)
+            description:CreateCheckbox(LOCK_WINDOW, isBoardFrameLocked, toggleBoardFrameLock)
+            description:CreateCheckbox(MAKE_UNINTERACTABLE, isBoardFrameNonInteractive, setBoardFrameNonInteractive)
+            local opacityOptions = description:CreateButton(OPACITY)
+            -- todo: add a slider
+            for _, opacity in ipairs({1, .8, .6, .5, .4, .2, .1}) do
+                opacityOptions:CreateRadio(opacityRadioButtonArgs(opacity)):SetResponse(MenuResponse.Refresh)
+            end
+            description:CreateDivider()
+        end
+		description:CreateButton(ALL_SETTINGS, function() OptionsUtil.OpenCategoryPanel(1) end)
+        description:CreateButton(GBB.L.BtnCancel, nop):SetResponse(MenuResponse.CloseMenu)
+        return description
+	end
+end
+-- note: mostly lazily loaded until after first click because button doesnt exist until after ADDON_LOADED
+-- todo: move load order in .toc
+local settingsButtonMenuContext = {
+	menuAnchor = nil, ---@type AnchorMixin?
+	lastDescription = nil, ---@type RootMenuDescriptionProxy?
+	clickDescriptions = {
+		LeftButton = nil, ---@type RootMenuDescriptionProxy?
+		RightButton = nil, ---@type RootMenuDescriptionProxy?
+	},
+	OpenMenu = function(self, owner, menuDescription)
+		local menu = Menu.GetManager():OpenMenu(owner, menuDescription, self.menuAnchor)
+		owner.HandlesGlobalMouseEvent = function() return true end
+		menu:SetClosedCallback(function() self.lastDescription = nil end)
+		self.lastDescription = menuDescription
+		return menu
+	end,
+    Initialize = function(self, owner)
+        self.clickDescriptions.RightButton = getSettingsButtonMenuDescription("RightButton")
+        self.clickDescriptions.LeftButton = getSettingsButtonMenuDescription("LeftButton")
+        self.menuAnchor = AnchorUtil.CreateAnchor("TOPRIGHT", owner, "BOTTOMRIGHT")
+    end,
+    CloseMenu = function(self, menu)
+        assert(menu, "CloseMenu: menu is nil")
+        Menu.GetManager():CloseMenu(menu)
+    end
+}
+
+-- Toggles a quick settings dropdown menu depending on the click type.
+local function SettingsButton_OnMouseDown(self, clickType)
+	if not settingsButtonMenuContext.menuAnchor then -- first click
+		settingsButtonMenuContext:Initialize(self)
+	end
+	local currentOpenMenu = Menu.GetManager():GetOpenMenu()
+    local incomingDescription = settingsButtonMenuContext.clickDescriptions[clickType]
+                                or settingsButtonMenuContext.clickDescriptions.LeftButton -- default to left click
+    -- Simmulate a toggle button:
+	-- Close menu curently open click menu if it exists
+	if currentOpenMenu and incomingDescription == settingsButtonMenuContext.lastDescription then
+		settingsButtonMenuContext:CloseMenu(currentOpenMenu)
+		PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_OFF)
+    else  -- open menu when: No menu is currently open, or switching click menus
+		PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON)
+        settingsButtonMenuContext:OpenMenu(self, incomingDescription)
+    end
 end
 --------------------------------------------------------------------------------
 -- Tag Lists
@@ -366,10 +489,17 @@ local shouldUpdateTagKey = function(pattern, current, incoming)
 	assert(incoming, "shouldUpdateTagKey: incoming key is nil", pattern, current, incoming)
 	if current == incoming then return false end
 	if not current then return true end
-	incoming = GBB.GetDungeonInfo(incoming)
-	current = GBB.GetDungeonInfo(current); 
-	current = current and current.expansionID or -1
-	incoming = incoming and incoming.expansionID or -1
+	local incInfo = GBB.GetDungeonInfo(incoming) or {};
+	local curInfo = GBB.GetDungeonInfo(current) or {};
+	if incInfo.expansionID ~= curInfo.expansionID then
+		return (incInfo.expansionID or -1) >= (curInfo.expansionID or -1)
+	end
+	if incInfo.typeID ~= curInfo.typeID then
+		return (incInfo.typeID or -1) >= (curInfo.typeID or -1)
+	end
+	if incInfo.maxLevel ~= curInfo.maxLevel then
+		return (incInfo.maxLevel or -1) >= (curInfo.maxLevel or -1)
+	end
 	return incoming >= current
 end
 ---Sets the `GBB.tagList` table with the tags specified by the given locale.
@@ -512,7 +642,7 @@ function GBB.Popup_Minimap(frame,showMinimapOptions)
 		return
 	end
 
-	GBB.PopupDynamic:AddItem(GBB.L["HeaderSettings"],false, GBB.OptionsBuilder.OpenCategoryPanel, 1)
+	GBB.PopupDynamic:AddItem(GBB.L["HeaderSettings"],false, OptionsUtil.OpenCategoryPanel, 1)
 	
 	GBB.PopupDynamic:AddItem("",true)
 	GBB.PopupDynamic:AddItem(GBB.L["CboxFilterTravel"],false,GBB.DBChar,"FilterDungeonTRAVEL")
@@ -538,7 +668,9 @@ function GBB.Popup_Minimap(frame,showMinimapOptions)
 end
 
 function GBB.Init()
-	GroupBulletinBoardFrame:SetResizeBounds(400,170)	
+    ---@class BulletinBoardFrame: Frame
+    local GroupBulletinBoardFrame = GroupBulletinBoardFrame
+	GroupBulletinBoardFrame:SetResizeBounds(400,170)
 	GroupBulletinBoardFrame:SetClampedToScreen(true)
 	GBB.UserLevel=UnitLevel("player")
 	GBB.UserName=(UnitFullName("player"))
@@ -565,6 +697,8 @@ function GBB.Init()
 	if not GBB.DB.CustomLocalesDungeon then GBB.DB.CustomLocalesDungeon={} end
 	if not GBB.DB.FontSize then GBB.DB.FontSize = "GameFontNormal" end
 	if not GBB.DB.DisplayLFG then GBB.DB.DisplayLFG = false end
+    if not GBB.DB.WindowSettings then GBB.DB.WindowSettings = {} end
+
 	GBB.DB.Server=nil -- old settings
 	
 	if GBB.DB.OnDebug == nil then GBB.DB.OnDebug=false end
@@ -576,7 +710,7 @@ function GBB.Init()
 	--delete outdated
 	GBB.DB.showminimapbutton=nil
 	GBB.DB.minimapPos=nil
-	
+
 	GBB.InitializeCustomFilters();
 	
 	-- Get localize and Dungeon-Information
@@ -619,14 +753,80 @@ function GBB.Init()
 	
 	GBB.LFG_Timer=time()+GBB.LFG_UPDATETIME
 	GBB.LFG_Successfulljoined=false
-	
-	GBB.AnnounceInit()
-	if GBB.DB.DisplayLFG == false then
-		GroupBulletinBoardFrameAnnounce:Hide()
-		GroupBulletinBoardFrameAnnounceMsg:Hide()
-		GroupBulletinBoardFrameSelectChannel:Hide()
-	end
 
+    local HeaderContainer = GroupBulletinBoardFrameHeaderContainer
+    do -- setup the header "Title"/"Close"/ "Settings" buttons
+        HeaderContainer.Title:SetText(string.format(GBB.TxtEscapePicture,GBB.MiniIcon).." ".. GBB.Title)
+        HeaderContainer.CloseButton:SetScript("OnClick", GBB.HideWindow)
+        HeaderContainer.SettingsButton:SetScript("OnMouseDown", SettingsButton_OnMouseDown)
+        -- hack: hide settings button popup whenever the board frame is hidden
+        HeaderContainer.SettingsButton:HookScript("OnHide", function() GBB.PopupDynamic:Wipe("SettingsButtonMenu") end)
+        -- HeaderContainerRefreshButton setup in LFGToolList.lua (only because its loaded after xml)
+    end
+
+    local FooterContainer = GroupBulletinBoardFrameFooterContainer
+    do -- setup the Footers "Announcement" box for sending messages to a channel
+        local ChannelSelectDropdown = FooterContainer.AnnounceChannelSelect
+        local AnnounceButton = FooterContainer.AnnounceButton
+        local AnnounceInput = FooterContainer.AnnounceInput
+        --- Announcement Target Channel Selection Dropdown
+        ChannelSelectDropdown:SetNormalFontObject(GBB.DB.FontSize)
+        ChannelSelectDropdown:SetSelectionTranslator(function(selection) return selection.data end)
+        local defaultChannel = GBB.L["lfg_channel"] ~= "" and GBB.L["lfg_channel"] or select(2, GetChannelList())
+        local channelSelectSetting = OptionsUtil.GetSavedVarHandle(GBB.DB, "AnnounceChannel", defaultChannel);
+        ChannelSelectDropdown:SetupMenu(function(frame, rootDescription)
+            ---@cast rootDescription RootMenuDescriptionProxy
+            local channelInfo = GBB.PhraseChannelList(GetChannelList())
+            local isSelected = function(channel) return channel == channelSelectSetting:GetValue() end
+            local setSelected = function(channel) channelSelectSetting:SetValue(channel) end
+            for i, channel in pairs(channelInfo) do
+                local button = rootDescription:CreateRadio(i..". "..channel.name, isSelected, setSelected, channel.name)
+                button:SetEnabled(not channel.hidden)
+            end
+        end)
+        ChannelSelectDropdown:HookScript("OnShow", function(self)
+            -- hack: early in addon loading process `GetChannelList` can return nil; so re-generate the menu in these cases.
+            if not self:GetText() then self:GenerateMenu() end
+        end)
+        --- Announce Message Input Box
+        AnnounceInput:SetTextColor(0.6, 0.6, 0.6)
+        AnnounceInput:SetText(GBB.L["msgRequestHere"])
+        AnnounceInput:HighlightText(0, 0)
+        AnnounceInput:SetCursorPosition(0)
+        AnnounceInput:SetScript("OnEditFocusGained", function()
+            local text = AnnounceInput:GetText()
+            if text == GBB.L["msgRequestHere"] then -- clear default text if set
+                AnnounceInput:SetTextColor(1, 1, 1)
+                AnnounceInput:SetText("")
+            end
+        end)
+        AnnounceInput:SetScript("OnTextChanged", function()
+            local text = AnnounceInput:GetText()
+            AnnounceButton:SetEnabled(text and text ~= "" and text ~= GBB.L["msgRequestHere"])
+        end)
+        --- Announcement Send Message Button
+        AnnounceButton:SetNormalFontObject(GBB.DB.FontSize)
+        AnnounceButton:SetText(GBB.L["BtnPostMsg"])
+        AnnounceButton:Disable()
+        AnnounceButton:SetScript("OnClick", function()
+            local message = AnnounceInput:GetText()
+            if message ~= nil and message ~= "" and message ~= GBB.L["msgRequestHere"] then
+                GBB.SendMessage(GBB.DB.AnnounceChannel, message)
+                AnnounceInput:ClearFocus()
+            end
+        end)
+
+        -- Hide the announcement barUI if the option is disabled
+        local displaySetting = OptionsUtil.GetSavedVarHandle(GBB.DB, "DisplayLFG")
+        local updateVisibility = function(isVisible)
+            AnnounceButton:SetShown(isVisible)
+            AnnounceInput:SetShown(isVisible)
+            ChannelSelectDropdown:SetShown(isVisible)
+            FooterContainer:SetHeight(isVisible and 44 or 30)
+        end
+        displaySetting:AddUpdateHook(updateVisibility)
+        updateVisibility(displaySetting:GetValue()) -- initial update
+    end
 	local x, y, w, h = GBB.DB.X, GBB.DB.Y, GBB.DB.Width, GBB.DB.Height
 	if not x or not y or not w or not h then
 		GBB.SaveAnchors()
@@ -672,8 +872,8 @@ function GBB.Init()
 				GBB.ResetWindow()
 				GBB.ShowWindow()
 			end},
-		{{"config","setup","options"},GBB.L["SlashConfig"],GBB.OptionsBuilder.OpenCategoryPanel,1},
-		{"about",GBB.L["SlashAbout"],GBB.OptionsBuilder.OpenCategoryPanel, 6},
+		{{"config","setup","options"},GBB.L["SlashConfig"],OptionsUtil.OpenCategoryPanel,1},
+		{"about",GBB.L["SlashAbout"],OptionsUtil.OpenCategoryPanel, 6},
 		{"",GBB.L["SlashDefault"],GBB.ToggleWindow},
 		{"chat","",{
 			{{"organize", "clean"},GBB.L["SlashChatOrganizer"],function()
@@ -699,29 +899,6 @@ function GBB.Init()
 		end,
 		GBB.Title
 	)
-	GroupBulletinBoardFrameTitle:SetFontObject(GBB.DB.FontSize)
-
-	if GBB.DB.AnnounceChannel == nil then
-		if GBB.L["lfg_channel"] ~= "" then GBB.DB.AnnounceChannel = GBB.L["lfg_channel"];
-		else GBB.DB.AnnounceChannel = select(2, GetChannelList()) end;
-	end
-	DropdownSelectionTextMixin.OnLoad(GroupBulletinBoardFrameSelectChannel)
-	GroupBulletinBoardFrameSelectChannel:SetSelectionTranslator(function(selection) return selection.data end)
-	GroupBulletinBoardFrameSelectChannel:SetupMenu(function(frame, rootDescription)
-		---@cast rootDescription RootMenuDescriptionProxy
-		local channelInfo = GBB.PhraseChannelList(GetChannelList())
-		local setting = GBB.OptionsBuilder.GetSavedVarHandle(GBB.DB, "AnnounceChannel");
-		local isSelected = function(channel) return channel == setting:GetValue() end
-		local setSelected = function(channel) setting:SetValue(channel) end
-		for i, channel in pairs(channelInfo) do
-			local button = rootDescription:CreateRadio(i..". "..channel.name, isSelected, setSelected, channel.name)
-			button:SetEnabled(not channel.hidden)
-		end
-	end)
-	--hack: early in addon loading process `GetChannelList` can return nil; re-generate the menu in these cases.
-	GroupBulletinBoardFrameSelectChannel:HookScript("OnShow", function(self)
-		if not self:GetText() then self:GenerateMenu() end;
-	end)
 
 	---@type EditBox # making this local isnt required, just here for the luals linter
 	local GroupBulletinBoardFrameResultsFilter = _G["GroupBulletinBoardFrameResultsFilter"];
@@ -746,7 +923,6 @@ function GBB.Init()
 	function GroupBulletinBoardFrameResultsFilter:GetFilters() 
 		return self.filterPatterns
 	end
-
 	GBB.ResizeFrameList()
 	
 	if GBB.DB.EscapeQuit then 
@@ -760,19 +936,44 @@ function GBB.Init()
 		GBB.LfgTool.OnFrameResized()
 		end
 	)
-	GBB.Tool.EnableMoving(GroupBulletinBoardFrame,GBB.SaveAnchors)
+
+    function GroupBulletinBoardFrame:StopMovingAndSaveAnchors()
+        GroupBulletinBoardFrame:StopMovingOrSizing()
+        GBB.SaveAnchors()
+    end
+
+    do --- Setup Bulletin Board Window Mouse Interactions
+        local windowSettings = {
+            --- `true` if the board can be dragged around (aka not locked); default=`true`
+            isMovable = OptionsUtil.GetSavedVarHandle(GBB.DB.WindowSettings, "isMovable", true),
+            --- `false` if the board is **not** interactive (aka click-through); default=`true`
+            isInteractive = OptionsUtil.GetSavedVarHandle(GBB.DB.WindowSettings, "isInteractive", true),
+			--- `1` if the board is fully opaque; `0` if the board is fully transparent; default=`1`
+			opacity = OptionsUtil.GetSavedVarHandle(GBB.DB.WindowSettings, "opacity", 1),
+        }
+        windowSettings.isMovable:AddUpdateHook(setBulletinBoardMovableState)
+        setBulletinBoardMovableState(windowSettings.isMovable:GetValue())
+        local setBulletinBoardInteractiveState = function(isInteractive)
+            GBB.UpdateRequestListInteractiveState()
+            GBB.LfgTool:UpdateInteractiveState()
+            GroupBulletinBoardFrame:EnableMouse(isInteractive and windowSettings.isMovable:GetValue())
+        end
+        windowSettings.isInteractive:AddUpdateHook(setBulletinBoardInteractiveState)
+        setBulletinBoardInteractiveState(windowSettings.isInteractive:GetValue())
+		local setBulletinBoardOpacity = function(opacity)
+			GroupBulletinBoardFrame:SetAlpha(opacity)
+		end
+		windowSettings.opacity:AddUpdateHook(setBulletinBoardOpacity)
+		setBulletinBoardOpacity(windowSettings.opacity:GetValue())
+    end
 
 	GBB.PatternWho1=GBB.Tool.CreatePattern(WHO_LIST_FORMAT )
 	GBB.PatternWho2=GBB.Tool.CreatePattern(WHO_LIST_GUILD_FORMAT )
 	GBB.PatternOnline=GBB.Tool.CreatePattern(ERR_FRIEND_ONLINE_SS)
-
-	GroupBulletinBoardFrameTitle:SetText(string.format(GBB.TxtEscapePicture,GBB.MiniIcon).." ".. GBB.Title)
 	
 	GBB.Initalized=true
 	
 	GBB.PopupDynamic=GBB.Tool.CreatePopup(GBB.OptionsUpdate)
-	-- hack: hide settings button popup whenever the board frame is hidden
-	GroupBulletinBoardFrameSettingsButton:HookScript("OnHide", function() GBB.PopupDynamic:Wipe("SettingsButtonMenu") end)
 	GBB.InitGroupList()
 
 	local TabEnum; ---@type {ChatRequests: number?, RecentPlayers: number?, LFGTool: number?}
@@ -795,7 +996,7 @@ function GBB.Init()
 		-- cata client for Hide all tabs except requests for the time being
 		TabEnum = {
 			ChatRequests = GBB.Tool.AddTab(GroupBulletinBoardFrame, GBB.L.TabRequest, GroupBulletinBoardFrame_ScrollFrame);
-			-- LFGTool = GBB.Tool.AddTab(GroupBulletinBoardFrame, GBB.L.TabLfg, GBB.LfgTool.ScrollContainer);
+			LFGTool = GBB.Tool.AddTab(GroupBulletinBoardFrame, GBB.L.TabLfg, GBB.LfgTool.ScrollContainer);
 			-- RecentPlayers = GBB.Tool.AddTab(GroupBulletinBoardFrame, GBB.L.TabGroup, GroupBulletinBoardFrame_GroupFrame);
 		}
 	end
@@ -804,7 +1005,7 @@ function GBB.Init()
 	if TabEnum.LFGTool then
 		GBB.Tool.TabOnSelect(GroupBulletinBoardFrame, TabEnum.LFGTool, function()
 			GBB.LfgTool.RefreshButton:GetScript("OnClick")() -- refresh search results
-		end)
+		end, true)
 		-- only enable the tool tab whenever the player gains access to blizz LFGTool
 		local isTabEnabledYet = false
 		local trySetEnabled = function()
@@ -821,7 +1022,7 @@ function GBB.Init()
 	if TabEnum.RecentPlayers then
 		GBB.Tool.TabOnSelect(GroupBulletinBoardFrame, TabEnum.RecentPlayers, GBB.UpdateGroupList)
 		-- update visibilty of recent player tab based on addon option.
-		local setting = GBB.OptionsBuilder.GetSavedVarHandle(GBB.DB, "EnableGroup")
+		local setting = OptionsUtil.GetSavedVarHandle(GBB.DB, "EnableGroup")
 		local manageTabVisibility = function(isSettingEnabled)
 			if isSettingEnabled then -- Reshow all active tabs.
 				GBB.Tool.TabShow(GroupBulletinBoardFrame)
@@ -834,6 +1035,58 @@ function GBB.Init()
 		manageTabVisibility(setting:GetValue()) -- run once to match the setting state.
 	else GroupBulletinBoardFrame_GroupFrame:Hide() end;
 
+    -- Modifications to the tab buttons
+	-- 1. Allow the tabs to be able to reposition the bulletin board
+	-- 2. Add a context menu to tabs that with option to:
+	--   - lock/unlock the bulletin board
+	--   - move tabs to top or bottom of the owner frame
+	do
+		local windowMovable = OptionsUtil.GetSavedVarHandle(GBB.DB.WindowSettings, "isMovable")
+		local tabPosition = OptionsUtil.GetSavedVarHandle(GBB.DB.WindowSettings, "tabPosition", "bottom")
+		for _, tabId in pairs(TabEnum) do
+			local tab = GroupBulletinBoardFrame.Tabs[tabId]
+			tab:HookScript("OnClick", function(self, clickType)
+				if clickType == "RightButton" then
+					MenuUtil.CreateContextMenu(tab, function(_, rootDesc)
+						-- Lock/Unlock the bulletin board
+						rootDesc:CreateButton(
+							windowMovable:GetValue() and LOCK_WINDOW or UNLOCK_WINDOW,
+							function() windowMovable:SetValue(not windowMovable:GetValue()) end -- onSelected
+						):AddInitializer(function(frame)
+							frame.fontString:SetFontObject("GameFontHighlightSmall")
+						end)
+						-- Move tabs to top or bottom of the owner frame
+						local buttonText = GBB.L.MOVE_TABS_TO_TOP
+						if tabPosition:GetValue() == "top" then
+							buttonText = GBB.L.MOVE_TABS_TO_BOTTOM
+						end
+						rootDesc:CreateButton(buttonText, function()
+							local newPosition = (tab.position == "top") and "bottom" or "top"
+							tabPosition:SetValue(newPosition)
+						end):AddInitializer(function(frame)
+							frame.fontString:SetFontObject("GameFontHighlightSmall")
+						end)
+					end)
+				end
+			end)
+			tab:RegisterForClicks("LeftButtonUp", "RightButtonUp")
+			tab:HookScript("OnDragStart", function() GroupBulletinBoardFrame:StartMoving() end)
+			tab:HookScript("OnDragStop", function() GroupBulletinBoardFrame:StopMovingAndSaveAnchors() end)
+		end
+		local onWindowMovableUpdate = function(isMovable)
+			local tabs = GroupBulletinBoardFrame.Tabs
+			for _, tab in pairs(tabs) do
+				if isMovable then tab:RegisterForDrag("LeftButton")
+				else tab:RegisterForDrag() end
+			end
+		end
+		windowMovable:AddUpdateHook(onWindowMovableUpdate)
+		onWindowMovableUpdate(windowMovable:GetValue())
+		tabPosition:AddUpdateHook(function(newPosition)
+			GBB.Tool.ChangeTabPositions(GroupBulletinBoardFrame, newPosition)
+		end)
+		GBB.Tool.ChangeTabPositions(GroupBulletinBoardFrame, tabPosition:GetValue())
+	end
 	---@class AddonEnum
 	local Enum = GBB.Enum; Enum.Tabs = TabEnum
 
