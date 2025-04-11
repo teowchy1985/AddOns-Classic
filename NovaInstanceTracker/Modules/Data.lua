@@ -552,6 +552,11 @@ local lootCurrency = {
 	[236397] = "Remnants of Valor",
 };
 
+--Same as above for if anyone loots, not just me.
+local lootCurrencyAll = {
+	[12811] = "Righteous Orb",
+};
+
 function NIT:chatMsgLoot(...)
 	local msg = ...;
 	local itemName, itemLink, itemRarity, itemLevel, itemMinLevel, itemType,
@@ -569,6 +574,7 @@ function NIT:chatMsgLoot(...)
     --Self loot multiple item "You receive loot: [Item]x2"
 	--local itemLink, amount = strmatch(msg, string.gsub(string.gsub(LOOT_ITEM_SELF_MULTIPLE, "%%s", "(.+)"), "%%d", "(%%d+)"));
 	local itemLink, amount = NIT.libDeformat(msg, LOOT_ITEM_SELF_MULTIPLE);
+	local otherPlayer;
 	if (not itemLink) then
  		--Self receive single loot "You receive loot: [Item]"
     	--itemLink = msg:match(LOOT_ITEM_SELF:gsub("%%s", "(.+)"));
@@ -579,41 +585,86 @@ function NIT:chatMsgLoot(...)
 			itemLink = NIT.libDeformat(msg, LOOT_ITEM_PUSHED_SELF);
 		end
     end
+     --If no matches for self loot then check other player loot msgs.
+    if (not itemLink) then
+    	otherPlayer = true;
+    	--Other player receive multiple loot "Otherplayer receives loot: [Item]x2"
+    	name, itemLink, amount = NIT.libDeformat(msg, LOOT_ITEM_MULTIPLE);
+    	if (not itemLink) then
+    		--Other player receive single loot "Otherplayer receives loot: [Item]"
+    		name, itemLink = NIT.libDeformat(msg, LOOT_ITEM);
+			if (not itemLink) then
+				--Other player loot multiple item "Otherplayer receives item: [Item]x2"
+				name, itemLink, amount = NIT.libDeformat(msg, LOOT_ITEM_PUSHED_MULTIPLE);
+				if (not itemLink) then
+	 				--Other player receive single item "Otherplayer receives item: [Item]"
+					name, itemLink = NIT.libDeformat(msg, LOOT_ITEM_PUSHED);
+					item = true;
+				end
+			end
+    	end
+    end
     if (itemLink) then
-    	if (NIT.inInstance) then
-	    	local instance = NIT.data.instances[1];
-	    	local itemID = string.match(itemLink, "item:(%d+)");
-	    	if (itemID) then
-	    		itemID = tonumber(itemID);
-	    		if (lootCurrency[tonumber(itemID)]) then
-		    		local itemName, _, _, _, _, _, _, _, _, icon = C_Item.GetItemInfo(itemID);
-		    		if (not instance.currencies) then
-						instance.currencies = {};
-					end
-					if (not instance.currencies[itemID]) then
+    	if (otherPlayer) then
+    		if (NIT.inInstance) then
+		    	local instance = NIT.data.instances[1];
+		    	local itemID = string.match(itemLink, "item:(%d+)");
+		    	if (itemID) then
+		    		itemID = tonumber(itemID);
+		    		if (lootCurrencyAll[itemID]) then
+			    		local itemName, _, _, _, _, _, _, _, _, icon = C_Item.GetItemInfo(itemID);
+			    		if (not instance.currencies) then
+							instance.currencies = {};
+						end
+						if (not instance.currencies[itemID]) then
+							instance.currencies[itemID] = {
+								count = 0;
+							};
+						end
 						instance.currencies[itemID] = {
-							count = 0;
+							name = itemName,
+							count = instance.currencies[itemID].count + (amount or 1),
+							icon = icon,
 						};
 					end
-					instance.currencies[itemID] = {
-						name = itemName,
-						count = instance.currencies[itemID].count + (amount or 1),
-						icon = icon,
-					};
-				end
+		    	end
 	    	end
-    	end
-    	if (string.match(itemLink, "|Hkeystone:(.+)|h") or string.match(itemLink, "item:180653")) then
-    		C_Timer.After(1, function()
-    			NIT:debug("looted keystone");
-				NIT:recordKeystoneData(true);
-			end)
-			C_Timer.After(5, function()
-				NIT:checkRewards();
-			end)
-			C_Timer.After(15, function()
-				NIT:checkRewards();
-			end)
+    	else
+	    	if (NIT.inInstance) then
+		    	local instance = NIT.data.instances[1];
+		    	local itemID = string.match(itemLink, "item:(%d+)");
+		    	if (itemID) then
+		    		itemID = tonumber(itemID);
+		    		if (lootCurrency[itemID] or lootCurrencyAll[itemID]) then
+			    		local itemName, _, _, _, _, _, _, _, _, icon = C_Item.GetItemInfo(itemID);
+			    		if (not instance.currencies) then
+							instance.currencies = {};
+						end
+						if (not instance.currencies[itemID]) then
+							instance.currencies[itemID] = {
+								count = 0;
+							};
+						end
+						instance.currencies[itemID] = {
+							name = itemName,
+							count = instance.currencies[itemID].count + (amount or 1),
+							icon = icon,
+						};
+					end
+		    	end
+	    	end
+	    	if (string.match(itemLink, "|Hkeystone:(.+)|h") or string.match(itemLink, "item:180653")) then
+	    		C_Timer.After(1, function()
+	    			NIT:debug("looted keystone");
+					NIT:recordKeystoneData(true);
+				end)
+				C_Timer.After(5, function()
+					NIT:checkRewards();
+				end)
+				C_Timer.After(15, function()
+					NIT:checkRewards();
+				end)
+	    	end
     	end
     end
 end
@@ -1312,6 +1363,19 @@ function NIT:enteredInstance(isReload, isLogon, checkAgain)
 						doubleCheckArena();
 					end)
 				end
+				if (type == "delve") then
+					local data = C_UIWidgetManager.GetScenarioHeaderDelvesWidgetVisualizationInfo(6183);
+					if (data.tierText) then
+						t.delveTier = data.tierText;
+					else
+						C_Timer.After(5, function()
+							local data = C_UIWidgetManager.GetScenarioHeaderDelvesWidgetVisualizationInfo(6183);
+							if (NIT.inInstance and data.tierText and NIT.data.instances[1] and NIT.data.instances[1].type == "delve") then
+								NIT.data.instances[1].delveTier = data.tierText; 
+							end
+						end)
+					end
+				end
 				--NIT:debug("entered", UnitLevel("player"));
 				--if (NIT.isDebug) then
 				--	t.GUIDList = {};
@@ -1329,7 +1393,7 @@ function NIT:enteredInstance(isReload, isLogon, checkAgain)
 				if (t.isPvp) then
 					if (NIT.db.global.pvpEnteredMsg) then
 						local msg = string.format(L["enteredDungeon"], instanceNameMsg, "");
-						msg = string.gsub(msg, " , ", ", ")
+						msg = string.gsub(msg, " , ", ", ");
 						C_Timer.After(0.5, function()
 							--local hourCount, hourCount24, hourTimestamp, hourTimestamp24 = NIT:getInstanceLockoutInfo();
 							NIT:print("|HNITCustomLink:instancelog|h" .. msg .. "|h "
@@ -1344,8 +1408,13 @@ function NIT:enteredInstance(isReload, isLogon, checkAgain)
 						end)
 					end
 				elseif (type == "delve") then
+					if (t.delveTier) then
+						instanceNameMsg = instanceName .. " |cFF9CD6DE(|r|cFF00C800D+" .. t.delveTier .. "|r|cFF9CD6DE)|r";
+					else
+						instanceNameMsg = instanceName .. " |cFF9CD6DE(|r|cFF00C800D|r|cFF9CD6DE)|r";
+					end
 					local msg = string.format(L["enteredDungeon"], instanceNameMsg, "");
-					msg = string.gsub(msg, " , ", ", ")
+					msg = string.gsub(msg, " , ", ", ");
 					C_Timer.After(0.5, function()
 						--local hourCount, hourCount24, hourTimestamp, hourTimestamp24 = NIT:getInstanceLockoutInfo();
 						NIT:print("|HNITCustomLink:instancelog|h" .. msg .. "|h "
