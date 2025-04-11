@@ -193,7 +193,9 @@ local function getEnchantName(itemLink)
 		    if (text) then
 		    	--Check green lines only, sometimes an enchant might be the exact same text as an item's white stats line (like +16 int enchant on sapphiron's right eye).
 		    	local r, g, b = tooltipLine:GetTextColor();
-		    	if (r == 0 and g == 1 and b == 0) then
+		    	--if (r == 0 and g == 1 and b == 0) then
+		    	--Changed to check everything non-white instead, dk runes and possibly some other stuff isn't green.
+		    	if (r ~= 1 or g ~= 1 or b ~= 1) then
 		    		originalLines[text] = true;
 		    	end
 		    end
@@ -203,7 +205,8 @@ local function getEnchantName(itemLink)
 		for line, tooltipLine in ipairs(enchantTooltipLines) do
 		    local text = tooltipLine:GetText();
 		    local r, g, b = tooltipLine:GetTextColor();
-		    if (r == 0 and g == 1 and b == 0) then
+		   -- if (r == 0 and g == 1 and b == 0) then
+		    if (r ~= 1 or g ~= 1 or b ~= 1) then
 			    if (text and not originalLines[text]) then
 			    	enchantName = text;
 			    	break;
@@ -282,7 +285,7 @@ local function fallbackUpdate(guid, unit)
 	if (fallbackCache[guid]) then
 		for k, v in pairs(fallbackCache[guid]) do
 			local item = Item:CreateFromItemID(v);
-			if (item) then
+			if (item and not item:IsItemEmpty()) then
 				item:ContinueOnItemLoad(function()
 					local itemLink = item:GetItemLink();
 					if (itemLink) then

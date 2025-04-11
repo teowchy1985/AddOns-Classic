@@ -955,6 +955,34 @@ NRC.foods = {
 		quality = 1,
 		maxRank = true,
 	},
+	[1225778] = {
+		name = "Prowler Steak",
+		icon = 136000,
+		desc = "+25 Strength, +10 Stamina",
+		quality = 1,
+		maxRank = true,
+	},
+	[1225780] = {
+		name = "Sunrise Omelette",
+		icon = 136000,
+		desc = "+29 Spell Power, +55 Healing, +10 Stamina",
+		quality = 1,
+		maxRank = true,
+	},
+	[1225779] = {
+		name = "Filet o' Flank",
+		icon = 136000,
+		desc = "+25 Agility, +10 Stamina",
+		quality = 1,
+		maxRank = true,
+	},
+	[1225782] = {
+		name = "Grand Lobster Banquet", --Also same spellID for Specklefin Feast.
+		icon = 136000,
+		desc = "+40 AP, +23 SP, +44 Healing, +10 Stamina",
+		quality = 1,
+		maxRank = true,
+	},
 };
 
 --"Food" buffs used in RaidStatus to show player is currently eating buff food, these must match all foods above.
@@ -979,6 +1007,10 @@ NRC.eating = {
 	[25660] = "Food", --+Stamina, 25.
 	[470362] = "Food", --+12 Spell Power.
 	[470369] = "Food", --+22 Healing.
+	[1225769] = "Food", --+25 Strength, +10 Stamina.
+	[1225772] = "Food", --+29 Spell Power, +55 Healing, +10 Stamina.
+	[1225771] = "Food", --+25 Agility, +10 Stamina.
+	[1225774] = "Food", --Grand Lobster Banquet and Specklefin Feast.
 };
 
 NRC.scrolls = {
