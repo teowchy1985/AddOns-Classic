@@ -5,7 +5,7 @@ local L		= mod:GetLocalizedStrings()
 
 mod.statTypes = "normal,heroic,mythic"
 
-mod:SetRevision("20250410222349")
+mod:SetRevision("20250411173551")
 
 mod:SetZone(2856)
 mod:SetEncounterID(3187)
@@ -31,6 +31,13 @@ local specWarnRosesThorns = mod:NewSpecialWarningSpell(1232390, "Healer", nil, n
 -- Probably a special warning if you are targeted (as you are tanking) TBD
 local warnBlade = mod:NewTargetNoFilterAnnounce(1232389)
 
+-- Probably wrong because it's an odd time, the question is: when does the enrage timer start and how can we detect that?
+-- Maybe when she joins the fight? Then it would be ~4 minutes
+local berserkTimer = mod:NewBerserkTimer(413)
+
+function mod:OnCombatStart(delay)
+	berserkTimer:Start(413 - delay)
+end
 
 function mod:SPELL_AURA_APPLIED(args)
 	if args:IsSpell(1236174) then

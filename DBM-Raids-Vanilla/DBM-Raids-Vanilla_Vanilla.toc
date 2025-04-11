@@ -34,7 +34,7 @@
 ## X-Curse-Project-ID: 16442
 ## X-WoWI-ID: 11700
 ## X-Wago-ID: 7x61xpN1
-## Version: r788
+## Version: r790
 
 locale.generated.lua
 
@@ -157,10 +157,11 @@ VanillaSoD_SunkenTemple\AvatarofHakkar.lua
 VanillaSoD_ScarletEnclave\Datamined.lua
 VanillaSoD_ScarletEnclave\Trash.lua
 VanillaSoD_ScarletEnclave\Balnazzar.lua
-VanillaSoD_ScarletEnclave\Solistrasza.lua
 VanillaSoD_ScarletEnclave\Beatrix.lua
-VanillaSoD_ScarletEnclave\RebornCouncil.lua
-VanillaSoD_ScarletEnclave\Caldoran.lua
-VanillaSoD_ScarletEnclave\LillianVoss.lua
+VanillaSoD_ScarletEnclave\Solistrasza.lua
 VanillaSoD_ScarletEnclave\Beastmaster.lua
 VanillaSoD_ScarletEnclave\Mason.lua
+VanillaSoD_ScarletEnclave\RebornCouncil.lua
+VanillaSoD_ScarletEnclave\LillianVoss.lua
+VanillaSoD_ScarletEnclave\Caldoran.lua
+
