@@ -2133,6 +2133,7 @@ function NRC:updateRaidStatusFrames(updateLayout)
 				if (next(elixirs)) then
 					--Sorting for max 2 icons only, and show X in missing slot (elixirs instead of a flask).
 					local frame = raidStatusFrame.subFrames[rowName .. flaskSlot];
+					frame.texture:SetTexCoord(0, 1, 0, 1); --Reset coords for first column, it shared some coord stuff with sod naxx column.
 					--[[frame.fs:SetText("");
 					local tooltipText = "";
 					if (elixirs[1]) then

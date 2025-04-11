@@ -1185,6 +1185,7 @@ function NRC:checkMyTalents()
 	--if (IsInGroup()) then
 		local me = UnitName("player");
 		NRC.talents[me] = NRC:createTalentString();
+		NRC:updateIssuesCache(UnitGUID("player"));
 	--end
 end
 
