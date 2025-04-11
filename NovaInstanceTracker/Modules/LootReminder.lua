@@ -791,6 +791,37 @@ local karaRelics = {
 	[236879] = "Scythe",
 	[236880] = "Staff",
 };
+local lootAnnounceAll = {
+
+};
+
+--This will be addd as an option later.
+function NIT_TrackOrbs()
+	lootAnnounceAll[12811] = {name = "Righteous Orb", instanceID = 329};
+	print("Now announcing Righteous Orbs looted to chat.")
+end
+
+local function itemLooted(itemID, name)
+	if (itemID and name) then
+		--if (NIT.db.global.lootReminderItem) then
+			local item = Item:CreateFromItemID(itemID);
+			item:ContinueOnItemLoad(function()
+				local itemName = item:GetItemName();
+				local itemLink = item:GetItemLink();
+				local me = UnitName("player");
+				if (name == me) then
+					name = "me";
+				end
+				if (IsInGroup()) then
+					SendChatMessage("[NIT] " .. itemName .. " looted by " .. name.. "!", "PARTY");
+				else
+					SendChatMessage("[NIT] " .. itemName .. " looted by " .. name.. "!", "SAY");
+				end
+				addMsg(itemName .. " looted by " .. name .. "!", 5);
+			end);
+		--end
+	end
+end
 
 local function relicLooted(itemID, name, class)
 	if (itemID and name) then
@@ -858,7 +889,7 @@ local function chatMsgLoot(...)
     ---The SELF loot strings were triggering for other people, so item counts would count everyone in the party.
     ---The lib fixed this.
     
-    local otherPlayer;
+    local otherPlayer, item, loot;
     --Self loot multiple item "You receive loot: [Item]x2"
 	--local itemLink, amount = strmatch(msg, string.gsub(string.gsub(LOOT_ITEM_SELF_MULTIPLE, "%%s", "(.+)"), "%%d", "(%%d+)"));
 	local itemLink, amount = NIT.libDeformat(msg, LOOT_ITEM_SELF_MULTIPLE);
@@ -870,31 +901,45 @@ local function chatMsgLoot(...)
  			--Self receive single item "You receive item: [Item]"
 			--itemLink = msg:match(LOOT_ITEM_PUSHED_SELF:gsub("%%s", "(.+)"));
 			itemLink = NIT.libDeformat(msg, LOOT_ITEM_PUSHED_SELF);
+			item = true;
 		end
     end
     --If no matches for self loot then check other player loot msgs.
     if (not itemLink) then
     	otherPlayer = true;
     	--Other player receive multiple loot "Otherplayer receives loot: [Item]x2"
-    	name, itemLink, amount = strmatch(msg, string.gsub(string.gsub(LOOT_ITEM_MULTIPLE, "%%s", "(.+)"), "%%d", "(%%d+)"));
+    	name, itemLink, amount = NIT.libDeformat(msg, LOOT_ITEM_MULTIPLE);
     	if (not itemLink) then
     		--Other player receive single loot "Otherplayer receives loot: [Item]"
-    		name, itemLink = msg:match("^" .. LOOT_ITEM:gsub("%%s", "(.+)"));
+    		name, itemLink = NIT.libDeformat(msg, LOOT_ITEM);
 			if (not itemLink) then
 				--Other player loot multiple item "Otherplayer receives item: [Item]x2"
-				name, itemLink, amount = strmatch(msg, string.gsub(string.gsub(LOOT_ITEM_PUSHED_MULTIPLE, "%%s", "(.+)"), "%%d", "(%%d+)"));
+				name, itemLink, amount = NIT.libDeformat(msg, LOOT_ITEM_PUSHED_MULTIPLE);
+				item = true;
 				if (not itemLink) then
 	 				--Other player receive single item "Otherplayer receives item: [Item]"
-					name, itemLink = msg:match("^" .. LOOT_ITEM_PUSHED:gsub("%%s", "(.+)"));
+					name, itemLink = NIT.libDeformat(msg, LOOT_ITEM_PUSHED);
+					item = true;
 				end
 			end
     	end
     end
     if (itemLink) then
+    	if (not item) then
+	    	loot = true;
+	    end
     	if (NIT.inInstance) then
 	    	local itemID = string.match(itemLink, "item:(%d+)");
 	    	if (itemID) then
 	    		itemID = tonumber(itemID);
+	    		if (lootAnnounceAll[itemID] and lootAnnounceAll[itemID].instanceID == NIT.currentInstanceID and not item) then
+	    			if (otherPlayer) then
+		    			itemLooted(itemID,  name);
+	    			else
+	    				local me = UnitName("player");
+		    			itemLooted(itemID,  me);
+	    			end
+	    		end
 	    		if (otherPlayer) then
 	    			if (karaRelics[itemID]) then
 	    				local class;

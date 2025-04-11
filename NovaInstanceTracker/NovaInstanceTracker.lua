@@ -1040,7 +1040,11 @@ function NIT:updateMinimapButton(tooltip, frame)
 				elseif (data.difficultyID == 8 or data.difficultyID == 16 or data.difficultyID == 23 or data.difficultyID == 40) then
 					instanceDiff = " |cFF9CD6DE(|cFFa335eeM|r)|r";
 				elseif (data.type == "delve") then
-					instanceDiff = " |cFF9CD6DE(|cFF00C800D|r)|r";
+					if (data.delveTier) then
+						instanceDiff = " |cFF9CD6DE(|cFF00C800D+" .. data.delveTier .. "|r)|r";
+					else
+						instanceDiff = " |cFF9CD6DE(|cFF00C800D|r)|r";
+					end
 				end
 				tooltip:AddLine("|cFF00C800" .. data.instanceName .. instanceDiff);
 			end
@@ -2290,7 +2294,11 @@ function NIT:buildInstanceLineFrameString(v, count, logID)
 	elseif (v.difficultyID == 8 or v.difficultyID == 16 or v.difficultyID == 23 or v.difficultyID == 40) then
 		instance = instance .. " (|cFFa335eeM|r)";
 	elseif (v.type == "delve") then
-		instance = instance .. " (|cFF00C800D|r)";
+		if (v.delveTier) then
+			instance = instance .. " (|cFF00C800D+" .. v.delveTier .. "|r)";
+		else
+			instance = instance .. " (|cFF00C800D|r)";
+		end
 	end
 	local time = NIT:getTimeFormat(v.enteredTime, true, true);
 	local timeAgo = GetServerTime() - v.enteredTime;
@@ -2527,7 +2535,11 @@ function NIT:recalcInstanceLineFramesTooltip(obj)
 		elseif (data.difficultyID == 8 or data.difficultyID == 16 or data.difficultyID == 23 or data.difficultyID == 40) then
 			heroicString = " (|cFFa335eeM|r)";
 		elseif (data.type == "delve") then
-			heroicString = " (|cFF00C800D|r)";
+			if (data.delveTier) then
+				heroicString = " (|cFF00C800D+" .. data.delveTier .. "|r)";
+			else
+				heroicString = " (|cFF00C800D|r)";
+			end
 		end
 		local text = timeColor .. L["Instance"] .. " " .. obj.count .. " (" .. data.instanceName .. heroicString .. ")|r";
 		if (not data.isPvp and data.instanceID and (NIT.noRaidLockouts and NIT.zones[data.instanceID] and NIT.zones[data.instanceID].noLockout)) then
