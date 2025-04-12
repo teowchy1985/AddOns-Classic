@@ -1,6 +1,7 @@
 # Syndicator
 
-## [186](https://github.com/Baganator/Syndicator/tree/186) (2025-04-05)
-[Full Changelog](https://github.com/Baganator/Syndicator/compare/185...186) 
+## [188](https://github.com/Baganator/Syndicator/tree/188) (2025-04-11)
+[Full Changelog](https://github.com/Baganator/Syndicator/compare/187...188) 
 
-- Sort characters consistently in /syns search  
+- Remove leftover print  
+- Classic Era: Workaround missing consumable/trade goods subtypes  
