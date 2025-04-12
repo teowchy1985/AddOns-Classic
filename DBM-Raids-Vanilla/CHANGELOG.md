@@ -1,10 +1,8 @@
 # DBM - Vanilla and Season of Discovery
 
-## [r790](https://github.com/DeadlyBossMods/DBM-Vanilla/tree/r790) (2025-04-11)
-[Full Changelog](https://github.com/DeadlyBossMods/DBM-Vanilla/compare/r789...r790) [Previous Releases](https://github.com/DeadlyBossMods/DBM-Vanilla/releases)
+## [r792](https://github.com/DeadlyBossMods/DBM-Vanilla/tree/r792) (2025-04-12)
+[Full Changelog](https://github.com/DeadlyBossMods/DBM-Vanilla/compare/r791...r792) [Previous Releases](https://github.com/DeadlyBossMods/DBM-Vanilla/releases)
 
-- Scarlet Enclave/Lillian Voss: Move logic from datamined mechanic and add a few warnings  
-- Scarlet Enclave/Datamined: Remove unused events  
-- ScarletEnclave: Move damage reflect warning from datamined to trash  
-- use built in string instead  
-- Scarlet Enclave: Re-order bosses to match dungeon order (was sorted by ID)  
+- Update koKR (#349)  
+- Update localization.ru.lua  
+- Scarlet Enclave/Balnazzar: Change Prey of the Weak to tick timer and disable special warning by default  

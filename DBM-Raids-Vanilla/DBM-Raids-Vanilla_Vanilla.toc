@@ -34,7 +34,7 @@
 ## X-Curse-Project-ID: 16442
 ## X-WoWI-ID: 11700
 ## X-Wago-ID: 7x61xpN1
-## Version: r790
+## Version: r792
 
 locale.generated.lua
 
@@ -154,7 +154,6 @@ VanillaSoD_SunkenTemple\MorphazAndHazzas.lua
 VanillaSoD_SunkenTemple\ShadeOfEranikus.lua
 VanillaSoD_SunkenTemple\AvatarofHakkar.lua
 
-VanillaSoD_ScarletEnclave\Datamined.lua
 VanillaSoD_ScarletEnclave\Trash.lua
 VanillaSoD_ScarletEnclave\Balnazzar.lua
 VanillaSoD_ScarletEnclave\Beatrix.lua
