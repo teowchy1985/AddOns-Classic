@@ -5,7 +5,7 @@ local L		= mod:GetLocalizedStrings()
 
 mod.statTypes = "normal,heroic,mythic"
 
-mod:SetRevision("20250413184357")
+mod:SetRevision("20250415162251")
 
 mod:SetZone(2856)
 mod:SetEncounterID(3196)
@@ -42,6 +42,10 @@ function mod:OnCombatStart(delay)
 		DBM.InfoFrame:Show(10, "bosshealth", self)
 		self.bossHealthUpdateTime = 0.5
 	end
+end
+
+function mod:OnCombatEnd()
+	DBM.InfoFrame:Hide()
 end
 
 function mod:SPELL_AURA_APPLIED(args)

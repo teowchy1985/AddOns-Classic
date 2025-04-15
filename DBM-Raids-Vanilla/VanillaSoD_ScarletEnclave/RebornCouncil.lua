@@ -5,7 +5,7 @@ local L		= mod:GetLocalizedStrings()
 
 mod.statTypes = "normal,heroic,mythic"
 
-mod:SetRevision("20250413184357")
+mod:SetRevision("20250415162251")
 
 mod:SetZone(2856)
 mod:SetEncounterID(3188)
@@ -45,6 +45,11 @@ function mod:OnCombatStart(delay)
 		self.bossHealthUpdateTime = 0.5
 	end
 end
+
+function mod:OnCombatEnd()
+	DBM.InfoFrame:Hide()
+end
+
 
 function mod:SPELL_CAST_START(args)
 	if args:IsSpell(1231264) then
