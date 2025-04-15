@@ -18,6 +18,7 @@ local data = AtlasLoot.ItemDB:Add(addonname, 1, 1)
 local AL = AtlasLoot.Locales
 local ALIL = AtlasLoot.IngameLocales
 
+local SOD_DIFF = data:AddDifficulty(AL["SoD"], "n", 1, nil, true)
 local NORMAL_DIFF = data:AddDifficulty(AL["Normal"], "n", 1, nil, true)
 local ALLIANCE_DIFF
 local HORDE_DIFF
@@ -41,6 +42,15 @@ local SET_EXTRA_ITTYPE = data:AddExtraItemTableType("Set")
 local FACTIONS3_CONTENT = data:AddContentType(AL["SoD Factions"], ATLASLOOT_RAID20_COLOR)
 local FACTIONS_CONTENT = data:AddContentType(AL["Factions"], ATLASLOOT_FACTION_COLOR)
 local FACTIONS2_CONTENT = data:AddContentType(AL["Secondary factions"], {0.1, 0.3, 0.1, 1})
+
+local FACTIONS_HORDE_CONTENT, FACTIONS_ALLI_CONTENT
+if UnitFactionGroup("player") == "Horde" then
+    FACTIONS_HORDE_CONTENT = data:AddContentType(FACTION_HORDE, ATLASLOOT_HORDE_COLOR)
+    FACTIONS_ALLI_CONTENT = data:AddContentType(FACTION_ALLIANCE, ATLASLOOT_ALLIANCE_COLOR)
+else
+    FACTIONS_ALLI_CONTENT = data:AddContentType(FACTION_ALLIANCE, ATLASLOOT_ALLIANCE_COLOR)
+    FACTIONS_HORDE_CONTENT = data:AddContentType(FACTION_HORDE, ATLASLOOT_HORDE_COLOR)
+end
 
 --[[
 0 - Unknown
@@ -124,7 +134,7 @@ data["Emerald Wardens"] = {
 			name = ALIL["Friendly"],
 			[NORMAL_DIFF] = {
 				{ 1, "f2641rep5" },
-				{ 2, 221392 }, --Emerald Scalemail Shoulders
+				{ 2, 221392 }, --Emerald Scalemail Shoudlers
 				{ 3, 221389 }, --Emerald Scalemail Gauntlets
 				{ 4, 221393 }, --Emerald Scalemail Boots
 				{ 5, 221399 }, --Emerald Laden Shoulders
@@ -195,11 +205,12 @@ data["Durotar Supply And Logistics"] = {
 			[NORMAL_DIFF] = {
 				{ 1, "f2587rep8" },
 				{ 2, 223164 }, -- Curiosity Cowl
-				{ 3, 223169 }, -- Tenacity Cap
-				{ 4, 223172 }, -- Tenacity Chain
-				{ 5, 223186 }, -- Supply Expediter
-				{ 6, 223162 }, -- Handy Courier Haversack
-				{ 7, 220639 }, -- Lledra's Inanimator
+				{ 3, 223167 }, -- Initiative Cap
+				{ 4, 223169 }, -- Tenacity Cap
+				{ 5, 223172 }, -- Tenacity Chain
+				{ 6, 223186 }, -- Supply Expediter
+				{ 7, 223162 }, -- Handy Courier Haversack
+				{ 8, 220639 }, -- Lledra's Inanimator
 			},
 		},
 		{ -- Revered
@@ -260,11 +271,12 @@ data["Azeroth"] = {
 			[NORMAL_DIFF] = {
 				{ 1, "f2586rep8" },
 				{ 2, 223164 }, -- Curiosity Cowl
-				{ 3, 223169 }, -- Tenacity Cap
-				{ 4, 223172 }, -- Tenacity Chain
-				{ 5, 223186 }, -- Supply Expediter
-				{ 6, 223162 }, -- Handy Courier Haversack
-				{ 7, 220639 }, -- Lledra's Inanimator
+				{ 3, 223167 }, -- Initiative Cap
+				{ 4, 223169 }, -- Tenacity Cap
+				{ 5, 223172 }, -- Tenacity Chain
+				{ 6, 223186 }, -- Supply Expediter
+				{ 7, 223162 }, -- Handy Courier Haversack
+				{ 8, 220639 }, -- Lledra's Inanimator
 			},
 		},
 		{ -- Revered
@@ -540,11 +552,10 @@ data["ThoriumBrotherhood"] = {
 data["CenarionCircle"] = {
 	FactionID = 609,
 	ContentType = FACTIONS_CONTENT,
-	LoadDifficulty = LOAD_DIFF,
 	items = {
 		{ -- Exalted
 			name = ALIL["Exalted"],
-			[NORMAL_DIFF] = {
+			[SOD_DIFF] = {
 				{ 1, "f609rep8" },
 				{ 2,  234325 }, -- Pattern: Dreamscale Breastplate
 				{ 3,  234461 }, -- Plans: Obisidian Mail Tunic
@@ -552,12 +563,19 @@ data["CenarionCircle"] = {
 				{ 18, 234462 }, -- Earthstrike
 				{ 19, 234463 }, -- Wrath of Cenarius
 			},
+			[NORMAL_DIFF] = {
+				{ 1, "f609rep8" },
+				{ 2,  20382 }, -- Pattern: Dreamscale Breastplate
+				{ 17,  21188 }, -- Fist of Cenarius
+				{ 18,  21180 }, -- Earthstrike
+				{ 19,  21190 }, -- Wrath of Cenarius
+			},
 		},
 		{ -- Revered
 			name = ALIL["Revered"],
-			[NORMAL_DIFF] = {
+			[SOD_DIFF] = {
 				{ 1, "f609rep7" },
-				{ 2,   22312 }, -- Pattern: Satchel of Cenarius
+				{ 2,  22312 }, -- Pattern: Satchel of Cenarius
 				{ 3,  234318 }, -- Pattern: Sylvan Vest
 				{ 4,  234311 }, -- Pattern: Bramblewood Helm
 				{ 5,  234305 }, -- Pattern: Spitfire Breastplate
@@ -570,10 +588,25 @@ data["CenarionCircle"] = {
 				{ 19, 234749 }, -- Earthcalm Orb
 				{ 20, 234761 }, -- Might of Cenarius
 			},
+			[NORMAL_DIFF] = {
+				{ 1, "f609rep7" },
+				{ 2,  22683 }, -- Pattern: Gaea's Embrace
+				{ 3,  22312 }, -- Pattern: Satchel of Cenarius
+				{ 4,  22774 }, -- Pattern: Sylvan Vest
+				{ 5,  22771 }, -- Pattern: Bramblewood Helm
+				{ 6,  20508 }, -- Pattern: Spitfire Breastplate
+				{ 7,  20511 }, -- Pattern: Sandstalker Breastplate
+				{ 8,  22766 }, -- Plans: Ironvine Breastplate
+				{ 9,  22219 }, -- Plans: Jagged Obsidian Shield
+				{ 17,  21184 }, -- Deeprock Bracers
+				{ 18,  21186 }, -- Rockfury Bracers
+				{ 19,  21185 }, -- Earthcalm Orb
+				{ 20,  21189 }, -- Might of Cenarius
+			},
 		},
 		{ -- Honored
 			name = ALIL["Honored"],
-			[NORMAL_DIFF] = {
+			[SOD_DIFF] = {
 				{ 1, "f609rep6" },
 				{ 2,  234316 }, -- Pattern: Sylvan Crown
 				{ 3,  234297 }, -- Pattern: Sandstalker Gauntlets
@@ -591,10 +624,23 @@ data["CenarionCircle"] = {
 				{ 18, 234782 }, -- Earthpower Vest
 				{ 19, 234780 }, -- Band of Earthen Might
 			},
+			[NORMAL_DIFF] = {
+				{ 1, "f609rep6" },
+				{ 2,  22773 }, -- Pattern: Sylvan Crown
+				{ 3,  22770 }, -- Pattern: Bramblewood Boots
+				{ 4,  20507 }, -- Pattern: Spitfire Gauntlets
+				{ 5,  20510 }, -- Pattern: Sandstalker Gauntlets
+				{ 6,  22767 }, -- Plans: Ironvine Gloves
+				{ 7,  22214 }, -- Plans: Light Obsidian Belt
+				{ 8,  20733 }, -- Formula: Enchant Cloak - Greater Nature Resistance
+				{ 17,  21181 }, -- Grace of Earth
+				{ 18,  21183 }, -- Earthpower Vest
+				{ 19,  21182 }, -- Band of Earthen Might
+			},
 		},
 		{ -- Friendly
 			name = ALIL["Friendly"],
-			[NORMAL_DIFF] = {
+			[SOD_DIFF] = {
 				{ 1, "f609rep5" },
 				{ 2,  234445 }, -- Pattern: Bolt of Qiraji Silk
 				{ 3,  234314 }, -- Pattern: Sylvan Shoulders
@@ -613,6 +659,20 @@ data["CenarionCircle"] = {
 				{ 17, 234785 }, -- Gloves of Earthen Power
 				{ 18, 234788 }, -- Earthweave Cloak
 				{ 19, 234786 }, -- Band of Earthen Wrath
+			},
+			[NORMAL_DIFF] = {
+				{ 1, "f609rep5" },
+				{ 2,  22772 }, -- Pattern: Sylvan Shoulders
+				{ 3,  22310 }, -- Pattern: Cenarion Herb Bag
+				{ 4,  22769 }, -- Pattern: Bramblewood Belt
+				{ 5,  20506 }, -- Pattern: Spitfire Bracers
+				{ 6,  20509 }, -- Pattern: Sandstalker Bracers
+				{ 7,  22768 }, -- Plans: Ironvine Belt
+				{ 8,  22209 }, -- Plans: Heavy Obsidian Belt
+				{ 9,  20732 }, -- Formula: Enchant Cloak - Greater Fire Resistance
+				{ 17,  21178 }, -- Gloves of Earthen Power
+				{ 18,  21187 }, -- Earthweave Cloak
+				{ 19,  21179 }, -- Band of Earthen Wrath
 			},
 		},
 	},
@@ -693,7 +753,7 @@ data["BroodOfNozdormu"] = {
 				{ 4, 21200 }, --Signet Ring of the Bronze Dragonflight / 80
 				{ 16, "INV_Box_01", nil, AL["SoD Exclusive"], nil },
 				{ 17, "INV_Box_01", nil, AL["Physical Damage"], nil },
-				{ 18, 234034 }, --Signet Ring of the Bronze Dragonflight / 80
+				{ 18, 234034 }, --Signet Ring of the Bronze Dragonflight / 80				
 				{ 19, 234202 }, --Signet Ring of the Bronze Dragonflight / 80
 				{ 20, "INV_Box_01", nil, AL["Spell Damage"], nil },
 				{ 21, 234032 }, --Signet Ring of the Bronze Dragonflight / 80
@@ -714,7 +774,7 @@ data["BroodOfNozdormu"] = {
 				{ 4, 21199 }, --Signet Ring of the Bronze Dragonflight / 75
 				{ 16, "INV_Box_01", nil, AL["SoD Exclusive"], nil },
 				{ 17, "INV_Box_01", nil, AL["Physical Damage"], nil },
-				{ 18, 234030 }, --Signet Ring of the Bronze Dragonflight / 75
+				{ 18, 234030 }, --Signet Ring of the Bronze Dragonflight / 75				
 				{ 19, 234201 }, --Signet Ring of the Bronze Dragonflight / 75
 				{ 20, "INV_Box_01", nil, AL["Spell Damage"], nil },
 				{ 21, 234028 }, --Signet Ring of the Bronze Dragonflight / 75
@@ -735,7 +795,7 @@ data["BroodOfNozdormu"] = {
 				{ 4, 21198 }, --Signet Ring of the Bronze Dragonflight / 70
 				{ 16, "INV_Box_01", nil, AL["SoD Exclusive"], nil },
 				{ 17, "INV_Box_01", nil, AL["Physical Damage"], nil },
-				{ 18, 234026 }, --Signet Ring of the Bronze Dragonflight / 70
+				{ 18, 234026 }, --Signet Ring of the Bronze Dragonflight / 70				
 				{ 19, 234200 }, --Signet Ring of the Bronze Dragonflight / 70
 				{ 20, "INV_Box_01", nil, AL["Spell Damage"], nil },
 				{ 21, 234024 }, --Signet Ring of the Bronze Dragonflight / 70
@@ -756,7 +816,7 @@ data["BroodOfNozdormu"] = {
 				{ 4, 21197 }, --Signet Ring of the Bronze Dragonflight / 65
 				{ 16, "INV_Box_01", nil, AL["SoD Exclusive"], nil },
 				{ 17, "INV_Box_01", nil, AL["Physical Damage"], nil },
-				{ 18, 234021 }, --Signet Ring of the Bronze Dragonflight / 65
+				{ 18, 234021 }, --Signet Ring of the Bronze Dragonflight / 65				
 				{ 19, 234199 }, --Signet Ring of the Bronze Dragonflight / 65
 				{ 20, "INV_Box_01", nil, AL["Spell Damage"], nil },
 				{ 21, 234020 }, --Signet Ring of the Bronze Dragonflight / 65
@@ -777,7 +837,7 @@ data["BroodOfNozdormu"] = {
 				{ 4, 21196 }, --Signet Ring of the Bronze Dragonflight / 60
 				{ 16, "INV_Box_01", nil, AL["SoD Exclusive"], nil },
 				{ 17, "INV_Box_01", nil, AL["Physical Damage"], nil },
-				{ 18, 234017 }, --Signet Ring of the Bronze Dragonflight / 60
+				{ 18, 234017 }, --Signet Ring of the Bronze Dragonflight / 60				
 				{ 19, 234198 }, --Signet Ring of the Bronze Dragonflight / 60
 				{ 20, "INV_Box_01", nil, AL["Spell Damage"], nil },
 				{ 21, 234016 }, --Signet Ring of the Bronze Dragonflight / 60
