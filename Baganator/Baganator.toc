@@ -1,4 +1,4 @@
-## Interface: 11506, 30404, 40402, 110007, 110100
+## Interface: 11507, 30404, 40402, 110007, 110100
 ## Title: Baganator
 ## Version: 672
 ## Author: plusmouse
