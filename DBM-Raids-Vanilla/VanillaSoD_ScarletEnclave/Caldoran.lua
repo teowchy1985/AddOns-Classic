@@ -5,7 +5,7 @@ local L		= mod:GetLocalizedStrings()
 
 mod.statTypes = "normal,heroic,mythic"
 
-mod:SetRevision("20250413184357")
+mod:SetRevision("20250419154517")
 
 mod:SetZone(2856)
 mod:SetEncounterID(3189)
@@ -80,6 +80,7 @@ function mod:OnCombatStart(delay)
 	p4WarnShown = false
 	berserkTimer:Start(710 - delay)
 	timerFlare:Start()
+	self:SetStage(1)
 	-- timerWakeP1:Start() -- TODO: inaccurate on pull
 	-- timerExecutionSentence:Start() -- TODO: figure out start timer
 end

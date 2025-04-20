@@ -1584,6 +1584,7 @@ L:SetMiscLocalization{
 	YellFroggers1 = "break their ranks",
 	YellFroggers2 = "Ready your lances",
 	CannonMistress = "Cannon Mistress Lind", -- TODO: can we automatically get the localized name?
+	YellPhase2 = "We stand united! Let our enemies tremble before our might!",
 	Footmen = "Footmen",
 	Horses = "Horses"
 }
@@ -1611,8 +1612,21 @@ L:SetTimerLocalization({
 
 L = DBM:GetModLocalization("Mason")
 
+L:SetMiscLocalization{
+	Cannons1 = "Fire!",
+	Cannons2 = "Fire at will!",
+}
 
 L = DBM:GetModLocalization("SE_Trash")
 L:SetGeneralLocalization{
 	name = "Scarlet Enclave Trash"
+}
+
+L:SetOptionLocalization{
+	FlightTimer = "Show timers for Gryphon flights",
+}
+
+L:SetMiscLocalization{
+	CentralTower = "Central Tower",
+	Prison = "Prison",
 }
