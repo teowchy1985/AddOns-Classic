@@ -1,6 +1,6 @@
 # SexyMap
 
-## [v11.0.9](https://github.com/funkydude/SexyMap/tree/v11.0.9) (2024-12-07)
-[Full Changelog](https://github.com/funkydude/SexyMap/compare/v11.0.8...v11.0.9) [Previous Releases](https://github.com/funkydude/SexyMap/releases)
+## [v11.1.1](https://github.com/funkydude/SexyMap/tree/v11.1.1) (2025-04-21)
+[Full Changelog](https://github.com/funkydude/SexyMap/compare/v11.1.0...v11.1.1) [Previous Releases](https://github.com/funkydude/SexyMap/releases)
 
-- Buttons: Attempt to fix #393  
+- Fix other addons breaking the scale selection, closes #401  
