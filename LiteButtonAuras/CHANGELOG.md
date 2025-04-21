@@ -1,11 +1,8 @@
 # LiteButtonAuras
 
-## [11.1.0-1](https://github.com/xod-wow/LiteButtonAuras/tree/11.1.0-1) (2025-02-25)
-[Full Changelog](https://github.com/xod-wow/LiteButtonAuras/compare/11.0.7-1...11.1.0-1) [Previous Releases](https://github.com/xod-wow/LiteButtonAuras/releases)
+## [11.1.5-1](https://github.com/xod-wow/LiteButtonAuras/tree/11.1.5-1) (2025-04-21)
+[Full Changelog](https://github.com/xod-wow/LiteButtonAuras/compare/11.1.0-3...11.1.5-1) [Previous Releases](https://github.com/xod-wow/LiteButtonAuras/releases)
 
-- Update ToC for 11.1  
-- Allow pet spells for interrupts/soothes again  
-- Update classic ToC for 1.15.6  
-- Add Raise Dead ghoul (totem)  
-- Exclude spells on your bars if you don't know them  
-- Fix detecting items on bars on first login  
+- Fix UI options to refresh without reload, oops  
+- Update ToC for 11.1.5 and 1.15.7  
+- Use not UnitCanAttack instead of UnitIsFriend  
