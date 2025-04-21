@@ -173,9 +173,7 @@ function Skillet:GetTradeSkillLevels(itemID, spellID)
 	local rb = getRacialBonus()
 	local skillLevels = Skillet.db.global.SkillLevels
 	local levels
-	local skillLevelsEra = Skillet.db.global.SkillLineAbility_era
-	local skillLevelsClassic = Skillet.db.global.SkillLineAbility_cata
-	local skillLevelsRetail = Skillet.db.global.SkillLineAbility_retail
+	local SkillLineAbility = Skillet.db.global.SkillLineAbility
 	local possibleRecipes, recipeID, levelsByRecipe
 	if itemID and type(itemID) == 'number' and itemID ~= 0 then 
 --
@@ -192,14 +190,8 @@ function Skillet:GetTradeSkillLevels(itemID, spellID)
 --
 -- Use the appropriate table to find the data
 --
-			if isRetail then
-				levelsByRecipe = skillLevelsRetail[recipeID]
-			elseif isClassic then
-				levelsByRecipe = skillLevelsEra[recipeID]
-			else
-				levelsByRecipe = skillLevelsClassic[recipeID]
-			end
 		end
+		levelsByRecipe = SkillLineAbility[recipeID]
 --
 -- If there is an entry in our own table(s), use it
 --
@@ -288,42 +280,48 @@ function Skillet:GetTradeSkillLevels(itemID, spellID)
 			end
 		end
 	end
-	if spellID and spellID ~= 0 then
 --
 -- Since itemID didn't find anything, try the spellID.
 -- On Classic Era, spellID is the name of the spell.
 --
-		local spellName
-		if isRetail then
-			levelsByRecipe = skillLevelsRetail[spellID]
-		elseif isClassic then
-			spellName = spellID
-			spellID = Skillet.db.global.NameToSpellID[spellName] or 0
-			levelsByRecipe = skillLevelsEra[spellID]
-		else
-			levelsByRecipe = skillLevelsClassic[spellID]
-		end
-		DA.DEBUG(1,"GetTradeSkillLevels: spellName= "..tostring(spellName)..", spellID= "..tostring(spellID)..", levelsByRecipe= "..tostring(levelsByRecipe))
-		if skillLevels and (skillLevels[spellID] or skillLevels[-spellID]) then
+	if spellID then
+		if type(spellID) == 'number' and spellID ~= 0 then
+			levelsByRecipe = SkillLineAbility[spellID]
+			DA.DEBUG(1,"GetTradeSkillLevels: spellID= "..tostring(spellID)..", levelsByRecipe= "..tostring(levelsByRecipe))
+			if skillLevels and (skillLevels[spellID] or skillLevels[-spellID]) then
 --
 -- The data from Wowhead is not specific to the game version
 --
-			if skillLevels[spellID] then
-				levels = skillLevels[spellID]
-			else
-				levels = skillLevels[-spellID]
-			end
-			if type(levels) == 'table' then
-				if isRetail then
-					levels = skillLevels[itemID][spellID]
+				if skillLevels[spellID] then
+					levels = skillLevels[spellID]
 				else
-					for spell, strng in pairs(levels) do
-						name = getSpellName(spell)
-						--DA.DEBUG(1,"GetTradeSkillLevels: name= "..tostring(name))
-						if name == spellID then
-							levels = strng
-							break
-						end
+					levels = skillLevels[-spellID]
+				end
+			end
+		elseif type(spellID) == 'string' then
+			local spellName = spellID
+			spellID = Skillet.db.global.NameToSpellID[spellName] or 0
+			levelsByRecipe = SkillLineAbility[spellID]
+			DA.DEBUG(1,"GetTradeSkillLevels: spellName= "..tostring(spellName)..", spellID= "..tostring(spellID)..", levelsByRecipe= "..tostring(levelsByRecipe))
+			if skillLevels and skillLevels[spellID] then
+--
+-- The data from Wowhead is not specific to the game version
+--
+				if skillLevels[spellID] then
+					levels = skillLevels[spellID]
+				end
+			end
+		end
+		if type(levels) == 'table' then
+			if isRetail then
+				levels = skillLevels[itemID][spellID]
+			else
+				for spell, strng in pairs(levels) do
+					name = getSpellName(spell)
+					--DA.DEBUG(1,"GetTradeSkillLevels: name= "..tostring(name))
+					if name == spellID then
+						levels = strng
+						break
 					end
 				end
 			end
@@ -413,7 +411,7 @@ end
 --
 -- source will be:
 --    1 if from Skillet.db.global.SkillLevels
---    2 if from SkillLineAbility_era or SkillLineAbility_cata
+--    2 if from SkillLineAbility
 --    3 if from TradeskillInfo
 --    4 if from LibPeriodicTable
 --    5 if itemID is not a number (obsolete)
@@ -426,10 +424,8 @@ function Skillet:PrintTradeSkillLevels(itemID, spellID)
 	DA.MARK3("PrintTradeSkillLevels: altskilllevels= "..tostring(self.db.profile.altskilllevels))
 	DA.MARK3("PrintTradeSkillLevels: baseskilllevel= "..tostring(self.db.profile.baseskilllevel))
 	DA.MARK3("PrintTradeSkillLevels: #SkillLevels= "..tostring(tablelength(self.db.global.SkillLevels)))
-	DA.MARK3("PrintTradeSkillLevels: #SkillLineAbility_era= "..tostring(tablelength(self.db.global.SkillLineAbility_era)))
+	DA.MARK3("PrintTradeSkillLevels: #SkillLineAbility= "..tostring(tablelength(self.db.global.SkillLineAbility)))
 	DA.MARK3("PrintTradeSkillLevels: #NameToSpellID= "..tostring(tablelength(self.db.global.NameToSpellID)))
-	DA.MARK3("PrintTradeSkillLevels: #SkillLineAbility_cata= "..tostring(tablelength(self.db.global.SkillLineAbility_cata)))
-	DA.MARK3("PrintTradeSkillLevels: #SkillLineAbility_retail= "..tostring(tablelength(self.db.global.SkillLineAbility_retail)))
 	if CraftInfoAnywhere then
 		DA.MARK3("PrintTradeSkillLevels: #ItemsToRecipes= "..tostring(tablelength(CraftInfoAnywhere.Data.ItemsToRecipes)))
 	end
