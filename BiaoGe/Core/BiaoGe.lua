@@ -3949,7 +3949,7 @@ BG.Init(function()
                 elseif strfind(msg, "MyVer") and not close then
                     local _, version = strsplit("-", msg)
                     if VerGuoQi(BG.ver, version) then
-                        SendSystemMessage("|cff00BFFF" .. format(L["< BiaoGe > 你的当前版本%s已过期，请更新插件。"] .. RR, BG.STC_r1(BG.ver)))
+                        -- SendSystemMessage("|cff00BFFF" .. format(L["< BiaoGe > 你的当前版本%s已过期，请更新插件。"] .. RR, BG.STC_r1(BG.ver)))
                         BG.VerText:SetTextColor(1, 0, 0)
                         close = true
                     end
