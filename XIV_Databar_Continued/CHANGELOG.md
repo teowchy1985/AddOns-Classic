@@ -1,11 +1,14 @@
 # XIV_Databar Continued
 
-## [3.5.3](https://github.com/ZelionGG/XIV_Databar-Continued/tree/v3.5.3) (2025-03-25)
+## [3.5.5](https://github.com/ZelionGG/XIV_Databar-Continued/tree/v3.5.5) (2025-04-23)
 
-[Full Changelog](https://github.com/ZelionGG/XIV_Databar-Continued/compare/v3.5.2...v3.5.3) [Previous Releases](https://github.com/ZelionGG/XIV_Databar-Continued/releases)
+[Full Changelog](https://github.com/ZelionGG/XIV_Databar-Continued/compare/v3.5.4...v3.5.5) [Previous Releases](https://github.com/ZelionGG/XIV_Databar-Continued/releases)
 
 ### _Retail :_
 
-- Fixed cooldowns in the **Travel** module.
-- Added Shaman's Astral Recall to the **Travel** module.
-- Fixed Mechagon teleport not showing in the **Travel** module.
+- Updated for **11.1.5**.
+- Added 4 missing Hearthstones toys in the **Travel** Mythic+ module.
+
+### _Classic SoD :_
+
+- Updated for **1.15.7**.
