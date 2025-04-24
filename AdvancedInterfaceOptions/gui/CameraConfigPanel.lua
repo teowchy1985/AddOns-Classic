@@ -60,8 +60,8 @@ function addon:CreateCameraOptions()
       },
       cameraIndirectVisibility = {
         type = "toggle",
-        name = "鏡頭非直接可見性",
-        desc = "允許鏡頭和玩家之間有障礙物，而不將鏡頭拉近。",
+        name = "鏡頭間接可見性",
+        desc = "在碰撞和推動鏡頭向前之前，允許玩家角色受到環境的更多阻礙。",
         get = function()
           return C_CVar.GetCVarBool("cameraIndirectVisibility")
         end,
@@ -77,8 +77,8 @@ function addon:CreateCameraOptions()
       },
       cameraIndirectOffset = {
         type = "range",
-        name = "鏡頭非直接可見靈敏度",
-        desc = "啟用「鏡頭非直接可見性」時控制鏡頭拉近的靈敏度。 [0] 是最靈敏 (一有障礙物立刻拉近鏡頭)，[10] 是最不靈敏  (允許中間有最多障礙物)。",
+        name = "鏡頭間接偏移",
+        desc = "啟用「鏡頭間接可見性」時控制鏡頭碰撞的靈敏度。 [0] 是最敏感，[10] 是最不敏感。",
         min = 1,
         max = 10,
         step = 0.1,
