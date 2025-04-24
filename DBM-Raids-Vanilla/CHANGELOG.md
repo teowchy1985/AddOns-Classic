@@ -1,8 +1,8 @@
 # DBM - Vanilla and Season of Discovery
 
-## [r804](https://github.com/DeadlyBossMods/DBM-Vanilla/tree/r804) (2025-04-22)
-[Full Changelog](https://github.com/DeadlyBossMods/DBM-Vanilla/compare/r802...r804) [Previous Releases](https://github.com/DeadlyBossMods/DBM-Vanilla/releases)
+## [r805](https://github.com/DeadlyBossMods/DBM-Vanilla/tree/r805) (2025-04-23)
+[Full Changelog](https://github.com/DeadlyBossMods/DBM-Vanilla/compare/r803...r805) [Previous Releases](https://github.com/DeadlyBossMods/DBM-Vanilla/releases)
 
-- Update koKR (#354)  
-- Update localization.ru.lua  
-- Scarlet Enclave: Adjust enrage timers for recent hotfixes  
+- Scarlet Enclave/Reborn Council: Add a bit of nameplate stuff  
+- Scarlet Enclave/Trash: Add Blizzard GTFO warning  
+- Scarlet Enclave/Trash: Add missing flight path timer  

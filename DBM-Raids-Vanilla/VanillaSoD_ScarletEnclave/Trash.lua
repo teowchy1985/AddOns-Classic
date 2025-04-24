@@ -5,7 +5,7 @@ local L		= mod:GetLocalizedStrings()
 
 mod.statTypes = "normal,heroic,mythic"
 
-mod:SetRevision("20250419154447")
+mod:SetRevision("20250423221724")
 mod:SetZone(2856)
 mod.isTrashMod = true
 mod.isTrashModBossFightAllowed = true -- ENCOUNTER_END is somewhat unreliable in this raud, see all the terrible 10min+ logs for random fights on WCL that are just trash
@@ -39,7 +39,9 @@ local timerWhirlwindCast		= mod:NewCastNPTimer(6, 1232678) -- 2 sec cast, 4 sec 
 local timerBalnazzarRP = mod:NewIntermissionTimer(48.2, 1227435)
 
 -- Consecration
-mod:NewGtfo{antiSpam = 5, spell = 1233069, spellAura = 1233069, spellPeriodicDamage = 1233069}
+mod:NewGtfo{antiSpam = 5, spell = 1233069}
+-- Blizzard, uses old spell ID from Sapphiron
+mod:NewGtfo{antiSpam = 5, spell = 28547}
 
 
 function mod:SPELL_CAST_SUCCESS(args)
@@ -103,6 +105,8 @@ function mod:UNIT_ENTERING_VEHICLE(uId)
 				flightTimer:Start(19.2, L.CentralTower)
 			elseif lastGossipSelected == 133775 then
 				flightTimer:Start(12.8, L.Prison) -- 11.17 flight time, but you drop from somewhat high in the air
+			elseif lastGossipSelected == 133547 then
+				flightTimer:Start(26.7, L.Cathedral)
 			end
 		end
 		lastGossipSelected = nil
