@@ -1,7 +1,17 @@
-## Interface: 11507, 30403, 40402, 110002
+## Interface: 11507, 30404, 40402, 110100, 110105
 ## Title: BugGrabber
-## Version: v11.0.0
+## Version: v11.1.1
 ## Notes: Grabs bugs for the bug sack.
+## Notes-deDE: Grabs bugs for the bug sack.
+## Notes-ruRU: Grabs bugs for the bug sack.
+## Notes-zhCN: Grabs bugs for the bug sack.
+## Notes-zhTW: Grabs bugs for the bug sack.
+## Notes-koKR: Grabs bugs for the bug sack.
+## Notes-frFR: Grabs bugs for the bug sack.
+## Notes-esES: Grabs bugs for the bug sack.
+## Notes-esMX: Grabs bugs for the bug sack.
+## Notes-itIT: Grabs bugs for the bug sack.
+## Notes-ptBR: Grabs bugs for the bug sack.
 ## Author: Funkydude
 ## X-Credits: Rabbit, Rowne, Ramble, kergoth, ckknight, Fritti
 ## X-License: All Rights Reserved
@@ -10,7 +20,7 @@
 
 ## Title-zhTW: |cffffffee[系統]|r 錯誤收集器
 ## Notes-zhTW: BugGrabber |n|n收集錯誤訊息，防止遊戲中斷，訊息會顯示在錯誤訊息袋中。
-## X-Category-zhTW: 系統
+## Category-zhTW: 系統
 
 BugGrabber.lua
 locales.lua
