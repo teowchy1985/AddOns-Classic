@@ -1,4 +1,4 @@
-## Interface: 11507, 40402, 110002, 110005
+## Interface: 11507, 40402, 110100, 110105
 ## Title: OmniCC Config
 ## Title-ruRU: Конфигурация OmniCC
 ## Notes: OmniCC's configuration menu
@@ -15,7 +15,7 @@
 
 ## Title-zhTW: |cff00CCFF[快捷列]|r 冷卻時間-設定選項
 ## Notes-zhTW: OmniCC Config |n|n冷卻倒數計時的設定選項。|n|n|cffffd200使用方法: |r輸入 /occ 打開設定選項。
-## X-Category-zhTW: 介面
+## Category-zhTW: 介面
 
 ## embeds.xml
 localization\localization.xml
