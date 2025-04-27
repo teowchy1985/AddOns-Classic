@@ -1,7 +1,7 @@
 # Syndicator
 
-## [188](https://github.com/Baganator/Syndicator/tree/188) (2025-04-11)
-[Full Changelog](https://github.com/Baganator/Syndicator/compare/187...188) 
+## [191](https://github.com/Baganator/Syndicator/tree/191) (2025-04-25)
+[Full Changelog](https://github.com/Baganator/Syndicator/compare/190...191) 
 
-- Remove leftover print  
-- Classic Era: Workaround missing consumable/trade goods subtypes  
+- MoP Classic: More fixes for search keywords  
+- MoP Classic: Fixes for stats English backup equivalents  
