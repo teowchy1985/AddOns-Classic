@@ -249,6 +249,9 @@ function BaganatorCustomiseDialogCategoriesEditorMixin:OnLoad()
     if next(refreshState) ~= nil then
       addonTable.CallbackRegistry:TriggerEvent("RefreshStateChange", refreshState)
     end
+    if isNew then
+      addonTable.CallbackRegistry:TriggerEvent("SetSelectedCategory", self.currentCategory)
+    end
     operationInProgress = false
   end
 
@@ -296,6 +299,7 @@ function BaganatorCustomiseDialogCategoriesEditorMixin:OnLoad()
       self.Blocker:Hide()
       self.ExportButton:Enable()
       self.HelpButton:Enable()
+      self.CategoryName:Enable()
       self.CategorySearch:Enable()
       self.ChangeSearchModeButton:Enable()
     else
@@ -305,6 +309,7 @@ function BaganatorCustomiseDialogCategoriesEditorMixin:OnLoad()
         self.ItemsEditor:SetAlpha(disabledAlpha)
       end
       self.CategoryName:SetAlpha(disabledAlpha)
+      self.CategoryName:Disable()
       self.CategorySearch:SetAlpha(disabledAlpha)
       self.CategorySearch:Disable()
       self.ChangeSearchModeButton:SetAlpha(disabledAlpha)
@@ -555,6 +560,7 @@ end
 
 function BaganatorCustomiseDialogCategoriesEditorMixin:Disable()
   self.CategoryName:SetText("")
+  self.CategoryName:Disable()
   self.CategoryColorSwatch:Disable()
   self.CategoryColorSwatch:SetColorRGB(1, 1, 1)
   self.CategorySearch:SetText("")
