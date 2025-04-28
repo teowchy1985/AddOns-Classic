@@ -1,5 +1,5 @@
 ﻿----------------------------------------------------------------------
--- 	Leatrix Plus 1.15.83 (9th April 2025)
+-- 	Leatrix Plus 1.15.85 (23rd April 2025)
 ----------------------------------------------------------------------
 
 --	01:Functions 02:Locks   03:Restart 40:Player   45:Rest
@@ -19,7 +19,7 @@
 	local void
 
 	-- Version
-	LeaPlusLC["AddonVer"] = "1.15.83"
+	LeaPlusLC["AddonVer"] = "1.15.85"
 
 	-- Get locale table
 	local void, Leatrix_Plus = ...
@@ -10847,7 +10847,7 @@
 		if LeaPlusLC["TipModEnable"] == "On" and not LeaLockList["TipModEnable"] then
 
 			-- Enable mouse hover events for world frame (required for hide tooltips, cursor anchor and maybe other addons)
-			-- WorldFrame:EnableMouseMotion(true) -- Using GetMouseFoci()[1] for now
+			-- WorldFrame:EnableMouseMotion(true) -- LeaPlusLC.NewPatch: Using GetMouseFoci()[1] for now
 
 			----------------------------------------------------------------------
 			--	Position the tooltip
@@ -10859,7 +10859,7 @@
 					if (not tooltip or not parent) then
 						return
 					end
-					if LeaPlusLC["TooltipAnchorMenu"] == 2 or GetMouseFoci()[1] then --or not WorldFrame:IsMouseMotionFocus() then
+					if LeaPlusLC["TooltipAnchorMenu"] == 2 or GetMouseFoci()[1] then -- LeaPlusLC.NewPatch: or not WorldFrame:IsMouseMotionFocus() then
 						local a,b,c,d,e = tooltip:GetPoint()
 						if a ~= "BOTTOMRIGHT" or c ~= "BOTTOMRIGHT" then
 							tooltip:ClearAllPoints()
@@ -11217,7 +11217,7 @@
 				end
 
 				-- Get unit information
-				if WorldFrame:IsMouseMotionFocus() then
+				if not GetMouseFoci()[1] then -- LeaPlusLC.NewPatch: if WorldFrame:IsMouseMotionFocus() then (previous)
 					LT["Unit"] = "mouseover"
 					-- Hide and quit if tips should be hidden during combat
 					if LeaPlusLC["TipHideInCombat"] == "On" and UnitAffectingCombat("player") then
