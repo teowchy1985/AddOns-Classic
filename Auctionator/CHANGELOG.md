@@ -1,6 +1,7 @@
 # Auctionator
 
-## [270](https://github.com/Auctionator/Auctionator/tree/270) (2025-04-06)
-[Full Changelog](https://github.com/Auctionator/Auctionator/compare/269...270) 
+## [274](https://github.com/Auctionator/Auctionator/tree/274) (2025-04-23)
+[Full Changelog](https://github.com/Auctionator/Auctionator/compare/273...274) 
 
-- Fix "Unhide all" button in Selling settings not working  
+- [Fixes #1674] Retail: Missing tooltip data  
+- [Fixes #1673, Fixes #1672] Fix item link change breaking Selling searches  
