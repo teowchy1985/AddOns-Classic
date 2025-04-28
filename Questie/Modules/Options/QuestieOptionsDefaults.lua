@@ -124,6 +124,7 @@ function QuestieOptionsDefaults:Load()
                 trivial = false,
                 repeatable = true,
                 pvp = true,
+                rejectSharedInBattleground = false,
             },
             questAnnounceChannel = "party",
             questAnnounceItems = true,
