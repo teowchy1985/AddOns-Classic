@@ -5,7 +5,7 @@ local L		= mod:GetLocalizedStrings()
 
 mod.statTypes = "normal,heroic,mythic"
 
-mod:SetRevision("20250422201346")
+mod:SetRevision("20250429201932")
 
 mod:SetZone(2856)
 mod:SetEncounterID(3197)
@@ -37,7 +37,7 @@ local timerIgniteCast = mod:NewCastNPTimer(1, 1234347)
 local warnPhase2	= mod:NewPhaseAnnounce(2)
 local warnPhase2Soon = mod:NewPrePhaseAnnounce(2)
 
-local berserkTimer = mod:NewBerserkTimer(420)
+local berserkTimer = mod:NewBerserkTimer(600)
 
 local hpWarnShown1, hpWarnShown2, hpWarnShown3
 

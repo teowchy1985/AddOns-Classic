@@ -5,7 +5,7 @@ local L		= mod:GetLocalizedStrings()
 
 mod.statTypes = "normal,heroic,mythic"
 
-mod:SetRevision("20250419154325")
+mod:SetRevision("20250429201932")
 
 mod:SetZone(2856)
 mod:SetEncounterID(3187)
@@ -52,7 +52,7 @@ local berserkTimer = mod:NewBerserkTimer(600)
 local didSeeBossNP = false
 function mod:OnCombatStart(delay)
 	startTimer:Start(120 - delay)
-	berserkTimer:Start(600 - delay)
+	berserkTimer:Start(-delay)
 	self:SetStage(1)
 	didSeeBossNP = false
 end
