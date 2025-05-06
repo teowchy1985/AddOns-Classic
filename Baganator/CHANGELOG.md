@@ -1,6 +1,7 @@
 # Baganator
 
-## [682](https://github.com/Baganator/Baganator/tree/682) (2025-04-28)
-[Full Changelog](https://github.com/Baganator/Baganator/compare/681...682) 
+## [686](https://github.com/Baganator/Baganator/tree/686) (2025-01-31)
+[Full Changelog](https://github.com/Baganator/Baganator/compare/685...686) 
 
-- Classic MoP: Tag for MoP support  
+- Customise: Categories: Skin raw search box and scroll buttons for visual search  
+- Move scrolling search widget to Syndicator  

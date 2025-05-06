@@ -1,9 +1,10 @@
 ## Interface: 11507, 30404, 40402, 110100, 110105
 ## Title: Baganator
-## Version: 682
+## Version: 686
 ## Author: plusmouse
 ## OptionalDeps: Syndicator, Masque
 ## SavedVariables: BAGANATOR_CONFIG, BAGANATOR_DATA
+## SavedVariablesPerCharacter: BAGANATOR_CURRENT_PROFILE
 ## IconTexture: Interface\AddOns\Baganator\Assets\logo.tga
 ## OptionalDependencies: WagoAnalytics
 
@@ -65,7 +66,6 @@ ItemViewCommon\Search.lua
 ItemViewCommon\Search.xml
 ItemViewCommon\ItemButton.lua
 ItemViewCommon\ItemButton.xml
-ItemViewCommon\ItemButtonDataEvents.lua
 ItemViewCommon\Pools.lua
 ItemViewCommon\ContainerSlots.lua
 ItemViewCommon\ContainerSlots.xml
