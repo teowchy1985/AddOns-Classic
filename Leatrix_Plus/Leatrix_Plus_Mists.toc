@@ -1,7 +1,8 @@
-## Interface: 40402
+## Interface: 50500
 
 ## Title: Leatrix Plus
 ## Title-zhCN: Leatrix Plus [|cffeda55f功能百宝箱|r]
+## Title-zhTW: Leatrix Plus [|cffeda55f功能百寶箱|r]
 
 ## Notes: For support, visit leatrix.com.
 ## Notes-deDE: Für Support besuche leatrix.com.
