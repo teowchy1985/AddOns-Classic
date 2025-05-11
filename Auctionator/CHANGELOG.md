@@ -1,7 +1,6 @@
 # Auctionator
 
-## [274](https://github.com/Auctionator/Auctionator/tree/274) (2025-04-23)
-[Full Changelog](https://github.com/Auctionator/Auctionator/compare/273...274) 
+## [276](https://github.com/Auctionator/Auctionator/tree/276) (2025-04-26)
+[Full Changelog](https://github.com/Auctionator/Auctionator/compare/275...276) 
 
-- [Fixes #1674] Retail: Missing tooltip data  
-- [Fixes #1673, Fixes #1672] Fix item link change breaking Selling searches  
+- Cata Classic: Restore Prospect and Mill tooltips (show estimated value)  
