@@ -795,10 +795,12 @@ local lootAnnounceAll = {
 
 };
 
---This will be addd as an option later.
-function NIT_TrackOrbs()
+--This will be added as an option later.
+function NIT_TrackOrbs(silent)
 	lootAnnounceAll[12811] = {name = "Righteous Orb", instanceID = 329};
-	print("Now announcing Righteous Orbs looted to chat.")
+	if (not silent) then
+		print("Now announcing Righteous Orbs looted to chat.");
+	end
 end
 
 local function itemLooted(itemID, name)

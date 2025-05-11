@@ -3,6 +3,7 @@
 -------------------------
 --https://www.curseforge.com/members/venomisto/projects
 
+local addonName = ...;
 local L = LibStub("AceLocale-3.0"):GetLocale("NovaInstanceTracker");
 local maxRecordsKept = 300;
 local maxTradesKept = 1000;
@@ -615,7 +616,7 @@ NIT.options = {
 };
 
 function NIT:loadSpecificOptions()
-	if (NIT.expansionNum == 3) then
+	if (NIT.expansionNum == 3 or NIT.expansionNum == 4 or NIT.expansionNum == 5) then
 		NIT.options.args["autoGammaBuffHeader"] = {
 			type = "header",
 			name = L["autoGammaBuffDesc"],
@@ -674,6 +675,8 @@ function NIT:loadSpecificOptions()
 			fontSize = "medium",
 			order = 9,
 		};
+	end
+	if (NIT.expansionNum == 3) then
 		NIT.options.args["autoWrathDailies"] = {
 			type = "toggle",
 			name = L["autoWrathDailiesTitle"],
@@ -944,58 +947,58 @@ function NIT:buildDatabase()
 	self.data = self.db.global[NIT.realm];
 end
 
-local linesVersion, newVersionFrame;
-local function loadNewVersionFrame()
-	if (not newVersionFrame) then
-		local frame = CreateFrame("Frame", "NIT_NewVersionFrame", UIParent, "BackdropTemplate");
-		frame.scrollFrame = CreateFrame("ScrollFrame", "$parentScrollFrame", frame, "UIPanelScrollFrameTemplate");
-		--frame.scrollFrame:SetAllPoints();
-		frame.scrollChild = CreateFrame("Frame", "$parentScrollChild", frame.scrollFrame);
-		frame.scrollFrame:SetScrollChild(frame.scrollChild);
-		--frame.scrollChild:SetWidth(frame:GetWidth() - 30);
-		frame.scrollChild:SetAllPoints();
-		frame.scrollChild:SetPoint("RIGHT", -40, 0);
-		frame.scrollChild:SetPoint("TOP", 0, -20);
-		frame.scrollChild:SetHeight(1);
-		frame.scrollChild:SetScript("OnSizeChanged", function(self,event)
-			frame.scrollChild:SetWidth(self:GetWidth())
-		end)
-		frame.scrollFrame:SetPoint("TOPLEFT", frame, "TOPLEFT", 0, -8);
-		frame.scrollFrame:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", 0, 8);
-		
-		frame:SetBackdrop({
-			bgFile = "Interface\\Buttons\\WHITE8x8",
-			insets = {top = 4, left = 4, bottom = 4, right = 4},
-			edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
-			tileEdge = true,
-			edgeSize = 16,
-		});
-		frame:SetBackdropColor(0, 0, 0, 0.9);
-		frame:SetBackdropBorderColor(1, 1, 1, 0.7);
-		frame.scrollFrame.ScrollBar:ClearAllPoints();
-		frame.scrollFrame.ScrollBar:SetPoint("TOPRIGHT", -5, -(frame.scrollFrame.ScrollBar.ScrollDownButton:GetHeight()) + 1);
-		frame.scrollFrame.ScrollBar:SetPoint("BOTTOMRIGHT", -5, frame.scrollFrame.ScrollBar.ScrollUpButton:GetHeight());
+local function loadNewVersionFrame(version, notes, title, icon, x, y)
+	if (not _G[addonName .. "UpdateNotesFrame"]) then
+ 		local frame = CreateFrame("Frame", _G[addonName .. "UpdateNotesFrame"], UIParent, "BackdropTemplate");
 		frame:SetToplevel(true);
 		frame:SetMovable(true);
 		frame:EnableMouse(true);
 		frame:SetUserPlaced(false);
-		frame:SetPoint("CENTER", UIParent, 0, 100);
-		frame:SetSize(600, 670);
 		frame:SetFrameStrata("HIGH");
-		frame:SetFrameLevel(140);
+		frame:SetSize(500, 500);
+		frame:SetPoint("TOP", UIParent, "CENTER", x, y);
+		frame:SetBackdrop({
+			bgFile = "Interface\\Buttons\\WHITE8x8",
+			edgeFile = [[Interface/Buttons/WHITE8X8]],
+			edgeSize = 1,
+			insets = {top = 4, left = 4, bottom = 4, right = 4},
+		});
+		frame:SetBackdropColor(0, 0, 0, 1);
+		frame:SetBackdropBorderColor(1, 1, 1, 0.5);
+		frame.title = frame:CreateFontString("$parentFS", "ARTWORK");
+		frame.title:SetFontObject(Game15Font);
+		frame.title:SetPoint("TOP", 0, -8);
+		frame.title2 = frame:CreateFontString("$parentFS", "ARTWORK");
+		frame.title2:SetFontObject(Game15Font);
+		frame.title2:SetPoint("TOP", 0, -24);
+		frame.fs = frame:CreateFontString("$parentFS", "ARTWORK");
+		frame.fs:SetFontObject(Game13Font);
+		frame.fs:SetPoint("TOPLEFT", 15, -52);
+		frame.fs:SetPoint("TOPRIGHT", -15, -52);
+		frame.fs:SetJustifyH("LEFT");
+		frame.texture = frame:CreateTexture(nil, "ARTWORK");
+		--frame.texture:SetPoint("TOPLEFT", 10, -10);
+		frame.texture:SetPoint("TOPRIGHT", frame.title, "TOPLEFT", -10, 0);
+		frame.texture:SetSize(30, 30);
+		frame.closeButton = CreateFrame("Button", "$parentClose", frame, "UIPanelCloseButton");
+		frame.closeButton:SetPoint("TOPRIGHT", frame, "TOPRIGHT", -1, -1);
+		frame.closeButton:SetWidth(26);
+		frame.closeButton:SetHeight(26);
+		frame.closeButton:SetFrameLevel(15);
+		frame.closeButton:SetScript("OnClick", function(self, arg)
+			frame:Hide();
+		end)
 		frame:SetScript("OnMouseDown", function(self, button)
 			if (button == "LeftButton" and not self.isMoving) then
 				self:StartMoving();
 				self.isMoving = true;
-				if (notSpecialFrames) then
-					self:SetUserPlaced(false);
-				end
 			end
 		end)
 		frame:SetScript("OnMouseUp", function(self, button)
 			if (button == "LeftButton" and self.isMoving) then
 				self:StopMovingOrSizing();
 				self.isMoving = false;
+				frame:SetUserPlaced(false);
 			end
 		end)
 		frame:SetScript("OnHide", function(self)
@@ -1003,109 +1006,45 @@ local function loadNewVersionFrame()
 				self:StopMovingOrSizing();
 				self.isMoving = false;
 			end
-		end)
-		frame.scrollChild:EnableMouse(true);
-		--frame.scrollChild:SetHyperlinksEnabled(true);
-		--frame.scrollChild:SetScript("OnHyperlinkClick", ChatFrame_OnHyperlinkShow);
-		--Set all fonts in the module using the frame.
-		--Header string.
-		frame.scrollChild.fs = frame.scrollChild:CreateFontString("NIT_NewVersionFrameFS", "ARTWORK");
-		frame.scrollChild.fs:SetPoint("TOP", 0, -0);
-		--The main display string.
-		frame.scrollChild.fs2 = frame.scrollChild:CreateFontString("NIT_NewVersionFrameFS2", "ARTWORK");
-		frame.scrollChild.fs2:SetPoint("TOPLEFT", 10, -24);
-		frame.scrollChild.fs2:SetJustifyH("LEFT");
-		--Bottom string.
-		frame.scrollChild.fs3 = frame.scrollChild:CreateFontString("NIT_NewVersionFrameFS3", "ARTWORK");
-		frame.scrollChild.fs3:SetPoint("BOTTOM", 0, -20);
-		--frame.scrollChild.fs3:SetFont(NIT.regionFont, 14);
-		--Top right X close button.
-		frame.close = CreateFrame("Button", "NIT_NewVersionFrameClose", frame, "UIPanelCloseButton");
-		frame.close:SetPoint("TOPRIGHT", -22, -4);
-		frame.close:SetWidth(20);
-		frame.close:SetHeight(20);
-		frame.close:SetScript("OnClick", function(self, arg)
-			frame:Hide();
-		end)
-		frame.close:GetNormalTexture():SetTexCoord(0.1875, 0.8125, 0.1875, 0.8125);
-		frame.close:GetHighlightTexture():SetTexCoord(0.1875, 0.8125, 0.1875, 0.8125);
-		frame.close:GetPushedTexture():SetTexCoord(0.1875, 0.8125, 0.1875, 0.8125);
-		frame.close:GetDisabledTexture():SetTexCoord(0.1875, 0.8125, 0.1875, 0.8125);
-		frame:SetFrameStrata("HIGH");
-		frame:SetClampedToScreen(true);
-		frame.scrollChild.fs:SetFont(NIT.regionFont, 14);
-		frame.scrollChild.fs2:SetFontObject(Game15Font);
-		frame.scrollChild.fs3:SetFont(NIT.regionFont, 14);
-		frame.scrollChild.fs:ClearAllPoints();
-		frame.scrollChild.fs2:ClearAllPoints();
-		frame.scrollChild.fs3:ClearAllPoints();
-		frame.scrollChild.fs:SetPoint("TOP", 0, -5);
-		frame.scrollChild.fs2:SetPoint("TOP", 0, -25);
-		frame.scrollChild.fs3:SetPoint("TOPLEFT", 10, -48);
-		frame.scrollChild.fs3:SetPoint("RIGHT", 0, -48);
-		frame.scrollChild.fs3:SetJustifyH("LEFT");
-		frame.scrollChild.fs3:CanWordWrap(true);
-		frame.scrollChild.fs3:CanNonSpaceWrap(true);
-		frame.scrollChild.fs3:SetNonSpaceWrap(true);
-		frame.scrollChild.fs3:SetWordWrap(true);
-		frame.scrollChild.fs:SetText("|TInterface\\AddOns\\NovaInstanceTracker\\Media\\portal:16:16:0:0|t  |cFF00FF00Nova Instance Tracker");
-		frame.scrollChild.fs2:SetText("|cFFFFFF00New in version|r |cFFFF6900" .. string.format("%.2f", NIT.version));
-		frame:Hide();
-		newVersionFrame = frame;
-	end
-	linesVersion = 1.71;
-	local lines = {
-		--" ",
-		"|cFFFF6900Version 1.70|r",
-		"- Added reminder message in middle of the screen to loot Tarnished Undermine Real, can be disabled/moved/resized in options at the top.",
-		"- Added tracking on the minimap button tooltip for which bosses you've looted a Tarnished Undermine Real from, while inside a dungeon just mouseover the NIT minimap icon for a full boss list and looted status.",
-		" ",
-		"|cFFFF6900Version 1.71|r",
-		"- Added button on the alts window to view a list of all dungeons at once for if you've looted Tarnished Undermine Real (right click minimap button).",
-		"- Fix a lua error and a couple other small bugs in version 1.70.";
-	};
-	--[[if (NIT.realm == "Arugal" or NIT.realm == "Remulos" or NIT.realm == "Yojamba") then
-		lines = {
-		};
-	end]]
-	local text = "";
-	--Seperator lines couldn't be used because the wow client won't render 1 pixel frames if they are in certain posotions.
-	--Not sure what causes some frame lines to render thicker than others and some not render at all.
-	--[[local separatorText = "-";
-	while (newVersionFrame.scrollFrame:GetWidth() - 55 > newVersionFrame.scrollChild.fs3:GetStringWidth()) do
-		separatorText = separatorText .. "-";
-		newVersionFrame.scrollChild.fs3:SetText(separatorText);
-	end
-	text = text .. separatorText .. "\n";]]
-	text = text .. "\n";
-	if (lines) then
-		for k, v in ipairs(lines) do
-			if (k % 2 == 0) then
-				text = text .. "|cFFFFFFFF" .. v .. "|r\n";
+	end)
+		_G[addonName .. "UpdateNotesFrame"] = frame;
+ 	end
+ 	local frame = _G[addonName .. "UpdateNotesFrame"];
+ 	frame.texture:SetTexture(icon);
+ 	frame.title:SetText("|cFFFFFF00" .. title);
+	frame.title2:SetText("|cFF00FF00New in|r |cFFFF6900v" .. string.format("%.2f", version) .. "");
+ 	local text = "";
+	if (notes) then
+		for k, v in ipairs(notes) do
+			if (string.match(v, "Version 1") or v == " ") then
+				text = text .. "|cFFFFFFFF" .. v .. "|r\n\n";
 			else
-				text = text .. "|cFF9CD6DE" .. v .. "|r\n";
+				text = text .. "|TInterface\\QUESTFRAME\\UI-Quest-BulletPoint:12:12:0:0|t |cFFFFFFFF" .. v .. "|r\n\n";
 			end
-			--text = text .. separatorText .. "\n";
-			newVersionFrame.scrollChild.fs3:SetText(text);
 		end
 	end
-	newVersionFrame:SetSize(600, 50 + newVersionFrame.scrollChild.fs:GetStringHeight() + newVersionFrame.scrollChild.fs2:GetStringHeight() + newVersionFrame.scrollChild.fs3:GetStringHeight());
-	if (text ~= "" and linesVersion == NIT.version) then
-		newVersionFrame.scrollChild.fs3:SetText(text);
-		newVersionFrame:Show();
+	if (text ~= "") then
+		frame.fs:SetText(text);
+		local height = frame.fs:GetStringHeight();
+		frame:SetHeight(height + 75);
+		frame:Show();
 	end
 end
 
 function NIT:checkNewVersion()
-	--loadNewVersionFrame();
-	if (NIT.version and NIT.version ~= 9999) then
+	--NIT.db.global.versions = {}; --To test.
+	local newVersionNotes = 1.95;
+	if (NIT.version and NIT.version == newVersionNotes) then
 		if (not NIT.db.global.versions[NIT.version]) then
-			if (NIT.isSOD) then
-				--Only show this update for cata users.
-				--if (NIT:GetCurrentRegion() == 1 and not string.match(NIT.realm, "(AU)")) then
-					loadNewVersionFrame();
-				--end
-			end
+			--if (NIT.isClassic) then
+				local notes = {
+					"|cFF00FF00Version 1.95|r",
+					"Added auto get buff and missing buff reminder for Twilight dungeons in cata, works the same way it did in wrath for gamma dungs. It will auto get the right buff for your spec or you can set an overide in config, or hold shift to pick a different buff (bit late adding this I know).",
+					"|cFF00FF00Version 1.93|r",
+					"Added SoD Scarlet Enclave weekly quest \"Prove your worth\" to be tracked in your characters window, right click minimap button to open and mouseover a name to check if the weekly has been done (must log character once after updating for it to be tracked).";
+				};
+				loadNewVersionFrame(NIT.version, notes, "Nova Instance Tracker", "Interface\\AddOns\\NovaInstanceTracker\\Media\\portal", 30, 200);
+			--end
 			--Wipe old data.
 			NIT.db.global.versions = {};
 			--Set this version has been loaded before.

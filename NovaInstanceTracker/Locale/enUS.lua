@@ -397,7 +397,7 @@ L["monthlyQuests"] = "Monthly Quests";
 
 L["openLockouts"] = "Open Lockouts";
 
-L["autoGammaBuffDesc"] = "Gamma Dungeons";
+L["autoGammaBuffDesc"] = "Gamma/Twilight Dungeons";
 
 L["autoGammaBuffTitle"] = "Auto Gamma Buff";
 L["autoGammaBuffDesc"] = "Auto get the right gamma buff for your class when you talk to the buff NPC in a Gamma Dungeon.";
@@ -621,3 +621,5 @@ L["lootReminderMysRelicPartyTitle"] = "Mys Relic Party Msg";
 L["lootReminderMysRelicPartyDesc"] = "Do a party chat message when someone loots a Mysterious Relic in Karazhan Crypts.";
 
 L["Remnants of Valor"] = "Remnants of Valor";
+
+L["autoTwilightBuffReminder"] = "Get Twilight Dungeon buff from %s.";
