@@ -320,8 +320,11 @@ if playerClass == "DRUID" then
 	local function updateVisible()	-- DRUID
 	
 	local hideMana = false
-	if (GetShapeshiftFormID() == CAT_FORM or GetShapeshiftFormID() == BEAR_FORM) then
+
+--	if (GetShapeshiftFormID() == CAT_FORM or GetShapeshiftFormID == BEAR_FORM ) then --BEAR_FORM returns 5
+		if (GetShapeshiftFormID() == DRUID_CAT_FORM or GetShapeshiftFormID() == DRUID_BEAR_FORM or GetShapeshiftForm() > 3) then
 		if IUF.db.classBar.druidManaDisible then
+
 			hideMana = true
 			if not IUF.units.player.classBar.addOn.mana:IsShown() then
 				IUF.units.player.classBar.addOn.mana.max, IUF.units.player.classBar.addOn.mana.cur = UnitPowerMax("player", 0), UnitPower("player", 0)
@@ -335,10 +338,14 @@ if playerClass == "DRUID" then
 			end
 		end
 	else
+
+
+--[[
 		if GetPrimaryTalentTree() == 1 then	--         Ŀ ǥ               ٰ       .
 				else
 			hideMana = true
 		end
+--]]
 	end
 	
 		if IUF.db.classBar.use then
@@ -432,8 +439,10 @@ if playerClass == "DRUID" then
 		object.mana.text = object.mana:CreateFontString(nil, "OVERLAY", "FriendsFont_Small")
 		object.mana.text:SetPoint("CENTER", 0, 0)
 		object.mana:SetScript("OnEvent", function(self, event, _, powerType)
+
 			local druidManaDisible = false
-			if IUF.db.classBar.druidManaDisible and (GetShapeshiftFormID() == CAT_FORM or GetShapeshiftFormID() == BEAR_FORM) then
+--			if IUF.db.classBar.druidManaDisible and (GetShapeshiftFormID() == CAT_FORM or GetShapeshiftFormID() == 8 or GetShapeshiftFormID == BEAR_FORM) then --while API returns 8 but BEAR_FORM returns 5
+			if IUF.db.classBar.druidManaDisible and (GetShapeshiftFormID() == DRUID_CAT_FORM or  GetShapeshiftForm() > 3 ) then
 				druidManaDisible = true
 			end
 			if event == "UNIT_POWER_FREQUENT" or event == "UNIT_POWER_UPDATE" then
@@ -450,6 +459,7 @@ if playerClass == "DRUID" then
 					IUF:SetStatusBarValue(self.text, 2, self.cur, self.max)
 				end
 			elseif UnitPowerType("player") == 0 or UnitHasVehicleUI("player") or druidManaDisible then
+	
 				if self:IsShown() then
 					self:Hide()
 					self:UnregisterEvent("UNIT_MAXPOWER")
@@ -458,13 +468,17 @@ if playerClass == "DRUID" then
 					updateVisible()
 				end
 			else
-				if not self:IsShown() then
+
+
+--				if not self:IsShown() then
+
 					self:Show()
 					self:RegisterUnitEvent("UNIT_MAXPOWER", "player")
 					self:RegisterUnitEvent("UNIT_POWER_UPDATE", "player")
 					self:RegisterUnitEvent("UNIT_POWER_FREQUENT", "player")
 					updateVisible()
-				end
+
+--				end
 				self:GetScript("OnEvent")(self, "UNIT_MAXPOWER", nil, "MANA")
 			end
 		end)
