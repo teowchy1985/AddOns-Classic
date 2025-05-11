@@ -1,4 +1,4 @@
-## Interface: 40402
+## Interface: 50500
 
 ## Title: Leatrix Maps
 
@@ -32,6 +32,6 @@
 Leatrix_Maps_Library.lua
 Leatrix_Maps_Locale.lua
 Leatrix_Maps.xml
-Leatrix_Maps_Icons.lua
-Leatrix_Maps_Reveal.lua
+Leatrix_Maps_Icons_Mists.lua
+Leatrix_Maps_Reveal_Mists.lua
 Leatrix_Maps.lua

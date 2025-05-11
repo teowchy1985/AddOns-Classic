@@ -1,6 +1,6 @@
 ﻿
 	----------------------------------------------------------------------
-	-- 	Leatrix Maps 4.0.58 (23rd April 2025)
+	-- 	Leatrix Maps 4.0.68 (6th May 2025)
 	----------------------------------------------------------------------
 
 	-- 10:Func, 20:Comm, 30:Evnt, 40:Panl
@@ -12,7 +12,7 @@
 	local LeaMapsLC, LeaMapsCB, LeaDropList, LeaConfigList, LeaLockList = {}, {}, {}, {}, {}
 
 	-- Version
-	LeaMapsLC["AddonVer"] = "4.0.58"
+	LeaMapsLC["AddonVer"] = "4.0.68"
 
 	-- Get locale table
 	local void, Leatrix_Maps = ...
@@ -21,14 +21,14 @@
 	-- Check Wow version is valid
 	do
 		local gameversion, gamebuild, gamedate, gametocversion = GetBuildInfo()
-		if gametocversion and gametocversion < 40000 or gametocversion > 49999 then
+		if gametocversion and gametocversion < 40000 or gametocversion > 59999 then
 			-- Game client is not Cataclysm Classic
 			C_Timer.After(2, function()
 				print(L["LEATRIX MAPS: WRONG VERSION INSTALLED!"])
 			end)
 			return
 		end
-		if gametocversion and gametocversion == 40402 then -- 4.4.2
+		if gametocversion and gametocversion == 50500 then -- 5.5.0
 			LeaMapsLC.NewPatch = true
 		end
 	end
@@ -61,16 +61,6 @@
 			WorldMapScreenAnchor:ClearAllPoints()
 			WorldMapScreenAnchor:SetPoint("TOPLEFT", UIParent, "TOPLEFT", 16, -104)
 			WorldMapFrame:SetUserPlaced(false)
-		end
-
-		-- Replace map toggle function
-		WorldMapFrame.HandleUserActionToggleSelf = function()
-			if WorldMapFrame:IsShown() then WorldMapFrame:Hide() else WorldMapFrame:Show() end
-		end
-
-		-- Handle open and close the map for sticky map frame
-		if LeaMapsLC["UseDefaultMap"] == "On" or LeaMapsLC["StickyMapFrame"] == "Off" then
-			table.insert(UISpecialFrames, "WorldMapFrame")
 		end
 
 		-- Hide Track Quest checkbox (it's not needed)
@@ -137,7 +127,7 @@
 		end
 
 		-- Hide title bar if default map with menus or custom map
-		if LeaMapsLC["UseDefaultMap"] == "On" and LeaMapsLC["ShowZoneMenu"] == "On" or LeaMapsLC["UseDefaultMap"] == "Off" then
+		if LeaMapsLC["UseDefaultMap"] == "On" and (LeaMapsLC["ShowZoneMenu"] == "On" and not LeaLockList["ShowZoneMenu"]) or LeaMapsLC["UseDefaultMap"] == "Off" then
 			MiniWorldMapTitle:Hide()
 		end
 
@@ -269,348 +259,741 @@
 		-- Show zone dropdown menu
 		----------------------------------------------------------------------
 
-		if LeaMapsLC["ShowZoneMenu"] == "On" then
+		if LeaMapsLC["ShowZoneMenu"] == "On" and not LeaLockList["ShowZoneMenu"] then
 
-			-- Continent translations
-			L["Eastern Kingdoms"] = POSTMASTER_PIPE_EASTERNKINGDOMS
-			L["Kalimdor"] = POSTMASTER_PIPE_KALIMDOR
-			L["Outland"] = POSTMASTER_PIPE_OUTLAND
-			L["Northrend"] = POSTMASTER_PIPE_NORTHREND
-			L["The Maelstrom"] = DUNGEON_FLOOR_DRAGONSOUL6
-			L["Azeroth"] = AZEROTH
-			L["The Underbelly"] = DUNGEON_FLOOR_DALARAN2
+			if LeaMapsLC.NewPatch then
 
-			-- Create outer frame for dropdown menus
-			local outerFrame = CreateFrame("FRAME", nil, WorldMapFrame)
-			outerFrame:SetSize(360, 20)
+				-- Continent translations
+				L["Eastern Kingdoms"] = POSTMASTER_PIPE_EASTERNKINGDOMS
+				L["Kalimdor"] = POSTMASTER_PIPE_KALIMDOR
+				L["Outland"] = POSTMASTER_PIPE_OUTLAND
+				L["Northrend"] = POSTMASTER_PIPE_NORTHREND
+				L["The Maelstrom"] = DUNGEON_FLOOR_DRAGONSOUL6
+				L["Azeroth"] = AZEROTH
+				L["The Underbelly"] = DUNGEON_FLOOR_DALARAN2
 
-			if LeaMapsLC["UseDefaultMap"] == "Off" then
-				outerFrame:SetPoint("TOPLEFT", WorldMapFrame, "TOPLEFT", 16, 0)
-			else
-				outerFrame:SetPoint("TOPLEFT", WorldMapFrame, "TOPLEFT", 14, 20)
-			end
+				-- Create outer frame for dropdown menus
+				local outerFrame = CreateFrame("FRAME", nil, WorldMapFrame)
+				outerFrame:SetSize(360, 20)
 
-			-- Move the map level dropdown menu
-			hooksecurefunc(WorldMapFrame, "SynchronizeDisplayState", function()
-				WorldMapFrame.WorldMapLevelDropDown.header:Hide()
-				WorldMapFrame.WorldMapLevelDropDown:ClearAllPoints()
-				if WorldMapFrame:IsMaximized() then
-					WorldMapFrame.WorldMapLevelDropDown:SetPoint("TOPRIGHT", WorldMapFrame, "TOPRIGHT", -15, -32)
+				if LeaMapsLC["UseDefaultMap"] == "Off" then
+					outerFrame:SetPoint("TOPLEFT", WorldMapFrame, "TOPLEFT", 16, 0)
 				else
-					WorldMapFrame.WorldMapLevelDropDown:SetPoint("TOPLEFT", outerFrame, "TOPLEFT", 0, -46)
-				end
-			end)
-
-			-- Hide the map level arrow buttons
-			WorldMapLevelDownButton:SetParent(menuTempFrame)
-			WorldMapLevelUpButton:SetParent(menuTempFrame)
-
-			-- Create No zones available dropdown menu
-			LeaMapsLC["ZoneMapNoneMenu"] = 1
-
-			local nodd = LeaMapsLC:CreateDropdownNew("ZoneMapNoneMenu", nil, 184, "TOPLEFT", outerFrame, "TOPLEFT", 184, -20, {{"---"}})
-			nodd:SetFrameLevel(30)
-			nodd:Disable()
-
-			-- Create Eastern Kingdoms dropdown menu
-			LeaMapsLC["ZoneMapEasternMenu"] = 1
-
-			local mapEasternTable, mapEasternString = {}, {}
-			local zones = C_Map.GetMapChildrenInfo(1415)
-			if (zones) then
-				for i, zoneInfo in ipairs(zones) do
-					tinsert(mapEasternTable, {zonename = zoneInfo.name, mapid = zoneInfo.mapID})
-					tinsert(mapEasternString, {zoneInfo.name, i + 1})
-				end
-			end
-
-			table.sort(mapEasternString, function(k, v) return k[1] < v[1] end)
-
-			tinsert(mapEasternString, 1, {L["Eastern Kingdoms"], 1})
-			tinsert(mapEasternTable, 1, {zonename = L["Eastern Kingdoms"], mapid = 1415})
-
-			local ekdd = LeaMapsLC:CreateDropdownNew("ZoneMapEasternMenu", nil, 184, "TOPLEFT", outerFrame, "TOPLEFT", 184, -20, mapEasternString)
-			ekdd:SetFrameLevel(30)
-
-			LeaMapsCB["ZoneMapEasternMenu"]:RegisterCallback("OnMenuClose", function()
-				if not IsInInstance() then
-					WorldMapFrame:SetMapID(mapEasternTable[LeaMapsLC["ZoneMapEasternMenu"]].mapid)
-				end
-			end)
-
-			-- Create Kalimdor dropdown menu
-			LeaMapsLC["ZoneMapKalimdorMenu"] = 1
-
-			local mapKalimdorTable, mapKalimdorString = {}, {}
-			local zones = C_Map.GetMapChildrenInfo(1414)
-			if (zones) then
-				for i, zoneInfo in ipairs(zones) do
-					tinsert(mapKalimdorTable, {zonename = zoneInfo.name, mapid = zoneInfo.mapID})
-					tinsert(mapKalimdorString, {zoneInfo.name, i + 1})
-				end
-			end
-
-			table.sort(mapKalimdorString, function(k, v) return k[1] < v[1] end)
-
-			tinsert(mapKalimdorString, 1, {L["Kalimdor"], 1})
-			tinsert(mapKalimdorTable, 1, {zonename = L["Kalimdor"], mapid = 1414})
-
-			local kmdd = LeaMapsLC:CreateDropdownNew("ZoneMapKalimdorMenu", nil, 184, "TOPLEFT", outerFrame, "TOPLEFT", 184, -20, mapKalimdorString)
-			kmdd:SetFrameLevel(30)
-
-			LeaMapsCB["ZoneMapKalimdorMenu"]:RegisterCallback("OnMenuClose", function()
-				if not IsInInstance() then
-					WorldMapFrame:SetMapID(mapKalimdorTable[LeaMapsLC["ZoneMapKalimdorMenu"]].mapid)
-				end
-			end)
-
-			-- Create Outland dropdown menu
-			LeaMapsLC["ZoneMapOutlandMenu"] = 1
-
-			local mapOutlandTable, mapOutlandString = {}, {}
-			local zones = C_Map.GetMapChildrenInfo(1945)
-			if (zones) then
-				for i, zoneInfo in ipairs(zones) do
-					tinsert(mapOutlandTable, {zonename = zoneInfo.name, mapid = zoneInfo.mapID})
-					tinsert(mapOutlandString, {zoneInfo.name, i + 1})
-				end
-			end
-
-			table.sort(mapOutlandString, function(k, v) return k[1] < v[1] end)
-
-			tinsert(mapOutlandString, 1, {L["Outland"], 1})
-			tinsert(mapOutlandTable, 1, {zonename = L["Outland"], mapid = 1945})
-
-			local otdd = LeaMapsLC:CreateDropdownNew("ZoneMapOutlandMenu", nil, 184, "TOPLEFT", outerFrame, "TOPLEFT", 184, -20, mapOutlandString)
-			otdd:SetFrameLevel(30)
-
-			LeaMapsCB["ZoneMapOutlandMenu"]:RegisterCallback("OnMenuClose", function()
-				if not IsInInstance() then
-					WorldMapFrame:SetMapID(mapOutlandTable[LeaMapsLC["ZoneMapOutlandMenu"]].mapid)
-				end
-			end)
-
-			-- Create Northrend dropdown menu
-			LeaMapsLC["ZoneMapNorthrendMenu"] = 1
-
-			local mapNorthrendTable, mapNorthrendString = {}, {}
-			local zones = C_Map.GetMapChildrenInfo(113)
-			if (zones) then
-				for i, zoneInfo in ipairs(zones) do
-					tinsert(mapNorthrendTable, {zonename = zoneInfo.name, mapid = zoneInfo.mapID})
-					tinsert(mapNorthrendString, {zoneInfo.name, i + 1})
-				end
-			end
-
-			table.sort(mapNorthrendString, function(k, v) return k[1] < v[1] end)
-
-			tinsert(mapNorthrendString, 1, {L["Northrend"], 1})
-			tinsert(mapNorthrendTable, 1, {zonename = L["Northrend"], mapid = 113})
-
-			-- Add The Underbelly map
-			tinsert(mapNorthrendString,  {L["The Underbelly"], #mapNorthrendTable + 1})
-			tinsert(mapNorthrendTable,  {zonename = L["The Underbelly"], mapid = 126})
-
-			local nrdd = LeaMapsLC:CreateDropdownNew("ZoneMapNorthrendMenu", nil, 184, "TOPLEFT", outerFrame, "TOPLEFT", 184, -20, mapNorthrendString)
-			nrdd:SetFrameLevel(30)
-
-			LeaMapsCB["ZoneMapNorthrendMenu"]:RegisterCallback("OnMenuClose", function()
-				if not IsInInstance() then
-					WorldMapFrame:SetMapID(mapNorthrendTable[LeaMapsLC["ZoneMapNorthrendMenu"]].mapid)
-				end
-			end)
-
-			-- Create The Maelstrom dropdown menu
-			LeaMapsLC["ZoneMapTheMaelstromMenu"] = 1
-
-			local mapTheMaelstromTable, mapTheMaelstromString = {}, {}
-			local zones = C_Map.GetMapChildrenInfo(948)
-			if (zones) then
-				for i, zoneInfo in ipairs(zones) do
-					if zoneInfo.mapID ~= 276 then
-						tinsert(mapTheMaelstromTable, {zonename = zoneInfo.name, mapid = zoneInfo.mapID})
-						tinsert(mapTheMaelstromString, {zoneInfo.name, i + 1})
-					end
-				end
-			end
-
-			table.sort(mapTheMaelstromString, function(k, v) return k[1] < v[1] end)
-
-			tinsert(mapTheMaelstromString, 1, {L["The Maelstrom"], 1})
-			tinsert(mapTheMaelstromTable, 1, {zonename = L["The Maelstrom"], mapid = 948})
-
-			local msdd = LeaMapsLC:CreateDropdownNew("ZoneMapTheMaelstromMenu", nil, 184, "TOPLEFT", outerFrame, "TOPLEFT", 184, -20, mapTheMaelstromString)
-			msdd:SetFrameLevel(30)
-
-			LeaMapsCB["ZoneMapTheMaelstromMenu"]:RegisterCallback("OnMenuClose", function()
-				if not IsInInstance() then
-					WorldMapFrame:SetMapID(mapTheMaelstromTable[LeaMapsLC["ZoneMapTheMaelstromMenu"]].mapid)
-				end
-			end)
-
-			-- Create continent dropdown menu
-			LeaMapsLC["ZoneMapContinentMenu"] = 1
-
-			local mapContinentTable, mapContinentString = {}, {}
-			tinsert(mapContinentString, 1, {L["Eastern Kingdoms"], 1})
-			tinsert(mapContinentTable, 1, {zonename = L["Eastern Kingdoms"], mapid = 1415})
-			tinsert(mapContinentString, 2, {L["Kalimdor"], 2})
-			tinsert(mapContinentTable, 2, {zonename = L["Kalimdor"], mapid = 1414})
-			tinsert(mapContinentString, 3, {L["Outland"], 3})
-			tinsert(mapContinentTable, 3, {zonename = L["Outland"], mapid = 1945})
-			tinsert(mapContinentString, 4, {L["Northrend"], 4})
-			tinsert(mapContinentTable, 4, {zonename = L["Northrend"], mapid = 113})
-			tinsert(mapContinentString, 5, {L["The Maelstrom"], 5})
-			tinsert(mapContinentTable, 5, {zonename = L["The Maelstrom"], mapid = 948})
-			tinsert(mapContinentString, 6, {L["Azeroth"], 6})
-			tinsert(mapContinentTable, 6, {zonename = L["Azeroth"], mapid = 947})
-			tinsert(mapContinentString, 7, {L["Cosmic"], 7})
-			tinsert(mapContinentTable, 7, {zonename = L["Cosmic"], mapid = 946})
-
-			local cond = LeaMapsLC:CreateDropdownNew("ZoneMapContinentMenu", nil, 184, "TOPLEFT", outerFrame, "TOPLEFT", 0, -20, mapContinentString)
-			cond:SetFrameLevel(30)
-
-			-- Continent dropdown menu handler
-			LeaMapsCB["ZoneMapContinentMenu"]:RegisterCallback("OnMenuClose", function()
-				ekdd:Hide(); kmdd:Hide(); otdd:Hide(); nrdd:Hide(); msdd:Hide(); nodd:Hide()
-				if not IsInInstance() then
-					if LeaMapsLC["ZoneMapContinentMenu"] == 1 then
-						ekdd:Show()
-						WorldMapFrame:SetMapID(mapEasternTable[LeaMapsLC["ZoneMapEasternMenu"]].mapid)
-					elseif LeaMapsLC["ZoneMapContinentMenu"] == 2 then
-						kmdd:Show()
-						WorldMapFrame:SetMapID(mapKalimdorTable[LeaMapsLC["ZoneMapKalimdorMenu"]].mapid)
-					elseif LeaMapsLC["ZoneMapContinentMenu"] == 3 then
-						otdd:Show()
-						WorldMapFrame:SetMapID(mapOutlandTable[LeaMapsLC["ZoneMapOutlandMenu"]].mapid)
-					elseif LeaMapsLC["ZoneMapContinentMenu"] == 4 then
-						nrdd:Show()
-						WorldMapFrame:SetMapID(mapNorthrendTable[LeaMapsLC["ZoneMapNorthrendMenu"]].mapid)
-					elseif LeaMapsLC["ZoneMapContinentMenu"] == 5 then
-						msdd:Show()
-						WorldMapFrame:SetMapID(mapTheMaelstromTable[LeaMapsLC["ZoneMapTheMaelstromMenu"]].mapid)
-					elseif LeaMapsLC["ZoneMapContinentMenu"] == 6 then
-						nodd:Show()
-						WorldMapFrame:SetMapID(947)
-					elseif LeaMapsLC["ZoneMapContinentMenu"] == 7 then
-						nodd:Show()
-						WorldMapFrame:SetMapID(946)
-					end
-				end
-			end)
-
-			-- Create Azeroth lists
-			local mapAzerothTable, mapAzerothString = {}, {}
-			tinsert(mapAzerothString, 1, {L["Azeroth"], 1})
-			tinsert(mapAzerothTable, 1, {zonename = L["Azeroth"], mapid = 947})
-
-			-- Create Cosmic lists
-			local mapCosmicTable, mapCosmicString = {}, {}
-			tinsert(mapCosmicString, 1, {L["Azeroth"], 1})
-			tinsert(mapCosmicTable, 1, {zonename = L["Azeroth"], mapid = 947})
-
-			-- Function to set dropdown menu
-			local function SetMapControls()
-
-				-- Hide dropdown menus
-				ekdd:Hide(); kmdd:Hide(); otdd:Hide(); nrdd:Hide(); msdd:Hide(); nodd:Hide(); cond:Hide()
-
-				-- Eastern Kingdoms
-				for k, v in pairs(mapEasternTable) do
-					if v.mapid == WorldMapFrame.mapID then
-						LeaMapsLC["ZoneMapEasternMenu"] = k
-						ekdd:Show()
-						LeaMapsLC["ZoneMapContinentMenu"] = 1; cond:Show()
-						return
-					end
-				end
-
-				-- Kalimdor
-				for k, v in pairs(mapKalimdorTable) do
-					if v.mapid == WorldMapFrame.mapID then
-						LeaMapsLC["ZoneMapKalimdorMenu"] = k
-						kmdd:Show()
-						LeaMapsLC["ZoneMapContinentMenu"] = 2; cond:Show()
-						return
-					end
-				end
-
-				-- Outland
-				for k, v in pairs(mapOutlandTable) do
-					if v.mapid == WorldMapFrame.mapID then
-						LeaMapsLC["ZoneMapOutlandMenu"] = k
-						otdd:Show()
-						LeaMapsLC["ZoneMapContinentMenu"] = 3; cond:Show()
-						return
-					end
-				end
-
-				-- Northrend
-				for k, v in pairs(mapNorthrendTable) do
-					if v.mapid == WorldMapFrame.mapID then
-						LeaMapsLC["ZoneMapNorthrendMenu"] = k
-						nrdd:Show()
-						LeaMapsLC["ZoneMapContinentMenu"] = 4; cond:Show()
-						return
-					end
-				end
-
-				-- The Maelstrom
-				for k, v in pairs(mapTheMaelstromTable) do
-					if v.mapid == WorldMapFrame.mapID then
-						LeaMapsLC["ZoneMapTheMaelstromMenu"] = k
-						msdd:Show()
-						LeaMapsLC["ZoneMapContinentMenu"] = 5; cond:Show()
-						return
-					end
-				end
-				-- Azeroth
-				if WorldMapFrame.mapID == 947 then
-					nodd:Show()
-					LeaMapsLC["ZoneMapContinentMenu"] = 6; cond:Show()
-					return
-				end
-
-				-- Cosmic
-				if WorldMapFrame.mapID == 946 then
-					nodd:Show()
-					LeaMapsLC["ZoneMapContinentMenu"] = 7; cond:Show()
-					return
-				end
-
-			end
-
-			-- Set dropdown menu when map changes and when map is shown
-			hooksecurefunc(WorldMapFrame, "OnMapChanged", SetMapControls)
-			WorldMapFrame:HookScript("OnShow", SetMapControls)
-
-			-- Move dropdown menus if using default map
-			if LeaMapsLC["UseDefaultMap"] == "On" then
-
-				hooksecurefunc(WorldMapFrame, "Minimize", function()
-					outerFrame:ClearAllPoints()
 					outerFrame:SetPoint("TOPLEFT", WorldMapFrame, "TOPLEFT", 14, 20)
-				end)
-
-				hooksecurefunc(WorldMapFrame, "Maximize", function()
-					outerFrame:ClearAllPoints()
-					outerFrame:SetPoint("TOP", WorldMapFrame, "TOP", 0, -12)
-				end)
-			end
-
-			-- ElvUI fixes
-			if LeaMapsLC.ElvUI then
-				local E, S = LeaMapsLC.ElvUI
-				local S = E:GetModule('Skins')
-				if E.private.skins.blizzard.enable and E.private.skins.blizzard.worldmap then
-					S:HandleDropDownBox(cond)
-					S:HandleDropDownBox(ekdd); ekdd:ClearAllPoints(); ekdd:SetPoint("LEFT", cond, "RIGHT", 4, 0)
-					S:HandleDropDownBox(kmdd); kmdd:ClearAllPoints(); kmdd:SetPoint("LEFT", cond, "RIGHT", 4, 0)
-					S:HandleDropDownBox(otdd); otdd:ClearAllPoints(); otdd:SetPoint("LEFT", cond, "RIGHT", 4, 0)
-					S:HandleDropDownBox(nrdd); nrdd:ClearAllPoints(); nrdd:SetPoint("LEFT", cond, "RIGHT", 4, 0)
-					S:HandleDropDownBox(msdd); msdd:ClearAllPoints(); msdd:SetPoint("LEFT", cond, "RIGHT", 4, 0)
-					S:HandleDropDownBox(nodd); nodd:ClearAllPoints(); nodd:SetPoint("LEFT", cond, "RIGHT", 4, 0)
 				end
+
+				-- Move the map level dropdown menu
+				hooksecurefunc(WorldMapFrame, "SynchronizeDisplayState", function()
+					WorldMapFrame.WorldMapLevelDropDown.header:Hide()
+					WorldMapFrame.WorldMapLevelDropDown:ClearAllPoints()
+					if WorldMapFrame:IsMaximized() then
+						WorldMapFrame.WorldMapLevelDropDown:SetPoint("TOPRIGHT", WorldMapFrame, "TOPRIGHT", -15, -32)
+					else
+						WorldMapFrame.WorldMapLevelDropDown:SetPoint("TOPLEFT", outerFrame, "TOPLEFT", 0, -46)
+					end
+				end)
+
+				-- Hide the map level arrow buttons
+				WorldMapLevelDownButton:SetParent(menuTempFrame)
+				WorldMapLevelUpButton:SetParent(menuTempFrame)
+
+				-- Create No zones available dropdown menu
+				LeaMapsLC["ZoneMapNoneMenu"] = 1
+
+				local nodd = LeaMapsLC:CreateDropdown("ZoneMapNoneMenu", nil, 184, "TOPLEFT", outerFrame, "TOPLEFT", 184, -20, {{"---"}})
+				nodd:SetFrameLevel(30)
+				nodd:Disable()
+
+				-- Create Eastern Kingdoms dropdown menu
+				LeaMapsLC["ZoneMapEasternMenu"] = 1
+
+				local mapEasternTable, mapEasternString = {}, {}
+				local zones = C_Map.GetMapChildrenInfo(13)
+				if (zones) then
+					for i, zoneInfo in ipairs(zones) do
+						tinsert(mapEasternTable, {zonename = zoneInfo.name, mapid = zoneInfo.mapID})
+						tinsert(mapEasternString, {zoneInfo.name, i + 1})
+					end
+				end
+
+				table.sort(mapEasternString, function(k, v) return k[1] < v[1] end)
+
+				tinsert(mapEasternString, 1, {L["Eastern Kingdoms"], 1})
+				tinsert(mapEasternTable, 1, {zonename = L["Eastern Kingdoms"], mapid = 13})
+
+				local ekdd = LeaMapsLC:CreateDropdown("ZoneMapEasternMenu", nil, 184, "TOPLEFT", outerFrame, "TOPLEFT", 184, -20, mapEasternString)
+				ekdd:SetFrameLevel(30)
+
+				LeaMapsCB["ZoneMapEasternMenu"]:RegisterCallback("OnMenuClose", function()
+					if not IsInInstance() then
+						WorldMapFrame:SetMapID(mapEasternTable[LeaMapsLC["ZoneMapEasternMenu"]].mapid)
+					end
+				end)
+
+				-- Create Kalimdor dropdown menu
+				LeaMapsLC["ZoneMapKalimdorMenu"] = 1
+
+				local mapKalimdorTable, mapKalimdorString = {}, {}
+				local zones = C_Map.GetMapChildrenInfo(12)
+				if (zones) then
+					for i, zoneInfo in ipairs(zones) do
+						tinsert(mapKalimdorTable, {zonename = zoneInfo.name, mapid = zoneInfo.mapID})
+						tinsert(mapKalimdorString, {zoneInfo.name, i + 1})
+					end
+				end
+
+				table.sort(mapKalimdorString, function(k, v) return k[1] < v[1] end)
+
+				tinsert(mapKalimdorString, 1, {L["Kalimdor"], 1})
+				tinsert(mapKalimdorTable, 1, {zonename = L["Kalimdor"], mapid = 12})
+
+				local kmdd = LeaMapsLC:CreateDropdown("ZoneMapKalimdorMenu", nil, 184, "TOPLEFT", outerFrame, "TOPLEFT", 184, -20, mapKalimdorString)
+				kmdd:SetFrameLevel(30)
+
+				LeaMapsCB["ZoneMapKalimdorMenu"]:RegisterCallback("OnMenuClose", function()
+					if not IsInInstance() then
+						WorldMapFrame:SetMapID(mapKalimdorTable[LeaMapsLC["ZoneMapKalimdorMenu"]].mapid)
+					end
+				end)
+
+				-- Create Outland dropdown menu
+				LeaMapsLC["ZoneMapOutlandMenu"] = 1
+
+				local mapOutlandTable, mapOutlandString = {}, {}
+				local zones = C_Map.GetMapChildrenInfo(1467)
+				if (zones) then
+					for i, zoneInfo in ipairs(zones) do
+						tinsert(mapOutlandTable, {zonename = zoneInfo.name, mapid = zoneInfo.mapID})
+						tinsert(mapOutlandString, {zoneInfo.name, i + 1})
+					end
+				end
+
+				table.sort(mapOutlandString, function(k, v) return k[1] < v[1] end)
+
+				tinsert(mapOutlandString, 1, {L["Outland"], 1})
+				tinsert(mapOutlandTable, 1, {zonename = L["Outland"], mapid = 1467})
+
+				local otdd = LeaMapsLC:CreateDropdown("ZoneMapOutlandMenu", nil, 184, "TOPLEFT", outerFrame, "TOPLEFT", 184, -20, mapOutlandString)
+				otdd:SetFrameLevel(30)
+
+				LeaMapsCB["ZoneMapOutlandMenu"]:RegisterCallback("OnMenuClose", function()
+					if not IsInInstance() then
+						WorldMapFrame:SetMapID(mapOutlandTable[LeaMapsLC["ZoneMapOutlandMenu"]].mapid)
+					end
+				end)
+
+				-- Create Northrend dropdown menu
+				LeaMapsLC["ZoneMapNorthrendMenu"] = 1
+
+				local mapNorthrendTable, mapNorthrendString = {}, {}
+				local zones = C_Map.GetMapChildrenInfo(113)
+				if (zones) then
+					for i, zoneInfo in ipairs(zones) do
+						tinsert(mapNorthrendTable, {zonename = zoneInfo.name, mapid = zoneInfo.mapID})
+						tinsert(mapNorthrendString, {zoneInfo.name, i + 1})
+					end
+				end
+
+				table.sort(mapNorthrendString, function(k, v) return k[1] < v[1] end)
+
+				tinsert(mapNorthrendString, 1, {L["Northrend"], 1})
+				tinsert(mapNorthrendTable, 1, {zonename = L["Northrend"], mapid = 113})
+
+				-- Add The Underbelly map
+				tinsert(mapNorthrendString,  {L["The Underbelly"], #mapNorthrendTable + 1})
+				tinsert(mapNorthrendTable,  {zonename = L["The Underbelly"], mapid = 126})
+
+				local nrdd = LeaMapsLC:CreateDropdown("ZoneMapNorthrendMenu", nil, 184, "TOPLEFT", outerFrame, "TOPLEFT", 184, -20, mapNorthrendString)
+				nrdd:SetFrameLevel(30)
+
+				LeaMapsCB["ZoneMapNorthrendMenu"]:RegisterCallback("OnMenuClose", function()
+					if not IsInInstance() then
+						WorldMapFrame:SetMapID(mapNorthrendTable[LeaMapsLC["ZoneMapNorthrendMenu"]].mapid)
+					end
+				end)
+
+				-- Create Pandaria dropdown menu
+				LeaMapsLC["ZoneMapPandariaMenu"] = 1
+
+				local mapPandariaTable, mapPandariaString = {}, {}
+				local zones = C_Map.GetMapChildrenInfo(424)
+				if (zones) then
+					for i, zoneInfo in ipairs(zones) do
+						if zoneInfo.mapID ~= 276 then
+							tinsert(mapPandariaTable, {zonename = zoneInfo.name, mapid = zoneInfo.mapID})
+							tinsert(mapPandariaString, {zoneInfo.name, i + 1})
+						end
+					end
+				end
+
+				table.sort(mapPandariaString, function(k, v) return k[1] < v[1] end)
+
+				tinsert(mapPandariaString, 1, {L["Pandaria"], 1})
+				tinsert(mapPandariaTable, 1, {zonename = L["Pandaria"], mapid = 424})
+
+				local pndd = LeaMapsLC:CreateDropdown("ZoneMapPandariaMenu", nil, 184, "TOPLEFT", outerFrame, "TOPLEFT", 184, -20, mapPandariaString)
+				pndd:SetFrameLevel(30)
+				pndd:HookScript("OnEnter", GameTooltip_Hide) -- Needed for Vale and Valley dropdown menu tooltips
+
+				LeaMapsCB["ZoneMapPandariaMenu"]:RegisterCallback("OnMenuClose", function()
+					if not IsInInstance() then
+						WorldMapFrame:SetMapID(mapPandariaTable[LeaMapsLC["ZoneMapPandariaMenu"]].mapid)
+					end
+				end)
+
+				-- Create The Maelstrom dropdown menu
+				LeaMapsLC["ZoneMapTheMaelstromMenu"] = 1
+
+				local mapTheMaelstromTable, mapTheMaelstromString = {}, {}
+				local zones = C_Map.GetMapChildrenInfo(948)
+				if (zones) then
+					for i, zoneInfo in ipairs(zones) do
+						if zoneInfo.mapID ~= 276 then
+							tinsert(mapTheMaelstromTable, {zonename = zoneInfo.name, mapid = zoneInfo.mapID})
+							tinsert(mapTheMaelstromString, {zoneInfo.name, i + 1})
+						end
+					end
+				end
+
+				table.sort(mapTheMaelstromString, function(k, v) return k[1] < v[1] end)
+
+				tinsert(mapTheMaelstromString, 1, {L["The Maelstrom"], 1})
+				tinsert(mapTheMaelstromTable, 1, {zonename = L["The Maelstrom"], mapid = 948})
+
+				local msdd = LeaMapsLC:CreateDropdown("ZoneMapTheMaelstromMenu", nil, 184, "TOPLEFT", outerFrame, "TOPLEFT", 184, -20, mapTheMaelstromString)
+				msdd:SetFrameLevel(30)
+
+				LeaMapsCB["ZoneMapTheMaelstromMenu"]:RegisterCallback("OnMenuClose", function()
+					if not IsInInstance() then
+						WorldMapFrame:SetMapID(mapTheMaelstromTable[LeaMapsLC["ZoneMapTheMaelstromMenu"]].mapid)
+					end
+				end)
+
+				-- Create continent dropdown menu
+				LeaMapsLC["ZoneMapContinentMenu"] = 1
+
+				local mapContinentTable, mapContinentString = {}, {}
+				tinsert(mapContinentString, 1, {L["Eastern Kingdoms"], 1})
+				tinsert(mapContinentTable, 1, {zonename = L["Eastern Kingdoms"], mapid = 1415})
+				tinsert(mapContinentString, 2, {L["Kalimdor"], 2})
+				tinsert(mapContinentTable, 2, {zonename = L["Kalimdor"], mapid = 1414})
+				tinsert(mapContinentString, 3, {L["Outland"], 3})
+				tinsert(mapContinentTable, 3, {zonename = L["Outland"], mapid = 1945})
+				tinsert(mapContinentString, 4, {L["Northrend"], 4})
+				tinsert(mapContinentTable, 4, {zonename = L["Northrend"], mapid = 113})
+				tinsert(mapContinentString, 5, {L["Pandaria"], 5})
+				tinsert(mapContinentTable, 5, {zonename = L["Pandaria"], mapid = 424})
+				tinsert(mapContinentString, 6, {L["The Maelstrom"], 6})
+				tinsert(mapContinentTable, 6, {zonename = L["The Maelstrom"], mapid = 948})
+				tinsert(mapContinentString, 7, {L["Azeroth"], 7})
+				tinsert(mapContinentTable, 7, {zonename = L["Azeroth"], mapid = 947})
+				tinsert(mapContinentString, 8, {L["Cosmic"], 8})
+				tinsert(mapContinentTable, 8, {zonename = L["Cosmic"], mapid = 946})
+
+				local cond = LeaMapsLC:CreateDropdown("ZoneMapContinentMenu", nil, 184, "TOPLEFT", outerFrame, "TOPLEFT", 0, -20, mapContinentString)
+				cond:SetFrameLevel(30)
+
+				-- Continent dropdown menu handler
+				LeaMapsCB["ZoneMapContinentMenu"]:RegisterCallback("OnMenuClose", function()
+					ekdd:Hide(); kmdd:Hide(); otdd:Hide(); nrdd:Hide(); pndd:Hide(); msdd:Hide(); nodd:Hide()
+					if not IsInInstance() then
+						if LeaMapsLC["ZoneMapContinentMenu"] == 1 then
+							ekdd:Show()
+							WorldMapFrame:SetMapID(mapEasternTable[LeaMapsLC["ZoneMapEasternMenu"]].mapid)
+						elseif LeaMapsLC["ZoneMapContinentMenu"] == 2 then
+							kmdd:Show()
+							WorldMapFrame:SetMapID(mapKalimdorTable[LeaMapsLC["ZoneMapKalimdorMenu"]].mapid)
+						elseif LeaMapsLC["ZoneMapContinentMenu"] == 3 then
+							otdd:Show()
+							WorldMapFrame:SetMapID(mapOutlandTable[LeaMapsLC["ZoneMapOutlandMenu"]].mapid)
+						elseif LeaMapsLC["ZoneMapContinentMenu"] == 4 then
+							nrdd:Show()
+							WorldMapFrame:SetMapID(mapNorthrendTable[LeaMapsLC["ZoneMapNorthrendMenu"]].mapid)
+						elseif LeaMapsLC["ZoneMapContinentMenu"] == 5 then
+							pndd:Show()
+							WorldMapFrame:SetMapID(mapPandariaTable[LeaMapsLC["ZoneMapPandariaMenu"]].mapid)
+						elseif LeaMapsLC["ZoneMapContinentMenu"] == 6 then
+							msdd:Show()
+							WorldMapFrame:SetMapID(mapTheMaelstromTable[LeaMapsLC["ZoneMapTheMaelstromMenu"]].mapid)
+						elseif LeaMapsLC["ZoneMapContinentMenu"] == 7 then
+							nodd:Show()
+							WorldMapFrame:SetMapID(947)
+						elseif LeaMapsLC["ZoneMapContinentMenu"] == 8 then
+							nodd:Show()
+							WorldMapFrame:SetMapID(946)
+						end
+					end
+				end)
+
+				-- Create Azeroth lists
+				local mapAzerothTable, mapAzerothString = {}, {}
+				tinsert(mapAzerothString, 1, {L["Azeroth"], 1})
+				tinsert(mapAzerothTable, 1, {zonename = L["Azeroth"], mapid = 947})
+
+				-- Create Cosmic lists
+				local mapCosmicTable, mapCosmicString = {}, {}
+				tinsert(mapCosmicString, 1, {L["Azeroth"], 1})
+				tinsert(mapCosmicTable, 1, {zonename = L["Azeroth"], mapid = 947})
+
+				-- Function to set dropdown menu
+				local function SetMapControls()
+
+					-- Hide dropdown menus
+					ekdd:Hide(); kmdd:Hide(); otdd:Hide(); nrdd:Hide(); pndd:Hide(); msdd:Hide(); nodd:Hide(); cond:Hide()
+
+					-- Eastern Kingdoms
+					for k, v in pairs(mapEasternTable) do
+						if v.mapid == WorldMapFrame.mapID then
+							LeaMapsLC["ZoneMapEasternMenu"] = k
+							ekdd:Show()
+							LeaMapsLC["ZoneMapContinentMenu"] = 1; cond:Show()
+							return
+						end
+					end
+
+					-- Kalimdor
+					for k, v in pairs(mapKalimdorTable) do
+						if v.mapid == WorldMapFrame.mapID then
+							LeaMapsLC["ZoneMapKalimdorMenu"] = k
+							kmdd:Show()
+							LeaMapsLC["ZoneMapContinentMenu"] = 2; cond:Show()
+							return
+						end
+					end
+
+					-- Outland
+					for k, v in pairs(mapOutlandTable) do
+						if v.mapid == WorldMapFrame.mapID then
+							LeaMapsLC["ZoneMapOutlandMenu"] = k
+							otdd:Show()
+							LeaMapsLC["ZoneMapContinentMenu"] = 3; cond:Show()
+							return
+						end
+					end
+
+					-- Northrend
+					for k, v in pairs(mapNorthrendTable) do
+						if v.mapid == WorldMapFrame.mapID then
+							LeaMapsLC["ZoneMapNorthrendMenu"] = k
+							nrdd:Show()
+							LeaMapsLC["ZoneMapContinentMenu"] = 4; cond:Show()
+							return
+						end
+					end
+
+					-- Pandaria
+					for k, v in pairs(mapPandariaTable) do
+						if v.mapid == WorldMapFrame.mapID then
+							LeaMapsLC["ZoneMapPandariaMenu"] = k
+							pndd:Show()
+							LeaMapsLC["ZoneMapContinentMenu"] = 5; cond:Show()
+							return
+						end
+					end
+
+					-- The Maelstrom
+					for k, v in pairs(mapTheMaelstromTable) do
+						if v.mapid == WorldMapFrame.mapID then
+							LeaMapsLC["ZoneMapTheMaelstromMenu"] = k
+							msdd:Show()
+							LeaMapsLC["ZoneMapContinentMenu"] = 6; cond:Show()
+							return
+						end
+					end
+					-- Azeroth
+					if WorldMapFrame.mapID == 947 then
+						nodd:Show()
+						LeaMapsLC["ZoneMapContinentMenu"] = 7; cond:Show()
+						return
+					end
+
+					-- Cosmic
+					if WorldMapFrame.mapID == 946 then
+						nodd:Show()
+						LeaMapsLC["ZoneMapContinentMenu"] = 8; cond:Show()
+						return
+					end
+
+				end
+
+				-- Set dropdown menu when map changes and when map is shown
+				hooksecurefunc(WorldMapFrame, "OnMapChanged", SetMapControls)
+				WorldMapFrame:HookScript("OnShow", SetMapControls)
+
+				-- Move dropdown menus if using default map
+				if LeaMapsLC["UseDefaultMap"] == "On" then
+
+					hooksecurefunc(WorldMapFrame, "Minimize", function()
+						outerFrame:ClearAllPoints()
+						outerFrame:SetPoint("TOPLEFT", WorldMapFrame, "TOPLEFT", 14, 20)
+					end)
+
+					hooksecurefunc(WorldMapFrame, "Maximize", function()
+						outerFrame:ClearAllPoints()
+						outerFrame:SetPoint("TOP", WorldMapFrame, "TOP", 0, -12)
+					end)
+				end
+
+				-- ElvUI fixes
+				if LeaMapsLC.ElvUI then
+					local E, S = LeaMapsLC.ElvUI
+					local S = E:GetModule('Skins')
+					if E.private.skins.blizzard.enable and E.private.skins.blizzard.worldmap then
+						S:HandleDropDownBox(cond)
+						S:HandleDropDownBox(ekdd); ekdd:ClearAllPoints(); ekdd:SetPoint("LEFT", cond, "RIGHT", 4, 0)
+						S:HandleDropDownBox(kmdd); kmdd:ClearAllPoints(); kmdd:SetPoint("LEFT", cond, "RIGHT", 4, 0)
+						S:HandleDropDownBox(otdd); otdd:ClearAllPoints(); otdd:SetPoint("LEFT", cond, "RIGHT", 4, 0)
+						S:HandleDropDownBox(nrdd); nrdd:ClearAllPoints(); nrdd:SetPoint("LEFT", cond, "RIGHT", 4, 0)
+						S:HandleDropDownBox(pndd); pndd:ClearAllPoints(); pndd:SetPoint("LEFT", cond, "RIGHT", 4, 0)
+						S:HandleDropDownBox(msdd); msdd:ClearAllPoints(); msdd:SetPoint("LEFT", cond, "RIGHT", 4, 0)
+						S:HandleDropDownBox(nodd); nodd:ClearAllPoints(); nodd:SetPoint("LEFT", cond, "RIGHT", 4, 0)
+					end
+				end
+
+			else
+
+				-- Continent translations
+				L["Eastern Kingdoms"] = POSTMASTER_PIPE_EASTERNKINGDOMS
+				L["Kalimdor"] = POSTMASTER_PIPE_KALIMDOR
+				L["Outland"] = POSTMASTER_PIPE_OUTLAND
+				L["Northrend"] = POSTMASTER_PIPE_NORTHREND
+				L["The Maelstrom"] = DUNGEON_FLOOR_DRAGONSOUL6
+				L["Azeroth"] = AZEROTH
+				L["The Underbelly"] = DUNGEON_FLOOR_DALARAN2
+
+				-- Create outer frame for dropdown menus
+				local outerFrame = CreateFrame("FRAME", nil, WorldMapFrame)
+				outerFrame:SetSize(360, 20)
+
+				if LeaMapsLC["UseDefaultMap"] == "Off" then
+					outerFrame:SetPoint("TOPLEFT", WorldMapFrame, "TOPLEFT", 16, 0)
+				else
+					outerFrame:SetPoint("TOPLEFT", WorldMapFrame, "TOPLEFT", 14, 20)
+				end
+
+				-- Move the map level dropdown menu
+				hooksecurefunc(WorldMapFrame, "SynchronizeDisplayState", function()
+					WorldMapFrame.WorldMapLevelDropDown.header:Hide()
+					WorldMapFrame.WorldMapLevelDropDown:ClearAllPoints()
+					if WorldMapFrame:IsMaximized() then
+						WorldMapFrame.WorldMapLevelDropDown:SetPoint("TOPRIGHT", WorldMapFrame, "TOPRIGHT", -15, -32)
+					else
+						WorldMapFrame.WorldMapLevelDropDown:SetPoint("TOPLEFT", outerFrame, "TOPLEFT", 0, -46)
+					end
+				end)
+
+				-- Hide the map level arrow buttons
+				WorldMapLevelDownButton:SetParent(menuTempFrame)
+				WorldMapLevelUpButton:SetParent(menuTempFrame)
+
+				-- Create No zones available dropdown menu
+				LeaMapsLC["ZoneMapNoneMenu"] = 1
+
+				local nodd = LeaMapsLC:CreateDropdown("ZoneMapNoneMenu", nil, 184, "TOPLEFT", outerFrame, "TOPLEFT", 184, -20, {{"---"}})
+				nodd:SetFrameLevel(30)
+				nodd:Disable()
+
+				-- Create Eastern Kingdoms dropdown menu
+				LeaMapsLC["ZoneMapEasternMenu"] = 1
+
+				local mapEasternTable, mapEasternString = {}, {}
+				local zones = C_Map.GetMapChildrenInfo(1415)
+				if (zones) then
+					for i, zoneInfo in ipairs(zones) do
+						tinsert(mapEasternTable, {zonename = zoneInfo.name, mapid = zoneInfo.mapID})
+						tinsert(mapEasternString, {zoneInfo.name, i + 1})
+					end
+				end
+
+				table.sort(mapEasternString, function(k, v) return k[1] < v[1] end)
+
+				tinsert(mapEasternString, 1, {L["Eastern Kingdoms"], 1})
+				tinsert(mapEasternTable, 1, {zonename = L["Eastern Kingdoms"], mapid = 1415})
+
+				local ekdd = LeaMapsLC:CreateDropdown("ZoneMapEasternMenu", nil, 184, "TOPLEFT", outerFrame, "TOPLEFT", 184, -20, mapEasternString)
+				ekdd:SetFrameLevel(30)
+
+				LeaMapsCB["ZoneMapEasternMenu"]:RegisterCallback("OnMenuClose", function()
+					if not IsInInstance() then
+						WorldMapFrame:SetMapID(mapEasternTable[LeaMapsLC["ZoneMapEasternMenu"]].mapid)
+					end
+				end)
+
+				-- Create Kalimdor dropdown menu
+				LeaMapsLC["ZoneMapKalimdorMenu"] = 1
+
+				local mapKalimdorTable, mapKalimdorString = {}, {}
+				local zones = C_Map.GetMapChildrenInfo(1414)
+				if (zones) then
+					for i, zoneInfo in ipairs(zones) do
+						tinsert(mapKalimdorTable, {zonename = zoneInfo.name, mapid = zoneInfo.mapID})
+						tinsert(mapKalimdorString, {zoneInfo.name, i + 1})
+					end
+				end
+
+				table.sort(mapKalimdorString, function(k, v) return k[1] < v[1] end)
+
+				tinsert(mapKalimdorString, 1, {L["Kalimdor"], 1})
+				tinsert(mapKalimdorTable, 1, {zonename = L["Kalimdor"], mapid = 1414})
+
+				local kmdd = LeaMapsLC:CreateDropdown("ZoneMapKalimdorMenu", nil, 184, "TOPLEFT", outerFrame, "TOPLEFT", 184, -20, mapKalimdorString)
+				kmdd:SetFrameLevel(30)
+
+				LeaMapsCB["ZoneMapKalimdorMenu"]:RegisterCallback("OnMenuClose", function()
+					if not IsInInstance() then
+						WorldMapFrame:SetMapID(mapKalimdorTable[LeaMapsLC["ZoneMapKalimdorMenu"]].mapid)
+					end
+				end)
+
+				-- Create Outland dropdown menu
+				LeaMapsLC["ZoneMapOutlandMenu"] = 1
+
+				local mapOutlandTable, mapOutlandString = {}, {}
+				local zones = C_Map.GetMapChildrenInfo(1945)
+				if (zones) then
+					for i, zoneInfo in ipairs(zones) do
+						tinsert(mapOutlandTable, {zonename = zoneInfo.name, mapid = zoneInfo.mapID})
+						tinsert(mapOutlandString, {zoneInfo.name, i + 1})
+					end
+				end
+
+				table.sort(mapOutlandString, function(k, v) return k[1] < v[1] end)
+
+				tinsert(mapOutlandString, 1, {L["Outland"], 1})
+				tinsert(mapOutlandTable, 1, {zonename = L["Outland"], mapid = 1945})
+
+				local otdd = LeaMapsLC:CreateDropdown("ZoneMapOutlandMenu", nil, 184, "TOPLEFT", outerFrame, "TOPLEFT", 184, -20, mapOutlandString)
+				otdd:SetFrameLevel(30)
+
+				LeaMapsCB["ZoneMapOutlandMenu"]:RegisterCallback("OnMenuClose", function()
+					if not IsInInstance() then
+						WorldMapFrame:SetMapID(mapOutlandTable[LeaMapsLC["ZoneMapOutlandMenu"]].mapid)
+					end
+				end)
+
+				-- Create Northrend dropdown menu
+				LeaMapsLC["ZoneMapNorthrendMenu"] = 1
+
+				local mapNorthrendTable, mapNorthrendString = {}, {}
+				local zones = C_Map.GetMapChildrenInfo(113)
+				if (zones) then
+					for i, zoneInfo in ipairs(zones) do
+						tinsert(mapNorthrendTable, {zonename = zoneInfo.name, mapid = zoneInfo.mapID})
+						tinsert(mapNorthrendString, {zoneInfo.name, i + 1})
+					end
+				end
+
+				table.sort(mapNorthrendString, function(k, v) return k[1] < v[1] end)
+
+				tinsert(mapNorthrendString, 1, {L["Northrend"], 1})
+				tinsert(mapNorthrendTable, 1, {zonename = L["Northrend"], mapid = 113})
+
+				-- Add The Underbelly map
+				tinsert(mapNorthrendString,  {L["The Underbelly"], #mapNorthrendTable + 1})
+				tinsert(mapNorthrendTable,  {zonename = L["The Underbelly"], mapid = 126})
+
+				local nrdd = LeaMapsLC:CreateDropdown("ZoneMapNorthrendMenu", nil, 184, "TOPLEFT", outerFrame, "TOPLEFT", 184, -20, mapNorthrendString)
+				nrdd:SetFrameLevel(30)
+
+				LeaMapsCB["ZoneMapNorthrendMenu"]:RegisterCallback("OnMenuClose", function()
+					if not IsInInstance() then
+						WorldMapFrame:SetMapID(mapNorthrendTable[LeaMapsLC["ZoneMapNorthrendMenu"]].mapid)
+					end
+				end)
+
+				-- Create The Maelstrom dropdown menu
+				LeaMapsLC["ZoneMapTheMaelstromMenu"] = 1
+
+				local mapTheMaelstromTable, mapTheMaelstromString = {}, {}
+				local zones = C_Map.GetMapChildrenInfo(948)
+				if (zones) then
+					for i, zoneInfo in ipairs(zones) do
+						if zoneInfo.mapID ~= 276 then
+							tinsert(mapTheMaelstromTable, {zonename = zoneInfo.name, mapid = zoneInfo.mapID})
+							tinsert(mapTheMaelstromString, {zoneInfo.name, i + 1})
+						end
+					end
+				end
+
+				table.sort(mapTheMaelstromString, function(k, v) return k[1] < v[1] end)
+
+				tinsert(mapTheMaelstromString, 1, {L["The Maelstrom"], 1})
+				tinsert(mapTheMaelstromTable, 1, {zonename = L["The Maelstrom"], mapid = 948})
+
+				local msdd = LeaMapsLC:CreateDropdown("ZoneMapTheMaelstromMenu", nil, 184, "TOPLEFT", outerFrame, "TOPLEFT", 184, -20, mapTheMaelstromString)
+				msdd:SetFrameLevel(30)
+
+				LeaMapsCB["ZoneMapTheMaelstromMenu"]:RegisterCallback("OnMenuClose", function()
+					if not IsInInstance() then
+						WorldMapFrame:SetMapID(mapTheMaelstromTable[LeaMapsLC["ZoneMapTheMaelstromMenu"]].mapid)
+					end
+				end)
+
+				-- Create continent dropdown menu
+				LeaMapsLC["ZoneMapContinentMenu"] = 1
+
+				local mapContinentTable, mapContinentString = {}, {}
+				tinsert(mapContinentString, 1, {L["Eastern Kingdoms"], 1})
+				tinsert(mapContinentTable, 1, {zonename = L["Eastern Kingdoms"], mapid = 1415})
+				tinsert(mapContinentString, 2, {L["Kalimdor"], 2})
+				tinsert(mapContinentTable, 2, {zonename = L["Kalimdor"], mapid = 1414})
+				tinsert(mapContinentString, 3, {L["Outland"], 3})
+				tinsert(mapContinentTable, 3, {zonename = L["Outland"], mapid = 1945})
+				tinsert(mapContinentString, 4, {L["Northrend"], 4})
+				tinsert(mapContinentTable, 4, {zonename = L["Northrend"], mapid = 113})
+				tinsert(mapContinentString, 5, {L["The Maelstrom"], 5})
+				tinsert(mapContinentTable, 5, {zonename = L["The Maelstrom"], mapid = 948})
+				tinsert(mapContinentString, 6, {L["Azeroth"], 6})
+				tinsert(mapContinentTable, 6, {zonename = L["Azeroth"], mapid = 947})
+				tinsert(mapContinentString, 7, {L["Cosmic"], 7})
+				tinsert(mapContinentTable, 7, {zonename = L["Cosmic"], mapid = 946})
+
+				local cond = LeaMapsLC:CreateDropdown("ZoneMapContinentMenu", nil, 184, "TOPLEFT", outerFrame, "TOPLEFT", 0, -20, mapContinentString)
+				cond:SetFrameLevel(30)
+
+				-- Continent dropdown menu handler
+				LeaMapsCB["ZoneMapContinentMenu"]:RegisterCallback("OnMenuClose", function()
+					ekdd:Hide(); kmdd:Hide(); otdd:Hide(); nrdd:Hide(); msdd:Hide(); nodd:Hide()
+					if not IsInInstance() then
+						if LeaMapsLC["ZoneMapContinentMenu"] == 1 then
+							ekdd:Show()
+							WorldMapFrame:SetMapID(mapEasternTable[LeaMapsLC["ZoneMapEasternMenu"]].mapid)
+						elseif LeaMapsLC["ZoneMapContinentMenu"] == 2 then
+							kmdd:Show()
+							WorldMapFrame:SetMapID(mapKalimdorTable[LeaMapsLC["ZoneMapKalimdorMenu"]].mapid)
+						elseif LeaMapsLC["ZoneMapContinentMenu"] == 3 then
+							otdd:Show()
+							WorldMapFrame:SetMapID(mapOutlandTable[LeaMapsLC["ZoneMapOutlandMenu"]].mapid)
+						elseif LeaMapsLC["ZoneMapContinentMenu"] == 4 then
+							nrdd:Show()
+							WorldMapFrame:SetMapID(mapNorthrendTable[LeaMapsLC["ZoneMapNorthrendMenu"]].mapid)
+						elseif LeaMapsLC["ZoneMapContinentMenu"] == 5 then
+							msdd:Show()
+							WorldMapFrame:SetMapID(mapTheMaelstromTable[LeaMapsLC["ZoneMapTheMaelstromMenu"]].mapid)
+						elseif LeaMapsLC["ZoneMapContinentMenu"] == 6 then
+							nodd:Show()
+							WorldMapFrame:SetMapID(947)
+						elseif LeaMapsLC["ZoneMapContinentMenu"] == 7 then
+							nodd:Show()
+							WorldMapFrame:SetMapID(946)
+						end
+					end
+				end)
+
+				-- Create Azeroth lists
+				local mapAzerothTable, mapAzerothString = {}, {}
+				tinsert(mapAzerothString, 1, {L["Azeroth"], 1})
+				tinsert(mapAzerothTable, 1, {zonename = L["Azeroth"], mapid = 947})
+
+				-- Create Cosmic lists
+				local mapCosmicTable, mapCosmicString = {}, {}
+				tinsert(mapCosmicString, 1, {L["Azeroth"], 1})
+				tinsert(mapCosmicTable, 1, {zonename = L["Azeroth"], mapid = 947})
+
+				-- Function to set dropdown menu
+				local function SetMapControls()
+
+					-- Hide dropdown menus
+					ekdd:Hide(); kmdd:Hide(); otdd:Hide(); nrdd:Hide(); msdd:Hide(); nodd:Hide(); cond:Hide()
+
+					-- Eastern Kingdoms
+					for k, v in pairs(mapEasternTable) do
+						if v.mapid == WorldMapFrame.mapID then
+							LeaMapsLC["ZoneMapEasternMenu"] = k
+							ekdd:Show()
+							LeaMapsLC["ZoneMapContinentMenu"] = 1; cond:Show()
+							return
+						end
+					end
+
+					-- Kalimdor
+					for k, v in pairs(mapKalimdorTable) do
+						if v.mapid == WorldMapFrame.mapID then
+							LeaMapsLC["ZoneMapKalimdorMenu"] = k
+							kmdd:Show()
+							LeaMapsLC["ZoneMapContinentMenu"] = 2; cond:Show()
+							return
+						end
+					end
+
+					-- Outland
+					for k, v in pairs(mapOutlandTable) do
+						if v.mapid == WorldMapFrame.mapID then
+							LeaMapsLC["ZoneMapOutlandMenu"] = k
+							otdd:Show()
+							LeaMapsLC["ZoneMapContinentMenu"] = 3; cond:Show()
+							return
+						end
+					end
+
+					-- Northrend
+					for k, v in pairs(mapNorthrendTable) do
+						if v.mapid == WorldMapFrame.mapID then
+							LeaMapsLC["ZoneMapNorthrendMenu"] = k
+							nrdd:Show()
+							LeaMapsLC["ZoneMapContinentMenu"] = 4; cond:Show()
+							return
+						end
+					end
+
+					-- The Maelstrom
+					for k, v in pairs(mapTheMaelstromTable) do
+						if v.mapid == WorldMapFrame.mapID then
+							LeaMapsLC["ZoneMapTheMaelstromMenu"] = k
+							msdd:Show()
+							LeaMapsLC["ZoneMapContinentMenu"] = 5; cond:Show()
+							return
+						end
+					end
+					-- Azeroth
+					if WorldMapFrame.mapID == 947 then
+						nodd:Show()
+						LeaMapsLC["ZoneMapContinentMenu"] = 6; cond:Show()
+						return
+					end
+
+					-- Cosmic
+					if WorldMapFrame.mapID == 946 then
+						nodd:Show()
+						LeaMapsLC["ZoneMapContinentMenu"] = 7; cond:Show()
+						return
+					end
+
+				end
+
+				-- Set dropdown menu when map changes and when map is shown
+				hooksecurefunc(WorldMapFrame, "OnMapChanged", SetMapControls)
+				WorldMapFrame:HookScript("OnShow", SetMapControls)
+
+				-- Move dropdown menus if using default map
+				if LeaMapsLC["UseDefaultMap"] == "On" then
+
+					hooksecurefunc(WorldMapFrame, "Minimize", function()
+						outerFrame:ClearAllPoints()
+						outerFrame:SetPoint("TOPLEFT", WorldMapFrame, "TOPLEFT", 14, 20)
+					end)
+
+					hooksecurefunc(WorldMapFrame, "Maximize", function()
+						outerFrame:ClearAllPoints()
+						outerFrame:SetPoint("TOP", WorldMapFrame, "TOP", 0, -12)
+					end)
+				end
+
+				-- ElvUI fixes
+				if LeaMapsLC.ElvUI then
+					local E, S = LeaMapsLC.ElvUI
+					local S = E:GetModule('Skins')
+					if E.private.skins.blizzard.enable and E.private.skins.blizzard.worldmap then
+						S:HandleDropDownBox(cond)
+						S:HandleDropDownBox(ekdd); ekdd:ClearAllPoints(); ekdd:SetPoint("LEFT", cond, "RIGHT", 4, 0)
+						S:HandleDropDownBox(kmdd); kmdd:ClearAllPoints(); kmdd:SetPoint("LEFT", cond, "RIGHT", 4, 0)
+						S:HandleDropDownBox(otdd); otdd:ClearAllPoints(); otdd:SetPoint("LEFT", cond, "RIGHT", 4, 0)
+						S:HandleDropDownBox(nrdd); nrdd:ClearAllPoints(); nrdd:SetPoint("LEFT", cond, "RIGHT", 4, 0)
+						S:HandleDropDownBox(msdd); msdd:ClearAllPoints(); msdd:SetPoint("LEFT", cond, "RIGHT", 4, 0)
+						S:HandleDropDownBox(nodd); nodd:ClearAllPoints(); nodd:SetPoint("LEFT", cond, "RIGHT", 4, 0)
+					end
+				end
+
 			end
 
 		end
@@ -1111,9 +1494,17 @@
 		if LeaMapsLC["HideTownCityIcons"] == "On" then
 			hooksecurefunc(BaseMapPoiPinMixin, "OnAcquired", function(self)
 				local wmapID = WorldMapFrame.mapID
-				if wmapID and wmapID == 1414 or wmapID == 1415 or wmapID == 947 or wmapID == 1945 or wmapID == 113 then
-					if self.Texture and self.Texture:GetTexture() == 136441 then
-						self:Hide()
+				if LeaMapsLC.NewPatch then
+					if wmapID and wmapID == 13 or wmapID == 12 or wmapID == 1467 or wmapID == 113 or wmapID == 424 or wmapID == 947 then
+						if self.Texture and self.Texture:GetTexture() == 136441 then
+							self:Hide()
+						end
+					end
+				else
+					if wmapID and wmapID == 1414 or wmapID == 1415 or wmapID == 947 or wmapID == 1945 or wmapID == 113 then
+						if self.Texture and self.Texture:GetTexture() == 136441 then
+							self:Hide()
+						end
 					end
 				end
 			end)
@@ -1407,7 +1798,7 @@
 		-- Enlarge player arrow
 		----------------------------------------------------------------------
 
-		do
+		if LeaMapsLC["EnlargePlayerArrow"] == "On" then
 
 			local WorldMapUnitPin, WorldMapUnitPinSizes
 
@@ -1429,17 +1820,12 @@
 			-- Function to set player arrow size
 			local function SetArrowSize()
 				LeaMapsCB["PlayerArrowSize"].f:SetText(LeaMapsLC["PlayerArrowSize"] .. " (" .. string.format("%.0f%%", LeaMapsLC["PlayerArrowSize"] / 16 * 100) .. ")")
-				if LeaMapsLC["EnlargePlayerArrow"] == "On" then
-					WorldMapUnitPinSizes.player = LeaMapsLC["PlayerArrowSize"]
-				else
-					WorldMapUnitPinSizes.player = 16
-				end
+				WorldMapUnitPinSizes.player = LeaMapsLC["PlayerArrowSize"]
 				WorldMapUnitPin:SynchronizePinSizes()
 			end
 
-			-- Set arrow size when options are changed and on startup
+			-- Set arrow size when slider is changed and on startup
 			LeaMapsCB["PlayerArrowSize"]:HookScript("OnValueChanged", SetArrowSize)
-			LeaMapsCB["EnlargePlayerArrow"]:HookScript("OnClick", SetArrowSize)
 			SetArrowSize()
 
 			-- Back to Main Menu button click
@@ -1471,10 +1857,10 @@
 		end
 
 		----------------------------------------------------------------------
-		-- Show zone levels (must be before show dungeons and raids)
+		-- Show zone levels (must be before show points of interest)
 		----------------------------------------------------------------------
 
-		do
+		if LeaMapsLC["ShowZoneLevels"] == "On" and not LeaLockList["ShowZoneLevels"] then
 
 			-- Create level range table
 			local mapTable = {
@@ -1608,23 +1994,11 @@
 				self:EvaluateLabels()
 			end
 
-			-- Get original script name
-			local origScript
-			for provider in next, WorldMapFrame.dataProviders do
-				if provider.setAreaLabelCallback then
-					origScript = provider.Label:GetScript("OnUpdate")
-				end
-			end
-
 			-- Toggle zone levels
 			local function SetZoneLevelScript()
 				for provider in next, WorldMapFrame.dataProviders do
 					if provider.setAreaLabelCallback then
-						if LeaMapsLC["ShowZoneLevels"] == "On" then
-							provider.Label:SetScript("OnUpdate", AreaLabelOnUpdate)
-						else
-							provider.Label:SetScript("OnUpdate", origScript)
-						end
+						provider.Label:SetScript("OnUpdate", AreaLabelOnUpdate)
 					end
 				end
 			end
@@ -1863,6 +2237,7 @@
 			local lastHorizontal = WorldMapFrame.ScrollContainer:GetNormalizedHorizontalScroll()
 			local lastVertical = WorldMapFrame.ScrollContainer:GetNormalizedVerticalScroll()
 			local lastMapID = WorldMapFrame.mapID
+			local WorldMapHasBeenShown
 
 			-- Store pan and zoom settings when canvas size is changed
 			hooksecurefunc(WorldMapFrame.ScrollContainer, "OnCanvasSizeChanged", function()
@@ -1874,21 +2249,24 @@
 
 			-- Restore pan and zoom settings when map is shown
 			WorldMapFrame:HookScript("OnShow", function()
-				if WorldMapFrame.mapID == lastMapID then
-					WorldMapFrame.ScrollContainer:InstantPanAndZoom(lastZoomLevel, lastHorizontal, lastVertical)
-					WorldMapFrame.ScrollContainer:SetPanTarget(lastHorizontal, lastVertical)
-					WorldMapFrame.ScrollContainer:Hide(); WorldMapFrame.ScrollContainer:Show()
+				if WorldMapHasBeenShown then
+					if WorldMapFrame.mapID == lastMapID then
+						WorldMapFrame.ScrollContainer:InstantPanAndZoom(lastZoomLevel, lastHorizontal, lastVertical)
+						WorldMapFrame.ScrollContainer:SetPanTarget(lastHorizontal, lastVertical)
+						WorldMapFrame.ScrollContainer:Hide(); WorldMapFrame.ScrollContainer:Show()
+					end
+				else
+					-- First time map has been shown so replace Blizzard's reset zoom function to not reset zoom if map hasn't changed
+					function WorldMapFrame.ScrollContainer:ResetZoom()
+						if WorldMapFrame.mapID == lastMapID then
+							return true
+						else
+							WorldMapFrame.ScrollContainer:InstantPanAndZoom(WorldMapFrame.ScrollContainer.zoomLevels[1].scale, 0.5, 0.5)
+						end
+					end
+					WorldMapHasBeenShown = true
 				end
 			end)
-
-			-- Replace Blizzard's reset zoom function to not reset zoom if map hasn't changed
-			function WorldMapFrame.ScrollContainer:ResetZoom()
-				if WorldMapFrame.mapID == lastMapID then
-					return true
-				else
-					WorldMapFrame.ScrollContainer:InstantPanAndZoom(WorldMapFrame.ScrollContainer.zoomLevels[1].scale, 0.5, 0.5)
-				end
-			end
 
 		end
 
@@ -1899,13 +2277,11 @@
 		if LeaMapsLC["UseDefaultMap"] == "Off" then
 
 			-- Remove frame management
-			WorldMapFrame:SetAttribute("UIPanelLayout-area", "center")
-			WorldMapFrame:SetAttribute("UIPanelLayout-enabled", false)
-			WorldMapFrame:SetAttribute("UIPanelLayout-allowOtherPanels", true)
+			-- WorldMapFrame:SetAttribute("UIPanelLayout-area", "center")
+			-- WorldMapFrame:SetAttribute("UIPanelLayout-enabled", false)
+			-- WorldMapFrame:SetAttribute("UIPanelLayout-allowOtherPanels", true)
 			WorldMapFrame:SetIgnoreParentScale(false)
 			WorldMapFrame.ScrollContainer:SetIgnoreParentScale(false)
-			--WorldMapFrame.BlackoutFrame:Hide()
-			--WorldMapFrame.IsMaximized = function() return false end
 
 			-- Enable movement
 			WorldMapFrame:SetMovable(true)
@@ -2041,7 +2417,7 @@
 		-- Show points of interest (must be after zone levels)
 		----------------------------------------------------------------------
 
-		do
+		if LeaMapsLC["ShowPointsOfInterest"] == "On" then
 
 			-- Get table from file
 			local PinData = Leatrix_Maps["Icons"]
@@ -2055,94 +2431,92 @@
 				self:GetMap():RemoveAllPinsByTemplate("LeaMapsGlobalPinTemplate")
 
 				-- Show new pins if option is enabled
-				if LeaMapsLC["ShowPointsOfInterest"] == "On" then
+				local pMapID = WorldMapFrame.mapID
+				if PinData[pMapID] then
+					local count = #PinData[pMapID]
+					for i = 1, count do
 
-					-- Make new pins
-					local pMapID = WorldMapFrame.mapID
-					if PinData[pMapID] then
-						local count = #PinData[pMapID]
-						for i = 1, count do
+						-- Do nothing if pinInfo has no entry for zone we are looking at
+						local pinInfo = PinData[pMapID][i]
+						if not pinInfo then return nil end
 
-							-- Do nothing if pinInfo has no entry for zone we are looking at
-							local pinInfo = PinData[pMapID][i]
-							if not pinInfo then return nil end
-
-							-- Get POI if any quest requirements have been met
-							if LeaMapsLC["ShowDungeonIcons"] == "On" and (pinInfo[1] == "Dungeon" or pinInfo[1] == "Raid" or pinInfo[1] == "Dunraid")
-							or LeaMapsLC["ShowTravelPoints"] == "On" and playerFaction == "Alliance" and (pinInfo[1] == "FlightA" or pinInfo[1] == "FlightN" or pinInfo[1] == "TravelA" or pinInfo[1] == "TravelN")
-							or LeaMapsLC["ShowTravelPoints"] == "On" and playerFaction == "Horde" and (pinInfo[1] == "FlightH" or pinInfo[1] == "FlightN" or pinInfo[1] == "TravelH" or pinInfo[1] == "TravelN")
-							or LeaMapsLC["ShowTravelOpposing"] == "On" and playerFaction == "Alliance" and (pinInfo[1] == "FlightH" or pinInfo[1] == "FlightN" or pinInfo[1] == "TravelH" or pinInfo[1] == "TravelN")
-							or LeaMapsLC["ShowTravelOpposing"] == "On" and playerFaction == "Horde" and (pinInfo[1] == "FlightA" or pinInfo[1] == "FlightN" or pinInfo[1] == "TravelA" or pinInfo[1] == "TravelN")
-							then
-								local myPOI = {}
-								myPOI["position"] = CreateVector2D(pinInfo[2] / 100, pinInfo[3] / 100)
-								if LeaMapsLC["ShowZoneLevels"] == "On" and pinInfo[7] and pinInfo[8] then
-									-- Set dungeon level in title
-									local playerLevel = UnitLevel("player")
-									local color
-									local name = ""
-									local dungeonMinLevel, dungeonMaxLevel = pinInfo[7], pinInfo[8]
-									if playerLevel < dungeonMinLevel then
-										color = GetQuestDifficultyColor(dungeonMinLevel)
-									elseif playerLevel > dungeonMaxLevel then
-										-- Subtract 2 from the maxLevel so zones entirely below the player's level won't be yellow
-										color = GetQuestDifficultyColor(dungeonMaxLevel - 2)
-									else
-										color = QuestDifficultyColors["difficult"]
-									end
-									color = ConvertRGBtoColorString(color)
-									if dungeonMinLevel ~= dungeonMaxLevel then
-										name = name..color.." (" .. dungeonMinLevel .. "-" .. dungeonMaxLevel .. ")" .. FONT_COLOR_CODE_CLOSE
-									else
-										name = name..color.." (" .. dungeonMaxLevel .. ")" .. FONT_COLOR_CODE_CLOSE
-									end
-									myPOI["name"] = pinInfo[4] .. name
+						-- Get POI if any quest requirements have been met
+						if LeaMapsLC["ShowDungeonIcons"] == "On" and (pinInfo[1] == "Dungeon" or pinInfo[1] == "Raid" or pinInfo[1] == "Dunraid")
+						or LeaMapsLC["ShowDungeonIcons"] == "On" and pinInfo[1] == "RaidA" and playerFaction == "Alliance"
+						or LeaMapsLC["ShowDungeonIcons"] == "On" and pinInfo[1] == "RaidH" and playerFaction == "Horde"
+						or LeaMapsLC["ShowTravelPoints"] == "On" and playerFaction == "Alliance" and (pinInfo[1] == "FlightA" or pinInfo[1] == "FlightN" or pinInfo[1] == "TravelA" or pinInfo[1] == "TravelN")
+						or LeaMapsLC["ShowTravelPoints"] == "On" and playerFaction == "Horde" and (pinInfo[1] == "FlightH" or pinInfo[1] == "FlightN" or pinInfo[1] == "TravelH" or pinInfo[1] == "TravelN")
+						or LeaMapsLC["ShowTravelOpposing"] == "On" and playerFaction == "Alliance" and (pinInfo[1] == "FlightH" or pinInfo[1] == "FlightN" or pinInfo[1] == "TravelH" or pinInfo[1] == "TravelN")
+						or LeaMapsLC["ShowTravelOpposing"] == "On" and playerFaction == "Horde" and (pinInfo[1] == "FlightA" or pinInfo[1] == "FlightN" or pinInfo[1] == "TravelA" or pinInfo[1] == "TravelN")
+						then
+							local myPOI = {}
+							myPOI["position"] = CreateVector2D(pinInfo[2] / 100, pinInfo[3] / 100)
+							if pinInfo[7] and pinInfo[8] then
+								-- Set dungeon level in title
+								local playerLevel = UnitLevel("player")
+								local color
+								local name = ""
+								local dungeonMinLevel, dungeonMaxLevel = pinInfo[7], pinInfo[8]
+								if playerLevel < dungeonMinLevel then
+									color = GetQuestDifficultyColor(dungeonMinLevel)
+								elseif playerLevel > dungeonMaxLevel then
+									-- Subtract 2 from the maxLevel so zones entirely below the player's level won't be yellow
+									color = GetQuestDifficultyColor(dungeonMaxLevel - 2)
 								else
-									-- Show zone levels is disabled or dungeon has no level range
-									myPOI["name"] = pinInfo[4]
+									color = QuestDifficultyColors["difficult"]
 								end
-								myPOI["description"] = pinInfo[5]
-								myPOI["atlasName"] = pinInfo[6]
-								local pin = self:GetMap():AcquirePin("LeaMapsGlobalPinTemplate", myPOI)
-								pin.Texture:SetRotation(0)
-								pin.HighlightTexture:SetRotation(0)
-
-								-- Override travel textures
-								if pinInfo[1] == "TravelA" then
-									pin.Texture:SetTexture("Interface\\AddOns\\Leatrix_Maps\\Leatrix_Maps.blp")
-									pin.Texture:SetTexCoord(0, 0.25, 0.75, 1)
-									pin.Texture:SetSize(32, 32)
-									pin.HighlightTexture:SetTexture("Interface\\AddOns\\Leatrix_Maps\\Leatrix_Maps.blp")
-									pin.HighlightTexture:SetTexCoord(0, 0.25, 0.75, 1)
-									pin.HighlightTexture:SetSize(32, 32)
-								elseif pinInfo[1] == "TravelH" then
-									pin.Texture:SetTexture("Interface\\AddOns\\Leatrix_Maps\\Leatrix_Maps.blp")
-									pin.HighlightTexture:SetTexture("Interface\\AddOns\\Leatrix_Maps\\Leatrix_Maps.blp")
-									pin.Texture:SetTexCoord(0.25, 0.5, 0.75, 1)
-									pin.Texture:SetSize(32, 32)
-									pin.HighlightTexture:SetTexCoord(0.25, 0.5, 0.75, 1)
-									pin.HighlightTexture:SetSize(32, 32)
-								elseif pinInfo[1] == "TravelN" then
-									pin.Texture:SetTexture("Interface\\AddOns\\Leatrix_Maps\\Leatrix_Maps.blp")
-									pin.HighlightTexture:SetTexture("Interface\\AddOns\\Leatrix_Maps\\Leatrix_Maps.blp")
-									pin.Texture:SetTexCoord(0.5, 0.75, 0.75, 1)
-									pin.Texture:SetSize(32, 32)
-									pin.HighlightTexture:SetTexCoord(0.5, 0.75, 0.75, 1)
-									pin.HighlightTexture:SetSize(32, 32)
-								elseif pinInfo[1] == "Dunraid" then
-									pin.Texture:SetTexture("Interface\\AddOns\\Leatrix_Maps\\Leatrix_Maps.blp")
-									pin.HighlightTexture:SetTexture("Interface\\AddOns\\Leatrix_Maps\\Leatrix_Maps.blp")
-									pin.Texture:SetTexCoord(0.75, 1, 0.75, 1)
-									pin.Texture:SetSize(32, 32)
-									pin.HighlightTexture:SetTexCoord(0.75, 1, 0.75, 1)
-									pin.HighlightTexture:SetSize(32, 32)
+								color = ConvertRGBtoColorString(color)
+								if dungeonMinLevel ~= dungeonMaxLevel then
+									name = name..color.." (" .. dungeonMinLevel .. "-" .. dungeonMaxLevel .. ")" .. FONT_COLOR_CODE_CLOSE
+								else
+									name = name..color.." (" .. dungeonMaxLevel .. ")" .. FONT_COLOR_CODE_CLOSE
 								end
+								myPOI["name"] = pinInfo[4] .. name
+							else
+								-- Show zone levels is disabled or dungeon has no level range
+								myPOI["name"] = pinInfo[4]
 							end
+							myPOI["description"] = pinInfo[5]
+							myPOI["atlasName"] = pinInfo[6]
+							local pin = self:GetMap():AcquirePin("LeaMapsGlobalPinTemplate", myPOI)
+							pin.Texture:SetRotation(0)
+							pin.HighlightTexture:SetRotation(0)
 
+							-- Override travel textures
+							if pinInfo[1] == "TravelA" then
+								pin.Texture:SetTexture("Interface\\AddOns\\Leatrix_Maps\\Leatrix_Maps.blp")
+								pin.Texture:SetTexCoord(0, 0.25, 0.75, 1)
+								pin.Texture:SetSize(32, 32)
+								pin.HighlightTexture:SetTexture("Interface\\AddOns\\Leatrix_Maps\\Leatrix_Maps.blp")
+								pin.HighlightTexture:SetTexCoord(0, 0.25, 0.75, 1)
+								pin.HighlightTexture:SetSize(32, 32)
+							elseif pinInfo[1] == "TravelH" then
+								pin.Texture:SetTexture("Interface\\AddOns\\Leatrix_Maps\\Leatrix_Maps.blp")
+								pin.HighlightTexture:SetTexture("Interface\\AddOns\\Leatrix_Maps\\Leatrix_Maps.blp")
+								pin.Texture:SetTexCoord(0.25, 0.5, 0.75, 1)
+								pin.Texture:SetSize(32, 32)
+								pin.HighlightTexture:SetTexCoord(0.25, 0.5, 0.75, 1)
+								pin.HighlightTexture:SetSize(32, 32)
+							elseif pinInfo[1] == "TravelN" then
+								pin.Texture:SetTexture("Interface\\AddOns\\Leatrix_Maps\\Leatrix_Maps.blp")
+								pin.HighlightTexture:SetTexture("Interface\\AddOns\\Leatrix_Maps\\Leatrix_Maps.blp")
+								pin.Texture:SetTexCoord(0.5, 0.75, 0.75, 1)
+								pin.Texture:SetSize(32, 32)
+								pin.HighlightTexture:SetTexCoord(0.5, 0.75, 0.75, 1)
+								pin.HighlightTexture:SetSize(32, 32)
+							elseif pinInfo[1] == "Dunraid" then
+								pin.Texture:SetTexture("Interface\\AddOns\\Leatrix_Maps\\Leatrix_Maps.blp")
+								pin.HighlightTexture:SetTexture("Interface\\AddOns\\Leatrix_Maps\\Leatrix_Maps.blp")
+								pin.Texture:SetTexCoord(0.75, 1, 0.75, 1)
+								pin.Texture:SetSize(32, 32)
+								pin.HighlightTexture:SetTexCoord(0.75, 1, 0.75, 1)
+								pin.HighlightTexture:SetSize(32, 32)
+							end
 						end
-					end
 
+					end
 				end
+
 			end
 
 			_G.LeaMapsGlobalPinMixin = BaseMapPoiPinMixin:CreateSubPin("PIN_FRAME_LEVEL_DEBUG")
@@ -2178,11 +2552,9 @@
 			end
 
 			-- Set points of interest when options are clicked (including show zone levels)
-			LeaMapsCB["ShowPointsOfInterest"]:HookScript("OnClick", SetPointsOfInterest)
 			LeaMapsCB["ShowDungeonIcons"]:HookScript("OnClick", SetPointsOfInterest)
 			LeaMapsCB["ShowTravelPoints"]:HookScript("OnClick", SetPointsOfInterest)
 			LeaMapsCB["ShowTravelOpposing"]:HookScript("OnClick", SetPointsOfInterest)
-			LeaMapsCB["ShowZoneLevels"]:HookScript("OnClick", SetPointsOfInterest)
 
 			-- Back to Main Menu button click
 			poiFrame.b:HookScript("OnClick", function()
@@ -2652,9 +3024,6 @@
 			LeaMapsLC:LockItem(LeaMapsCB["UnlockMapFrame"], true)
 			LeaMapsCB["UnlockMapFrame"].tiptext = LeaMapsCB["UnlockMapFrame"].tiptext .. "|n|n|cff00AAFF" .. L["Cannot be used with Use default map."]
 
-			LeaMapsLC:LockItem(LeaMapsCB["StickyMapFrame"], true)
-			LeaMapsCB["StickyMapFrame"].tiptext = LeaMapsCB["StickyMapFrame"].tiptext .. "|n|n|cff00AAFF" .. L["Cannot be used with Use default map."]
-
 			-- Hide default map maximised right-click to zoom out text
 			WorldMapMagnifyingGlassButton:HookScript("OnShow", function()
 				WorldMapMagnifyingGlassButton:Hide()
@@ -2735,7 +3104,7 @@
 
 		do
 
-			LeaMapsLC:CreateDropdownNew("ZoneMapMenu", "Zone Map", 170, "TOPLEFT", LeaMapsLC["PageF"], "TOPLEFT", 16, -392, {{L["Never"], 1}, {L["Battlegrounds"], 2}, {L["Always"], 3}}, L["Choose where the zone map should be shown."])
+			LeaMapsLC:CreateDropdown("ZoneMapMenu", "Zone Map", 170, "TOPLEFT", LeaMapsLC["PageF"], "TOPLEFT", 16, -382, {{L["Never"], 1}, {L["Battlegrounds"], 2}, {L["Always"], 3}}, L["Choose where the zone map should be shown."])
 
 			-- Set zone map visibility
 			local function SetZoneMapStyle()
@@ -2814,7 +3183,7 @@
 
 		-- Set frame parameters
 		Side:Hide()
-		Side:SetSize(470, 500)
+		Side:SetSize(470, 480)
 		Side:SetClampedToScreen(true)
 		Side:SetFrameStrata("FULLSCREEN_DIALOG")
 		Side:SetFrameLevel(20)
@@ -2857,7 +3226,7 @@
 
 		-- Set textures
 		LeaMapsLC:CreateBar("FootTexture", Side, 470, 48, "BOTTOM", 0.5, 0.5, 0.5, 1.0, "Interface\\ACHIEVEMENTFRAME\\UI-GuildAchievement-Parchment-Horizontal-Desaturated.png")
-		LeaMapsLC:CreateBar("MainTexture", Side, 470, 453, "TOPRIGHT", 0.7, 0.7, 0.7, 0.7,  "Interface\\ACHIEVEMENTFRAME\\UI-GuildAchievement-Parchment-Horizontal-Desaturated.png")
+		LeaMapsLC:CreateBar("MainTexture", Side, 470, 433, "TOPRIGHT", 0.7, 0.7, 0.7, 0.7,  "Interface\\ACHIEVEMENTFRAME\\UI-GuildAchievement-Parchment-Horizontal-Desaturated.png")
 
 		-- Allow movement
 		Side:EnableMouse(true)
@@ -3018,11 +3387,11 @@
 	function LeaMapsLC:SetDim()
 		LeaMapsLC:LockOption("IncreaseZoom", "IncreaseZoomBtn", false) -- Increase zoom level
 		LeaMapsLC:LockOption("RevealMap", "RevTintBtn", true) -- Reveal map
-		LeaMapsLC:LockOption("EnlargePlayerArrow", "EnlargePlayerArrowBtn", false) -- Enlarge player arrow
+		LeaMapsLC:LockOption("EnlargePlayerArrow", "EnlargePlayerArrowBtn", true) -- Enlarge player arrow
 		LeaMapsLC:LockOption("UseClassIcons", "UseClassIconsBtn", true) -- Class colored icons
 		LeaMapsLC:LockOption("UnlockMapFrame", "UnlockMapFrameBtn", false) -- Unlock map frame
 		LeaMapsLC:LockOption("SetMapOpacity", "SetMapOpacityBtn", true) -- Set map opacity
-		LeaMapsLC:LockOption("ShowPointsOfInterest", "ShowPointsOfInterestBtn", false) -- Show points of interest
+		LeaMapsLC:LockOption("ShowPointsOfInterest", "ShowPointsOfInterestBtn", true) -- Show points of interest
 		LeaMapsLC:LockOption("EnhanceBattleMap", "EnhanceBattleMapBtn", true) -- Enhance battlefield map
 		-- Ensure locked but enabled options remain locked
 		if LeaMapsLC["UseDefaultMap"] == "On" then
@@ -3067,7 +3436,7 @@
 	end
 
 	-- Create a dropdown menu (using standard dropdown template)
-	function LeaMapsLC:CreateDropdownNew(frame, label, width, anchor, parent, relative, x, y, items)
+	function LeaMapsLC:CreateDropdown(frame, label, width, anchor, parent, relative, x, y, items)
 
 		local RadioDropdown = CreateFrame("DropdownButton", nil, parent, "WowStyle1DropdownTemplate")
 		LeaMapsCB[frame] = RadioDropdown
@@ -3092,133 +3461,19 @@
 
 	end
 
-	-- Create a dropdown menu (using custom function to avoid taint)
-	function LeaMapsLC:CreateDropDown(ddname, label, parent, width, anchor, x, y, items, tip)
-
-		-- Add the dropdown name to a table
-		tinsert(LeaDropList, ddname)
-
-		-- Populate variable with item list
-		LeaMapsLC[ddname.."Table"] = items
-
-		-- Create outer frame
-		local frame = CreateFrame("FRAME", nil, parent); frame:SetWidth(width); frame:SetHeight(42); frame:SetPoint("BOTTOMLEFT", parent, anchor, x, y);
-
-		-- Create dropdown inside outer frame
-		local dd = CreateFrame("Frame", nil, frame); dd:SetPoint("BOTTOMLEFT", -16, -8); dd:SetPoint("BOTTOMRIGHT", 15, -4); dd:SetHeight(32);
-		frame.dd = dd
-
-		-- Create dropdown textures
-		local lt = dd:CreateTexture(nil, "ARTWORK"); lt:SetTexture("Interface\\Glues\\CharacterCreate\\CharacterCreate-LabelFrame"); lt:SetTexCoord(0, 0.1953125, 0, 1); lt:SetPoint("TOPLEFT", dd, 0, 17); lt:SetWidth(25); lt:SetHeight(64);
-		local rt = dd:CreateTexture(nil, "BORDER"); rt:SetTexture("Interface\\Glues\\CharacterCreate\\CharacterCreate-LabelFrame"); rt:SetTexCoord(0.8046875, 1, 0, 1); rt:SetPoint("TOPRIGHT", dd, 0, 17); rt:SetWidth(25); rt:SetHeight(64);
-		local mt = dd:CreateTexture(nil, "BORDER"); mt:SetTexture("Interface\\Glues\\CharacterCreate\\CharacterCreate-LabelFrame"); mt:SetTexCoord(0.1953125, 0.8046875, 0, 1); mt:SetPoint("LEFT", lt, "RIGHT"); mt:SetPoint("RIGHT", rt, "LEFT"); mt:SetHeight(64);
-
-		-- Create dropdown label
-		local lf = dd:CreateFontString(nil, "OVERLAY", "GameFontNormal"); lf:SetPoint("TOPLEFT", frame, 0, 0); lf:SetPoint("TOPRIGHT", frame, -5, 0); lf:SetJustifyH("LEFT"); lf:SetText(L[label])
-
-		-- Create dropdown placeholder for value (set it using OnShow)
-		local value = dd:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
-		value:SetPoint("LEFT", lt, 26, 2); value:SetPoint("RIGHT", rt, -43, 0); value:SetJustifyH("LEFT"); value:SetWordWrap(false)
-		dd:SetScript("OnShow", function() value:SetText(LeaMapsLC[ddname.."Table"][LeaMapsLC[ddname]]) end)
-
-		-- Create dropdown button (clicking it opens the dropdown list)
-		local dbtn = CreateFrame("Button", nil, dd)
-		dbtn:SetPoint("TOPRIGHT", rt, -16, -18); dbtn:SetWidth(24); dbtn:SetHeight(24)
-		dbtn:SetNormalTexture("Interface\\ChatFrame\\UI-ChatIcon-ScrollDown-Up"); dbtn:SetPushedTexture("Interface\\ChatFrame\\UI-ChatIcon-ScrollDown-Down"); dbtn:SetDisabledTexture("Interface\\ChatFrame\\UI-ChatIcon-ScrollDown-Disabled"); dbtn:SetHighlightTexture("Interface\\Buttons\\UI-Common-MouseHilight"); dbtn:GetHighlightTexture():SetBlendMode("ADD")
-		if tip and tip ~= "" then
-			dbtn.tiptext = tip; dbtn:SetScript("OnEnter", LeaMapsLC.ShowTooltip)
-			dbtn:SetScript("OnLeave", GameTooltip_Hide)
-		end
-		frame.btn = dbtn
-		dd.Button = dbtn
-
-		-- Create dropdown list
-		local ddlist =  CreateFrame("Frame",nil,frame, "BackdropTemplate")
-		LeaMapsCB["ListFrame" .. ddname] = ddlist
-		ddlist:SetPoint("TOP",0, -42)
-		ddlist:SetWidth(frame:GetWidth())
-		ddlist:SetHeight((#items * 16) + 16 + 16)
-		ddlist:SetFrameStrata("FULLSCREEN_DIALOG")
-		ddlist:SetFrameLevel(12)
-		ddlist:SetBackdrop({bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background-Dark", edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border", tile = false, tileSize = 0, edgeSize = 32, insets = { left = 4, right = 4, top = 4, bottom = 4 }});
-		ddlist:Hide()
-		frame.bg = ddlist
-
-		-- Hide list if parent is closed
-		parent:HookScript("OnHide", function() ddlist:Hide() end)
-
-		-- Create checkmark (it marks the currently selected item)
-		local ddlistchk = CreateFrame("FRAME", nil, ddlist)
-		ddlistchk:SetHeight(16); ddlistchk:SetWidth(16)
-		ddlistchk.t = ddlistchk:CreateTexture(nil, "ARTWORK"); ddlistchk.t:SetAllPoints(); ddlistchk.t:SetTexture("Interface\\Common\\UI-DropDownRadioChecks"); ddlistchk.t:SetTexCoord(0, 0.5, 0.5, 1.0);
-
-		-- Create dropdown list items
-		for k, v in pairs(items) do
-
-			local dditem = CreateFrame("Button", nil, LeaMapsCB["ListFrame"..ddname])
-			LeaMapsCB["Drop"..ddname..k] = dditem;
-			dditem:Show();
-			dditem:SetWidth(ddlist:GetWidth()-22)
-			dditem:SetHeight(16)
-			dditem:SetPoint("TOPLEFT", 12, -k * 16)
-
-			dditem.f = dditem:CreateFontString(nil, 'ARTWORK', 'GameFontHighlight')
-			dditem.f:SetPoint('LEFT', 16, 0)
-			dditem.f:SetText(items[k])
-
-			dditem.f:SetWordWrap(false)
-			dditem.f:SetJustifyH("LEFT")
-			dditem.f:SetWidth(ddlist:GetWidth()-36)
-
-			dditem.t = dditem:CreateTexture(nil, "BACKGROUND")
-			dditem.t:SetAllPoints()
-			dditem.t:SetColorTexture(0.3, 0.3, 0.00, 0.8)
-			dditem.t:Hide();
-
-			dditem:SetScript("OnEnter", function() dditem.t:Show() end)
-			dditem:SetScript("OnLeave", function() dditem.t:Hide() end)
-			dditem:SetScript("OnClick", function()
-				LeaMapsLC[ddname] = k
-				value:SetText(LeaMapsLC[ddname.."Table"][k])
-				ddlist:Hide(); -- Must be last in click handler as other functions hook it
-			end)
-
-			-- Show list when button is clicked
-			dbtn:SetScript("OnClick", function()
-				-- Show the dropdown
-				if ddlist:IsShown() then ddlist:Hide() else
-					ddlist:Show();
-					ddlistchk:SetPoint("TOPLEFT",10,select(5,LeaMapsCB["Drop"..ddname..LeaMapsLC[ddname]]:GetPoint()))
-					ddlistchk:Show();
-				end;
-				-- Hide all other dropdowns except the one we're dealing with
-				for void,v in pairs(LeaDropList) do
-					if v ~= ddname then
-						LeaMapsCB["ListFrame"..v]:Hide()
-					end
-				end
-			end)
-
-			-- Expand the clickable area of the button to include the entire menu width
-			dbtn:SetHitRectInsets(-width+28, 0, 0, 0)
-
-		end
-
-		return frame
-
-	end
-
 	-- Set reload button status
 	function LeaMapsLC:ReloadCheck()
-		if	(LeaMapsLC["ShowZoneMenu"] ~= LeaMapsDB["ShowZoneMenu"])			-- Show zone menu
-		or	(LeaMapsLC["SetMapOpacity"] ~= LeaMapsDB["SetMapOpacity"])			-- Set map opacity
-		or	(LeaMapsLC["UseClassIcons"] ~= LeaMapsDB["UseClassIcons"])			-- Use class colors
-		or	(LeaMapsLC["StickyMapFrame"] ~= LeaMapsDB["StickyMapFrame"])		-- Sticky map frame
-		or	(LeaMapsLC["AutoChangeZones"] ~= LeaMapsDB["AutoChangeZones"])		-- Auto change zones
-		or	(LeaMapsLC["UseDefaultMap"] ~= LeaMapsDB["UseDefaultMap"])			-- Use default map
-		or	(LeaMapsLC["RevealMap"] ~= LeaMapsDB["RevealMap"])					-- Show unexplored areas
-		or	(LeaMapsLC["HideTownCityIcons"] ~= LeaMapsDB["HideTownCityIcons"])	-- Hide town and city icons
-		or	(LeaMapsLC["EnhanceBattleMap"] ~= LeaMapsDB["EnhanceBattleMap"])	-- Enhance battlefield map
+		if	(LeaMapsLC["ShowZoneMenu"] ~= LeaMapsDB["ShowZoneMenu"])					-- Show zone menu
+		or	(LeaMapsLC["SetMapOpacity"] ~= LeaMapsDB["SetMapOpacity"])					-- Set map opacity
+		or	(LeaMapsLC["EnlargePlayerArrow"] ~= LeaMapsDB["EnlargePlayerArrow"])		-- Enlarge player arrow
+		or	(LeaMapsLC["UseClassIcons"] ~= LeaMapsDB["UseClassIcons"])					-- Use class colors
+		or	(LeaMapsLC["AutoChangeZones"] ~= LeaMapsDB["AutoChangeZones"])				-- Auto change zones
+		or	(LeaMapsLC["UseDefaultMap"] ~= LeaMapsDB["UseDefaultMap"])					-- Use default map
+		or	(LeaMapsLC["RevealMap"] ~= LeaMapsDB["RevealMap"])							-- Show unexplored areas
+		or	(LeaMapsLC["ShowPointsOfInterest"] ~= LeaMapsDB["ShowPointsOfInterest"])	-- Show unexplored areas
+		or	(LeaMapsLC["ShowZoneLevels"] ~= LeaMapsDB["ShowZoneLevels"])				-- Show zone levels
+		or	(LeaMapsLC["HideTownCityIcons"] ~= LeaMapsDB["HideTownCityIcons"])			-- Hide town and city icons
+		or	(LeaMapsLC["EnhanceBattleMap"] ~= LeaMapsDB["EnhanceBattleMap"])			-- Enhance battlefield map
 		then
 			-- Enable the reload button
 			LeaMapsLC:LockItem(LeaMapsCB["ReloadUIButton"], false)
@@ -3604,7 +3859,6 @@
 				LeaMapsDB["stationaryOpacity"] = 1.0
 				LeaMapsDB["movingOpacity"] = 0.5
 				LeaMapsDB["NoFadeCursor"] = "On"
-				LeaMapsDB["StickyMapFrame"] = "Off"
 				LeaMapsDB["AutoChangeZones"] = "Off"
 				LeaMapsDB["CenterMapOnPlayer"] = "On"
 				LeaMapsDB["UseDefaultMap"] = "Off"
@@ -3716,7 +3970,6 @@
 			LeaMapsLC:LoadVarNum("stationaryOpacity", 1, 0.1, 1)		-- Stationary opacity
 			LeaMapsLC:LoadVarNum("movingOpacity", 0.5, 0.1, 1)			-- Moving opacity
 			LeaMapsLC:LoadVarChk("NoFadeCursor", "On")					-- Use stationary opacity
-			LeaMapsLC:LoadVarChk("StickyMapFrame", "Off")				-- Sticky map frame
 			LeaMapsLC:LoadVarChk("AutoChangeZones", "Off")				-- Auto change zones
 			LeaMapsLC:LoadVarChk("CenterMapOnPlayer", "Off")			-- Center map on player
 			LeaMapsLC:LoadVarChk("UseDefaultMap", "Off")				-- Use default map
@@ -3788,6 +4041,11 @@
 					end
 				end
 
+				-- Mists of Pandaria Beta
+				if LeaMapsLC.NewPatch then
+					Lock("ShowZoneLevels", "In Mists of Pandaria Classic, zone levels are shown in the default UI")
+				end
+
 				-- Disable items that conflict with ElvUI
 				if LeaMapsLC.ElvUI then
 					local E = LeaMapsLC.ElvUI
@@ -3825,7 +4083,6 @@
 			LeaMapsDB["stationaryOpacity"] = LeaMapsLC["stationaryOpacity"]
 			LeaMapsDB["movingOpacity"] = LeaMapsLC["movingOpacity"]
 			LeaMapsDB["NoFadeCursor"] = LeaMapsLC["NoFadeCursor"]
-			LeaMapsDB["StickyMapFrame"] = LeaMapsLC["StickyMapFrame"]
 			LeaMapsDB["AutoChangeZones"] = LeaMapsLC["AutoChangeZones"]
 			LeaMapsDB["CenterMapOnPlayer"] = LeaMapsLC["CenterMapOnPlayer"]
 			LeaMapsDB["UseDefaultMap"] = LeaMapsLC["UseDefaultMap"]
@@ -3891,7 +4148,7 @@
 
 	-- Set frame parameters
 	LeaMapsLC["PageF"] = PageF
-	PageF:SetSize(470, 500)
+	PageF:SetSize(470, 480)
 	PageF:Hide()
 	PageF:SetFrameStrata("FULLSCREEN_DIALOG")
 	PageF:SetFrameLevel(20)
@@ -3915,7 +4172,7 @@
 	-- Add textures
 	local MainTexture = PageF:CreateTexture(nil, "BORDER")
 	MainTexture:SetTexture("Interface\\ACHIEVEMENTFRAME\\UI-GuildAchievement-Parchment-Horizontal-Desaturated.png")
-	MainTexture:SetSize(470, 453)
+	MainTexture:SetSize(470, 433)
 	MainTexture:SetPoint("TOPRIGHT")
 	MainTexture:SetVertexColor(0.7, 0.7, 0.7, 0.7)
 	MainTexture:SetTexCoord(0.09, 1, 0, 1)
@@ -3967,7 +4224,7 @@
 	LeaMapsLC:MakeCB(PageF, "SetMapOpacity", "Set map opacity", 16, -112, true, "If checked, you will be able to set the opacity of the map.")
 
 	LeaMapsLC:MakeTx(PageF, "Icons", 16, -152)
-	LeaMapsLC:MakeCB(PageF, "EnlargePlayerArrow", "Enlarge player arrow", 16, -172, false, "If checked, you will be able to enlarge the player arrow.")
+	LeaMapsLC:MakeCB(PageF, "EnlargePlayerArrow", "Enlarge player arrow", 16, -172, true, "If checked, you will be able to enlarge the player arrow.")
 	LeaMapsLC:MakeCB(PageF, "UseClassIcons", "Class colored icons", 16, -192, true, "If checked, group icons will use a modern, class-colored design.")
 
 	LeaMapsLC:MakeTx(PageF, "Zoom", 16, -232)
@@ -3977,21 +4234,20 @@
 	LeaMapsLC:MakeTx(PageF, "System", 225, -72)
 	LeaMapsLC:MakeCB(PageF, "UnlockMapFrame", "Unlock map frame", 225, -92, false, "If checked, you will be able to scale the map by dragging the scale handle in the bottom-right corner.|n|nYou will be able to move the map by dragging any border.")
 	LeaMapsLC:MakeCB(PageF, "AutoChangeZones", "Auto change zones", 225, -112, true, "If checked, when your character changes zones, the map will automatically change to the new zone.")
-	LeaMapsLC:MakeCB(PageF, "StickyMapFrame", "Sticky map frame", 225, -132, true, "If checked, the map frame will remain open until you close it.")
-	LeaMapsLC:MakeCB(PageF, "UseDefaultMap", "Use default map", 225, -152, true, "If checked, the default fullscreen map will be used.|n|nNote that enabling this option will lock out some of the other options.")
+	LeaMapsLC:MakeCB(PageF, "UseDefaultMap", "Use default map", 225, -132, true, "If checked, the default fullscreen map will be used.|n|nNote that enabling this option will lock out some of the other options.")
 
-	LeaMapsLC:MakeTx(PageF, "Elements", 225, -192)
-	LeaMapsLC:MakeCB(PageF, "RevealMap", "Show unexplored areas", 225, -212, true, "If checked, unexplored areas of the map will be shown on the world map and the battlefield map.")
-	LeaMapsLC:MakeCB(PageF, "ShowPointsOfInterest", "Show points of interest", 225, -232, false, "If checked, points of interest will be shown.")
-	LeaMapsLC:MakeCB(PageF, "ShowZoneLevels", "Show zone levels", 225, -252, false, "If checked, zone and dungeon levels will be shown.")
-	LeaMapsLC:MakeCB(PageF, "ShowCoords", "Show coordinates", 225, -272, false, "If checked, coordinates will be shown.")
-	LeaMapsLC:MakeCB(PageF, "ShowObjectives", "Show objectives", 225, -292, false, "If checked, quest objectives will be shown.")
-	LeaMapsLC:MakeCB(PageF, "ShowDigsites", "Show digsites", 225, -312, false, "If checked, archaeology digsites will be shown.")
-	LeaMapsLC:MakeCB(PageF, "HideTownCityIcons", "Hide town and city icons", 225, -332, true, "If checked, town and city icons will not be shown on the continent maps.")
+	LeaMapsLC:MakeTx(PageF, "Elements", 225, -172)
+	LeaMapsLC:MakeCB(PageF, "RevealMap", "Show unexplored areas", 225, -192, true, "If checked, unexplored areas of the map will be shown on the world map and the battlefield map.")
+	LeaMapsLC:MakeCB(PageF, "ShowPointsOfInterest", "Show points of interest", 225, -212, true, "If checked, points of interest will be shown.")
+	LeaMapsLC:MakeCB(PageF, "ShowZoneLevels", "Show zone levels", 225, -232, true, "If checked, zone and dungeon levels will be shown.")
+	LeaMapsLC:MakeCB(PageF, "ShowCoords", "Show coordinates", 225, -252, false, "If checked, coordinates will be shown.")
+	LeaMapsLC:MakeCB(PageF, "ShowObjectives", "Show objectives", 225, -272, false, "If checked, quest objectives will be shown.")
+	LeaMapsLC:MakeCB(PageF, "ShowDigsites", "Show digsites", 225, -292, false, "If checked, archaeology digsites will be shown.")
+	LeaMapsLC:MakeCB(PageF, "HideTownCityIcons", "Hide town and city icons", 225, -312, true, "If checked, town and city icons will not be shown on the continent maps.")
 
-	LeaMapsLC:MakeTx(PageF, "More", 225, -372)
-	LeaMapsLC:MakeCB(PageF, "EnhanceBattleMap", "Enhance battlefield map", 225, -392, true, "If checked, you will be able to customise the battlefield map.")
-	LeaMapsLC:MakeCB(PageF, "ShowMinimapIcon", "Show minimap button", 225, -412, false, "If checked, the minimap button will be shown.")
+	LeaMapsLC:MakeTx(PageF, "More", 225, -352)
+	LeaMapsLC:MakeCB(PageF, "EnhanceBattleMap", "Enhance battlefield map", 225, -372, true, "If checked, you will be able to customise the battlefield map.")
+	LeaMapsLC:MakeCB(PageF, "ShowMinimapIcon", "Show minimap button", 225, -392, false, "If checked, the minimap button will be shown.")
 
 	LeaMapsLC:CfgBtn("IncreaseZoomBtn", LeaMapsCB["IncreaseZoom"])
 	LeaMapsLC:CfgBtn("RevTintBtn", LeaMapsCB["RevealMap"])

@@ -1,4 +1,19 @@
-﻿4.0.50 - 28th February 2021
+﻿4.0.68 - 7th May 2025
+- Fixed an issue with map scaling which affected users using a non-standard UI scale.
+
+4.0.67 - 6th May 2025
+- Toggling 'Enlarge player arrow', 'Show points of interest' and 'Show zone levels' now requires a UI reload.
+- For 'Show points of interest', dungeon levels are now always shown.
+- The 'Sticky map frame' option has been removed.
+
+4.0.64 - 28th April 2025
+- Preliminary update for Mists of Pandaria Classic Beta.
+- Mists of Pandaria Classic Beta: Added dungeon icons and flight points.
+- Mists of Pandaria Classic Beta: Updated map reveal data.
+- Mists of Pandaria Classic Beta: Minor updates.
+- Mists of Pandaria Classic Beta: The 'Show zone levels' option now only applies to dungeon levels since zone levels are now shown in the default UI.
+
+4.0.50 - 28th February 2021
 - Fixed an issue with map positioning.
 
 4.0.48 - 21st February 2021
