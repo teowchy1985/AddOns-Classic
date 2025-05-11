@@ -202,7 +202,7 @@ function NIT:instanceResetOtherComm(data, sender, distribution)
 	NIT:print(data .. " has been reset by the group leader (" .. who .. ").");
 end
 
-local doGUID, isGhost;
+local doGUID, isGhost, scanDungeonSubDifficulty;
 local currentXP, maxXP = 0, 0;
 local f = CreateFrame("Frame");
 f:RegisterEvent("PLAYER_ENTERING_WORLD");
@@ -274,6 +274,7 @@ f:SetScript('OnEvent', function(self, event, ...)
 		NIT:playerLeavingWorld(...);
 	elseif (event == "PLAYER_ENTERING_WORLD" ) then
 		local isLogon, isReload = ...;
+		scanDungeonSubDifficulty = nil;
 		NIT:playerEnteringWorld(...);
 		if (isLogon) then
 			C_Timer.After(10, function()
@@ -1155,10 +1156,13 @@ local subDiffculties = {
 	[394435] = "alpha", --Alpha Empowered: Arcane Rune
 	[394437] = "alpha", --Alpha Empowered: Shadow Rune
 	[394438] = "alpha", --Alpha Empowered: Blood Rune
+	--Cata.
+	[470595] = "inferno",
+	[1224923] = "twilight",
 };
 function NIT:scanDungeonSubDifficulty()
-	--Only scan once if we found it.
-	if (NIT.inInstance and not NIT.data.instances[1].subDifficulty) then
+	--Only scan once per entering.
+	if (NIT.inInstance and not scanDungeonSubDifficulty) then
 		local found;
 		local guid = UnitGUID("target");
 		if (guid and string.match(guid, "Creature")) then
@@ -1185,7 +1189,10 @@ function NIT:scanDungeonSubDifficulty()
 				end
 			end
 		end
-		if (found and NIT.data.instances[1].subDifficulty == "gamma" and NIT.db.global.autoGammaBuffReminder)then
+		if (found) then
+			scanDungeonSubDifficulty = true;
+		end
+		if (found and (NIT.data.instances[1].subDifficulty == "gamma" or NIT.data.instances[1].subDifficulty == "twilight") and NIT.db.global.autoGammaBuffReminder)then
 			--If we don't have a buff already then remind us, should only fire once per dung.
 			local hasBuff;
 			local gammaBuffs = {
@@ -1193,6 +1200,12 @@ function NIT:scanDungeonSubDifficulty()
 				[424403] = true, --Ranged.
 				[424405] = true, --Healer.
 				[424407] = true, --Tank.
+				--Twilight.
+				[1224930] = true, --Blue.
+				[1224926] = true, --Red.
+				[1224932] = true, --Green.
+				[1224928] = true, --Bronze.
+				
 			};
 			for i = 1, 32 do
 				local _, _, _, _, _, _, _, _, _, spellID = UnitBuff("player", i);
@@ -1206,15 +1219,22 @@ function NIT:scanDungeonSubDifficulty()
 				end
 			end
 			if (not hasBuff) then
-				local npcType;
-				if (NIT.faction == "Horde") then
-					npcType = L["Sunreaver Warden"];
-				else
-					npcType = L["Silver Covenant Warden"];
+				if (NIT.data.instances[1].subDifficulty == "gamma") then
+					local npcType;
+					if (NIT.faction == "Horde") then
+						npcType = L["Sunreaver Warden"];
+					else
+						npcType = L["Silver Covenant Warden"];
+					end
+					NIT:print("|cFF00FF00" .. string.format(L["autoGammaBuffReminder"], npcType), nil, "[NIT Reminder]");
+					local colorTable = {r = 1, g = 0.96, b = 0.41, id = 41, sticky = 0};
+					RaidNotice_AddMessage(RaidWarningFrame, NIT.prefixColor .. "[NIT Reminder]:|r |cFF00FF00" .. string.format(L["autoGammaBuffReminder"], npcType), colorTable, 6);
+				elseif (NIT.data.instances[1].subDifficulty == "twilight") then
+					local npcType = L["Wyrmrest Defender"];
+					NIT:print("|cFF00FF00" .. string.format(L["autoTwilightBuffReminder"], npcType), nil, "[NIT Reminder]");
+					local colorTable = {r = 1, g = 0.96, b = 0.41, id = 41, sticky = 0};
+					RaidNotice_AddMessage(RaidWarningFrame, NIT.prefixColor .. "[NIT Reminder]:|r |cFF00FF00" .. string.format(L["autoTwilightBuffReminder"], npcType), colorTable, 6);
 				end
-				NIT:print("|cFF00FF00" .. string.format(L["autoGammaBuffReminder"], npcType), nil, "[NIT Reminder]");
-				local colorTable = {r = 1, g = 0.96, b = 0.41, id = 41, sticky = 0};
-				RaidNotice_AddMessage(RaidWarningFrame, NIT.prefixColor .. "[NIT Reminder]:|r |cFF00FF00" .. string.format(L["autoGammaBuffReminder"], npcType), colorTable, 6);
 			end
 		end
 	end
@@ -2319,6 +2339,14 @@ if (NIT.isSOD) then
 	dailyQuests[79090] = {name = "Repelling Invaders"};
 	
 	--weeklyQuests[87361] = {name = "Laid to Rest"};
+	weeklyQuests[89256] = {name = "Prove Your Worth: Shoulderpads", sharedCooldown = L["Prove your worth (Scarlet Junkbox Weekly)"]};
+	weeklyQuests[89255] = {name = "Prove Your Worth: Headgear", sharedCooldown = L["Prove your worth (Scarlet Junkbox Weekly)"]};
+	weeklyQuests[89260] = {name = "Prove Your Worth: Belt", sharedCooldown = L["Prove your worth (Scarlet Junkbox Weekly)"]};
+	weeklyQuests[89262] = {name = "Prove Your Worth: Boots", sharedCooldown = L["Prove your worth (Scarlet Junkbox Weekly)"]};
+	weeklyQuests[89259] = {name = "Prove Your Worth: Gloves", sharedCooldown = L["Prove your worth (Scarlet Junkbox Weekly)"]};
+	weeklyQuests[89258] = {name = "Prove Your Worth: Wristguards", sharedCooldown = L["Prove your worth (Scarlet Junkbox Weekly)"]};
+	weeklyQuests[89257] = {name = "Prove Your Worth: Chestpiece", sharedCooldown = L["Prove your worth (Scarlet Junkbox Weekly)"]};
+	weeklyQuests[89261] = {name = "Prove Your Worth: Legguards", sharedCooldown = L["Prove your worth (Scarlet Junkbox Weekly)"]};
 end
 
 if (NIT.isCata) then

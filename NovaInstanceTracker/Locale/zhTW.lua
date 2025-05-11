@@ -412,7 +412,7 @@ L["monthlyQuests"] = "每月任務";
 
 L["openLockouts"] = "打開副本進度";
 
-L["autoGammaBuffDesc"] = "伽瑪地城";
+L["autoGammaBuffDesc"] = "伽瑪/暮光地城";
 
 L["autoGammaBuffTitle"] = "自動伽瑪增益";
 L["autoGammaBuffDesc"] = "和伽瑪地城中的增益 NPC 對話時，自動取得適合你的職業的伽瑪增益效果。";
@@ -497,7 +497,9 @@ L["lootReminderMysRelicDesc"] = "當有人在卡拉贊地穴中拾取神秘的�
 L["lootReminderMysRelicPartyTitle"] = "神秘的遺物隊伍訊息";
 L["lootReminderMysRelicPartyDesc"] = "當有人在卡拉贊地穴中拾取神秘的遺物時，在隊伍頻道發送訊息。";
 
-L["Remnants of Valor"] = "Remnants of Valor";
+L["Remnants of Valor"] = "勇氣殘骸";
+
+L["autoTwilightBuffReminder"] = "從 %s 取得暮光地城的增益。";
 
 --增加
 L["Nova Instance Tracker"] = "Nova 副本進度追蹤";

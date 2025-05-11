@@ -30,7 +30,8 @@ elseif (WOW_PROJECT_ID == WOW_PROJECT_MAINLINE) then
 	NIT.isRetail = true;
 	NIT.expansionNum = 11;
 end
-if (NIT.isClassic and C_Engraving and C_Engraving.IsEngravingEnabled()) then
+--if (NIT.isClassic and C_Engraving and C_Engraving.IsEngravingEnabled()) then
+if (NIT.isClassic and C_Seasons and C_Seasons.GetActiveSeason() == 2) then
 	NIT.isSOD = true;
 end
 NIT.LSM = LibStub("LibSharedMedia-3.0");
@@ -1032,7 +1033,7 @@ function NIT:updateMinimapButton(tooltip, frame)
 				elseif (data.difficultyID == 174 or data.difficultyID == 2 or data.difficultyID == 5 or data.difficultyID == 6 or data.difficultyID == 11
 						 or data.difficultyID == 15 or data.difficultyID == 39 or data.difficultyID == 149) then
 					if (data.subDifficulty) then
-						--Display if gamma dung in wrath.
+						--Display if gamma dung in wrath or inferno/twilight cata.
 						instanceDiff = " |cFF9CD6DE(|cFFFF2222" .. gsub(data.subDifficulty, "^%l", string.upper) .. "|r)|r";
 					else
 						instanceDiff = " |cFF9CD6DE(|cFFFF2222H|r)|r";
@@ -5077,51 +5078,121 @@ f:SetScript('OnEvent', function(self, event, ...)
 			return;
 		end
 		if (NIT.isWrath or NIT.isCata) then
-			if ((npcID == "211299" or npcID == "211297") and NIT.db.global.autoGammaBuff and isInstance) then
-				local buffType, buffName, role = NIT:getGammaBuffType();
-				if (buffType) then
-					local roleText = "";
-					local _, class = UnitClass("player");
-					if (role and class == "DRUID") then
-						roleText = " (" .. role .. ")";
+			if (NIT.db.global.autoGammaBuff and isInstance) then
+				if (npcID == "211299" or npcID == "211297") then
+					if (IsShiftKeyDown()) then
+						return;
 					end
-					--Make the icon slightly bigger than the font size, it looks better.
-					local _, fontHeight = DEFAULT_CHAT_FRAME:GetFont();
-					local size = 0; --If 0 then it defaults to fit current text size.
-					if (fontHeight) then
-						--Round up, font is always slightly below round number.
-						--And make it slightly bigger than the text.
-						size = math.floor(fontHeight + 0.5) + 2;
+					local buffType, buffName, role = NIT:getGammaBuffType();
+					if (buffType) then
+						local roleText = "";
+						local _, class = UnitClass("player");
+						if (role and class == "DRUID") then
+							roleText = " (" .. role .. ")";
+						end
+						--Make the icon slightly bigger than the font size, it looks better.
+						local _, fontHeight = DEFAULT_CHAT_FRAME:GetFont();
+						local size = 0; --If 0 then it defaults to fit current text size.
+						if (fontHeight) then
+							--Round up, font is always slightly below round number.
+							--And make it slightly bigger than the text.
+							size = math.floor(fontHeight + 0.5) + 2;
+						end
+						local icon = "";
+						local icons = { --GetTexCoordsForRole("HEALER")
+							["dps"] = "|TInterface\\LFGFrame\\UI-LFG-ICON-ROLES:" .. size .. ":" .. size .. ":0:0:256:256:" .. 0.26171875*255 .. ":" .. 0.5234375*255 .. ":" .. 0.26171875*255 .. ":" .. 0.5234375*255 .. "|t ",
+							["healer"] = "|TInterface\\LFGFrame\\UI-LFG-ICON-ROLES:" .. size .. ":" .. size .. ":0:0:256:256:" .. 0.26171875*255 .. ":" .. 0.5234375*255 .. ":0:" .. 0.26171875*255 .. "|t ",
+							["tank"] = "|TInterface\\LFGFrame\\UI-LFG-ICON-ROLES:" .. size .. ":" .. size .. ":0:0:256:256:0:" .. 0.26171875*255 .. ":" .. 0.26171875*255 .. ":" .. 0.5234375*255 .. "|t ",
+						};
+						if (icons[role]) then
+							icon = icons[role];
+						end
+						local buffNameText = buffName .. roleText;
+						if (role == "dps") then
+							buffNameText = "|cFFEB0000" .. buffName .. roleText .. "|r";
+						elseif (role == "healer") then
+							buffNameText = "|cFF50C878" .. buffName .. roleText .. "|r";
+						elseif (role == "tank") then
+							buffNameText = "|cFF0096FF" .. buffName .. roleText .. "|r";
+						end
+						if (GetTime() - lastGammaBuffMsg > 2) then
+							NIT:print(NIT.prefixColor .. "Gamma Dungeon:|r |cFF9CD6DEAuto getting " .. icon .. buffNameText .. " buff for your current spec (can be changed in config or hold shift to manually select).");
+							lastGammaBuffMsg = GetTime();
+						end
+						NIT:selectGossipOption(buffType);
+					else
+						if (GetTime() - lastGammaBuffMsg > 2) then
+							NIT:print(NIT.prefixColor .. "Gamma Dungeon:|r |cFF9CD6DEError selecting correct gamma buff please let the dev know on curseforge.");
+							lastGammaBuffMsg = GetTime();
+						end
 					end
-					local icon = "";
-					local icons = { --GetTexCoordsForRole("HEALER")
-						["dps"] = "|TInterface\\LFGFrame\\UI-LFG-ICON-ROLES:" .. size .. ":" .. size .. ":0:0:256:256:" .. 0.26171875*255 .. ":" .. 0.5234375*255 .. ":" .. 0.26171875*255 .. ":" .. 0.5234375*255 .. "|t ",
-						["healer"] = "|TInterface\\LFGFrame\\UI-LFG-ICON-ROLES:" .. size .. ":" .. size .. ":0:0:256:256:" .. 0.26171875*255 .. ":" .. 0.5234375*255 .. ":0:" .. 0.26171875*255 .. "|t ",
-						["tank"] = "|TInterface\\LFGFrame\\UI-LFG-ICON-ROLES:" .. size .. ":" .. size .. ":0:0:256:256:0:" .. 0.26171875*255 .. ":" .. 0.26171875*255 .. ":" .. 0.5234375*255 .. "|t ",
-					};
-					if (icons[role]) then
-						icon = icons[role];
+					return;
+				elseif (npcID == "240308" or npcID == "240309") then
+					--Cata twilight dungeons.
+					if (IsShiftKeyDown()) then
+						return;
 					end
-					local buffNameText = buffName .. roleText;
-					if (role == "dps") then
-						buffNameText = "|cFFEB0000" .. buffName .. roleText .. "|r";
-					elseif (role == "healer") then
-						buffNameText = "|cFF50C878" .. buffName .. roleText .. "|r";
-					elseif (role == "tank") then
-						buffNameText = "|cFF0096FF" .. buffName .. roleText .. "|r";
+					local buffType, buffName, role, specName = NIT:getTwilightBuffType();
+					if (buffType) then
+						local roleText = "";
+						local _, class = UnitClass("player");
+						if (role and class == "DRUID") then
+							roleText = " (" .. role .. ")";
+						end
+						--Make the icon slightly bigger than the font size, it looks better.
+						local _, fontHeight = DEFAULT_CHAT_FRAME:GetFont();
+						local size = 0; --If 0 then it defaults to fit current text size.
+						if (fontHeight) then
+							--Round up, font is always slightly below round number.
+							--And make it slightly bigger than the text.
+							size = math.floor(fontHeight + 0.5) + 2;
+						end
+						local icon = "";
+						local icons = { --GetTexCoordsForRole("HEALER")
+							["dps"] = "|TInterface\\LFGFrame\\UI-LFG-ICON-ROLES:" .. size .. ":" .. size .. ":0:0:256:256:" .. 0.26171875*255 .. ":" .. 0.5234375*255 .. ":" .. 0.26171875*255 .. ":" .. 0.5234375*255 .. "|t ",
+							["healer"] = "|TInterface\\LFGFrame\\UI-LFG-ICON-ROLES:" .. size .. ":" .. size .. ":0:0:256:256:" .. 0.26171875*255 .. ":" .. 0.5234375*255 .. ":0:" .. 0.26171875*255 .. "|t ",
+							["tank"] = "|TInterface\\LFGFrame\\UI-LFG-ICON-ROLES:" .. size .. ":" .. size .. ":0:0:256:256:0:" .. 0.26171875*255 .. ":" .. 0.26171875*255 .. ":" .. 0.5234375*255 .. "|t ",
+						};
+						if (icons[role]) then
+							icon = icons[role];
+						end
+						local twilightIcon = "";
+						local twilightIcons = { --GetTexCoordsForRole("HEALER")
+							[1] = "|T134153:" .. size .. ":" .. size .. "|t ", --Red.
+							[2] = "|T134156:" .. size .. ":" .. size .. "|t ", --Bronze.
+							[3] = "|T134157:" .. size .. ":" .. size .. "|t ", --Green.
+							[4] = "|T134155:" .. size - 1 .. ":" .. size - 1 .. "|t ", --Blue.
+						};
+						if (twilightIcons[buffType]) then
+							twilightIcon = twilightIcons[buffType];
+						end
+						local buffNameText = buffName .. roleText;
+						if (buffType == 1) then
+							buffNameText = "|cFFEB0000" .. buffName .. roleText .. "|r"; --Red.
+						elseif (buffType == 2) then
+							buffNameText = "|cFFEFBF04" .. buffName .. roleText .. "|r"; --Bronze.
+						elseif (buffType == 3) then
+							buffNameText = "|cFF50C878" .. buffName .. roleText .. "|r"; --Green.
+						elseif (buffType == 4) then
+							buffNameText = "|cFF0096FF" .. buffName .. roleText .. "|r"; --Blue.
+						end
+						local specNameText = "";
+						if (specName) then
+							specNameText = specName .. " ";
+						end
+						if (GetTime() - lastGammaBuffMsg > 2) then
+							NIT:print(NIT.prefixColor .. "Twilight Dungeon:|r |cFF9CD6DEAuto getting " .. icon .. twilightIcon .. buffNameText .. " buff for your current spec " .. specNameText .. "(can be changed in config or hold shift to manually select).", nil, nil, true);
+							lastGammaBuffMsg = GetTime();
+						end
+						NIT:selectGossipOption(buffType);
+					else
+						if (GetTime() - lastGammaBuffMsg > 2) then
+							NIT:print(NIT.prefixColor .. "Twilight Dungeon:|r |cFF9CD6DEError selecting correct gamma buff please let the dev know on curseforge.");
+							lastGammaBuffMsg = GetTime();
+						end
 					end
-					if (GetTime() - lastGammaBuffMsg > 2) then
-						NIT:print(NIT.prefixColor .. "Gamma Dungeon:|r |cFF9CD6DEAuto getting " .. icon .. buffNameText .. " buff for your current spec (can be changed in config).");
-						lastGammaBuffMsg = GetTime();
-					end
-					NIT:selectGossipOption(buffType);
-				else
-					if (GetTime() - lastGammaBuffMsg > 2) then
-						NIT:print(NIT.prefixColor .. "Gamma Dungeon:|r |cFF9CD6DEError selecting correct gamma buff please let the dev know on curseforge.");
-						lastGammaBuffMsg = GetTime();
-					end
+					return;
 				end
-				return;
 			end
 		end
 	end
@@ -5420,6 +5491,33 @@ function NIT:getGammaBuffType()
 	return buffType, buffName, role;
 end
 
+function NIT:getTwilightBuffType()
+	local buffType, buffName, role, specName;
+	local option = NIT:getAutoGammaBuffType();
+	local name, icon, talentCount, specType, r = NIT:getActiveSpec();
+	if (option == 1) then
+		--Auto spec detect.
+		if (specType == "melee") then
+			buffType, buffName, role = 2, MELEE, "dps";
+		elseif (specType == "ranged") then
+			buffType, buffName, role = 4, RANGED, "dps";
+		elseif (specType == "healer") then
+			buffType, buffName, role = 3, HEALER, "healer";
+		elseif (specType == "tank") then
+			buffType, buffName, role = 1, TANK, "tank";
+		end
+	elseif (option == 2) then
+		buffType, buffName, role = 2, MELEE, "dps";
+	elseif (option == 3) then
+		buffType, buffName, role = 4, RANGED, "dps";
+	elseif (option == 4) then
+		buffType, buffName, role = 3, HEALER, "healer";
+	elseif (option == 5) then
+		buffType, buffName, role = 1, TANK, "tank";
+	end
+	return buffType, buffName, role, name;
+end
+
 
 function NIT:getActiveSpec()
 	local name, icon, talentCount, specType, role, fileName = nil, nil, 0;
@@ -5572,7 +5670,7 @@ function NIT:createPopupString(name)
 	return frame;
 end
 
-if (NIT.isWrath) then
+if (NIT.isWrath or NIT.isCata) then
 	local dungeonPopTimerFrame = NIT:createPopupString("NIT_DungeonPopTimerFrame");
 	dungeonPopTimerFrame:SetParent(LFGDungeonReadyDialog);
 	--dungeonPopTimerFrame:SetPoint("BOTTOM", LFGDungeonReadyDialogRoleIcon, "TOP", 0, 12);
