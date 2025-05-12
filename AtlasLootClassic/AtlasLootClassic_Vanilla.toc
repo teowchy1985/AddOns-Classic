@@ -1,24 +1,24 @@
 ## Interface: 11507
 ## Author: Lag
-## Version: SoD v0.9.75
+## Version: SoD v0.9.76
 ## SavedVariables: AtlasLootClassicDB
 ## OptionalDeps: Ace3, LibSharedMedia-3.0, AceGUI-3.0-SharedMediaWidgets, LibDBIcon-1.0, LibDataBroker-1.1
 ## DefaultState: Enabled
 ## LoadOnDemand: 0
 
-## Title: AtlasLootClassic |cFFFF5733Cata|r |cFF22B14C[Core]|r
-## Notes: Displays loot tables from various aspects of the game
+## Title: AtlasLootClassic |cFF22B14C[Core]|r
+## Notes: Shows the possible loot from the bosses
 
-## Title-deDE: AtlasLootClassic |cFFFF5733Cata|r |cFF22B14C[Kern]|r
-## Title-esES: AtlasLootClassic |cFFFF5733Cata|r |cFF22B14C[Núcleo]|r
-## Title-esMX: AtlasLootClassic |cFFFF5733Cata|r |cFF22B14C[Núcleo]|r
-## Title-frFR: AtlasLoot Classic |cFFFF5733Cata|r |cFF22B14C[Noyau]|r
-## Title-itIT: AtlasLoot Classic |cFFFF5733Cata|r |cFF22B14C[Core]|r
-## Title-koKR: AtlasLoot Classic |cFFFF5733Cata|r |cFF22B14C[Core]|r
-## Title-ptBR: AtlasLoot Classic |cFFFF5733Cata|r |cFF22B14C[Núcleo]|r
-## Title-ruRU: AtlasLoot Classic |cFFFF5733Cata|r |cFF22B14C[Core]|r
-## Title-zhCN: AtlasLoot Classic |cFFFF5733Cata|r |cFF22B14C[Core]|r
-## Title-zhTW: AtlasLoot Classic |cFFFF5733Cata|r |cFF22B14C[Core]|r
+## Title-deDE: AtlasLootClassic |cFF22B14C[Kern]|r
+## Title-esES: AtlasLootClassic |cFF22B14C[Núcleo]|r
+## Title-esMX: AtlasLootClassic |cFF22B14C[Núcleo]|r
+## Title-frFR: AtlasLoot Classic |cFF22B14C[Noyau]|r
+## Title-itIT: AtlasLoot Classic |cFF22B14C[Core]|r
+## Title-koKR: AtlasLoot 클래식 |cFF22B14C[코어]|r
+## Title-ptBR: AtlasLoot Classic |cFF22B14C[Núcleo]|r
+## Title-ruRU: AtlasLoot Classic |cFF22B14C[Ядро]|r
+## Title-zhCN: AtlasLoot经典版 |cFF22B14C[主程序]|r
+## Title-zhTW: 副本戰利品查詢經典版 |cFF22B14C[主程式]|r
 ## Notes-deDE: Zeigt die mögliche Boss-Beute.
 ## Notes-esES: Muestra botines posibles de jefes
 ## Notes-esMX: Muestra botines posibles de jefes
@@ -34,9 +34,9 @@
 ## X-Category: Map
 ## X-License: GPL v2
 ## X-Localizations: enUS, deDE, frFR, esES, koKR, zhCN, zhTW, esMX, ptBR, ruRU, itIT
-## X-Curse-Project-ID: 1024670
-## X-WoWI-ID: 26745
-## X-Wago-ID: ANz0LwK4
+## X-Curse-Project-ID: 326516
+## X-WoWI-ID: 25185
+## X-Wago-ID: RXKqzoGy
 
 ## Title-zhTW: |cffB973FF[裝備]|r 副本戰利品查詢
 ## Notes-zhTW: AtlasLoot Classic |n|n顯示首領與小怪可能掉落的物品，並可查詢各陣營與戰場的獎勵物品、套裝物品等資訊。|n|n|cffffd200使用方法: |r點小地圖按鈕。
