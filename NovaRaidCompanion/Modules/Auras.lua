@@ -277,256 +277,68 @@ local function unitAura(unit, data)
 end
 
 
-
-
---[[local function unitAura(...)
-	--This needs to be updated to use the new payload included with this event instead of checking all buffs.
-	local unit = ...;
-	local guid = UnitGUID(unit);
-	--local hasBoon;
-	
-	if (guid and units[unit]) then
-		if (isClassic) then
-			NRC.chronoCache[guid] = nil;
-		end
-		local auras = {};
-		local serverTime = GetServerTime();
-		for i = 1, 60 do
-			local name, icon, _, _, duration, expirationTime, source, _, _, spellID = UnitBuff(unit, i);
-			if (name) then
-				auras[spellID] = {
-					name = name,
-					--endTime = serverTime + (expirationTime - GetTime()),
-					--source = source,
-					duration = customDurations[spellID] or duration,
-					icon = icon,
-					buff = true,
-				};
-				if (source) then
-					auras[spellID].source = UnitName(source);
-				end
-				local endTime = serverTime + (expirationTime - GetTime());
-				if (endTime > serverTime) then
-					--If people go out of range it gives an endtime in the past.
-					--Only update if it's a valid endtime so we don't overwrite data we already have.
-					auras[spellID].endTime = endTime;
-				end
-				--if (not NRC.auraCache[guid] or not NRC.auraCache[guid][spellID]) then
-				--	NRC:buffGained(guid, auras[spellID]);
-				--end
-				if (isClassic and spellID == 349981) then
-					--Chronoboon.
-					local buffData = {UnitBuff(unit, i)};
-					updateChronodata(guid, buffData);
-					--hasBoon = true;
-				end
-			else
-				break;
-			end
-		end
-		for i = 1, 60 do
-			local name, icon, _, _, _, expirationTime, source, _, _, spellID = UnitDebuff(unit, i);
-			if (name) then
-				auras[spellID] = {
-					name = name,
-					--endTime = serverTime + (expirationTime - GetTime()),
-					--source = source,
-					icon = icon,
-					debuff = true,
-				};
-				if (source) then
-					auras[spellID].source = UnitName(source);
-				end
-				local endTime = serverTime + (expirationTime - GetTime());
-				if (endTime > serverTime) then
-					--If people go out of range it gives an endtime in the past.
-					--Only update if it's a valid endtime so we don't overwrite data we already have.
-					auras[spellID].endTime = 0;
-				end
-				--if (not NRC.auraCache[guid] or not NRC.auraCache[guid][spellID]) then
-				--	NRC:debuffGained(guid, auras[spellID]);
-				--end
-			else
-				break;
-			end
-		end
-		--if (NRC.auraCache[guid]) then
-		--	for k, v in pairs(NRC.auraCache[guid]) do
-		--		if (not auras[k]) then
-		--			if (v.buff) then
-		--				NRC:buffFaded(guid, v);
-		--			else
-		--				NRC:debuffFaded(guid, v);
-		--			end
-		--		end
-		--	end
-		--end
-		--if (isClassic and boons[guid] and not hasBoon) then
-		
-		--end
-		NRC.auraCache[guid] = auras;
-	end
-end
-
---Scan whole group.
-function NRC:aurasScanGroup()
-	NRC.auraCache = {};
-	NRC.chronoCache = {};
-	--if (not IsInGroup()) then
-	--	return;
-	--end
-	local unitType = "party";
-	if (IsInRaid()) then
-		unitType = "raid";
-	end
+--[[function auratest()
+	local auras = NRC.auraCache[UnitGUID("player")];
 	local serverTime = GetServerTime();
-	if (IsInGroup()) then
-		for i = 1, GetNumGroupMembers() do
-			local unit = unitType .. i;
-			local guid = UnitGUID(unit);
-			if (guid) then
-				for i = 1, 40 do
-					local name, icon, _, _, duration, expirationTime, source, _, _, spellID = UnitBuff(unit, i);
-					if (name and spellID) then
-						if (not NRC.auraCache[guid]) then
-							NRC.auraCache[guid] = {};
-						end
-						NRC.auraCache[guid][spellID] = {
-							name = name,
-							--endTime = serverTime + (expirationTime - GetTime()),
-							--source = source,
-							duration = customDurations[spellID] or duration,
-							icon = icon,
-							buff = true,
-						};
-						if (source) then
-							NRC.auraCache[guid][spellID].source = UnitName(source);
-						end
-						local endTime = serverTime + (expirationTime - GetTime());
-						if (endTime > serverTime) then
-							--If people go out of range it gives an endtime in the past.
-							--Only update if it's a valid endtime so we don't overwrite data we already have.
-							NRC.auraCache[guid][spellID].endTime = endTime;
-						end
-					end
-					if (isClassic and spellID == 349981) then
-						--Chronoboon.
-						local buffData = {UnitBuff(unit, i)};
-						updateChronodata(guid, buffData);
-					end
-					local name, icon, _, _, duration, expirationTime, source, _, _, spellID = UnitDebuff(unit, i);
-					if (name and spellID) then
-						if (not NRC.auraCache[guid]) then
-							NRC.auraCache[guid] = {};
-						end
-						NRC.auraCache[guid][spellID] = {
-							name = name,
-							--endTime = serverTime + (expirationTime - GetTime()),
-							--source = source,
-							icon = icon,
-							debuff = true,
-						};
-						if (source) then
-							NRC.auraCache[guid][spellID].source = UnitName(source);
-						end
-						local endTime = serverTime + (expirationTime - GetTime());
-						if (endTime > serverTime) then
-							--If people go out of range it gives an endtime in the past.
-							--Only update if it's a valid endtime so we don't overwrite data we already have.
-							NRC.auraCache[guid][spellID].endTime = endTime;
-						end
-					end
-				end
-			end
-		end
+	local addAuras = {
+		[2374] = {
+			name = "Elixir of Minor Agility",
+			icon = 134873,
+			desc = "+4 Agility",
+		},
+		[2367] = {
+			name = "Elixir of Lion's Strength",
+			icon = 134838,
+			desc = "+4 Strength",
+		},
+		[8212] = {
+			name = "Elixir of Giant Growth",
+			icon = 136101,
+			desc = "+8 Strength",
+			maxRankSodPhases = {1}, --8.
+		},
+		[3166] = {
+			name = "Elixir of Wisdom",
+			icon = 134721,
+			desc = "+6 Intellect",
+			maxRankSodPhases = {1}, --10.
+		},
+		[7844] = {
+			name = "Elixir of Firepower",
+			icon = 134813,
+			desc = "Increase spell fire damage by up to 10",
+			maxRankSodPhases = {1}, --18.
+		},
+		[3160] = {
+			name = "Elixir of Lesser Agility",
+			icon = 134873,
+			desc = "+8 Agility",
+			maxRankSodPhases = {1}, --18.
+		},
+		[3164] = {
+			name = "Elixir of Ogre's Strength",
+			icon = 134838,
+			desc = "+8 Strength",
+			maxRankSodPhases = {1}, --20.
+		},
+		[11328] = {
+			name = "Elixir of Agility",
+			icon = 134873,
+			desc = "+15 Agility",
+		},
+	};
+	for k, v in pairs(addAuras) do
+		local spellID = k;
+		auras[spellID] = {
+			name = v.name,
+			duration = 3600,
+			icon = v.icon,
+			endTime = serverTime + 600;
+			buff = true,
+		};
+		--local endTime = serverTime + (auraData.expirationTime - GetTime());
 	end
-	--Scan ourself too.
-	local unit = "player";
-	local guid = UnitGUID(unit); 
-	for i = 1, 40 do
-		local name, icon, _, _, duration, expirationTime, source, _, _, spellID = UnitBuff(unit, i);
-		if (name) then
-			if (not NRC.auraCache[guid]) then
-				NRC.auraCache[guid] = {};
-			end
-			NRC.auraCache[guid][spellID] = {
-				name = name,
-				endTime = serverTime + (expirationTime - GetTime()),
-				--source = source,
-				duration = customDurations[spellID] or duration,
-				icon = icon,
-				buff = true,
-			};
-			if (source) then
-				NRC.auraCache[guid][spellID].source = UnitName(source);
-			end
-			if (isClassic and spellID == 349981) then
-				--Chronoboon.
-				local buffData = {UnitBuff(unit, i)};
-				updateChronodata(guid, buffData);
-			end
-		end
-		local name, icon, _, _, duration, expirationTime, source, _, _, spellID = UnitDebuff(unit, i);
-		if (name) then
-			if (not NRC.auraCache[guid]) then
-				NRC.auraCache[guid] = {};
-			end
-			NRC.auraCache[guid][spellID] = {
-				name = name,
-				endTime = serverTime + (expirationTime - GetTime()),
-				--source = source,
-				icon = icon,
-				debuff = true,
-			};
-			if (source) then
-				NRC.auraCache[guid][spellID].source = UnitName(source);
-			end
-		end
-	end
-	--For testing, give myself all world buffs in aura cache.]]
-	--[[if (NRC.isDebug) then
-		local count = 0;
-		if (not NRC.auraCache[guid]) then
-			NRC.auraCache[guid] = {};
-		end
-		for k, v in pairs(NRC.worldBuffs) do
-			if (not NRC.auraCache[guid]) then
-				NRC.auraCache[guid] = {};
-			end
-			local hasDMF, hasSpark;
-			for k, v in pairs(NRC.auraCache[guid]) do
-				if (string.match(v.name, "Sayge's Dark Fortune")) then
-					hasDMF = true;
-				end
-			end
-			for k, v in pairs(NRC.auraCache[guid]) do
-				if (string.match(v.name, "Spark of Inspiration")) then
-					hasSpark = true;
-				end
-			end
-			local hasDuplicate;
-			for k, v in pairs(NRC.auraCache[guid]) do
-				if (string.match(v.name, "Spark of Inspiration")) then
-					hasDuplicate = true;
-				end
-			end
-			if ((not hasDMF or not string.match(v.name, "Sayge's Dark Fortune") and
-					(not hasSpark or not string.match(v.name, "Spark of Inspiration")))) then
-				NRC.auraCache[guid][k] = {
-					name = v.name,
-					endTime = GetServerTime() + 600,
-					duration = 3600,
-					icon = v.icon,
-					buff = true,
-				};
-			end
-			count = count + 1;
-			if (count == 4) then
-				--break;
-			end
-		end
-	end]]
---end
+end]]
 
 --[[function NRC:buffGained()
 

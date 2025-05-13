@@ -38,7 +38,7 @@ elseif (WOW_PROJECT_ID == WOW_PROJECT_MAINLINE) then
 	NRC.isRetail = true;
 	NRC.expansionNum = 10;
 end
-if (NRC.isClassic and C_Engraving and C_Engraving.IsEngravingEnabled()) then
+if (NRC.isClassic and C_Seasons and C_Seasons.GetActiveSeason() == 2) then
 	NRC.isSOD = true;
 	local sodPhases = {[25]=1,[40]=2,[50]=3,[60]=4};
 	NRC.sodPhase = sodPhases[(GetEffectivePlayerMaxLevel())];
