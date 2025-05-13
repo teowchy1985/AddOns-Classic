@@ -5,10 +5,12 @@
 local addonName, NRC = ...;
 local L = LibStub("AceLocale-3.0"):GetLocale("NovaRaidCompanion");
 local sanctifiedString = L["Sanctified"];
+local uniformString = L["Scarlet Uniform"];
 local tonumber = tonumber;
 local GetItemInfo = GetItemInfo;
 local isSOD = NRC.isSOD;
 local expansionNum = NRC.expansionNum;
+local strmatch = strmatch;
 
 local enchantNames = {};
 NRC.gearCache = {};
@@ -93,6 +95,7 @@ local sanctifiedSlots = {
 	[15] = true
 };
 
+local scarletUniform
 --This was changed to use file locales.
 --[[local sanctifiedLocalizations = {
 	["Sanctified"] = true,
@@ -131,9 +134,9 @@ local function getSanctifiedCount(guid)
 	            if (text) then
 	            	--It should be the same color always for all locales?
 	            	--text = strmatch(text, "|cFF34FDF0(%w+)|r"); --This doesn't match accented european characters.
-	            	text = strmatch(text, "|cFF34FDF0(.+)|r");
-	            	--if (text and sanctifiedLocalizations[text]) then
-	            	if (text and text == sanctifiedString) then
+	            	local t = strmatch(text, "|cFF34FDF0(.+)|r");
+	            	--if (t and sanctifiedLocalizations[text]) then
+	            	if (t and t == sanctifiedString) then
 		                count = count + 1;
 		                --Check Chest/Wrist/Gloves for bonus set.
 		                if (k == 5 or k == 9 or k == 10) then
@@ -142,6 +145,11 @@ local function getSanctifiedCount(guid)
 								bonusSetCount = bonusSetCount + 1;
 							end
 		                end
+		                break;
+	                end
+	                t = strmatch(text, "|cFFEC6340(.+)|r");
+	            	if (t and t == uniformString) then
+		                count = count + 1;
 		                break;
 	                end
 	            end

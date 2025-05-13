@@ -5339,7 +5339,7 @@ NRC.optionDefaults = {
 		
 		piSendDamageGroup = false,
 		piSendDamagePrint = true,
-		piSendDamagePrintOther = true,
+		piSendDamagePrintOther = false,
 		piSendDamagePrintToMe = true,
 		piSendDamageGroupOther = false,
 		piSendDamageWhisper = false,
@@ -5754,20 +5754,19 @@ end
 
 function NRC:checkNewVersion()
 	--NRC.db.global.versions = {};
-	local newVersionNotes = 1.63;
+	local newVersionNotes = 1.67;
 	if (NRC.version and NRC.version == newVersionNotes) then
 		if (not NRC.db.global.versions[NRC.version]) then
 			--if (NRC.isClassic) then
 				local notes = {
 					--"|cFF00FF00[General Changes]|r",
-					"|cFFFFFF00A major new system has been added that keeps track of the whole raid's equipped gear, this allows for new features like the following:|r",
-					"Added new raid status column called \"Equip\", you can click any player in the raid to view their armor/weapons with a list of potential issues (missing enchants, unspent talents, pvp trinket/water treads equipped etc).",
-					"Added new raid status column called \"iLvl\" that shows average item level for all players in the raid (disabled by default, you must turn this on in config if you want it).",
-					"Added new raid status column called \"Sanc\" for SoD players that shows much santified gear is equipped for naxx.",
-					"Can now detect tier set bonuses that reduce cooldown times for spells and adjust them on the raid cooldowns frames (only SoD tier 2.5 druid set reducing rebirth/innervate cooldown has been added so far, if there are any other set bonuses that need adding please contact me).",
-					"Add a Loot Rolls history tab to the raid log, it takes the spot of the old deaths log and shows all rolls during a raid.",
-					"Added Whipper Root Tuber/Thorium Grenade/Iron Grenade to consumes used log.",
-					"Fixed the blue shamans option not working for raid status and lockouts frames.",
+					"Extended the flask/potions raid status column to show 8 consumes up from 4, this was quite a big rewrite please let me know of any issues.",
+					"Added SoD Scarlet Uniform crafted pieces to sanctified count.",
+					"Fixed Power Infusion options not working in the priest config section, you can now disable them if you like.",
+					"Added Cata twilight dungeon buffs to show on the raid status frame beside player names (left click minimap button).",
+					"Fixed meta gem is disabled warning msg in cata.",
+					"Removed Jostled Chalice Fragment from showing in the loot log.",
+					"Many small bug fixes and improvements.",
 				};
 				loadNewVersionFrame(NRC.version, notes, "Nova Raid Companion", "Interface\\AddOns\\NovaRaidCompanion\\Media\\nrc_icon2", 0, 300);
 			--end
@@ -8722,45 +8721,45 @@ end
 
 --Power infusion print self.
 function NRC:setPISendDamagePrint(info, value)
-	self.db.global.piSendDamagePrint = value;
+	self.config.piSendDamagePrint = value;
 end
 
 function NRC:getPISendDamagePrint(info)
-	return self.db.global.piSendDamagePrint;
+	return self.config.piSendDamagePrint;
 end
 
 --Power infusion print to me.
 function NRC:setPISendDamagePrintToMe(info, value)
-	self.db.global.piSendDamagePrintToMe = value;
+	self.config.piSendDamagePrintToMe = value;
 end
 
 function NRC:getPISendDamagePrintToMe(info)
-	return self.db.global.piSendDamagePrintToMe;
+	return self.config.piSendDamagePrintToMe;
 end
 
 --Power infusion print other.
 function NRC:setPISendDamagePrintOther(info, value)
-	self.db.global.piSendDamagePrintOther = value;
+	self.config.piSendDamagePrintOther = value;
 end
 
 function NRC:getPISendDamagePrintOther(info)
-	return self.db.global.piSendDamagePrintOther;
+	return self.config.piSendDamagePrintOther;
 end
 
 --Power infusion whisper.
 function NRC:setPISendDamageWhisper(info, value)
-	self.db.global.piSendDamageWhisper = value;
+	self.config.piSendDamageWhisper = value;
 end
 
 function NRC:getPISendDamageWhisper(info)
-	return self.db.global.piSendDamageWhisper;
+	return self.config.piSendDamageWhisper;
 end
 
 --Power infusion whisper you gave me.
 function NRC:setPISendDamageWhisperYouGaveMe(info, value)
-	self.db.global.piSendDamageWhisperYouGaveMe = value;
+	self.config.piSendDamageWhisperYouGaveMe = value;
 end
 
 function NRC:getPISendDamageWhisperYouGaveMe(info)
-	return self.db.global.piSendDamageWhisperYouGaveMe;
+	return self.config.piSendDamageWhisperYouGaveMe;
 end

@@ -4,6 +4,8 @@
 
 local addonName, NRC = ...;
 local L = LibStub("AceLocale-3.0"):GetLocale("NovaRaidCompanion");
+local tinsert = tinsert;
+local CreateFrame = CreateFrame;
 
 NRC.framePool = {};
 
@@ -942,8 +944,13 @@ function NRC:createGridFrame(name, width, height, x, y, borderSpacing)
 						t:SetColorTexture(1, 1, 1, 0.5);
 						t:SetWidth(1);
 						t:ClearAllPoints();
-						t:SetPoint('TOP', frame, 'TOPLEFT', data.firstV + (spacingV * (k - 1)), 0);
-						t:SetPoint('BOTTOM', frame, 'BOTTOMLEFT', data.firstV + (spacingV * (k - 1)), 0);
+						--if (v.width) then
+						--	t:SetPoint('TOP', frame, 'TOPLEFT', data.firstV + (v.width * (k - 1)), 0);
+						--	t:SetPoint('BOTTOM', frame, 'BOTTOMLEFT', data.firstV + (v.width * (k - 1)), 0);
+						--else
+							t:SetPoint('TOP', frame, 'TOPLEFT', data.firstV + (spacingV * (k - 1)), 0);
+							t:SetPoint('BOTTOM', frame, 'BOTTOMLEFT', data.firstV + (spacingV * (k - 1)), 0);
+						--end
 						t:Show();
 						if (v.customWidth) then
 							width = width + v.customWidth;
@@ -4713,458 +4720,6 @@ function NRC:createMoveMeFrame(parent, width, height)
 	return frame;
 end
 
-
-
-
-
-
---If borderSpacing is specified it's because we want to add a border.
---So we create another frame slight bigger than the main frame to sit the border on.
---This saves adjusting all the grid lines etc using insets.
-function NRC:createRaidStatusFrame(name, width, height, x, y, borderSpacing)
-	local frame = CreateFrame("Frame", name, UIParent, "BackdropTemplate");
-	if (borderSpacing) then
-		frame.borderFrame = CreateFrame("Frame", "$parentBorderFrame", frame, "BackdropTemplate");
-		frame.borderFrame:SetPoint("TOP", 0, borderSpacing);
-		frame.borderFrame:SetPoint("BOTTOM", 0, -borderSpacing);
-		frame.borderFrame:SetPoint("LEFT", -borderSpacing, 0);
-		frame.borderFrame:SetPoint("RIGHT", borderSpacing, 0);
-	end
-	--frame:SetToplevel(true);
-	frame:SetMovable(true);
-	frame:EnableMouse(true);
-	frame:SetUserPlaced(false);
-	frame:SetToplevel(true);
-	frame:SetSize(width, height);
-	frame:SetFrameStrata("MEDIUM");
-	frame:SetFrameLevel(10);
-	frame:SetPoint("TOP", UIParent, "CENTER", x, y);
-	--frame:SetPoint("CENTER", UIParent, x, y);
-	frame:SetBackdrop({
-		bgFile = "Interface\\Buttons\\WHITE8x8",
-		insets = {top = 0, left = 0, bottom = 0, right = 0},
-		edgeFile = [[Interface/Buttons/WHITE8X8]], 
-		edgeSize = 1,
-	});
-	frame:SetBackdropColor(0, 0, 0, 0.9);
-	frame:SetBackdropBorderColor(1, 1, 1, 0.2);
-	frame.descFrame = CreateFrame("Frame", name .. "Desc", frame, "BackdropTemplate");
-	frame.descFrame:SetSize(width, 25);
-	frame.descFrame.defaultWidth = width;
-	frame.descFrame:SetPoint("TOP", frame, "BOTTOM", 0, 0);
-	frame.descFrame:SetBackdrop({
-		bgFile = "Interface\\Buttons\\WHITE8x8",
-		insets = {top = 0, left = 0, bottom = 0, right = 0},
-		edgeFile = [[Interface/Buttons/WHITE8X8]], 
-		edgeSize = 2,
-	});
-	frame.descFrame:SetBackdropColor(0, 0, 0, 0.9);
-	frame.descFrame:SetBackdropBorderColor(1, 1, 1, 0.2);
-	frame.descFrame.fs = frame.descFrame:CreateFontString("$parentFS", "ARTWORK");
-	--frame.descFrame.fs:SetJustifyH("LEFT");
-	--frame.descFrame.fs:SetFont("Fonts\\FRIZQT__.TTF", 13);
-	frame.descFrame.fs:SetFontObject(SystemFont_Outline);
-	frame.descFrame.fs:SetPoint("CENTER", 0, 0);
-	frame.descFrame:Hide();
-	--Click button to be used for whatever, set onclick in the frame data func.
-	frame.button = CreateFrame("Button", name .. "Button", frame, "NRC_EJButtonTemplate2");
-	frame.button:SetFrameLevel(15);
-	frame.button:Hide();
-	frame.button2 = CreateFrame("Button", name .. "Button2", frame, "NRC_EJButtonTemplate2");
-	frame.button2:SetFrameLevel(15);
-	frame.button2:Hide();
-	--Top right X close button.
-	frame.closeButton = CreateFrame("Button", name .. "Close", frame, "UIPanelCloseButton");
-	frame.closeButton:SetPoint("TOPRIGHT", 3.45, 3.2);
-	frame.closeButton:SetWidth(20);
-	frame.closeButton:SetHeight(20);
-	frame.closeButton:SetFrameLevel(15);
-	frame.closeButton:SetScript("OnClick", function(self, arg)
-		frame:Hide();
-	end)
-	frame:SetScript("OnMouseDown", function(self, button)
-		if (button == "LeftButton" and IsShiftKeyDown() and not self.isMoving) then
-			self:StartMoving();
-			self.isMoving = true;
-		end
-	end)
-	frame:SetScript("OnMouseUp", function(self, button)
-		if (button == "LeftButton" and self.isMoving) then
-			self:StopMovingOrSizing();
-			self.isMoving = false;
-			frame:SetUserPlaced(false);
-			NRC.db.global[frame:GetName() .. "_point"], _, NRC.db.global[frame:GetName() .. "_relativePoint"], 
-					NRC.db.global[frame:GetName() .. "_x"], NRC.db.global[frame:GetName() .. "_y"] = frame:GetPoint();
-		end
-	end)
-	frame:SetScript("OnHide", function(self)
-		if (self.isMoving) then
-			self:StopMovingOrSizing();
-			self.isMoving = false;
-		end
-	end)
-	if (NRC.db.global[frame:GetName() .. "_point"]) then
-		frame.ignoreFramePositionManager = true;
-		frame:ClearAllPoints();
-		frame:SetPoint(NRC.db.global[frame:GetName() .. "_point"], nil, NRC.db.global[frame:GetName() .. "_relativePoint"],
-				NRC.db.global[frame:GetName() .. "_x"], NRC.db.global[frame:GetName() .. "_y"]);
-		frame:SetUserPlaced(false);
-	end
-	frame.lastUpdate = 0;
-	frame:SetScript("OnUpdate", function(self)
-		if (GetTime() - frame.lastUpdate > 1) then
-			frame.lastUpdate = GetTime();
-			if (frame.onUpdateFunction) then
-				--If we declare an update function for this frame to run when shown.
-				NRC[frame.onUpdateFunction]();
-			end
-		end
-	end)
-	frame.subFrameFont = "NRC Default";
-	frame.subFrameFontSize = 12;
-	frame.subFrameFontOutline = "NONE";
-	frame.subFrames = {};
-	frame.updateGridData = function(data, updateLayout)
-		--Only update the frame layout if the data size has changed (players join/leave group etc).
-		if (updateLayout) then
-			frame.clearAllTextures();
-			local spacingV = data.spacingV;
-			local spacingH = data.spacingH;
-			local width, height = 0, 0;
-			local lastColumn, lastRow;
-			if (data.columns and next(data.columns)) then
-				frame.hideAllColumns();
-				for k, v in ipairs(data.columns) do
-					local t = _G[frame:GetName() .. "GridV" .. k] or frame:CreateTexture(frame:GetName() .. "GridV" .. k, "OVERLAY");
-					lastColumn = t;
-					if (k == 1) then
-						t:SetColorTexture(1, 1, 0, 0.5);
-						t:SetWidth(2);
-						t:ClearAllPoints();
-						t:SetPoint('TOP', frame, 'TOPLEFT', data.firstV, 0);
-						t:SetPoint('BOTTOM', frame, 'BOTTOMLEFT', data.firstV, 0);
-						t:Show();
-						width = width + data.firstV;
-					else
-						t:SetColorTexture(1, 1, 1, 0.5);
-						t:SetWidth(1);
-						t:ClearAllPoints();
-						t:SetPoint('TOP', frame, 'TOPLEFT', data.firstV + (spacingV * (k - 1)), 0);
-						t:SetPoint('BOTTOM', frame, 'BOTTOMLEFT', data.firstV + (spacingV * (k - 1)), 0);
-						t:Show();
-						if (v.customWidth) then
-							width = width + v.customWidth;
-						else
-							width = width + spacingV;
-						end
-					end
-				end
-			end
-			if (data.rows and next(data.rows)) then
-				frame.hideAllRows();
-				for k, v in ipairs(data.rows) do
-					local t = _G[frame:GetName() .. "GridH" .. k] or frame:CreateTexture(frame:GetName() .. "GridH" .. k, "OVERLAY");
-					lastRow = t;
-					if (k == 1) then
-						t:SetColorTexture(1, 1, 0, 0.5);
-						t:SetHeight(2);
-						t:ClearAllPoints();
-						t:SetPoint('LEFT', frame, 'TOPLEFT', 0, -data.firstH);
-						t:SetPoint('RIGHT', frame, 'TOPRIGHT', 0, -data.firstH);
-						t:Show();
-						height = height + data.firstH;
-					else
-						t:SetColorTexture(1, 1, 1, 0.5);
-						t:SetHeight(1);
-						t:ClearAllPoints();
-						t:SetPoint('LEFT', frame, 'TOPLEFT', 0, -(data.firstH + (spacingH * (k - 1))));
-						t:SetPoint('RIGHT', frame, 'TOPRIGHT', 0, -(data.firstH + (spacingH * (k - 1))));
-						t:Show();
-						height = height + spacingH;
-					end
-				end
-			elseif (_G[frame:GetName() .. "GridH2"]) then
-				--If we leave group there's no rows so hide all but the first header row.
-				frame.hideAllRows();
-			end
-			if (data.adjustHeight) then
-				--Adjust height to fit rows.
-				if (height < data.firstH) then
-					--Show atleast 1 row ir none are set.
-					frame:SetHeight(data.firstH);
-				else
-					frame:SetHeight(height);
-				end
-				--Hide the last row texture sitting on the border.
-				if (lastRow) then
-					lastRow:Hide();
-				end
-			else
-				if (lastRow) then
-					lastRow:Show();
-				end
-			end
-			for k, v in pairs(frame.subFrames) do
-				v:Hide();
-			end
-			local columnCount, maxColumnCount = 0, 1;
-			local rowCount, maxRowCount = 1, 1;
-			if (data.columns and next(data.columns)) then
-				maxColumnCount = #data.columns;
-			end
-			if (data.rows and next(data.rows)) then
-				maxRowCount = #data.rows;
-			end
-			--local columnCount, maxColumnCount = 0, #data.columns;
-			--local rowCount, maxRowCount = 1, #data.rows;
-			frame.maxColumnCount = maxColumnCount;
-			frame.maxRowCount = maxRowCount;
-			local gridCount = maxColumnCount * maxRowCount;
-			for i = 1, gridCount do
-				if (columnCount == maxColumnCount) then
-					--Reset back to first column.
-					columnCount = 1;
-					rowCount = rowCount + 1;
-				else
-					columnCount = columnCount + 1;
-				end
-				local gridName = string.char(96 + rowCount) .. columnCount;
-				if (data.columns[columnCount].customWidth) then
-					spacingV = data.columns[columnCount].customWidth;
-				else
-					spacingV = data.spacingV;
-				end
-				local subFrame = frame.subFrames[gridName];
-				--Assign a grid name, a1 a2 a3 etc.
-				if (not subFrame) then
-					--The idea was to have frames cliakble to target to buff, but it taints the main frame so it can't be hidden/shown in combat.
-					--frame.subFrames[gridName] = CreateFrame("Button", frame:GetName() .. "_" .. gridName, nil, "BackdropTemplate,SecureActionButtonTemplate");
-					local f = CreateFrame("Button", frame:GetName() .. "_" .. gridName, frame, "BackdropTemplate,InsecureActionButtonTemplate");
-					f:SetAttribute("type", "macro");
-					f:SetFrameLevel(11);
-					f:SetBackdrop({
-						bgFile = "Interface\\Buttons\\WHITE8x8",
-						insets = {top = 0, left = 0, bottom = 0, right = 0},
-						edgeFile = [[Interface/Buttons/WHITE8X8]], 
-						edgeSize = 1.1,
-					});
-					f:SetBackdropColor(0, 0, 0, 0);
-					f:SetBackdropBorderColor(1, 1, 1, 0);
-					f.fs = f:CreateFontString(frame:GetName().. "FS", "ARTWORK");
-					f.fs:SetPoint("CENTER", 0, 0);
-					f.fs:SetFont(NRC.LSM:Fetch("font", frame.subFrameFont), frame.subFrameFontSize, frame.subFrameFontOutline);
-					f.fs:SetJustifyH("LEFT");
-					f.texture = f:CreateTexture(frame:GetName() .. "Texture_" .. gridName, "ARTWORK");
-					f.texture:SetPoint("CENTER", 0, 0);
-					--[[f.texture2 = f:CreateTexture(frame:GetName() .. "Texture2_" .. gridName, "ARTWORK");
-					f.texture2:SetPoint("CENTER", 0, 0);
-					f.texture3 = f:CreateTexture(frame:GetName() .. "Texture3_" .. gridName, "ARTWORK");
-					f.texture3:SetPoint("CENTER", 0, 0);
-					f.texture4 = f:CreateTexture(frame:GetName() .. "Texture4_" .. gridName, "ARTWORK");
-					f.texture4:SetPoint("CENTER", 0, 0);]]
-					local textureCount = 4;
-					if (NRC.isClassic) then
-						textureCount = NRC.numWorldBuffs;
-						if (textureCount < 4) then
-							textureCount = 4;
-						end
-					end
-					for i = 2, textureCount do
-						f["texture" .. i] = f:CreateTexture(frame:GetName() .. "Texture" .. i .. "_" .. gridName, "ARTWORK");
-						f["texture" .. i]:SetPoint("CENTER", 0, 0);
-					end
-					if (columnCount == 1) then
-						f.readyCheckTexture = f:CreateTexture(frame:GetName() .. "ReadyCheckTexture_" .. gridName, "ARTWORK");
-						f.readyCheckTexture:SetPoint("LEFT", f, "LEFT", 2, 0);
-						f.readyCheckTexture:SetSize(16, 16);
-					end
-					f.tooltip = CreateFrame("Frame", frame:GetName() .. "Tooltip_" .. gridName, frame, "TooltipBorderedFrameTemplate");
-					f.tooltip:SetPoint("BOTTOM", f, "TOP", 0, 2);
-					f.tooltip:SetFrameStrata("TOOLTIP");
-					f.tooltip:SetFrameLevel(99);
-					--f.tooltip.NineSlice.Background:SetAlpha(1);
-					f.tooltip:SetBackdropColor(0, 0, 0, 1);
-					f.tooltip.fs = f.tooltip:CreateFontString(frame:GetName() .. "NRCTooltipFS", "ARTWORK");
-					f.tooltip.fs:SetPoint("CENTER", 0, 0);
-					f.tooltip.fs:SetFont(NRC.regionFont, 12);
-					f.tooltip.fs:SetJustifyH("LEFT");
-					f.updateTooltip = function(text)
-						if (not text) then
-							--Disable tooltip if no text.
-							f.showTooltip = nil;
-						else
-							local tooltipFrame = f.tooltip;
-							tooltipFrame.fs:SetText(text);
-							tooltipFrame:SetWidth(tooltipFrame.fs:GetStringWidth() + 18);
-							tooltipFrame:SetHeight(tooltipFrame.fs:GetStringHeight() + 12);
-							f.showTooltip = true;
-						end
-					end
-					f.showTooltipFunc = function()
-						--Use a function to show tooltip so we can disable showing tooltip if frame isn't being dragged for first install.
-						if (f.showTooltip) then
-							f.tooltip:Show();
-						end
-					end
-					f:SetScript("OnEnter", function(self)
-						if (not self.red) then
-							f:SetBackdropColor(0, 1, 0, 0.15);
-							f:SetBackdropBorderColor(1, 1, 1, 0.5);
-						end
-						f.showTooltipFunc();
-					end)
-					f:SetScript("OnLeave", function(self)
-						if (not self.red) then
-							f:SetBackdropColor(0, 0, 0, 0);
-							f:SetBackdropBorderColor(1, 1, 1, 0);
-						end
-						f.tooltip:Hide();
-					end)
-					f:SetScript("OnMouseDown", function(self, button)
-						if (button == "LeftButton" and IsShiftKeyDown() and not self:GetParent().isMoving) then
-							self:GetParent():StartMoving();
-							self:GetParent().isMoving = true;
-						end
-					end)
-					f:SetScript("OnMouseUp", function(self, button)
-						if (button == "LeftButton" and self:GetParent().isMoving) then
-							self:GetParent():StopMovingOrSizing();
-							self:GetParent().isMoving = false;
-							frame:SetUserPlaced(false);
-							NRC.db.global[frame:GetName() .. "_point"], _, NRC.db.global[frame:GetName() .. "_relativePoint"], 
-									NRC.db.global[frame:GetName() .. "_x"], NRC.db.global[frame:GetName() .. "_y"] = frame:GetPoint();
-						end
-					end)
-					f:SetScript("OnHide", function(self)
-						if (self:GetParent().isMoving) then
-							self:GetParent():StopMovingOrSizing();
-							self:GetParent().isMoving = false;
-						end
-					end)
-					f.tooltip:Hide();
-					subFrame = f;
-				end
-				local x = data.firstV + (spacingV * (columnCount - 1)) - (spacingV / 2);
-				local y = -(data.firstH + (spacingH * (rowCount - 1)) - (spacingH / 2));
-				subFrame:SetWidth(spacingV);
-				subFrame:SetHeight(spacingH);
-				if (columnCount == 1) then
-					subFrame:SetWidth(data.firstV);
-					x = data.firstV / 2;
-					if (not frame.readyCheckRunning) then
-						subFrame.fs:SetPoint("LEFT", 5, 0);
-					end
-				--elseif (data.columns[columnCount].customWidth) then
-					--subFrame:SetWidth(data.columns[columnCount].customWidth);
-					--width = width + spacingV + (data.columns[columnCount].customWidth - spacingV);
-					--x = data.columns[columnCount].customWidth / 2;
-				end
-				if (rowCount == 1) then
-					subFrame:SetHeight(data.firstH);
-					y = -(data.firstH / 2);
-					--Add text or icon to the header row.
-					local header = data.columns[columnCount];
-					if (header.tex) then
-						subFrame.fs:SetText("");
-						subFrame.texture:SetTexture(header.tex);
-						subFrame.texture:SetSize(30, 24);
-						--Some stuff for handling resistance icons.
-						if (header.texCoords) then
-							subFrame.texture:SetTexCoord(header.texCoords[1], header.texCoords[2],
-									header.texCoords[3], header.texCoords[4]);
-						end
-					else
-						subFrame.texture:SetTexture();
-						subFrame.fs:SetText(header.name);
-					end
-					subFrame.isHeader = true;
-				end
-				subFrame:ClearAllPoints();
-				if (data.columns[columnCount].customWidth) then
-					--Get half way point of column to attach texture frames to.
-					x = (width - data.columns[columnCount].customWidth) + (data.columns[columnCount].customWidth / 2);
-				end
-				subFrame:SetPoint("CENTER", frame, "TOPLEFT", x, y);
-				--subFrame.fs:SetText(string.upper(gridName));
-				if (not subFrame:IsShown()) then
-					subFrame:Show();
-				end
-				--[[if (data.columns[columnCount].customWidth) then
-					subFrame:SetWidth(data.columns[columnCount].customWidth);
-					width = width + spacingV + (data.columns[columnCount].customWidth - spacingV);
-				elseif (columnCount ~= 1) then
-					subFrame:SetWidth(spacingV);
-				end]]
-				frame.subFrames[gridName] = subFrame;
-			end
-			if (data.adjustWidth) then
-				--Adjust width to fit columns.
-				frame:SetWidth(width);
-				--Hide the last column texture sitting on the border.
-				lastColumn:Hide();
-			else
-				lastColumn:Show();
-			end
-		end
-	end
-	frame.hideAllRows = function()
-		--Don't hide first header row.
-		if (frame.maxRowCount and frame.maxRowCount > 0) then
-			for i = 1, frame.maxRowCount do
-				if (i ~= 1) then
-					local t = _G[frame:GetName() .. "GridH" .. i];
-					if (t) then
-						t:Hide();
-					end
-				end
-			end
-		end
-	end
-	frame.hideAllColumns = function()
-		--Don't hide first header row.
-		if (frame.maxColumnCount and frame.maxColumnCount > 0) then
-			for i = 1, frame.maxColumnCount do
-				if (i ~= 1) then
-					local t = _G[frame:GetName() .. "GridV" .. i];
-					if (t) then
-						t:Hide();
-					end
-				end
-			end
-		end
-	end
-	frame.clearAllTextures = function()
-		local textureCount = 4;
-		if (NRC.isClassic) then
-			textureCount = NRC.numWorldBuffs;
-			if (textureCount < 4) then
-				textureCount = 4;
-			end
-		end
-		for k, v in pairs(frame.subFrames) do
-			if (not v.isHeader) then
-				local texture = v.texture;
-				texture:SetTexture();
-				--texture:Hide();
-				if (texture.cooldown) then
-					texture.cooldown:Clear();
-					texture.swipeRunning = nil;
-				end
-				for i = 2, textureCount do
-					local texture = v["texture" .. i];
-					texture:SetTexture();
-					--texture:Hide();
-					if (texture.cooldown) then
-						texture.cooldown:Clear();
-						texture.swipeRunning = nil;
-					end
-				end
-			end
-		end
-	end
-	return frame;
-end
-
 function NRC:createEquipmentFrame(name, width, borderSpacing, lineFrameSize)
 	--Height is adjusted to match lineFrames after they're created.
 	local frame = CreateFrame("Frame", name, UIParent, "BackdropTemplate");
@@ -5625,5 +5180,540 @@ function NRC:createEquipmentFrame(name, width, borderSpacing, lineFrameSize)
 	end
 	frame.updateSize();
 	frame:Hide();
+	return frame;
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function NRC:createGridFrame2(name, width, height, x, y, borderSpacing)
+	local frame = CreateFrame("Frame", name, UIParent, "BackdropTemplate");
+	if (borderSpacing) then
+		frame.borderFrame = CreateFrame("Frame", "$parentBorderFrame", frame, "BackdropTemplate");
+		frame.borderFrame:SetPoint("TOP", 0, borderSpacing);
+		frame.borderFrame:SetPoint("BOTTOM", 0, -borderSpacing);
+		frame.borderFrame:SetPoint("LEFT", -borderSpacing, 0);
+		frame.borderFrame:SetPoint("RIGHT", borderSpacing, 0);
+	end
+	--frame:SetToplevel(true);
+	frame:SetMovable(true);
+	frame:EnableMouse(true);
+	frame:SetUserPlaced(false);
+	frame:SetToplevel(true);
+	frame:SetSize(width, height);
+	frame:SetFrameStrata("MEDIUM");
+	frame:SetFrameLevel(10);
+	frame:SetPoint("TOP", UIParent, "CENTER", x, y);
+	frame:SetClampedToScreen(true);
+	--frame:SetPoint("CENTER", UIParent, x, y);
+	frame:SetBackdrop({
+		bgFile = "Interface\\Buttons\\WHITE8x8",
+		insets = {top = 0, left = 0, bottom = 0, right = 0},
+		edgeFile = [[Interface/Buttons/WHITE8X8]], 
+		edgeSize = 1,
+	});
+	frame:SetBackdropColor(0, 0, 0, 0.9);
+	frame:SetBackdropBorderColor(1, 1, 1, 0.2);
+	frame.descFrame = CreateFrame("Frame", name .. "Desc", frame, "BackdropTemplate");
+	frame.descFrame:SetSize(width, 25);
+	frame.descFrame.defaultWidth = width;
+	frame.descFrame:SetPoint("TOP", frame, "BOTTOM", 0, 0);
+	frame.descFrame:SetBackdrop({
+		bgFile = "Interface\\Buttons\\WHITE8x8",
+		insets = {top = 0, left = 0, bottom = 0, right = 0},
+		edgeFile = [[Interface/Buttons/WHITE8X8]], 
+		edgeSize = 2,
+	});
+	frame.descFrame:SetBackdropColor(0, 0, 0, 0.9);
+	frame.descFrame:SetBackdropBorderColor(1, 1, 1, 0.2);
+	frame.descFrame.fs = frame.descFrame:CreateFontString("$parentFS", "ARTWORK");
+	--frame.descFrame.fs:SetJustifyH("LEFT");
+	--frame.descFrame.fs:SetFont("Fonts\\FRIZQT__.TTF", 13);
+	frame.descFrame.fs:SetFontObject(SystemFont_Outline);
+	frame.descFrame.fs:SetPoint("CENTER", 0, 0);
+	frame.descFrame:Hide();
+	--Click button to be used for whatever, set onclick in the frame data func.
+	frame.button = CreateFrame("Button", name .. "Button", frame, "NRC_EJButtonTemplate2");
+	frame.button:SetFrameLevel(15);
+	frame.button:Hide();
+	frame.button2 = CreateFrame("Button", name .. "Button2", frame, "NRC_EJButtonTemplate2");
+	frame.button2:SetFrameLevel(15);
+	frame.button2:Hide();
+	--Top right X close button.
+	frame.closeButton = CreateFrame("Button", name .. "Close", frame, "UIPanelCloseButton");
+	frame.closeButton:SetPoint("TOPRIGHT", 3.45, 3.2);
+	frame.closeButton:SetWidth(20);
+	frame.closeButton:SetHeight(20);
+	frame.closeButton:SetFrameLevel(15);
+	frame.closeButton:SetScript("OnClick", function(self, arg)
+		frame:Hide();
+	end)
+	frame:SetScript("OnMouseDown", function(self, button)
+		if (button == "LeftButton" and IsShiftKeyDown() and not self.isMoving) then
+			self:StartMoving();
+			self.isMoving = true;
+		end
+	end)
+	frame:SetScript("OnMouseUp", function(self, button)
+		if (button == "LeftButton" and self.isMoving) then
+			self:StopMovingOrSizing();
+			self.isMoving = false;
+			frame:SetUserPlaced(false);
+			NRC.db.global[frame:GetName() .. "_point"], _, NRC.db.global[frame:GetName() .. "_relativePoint"], 
+					NRC.db.global[frame:GetName() .. "_x"], NRC.db.global[frame:GetName() .. "_y"] = frame:GetPoint();
+		end
+	end)
+	frame:SetScript("OnHide", function(self)
+		if (self.isMoving) then
+			self:StopMovingOrSizing();
+			self.isMoving = false;
+		end
+	end)
+	if (NRC.db.global[frame:GetName() .. "_point"]) then
+		frame.ignoreFramePositionManager = true;
+		frame:ClearAllPoints();
+		frame:SetPoint(NRC.db.global[frame:GetName() .. "_point"], nil, NRC.db.global[frame:GetName() .. "_relativePoint"],
+				NRC.db.global[frame:GetName() .. "_x"], NRC.db.global[frame:GetName() .. "_y"]);
+		frame:SetUserPlaced(false);
+	end
+	frame.lastUpdate = 0;
+	frame:SetScript("OnUpdate", function(self)
+		if (GetTime() - frame.lastUpdate > 1) then
+			frame.lastUpdate = GetTime();
+			if (frame.onUpdateFunction) then
+				--If we declare an update function for this frame to run when shown.
+				NRC[frame.onUpdateFunction]();
+			end
+		end
+	end)
+	frame.subFrameFont = "NRC Default";
+	frame.subFrameFontSize = 12;
+	frame.subFrameFontOutline = "NONE";
+	frame.subFrames = {};
+	frame.updateGridData = function(data, updateLayout)
+		--Only update the frame layout if the data size has changed (players join/leave group etc).
+		if (updateLayout) then
+			frame.clearAllTextures();
+			local spacingV = data.spacingV;
+			local spacingH = data.spacingH;
+			local width, height = 0, 0;
+			local offsetV = 0;
+			local lastColumn, lastRow;
+			if (data.columns and next(data.columns)) then
+				frame.hideAllColumns();
+				for k, v in ipairs(data.columns) do
+					if (v.width) then
+						spacingV = v.width;
+					else
+						spacingV = data.spacingV;
+					end
+					local t = _G[frame:GetName() .. "GridV" .. k] or frame:CreateTexture(frame:GetName() .. "GridV" .. k, "OVERLAY");
+					lastColumn = t;
+					if (k == 1) then
+						t:SetColorTexture(1, 1, 0, 0.5);
+						t:SetWidth(2);
+						t:ClearAllPoints();
+						t:SetPoint('TOP', frame, 'TOPLEFT', data.firstV, 0);
+						t:SetPoint('BOTTOM', frame, 'BOTTOMLEFT', data.firstV, 0);
+						t:Show();
+						width = width + data.firstV;
+					else
+						t:SetColorTexture(1, 1, 1, 0.5);
+						t:SetWidth(1);
+						t:ClearAllPoints();
+						--if (v.width) then
+						--	t:SetPoint('TOP', frame, 'TOPLEFT', data.firstV + (v.width * (k - 1)), 0);
+						--	t:SetPoint('BOTTOM', frame, 'BOTTOMLEFT', data.firstV + (v.width * (k - 1)), 0);
+						--else
+							--t:SetPoint('TOP', frame, 'TOPLEFT', data.firstV + (spacingV * (k - 1)), 0);
+							--t:SetPoint('BOTTOM', frame, 'BOTTOMLEFT', data.firstV + (spacingV * (k - 1)), 0);
+						--end
+						t:SetPoint('TOP', frame, 'TOPLEFT', width + spacingV, 0);
+						t:SetPoint('BOTTOM', frame, 'BOTTOMLEFT', width + spacingV, 0);
+						--print(data.firstV + (spacingV * (k - 1)), width + spacingV)
+						t:Show();
+						--if (v.width) then
+						--	width = width + v.width;
+						--lseif (v.customWidth) then
+						if (v.customWidth) then
+							width = width + v.customWidth;
+						else
+							width = width + spacingV;
+						end
+					end
+				end
+			end
+			if (data.rows and next(data.rows)) then
+				frame.hideAllRows();
+				for k, v in ipairs(data.rows) do
+					local t = _G[frame:GetName() .. "GridH" .. k] or frame:CreateTexture(frame:GetName() .. "GridH" .. k, "OVERLAY");
+					lastRow = t;
+					if (k == 1) then
+						t:SetColorTexture(1, 1, 0, 0.5);
+						t:SetHeight(2);
+						t:ClearAllPoints();
+						t:SetPoint('LEFT', frame, 'TOPLEFT', 0, -data.firstH);
+						t:SetPoint('RIGHT', frame, 'TOPRIGHT', 0, -data.firstH);
+						t:Show();
+						height = height + data.firstH;
+					else
+						t:SetColorTexture(1, 1, 1, 0.5);
+						t:SetHeight(1);
+						t:ClearAllPoints();
+						t:SetPoint('LEFT', frame, 'TOPLEFT', 0, -(data.firstH + (spacingH * (k - 1))));
+						t:SetPoint('RIGHT', frame, 'TOPRIGHT', 0, -(data.firstH + (spacingH * (k - 1))));
+						t:Show();
+						height = height + spacingH;
+					end
+				end
+			elseif (_G[frame:GetName() .. "GridH2"]) then
+				--If we leave group there's no rows so hide all but the first header row.
+				frame.hideAllRows();
+			end
+			if (data.adjustHeight) then
+				--Adjust height to fit rows.
+				if (height < data.firstH) then
+					--Show atleast 1 row ir none are set.
+					frame:SetHeight(data.firstH);
+				else
+					frame:SetHeight(height);
+				end
+				--Hide the last row texture sitting on the border.
+				if (lastRow) then
+					lastRow:Hide();
+				end
+			else
+				if (lastRow) then
+					lastRow:Show();
+				end
+			end
+			for k, v in pairs(frame.subFrames) do
+				v:Hide();
+			end
+			local columnCount, maxColumnCount = 0, 1;
+			local rowCount, maxRowCount = 1, 1;
+			if (data.columns and next(data.columns)) then
+				maxColumnCount = #data.columns;
+			end
+			if (data.rows and next(data.rows)) then
+				maxRowCount = #data.rows;
+			end
+			--local columnCount, maxColumnCount = 0, #data.columns;
+			--local rowCount, maxRowCount = 1, #data.rows;
+			frame.maxColumnCount = maxColumnCount;
+			frame.maxRowCount = maxRowCount;
+			local gridCount = maxColumnCount * maxRowCount;
+			local width2 = 0;
+			for i = 1, gridCount do
+				if (columnCount == maxColumnCount) then
+					--Reset back to first column.
+					columnCount = 1;
+					rowCount = rowCount + 1;
+					width2 = 0;
+				else
+					columnCount = columnCount + 1;
+				end
+				local gridName = string.char(96 + rowCount) .. columnCount;
+				if (data.columns[columnCount].width) then
+					spacingV = data.columns[columnCount].width;
+				elseif (data.columns[columnCount].customWidth) then
+					spacingV = data.columns[columnCount].customWidth;
+				else
+					spacingV = data.spacingV;
+				end
+				local subFrame = frame.subFrames[gridName];
+				--Assign a grid name, a1 a2 a3 etc.
+				if (not subFrame) then
+					--The idea was to have frames cliakble to target to buff, but it taints the main frame so it can't be hidden/shown in combat.
+					--frame.subFrames[gridName] = CreateFrame("Button", frame:GetName() .. "_" .. gridName, nil, "BackdropTemplate,SecureActionButtonTemplate");
+					local f = CreateFrame("Button", frame:GetName() .. "_" .. gridName, frame, "BackdropTemplate,InsecureActionButtonTemplate");
+					f:SetAttribute("type", "macro");
+					f:SetFrameLevel(11);
+					f:SetBackdrop({
+						bgFile = "Interface\\Buttons\\WHITE8x8",
+						insets = {top = 0, left = 0, bottom = 0, right = 0},
+						edgeFile = [[Interface/Buttons/WHITE8X8]], 
+						edgeSize = 1.1,
+					});
+					f:SetBackdropColor(0, 0, 0, 0);
+					f:SetBackdropBorderColor(1, 1, 1, 0);
+					f.fs = f:CreateFontString(frame:GetName().. "FS", "ARTWORK");
+					f.fs:SetPoint("CENTER", 0, 0);
+					f.fs:SetFont(NRC.LSM:Fetch("font", frame.subFrameFont), frame.subFrameFontSize, frame.subFrameFontOutline);
+					f.fs:SetJustifyH("LEFT");
+					f.texture = f:CreateTexture(frame:GetName() .. "Texture_" .. gridName, "ARTWORK");
+					f.texture:SetPoint("CENTER", 0, 0);
+					f.texture:HookScript("OnHide", function(self)
+						if (f.texture.swipeRunning) then
+							f.texture.cooldown:Clear();
+							f.texture.swipeRunning = nil;
+						end
+					end)
+					local textures = {};
+					tinsert(textures, f.texture);
+					--[[f.texture2 = f:CreateTexture(frame:GetName() .. "Texture2_" .. gridName, "ARTWORK");
+					f.texture2:SetPoint("CENTER", 0, 0);
+					f.texture3 = f:CreateTexture(frame:GetName() .. "Texture3_" .. gridName, "ARTWORK");
+					f.texture3:SetPoint("CENTER", 0, 0);
+					f.texture4 = f:CreateTexture(frame:GetName() .. "Texture4_" .. gridName, "ARTWORK");
+					f.texture4:SetPoint("CENTER", 0, 0);]]
+					local textureCount = data.columns[columnCount].textureCount or 4;
+					--if (NRC.isClassic) then
+					--	textureCount = NRC.numWorldBuffs;
+					--	if (textureCount < 4) then
+					--		textureCount = 4;
+					--	end
+					--end
+					for i = 2, textureCount do
+						f["texture" .. i] = f:CreateTexture(frame:GetName() .. "Texture" .. i .. "_" .. gridName, "ARTWORK");
+						f["texture" .. i]:SetPoint("CENTER", 0, 0);
+						f["texture" .. i]:HookScript("OnHide", function(self)
+							if (f["texture" .. i].swipeRunning) then
+								f["texture" .. i].cooldown:Clear();
+								f["texture" .. i].swipeRunning = nil;
+							end
+						end)
+						tinsert(textures, f["texture" .. i]);
+					end
+					f.textures = textures;
+					f.hideAllTextures = function()
+						for k, v in pairs(textures) do
+							v:Hide();
+						end
+					end
+					if (columnCount == 1) then
+						f.readyCheckTexture = f:CreateTexture(frame:GetName() .. "ReadyCheckTexture_" .. gridName, "ARTWORK");
+						f.readyCheckTexture:SetPoint("LEFT", f, "LEFT", 2, 0);
+						f.readyCheckTexture:SetSize(16, 16);
+					end
+					f.tooltip = CreateFrame("Frame", frame:GetName() .. "Tooltip_" .. gridName, frame, "TooltipBorderedFrameTemplate");
+					f.tooltip:SetPoint("BOTTOM", f, "TOP", 0, 2);
+					f.tooltip:SetFrameStrata("TOOLTIP");
+					f.tooltip:SetFrameLevel(99);
+					--f.tooltip.NineSlice.Background:SetAlpha(1);
+					f.tooltip:SetBackdropColor(0, 0, 0, 1);
+					f.tooltip.fs = f.tooltip:CreateFontString(frame:GetName() .. "NRCTooltipFS", "ARTWORK");
+					f.tooltip.fs:SetPoint("CENTER", 0, 0);
+					f.tooltip.fs:SetFont(NRC.regionFont, 12);
+					f.tooltip.fs:SetJustifyH("LEFT");
+					f.updateTooltip = function(text)
+						if (not text) then
+							--Disable tooltip if no text.
+							f.showTooltip = nil;
+						else
+							local tooltipFrame = f.tooltip;
+							tooltipFrame.fs:SetText(text);
+							tooltipFrame:SetWidth(tooltipFrame.fs:GetStringWidth() + 18);
+							tooltipFrame:SetHeight(tooltipFrame.fs:GetStringHeight() + 12);
+							f.showTooltip = true;
+						end
+					end
+					f.showTooltipFunc = function()
+						--Use a function to show tooltip so we can disable showing tooltip if frame isn't being dragged for first install.
+						if (f.showTooltip) then
+							f.tooltip:Show();
+						end
+					end
+					f:SetScript("OnEnter", function(self)
+						if (not self.red) then
+							f:SetBackdropColor(0, 1, 0, 0.15);
+							f:SetBackdropBorderColor(1, 1, 1, 0.5);
+							--self.isMouseOver = true;
+						end
+						f.showTooltipFunc();
+					end)
+					f:SetScript("OnLeave", function(self)
+						if (not self.red) then
+							f:SetBackdropColor(0, 0, 0, 0);
+							f:SetBackdropBorderColor(1, 1, 1, 0);
+						end
+						--self.isMouseOver = nil;
+						f.tooltip:Hide();
+					end)
+					f:SetScript("OnMouseDown", function(self, button)
+						if (button == "LeftButton" and IsShiftKeyDown() and not self:GetParent().isMoving) then
+							self:GetParent():StartMoving();
+							self:GetParent().isMoving = true;
+						end
+					end)
+					f:SetScript("OnMouseUp", function(self, button)
+						if (button == "LeftButton" and self:GetParent().isMoving) then
+							self:GetParent():StopMovingOrSizing();
+							self:GetParent().isMoving = false;
+							frame:SetUserPlaced(false);
+							NRC.db.global[frame:GetName() .. "_point"], _, NRC.db.global[frame:GetName() .. "_relativePoint"], 
+									NRC.db.global[frame:GetName() .. "_x"], NRC.db.global[frame:GetName() .. "_y"] = frame:GetPoint();
+						end
+					end)
+					f:SetScript("OnHide", function(self)
+						if (self:GetParent().isMoving) then
+							self:GetParent():StopMovingOrSizing();
+							self:GetParent().isMoving = false;
+						end
+					end)
+					f.tooltip:Hide();
+					subFrame = f;
+				end
+				--local x = data.firstV + (spacingV * (columnCount - 1)) - (spacingV / 2);
+				--local x = width2 + spacingV;
+				if (columnCount == 1) then
+					width2 = width2 + data.firstV;
+				elseif (data.columns[columnCount].width) then
+					width2 = width2 + data.columns[columnCount].width;
+				else
+					width2 = width2 + spacingV;
+				end
+				local x = width2 - (spacingV / 2);
+				--local x = (width2 + spacingV) - (spacingV / 2);
+				local y = -(data.firstH + (spacingH * (rowCount - 1)) - (spacingH / 2));
+				subFrame:SetWidth(spacingV);
+				subFrame:SetHeight(spacingH);
+				if (columnCount == 1) then
+					subFrame:SetWidth(data.firstV);
+					x = data.firstV / 2;
+					if (not frame.readyCheckRunning) then
+						subFrame.fs:SetPoint("LEFT", 5, 0);
+					end
+				--elseif (data.columns[columnCount].customWidth) then
+					--subFrame:SetWidth(data.columns[columnCount].customWidth);
+					--width = width + spacingV + (data.columns[columnCount].customWidth - spacingV);
+					--x = data.columns[columnCount].customWidth / 2;
+				end
+				--if (data.columns[columnCount].width) then
+				--	subFrame:SetWidth(data.columns[columnCount].width);
+				--	x = data.columns[columnCount].width / 2;
+				--end
+				if (rowCount == 1) then
+					subFrame:SetHeight(data.firstH);
+					y = -(data.firstH / 2);
+					--Add text or icon to the header row.
+					local header = data.columns[columnCount];
+					if (header.tex) then
+						subFrame.fs:SetText("");
+						subFrame.texture:SetTexture(header.tex);
+						subFrame.texture:SetSize(30, 24);
+						--Some stuff for handling resistance icons.
+						if (header.texCoords) then
+							subFrame.texture:SetTexCoord(header.texCoords[1], header.texCoords[2],
+									header.texCoords[3], header.texCoords[4]);
+						end
+					else
+						subFrame.texture:SetTexture();
+						subFrame.fs:SetText(header.name);
+					end
+					subFrame.isHeader = true;
+				end
+				subFrame:ClearAllPoints();
+				if (data.columns[columnCount].customWidth) then
+					--Get half way point of column to attach texture frames to.
+					x = (width - data.columns[columnCount].customWidth) + (data.columns[columnCount].customWidth / 2);
+				end
+				subFrame:SetPoint("CENTER", frame, "TOPLEFT", x, y);
+				--subFrame.fs:SetText(string.upper(gridName));
+				if (not subFrame:IsShown()) then
+					subFrame:Show();
+				end
+				--[[if (data.columns[columnCount].customWidth) then
+					subFrame:SetWidth(data.columns[columnCount].customWidth);
+					width = width + spacingV + (data.columns[columnCount].customWidth - spacingV);
+				elseif (columnCount ~= 1) then
+					subFrame:SetWidth(spacingV);
+				end]]
+				frame.subFrames[gridName] = subFrame;
+			end
+			if (data.adjustWidth) then
+				--Adjust width to fit columns.
+				frame:SetWidth(width);
+				--Hide the last column texture sitting on the border.
+				lastColumn:Hide();
+			else
+				lastColumn:Show();
+			end
+		end
+	end
+	frame.hideAllRows = function()
+		--Don't hide first header row.
+		if (frame.maxRowCount and frame.maxRowCount > 0) then
+			for i = 1, frame.maxRowCount do
+				if (i ~= 1) then
+					local t = _G[frame:GetName() .. "GridH" .. i];
+					if (t) then
+						t:Hide();
+					end
+				end
+			end
+		end
+	end
+	frame.hideAllColumns = function()
+		--Don't hide first header row.
+		if (frame.maxColumnCount and frame.maxColumnCount > 0) then
+			for i = 1, frame.maxColumnCount do
+				if (i ~= 1) then
+					local t = _G[frame:GetName() .. "GridV" .. i];
+					if (t) then
+						t:Hide();
+					end
+				end
+			end
+		end
+	end
+	frame.clearAllTextures = function()
+		--local textureCount = 4;
+		--if (NRC.isClassic) then
+		--	textureCount = NRC.numWorldBuffs;
+		--	if (textureCount < 4) then
+		--		textureCount = 4;
+		--	end
+		--end
+		for k, v in pairs(frame.subFrames) do
+			if (not v.isHeader) then
+				local texture = v.texture;
+				texture:SetTexture();
+				local textureCount = #v.textures;
+				--texture:Hide();
+				if (texture.cooldown) then
+					texture.cooldown:Clear();
+					texture.swipeRunning = nil;
+				end
+				for i = 2, textureCount do
+					local texture = v["texture" .. i];
+					texture:SetTexture();
+					--texture:Hide();
+					if (texture.cooldown) then
+						texture.cooldown:Clear();
+						texture.swipeRunning = nil;
+					end
+				end
+			end
+		end
+	end
 	return frame;
 end

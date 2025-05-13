@@ -1,8 +1,8 @@
-## Interface: 11507, 40402
+## Interface: 11507, 40402, 50500
 ## Notes: Raid and combat helpers, raid wide cooldown tracking.
 ## Title: Nova Raid Companion
 ## Author: Novaspark-Arugal OCE
-## Version: 1.65
+## Version: 1.67
 ## SavedVariables: NRCdatabase
 
 embeds.xml
@@ -21,6 +21,9 @@ DB\Wrath_Cooldowns.lua
 DB\Cata_DB.lua
 DB\Cata_TalentData.lua
 DB\Cata_Cooldowns.lua
+DB\MOP_DB.lua
+DB\MOP_TalentData.lua
+DB\MOP_Cooldowns.lua
 DB\zDB_Tools.lua
 Modules\Tools.lua
 Modules\Frames.lua
