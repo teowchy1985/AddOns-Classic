@@ -1,5 +1,5 @@
 ﻿----------------------------------------------------------------------
--- 	Leatrix Plus 4.0.67 (6th May 2025)
+-- 	Leatrix Plus 4.0.69 (14th May 2025)
 ----------------------------------------------------------------------
 
 --	01:Functions 02:Locks   03:Restart 40:Player   45:Rest
@@ -19,7 +19,7 @@
 	local void
 
 	-- Version
-	LeaPlusLC["AddonVer"] = "4.0.67"
+	LeaPlusLC["AddonVer"] = "4.0.69"
 
 	-- Get locale table
 	local void, Leatrix_Plus = ...
@@ -8967,37 +8967,62 @@
 
 		if LeaPlusLC["ShowBagSearchBox"] == "On" and not LeaLockList["ShowBagSearchBox"] then
 
-			-- Function to unregister search event for guild bank since it isn't used
-			EventUtil.ContinueOnAddOnLoaded("Blizzard_GuildBankUI",function()
-				for i = 1, MAX_GUILDBANK_TABS do
-					_G["GuildBankTab" .. i].Button:UnregisterEvent("INVENTORY_SEARCH_UPDATE")
-				end
-			end)
+			if LeaPlusLC.NewPatch then
 
-			-- Create bag item search box
-			local BagItemSearchBox = CreateFrame("EditBox", nil, ContainerFrame1, "BagSearchBoxTemplate")
-			BagItemSearchBox:SetSize(110, 18)
-			BagItemSearchBox:SetMaxLetters(15)
+				-- Create bag item search box
+				local BagItemSearchBox = CreateFrame("EditBox", nil, ContainerFrame1, "BagSearchBoxTemplate")
+				BagItemSearchBox:SetSize(110, 18)
+				BagItemSearchBox:SetMaxLetters(15)
 
-			-- Create bank item search box
-			local BankItemSearchBox = CreateFrame("EditBox", nil, BankFrame, "BagSearchBoxTemplate")
-			BankItemSearchBox:SetSize(120, 14)
-			BankItemSearchBox:SetMaxLetters(15)
-			BankItemSearchBox:SetPoint("TOPRIGHT", -60, -40)
+				-- Attach bag search box first bag only
+				hooksecurefunc("ContainerFrame_Update", function(self)
+					if self:GetID() == 0 then
+						BagItemSearchBox:SetParent(self)
+						BagItemSearchBox:SetPoint("TOPLEFT", self, "TOPLEFT", 54, -29)
+						BagItemSearchBox.anchorBag = self
+						BagItemSearchBox:Show()
+					elseif BagItemSearchBox.anchorBag == self then
+						BagItemSearchBox:ClearAllPoints()
+						BagItemSearchBox:Hide()
+						BagItemSearchBox.anchorBag = nil
+					end
+				end)
 
-			-- Attach bag search box first bag only
-			hooksecurefunc("ContainerFrame_Update", function(self)
-				if self:GetID() == 0 then
-					BagItemSearchBox:SetParent(self)
-					BagItemSearchBox:SetPoint("TOPLEFT", self, "TOPLEFT", 54, -29)
-					BagItemSearchBox.anchorBag = self
-					BagItemSearchBox:Show()
-				elseif BagItemSearchBox.anchorBag == self then
-					BagItemSearchBox:ClearAllPoints()
-					BagItemSearchBox:Hide()
-					BagItemSearchBox.anchorBag = nil
-				end
-			end)
+			else
+
+				-- Function to unregister search event for guild bank since it isn't used
+				EventUtil.ContinueOnAddOnLoaded("Blizzard_GuildBankUI",function()
+					for i = 1, MAX_GUILDBANK_TABS do
+						_G["GuildBankTab" .. i].Button:UnregisterEvent("INVENTORY_SEARCH_UPDATE")
+					end
+				end)
+
+				-- Create bag item search box
+				local BagItemSearchBox = CreateFrame("EditBox", nil, ContainerFrame1, "BagSearchBoxTemplate")
+				BagItemSearchBox:SetSize(110, 18)
+				BagItemSearchBox:SetMaxLetters(15)
+
+				-- Create bank item search box
+				local BankItemSearchBox = CreateFrame("EditBox", nil, BankFrame, "BagSearchBoxTemplate")
+				BankItemSearchBox:SetSize(120, 14)
+				BankItemSearchBox:SetMaxLetters(15)
+				BankItemSearchBox:SetPoint("TOPRIGHT", -60, -40)
+
+				-- Attach bag search box first bag only
+				hooksecurefunc("ContainerFrame_Update", function(self)
+					if self:GetID() == 0 then
+						BagItemSearchBox:SetParent(self)
+						BagItemSearchBox:SetPoint("TOPLEFT", self, "TOPLEFT", 54, -29)
+						BagItemSearchBox.anchorBag = self
+						BagItemSearchBox:Show()
+					elseif BagItemSearchBox.anchorBag == self then
+						BagItemSearchBox:ClearAllPoints()
+						BagItemSearchBox:Hide()
+						BagItemSearchBox.anchorBag = nil
+					end
+				end)
+
+			end
 
 		end
 
@@ -16796,7 +16821,13 @@
 	LeaPlusLC:MakeCB(LeaPlusLC[pg], "DurabilityStatus"			, 	"Show durability status"		, 	340, -132, 	true,	"If checked, a button will be added to the character frame which will show your equipped item durability when you hover the pointer over it.|n|nIn addition, an overall percentage will be shown in the chat frame when you die.")
 	LeaPlusLC:MakeCB(LeaPlusLC[pg], "ShowPetSaveBtn"			, 	"Show pet save button"			, 	340, -152, 	true,	"If checked, you will be able to save your current battle pet team (including abilities) to a single command.|n|nA button will be added to the Pet Journal.  Clicking the button will toggle showing the assignment command for your current team.  Pressing CTRL/C will copy the command to memory.|n|nYou can then paste the command (with CTRL/V) into the chat window or a macro to instantly assign your team.")
 	LeaPlusLC:MakeCB(LeaPlusLC[pg], "ShowVanityControls"		, 	"Show vanity controls"			, 	340, -172, 	true,	"If checked, helm and cloak toggle checkboxes will be shown in the character frame.|n|nYou can hold shift and right-click the checkboxes to switch layouts.")
-	LeaPlusLC:MakeCB(LeaPlusLC[pg], "ShowBagSearchBox"			, 	"Show bag search box"			, 	340, -192, 	true,	"If checked, a bag search box will be shown in the backpack frame and the bank frame.")
+
+	if LeaPlusLC.NewPatch then
+		LeaPlusLC:MakeCB(LeaPlusLC[pg], "ShowBagSearchBox"		, 	"Show bag search box"			, 	340, -192, 	true,	"If checked, a bag search box will be shown in the backpack frame.")
+	else
+		LeaPlusLC:MakeCB(LeaPlusLC[pg], "ShowBagSearchBox"		, 	"Show bag search box"			, 	340, -192, 	true,	"If checked, a bag search box will be shown in the backpack frame and the bank frame.")
+	end
+
 	LeaPlusLC:MakeCB(LeaPlusLC[pg], "ShowRaidToggle"			, 	"Show raid button"				,	340, -212, 	true,	"If checked, the button to toggle the raid container frame will be shown just above the raid management frame (left side of the screen) instead of in the raid management frame itself.|n|nThis allows you to toggle the raid container frame without needing to open the raid management frame.")
 	LeaPlusLC:MakeCB(LeaPlusLC[pg], "ShowBorders"				,	"Show borders"					,	340, -232, 	true,	"If checked, you will be able to show customisable borders around the edges of the screen.|n|nThe borders are placed on top of the game world but under the UI so you can place UI elements over them.")
 	LeaPlusLC:MakeCB(LeaPlusLC[pg], "ShowPlayerChain"			, 	"Show player chain"				,	340, -252, 	true,	"If checked, you will be able to show a rare, elite or rare elite chain around the player frame.")

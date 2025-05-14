@@ -1,4 +1,7 @@
-﻿4.0.67 - 6th May 2025
+﻿4.0.69 - 14th May 2025
+- Mists of Pandaria Classic Beta: For 'Show bag search box' ('Interface'), the bag search box will now only show in the backpack frame since the default UI shows it in the bank and guild bank frames.
+
+4.0.67 - 6th May 2025
 - The 'Show vendor price' ('Interface') option is now called 'Expand vendor price'.  While showing the vendor price is now part of the default UI, this option shows the vendor price in tooltips that the default UI does not cover such as quest reward tooltips, equipped gear tooltips and tooltips for items linked in chat.
 
 4.0.66 - 4th May 2025
