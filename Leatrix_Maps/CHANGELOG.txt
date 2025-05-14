@@ -1,4 +1,7 @@
-﻿4.0.68 - 7th May 2025
+﻿4.0.69 - 14th May 2025
+- Mists of Pandaria Classic Beta: Added the Vashj'ir portal to the Stormwind map.
+
+4.0.68 - 7th May 2025
 - Fixed an issue with map scaling which affected users using a non-standard UI scale.
 
 4.0.67 - 6th May 2025
