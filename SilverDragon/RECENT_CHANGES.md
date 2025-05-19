@@ -1,5 +1,5 @@
-## Changed in v2025.4
+## Changed in v2025.7
 
-* Undermine: update rare coordinates, add loot to the treasure vignettes
-* Bump the TOC for the SilverDragon_History plugin specifically (thanks Adal!)
+* Undermine: updated some changed quest IDs (thanks ywi!)
+* Show ignored mobs in the LDB dropdown
 
