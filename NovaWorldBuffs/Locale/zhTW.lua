@@ -1165,3 +1165,30 @@ L["No characters with buffs found."] = "沒有找到有增益效果的角色。"
 L["Unknown Layer"] = "未知的鏡像";
 
 L["Active"] = "啟用";
+
+L["noZonesMappedYet"] = "自伺服器重啟後，尚未有任何區域被偵測到。";
+L["Rend log adjusted"] = "已由雷德記錄調整";
+
+L["flashDisableRendTitle"] = "停用雷德畫面閃爍";
+L["flashDisableRendDesc"] = "啟用此選項將覆寫並停用所有與雷德相關的客戶端畫面閃爍事件。";
+
+L["flashDisableOnyTitle"] = "停用奧妮克希亞畫面閃爍";
+L["flashDisableOnyDesc"] = "啟用此選項將覆寫並停用所有與奧妮克希亞/奈法利安相關的客戶端畫面閃爍事件。";
+
+L["flashDisableZanTitle"] = "停用贊達拉畫面閃爍";
+L["flashDisableZanDesc"] = "啟用此選項將覆寫並停用所有與贊達拉相關的客戶端畫面閃爍事件。";
+
+L["soundsFirstYellTitle"] = "其他增益即將到來";
+L["soundsFirstYellDesc"] = "當贊達拉/其他增益上繳，且增益即將套用前的幾秒播放的音效（首次NPC喊話）。";
+
+L["soundsFirstYellRendTitle"] = "雷德增益即將到來";
+L["soundsFirstYellRendDesc"] = "當雷德頭顱上繳，且增益即將套用前的幾秒播放的音效（首次NPC喊話）。";
+
+L["soundsFirstYellOnyTitle"] = "奧妮克希亞/奈法利安增益即將到來";
+L["soundsFirstYellOnyDesc"] = "當奧妮克希亞/奈法利安頭顱上繳，且增益即將套用前的幾秒播放的音效（首次NPC喊話）。";
+
+L["resetFramesTitle"] = "重設視窗位置";
+L["resetFramesDesc"] = "點擊此處將所有視窗位置重設回螢幕中央。";
+
+L["buffHasNoCooldown"] = "此次上繳不會觸發冷卻時間";
+L["noCooldown"] = "無冷卻時間";
