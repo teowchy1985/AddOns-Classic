@@ -1,6 +1,6 @@
 # Syndicator
 
-## [196](https://github.com/Baganator/Syndicator/tree/196) (2025-05-07)
-[Full Changelog](https://github.com/Baganator/Syndicator/compare/195...196) 
+## [203](https://github.com/Baganator/Syndicator/tree/203) (2025-05-16)
+[Full Changelog](https://github.com/Baganator/Syndicator/compare/202...203) 
 
-- Search: Remove unused per-patch patterns and only use ATT xpac source on classic  
+- Reenable tooltip scanning on Mists Classic (issue appears fixed now)  
