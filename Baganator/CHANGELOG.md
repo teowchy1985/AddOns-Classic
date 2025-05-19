@@ -1,7 +1,6 @@
 # Baganator
 
-## [686](https://github.com/Baganator/Baganator/tree/686) (2025-01-31)
-[Full Changelog](https://github.com/Baganator/Baganator/compare/685...686) 
+## [692](https://github.com/Baganator/Baganator/tree/692) (2025-05-17)
+[Full Changelog](https://github.com/Baganator/Baganator/compare/691...692) 
 
-- Customise: Categories: Skin raw search box and scroll buttons for visual search  
-- Move scrolling search widget to Syndicator  
+- Sorting: Add fallback for when max stack size information is unavailable  
