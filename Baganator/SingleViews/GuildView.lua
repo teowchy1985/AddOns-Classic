@@ -1,5 +1,4 @@
----@class addonTableBaganator
-local addonTable = select(2, ...)
+local _, addonTable = ...
 
 local PopupMode = {
   Tab = "tab",
@@ -23,7 +22,7 @@ function BaganatorSingleViewGuildViewMixin:OnLoad()
   self.otherTabsCache = {}
   self.searchMonitors = {}
 
-  for _ = 1, MAX_GUILDBANK_TABS do
+  for i = 1, MAX_GUILDBANK_TABS do
     table.insert(self.searchMonitors, CreateFrame("Frame", nil, self, "SyndicatorOfflineListSearchTemplate"))
   end
 
@@ -94,7 +93,7 @@ function BaganatorSingleViewGuildViewMixin:OnLoad()
 
   self.confirmTransferAllDialogName = "addonTable.ConfirmTransferAll_" .. self:GetName()
   StaticPopupDialogs[self.confirmTransferAllDialogName] = {
-    text = addonTable.Locales.CONFIRM_TRANSFER_ALL_ITEMS_FROM_GUILD_BANK,
+    text = BAGANATOR_L_CONFIRM_TRANSFER_ALL_ITEMS_FROM_GUILD_BANK,
     button1 = YES,
     button2 = NO,
     OnAccept = function()
@@ -276,7 +275,7 @@ end
 function BaganatorSingleViewGuildViewMixin:OpenTabEditor()
   GuildBankPopupFrame:Hide()
   if not CanEditGuildBankTabInfo(GetCurrentGuildBankTab()) then
-    UIErrorsFrame:AddMessage(addonTable.Locales.CANNOT_EDIT_GUILD_BANK_TAB_ERROR, 1.0, 0.1, 0.1, 1.0)
+    UIErrorsFrame:AddMessage(BAGANATOR_L_CANNOT_EDIT_GUILD_BANK_TAB_ERROR, 1.0, 0.1, 0.1, 1.0)
     return
   end
   if addonTable.Constants.IsRetail then
@@ -334,7 +333,7 @@ function BaganatorSingleViewGuildViewMixin:UpdateTabs(guildData)
     tabButton:RegisterForClicks("LeftButtonUp")
     tabButton.Icon:SetTexture("Interface\\AddOns\\Baganator\\Assets\\Everything.png")
     tabButton.Icon:SetAlpha(1)
-    tabButton:SetScript("OnClick", function(_, _)
+    tabButton:SetScript("OnClick", function(_, button)
       self:SetCurrentTab(0)
       self:UpdateForGuild(self.lastGuild, self.isLive)
     end)
@@ -344,7 +343,7 @@ function BaganatorSingleViewGuildViewMixin:UpdateTabs(guildData)
     tabButton:Show()
     tabButton:SetScript("OnEnter", function()
       GameTooltip:SetOwner(tabButton, "ANCHOR_RIGHT")
-      GameTooltip:SetText(LINK_FONT_COLOR:WrapTextInColorCode(addonTable.Locales.EVERYTHING))
+      GameTooltip:SetText(LINK_FONT_COLOR:WrapTextInColorCode(BAGANATOR_L_EVERYTHING))
       GameTooltip:Show()
     end)
     tabButton:SetScript("OnLeave", function()
@@ -373,7 +372,7 @@ function BaganatorSingleViewGuildViewMixin:UpdateTabs(guildData)
       GameTooltip:SetOwner(tabButton, "ANCHOR_RIGHT")
       GameTooltip:SetText(tabInfo.name)
       if self.isLive and IsGuildLeader() then
-        GameTooltip:AddLine(addonTable.Locales.RIGHT_CLICK_FOR_SETTINGS, GREEN_FONT_COLOR.r, GREEN_FONT_COLOR.g, GREEN_FONT_COLOR.b)
+        GameTooltip:AddLine(BAGANATOR_L_RIGHT_CLICK_FOR_SETTINGS, GREEN_FONT_COLOR.r, GREEN_FONT_COLOR.g, GREEN_FONT_COLOR.b)
       end
       GameTooltip:Show()
       addonTable.CallbackRegistry:TriggerEvent("HighlightGuildTabItems", {[index] = true})
@@ -413,12 +412,12 @@ function BaganatorSingleViewGuildViewMixin:UpdateTabs(guildData)
     tabButton:Show()
     tabButton:SetScript("OnEnter", function()
       GameTooltip:SetOwner(tabButton, "ANCHOR_RIGHT")
-      GameTooltip:SetText(LINK_FONT_COLOR:WrapTextInColorCode(addonTable.Locales.BUY_GUILD_BANK_TAB))
+      GameTooltip:SetText(LINK_FONT_COLOR:WrapTextInColorCode(BAGANATOR_L_BUY_GUILD_BANK_TAB))
       local cost = GetGuildBankTabCost()
       if GetMoney() < cost and (GetMoney() + GetGuildBankMoney()) < cost then
-        GameTooltip:AddLine(addonTable.Locales.COST_X:format(RED_FONT_COLOR:WrapTextInColorCode(addonTable.Utilities.GetMoneyString(cost, true))))
+        GameTooltip:AddLine(BAGANATOR_L_COST_X:format(RED_FONT_COLOR:WrapTextInColorCode(addonTable.Utilities.GetMoneyString(cost, true))))
       else
-        GameTooltip:AddLine(addonTable.Locales.COST_X:format(WHITE_FONT_COLOR:WrapTextInColorCode(addonTable.Utilities.GetMoneyString(cost, true))))
+        GameTooltip:AddLine(BAGANATOR_L_COST_X:format(WHITE_FONT_COLOR:WrapTextInColorCode(addonTable.Utilities.GetMoneyString(cost, true))))
       end
       GameTooltip:Show()
     end)
@@ -500,7 +499,7 @@ function BaganatorSingleViewGuildViewMixin:UpdateForGuild(guild, isLive)
     self:SetTitle("")
   else
     self.lastGuild = guild
-    self:SetTitle(addonTable.Locales.XS_GUILD_BANK:format(guildData.details.guild))
+    self:SetTitle(BAGANATOR_L_XS_GUILD_BANK:format(guildData.details.guild))
   end
 
   if self.isLive then
@@ -566,18 +565,18 @@ function BaganatorSingleViewGuildViewMixin:UpdateForGuild(guild, isLive)
       _, _, _, canDeposit, _, remainingWithdrawals = GetGuildBankTabInfo(self.currentTab)
       depositText = canDeposit and GREEN_FONT_COLOR:WrapTextInColorCode(YES) or RED_FONT_COLOR:WrapTextInColorCode(NO)
       if remainingWithdrawals == -1 then
-        withdrawText = GREEN_FONT_COLOR:WrapTextInColorCode(addonTable.Locales.UNLIMITED)
+        withdrawText = GREEN_FONT_COLOR:WrapTextInColorCode(BAGANATOR_L_UNLIMITED)
       elseif remainingWithdrawals == 0 then
         withdrawText = RED_FONT_COLOR:WrapTextInColorCode(NO)
       else
         withdrawText = FormatLargeNumber(remainingWithdrawals)
       end
     else
-      depositText = LIGHTGRAY_FONT_COLOR:WrapTextInColorCode(addonTable.Locales.MULTIPLE_TABS)
-      withdrawText = LIGHTGRAY_FONT_COLOR:WrapTextInColorCode(addonTable.Locales.MULTIPLE_TABS)
+      depositText = LIGHTGRAY_FONT_COLOR:WrapTextInColorCode(BAGANATOR_L_MULTIPLE_TABS)
+      withdrawText = LIGHTGRAY_FONT_COLOR:WrapTextInColorCode(BAGANATOR_L_MULTIPLE_TABS)
       remainingWithdrawals = -2
     end
-    self.ItemsTransferInfo:SetText(addonTable.Locales.GUILD_WITHDRAW_DEPOSIT_X_X:format(withdrawText, depositText))
+    self.ItemsTransferInfo:SetText(BAGANATOR_L_GUILD_WITHDRAW_DEPOSIT_X_X:format(withdrawText, depositText))
     local guildMoney = GetGuildBankMoney()
     local withdrawMoney = math.min(GetGuildBankWithdrawMoney(), guildMoney)
     if not CanWithdrawGuildBankMoney() or withdrawMoney == 0 then
@@ -589,7 +588,7 @@ function BaganatorSingleViewGuildViewMixin:UpdateForGuild(guild, isLive)
       self.WithdrawButton:Enable()
     end
     self.Money:SetText(CURRENCY_TOTAL:format(GetMoneyString(guildMoney, true), ""))
-    self.GoldTransferInfo:SetText(addonTable.Locales.GUILD_MONEY_WITHDRAW_X:format(GetMoneyString(withdrawMoney, true)))
+    self.GoldTransferInfo:SetText(BAGANATOR_L_GUILD_MONEY_WITHDRAW_X:format(GetMoneyString(withdrawMoney, true)))
     self.NoTabsText:SetPoint("TOP", self, "CENTER", 0, 15)
     detailsHeight = 50
 
@@ -600,7 +599,7 @@ function BaganatorSingleViewGuildViewMixin:UpdateForGuild(guild, isLive)
     self.ItemsTransferInfo:SetText("")
     self.GoldTransferInfo:SetText("")
     if guildData then
-      self.Money:SetText(addonTable.Locales.GUILD_MONEY_X:format(GetMoneyString(guildData.money, true)))
+      self.Money:SetText(BAGANATOR_L_GUILD_MONEY_X:format(GetMoneyString(guildData.money, true)))
     end
     self.NoTabsText:SetPoint("TOP", self, "CENTER", 0, 5)
     detailsHeight = 10
@@ -661,7 +660,7 @@ function BaganatorSingleViewGuildViewMixin:RemoveSearchMatches(callback)
   end)
 end
 
-function BaganatorSingleViewGuildViewMixin:Transfer()
+function BaganatorSingleViewGuildViewMixin:Transfer(button)
   if self.SearchWidget.SearchBox:GetText() == "" then
     StaticPopup_Show(self.confirmTransferAllDialogName)
   else
@@ -709,7 +708,7 @@ function BaganatorSingleViewGuildViewMixin:ToggleMoneyLogs()
   end
   self:HideInfoDialogs()
   self.LogsFrame:Show()
-  self.LogsFrame:SetTitle(addonTable.Locales.MONEY_LOGS)
+  self.LogsFrame:SetTitle(BAGANATOR_L_MONEY_LOGS)
   self.LogsFrame:ApplyMoney()
   QueryGuildBankLog(MAX_GUILDBANK_TABS + 1);
 end
@@ -769,7 +768,7 @@ function BaganatorGuildLogsTemplateMixin:ApplyTabTitle()
 
   local tabInfo = Syndicator.API.GetGuild(Syndicator.API.GetCurrentGuild()).bank[GetCurrentGuildBankTab()]
   if tabInfo ~= nil then
-    self:SetTitle(addonTable.Locales.X_LOGS:format(tabInfo.name))
+    self:SetTitle(BAGANATOR_L_X_LOGS:format(tabInfo.name))
   else
     self:SetTitle("")
   end
@@ -779,7 +778,7 @@ function BaganatorGuildLogsTemplateMixin:ApplyTab()
   self.showing = PopupMode.Tab
 
   if #Syndicator.API.GetGuild(Syndicator.API.GetCurrentGuild()).bank == 0 then
-    self.TextContainer:SetText(addonTable.Locales.GUILD_NO_TABS_PURCHASED)
+    self.TextContainer:SetText(BAGANATOR_L_GUILD_NO_TABS_PURCHASED)
     return
   end
 
@@ -812,7 +811,7 @@ function BaganatorGuildLogsTemplateMixin:ApplyTab()
 	end
 
   if numTransactions == 0 then
-    msg = addonTable.Locales.NO_TRANSACTIONS_AVAILABLE
+    msg = BAGANATOR_L_NO_TRANSACTIONS_AVAILABLE
   end
 
   self.TextContainer:SetText(msg)
@@ -852,7 +851,7 @@ function BaganatorGuildLogsTemplateMixin:ApplyMoney()
   end
 
   if numTransactions == 0 then
-    msg = addonTable.Locales.NO_TRANSACTIONS_AVAILABLE
+    msg = BAGANATOR_L_NO_TRANSACTIONS_AVAILABLE
   end
 
   self.TextContainer:SetText(msg)
@@ -892,7 +891,7 @@ function BaganatorGuildTabTextTemplateMixin:ApplyTab()
   local currentTab = GetCurrentGuildBankTab()
 
   if #Syndicator.API.GetGuild(Syndicator.API.GetCurrentGuild()).bank == 0 then
-    self.TextContainer:SetText(addonTable.Locales.GUILD_NO_TABS_PURCHASED)
+    self.TextContainer:SetText(BAGANATOR_L_GUILD_NO_TABS_PURCHASED)
     self.SaveButton:Hide()
     self.TextContainer:GetEditBox():SetEnabled(false)
     return
@@ -907,7 +906,7 @@ end
 function BaganatorGuildTabTextTemplateMixin:ApplyTabTitle()
   local tabInfo = Syndicator.API.GetGuild(Syndicator.API.GetCurrentGuild()).bank[GetCurrentGuildBankTab()]
   if tabInfo ~= nil then
-    self:SetTitle(addonTable.Locales.X_INFORMATION:format(tabInfo.name))
+    self:SetTitle(BAGANATOR_L_X_INFORMATION:format(tabInfo.name))
   else
     self:SetTitle("")
   end
@@ -929,6 +928,6 @@ function BaganatorGuildTabTextTemplateMixin:OnDragStop()
 
   self:StopMovingOrSizing()
   self:SetUserPlaced(false)
-  local point, _, _, x, y = self:GetPoint(1)
+  local point, _, relativePoint, x, y = self:GetPoint(1)
   addonTable.Config.Set(addonTable.Config.Options.GUILD_VIEW_DIALOG_POSITION, {point, UIParent:GetName(), x, y})
 end
