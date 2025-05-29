@@ -1,5 +1,4 @@
----@class addonTableBaganator
-local addonTable = select(2, ...)
+local _, addonTable = ...
 
 local function GetCheckbox(text, holder, previous)
   local checkBoxWrapper = CreateFrame("Frame", nil, holder)
@@ -34,7 +33,7 @@ function addonTable.CustomiseDialog.GetCategoriesEmptyEditor(parent)
 
   holder:SetSize(300, 210)
 
-  holder.HiddenCheckBox = GetCheckbox(addonTable.Locales.HIDDEN, holder, nil)
+  holder.HiddenCheckBox = GetCheckbox(BAGANATOR_L_HIDDEN, holder, nil)
 
   holder.HiddenCheckBox:SetScript("OnClick", function()
     local hidden = addonTable.Config.Get(addonTable.Config.Options.CATEGORY_HIDDEN)
@@ -42,7 +41,7 @@ function addonTable.CustomiseDialog.GetCategoriesEmptyEditor(parent)
     addonTable.Config.Set(addonTable.Config.Options.CATEGORY_HIDDEN, CopyTable(hidden))
   end)
 
-  holder.GroupCheckBox = GetCheckbox(addonTable.Locales.GROUP_EMPTY_SLOTS, holder, holder.HiddenCheckBox)
+  holder.GroupCheckBox = GetCheckbox(BAGANATOR_L_GROUP_EMPTY_SLOTS, holder, holder.HiddenCheckBox)
 
   holder.GroupCheckBox:SetScript("OnClick", function()
     addonTable.Config.Set("category_group_empty_slots", holder.GroupCheckBox:GetChecked())
