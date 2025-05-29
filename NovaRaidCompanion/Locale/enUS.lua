@@ -1275,19 +1275,19 @@ L["mePIWhisper"] = "You gained %s extra damage from my Power Infusion.";
 
 L["piMyTextDesc"] = "This will show how much damage your PI gave to a player, there are also option here for any class to show how much damage they got when a priest gives you PI.";
 
-L["piSendDamagePrintTitle"] = "Print My Own PI Casts Given To Others";
-L["piSendDamagePrintDesc"] = "|cFFFFFF00(For Priests Only)|r Print to the chat window how much damage my Power Infusion cast gave a player during the 15 seconds uptime.";
+L["piSendDamagePrintTitle"] = "Print My PI Casts";
+L["piSendDamagePrintDesc"] = "|cFFFFFF00(For |cFFFFFFFFPriests|r Only)|r Print to the chat window how much damage my Power nfusion cast gave a player during the 15 seconds uptime.";
 
-L["piSendDamagePrintToMeTitle"] = "Print My PI Damage Gains From Other Priests";
-L["piSendDamagePrintToMeDesc"] = "|cFFFFFF00(All Classes)|r Print to the chat window how much damage I gained during the 15 seconds uptime when a priest casts PI on me.";
+L["piSendDamagePrintToMeTitle"] = "Print My PI Damage Gains";
+L["piSendDamagePrintToMeDesc"] = "|cFFFFFF00(All Classes)\r Print to the chat window how much damage I gained during the 15 seconds uptime when a priest casts PI on me.";
 
-L["piSendDamagePrintOtherTitle"] = "Print All Other Priests PI Casts Given To Anyone";
+L["piSendDamagePrintOtherTitle"] = "Print All Priests PI Casts";
 L["piSendDamagePrintOtherDesc"] = "|cFFFFFF00(All Classes)|r Print damage gained for all PI casts from ALL priests and even when cast on other players.";
 
-L["piSendDamageWhisperTitle"] = "Whisper My Own PI Casts Damage Given";
+L["piSendDamageWhisperTitle"] = "Whisper My PI Casts Damage Given";
 L["piSendDamageWhisperDesc"] = "|cFFFFFF00(For |cFFFFFFFFPriests|r Only)|r Send a whisper to my Power Infusion targets telling them how much extra damage I gave them.";
 
-L["piSendDamageWhisperYouGaveMeTitle"] = "Whisper To Priests My Damage Gain From Their PI";
+L["piSendDamageWhisperYouGaveMeTitle"] = "Whisper My Damage Gain to Priests";
 L["piSendDamageWhisperYouGaveMeDesc"] = "|cFFFFFF00(All Classes)|r Send a whisper to any priest that gives me power infusion to show them how much extra damage I did.";
 
 L["logKaraCryptsTitle"] = "Log Kara Crypts";
