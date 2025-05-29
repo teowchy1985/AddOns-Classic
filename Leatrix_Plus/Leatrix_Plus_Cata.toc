@@ -15,7 +15,7 @@
 ## Notes-zhTW: 如需支援，請造訪 leatrix.com。
 ## Notes-zhCN: 如需支持，请访问 leatrix.com。
 
-## Version: 4.0.69
+## Version: 4.0.58
 ## Author: Leatrix
 ## SavedVariables: LeaPlusDB
 
@@ -31,6 +31,5 @@
 Leatrix_Plus_Library.lua
 Leatrix_Plus_Locale.lua
 Leatrix_Plus_Media.lua
-Leatrix_Plus_Mute.lua
 Leatrix_Plus.xml
 Leatrix_Plus.lua
