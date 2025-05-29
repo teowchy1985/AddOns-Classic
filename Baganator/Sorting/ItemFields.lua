@@ -1,5 +1,4 @@
----@class addonTableBaganator
-local addonTable = select(2, ...)
+local _, addonTable = ...
 
 -- Translate from a base item info to get information hidden behind further API
 -- calls
@@ -141,6 +140,8 @@ for key, list in pairs(sorted) do
   sortedMap[key] = map
 end
 
+local petCageID = addonTable.Constants.BattlePetCageID
+
 keysMapping["expansion"] = function(self)
   return Syndicator.Search.GetExpansion(self) or nil
 end
@@ -180,7 +181,7 @@ if C_TradeSkillUI and C_TradeSkillUI.GetItemReagentQualityByItemInfo then
     return self.craftingQuality and -self.craftingQuality
   end
 else
-  keysMapping["craftingQuality"] = function()
+  keysMapping["craftingQuality"] = function(self)
     return -1
   end
 
@@ -230,6 +231,6 @@ keysMapping["sortedInvSlotID"] = function(self)
   return sortedMap.invSlotID[self.invSlotID] or (self.invSlotID + 200)
 end
 
-keysMapping["specialSplitting"] = function()
+keysMapping["specialSplitting"] = function(self)
   return ""
 end
