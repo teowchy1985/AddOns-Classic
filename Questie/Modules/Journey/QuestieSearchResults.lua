@@ -22,7 +22,6 @@ local QuestieLink = QuestieLoader:ImportModule("QuestieLink")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-local GetItemInfo = C_Item.GetItemInfo or GetItemInfo
 local stringrep = string.rep
 local stringsub = string.sub
 
