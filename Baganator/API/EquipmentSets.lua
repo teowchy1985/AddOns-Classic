@@ -1,7 +1,6 @@
----@class addonTableBaganator
-local addonTable = select(2, ...)
+local _, addonTable = ...
 -- Blizzard Equipment sets (Wrath onwards)
-if not addonTable.Constants.IsEra and Syndicator then
+if not addonTable.Constants.IsEra then
   local BlizzardSetTracker = CreateFrame("Frame")
   local EQUIPMENT_SETS_PATTERN = EQUIPMENT_SETS:gsub("%%s", "(.*)")
 
@@ -17,7 +16,7 @@ if not addonTable.Constants.IsEra and Syndicator then
     self.equipmentSetInfo = {}
     self.equipmentSetNames = {}
 
-    Baganator.API.RegisterItemSetSource(addonTable.Locales.BLIZZARD, "blizzard", function(_, guid)
+    Baganator.API.RegisterItemSetSource(BAGANATOR_L_BLIZZARD, "blizzard", function(itemLocation, guid)
       return self.equipmentSetInfo[guid]
     end, function()
       return self.equipmentSetNames
@@ -80,13 +79,13 @@ if not addonTable.Constants.IsEra and Syndicator then
       if validItems then
         -- Uses or {} because a set might exist without any associated item
         -- locations
-        for _, locationID in pairs(C_EquipmentSet.GetItemLocations(setID) or {}) do
-          if locationID ~= -1 and locationID ~= 0 and locationID ~= 1 then
-            local player, bank, bags, _, slot, bag
+        for _, location in pairs(C_EquipmentSet.GetItemLocations(setID) or {}) do
+          if location ~= -1 and location ~= 0 and location ~= 1 then
+            local player, bank, bags, voidStorage, slot, bag
             if addonTable.Constants.IsClassic then
-              player, bank, bags, slot, bag = EquipmentManager_UnpackLocation(locationID)
+              player, bank, bags, slot, bag = EquipmentManager_UnpackLocation(location)
             else
-              player, bank, bags, _, slot, bag = EquipmentManager_UnpackLocation(locationID)
+              player, bank, bags, voidStorage, slot, bag = EquipmentManager_UnpackLocation(location)
             end
             local location, bagID, slotID
             if (player or bank) and bags then
@@ -304,7 +303,7 @@ if not addonTable.Constants.IsRetail then
       end
     end
 
-    Baganator.API.RegisterItemSetSource("ItemRack", "item_rack_classic", function(_, guid, _)
+    Baganator.API.RegisterItemSetSource("ItemRack", "item_rack_classic", function(itemLocation, guid, itemLink)
       if updatePending then
         updatePending = false
         RefreshSetItems()
@@ -349,7 +348,7 @@ addonTable.Utilities.OnAddonLoaded("Outfitter", function()
   Outfitter_RegisterOutfitEvent("EDIT_OUTFIT", Update)
   Outfitter_RegisterOutfitEvent("DID_RENAME_OUTFIT", Update)
 
-  Baganator.API.RegisterItemSetSource("Outfitter", "outfitter", function(_, guid, itemLink)
+  Baganator.API.RegisterItemSetSource("Outfitter", "outfitter", function(itemLocation, guid, itemLink)
     if not guid or not itemLink then
       return
     end
