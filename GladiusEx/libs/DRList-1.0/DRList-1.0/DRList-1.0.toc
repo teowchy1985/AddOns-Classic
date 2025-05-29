@@ -1,12 +1,7 @@
-## Interface: 110105
-## Interface-Retail: 110105
-## Interface-Classic: 11507
-## Interface-BCC: 20504
-## Interface-Wrath: 30403
-## Interface-Cata: 40402
+## Interface: 110002
 ## IconTexture: Interface\Icons\Spell_nature_heavypolymorph1
 ## Title: Lib: DRList-1.0
-## Version: v1.6.1
+## Version: v1.5.6
 ## X-Category: Library
 ## X-License: MIT
 ## X-Curse-Project-ID: 315757
@@ -22,5 +17,4 @@ tests\test-classic.lua
 tests\test-tbc.lua
 tests\test-wotlk.lua
 tests\test-cata.lua
-tests\test-mop.lua
 #@end-do-not-package@
