@@ -68,7 +68,7 @@ end
 --[[
 local DataSource = {};
 
-function DataSource:OnInteractWithNPC(creatureName, creatureID)
+function DataSource:OnInteractWithNPC(creatureName)
 
 end
 
@@ -76,7 +76,8 @@ function DataSource:OnInteractStopped()
 
 end
 
-function DataSource:SetupTooltipByGossipOptionID(tooltip, gossipOptionID)
+function DataSource:SetupTooltipByGossipOptionID(gossipOptionID)
 
 end
+
 --]]
