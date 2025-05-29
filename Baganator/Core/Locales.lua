@@ -1,5 +1,4 @@
----@class addonTableBaganator
-local addonTable = select(2, ...)
+local _, addonTable = ...
 addonTable.Locales = CopyTable(BAGANATOR_LOCALES.enUS)
 for key, translation in pairs(BAGANATOR_LOCALES[GetLocale()]) do
   addonTable.Locales[key] = translation
