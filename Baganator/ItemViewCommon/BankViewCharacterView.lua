@@ -1,5 +1,4 @@
----@class addonTableBaganator
-local addonTable = select(2, ...)
+local _, addonTable = ...
 
 BaganatorItemViewCommonBankViewCharacterViewMixin = {}
 
@@ -185,7 +184,7 @@ function BaganatorItemViewCommonBankViewCharacterViewMixin:UpdateForCharacter(ch
     self:GetParent():SetTitle("")
     return
   else
-    self:GetParent():SetTitle(addonTable.Locales.XS_BANK:format(characterData.details.character))
+    self:GetParent():SetTitle(BAGANATOR_L_XS_BANK:format(characterData.details.character))
   end
 
   self.searchToApply = self.searchToApply or self.refreshState[addonTable.Constants.RefreshReason.Searches] or self.refreshState[addonTable.Constants.RefreshReason.ItemData] or self.refreshState[addonTable.Constants.RefreshReason.ItemWidgets]
@@ -218,7 +217,7 @@ function BaganatorItemViewCommonBankViewCharacterViewMixin:UpdateForCharacter(ch
   self:GetParent().SearchWidget:SetShown(addonTable.Config.Get(addonTable.Config.Options.SHOW_SEARCH_BOX) and characterData.bank[1] and #characterData.bank[1] ~= 0)
 
   if self.BankMissingHint:IsShown() then
-    self.BankMissingHint:SetText(addonTable.Locales.BANK_DATA_MISSING_HINT:format(characterData.details.character))
+    self.BankMissingHint:SetText(BAGANATOR_L_BANK_DATA_MISSING_HINT:format(characterData.details.character))
   end
 
   local searchText = self:GetParent().SearchWidget.SearchBox:GetText()
