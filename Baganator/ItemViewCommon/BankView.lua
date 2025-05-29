@@ -1,5 +1,4 @@
----@class addonTableBaganator
-local addonTable = select(2, ...)
+local _, addonTable = ...
 BaganatorItemViewCommonBankViewMixin = {}
 
 function BaganatorItemViewCommonBankViewMixin:OnLoad()
@@ -27,13 +26,13 @@ function BaganatorItemViewCommonBankViewMixin:OnLoad()
     self:SetTab(addonTable.Constants.BankTabType.Warband)
   end
 
-  Syndicator.CallbackRegistry:RegisterCallback("BagCacheUpdate",  function()
+  Syndicator.CallbackRegistry:RegisterCallback("BagCacheUpdate",  function(_, character, updatedBags)
     self.hasCharacter = true
   end)
 
   self.confirmTransferAllDialogName = "addonTable.ConfirmTransferAll_" .. self:GetName()
   StaticPopupDialogs[self.confirmTransferAllDialogName] = {
-    text = addonTable.Locales.CONFIRM_TRANSFER_ALL_ITEMS_FROM_BANK,
+    text = BAGANATOR_L_CONFIRM_TRANSFER_ALL_ITEMS_FROM_BANK,
     button1 = YES,
     button2 = NO,
     OnAccept = function()
@@ -75,14 +74,14 @@ function BaganatorItemViewCommonBankViewMixin:InitializeWarband(template)
 
     local characterTab = self.tabPool:Acquire()
     addonTable.Skins.AddFrame("TabButton", characterTab)
-    characterTab:SetText(addonTable.Locales.CHARACTER)
+    characterTab:SetText(BAGANATOR_L_CHARACTER)
     characterTab:Show()
     characterTab:SetScript("OnClick", function()
       self:SetTab(1)
     end)
 
     local warbandTab = self.tabPool:Acquire()
-    warbandTab:SetText(addonTable.Locales.WARBAND)
+    warbandTab:SetText(BAGANATOR_L_WARBAND)
     warbandTab:Show()
     warbandTab:SetScript("OnClick", function()
       self:SetTab(2)
@@ -168,7 +167,7 @@ function BaganatorItemViewCommonBankViewMixin:OnShow()
   end
 end
 
-function BaganatorItemViewCommonBankViewMixin:OnHide()
+function BaganatorItemViewCommonBankViewMixin:OnHide(eventName)
   if C_Bank then
     C_Bank.CloseBankFrame()
   else
@@ -188,7 +187,7 @@ function BaganatorItemViewCommonBankViewMixin:UpdateViewToCharacter(characterNam
   end
 end
 
-function BaganatorItemViewCommonBankViewMixin:UpdateViewToWarband(_, tabIndex)
+function BaganatorItemViewCommonBankViewMixin:UpdateViewToWarband(warbandIndex, tabIndex)
   self.Warband:SetCurrentTab(tabIndex)
   if not self.Warband:IsShown() then
     self.Tabs[2]:Click()
@@ -206,7 +205,7 @@ function BaganatorItemViewCommonBankViewMixin:UpdateView()
     self.Tabs[1]:Show()
   end
 
-  local sideSpacing = addonTable.Utilities.GetSpacing()
+  local sideSpacing, topSpacing = addonTable.Utilities.GetSpacing()
 
   if self.Tabs[1] then
     self.Tabs[1]:SetPoint("LEFT", sideSpacing + addonTable.Constants.ButtonFrameOffset, 0)
