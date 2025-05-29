@@ -1,9 +1,10 @@
----@class addonTableBaganator
-local addonTable = select(2, ...)
+local _, addonTable = ...
 
 if not Syndicator then
   return
 end
+
+local IsEquipment = Syndicator and Syndicator.Utilities.IsEquipment
 
 -- Equip/unequip
 Syndicator.CallbackRegistry:RegisterCallback("EquippedCacheUpdate", function()
