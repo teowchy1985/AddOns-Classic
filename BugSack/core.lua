@@ -188,6 +188,7 @@ end
 
 do
 	local function colorStack(ret)
+		ret = tostring(ret) or "" -- Yes, it gets called with nonstring from somewhere /mikk
 		ret = ret:gsub("[%.I][%.n][%.t][%.e][%.r]face/", "")
 		ret = ret:gsub("%.?%.?%.?/?AddOns/", "")
 		ret = ret:gsub("|([^chHr])", "||%1"):gsub("|$", "||") -- Pipes
@@ -201,6 +202,7 @@ do
 	addon.ColorStack = colorStack
 
 	local function colorLocals(ret)
+		ret = tostring(ret) or "" -- Yes, it gets called with nonstring from somewhere /mikk
 		ret = ret:gsub("[%.I][%.n][%.t][%.e][%.r]face/", "")
 		ret = ret:gsub("%.?%.?%.?/?AddOns/", "")
 		ret = ret:gsub("|(%a)", "||%1"):gsub("|$", "||") -- Pipes
@@ -220,11 +222,11 @@ do
 	function addon:FormatError(err)
 		if not err.locals then
 			local s = colorStack(tostring(err.message) .. (err.stack and "\n"..tostring(err.stack) or ""))
-			local l = colorLocals(tostring(err.locals) or "")
+			local l = colorLocals(tostring(err.locals))
 			return errorFormat:format(err.counter or -1, s, l)
 		else
 			local s = colorStack(tostring(err.message) .. (err.stack and "\n"..tostring(err.stack) or ""))
-			local l = colorLocals(tostring(err.locals) or "")
+			local l = colorLocals(tostring(err.locals))
 			return errorFormatLocals:format(err.counter or -1, s, l)
 		end
 	end
