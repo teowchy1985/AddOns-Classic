@@ -1,5 +1,8 @@
 GladiusEx.Data = {}
 
+GladiusEx.IS_WOTLKC = false
+GladiusEx.IS_CATAC = true
+
 local L = LibStub("AceLocale-3.0"):GetLocale("GladiusEx")
 
 local SPECIALIZATION_ICONS = {
