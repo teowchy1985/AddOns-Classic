@@ -1,5 +1,4 @@
----@class addonTableBaganator
-local addonTable = select(2, ...)
+local _, addonTable = ...
 
 function addonTable.Skins.IsAddOnLoading(name)
   local character = UnitName("player")
