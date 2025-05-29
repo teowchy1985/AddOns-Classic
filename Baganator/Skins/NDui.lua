@@ -1,7 +1,6 @@
----@class addonTableBaganator
-local addonTable = select(2, ...)
+local _, addonTable = ...
 
-local B, _, _, DB
+local B, C, L, DB
 
 local function ConvertTags(tags)
   local res = {}
@@ -12,9 +11,9 @@ local function ConvertTags(tags)
 end
 
 local icons = {}
-local scaleMonitor = CreateFrame("Frame")
-scaleMonitor:RegisterEvent("UI_SCALE_CHANGED")
-scaleMonitor:SetScript("OnEvent", function()
+local frame = CreateFrame("Frame")
+frame:RegisterEvent("UI_SCALE_CHANGED")
+frame:SetScript("OnEvent", function()
   C_Timer.After(0, function()
     for _, frame in ipairs(icons) do
       local c1, c2, c3, c4 = frame.bg:GetBackdropBorderColor()
@@ -93,24 +92,6 @@ local skinners = {
   TrimScrollBar = function(frame)
     B.ReskinTrimScroll(frame)
   end,
-  ScrollButton = function(button, tags)
-    button:ClearNormalTexture()
-    local tex = button:CreateTexture(nil, "ARTWORK")
-    tex:SetTexture(DB.ArrowUp)
-    tex:SetSize(16, 16)
-    button:SetSize(16, 16)
-    button:SetAlpha(1)
-    if tags.left then
-      tex:SetPoint("RIGHT")
-      tex:SetRotation(math.pi/2)
-    elseif tags.right then
-      tex:SetPoint("LEFT")
-      tex:SetRotation(-math.pi/2)
-    end
-    button.__texture = tex
-    button:SetScript("OnEnter", B.Texture_OnEnter)
-    button:SetScript("OnLeave", B.Texture_OnLeave)
-  end,
   CheckBox = function(frame)
     B.ReskinCheck(frame)
   end,
@@ -121,6 +102,12 @@ local skinners = {
     if frame.NineSlice then
       frame.NineSlice:SetAlpha(0)
     end
+  end,
+  CornerWidget = function(frame, tags)
+    if frame:IsObjectType("FontString") and BAGANATOR_ELVUI_USE_BAG_FONT then
+      frame:FontTemplate(LSM:Fetch('font', E.db.bags.countFont), BAGANATOR_CONFIG["icon_text_font_size"], E.db.bags.countFontOutline)
+    end
+
   end,
   CategoryLabel = function(button)
     button:GetFontString():SetTextColor(DB.r, DB.g, DB.b)
@@ -157,9 +144,9 @@ local function LoadSkin()
     end
   end
 
-  B, C, L, DB = unpack(NDui or AuroraClassic)
+  B, C, L, DB = unpack(NDui)
 end
 
-if addonTable.Skins.IsAddOnLoading("NDui") or addonTable.Skins.IsAddOnLoading("AuroraClassic") then
-  addonTable.Skins.RegisterSkin(addonTable.Locales.NDUI, "ndui", LoadSkin, SkinFrame, SetConstants, {}, true)
+if addonTable.Skins.IsAddOnLoading("NDui") then
+  addonTable.Skins.RegisterSkin(BAGANATOR_L_NDUI, "ndui", LoadSkin, SkinFrame, SetConstants, {}, true)
 end
