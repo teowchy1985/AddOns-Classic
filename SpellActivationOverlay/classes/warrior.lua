@@ -539,9 +539,13 @@ local function useBloodsurge()
         {
             overlays = {
                 [SAO.SOD+SAO.WRATH] = { texture = "blood_surge", position = "Top" },
-                [SAO.CATA] = { texture = "blood_surge", position = "Left + Right (Flipped)" }, -- Left/Right because texture orientation has changed
+                -- [SAO.CATA] = { texture = "blood_surge", position = "Top (CW)" }, -- Clockwise because texture is different
+                [SAO.CATA] = { texture = "blood_surge", position = "Left + Right (Flipped)" },
             },
-            button = slam,
+            buttons = {
+                [SAO.SOD+SAO.WRATH] = slam,
+                [SAO.CATA] = { spellID = slam, option = { subText = SAO:RecentlyUpdated() } }, -- Updated 2024-04-30
+            },
         }
     );
 end
