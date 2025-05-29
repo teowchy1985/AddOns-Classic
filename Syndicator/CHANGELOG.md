@@ -1,7 +1,7 @@
 # Syndicator
 
-## [205](https://github.com/Baganator/Syndicator/tree/205) (2025-05-26)
-[Full Changelog](https://github.com/Baganator/Syndicator/compare/204...205) 
+## [192](https://github.com/Baganator/Syndicator/tree/192) (2025-04-28)
+[Full Changelog](https://github.com/Baganator/Syndicator/compare/191...192) 
 
-- Retail: Adjust recording of warband bank content updates when crafting  
-- Attempt to fix warband bank data being wiped unexpectedly with multiple accounts  
+- Classic MoP: Tag for MoP support  
+- Search: Fix wrong stat strings used in Wrath (China)  
