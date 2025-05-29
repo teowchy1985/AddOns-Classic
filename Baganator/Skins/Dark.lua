@@ -1,5 +1,4 @@
----@class addonTableBaganator
-local addonTable = select(2, ...)
+local _, addonTable = ...
 
 local function ToHSL(r, g, b)
   local M = math.max(r, g, b)
@@ -279,7 +278,7 @@ local function LoadSkin()
   end)
 end
 
-addonTable.Skins.RegisterSkin(addonTable.Locales.DARK, "dark", LoadSkin, SkinFrame, SetConstants, {
+addonTable.Skins.RegisterSkin(BAGANATOR_L_DARK, "dark", LoadSkin, SkinFrame, SetConstants, {
   {
     type = "slider",
     min = 0,
@@ -287,27 +286,27 @@ addonTable.Skins.RegisterSkin(addonTable.Locales.DARK, "dark", LoadSkin, SkinFra
     lowText = "0%",
     highText = "100%",
     scale = 100,
-    text = addonTable.Locales.TRANSPARENCY,
-    valuePattern = addonTable.Locales.PERCENTAGE_PATTERN,
+    text = BAGANATOR_L_TRANSPARENCY,
+    valuePattern = BAGANATOR_L_PERCENTAGE_PATTERN,
     option = "view_transparency",
     default = 0.3,
   },
   {
     type = "checkbox",
-    text = addonTable.Locales.REMOVE_BORDERS,
+    text = BAGANATOR_L_REMOVE_BORDERS,
     option = "no_frame_borders",
     default = false,
   },
   {
     type = "checkbox",
-    text = addonTable.Locales.HIDE_ICON_BACKGROUNDS,
+    text = BAGANATOR_L_HIDE_ICON_BACKGROUNDS,
     option = "empty_slot_background",
     default = false,
   },
   {
     type = "checkbox",
-    text = addonTable.Locales.SQUARE_ICONS,
-    rightText = addonTable.Locales.RELOAD_REQUIRED,
+    text = BAGANATOR_L_SQUARE_ICONS,
+    rightText = BAGANATOR_L_RELOAD_REQUIRED,
     option = "square_icons",
     default = false,
   },
