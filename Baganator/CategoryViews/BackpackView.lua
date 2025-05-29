@@ -1,5 +1,4 @@
----@class addonTableBaganator
-local addonTable = select(2, ...)
+local _, addonTable = ...
 
 BaganatorCategoryViewBackpackViewMixin = CreateFromMixins(BaganatorItemViewCommonBackpackViewMixin)
 
@@ -9,8 +8,6 @@ function BaganatorCategoryViewBackpackViewMixin:OnLoad()
   self.Container.Layouts = {}
   self.LiveLayouts = {}
   self.CachedLayouts = {}
-
-  self.splitStacksDueToSocketing = false
 
   self.LayoutManager = CreateFrame("Frame", nil, self)
   Mixin(self.LayoutManager, addonTable.CategoryViews.BagLayoutMixin)
@@ -46,14 +43,6 @@ function BaganatorCategoryViewBackpackViewMixin:OnLoad()
       end
     end
     if oldState ~= self.splitStacksDueToTransfer and self:IsVisible() then
-      self:UpdateForCharacter(self.lastCharacter, self.isLive)
-    end
-  end)
-
-  addonTable.CallbackRegistry:RegisterCallback("ItemContextChanged",  function()
-    local oldSplit = self.splitStacksDueToSocketing
-    self.splitStacksDueToSocketing = addonTable.Compatibility.Context.Socket
-    if self.splitStacksDueToSocketing ~= oldSplit and self:IsVisible() then
       self:UpdateForCharacter(self.lastCharacter, self.isLive)
     end
   end)
@@ -158,10 +147,9 @@ function BaganatorCategoryViewBackpackViewMixin:UpdateForCharacter(character, is
   local sideSpacing, topSpacing = addonTable.Utilities.GetSpacing()
 
   local oldIsGrouping = self.isGrouping
-  self.isGrouping = addonTable.Config.Get(addonTable.Config.Options.CATEGORY_ITEM_GROUPING) and (not self.splitStacksDueToTransfer and not self.splitStacksDueToSocketing or not self.isLive)
+  self.isGrouping = addonTable.Config.Get(addonTable.Config.Options.CATEGORY_ITEM_GROUPING) and (not self.splitStacksDueToTransfer or not self.isLive)
   if self.isGrouping ~= oldIsGrouping then
     self.refreshState[addonTable.Constants.RefreshReason.Layout] = true
-    self.searchToApply = true
   end
 
   if self.addToCategoryMode and C_Cursor.GetCursorItem() == nil then
