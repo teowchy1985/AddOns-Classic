@@ -9,8 +9,6 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
----@type Expansions
-local Expansions = QuestieLoader:ImportModule("Expansions")
 
 
 local pcall, type, next = pcall, type, next
@@ -20,7 +18,7 @@ local abs, min, floor = math.abs, math.min, math.floor
 
 -- how fast to run operations (lower = slower but less lag)
 local TICKS_PER_YIELD = 48
-local TICKS_PER_YIELD_DEBUG = TICKS_PER_YIELD * 10
+local TICKS_PER_YIELD_DEBUG = TICKS_PER_YIELD * 3
 
 ---@alias CompilerTypes
 ---| "u8"
@@ -911,7 +909,7 @@ end
 
 function QuestieDBCompiler:EncodePointerMap(stream, pointerMap)
     stream:reset()
-    stream:WriteInt24(0) -- placeholder
+    stream:WriteShort(0) -- placeholder
     local count = 0
     for id, ptrs in pairs(pointerMap) do
         stream:WriteInt24(id)
@@ -919,12 +917,12 @@ function QuestieDBCompiler:EncodePointerMap(stream, pointerMap)
         count = count + 1
     end
     stream._pointer = 1
-    stream:WriteInt24(count)
+    stream:WriteShort(count)
     return stream:Save()
 end
 
 function QuestieDBCompiler:DecodePointerMap(stream)
-    local count = stream:ReadInt24()
+    local count = stream:ReadShort()
     local ret = {}
     local i = 0
     while i < count do
@@ -1345,7 +1343,7 @@ function QuestieDBCompiler:ValidateQuests()
             local b = nonCompiledData[QuestieDB.questKeys[key]]
 
             --Special case for questLevel
-            if (Expansions.Current >= Expansions.Tbc) and (key == "questLevel" or key == "requiredLevel") then
+            if (Questie.IsTBC or Questie.IsWotlk or Questie.IsCata) and (key == "questLevel" or key == "requiredLevel") then
                 local questLevel, requiredLevel = getTbcLevel(compiledData[2], compiledData[1], playerLevel)
                 if (key == "questLevel") then
                     a = questLevel
