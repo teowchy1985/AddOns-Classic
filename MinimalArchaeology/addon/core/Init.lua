@@ -82,7 +82,7 @@ function MinArch:OnInitialize ()
 	SetDynamicDefaults();
 	InitDatabase();
 	MinArch:MainEventAddonLoaded();
-
+	
 	InitHelperFrame();
 	Main:Init();
 	History:Init();
@@ -212,10 +212,4 @@ function MinArch:UpgradeSettings()
 
         MinArch.db.profile.settingsVersion = 5;
     end
-
-	if MinArch.db.profile.expansion == nil then
-		MinArch.db.profile.expansion = LE_EXPANSION_LEVEL_CURRENT
-	end
-
-
 end
