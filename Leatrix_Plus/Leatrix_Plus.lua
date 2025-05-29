@@ -1,9 +1,9 @@
 ﻿----------------------------------------------------------------------
--- 	Leatrix Plus 4.0.69 (14th May 2025)
+-- 	Leatrix Plus 4.0.58 (23rd April 2025)
 ----------------------------------------------------------------------
 
---	01:Functions 02:Locks   03:Restart 40:Player   45:Rest
---  60:Events    62:Profile 70:Logout  80:Commands 90:Panel
+--	01:Functions  02:Locks    03:Restart  40:Player   45:Rest
+--  60:Events     62:Profile  70:Logout   80:Commands 90:Panel
 
 ----------------------------------------------------------------------
 -- 	Leatrix Plus
@@ -19,7 +19,7 @@
 	local void
 
 	-- Version
-	LeaPlusLC["AddonVer"] = "4.0.69"
+	LeaPlusLC["AddonVer"] = "4.0.58"
 
 	-- Get locale table
 	local void, Leatrix_Plus = ...
@@ -28,14 +28,14 @@
 	-- Check Wow version is valid
 	do
 		local gameversion, gamebuild, gamedate, gametocversion = GetBuildInfo()
-		if gametocversion and gametocversion < 40000 or gametocversion > 59999 then
+		if gametocversion and gametocversion < 40000 or gametocversion > 49999 then
 			-- Game client is not Cataclysm Classic
 			C_Timer.After(2, function()
 				print(L["LEATRIX PLUS: WRONG VERSION INSTALLED!"])
 			end)
 			return
 		end
-		if gametocversion and gametocversion == 50500 then -- 5.5.0
+		if gametocversion and gametocversion == 40402 then -- 4.4.2
 			LeaPlusLC.NewPatch = true
 		end
 	end
@@ -559,9 +559,7 @@
 		LeaPlusLC:LockOption("ClassColFrames", "ClassColFramesBtn", true)			-- Class colored frames
 		LeaPlusLC:LockOption("SetWeatherDensity", "SetWeatherDensityBtn", false)	-- Set weather density
 		LeaPlusLC:LockOption("MuteGameSounds", "MuteGameSoundsBtn", false)			-- Mute game sounds
-		LeaPlusLC:LockOption("MuteMountSounds", "MuteMountSoundsBtn", false)		-- Mute mount sounds
 		LeaPlusLC:LockOption("MuteCustomSounds", "MuteCustomSoundsBtn", false)		-- Mute custom sounds
-		LeaPlusLC:LockOption("NoTransforms", "NoTransformsBtn", false)				-- Remove transforms
 		LeaPlusLC:LockOption("StandAndDismount", "DismountBtn", true)				-- Dismount me
 	end
 
@@ -618,7 +616,6 @@
 		or	(LeaPlusLC["AhExtras"]				~= LeaPlusDB["AhExtras"])				-- Show auction controls
 		or	(LeaPlusLC["ShowCooldowns"]			~= LeaPlusDB["ShowCooldowns"])			-- Show cooldowns
 		or	(LeaPlusLC["DurabilityStatus"]		~= LeaPlusDB["DurabilityStatus"])		-- Show durability status
-		or	(LeaPlusLC["ShowPetSaveBtn"]		~= LeaPlusDB["ShowPetSaveBtn"])			-- Show pet save button
 		or	(LeaPlusLC["ShowVanityControls"]	~= LeaPlusDB["ShowVanityControls"])		-- Show vanity controls
 		or	(LeaPlusLC["ShowBagSearchBox"]		~= LeaPlusDB["ShowBagSearchBox"])		-- Show bag search box
 		or	(LeaPlusLC["ShowRaidToggle"]		~= LeaPlusDB["ShowRaidToggle"])			-- Show raid button
@@ -638,19 +635,17 @@
 		or	(LeaPlusLC["ClassColFrames"]		~= LeaPlusDB["ClassColFrames"])			-- Class colored frames
 		or	(LeaPlusLC["NoAlerts"]				~= LeaPlusDB["NoAlerts"])				-- Hide alerts
 		or	(LeaPlusLC["NoGryphons"]			~= LeaPlusDB["NoGryphons"])				-- Hide gryphons
-		or	(LeaPlusLC["HideEventToasts"]		~= LeaPlusDB["HideEventToasts"])		-- Hide event toasts
 		or	(LeaPlusLC["NoClassBar"]			~= LeaPlusDB["NoClassBar"])				-- Hide stance bar
 
 		-- System
 		or	(LeaPlusLC["NoRestedEmotes"]		~= LeaPlusDB["NoRestedEmotes"])			-- Silence rested emotes
 		or	(LeaPlusLC["KeepAudioSynced"]		~= LeaPlusDB["KeepAudioSynced"])		-- Keep audio synced
 		or	(LeaPlusLC["NoBagAutomation"]		~= LeaPlusDB["NoBagAutomation"])		-- Disable bag automation
-		or	(LeaPlusLC["NoPetAutomation"]		~= LeaPlusDB["NoPetAutomation"])		-- Disable pet automation
 		or	(LeaPlusLC["CharAddonList"]			~= LeaPlusDB["CharAddonList"])			-- Show character addons
 		or	(LeaPlusLC["FasterLooting"]			~= LeaPlusDB["FasterLooting"])			-- Faster auto loot
 		or	(LeaPlusLC["FasterMovieSkip"]		~= LeaPlusDB["FasterMovieSkip"])		-- Faster movie skip
 		or	(LeaPlusLC["StandAndDismount"]		~= LeaPlusDB["StandAndDismount"])		-- Dismount me
-		or	(LeaPlusLC["ExpandVendorPrice"]		~= LeaPlusDB["ExpandVendorPrice"])		-- Expand vendor price
+		or	(LeaPlusLC["ShowVendorPrice"]		~= LeaPlusDB["ShowVendorPrice"])		-- Show vendor price
 		or	(LeaPlusLC["CombatPlates"]			~= LeaPlusDB["CombatPlates"])			-- Combat plates
 		or	(LeaPlusLC["EasyItemDestroy"]		~= LeaPlusDB["EasyItemDestroy"])		-- Easy item destroy
 
@@ -836,36 +831,6 @@
 			-- Set event on startup if enabled and when option is clicked
 			if LeaPlusLC["NoDuelRequests"] == "On" then SetEvent() end
 			LeaPlusCB["NoDuelRequests"]:HookScript("OnClick", SetEvent)
-
-		end
-
-		----------------------------------------------------------------------
-		--	Block pet battle duels (no reload required)
-		----------------------------------------------------------------------
-
-		do
-
-			-- Handler for event
-			local frame = CreateFrame("FRAME")
-			frame:SetScript("OnEvent", function(self, event, arg1)
-				if not LeaPlusLC:FriendCheck(arg1) then
-					C_PetBattles.CancelPVPDuel()
-					return
-				end
-			end)
-
-			-- Function to set event
-			local function SetEvent()
-				if LeaPlusLC["NoPetDuels"] == "On" then
-					frame:RegisterEvent("PET_BATTLE_PVP_DUEL_REQUESTED")
-				else
-					frame:UnregisterEvent("PET_BATTLE_PVP_DUEL_REQUESTED")
-				end
-			end
-
-			-- Set event on startup if enabled and when option is clicked
-			if LeaPlusLC["NoPetDuels"] == "On" then SetEvent() end
-			LeaPlusCB["NoPetDuels"]:HookScript("OnClick", SetEvent)
 
 		end
 
@@ -1233,146 +1198,301 @@
 		end
 
 		----------------------------------------------------------------------
-		-- Mute mount sounds (no reload required)
+		-- Mute game sounds (no reload required) (MuteGameSounds)
 		----------------------------------------------------------------------
 
 		do
 
-			-- Get mute table
-			local mountTable = Leatrix_Plus["mountTable"]
+			-- Create soundtable
+			local muteTable = {
 
-			-- Give table file level scope (its used during logout and for wipe and admin commands)
-			LeaPlusLC["mountTable"] = mountTable
+				["MuteFizzle"] = {			"sound/spells/fizzle/fizzlefirea.ogg#569773", "sound/spells/fizzle/FizzleFrostA.ogg#569775", "sound/spells/fizzle/FizzleHolyA.ogg#569772", "sound/spells/fizzle/FizzleNatureA.ogg#569774", "sound/spells/fizzle/FizzleShadowA.ogg#569776",},
+				["MuteInterface"] = {		"sound/interface/iUiInterfaceButtonA.ogg#567481", "sound/interface/uChatScrollButton.ogg#567407", "sound/interface/uEscapeScreenClose.ogg#567464", "sound/interface/uEscapeScreenOpen.ogg#567490",},
 
-			-- Load saved settings or set default values
-			for k, v in pairs(mountTable) do
-				if LeaPlusDB[k] and type(LeaPlusDB[k]) == "string" and LeaPlusDB[k] == "On" or LeaPlusDB[k] == "Off" then
-					LeaPlusLC[k] = LeaPlusDB[k]
-				else
-					LeaPlusLC[k] = "Off"
-					LeaPlusDB[k] = "Off"
-				end
-			end
+				-- Trains
+				["MuteTrains"] = {
 
-			-- Create configuration panel
-			local MountPanel = LeaPlusLC:CreatePanel("Mute mount sounds", "MountPanel")
+					--[[Blood Elf]]	"sound#539219", "sound#539203",
+					--[[Draenei]]	"sound#539516", "sound#539730",
+					--[[Dwarf]]		"sound#539802", "sound#539881",
+					--[[Gnome]]		"sound#540271", "sound#540275",
+					--[[Goblin]]	"sound#541769", "sound#542017",
+					--[[Human]]		"sound#540535", "sound#540734",
+					--[[Night Elf]]	"sound#540870", "sound#540947",
+					--[[Orc]]		"sound#541157", "sound#541239",
+					--[[Tauren]]	"sound#542818", "sound#542896",
+					--[[Troll]] 	"sound#543085", "sound#543093",
+					--[[Undead]]	"sound#542526", "sound#542600",
+					--[[Worgen]]	"sound#542035", "sound#542206", "sound#541463", "sound#541601",
 
-			-- Add checkboxes
-			LeaPlusLC:MakeTx(MountPanel, "Mounts", 16, -72)
-			LeaPlusLC:MakeCB(MountPanel, "MuteBikes", "Bikes", 16, -92, false, "If checked, bike mount sounds will be muted.|n|nThis applies to Mekgineer's Chopper and Mechano-hog.")
-			LeaPlusLC:MakeCB(MountPanel, "MuteBrooms", "Brooms", 16, -112, false, "If checked, broom mounts will be muted.")
-			LeaPlusLC:MakeCB(MountPanel, "MuteGyrocopters", "Gyrocopters", 16, -132, false, "If checked, gyrocopters will be muted.|n|nThis applies to the engineering flying machine mounts.")
-			LeaPlusLC:MakeCB(MountPanel, "MuteHorsesteps", "Horsesteps", 16, -152, false, "If checked, footsteps for horse mounts will be muted.")
-			LeaPlusLC:MakeCB(MountPanel, "MuteMechSteps", "Mechsteps", 16, -172, false, "If checked, footsteps for mechanical mounts will be muted.")
-			LeaPlusLC:MakeCB(MountPanel, "MuteStriders", "Mechstriders", 16, -192, false, "If checked, mechanostriders will be quieter.")
-			LeaPlusLC:MakeCB(MountPanel, "MuteNetherdrakes", "Netherdrakes", 16, -212, false, "If checked, netherdrakes will be quieter.")
-			LeaPlusLC:MakeCB(MountPanel, "MutePanthers", "Panthers", 16, -232, false, "If checked, the jewelcrafting panther mounts will be quieter.")
+				},
 
-			LeaPlusLC:MakeCB(MountPanel, "MuteRockets", "Rockets", 150, -92, false, "If checked, rockets will be muted.")
-			LeaPlusLC:MakeCB(MountPanel, "MuteTravelers", "Travelers", 150, -112, false, "If checked, traveling merchant greetings and farewells will be muted.|n|nThis applies to Traveler's Tundra Mammoth and Grand Expedition Yak.")
+				-- Chimes (sound/doodad/)
+				["MuteChimes"] = {
+					"belltollalliance.ogg#566564",
+					"belltollhorde.ogg#565853",
+					"belltollnightelf.ogg#566558",
+					"belltolltribal.ogg#566027",
+					"kharazahnbelltoll.ogg#566254",
+					"dwarfhorn.ogg#566064",
+				},
 
-			if not LeaPlusLC.NewPatch then
-				LeaPlusLC:LockItem(LeaPlusCB["MutePanthers"], true)
-				LeaPlusCB["MutePanthers"].tiptext = LeaPlusCB["MutePanthers"].tiptext .. "|n|n|cff00AAFF" .. L["This is for Mists of Pandaria Classic."]
-				LeaPlusLC["MutePanthers"] = "Off"
-				LeaPlusDB["MutePanthers"] = "Off"
-			end
+				-- Vaults
+				["MuteVaults"] = {
 
-			-- Set click width for sounds checkboxes
-			for k, v in pairs(mountTable) do
-				LeaPlusCB[k].f:SetWidth(90)
-				if LeaPlusCB[k].f:GetStringWidth() > 90 then
-					LeaPlusCB[k]:SetHitRectInsets(0, -80, 0, 0)
-				else
-					LeaPlusCB[k]:SetHitRectInsets(0, -LeaPlusCB[k].f:GetStringWidth() + 4, 0, 0)
-				end
-			end
+					-- Mechanical guild vault idle sound (such as those found in Booty Bay and Winterspring)
+					"sound/doodad/guildvault_goblin_01stand.ogg#566289",
 
-			-- Function to mute and unmute sounds
-			local function SetupMute()
-				for k, v in pairs(mountTable) do
-					if LeaPlusLC["MuteMountSounds"] == "On" and LeaPlusLC[k] == "On" then
-						for i, e in pairs(v) do
-							local file, soundID = e:match("([^,]+)%#([^,]+)")
-							MuteSoundFile(soundID)
-						end
-					else
-						for i, e in pairs(v) do
-							local file, soundID = e:match("([^,]+)%#([^,]+)")
-							UnmuteSoundFile(soundID)
-						end
-					end
-				end
-				-- Handle special cases where sounds overlap
-				if LeaPlusLC["MuteMountSounds"] == "On" and (LeaPlusLC["MuteTravelers"] == "On" or LeaPlusLC["MuteStriders"] == "On") then
-					-- Mute travelers and mute striders share same sounds
-					MuteSoundFile(555128) -- mechastriderwounda
-					MuteSoundFile(555129) -- mechastriderwoundb
-					MuteSoundFile(555130) -- mechastriderwoundc
-				else
-					-- Mute travelers and mute striders share same sounds
-					UnmuteSoundFile(555128) -- mechastriderwounda
-					UnmuteSoundFile(555129) -- mechastriderwoundb
-					UnmuteSoundFile(555130) -- mechastriderwoundc
-				end
-			end
+				},
 
-			-- Setup mute on startup if option is enabled
-			if LeaPlusLC["MuteMountSounds"] == "On" then SetupMute() end
+				-- Ready check (sound/interface/)
+				["MuteReady"] = {
+					"levelup2.ogg#567478",
+				},
 
-			-- Setup mute when options are clicked
-			for k, v in pairs(mountTable) do
-				LeaPlusCB[k]:HookScript("OnClick", SetupMute)
-			end
-			LeaPlusCB["MuteMountSounds"]:HookScript("OnClick", SetupMute)
+				-- Login (sound/interface/)
+				["MuteLogin"] = {
 
-			-- Help button hidden
-			MountPanel.h:Hide()
+					-- This is handled with the PLAYER_LOGOUT event
 
-			-- Back button handler
-			MountPanel.b:SetScript("OnClick", function()
-				MountPanel:Hide(); LeaPlusLC["PageF"]:Show(); LeaPlusLC["Page7"]:Show()
-				return
-			end)
+				},
 
-			-- Reset button handler
-			MountPanel.r:SetScript("OnClick", function()
+				-- Bikes
+				["MuteBikes"] = {
 
-				-- Reset checkboxes
-				for k, v in pairs(mountTable) do
-					LeaPlusLC[k] = "Off"
-				end
-				SetupMute()
+					-- Mekgineer's Chopper/Mechano Hog/Chauffeured (sound/vehicles/motorcyclevehicle, sound/vehicles)
+					"motorcyclevehicleattackthrown.ogg#569858", "motorcyclevehiclejumpend1.ogg#569863", "motorcyclevehiclejumpend2.ogg#569857", "motorcyclevehiclejumpend3.ogg#569855", "motorcyclevehiclejumpstart1.ogg#569856", "motorcyclevehiclejumpstart2.ogg#569862", "motorcyclevehiclejumpstart3.ogg#569860", "motorcyclevehicleloadthrown.ogg#569861", "motorcyclevehiclestand.ogg#569859", "motorcyclevehiclewalkrun.ogg#569854", "vehicle_ground_gearshift_1.ogg#598748", "vehicle_ground_gearshift_2.ogg#598736", "vehicle_ground_gearshift_3.ogg#569852", "vehicle_ground_gearshift_4.ogg#598745", "vehicle_ground_gearshift_5.ogg#569845",
 
-				-- Refresh panel
-				MountPanel:Hide(); MountPanel:Show()
+				},
 
-			end)
+				-- Events
+				["MuteEvents"] = {
 
-			-- Show panal when options panel button is clicked
-			LeaPlusCB["MuteMountSoundsBtn"]:SetScript("OnClick", function()
-				if IsShiftKeyDown() and IsControlKeyDown() then
-					-- Preset profile
-					for k, v in pairs(mountTable) do
-						LeaPlusLC[k] = "On"
-					end
-					SetupMute()
-				else
-					MountPanel:Show()
-					LeaPlusLC:HideFrames()
-				end
-			end)
+					-- Headless Horseman (sound/creature/headlesshorseman/)
+					"horseman_beckon_01.ogg#551670",
+					"horseman_bodydefeat_01.ogg#551706",
+					"horseman_bomb_01.ogg#551705",
+					"horseman_conflag_01.ogg#551686",
+					"horseman_death_01.ogg#551695",
+					"horseman_failing_01.ogg#551684",
+					"horseman_failing_02.ogg#551700",
+					"horseman_fire_01.ogg#551673",
+					"horseman_laugh_01.ogg#551703",
+					"horseman_laugh_02.ogg#551682",
+					"horseman_out_01.ogg#551680",
+					"horseman_request_01.ogg#551687",
+					"horseman_return_01.ogg#551698",
+					"horseman_slay_01.ogg#551676",
+					"horseman_special_01.ogg#551696",
 
-		end
+				},
 
-		----------------------------------------------------------------------
-		-- Mute game sounds (no reload required)
-		----------------------------------------------------------------------
+				-- Gyrocopters
+				["MuteGyrocopters"] = {
 
-		do
+					-- Mimiron's Head (sound/creature/mimironheadmount/)
+					"mimironheadmount_jumpend.ogg#595097",
+					"mimironheadmount_jumpstart.ogg#595103",
+					"mimironheadmount_run.ogg#555364",
+					"mimironheadmount_walk.ogg#595100",
 
-			-- Get mute table
-			local muteTable = Leatrix_Plus["muteTable"]
+					-- sound/creature/gyrocopter/
+					"gyrocopterfly.ogg#551390",
+					"gyrocopterflyidle.ogg#551398",
+					"gyrocopterflyup.ogg#551389",
+					"gyrocoptergearshift1.ogg#551384",
+					"gyrocoptergearshift2.ogg#551391",
+					"gyrocoptergearshift3.ogg#551387",
+					"gyrocopterjumpend.ogg#551396",
+					"gyrocopterjumpstart.ogg#551399",
+					"gyrocopterrun.ogg#551386",
+					"gyrocoptershuffleleftorright1.ogg#551385",
+					"gyrocoptershuffleleftorright2.ogg#551382",
+					"gyrocoptershuffleleftorright3.ogg#551392",
+					"gyrocopterstallinair.ogg#551395",
+					"gyrocopterstallinairlong.ogg#551394",
+					"gyrocopterstallongroundlong.ogg#551393",
+					"gyrocopterstand.ogg#551383",
+					"gyrocopterstandvar1_a.ogg#551388",
+					"gyrocopterstandvar1_b.ogg#551397",
+					"gyrocopterstandvar1_bnew.ogg#551400",
+					"gyrocopterwalk.ogg#551401",
+
+					-- Gear shift sounds (sound/vehicles/)
+					"vehicle_airplane_gearshift_1.ogg#569846",
+					"vehicle_airplane_gearshift_2.ogg#598739",
+					"vehicle_airplane_gearshift_3.ogg#569851",
+					"vehicle_airplane_gearshift_4.ogg#598742",
+					"vehicle_airplane_gearshift_5.ogg#598733",
+					"vehicle_airplane_gearshift_6.ogg#569850",
+
+					-- sound/spells/
+					"summongyrocopter.ogg#568252",
+
+				},
+
+				-- Horse footsteps
+				["MuteHorsesteps"] = {
+
+					-- sound/creature/horse/mfootstepshorse
+					"dirt01.ogg#552083",
+					"dirt02.ogg#552081",
+					"dirt03.ogg#552072",
+					"dirt04.ogg#552089",
+					"dirt05.ogg#552078",
+					"grass01.ogg#552087",
+					"grass02.ogg#552085",
+					"grass03.ogg#552062",
+					"grass04.ogg#552071",
+					"grass05.ogg#552079",
+					"snow01.ogg#552065",
+					"snow02.ogg#552084",
+					"snow03.ogg#552058",
+					"snow04.ogg#552073",
+					"snow05.ogg#552077",
+					"stone01.ogg#552090",
+					"stone02.ogg#552068",
+					"stone03.ogg#552070",
+					"stone04.ogg#552082",
+					"stone05.ogg#552060",
+					"wood01.ogg#552086",
+					"wood02.ogg#552075",
+					"wood03.ogg#552076",
+					"wood04.ogg#552066",
+					"wood05.ogg#552063",
+
+					-- Water is sound/character/footsteps/watersplash/footstepsmediumwater
+
+				},
+
+				-- Yawns (sound/creature/tiger/)
+				["MuteYawns"] = {
+
+					"mtigerstand2a.ogg#562388",
+
+				},
+
+				-- Sunflower (Singing Sunflower) (sound/event/)
+				["MuteSunflower"] = {
+
+					"event_pvz_babbling.ogg#567354",
+					"event_pvz_dadadoo.ogg#567327",
+					"event_pvz_doobeedoo.ogg#567317",
+					"event_pvz_lalala.ogg#567338",
+					"event_pvz_sunflower.ogg#567374",
+					"event_pvz_zombieonyourlawn.ogg#567295",
+
+				},
+
+				-- Screech (sound/spells/)
+				["MuteScreech"] = {
+
+					"screech.ogg#569429",
+
+				},
+
+				-- A'dal
+				["MuteAdal"] = {
+
+					-- sound/creature/naaru/
+					"naruuloopgood.ogg#601649",
+
+					-- sound/doodad/
+					"ancient_d_lights.ogg#567134",
+
+				},
+
+				-- Ripper (Arcanite ripper guitar sound)
+				["MuteRipper"] = {
+
+					-- sound/events/
+					"archaniteripper.ogg#567384",
+
+				},
+
+				-- Rhonin
+				["MuteRhonin"] = {
+
+					-- sound/creature/rhonin/ur_rhonin_event
+					"01.ogg#559130", "02.ogg#559131", "03.ogg#559126", "04.ogg#559128", "05.ogg#559133", "06.ogg#559129", "07.ogg#559132", "08.ogg#559127",
+
+				},
+
+				-- Kalecgos
+				["MuteKalecgos"] = {
+
+					-- sound/creature/kalecgos/vo_quest_42_kalecgos_final
+					"01.ogg#552973", "02.ogg#552998", "03.ogg#552962", "04.ogg#552999", "05.ogg#552979", "06.ogg#553004", "07.ogg#553012", "08.ogg#552968", "09.ogg#552992",
+
+				},
+
+				-- Travelers (gnimo sounds are handled in SetupMute() as they are shared with striders)
+				["MuteTravelers"] = {
+
+					-- Traveler's Tundra Mammoth (sound/creature/npcdraeneimalestandard, sound/creature/goblinmalezanynpc, sound/creature/trollfemalelaidbacknpc, sound/creature/trollfemalelaidbacknpc)
+					"npcdraeneimalestandardvendor01.ogg#557341", "npcdraeneimalestandardvendor02.ogg#557335", "npcdraeneimalestandardvendor03.ogg#557328", "npcdraeneimalestandardvendor04.ogg#557331", "npcdraeneimalestandardvendor05.ogg#557325", "npcdraeneimalestandardvendor06.ogg#557324",
+					"npcdraeneimalestandardfarewell01.ogg#557342", "npcdraeneimalestandardfarewell02.ogg#557326", "npcdraeneimalestandardfarewell03.ogg#557322", "npcdraeneimalestandardfarewell05.ogg#557332", "npcdraeneimalestandardfarewell06.ogg#557338", "npcdraeneimalestandardfarewell08.ogg#557334",
+					"goblinmalezanynpcvendor01.ogg#550818", "goblinmalezanynpcvendor02.ogg#550817", "goblinmalezanynpcgreeting01.ogg#550805", "goblinmalezanynpcgreeting02.ogg#550813", "goblinmalezanynpcgreeting03.ogg#550819", "goblinmalezanynpcgreeting04.ogg#550806", "goblinmalezanynpcgreeting05.ogg#550820", "goblinmalezanynpcgreeting06.ogg#550809",
+					"goblinmalezanynpcfarewell01.ogg#550807", "goblinmalezanynpcfarewell03.ogg#550808", "goblinmalezanynpcfarewell04.ogg#550812",
+					"trollfemalelaidbacknpcvendor01.ogg#562812","trollfemalelaidbacknpcvendor02.ogg#562802", "trollfemalelaidbacknpcgreeting01.ogg#562815","trollfemalelaidbacknpcgreeting02.ogg#562814", "trollfemalelaidbacknpcgreeting03.ogg#562816", "trollfemalelaidbacknpcgreeting04.ogg#562807", "trollfemalelaidbacknpcgreeting05.ogg#562804", "trollfemalelaidbacknpcgreeting06.ogg#562803",
+					"trollfemalelaidbacknpcfarewell01.ogg#562809", "trollfemalelaidbacknpcfarewell02.ogg#562808", "trollfemalelaidbacknpcfarewell03.ogg#562813", "trollfemalelaidbacknpcfarewell04.ogg#562817", "trollfemalelaidbacknpcfarewell05.ogg#562806",
+
+				},
+
+				-- Striders (footsteps are in another setting) (wound sounds are handled in SetupMute() as they are shared with travelers)
+				["MuteStriders"] = {
+
+					-- sound/creature/mechastrider/
+					"mechastrideraggro.ogg#555127",
+					"mechastriderattacka.ogg#555125",
+					"smechastriderattackb.ogg#555123",
+					"mechastriderattackc.ogg#555132",
+					"mechastriderloop.ogg#555124",
+					"mechastriderwoundcrit.ogg#555131",
+
+				},
+
+				-- Mechanical mount footsteps
+				["MuteMechSteps"] = {
+
+					-- sound/creature/gnomespidertank/
+					"gnomespidertankfootstepa.ogg#550507",
+					"gnomespidertankfootstepb.ogg#550514",
+					"gnomespidertankfootstepc.ogg#550501",
+					"gnomespidertankfootstepd.ogg#550500",
+					"gnomespidertankwoundd.ogg#550511",
+					"gnomespidertankwounde.ogg#550504",
+					"gnomespidertankwoundf.ogg#550498",
+
+				},
+
+				-- Netherdrakes
+				["MuteNetherdrakes"] = {
+
+					-- sound/creature/netherdrake/
+					"hugewingflap1.ogg#556477",
+					"hugewingflap2.ogg#556479",
+					"hugewingflap3.ogg#556476",
+					"netherdrakea.ogg#556475",
+					"netherdrakeb.ogg#556478",
+
+				},
+
+				-- Brooms
+				["MuteBrooms"] = {
+
+					-- sound/creature/broomstickmount/
+					"broomstickmountland.ogg#545651",
+					"broomstickmounttakeoff.ogg#545652",
+
+					-- sound/spells/
+					"summonbroomstick1.ogg#567986",
+					"summonbroomstick3.ogg#569547",
+					"summonbroomstick2.ogg#568335",
+
+				},
+
+			}
 
 			-- Give table file level scope (its used during logout and for wipe and admin commands)
 			LeaPlusLC["muteTable"] = muteTable
@@ -1398,22 +1518,25 @@
 			LeaPlusLC:MakeCB(SoundPanel, "MuteInterface", "Interface", 16, -152, false, "If checked, the interface button sound, the chat frame tab click sound and the game menu toggle sound will be muted.")
 			LeaPlusLC:MakeCB(SoundPanel, "MuteLogin", "Login", 16, -172, false, "If checked, the login screen music will be muted when you logout of the game.|n|nNote that the login screen music will not be muted when you initially launch the game.|n|nIt will only be muted when you logout of the game.  This includes manually logging out as well as being forcefully logged out by the game server for reasons such as being away for an extended period of time.")
 			LeaPlusLC:MakeCB(SoundPanel, "MuteReady", "Ready", 16, -192, false, "If checked, the ready check sound will be muted.")
-			LeaPlusLC:MakeCB(SoundPanel, "MuteSniffing", "Sniffing", 16, -212, false, "If checked, the worgen sniffing sounds will be muted.")
-			LeaPlusLC:MakeCB(SoundPanel, "MuteTrains", "Trains", 16, -232, false, "If checked, train sounds will be muted.")
+			LeaPlusLC:MakeCB(SoundPanel, "MuteTrains", "Trains", 16, -212, false, "If checked, train sounds will be muted.")
+			LeaPlusLC:MakeCB(SoundPanel, "MuteVaults", "Vaults", 16, -232, false, "If checked, the mechanical guild vault idle sound will be muted.")
 
-			LeaPlusLC:MakeTx(SoundPanel, "General", 150, -72)
-			LeaPlusLC:MakeCB(SoundPanel, "MuteVaults", "Vaults", 150, -92, false, "If checked, the mechanical guild vault idle sound will be muted.")
+			LeaPlusLC:MakeTx(SoundPanel, "Mounts", 150, -72)
+			LeaPlusLC:MakeCB(SoundPanel, "MuteBikes", "Bikes", 150, -92, false, "If checked, bike mount sounds will be muted.|n|nThis applies to Mekgineer's Chopper and Mechano-hog.")
+			LeaPlusLC:MakeCB(SoundPanel, "MuteBrooms", "Brooms", 150, -112, false, "If checked, broom mounts will be muted.")
+			LeaPlusLC:MakeCB(SoundPanel, "MuteGyrocopters", "Gyrocopters", 150, -132, false, "If checked, gyrocopters will be muted.|n|nThis applies to the engineering flying machine mounts.")
+			LeaPlusLC:MakeCB(SoundPanel, "MuteHorsesteps", "Horsesteps", 150, -152, false, "If checked, footsteps for horse mounts will be muted.")
+			LeaPlusLC:MakeCB(SoundPanel, "MuteMechSteps", "Mechsteps", 150, -172, false, "If checked, footsteps for mechanical mounts will be muted.")
+			LeaPlusLC:MakeCB(SoundPanel, "MuteStriders", "Mechstriders", 150, -192, false, "If checked, mechanostriders will be quieter.")
+			LeaPlusLC:MakeCB(SoundPanel, "MuteNetherdrakes", "Netherdrakes", 150, -212, false, "If checked, netherdrakes will be quieter.")
+			LeaPlusLC:MakeCB(SoundPanel, "MuteTravelers", "Travelers", 150, -232, false, "If checked, traveling merchant greetings and farewells will be muted.|n|nThis applies to Traveler's Tundra Mammoth.")
 
-			LeaPlusLC:MakeTx(SoundPanel, "Hunter", 150, -132)
-			LeaPlusLC:MakeCB(SoundPanel, "MuteScreech", "Screech", 150, -152, false, "If checked, Screech will be muted.|n|nThis is a spell used by some flying pets.")
-			LeaPlusLC:MakeCB(SoundPanel, "MuteYawns", "Yawns", 150, -172, false, "If checked, yawns from hunter pet cats will be muted.")
+			LeaPlusLC:MakeTx(SoundPanel, "Hunter", 284, -72)
+			LeaPlusLC:MakeCB(SoundPanel, "MuteScreech", "Screech", 284, -92, false, "If checked, Screech will be muted.|n|nThis is a spell used by some flying pets.")
+			LeaPlusLC:MakeCB(SoundPanel, "MuteYawns", "Yawns", 284, -112, false, "If checked, yawns from hunter pet cats will be muted.")
 
-			LeaPlusLC:MakeTx(SoundPanel, "Pets", 284, -72)
-			LeaPlusLC:MakeCB(SoundPanel, "MuteSunflower", "Sunflower", 284, -92, false, "If checked, the Singing Sunflower pet will be muted.")
-			LeaPlusLC:MakeCB(SoundPanel, "MutePierre", "Pierre", 284, -112, false, "If checked, Pierre will be quieter.")
-
-			LeaPlusLC:MakeTx(SoundPanel, "Toys", 284, -152)
-			LeaPlusLC:MakeCB(SoundPanel, "MuteBalls", "Balls", 284, -172, false, "If checked, the Foot Ball sounds will be muted.")
+			LeaPlusLC:MakeTx(SoundPanel, "Pets", 284, -152)
+			LeaPlusLC:MakeCB(SoundPanel, "MuteSunflower", "Sunflower", 284, -172, false, "If checked, the Singing Sunflower pet will be muted.")
 
 			LeaPlusLC:MakeTx(SoundPanel, "Misc", 418, -72)
 			LeaPlusLC:MakeCB(SoundPanel, "MuteAdal", "A'dal", 418, -92, false, "If checked, A'dal in Shattrath City will be muted.")
@@ -1445,6 +1568,18 @@
 							UnmuteSoundFile(soundID)
 						end
 					end
+				end
+				-- Handle special cases where sounds overlap
+				if LeaPlusLC["MuteGameSounds"] == "On" and (LeaPlusLC["MuteTravelers"] == "On" or LeaPlusLC["MuteStriders"] == "On") then
+					-- Mute travelers and mute striders share same sounds
+					MuteSoundFile(555128) -- mechastriderwounda
+					MuteSoundFile(555129) -- mechastriderwoundb
+					MuteSoundFile(555130) -- mechastriderwoundc
+				else
+					-- Mute travelers and mute striders share same sounds
+					UnmuteSoundFile(555128) -- mechastriderwounda
+					UnmuteSoundFile(555129) -- mechastriderwoundb
+					UnmuteSoundFile(555130) -- mechastriderwoundc
 				end
 			end
 
@@ -1500,22 +1635,12 @@
 			----------------------------------------------------------------------
 
 			-- Create soundtable for PLAYER_LOGOUT (these sounds are only muted or unmuted when logging out
-			local muteLogoutTable
-			if LeaPlusLC.NewPatch then
-				muteLogoutTable = {
+			local muteLogoutTable = {
 
-					-- Game music (sound/music/pandaria/mus_50_heartofpandaria_01.mp3#625753)
-					"625753",
+				-- Game music (sound/music/cataclysm/mus_shattering_uu01.mp3)
+				"441737",
 
-				}
-			else
-				muteLogoutTable = {
-
-					-- Game music (sound/music/cataclysm/mus_shattering_uu01.mp3)
-					"441737",
-
-				}
-			end
+			}
 
 			-- Handle sounds that get muted or unmuted when logging out
 			local logoutEvent = CreateFrame("FRAME")
@@ -1619,32 +1744,17 @@
 
 			-- Get localised Wowhead URL
 			local wowheadLoc
-			if LeaPlusLC.NewPatch then
-				if 	   GameLocale == "deDE" then wowheadLoc = "wowhead.com/mop-classic/de"
-				elseif GameLocale == "esMX" then wowheadLoc = "wowhead.com/mop-classic/mx"
-				elseif GameLocale == "esES" then wowheadLoc = "wowhead.com/mop-classic/es"
-				elseif GameLocale == "frFR" then wowheadLoc = "wowhead.com/mop-classic/fr"
-				elseif GameLocale == "itIT" then wowheadLoc = "wowhead.com/mop-classic/it"
-				elseif GameLocale == "ptBR" then wowheadLoc = "wowhead.com/mop-classic/pt"
-				elseif GameLocale == "ruRU" then wowheadLoc = "wowhead.com/mop-classic/ru"
-				elseif GameLocale == "koKR" then wowheadLoc = "wowhead.com/mop-classic/ko"
-				elseif GameLocale == "zhCN" then wowheadLoc = "wowhead.com/mop-classic/cn"
-				elseif GameLocale == "zhTW" then wowheadLoc = "wowhead.com/mop-classic/tw"
-				else							 wowheadLoc = "wowhead.com/mop-classic"
-				end
-			else
-				if 	   GameLocale == "deDE" then wowheadLoc = "wowhead.com/cata/de"
-				elseif GameLocale == "esMX" then wowheadLoc = "wowhead.com/cata/mx"
-				elseif GameLocale == "esES" then wowheadLoc = "wowhead.com/cata/es"
-				elseif GameLocale == "frFR" then wowheadLoc = "wowhead.com/cata/fr"
-				elseif GameLocale == "itIT" then wowheadLoc = "wowhead.com/cata/it"
-				elseif GameLocale == "ptBR" then wowheadLoc = "wowhead.com/cata/pt"
-				elseif GameLocale == "ruRU" then wowheadLoc = "wowhead.com/cata/ru"
-				elseif GameLocale == "koKR" then wowheadLoc = "wowhead.com/cata/ko"
-				elseif GameLocale == "zhCN" then wowheadLoc = "wowhead.com/cata/cn"
-				elseif GameLocale == "zhTW" then wowheadLoc = "wowhead.com/cata/tw"
-				else							 wowheadLoc = "wowhead.com/cata"
-				end
+			if 	   GameLocale == "deDE" then wowheadLoc = "wowhead.com/cata/de"
+			elseif GameLocale == "esMX" then wowheadLoc = "wowhead.com/cata/mx"
+			elseif GameLocale == "esES" then wowheadLoc = "wowhead.com/cata/es"
+			elseif GameLocale == "frFR" then wowheadLoc = "wowhead.com/cata/fr"
+			elseif GameLocale == "itIT" then wowheadLoc = "wowhead.com/cata/it"
+			elseif GameLocale == "ptBR" then wowheadLoc = "wowhead.com/cata/pt"
+			elseif GameLocale == "ruRU" then wowheadLoc = "wowhead.com/cata/ru"
+			elseif GameLocale == "koKR" then wowheadLoc = "wowhead.com/cata/ko"
+			elseif GameLocale == "zhCN" then wowheadLoc = "wowhead.com/cata/cn"
+			elseif GameLocale == "zhTW" then wowheadLoc = "wowhead.com/cata/tw"
+			else							 wowheadLoc = "wowhead.com/cata"
 			end
 
 			----------------------------------------------------------------------
@@ -1863,89 +1973,43 @@
 			if LeaPlusLC["AutomateGossip"] == "On" then SetupEvents() end
 
 			-- Create tables for specific NPC IDs (these are automatically selected with no alt key requirement)
-			local npcTable
-			if LeaPlusLC.NewPatch then
+			local npcTable = {
 
-				npcTable = {
+				-- Auctioneers (https://www.wowhead.com/cata/npcs?filter=18;1;0)
+				16628, 17629, 9856, 8673, 18349, 16629, 44868, 35594, 35607, 17628, 18761, 18348, 16627, 17627, 15683, 44867, 8721, 8720, 8722, 8672, 16707, 8724, 15679, 8670, 44866, 44865, 15678, 15675, 8661, 15659, 15677, 9859, 8723, 9858, 15676, 8719, 8674, 9857, 8671, 15682, 15686, 8669, 15684, 15681,
 
-					-- Auctioneers (https://www.wowhead.com/mop-classic/npcs?filter=18;1;0)
-					44865, 44866, 8719, 44868, 9857, 46639, 8723, 15677, 16627, 50139, 8672, 50140, 8720, 15686, 8661, 50145, 8671, 16628, 15682, 15679, 8670, 18761, 46637, 16707, 8721, 18348, 45659, 17629, 43842, 9856, 8722, 43690, 18349, 50143, 15659, 17627, 9858, 46640, 43841, 9859, 15683, 15681, 44867, 15678, 44787, 8674, 15675, 16629, 8673, 8669, 15684, 46638, 17628, 8724, 15676, 45082, 35594, 35607,
+				-- Banker (https://www.wowhead.com/cata/npcs?filter=19;1;0)
+				31422, 44852, 3320, 45661, 43724, 13917, 21734, 2455, 17773, 8123, 29530, 50557, 19318, 44854, 28677, 4155, 50568, 45081, 29283, 28679, 46620, 43824, 50563, 19246, 17631, 16617, 18350, 19034, 50558, 21732, 29282, 2458, 28680, 30605, 28675, 43822, 36352, 38921, 8357, 2460, 50559, 16710, 3318, 43823, 28343, 2459, 46621, 30608, 5099, 30604, 50555, 38919, 4209, 50569, 43723, 16616, 36351, 2996, 8119, 35642, 43840, 43819, 5060, 46619, 3309, 19338, 44851, 30606, 43825, 43725, 50252, 44856, 43820, 50554, 30607, 46622, 44853, 46618, 36284, 2457, 31420, 31421, 2456, 44770, 28676, 2461, 50566, 8356, 17632, 50556, 3496, 21733, 43692, 50560, 16615, 4550, 5083, 8124, 28678, 2625, 38920, 7799, 17633, 4208, 45662, 4549,
 
-					-- Banker (https://www.wowhead.com/mop-classic/npcs?filter=19;1;0)
-					35642, 30606, 8356, 50560, 64023, 50563, 2461, 19246, 43840, 2457, 72554, 43820, 45661, 43824, 8357, 2460, 46619, 29530, 44853, 50559, 50566, 17631, 50557, 43725, 16617, 17632, 50556, 46618, 36284, 3496, 4209, 7799, 50569, 36186, 38746, 39201, 19318, 17633, 4155, 13917, 18350, 43723, 50568, 3309, 31420, 21733, 16710, 43819, 44854, 3318, 31421, 43692, 19338, 4208, 43724, 43823, 45081, 50252, 28343, 19034, 44851, 50558, 2459, 21732, 2456, 16615, 45662, 2455, 4550, 17773, 46621, 29282, 30608, 29283, 5083, 16616, 44856, 8124, 2458, 8123, 44852, 36351, 5099, 3320, 31422, 50554, 44770, 30604, 28676, 28680, 28679, 30605, 28678, 28677, 30607, 28675, 43822, 2996, 36352, 63969, 63965, 63971, 63964, 63970, 63967, 63966, 64024, 63968, 46620, 2625, 46622, 43825, 50555, 4549, 5060, 8119, 21734, 38919, 38920, 38921,
+				-- Battlemaster (https://www.wowhead.com/cata/npcs?filter=20;1;0)
+				19859, 16695, 12197, 22015, 20374, 19925, 30231, 32332, 34953, 20381, 15102, 7427, 29568, 2804, 29673, 29675, 20362, 14942, 29674, 20497, 34952, 20272, 34976, 20120, 29667, 32333, 19858, 19923, 19915, 34985, 19912, 19911, 15008, 29533, 30566, 19908, 34997, 19905, 29672, 21235, 14981, 19855, 5118, 7410, 40413, 14982, 20276, 857, 12198, 29670, 15106, 35000, 15105, 35002, 34989, 30567, 29671, 2302, 20118, 19906, 20273, 34991, 15006, 18895, 19910, 20271, 10360, 34988, 32330, 20385, 29668, 3890, 34983, 22013, 20499, 347, 19907, 34987, 34999, 25991, 16696, 20386, 20119, 20269, 15007, 30610, 34998, 29669, 14990, 34973, 34955, 20274, 14991, 35007, 34978, 19909, 35001, 35008, 15103, 29676, 20384,
 
-					-- Battlemaster (https://www.wowhead.com/mop-classic/npcs?filter=20;1;0)
-					15008, 34952, 34973, 3890, 20273, 44004, 19907, 35007, 19915, 34998, 14990, 20271, 14942, 14991, 35000, 32330, 34978, 35001, 19908, 20276, 19912, 21235, 32333, 19858, 29568, 2302, 40413, 29669, 29674, 20385, 29668, 29673, 35002, 19911, 19923, 34991, 34983, 34997, 15006, 18895, 14981, 22013, 22015, 29670, 29675, 20497, 20499, 15106, 19910, 12197, 16695, 34987, 34953, 34999, 20381, 20374, 49573, 34955, 20274, 25991, 16696, 2804, 34988, 14982, 20386, 12198, 19859, 19925, 34985, 20269, 30231, 32332, 19909, 34989, 34976, 35008, 29533, 15102, 15007, 15103, 30566, 30567, 29676, 29671, 19905, 19906, 30610, 15105, 29672, 29667, 20384,
+				-- Flightmaster (https://www.wowhead.com/cata/npcs?filter=21;1;0)
+				2432, 16822, 12577, 30433, 31078, 29721, 4267, 2851, 8018, 24155, 6026, 26602, 33849, 24851, 26877, 19317, 18809, 20762, 18808, 18942, 8610, 26844, 12578, 22935, 18939, 18938, 30569, 15178, 11900, 10583, 10378, 352, 30314, 3615, 22931, 4407, 8019, 28574, 31069, 28037, 523, 13177, 931, 28195, 4314, 16227, 2858, 26845, 4312, 1387, 28196, 30870, 17555, 6726, 3838, 6706, 7823, 2299, 2409, 18807, 12617, 24366, 16192, 1572, 4319, 21766, 37888, 32571, 29762, 28197, 11899, 27344, 18931, 28615, 29950, 22216, 19583, 3305, 18785, 17554, 2941, 26847, 1571, 37915, 18953, 18930, 2389, 18937, 4321, 7824, 18789, 24061, 26848, 19581, 26853, 23736, 26876, 29951, 12616, 27046, 28674, 16587, 12596, 2835, 3310, 18791, 12740, 29480, 20515, 28624, 4551, 26850, 18940, 21107, 20234, 30269, 16189, 24795, 3841, 26879, 4317, 8609, 19558, 30869, 24032, 30271, 12636, 2861, 23859, 2859, 29757, 26852, 11138, 26566, 26851, 26560, 26881, 22455, 2995, 11139, 11901, 15177, 28618, 29750, 1573, 28623, 22485, 2226, 18788, 26878, 10897, 25288, 26880,
 
-					-- Flightmaster (https://www.wowhead.com/mop-classic/npcs?filter=21;1;0)
-					44407, 28574, 8018, 43328, 3310, 47927, 26876, 18931, 28618, 523, 48321, 41383, 47655, 352, 37888, 2861, 19583, 28623, 42406, 12617, 26560, 10378, 40966, 47155, 8609, 35137, 43549, 28674, 47121, 30869, 16587, 12596, 39212, 11900, 6026, 43220, 43225, 18939, 41325, 24032, 43043, 4267, 33253, 47154, 40358, 41861, 18789, 8019, 32571, 48318, 30870, 43053, 12577, 26845, 43573, 48275, 2941, 26853, 35481, 44409, 26851, 26881, 43121, 23736, 54392, 43052, 43104, 46004, 44230, 21107, 26878, 20234, 43295, 44408, 10897, 16189, 41214, 40852, 2995, 28037, 42426, 24155, 40473, 2851, 47875, 44233, 43088, 27344, 30433, 21766, 18937, 19558, 11901, 43124, 931, 43371, 41580, 4321, 28615, 6706, 42983, 45479, 44825, 7823, 28195, 2299, 16227, 47156, 29950, 43570, 43701, 7824, 41140, 2835, 35138, 43079, 28196, 15177, 39330, 41323, 2432, 47644, 47661, 26877, 47118, 44231, 3615, 43481, 50084, 43085, 43702, 31078, 19317, 18791, 41332, 41321, 41860, 53783, 48273, 29750, 47147, 12740, 2409, 22216, 40553, 41240, 16822, 39175, 41246, 43290, 50463, 37005, 18809, 30271, 40558, 12636, 46006, 47119, 4314, 22931, 34927, 47174, 43000, 43107, 28621, 23859, 29480, 2858, 3305, 10583, 1573, 20762, 18808, 2859, 41322, 22485, 43073, 41142, 20515, 47061, 33849, 29762, 18942, 44410, 24061, 43045, 44232, 48274, 39210, 43697, 29757, 35136, 26602, 2226, 18807, 26848, 28197, 24851, 35140, 35562, 26852, 18938, 8610, 36728, 18785, 17554, 35478, 40552, 26844, 52060, 28624, 19581, 11138, 46011, 41605, 4551, 12578, 30314, 18788, 34378, 44399, 35315, 26566, 24366, 43072, 26850, 18940, 26847, 35141, 43087, 31069, 47665, 30569, 41215, 54393, 43042, 15178, 43114, 47133, 40367, 11899, 29951, 1571, 39898, 43086, 29721, 22455, 30269, 44036, 44244, 16192, 34374, 17555, 39211, 46552, 22935, 24795, 40851, 40866, 40867, 40871, 40873, 43216, 43287, 43289, 43293, 40809, 3841, 4407, 6726, 4312, 1572, 34429, 35556, 40827, 1387, 40768, 37915, 47116, 26879, 25288, 39340, 18953, 13177, 26880, 3838, 12616, 18930, 27046, 34943, 11139, 43991, 2389, 40769, 35139, 4317, 4319,
+				-- Flightmaster (non-Flightmaster NPCs with <Flight Master> in the description) (https://www.wowhead.com/cata/npcs/name-extended:%3CFlight+Master%3E?filter=21;2;0)
+				43287, 47927, 37005, 28621, 44232, 47121, 43481, 43289, 40358, 31690, 29749, 26842, 43225, 33253, 47174, 54393, 40851, 40873, 40852, 34943, 39330, 53783, 50686, 33345, 46006, 52983, 39211, 50072, 44408, 29137, 44825, 34374, 40769, 44231, 50367, 35556, 40558, 48318, 44410, 40827, 35137, 41140, 44407, 41215, 41861, 34927, 48274, 35140, 34378, 44230, 39340, 35138, 47061, 35562, 11800, 41214, 40768, 39212, 41240, 43389, 43398, 48321, 39210, 44409, 35141, 40867, 47875, 43088, 45479, 50084, 41860, 48273, 39175, 43576, 35136, 48275, 33254, 43052, 40871, 40866, 43293, 43549, 11798, 41246, 44233, 43991, 35139, 35480, 43085, 35478, 54392, 43216, 41580, 43328, 43220, 35315, 40966,
 
-					-- Flightmaster (non-Flightmaster NPCs with <Flight Master> in the description) (https://www.wowhead.com/mop-classic/npcs/name-extended:%3CFlight+Master%3E?filter=21;2;0)
-					60231, 59727, 50686, 61512, 59046, 59735, 59049, 59733, 62658, 60416, 60232, 63501, 61473, 11798, 59048, 63498, 29749, 60441, 11800, 59812, 65865, 58843, 65511, 67785, 61759, 64310, 61118, 61511, 68226, 54898, 54788, 65189, 50367, 43576, 43398, 43389, 31690, 59732, 63500, 61474, 50072, 59186, 61504, 33254, 33345, 63497, 65863, 59047, 52983, 29137, 61380, 61745, 59736, 61744, 66227, 66023, 35480, 26842,
+				-- Stable masters (https://www.wowhead.com/cata/npcs?filter=27;1;0)
+				10060, 11117, 9982, 9988, 16185, 24350, 21336, 10047, 35291, 28057, 26721, 9979, 18984, 18244, 16656, 35290, 19018, 28790, 26597, 22468, 15722, 29959, 10056, 21517, 24974, 10051, 15131, 9989, 9981, 13617, 10053, 27010, 26044, 10048, 10061, 9986, 23392, 26377, 10057, 6749, 17485, 10049, 11069, 19476, 10063, 9987, 9976, 11105, 11119, 19368, 28047, 14741, 10085, 18250, 17896, 30008, 9983, 9985, 11104, 26944, 10059, 17666, 16094, 22469, 29906, 27068, 21518, 16665, 10050, 9980, 10062, 9977, 33854, 16764, 30039, 10046, 10054, 10058, 23733, 10045, 24905, 19019, 10052, 10055, 25037, 27183, 29658, 29740, 16586, 16824, 26504, 28690, 9984, 9978,
 
-					-- Stable masters (https://www.wowhead.com/mop-classic/npcs?filter=27;1;0)
-					28047, 26044, 44252, 9986, 26504, 9988, 16586, 21517, 18250, 16824, 21518, 15131, 29948, 29740, 19368, 22469, 10049, 10063, 10051, 9980, 9976, 10057, 18984, 11105, 43408, 10056, 16185, 29959, 10059, 10053, 16764, 30039, 17666, 11117, 11119, 10046, 45789, 10054, 27010, 29658, 48887, 16094, 6749, 17485, 28790, 28057, 21336, 10048, 10058, 10060, 26721, 29906, 23733, 14741, 10085, 11069, 17896, 30008, 49790, 9983, 18244, 10061, 10045, 9985, 24905, 53780, 9989, 24974, 47866, 44788, 19476, 19019, 24067, 10052, 27068, 10047, 35291, 10055, 47764, 22468, 50069, 16665, 9982, 27948, 24350, 9979, 10050, 25037, 16656, 11104, 9987, 9981, 23392, 26944, 15722, 26377, 35290, 10062, 13617, 9977, 28690, 41903, 33854, 26597, 27183, 9984, 9978, 19018,
+				-- Stable masters (non-Stable master NPCs with <Stable Master> in the description) (https://www.wowhead.com/cata/npcs/name-extended:%3CStable+Master%3E?filter=27;2;0)
+				44191, 24067, 44348, 50069, 43019, 43379, 49600, 44354, 44310, 35344, 43877, 49803, 42911, 53780, 43766, 49755, 27040, 43017, 29251, 27948, 49767, 43151, 27194, 44382, 44335, 49431, 41893, 49790, 42875, 43994, 47337, 43982, 19325, 30304, 29967, 45298, 19492, 43617, 47764, 43494, 19491, 48055, 44349, 9896, 44252, 27056, 43773, 43979, 47934, 49395, 47761, 47368, 44788, 29250, 43408, 45297, 45789, 49689, 44346, 43988, 44123, 13616, 47866, 543, 44384, 28683, 28555, 43770, 43634, 45498, 24066, 29948, 27065, 48887, 44007, 27429, 44347, 43021, 44378, 25519, 44330, 48216, 49554, 48095, 49593, 41903, 49577, 42966, 43630, 49408, 24154, 27385, 27236, 9567, 27150,
 
-					-- Stable masters (non-Stable master NPCs with <Stable Master> in the description) (https://www.wowhead.com/mop-classic/npcs/name-extended:%3CStable+Master%3E?filter=27;2;0)
-					68993, 66241, 66244, 44346, 45298, 66230, 66245, 63986, 68989, 73632, 47761, 63988, 62935, 27056, 47337, 66247, 45498, 66266, 59509, 68986, 66243, 27236, 44382, 19491, 19492, 43021, 44378, 49431, 24066, 49577, 19325, 45297, 66717, 35344, 49689, 27065, 25519, 44348, 43988, 42966, 59413, 48055, 43630, 44123, 43017, 49408, 43877, 44191, 13616, 41893, 44330, 44354, 43979, 66250, 66251, 48216, 30304, 47368, 49554, 47934, 48095, 49803, 29251, 44310, 42911, 43379, 43617, 24154, 49600, 42875, 44349, 543, 43494, 69252, 27385, 43766, 66249, 49767, 43994, 49395, 44007, 43151, 44384, 28683, 28555, 27429, 43773, 49593, 70184, 43770, 43019, 9567, 59310, 66246, 66248, 29250, 27194, 27150, 29967, 43982, 43634, 44347, 44335, 9896, 49755, 27040,
+				-- Trainer (https://www.wowhead.com/cata/npcs?filter=28;1;0)
+				44919, 43769, 44238, 4752, 16588, 47571, 47579, 43693, 31238, 7954, 4210, 18802, 47382, 4773, 3347, 26989, 26953, 26972, 16583, 35093, 4753, 4772, 18993, 16253, 46709, 31247, 46716, 28693, 11557, 30713, 11017, 5482, 3026, 7953, 26905, 29631, 39718, 28702, 47572, 28705, 5938, 3028, 20914, 35100, 3399, 35133, 18911, 28703, 5159, 5518, 19186, 28701, 50247, 8126, 3067, 18751, 5499, 16280, 5493, 3345, 29505, 28699, 28697, 3373, 11870, 2704, 35135, 11178, 8736, 19052, 28742, 20511, 2485, 18771, 4573, 7406, 3690, 45286, 11867, 28694, 3363, 7867, 29513, 20500, 4732, 5161, 3324, 5564, 33630, 33586, 20791, 13283, 47253, 18990, 33595, 29194, 6292, 26993, 3407, 33674, 33621, 3332, 44781, 7871, 5511, 20407, 5513, 11868, 4156, 50152, 17637, 44726, 44395, 16685, 4552, 28706, 3478, 1355, 3290, 11031, 18775, 12042, 7868, 5174, 33996, 26977, 7946, 5489, 5498, 18773, 50150, 28746, 6018, 26964, 22477, 29156, 5484, 3603, 1103, 4608, 3181, 1229, 19539, 4566, 3605, 7866, 7230, 1458, 28956, 26996, 4258, 16736, 33619, 17005, 18753, 3327, 11866, 23128, 3062, 918, 8128, 18774, 1430, 7949, 56796, 1385, 17510, 911, 1317, 18804, 3354, 33613, 26975, 16761, 7870, 18777, 25099, 29196, 11177, 3965, 8306, 50567, 2627, 8144, 3357, 16273, 5994, 11865, 32474, 3594, 33616, 28698, 46675, 50160, 3355, 33638, 3034, 10089, 2390, 18991, 5491, 33587, 4214, 986, 33612, 3597, 2126, 3184, 50158, 44740, 5502, 7088, 3494, 2856, 7232, 33611, 6707, 29514, 33623, 2391, 5495, 8738, 6014, 26997, 914, 13084, 46667, 44394, 5885, 28700, 33682, 46357, 1699, 5165, 33615, 2837, 3365, 1651, 44725, 26986, 3007, 5784, 3606, 33588, 2367, 5515, 34710, 33633, 31084, 3404, 3602, 11072, 26958, 46741, 34713, 2127, 8146, 2326, 5958, 7944, 30710, 3326, 17246, 11869, 45339, 3353, 3179, 376, 16823, 11146, 4576, 26952, 2834, 1700, 6251, 26990, 26957, 4090, 16669, 29924, 2836, 8140, 26976, 26960, 33634, 33583, 17441, 18772, 28958, 4616, 331, 2327, 33618, 3033, 18018, 4568, 17222, 1232, 33631, 17245, 26992, 20406, 25277, 18749, 19187, 33580, 33610, 33594, 1346, 30706, 2879, 5492, 33637, 3175, 1292, 3185, 3352, 33591, 18776, 26998, 13417, 5505, 17110, 4160, 812, 19540, 16501, 16663, 16367, 1702, 927, 3963, 27001, 6299, 4205, 17488, 17204, 26910, 908, 19063, 5480, 15280, 3344, 988, 20124, 18747, 3600, 928, 12032, 19340, 24868, 19180, 2818, 5177, 27000, 3040, 19576, 6286, 1215, 33608, 3593, 50574, 29508, 3607, 4588, 26914, 4598, 926, 2128, 5690, 4211, 4218, 28696, 11097, 16749, 26987, 1676, 21087, 26961, 11098, 11074, 18779, 1473, 14740, 5113, 1382, 29509, 29233, 377, 5504, 3403, 26974, 3004, 3049, 33676, 3967, 16771, 4900, 11073, 16161, 23534, 3032, 3001, 16681, 2399, 36615, 4611, 6387, 30717, 26980, 17487, 18987, 1470, 4193, 5164, 1218, 11406, 36629, 19775, 3484, 1404, 36630, 50163, 33636, 16275, 44743, 16673, 29506, 5166, 11401, 375, 26969, 22225, 16676, 33677, 4212, 26907, 5143, 3408, 16658, 23734, 4594, 27023, 27029, 4087, 6291, 5114, 33639, 3523, 5149, 26909, 10930, 2129, 3601, 49997, 7312, 50174, 3046, 5127, 4204, 26982, 4254, 9465, 2124, 19185, 9584, 3154, 5497, 33614, 915, 4578, 4563, 3013, 3703, 6297, 27705, 16723, 3045, 3137, 2489, 50155, 5150, 4567, 16652, 5943, 33679, 35281, 4089, 34692, 50156, 3173, 26995, 5147, 18752, 20125, 4606, 5173, 4215, 15400, 33603, 3596, 18988, 5148, 33609, 5172, 4320, 2132, 26981, 33635, 28704, 26954, 34689, 3153, 4219, 3060, 3064, 26912, 33640, 6306, 1234, 3039, 49940, 16680, 6288, 33589, 17634, 917, 198, 12961, 26994, 3964, 3598, 3061, 5941, 35871, 3704, 5506, 12025, 944, 47247, 34711, 19184, 44723, 5146, 1386, 18748, 16633, 3549, 3030, 4213, 16647, 3011, 5171, 895, 17483, 5516, 16500, 5695, 17844, 17122, 1683, 26951, 10088, 27703, 16674, 15501, 8308, 17424, 26988, 10090, 3009, 925, 34708, 16642, 2119, 2122, 16738, 19251, 17511, 19778, 23127, 2114, 26999, 30715, 17089, 26913, 16269, 16773, 4138, 11037, 33678, 17509, 27034, 16272, 2998, 16503, 33681, 3036, 28471, 28472, 16688, 1228, 16160, 34714, 3604, 12030, 2130, 4217, 1680, 34695, 16724, 4583, 3044, 17434, 11025, 16719, 16654, 3156, 33680, 16731, 33590, 33675, 16679, 2798, 15285, 2878, 30709, 6289, 5137, 26963, 3042, 16278, 17481, 26991, 15283, 16279, 3169, 5141, 5517, 3171, 10993, 3048, 5939, 5479, 328, 16502, 3624, 1632, 34786, 16703, 3047, 2131, 4595, 18754, 26911, 5957, 5142, 1681, 7869, 6094, 4582, 19369, 4593, 3087, 17215, 1701, 2123, 7315, 461, 33683, 17105, 4584, 17482, 3059, 10086, 17983, 19252, 16653, 33641, 44380, 26955, 3599, 3555, 5153, 5145, 1901, 33581, 7948, 26903, 4092, 2492, 16659, 16755, 4564, 5884, 1226, 906, 4159, 33596, 2329, 33617, 17442, 18755, 11397, 3066, 8153, 30722, 5759, 16726, 5882, 6287, 4565, 26956, 16366, 16721, 3595, 4163, 5566, 30716, 11052, 1241, 5880, 33684, 6295, 16648, 16684, 38243, 460, 16646, 16662, 34785, 17214, 17514, 16660, 16644, 837, 17484, 16756, 8141, 16266, 3069, 3136, 5115, 16667, 23103, 17101, 16780, 3174, 4165, 26906, 5883, 5167, 35780, 16712, 5157, 5612, 19341, 3557, 47788, 17520, 16675, 16270, 17519, 27704, 35874, 16621, 8142, 26962, 15279, 5501, 3170, 17504, 3707, 3043, 17505, 47767, 3063, 29507, 30711, 4614, 4591, 15284, 38515, 7089, 16752, 16725, 16686, 987, 5116, 3328, 26915, 16276, 16277, 16729, 5117, 16763, 34712, 17480, 3155, 5496, 3401, 3157, 514, 916, 3706, 16672, 16271, 3031, 17212, 7311, 5392, 3065, 16651, 16728, 28474, 17120, 11068, 5144, 26959, 26564, 4898, 3172, 459, 16774, 4607, 19478, 1231, 16655, 17513, 3620, 44461, 1411, 4596, 4091, 4146, 3038, 17121, 16640, 16499, 3306, 7231, 7087, 29195, 38796, 913, 985, 30721, 26916, 3325, 50171, 15513, 26904, 17219, 912, 3041, 16692, 3406, 6290,
 
-					-- Trainer but NOT Class Trainer (they are useful in MoP) (https://www.wowhead.com/mop-classic/npcs?filter=28:24;1:2;0:0)
-					3347, 1215, 33603, 45709, 28696, 25580, 47418, 18018, 26977, 16588, 47571, 33611, 6251, 45545, 30715, 5513, 45286, 46716, 30713, 33588, 29505, 30706, 4752, 13476, 53436, 5518, 45137, 16280, 11017, 34693, 26960, 3365, 28703, 7868, 4160, 29631, 31238, 4576, 11557, 17434, 3605, 28701, 6291, 3355, 18774, 48619, 33619, 17441, 18772, 5153, 28705, 7406, 31247, 5564, 17844, 42323, 3606, 26997, 11870, 16669, 4258, 43769, 27001, 43693, 5127, 31084, 35874, 18751, 16640, 47419, 19052, 28706, 26972, 375, 7867, 3494, 47396, 35135, 4900, 2836, 26905, 18990, 18749, 28693, 26987, 32474, 51638, 26982, 5157, 1231, 4193, 5164, 11098, 19063, 16773, 25099, 17634, 33637, 3703, 18775, 17637, 12025, 1292, 2834, 377, 5174, 3706, 5177, 4773, 33996, 18802, 4215, 50002, 7869, 11865, 7870, 4941, 28699, 25277, 3290, 4611, 3181, 2704, 44783, 50497, 33615, 19185, 9584, 7948, 2485, 38244, 49959, 3363, 35133, 28742, 44919, 54232, 52657, 18993, 29509, 34713, 28702, 16583, 52640, 28697, 4772, 11867, 17246, 3967, 33630, 16728, 33674, 26964, 49870, 11869, 2390, 16161, 1232, 17514, 26911, 42331, 13084, 8140, 26909, 2129, 12939, 17005, 4165, 52651, 1676, 38514, 3594, 3060, 1346, 49786, 21087, 44238, 53437, 20511, 11866, 50020, 4596, 4753, 33614, 55684, 198, 33681, 19186, 26903, 5499, 50498, 16160, 4591, 44465, 45559, 20500, 33675, 3067, 16277, 33591, 1386, 17480, 47421, 11868, 33638, 33677, 26953, 7944, 8738, 35869, 28956, 1683, 49902, 38911, 27703, 49760, 39206, 1632, 52645, 16646, 16658, 15501, 16662, 26990, 34785, 23734, 29508, 11073, 29156, 3373, 46709, 43278, 16501, 3009, 46983, 33587, 33586, 5957, 33609, 11178, 26564, 3523, 50022, 8736, 34708, 35873, 38799, 3136, 4894, 33635, 4211, 10930, 47579, 48618, 2399, 43010, 50007, 28700, 36615, 39718, 2367, 11097, 459, 33580, 49720, 4552, 49895, 50128, 17089, 908, 33682, 3153, 1470, 19341, 3557, 52586, 986, 1218, 11074, 19252, 38467, 16621, 2124, 50247, 26955, 3154, 11037, 18773, 33589, 4578, 51639, 5501, 3602, 1473, 45548, 16499, 7231, 45540, 33581, 3964, 50732, 4616, 36630, 16723, 43011, 50505, 3357, 29507, 3597, 48612, 2130, 26958, 34711, 36521, 3062, 26916, 33617, 33636, 50137, 16719, 46741, 38465, 8153, 30722, 24868, 7866, 30709, 49946, 15513, 33679, 16729, 43006, 18776, 26998, 3155, 17481, 16366, 7230, 3549, 3157, 34692, 35805, 514, 26991, 49791, 56068, 33613, 4213, 52636, 16279, 5566, 50032, 43429, 3011, 47405, 53415, 44582, 30716, 5958, 26986, 3007, 5938, 47431, 5695, 36525, 38518, 33684, 50570, 35093, 7953, 5392, 6286, 38243, 23896, 53409, 20914, 17110, 47382, 49964, 460, 28694, 50010, 33608, 4210, 8308, 34600, 34786, 53403, 49789, 812, 43009, 3593, 28474, 50574, 16703, 22477, 17214, 17424, 49962, 3607, 56796, 26957, 2856, 39116, 43795, 27023, 27029, 15400, 18991, 26988, 4573, 5493, 26975, 4588, 17222, 19540, 3026, 4156, 4090, 2131, 26996, 3596, 16761, 23534, 50136, 49894, 34673, 35758, 36518, 38122, 33631, 18754, 18988, 49718, 49806, 44129, 16663, 50504, 26914, 45019, 7954, 17245, 50012, 47575, 26959, 7232, 33639, 16644, 16367, 29924, 7946, 837, 4898, 50025, 1385, 3001, 1681, 4598, 926, 1702, 925, 927, 18771, 26976, 26992, 6094, 16756, 2128, 23566, 16642, 8141, 2132, 36628, 44459, 19369, 16266, 16736, 3069, 50028, 5690, 50011, 1355, 26981, 3087, 3965, 3603, 17215, 1701, 45713, 3963, 2119, 16667, 50019, 50729, 52335, 50027, 48614, 2123, 49715, 19187, 5159, 2122, 3601, 49769, 39100, 43881, 49957, 6299, 49997, 49952, 23103, 16738, 3172, 29513, 17101, 47570, 49879, 28704, 6387, 16780, 33683, 42324, 52292, 8306, 49942, 17488, 3174, 50714, 50029, 6292, 16685, 1103, 30717, 26906, 34710, 47346, 26954, 17105, 33610, 33633, 19251, 33634, 26980, 16774, 17487, 4214, 34696, 35778, 36519, 38513, 33583, 53421, 43428, 6707, 47576, 49793, 19778, 2114, 26910, 18753, 26999, 19478, 50567, 29514, 4204, 33621, 33623, 34689, 35780, 36520, 49896, 52642, 11031, 26913, 49782, 16269, 18987, 3064, 4254, 47574, 16661, 5612, 50033, 52170, 3345, 9465, 46357, 1229, 2627, 1699, 49781, 49808, 5161, 26912, 26961, 49998, 17482, 43464, 47569, 33640, 16270, 16655, 35100, 49954, 3179, 3059, 6306, 33616, 17983, 17519, 1234, 27704, 47578, 16823, 45023, 44461, 36629, 38798, 18779, 1411, 47568, 5388, 20791, 47420, 33641, 49940, 11146, 43005, 17510, 44380, 50004, 3404, 3599, 8142, 2837, 6288, 19539, 28698, 4138, 18777, 4892, 43883, 28958, 15280, 33678, 3555, 26962, 915, 27034, 15279, 18911, 3028, 19775, 49736, 16272, 3170, 3690, 48616, 2998, 39214, 988, 14740, 17121, 17504, 45720, 42366, 3707, 49939, 50723, 917, 3484, 12961, 7087, 26994, 11072, 3013, 16503, 20124, 1404, 3063, 26952, 18747, 3175, 49885, 8144, 6297, 3598, 28471, 49963, 50720, 51640, 3061, 49927, 48613, 49968, 5941, 3600, 33612, 1651, 49955, 2492, 47384, 47577, 53410, 911, 28472, 35871, 38796, 44464, 27705, 43012, 1317, 46675, 12032, 3332, 16755, 16688, 913, 50715, 1228, 52317, 3704, 34714, 5884, 52319, 5506, 3604, 985, 12030, 30711, 4888, 944, 4614, 16253, 16273, 15284, 50013, 49950, 49958, 3137, 1680, 1226, 906, 2126, 34695, 35786, 38515, 49900, 4159, 19340, 16724, 3184, 30721, 2329, 19184, 2489, 3185, 7089, 17442, 18755, 43892, 16752, 1382, 11025, 50015, 50034, 50499, 35872, 36631, 38794, 16725, 11397, 16654, 3066, 3156, 50609, 47400, 38242, 52587, 33680, 16686, 45095, 5150, 5146, 8126, 38037, 29233, 5759, 16731, 16726, 987, 11177, 26993, 44975, 33590, 44781, 50023, 29506, 38247, 47572, 26915, 2798, 50001, 50016, 15285, 49949, 50158, 1700, 43431, 8128, 28746, 16276, 49784, 49749, 18804, 6287, 53405, 26969, 50021, 6289, 4732, 5943, 53404, 16763, 44782, 48513, 5137, 34712, 26963, 37072, 26989, 26904, 18748, 35281, 47253, 2127, 8146, 50024, 26956, 53407, 43455, 44128, 16278, 7871, 16633, 43015, 43870, 37724, 49923, 2391, 35839, 36651, 38793, 44455, 50500, 49745, 19180, 2327, 16721, 3595, 49966, 48615, 5502, 47573, 44468, 50501, 35870, 36632, 38466, 38795, 49741, 49901, 36523, 38516, 33618, 2818, 35806, 36524, 38517, 916, 38246, 51997, 5482, 49909, 50017, 49945, 15283, 37737, 43013, 50035, 43001, 8664, 3173, 16676, 43796, 50506, 26974, 50690, 51637, 50018, 3169, 37121, 4212, 1458, 37115, 3004, 2326, 32712, 5141, 5511, 49716, 895, 3171, 912, 7088, 11052, 26995, 26907, 1241, 1430, 27000, 3478, 17483, 17212, 38245, 10993, 16692, 5880, 45138, 3048, 16500, 50507, 49961, 5939, 45717, 44469, 50502, 36652, 38797, 42618, 5784, 34697, 35807, 26951, 6295, 50127, 45029, 7949, 19576, 3065, 50006, 6290, 328, 16502, 3399, 30710, 45550, 18752, 16684, 45139, 20125, 50031, 33676,
+				-- Vendor (https://www.wowhead.com/cata/npcs?filter=29;1;0) (split into expansion brackets)
+				-- Added in expansion: NONE (https://www.wowhead.com/cata/npcs?filter=29:39;1:1;0:0)
+				7947, 8145, 15350, 2664, 340, 5594, 4229, 8137, 14480, 4561, 2685, 15351, 3323, 12778, 14847, 3362, 12788, 12043, 12245, 3334, 5494, 2821, 5940, 66, 12246, 1301, 15174, 14846, 8125, 2663, 3546, 12944, 7564, 8139, 14921, 3954, 2803, 2810, 3027, 5817, 15419, 3482, 9499, 1148, 14481, 1448, 11557, 6779, 5611, 14753, 5188, 3335, 1286, 5565, 3556, 12919, 1261, 1257, 3960, 3489, 14637, 16787, 12022, 5193, 8158, 3356, 3561, 11187, 14754, 3366, 7952, 2832, 2806, 12793, 4877, 1465, 2699, 12785, 3029, 5162, 2848, 14624, 1318, 1326, 3685, 8157, 4879, 3364, 14322, 3367, 3497, 11874, 11189, 3369, 2672, 5483, 3351, 9179, 2679, 16376, 6367, 12795, 4883, 4730, 14450, 14844, 9636, 4240, 10667, 4305, 2626, 6746, 12781, 1351, 956, 3490, 2383, 4574, 3333, 14371, 2118, 2805, 8679, 3392, 15126, 5169, 11183, 3346, 1263, 1321, 12777, 226, 10618, 3413, 13217, 6548, 2820, 13218, 6731, 13219, 5783, 3348, 8666, 8665, 11185, 2480, 5163, 4083, 3073, 7955, 8878, 14845, 4782, 5942, 9549, 734, 3443, 4307, 4897, 3088, 8150, 11278, 4265, 6496, 15293, 16786, 9548, 4188, 7731, 1684, 5870, 3550, 12805, 2688, 10380, 5821, 4875, 3158, 7733, 4571, 10118, 3537, 3705, 11703, 3933, 5111, 6929, 7736, 3542, 4266, 1296, 5512, 4558, 8143, 3539, 13420, 1320, 4086, 12033, 1682, 1312, 989, 11188, 233, 12097, 2908, 15354, 15127, 3313, 9544, 2397, 3881, 8678, 1456, 3588, 1381, 1339, 14961, 2084, 5154, 7852, 3955, 5124, 3081, 12956, 2046, 228, 11287, 12960, 4181, 894, 6272, 3322, 5411, 11536, 1474, 14581, 5135, 4954, 16015, 8404, 3562, 12384, 12957, 6300, 2687, 3708, 372, 384, 3937, 6027, 12784, 5156, 5848, 2357, 12096, 4192, 1460, 3400, 4230, 13476, 1347, 5514, 6374, 6373, 3495, 5175, 12807, 14964, 2483, 3410, 13435, 12792, 8363, 12794, 4731, 4878, 10857, 2697, 483, 4184, 3958, 5758, 1299, 167, 3317, 3319, 2819, 14522, 8129, 13433, 2838, 6567, 5112, 3962, 5049, 8177, 3342, 2670, 4453, 5110, 2481, 8361, 4894, 4170, 4585, 6740, 6807, 12941, 12796, 4553, 12799, 4221, 12962, 1302, 5519, 14860, 3091, 8176, 3358, 8401, 13430, 1454, 8178, 3405, 777, 1307, 3180, 4223, 7775, 4885, 1289, 1464, 6741, 1325, 8305, 3134, 5757, 4890, 2482, 5128, 1441, 4164, 4220, 1304, 1303, 13418, 8118, 1313, 3161, 983, 5158, 1149, 4228, 3534, 3167, 6777, 6576, 11116, 4896, 3411, 5102, 4891, 5151, 13436, 3133, 3934, 6735, 5748, 5815, 8362, 13434, 4085, 3178, 1285, 4195, 15011, 844, 274, 11038, 1291, 3019, 1250, 2812, 3591, 4256, 3086, 15165, 2352, 3491, 1471, 3610, 4190, 1275, 791, 2381, 4577, 3312, 1308, 1198, 3935, 15176, 13431, 1214, 4191, 152, 6028, 4182, 4232, 11555, 8508, 1452, 6791, 2843, 5816, 1697, 3536, 12942, 3529, 2134, 3017, 3614, 3499, 3548, 8307, 5189, 5812, 6568, 8117, 2225, 1695, 11056, 3951, 3075, 7714, 2393, 2668, 7940, 4168, 4886, 295, 6738, 6790, 1686, 4169, 7854, 2847, 14740, 3015, 3005, 15179, 13429, 5108, 4225, 13432, 3500, 4889, 3488, 15864, 4189, 11184, 8359, 3578, 2816, 2366, 4893, 9087, 4602, 2846, 4216, 1453, 4180, 5140, 16543, 3493, 3093, 2839, 8161, 3956, 8931, 9356, 11118, 16256, 5134, 74, 12783, 1297, 1287, 7941, 1322, 12959, 8160, 8681, 8364, 1645, 945, 1457, 5178, 4899, 8116, 4876, 1316, 10856, 4203, 7978, 5101, 3096, 3522, 6091, 1328, 5160, 4775, 5569, 3168, 13216, 1348, 980, 10361, 3540, 3080, 5170, 1247, 6737, 5814, 3498, 6574, 3487, 3331, 15353, 1237, 3689, 1672, 3587, 227, 4186, 4171, 1461, 2380, 2814, 5132, 2684, 277, 4597, 3553, 3612, 14737, 9099, 1350, 4559, 4235, 3492, 1146, 4175, 3572, 4604, 3608, 5173, 1673, 4172, 3592, 4234, 11057, 8934, 4084, 12021, 15197, 958, 1669, 190, 10293, 4555, 3969, 14963, 12958, 14437, 1362, 3343, 3486, 8152, 1243, 3018, 3477, 6727, 12196, 11106, 3590, 3164, 3544, 4892, 3884, 3025, 5121, 3683, 8122, 1691, 5139, 3621, 4200, 14731, 5129, 3970, 3077, 3135, 12024, 3613, 3883, 3480, 959, 9553, 3959, 7485, 12029, 2364, 222, 3625, 3543, 4599, 15199, 4185, 3609, 2622, 6298, 3518, 1690, 9676, 3315, 3314, 896, 1685, 4884, 4610, 10379, 2113, 3350, 3481, 4981, 8131, 1240, 3368, 5123, 1319, 12019, 4587, 15909, 2682, 1298, 3003, 4043, 1238, 2698, 3090, 5750, 1692, 1104, 5138, 3316, 4575, 5133, 4187, 1147, 12776, 6928, 6734, 11103, 2388, 78, 15012, 8121, 6382, 4615, 15175, 789, 12028, 1671, 15471, 11186, 5107, 4217, 5190, 3044, 5819, 15315, 1459, 3012, 4592, 4603, 3014, 13018, 8398, 2849, 7879, 4581, 5191, 3361, 5122, 5508, 4570, 3953, 15124, 982, 10369, 3163, 3079, 1668, 5944, 5754, 3882, 829, 3952, 2116, 14301, 151, 4255, 12782, 1687, 4167, 15006, 14962, 1462, 5503, 7942, 5100, 4601, 1213, 6301, 10216, 12045, 7943, 2117, 1324, 3160, 5155, 9501, 6739, 6930, 5688, 3700, 1305, 1311, 5698, 793, 790, 954, 3072, 5749, 3359, 2840, 3360, 15125, 3002, 3159, 3658, 1694, 12031, 3533, 3531, 3321, 3330, 14739, 4233, 5126, 1323, 1249, 17598, 7945, 5520, 3023, 1650, 12027, 3177, 4226, 2808, 1341, 9552, 3409, 9551, 1349, 3552, 1315, 3577, 3554, 3611, 5120, 5570, 4569, 54, 3166, 4236, 5125, 836, 4165, 2137, 8360, 1310, 2845, 3095, 14337, 1698, 3298, 225, 1333, 3165, 3000, 843, 3085, 1273, 4082, 960, 5886, 3547, 981, 5119, 8358, 2265, 3948, 2844, 16458, 7737, 6736, 3483, 8403, 4589, 2115, 258, 2997, 3021, 5509, 2401, 3589, 3078, 4231, 4257, 5871, 4557, 15898, 2303, 3961, 2394, 3010, 4888, 3076, 9555, 5109, 2683, 3479, 2136, 14738, 3551, 3684, 3541, 3022, 3779, 3187, 3016, 2999, 4617, 7976, 4562, 5510, 4194, 3074, 1678, 1469, 4560, 12943, 2842, 3485, 1309, 10364, 6730, 6495, 3053, 2135, 1294, 7683, 465, 5620, 3097, 5152, 1450, 5106, 2365, 3162, 6328, 1314, 2140, 3020, 1463, 4600, 5820, 4556, 3291, 5103, 2264, 6747, 7744, 4590, 3186, 7772, 12023, 3329, 4173, 1295, 4580, 5753, 4177, 1670, 12026, 4241, 4183, 11182, 3528, 3532, 3530, 491, 3138, 955, 2669, 3089, 10367, 1407, 3092, 4554, 984, 4259, 3349, 4222, 3682, 8159, 6376, 11137,
+				-- Added in expansion: Burning Crusade (https://www.wowhead.com/cata/npcs?filter=29:39;1:2;0:0)
+				23381, 16585, 19213, 20097, 18960, 16826, 20096, 18015, 18484, 16588, 19296, 19663, 18011, 19038, 18957, 20028, 19373, 19837, 18802, 18756, 16583, 18525, 18005, 18993, 16253, 23489, 21643, 23396, 19662, 19227, 21183, 21905, 20980, 27668, 19383, 25976, 18911, 18382, 19186, 21655, 19331, 19074, 16264, 18751, 17584, 17904, 16782, 21906, 21485, 20240, 16631, 24934, 18771, 16657, 19321, 19536, 21432, 16528, 21474, 20241, 19538, 18997, 16635, 20916, 23604, 20981, 25032, 16262, 18664, 20613, 18990, 27667, 20249, 17657, 16624, 24545, 19343, 22099, 16638, 20242, 16762, 19474, 16625, 18775, 27722, 21484, 18773, 26124, 23007, 19575, 26092, 19004, 20616, 26352, 18907, 19539, 24409, 19196, 27721, 18898, 18753, 19559, 19528, 18810, 19236, 15287, 18774, 19065, 18245, 23373, 23571, 21744, 20890, 27711, 16664, 23245, 22476, 27811, 27820, 19533, 24501, 16753, 17656, 23143, 19495, 22491, 19574, 21082, 21145, 18243, 19372, 19479, 16263, 16718, 18821, 21019, 19348, 23896, 27815, 27812, 16708, 20080, 18010, 21483, 17518, 19932, 18822, 19661, 20278, 18991, 18267, 24495, 24975, 17512, 20510, 20989, 20986, 17585, 16224, 21113, 18947, 19773, 18266, 17486, 18255, 19194, 26089, 16388, 27478, 19857, 19473, 26393, 20378, 16683, 18951, 25177, 24935, 25977, 17246, 23521, 25178, 25010, 25082, 23367, 16823, 24995, 18006, 23606, 19017, 18427, 25179, 18772, 16860, 19342, 19722, 22208, 16613, 20807, 25046, 15494, 18018, 18581, 19235, 17222, 17245, 18914, 18749, 16268, 24780, 28225, 19049, 19047, 16620, 19011, 16690, 16705, 22212, 19521, 19540, 19617, 20081, 16367, 18251, 19678, 24834, 24993, 23511, 17630, 19330, 16274, 27666, 16187, 20917, 20377, 19573, 18959, 21083, 25052, 25176, 23428, 23699, 16610, 18998, 25950, 19012, 25035, 20463, 27814, 19499, 21487, 23064, 19197, 21110, 16602, 24396, 19050, 18987, 23144, 16829, 16747, 22227, 26123, 22225, 23208, 19472, 16637, 23010, 19679, 23243, 18542, 23483, 21488, 23009, 23263, 27816, 16553, 21746, 19351, 16722, 19053, 19572, 19232, 18908, 19694, 18913, 23011, 23159, 23560, 19718, 20250, 16261, 20891, 19772, 19238, 18752, 24208, 23157, 15400, 18988, 17667, 16757, 21084, 27817, 27810, 26394, 19435, 19518, 25012, 19470, 19879, 23012, 18905, 16918, 23748, 19239, 19015, 19020, 16641, 16706, 19021, 18347, 23065, 16632, 18278, 18009, 16677, 16191, 20808, 19315, 20231, 18426, 18672, 19244, 16626, 19245, 20112, 16623, 18897, 23244, 16713, 23710, 17655, 27819, 27806, 16739, 16709, 19371, 24510, 16765, 16670, 15292, 22213, 19223, 16444, 16618, 25039, 23481, 17929, 18929, 19042, 23535, 19836, 16768, 19014, 22266, 22270, 19471, 26091, 16732, 17446, 17412, 19450, 15289, 16920, 19374, 19240, 19436, 19314, 23533, 23510, 25034, 23603, 16750, 16689, 19625, 18754, 23482, 21111, 16650, 21112, 23605, 19497, 18906, 17553, 19056, 16619, 16267, 26398, 19352, 24843, 16257, 19333, 19561, 23484, 16542, 15291, 26090, 18277, 24392, 19520, 19560, 25195, 25019, 16751, 19664, 17930, 16767, 16691, 22264, 22271, 19370, 19562, 17277, 19452, 27489, 18954, 23724, 18017, 16366, 25043, 16259, 19001, 18019, 16649, 16612, 20082, 16443, 16636, 19043, 19517, 23522, 16917, 18962, 23525, 25036, 17421, 20092, 19537, 17101, 19531, 16258, 16666, 20121, 25020, 25089, 16716, 24408, 18564, 23437, 15433, 16766, 23573, 26395, 17489, 15397, 25051, 23112, 16919, 23110, 19045, 24468, 16798, 21085, 16678, 21086, 20892, 23363, 18926, 19498, 19013, 16714, 16442, 19234, 23897, 25196, 16260, 16715, 23995, 28344, 27818, 20494, 19530, 19534, 20194, 19535, 19532, 19649, 19526, 17490, 16748, 19195, 19345, 19339, 18811, 20893, 16735, 19243, 20915, 19451, 23145, 22479, 21172, 19182, 16186, 16693, 16611,
+				-- Added in expansion: Wrath of the Lich King (https://www.wowhead.com/cata/npcs?filter=29:39;1:3;0:0)
+				32296, 30730, 32294, 34885, 34087, 35507, 28723, 33026, 32538, 35508, 32385, 32540, 31863, 30431, 211340, 29523, 35496, 28997, 37941, 31238, 211332, 28995, 29529, 199387, 32509, 32287, 28992, 29548, 28347, 35498, 32380, 29535, 32172, 37942, 31247, 207128, 32763, 35826, 33557, 28714, 37687, 34252, 33553, 29495, 33657, 31864, 32533, 28776, 32515, 32413, 29478, 35497, 28701, 40160, 32514, 32565, 33653, 31580, 33310, 30729, 35577, 38858, 31031, 31865, 32379, 28742, 33307, 26081, 32382, 33556, 27760, 31910, 29715, 32774, 35578, 39173, 29527, 33555, 35495, 32564, 32216, 28512, 31911, 28721, 33630, 199649, 32356, 29744, 25206, 29528, 33595, 26388, 30825, 32773, 29532, 33674, 32832, 31032, 31101, 31582, 35500, 38316, 33650, 32383, 37903, 32359, 29587, 28809, 30098, 29688, 29035, 28829, 27182, 30488, 37696, 28715, 33871, 27730, 30011, 32419, 33996, 26977, 31579, 24149, 28951, 28722, 29491, 27940, 28718, 33554, 31916, 30885, 32477, 33963, 27144, 33869, 35580, 27038, 27025, 31027, 30472, 27057, 24141, 30310, 27051, 30010, 33018, 33027, 32253, 31581, 29945, 29909, 31025, 27055, 30309, 26680, 28811, 29961, 27151, 28726, 29291, 29253, 27185, 26374, 39172, 27027, 27044, 26901, 34772, 26599, 29907, 24539, 27066, 33865, 28791, 30336, 32403, 26984, 24342, 28799, 29547, 27037, 33638, 29537, 28038, 31021, 28993, 35338, 194795, 32834, 30723, 33682, 34881, 28691, 26898, 28692, 28989, 33964, 29049, 33633, 34787, 35494, 31781, 35576, 35642, 27147, 26110, 35574, 27267, 37992, 38841, 32355, 35343, 34382, 33634, 30069, 34684, 30438, 30733, 26596, 33602, 33631, 37688, 29476, 29277, 24148, 32641, 33594, 30731, 23937, 33637, 32354, 32420, 32836, 27195, 29203, 26474, 35099, 28728, 38181, 37674, 30724, 31557, 29261, 32631, 35573, 25314, 29499, 24033, 37904, 32337, 29716, 28870, 26968, 28589, 29636, 27139, 27054, 32334, 29122, 30257, 27134, 33676, 28994, 33866, 37999, 35579, 26941, 33853, 35575, 23737, 35131, 33644, 32362, 24333, 30254, 33636, 32642, 27186, 28725, 29904, 29037, 37998, 33677, 28807, 28707, 28990, 37935, 25274, 33639, 35342, 27062, 29702, 29922, 29905, 32638, 28760, 26484, 37991, 30067, 28794, 28812, 29714, 38283, 30311, 32421, 30244, 28868, 38182, 33679, 28872, 26995, 27188, 30006, 24347, 26569, 28828, 29947, 28855, 26382, 23735, 35337, 35341, 31024, 28806, 26600, 28832, 24057, 28798, 29205, 33635, 29923, 28727, 28813, 26934, 33598, 30346, 31022, 35101, 33640, 34681, 29252, 27058, 29963, 30489, 28792, 27181, 31804, 29925, 26950, 30732, 29015, 32416, 24028, 24147, 26697, 35132, 33872, 27043, 27146, 29971, 27022, 28800, 24291, 27137, 27138, 29275, 29270, 24341, 27071, 30306, 33599, 27148, 27187, 24313, 28827, 33669, 32360, 30253, 29208, 28943, 23862, 24356, 32415, 24053, 27184, 25245, 24349, 23908, 33678, 28046, 33681, 33597, 30005, 27032, 31017, 28500, 27045, 27069, 31805, 27052, 28685, 33680, 32837, 33675, 29583, 29908, 34783, 27026, 27089, 27132, 27133, 30439, 31051, 26229, 26900, 29497, 25278, 26568, 26567, 30239, 27193, 28687, 30255, 28796, 24054, 24343, 32594, 32381, 30345, 28866, 30437, 33683, 29288, 37993, 30436, 29538, 33641, 30734, 32424, 29511, 27143, 33596, 37936, 30572, 26709, 28716, 29944, 26868, 26375, 31115, 34683, 28871, 30256, 29703, 23732, 28867, 26718, 27021, 33684, 34682, 23802, 27088, 25248, 29628, 27031, 27125, 35340, 27030, 27011, 33600, 26936, 32426, 29970, 26720, 28869, 27067, 24052, 34645, 33601, 27041, 27935, 29207, 26938, 28797, 29968, 26908, 29962, 28682, 29493, 38840, 26939, 30735, 30241, 30727, 28810, 27039, 27141, 29510, 27070, 26707, 24357, 28040, 26598, 29969, 24348, 28830, 30307, 38054, 29561, 27019, 32478, 31019, 27938, 27190, 30827, 38284, 28991, 27063, 28831, 26945, 29512, 27149, 27012, 26959, 27174, 34685, 27943, 29964, 27950, 30434, 31776, 32639, 29014, 29926, 27042, 30070, 23731, 33645, 29244, 29496, 27053, 27140, 27142, 32412, 33019, 26916, 27176, 24330, 24188, 29494, 29121, 25736, 33868, 27145, 37997,
+				-- Added in expansion: Cataclysm (https://www.wowhead.com/cata/npcs?filter=29:39;1:4;0:0)
+				46718, 46602, 46572, 46555, 50488, 44246, 36375, 52037, 49877, 50307, 52809, 52027, 50483, 50309, 46556, 50304, 44245, 50305, 50323, 49737, 50308, 49701, 50477, 51512, 49893, 219976, 45286, 42853, 43694, 44918, 36779, 52278, 52031, 38853, 43558, 43645, 38511, 52032, 219980, 36430, 44235, 32979, 39033, 47764, 43436, 38561, 36717, 44125, 37500, 43768, 36695, 42953, 39032, 36427, 44181, 46512, 43949, 43439, 43485, 46708, 52641,
 
-					-- Vendor (https://www.wowhead.com/mop-classic/npcs?filter=29;1;0) (split into expansion brackets)
-					-- Added in expansion: NONE (https://www.wowhead.com/mop-classic/npcs?filter=29:39;1:1;0:0)
-					3934, 14450, 5594, 7947, 12788, 12919, 1263, 6367, 14481, 3159, 8118, 3008, 12799, 15127, 4561, 8665, 2622, 13476, 9179, 15353, 12778, 15179, 3532, 14480, 4255, 14753, 12944, 11278, 14847, 13217, 9499, 3962, 340, 12792, 14921, 1261, 2806, 5611, 2697, 2672, 5175, 5103, 3323, 11557, 12796, 3314, 16015, 1156, 6496, 8125, 14828, 8401, 14846, 12245, 10857, 10667, 16376, 233, 12795, 3881, 8139, 8403, 1684, 8666, 3073, 4217, 12785, 14581, 3366, 11056, 15351, 3556, 2805, 10216, 6746, 3346, 3134, 3958, 1313, 2381, 3027, 3014, 3362, 2626, 15354, 5193, 5124, 12246, 66, 2118, 7683, 4191, 16786, 4981, 151, 12782, 5081, 4182, 1669, 1289, 8358, 6740, 5814, 7744, 8679, 4305, 15471, 11186, 13434, 2394, 4186, 2685, 13429, 10118, 7852, 3955, 2669, 9986, 4221, 6568, 15011, 8404, 2670, 3409, 4878, 14322, 1321, 16787, 5519, 7978, 3364, 4941, 4585, 5188, 8137, 3956, 4307, 7854, 1311, 3322, 8122, 12783, 5757, 3970, 4229, 3017, 4879, 8363, 14737, 3413, 7976, 2819, 3960, 13433, 9988, 4731, 6548, 829, 1347, 3578, 777, 4234, 8158, 5514, 5570, 2393, 734, 1304, 4165, 4587, 3091, 3003, 13216, 16543, 4184, 6567, 2848, 2687, 1692, 14437, 1273, 3316, 6731, 9501, 295, 5111, 6736, 6741, 5688, 6735, 11118, 1305, 1325, 3542, 6382, 1301, 5783, 13418, 1697, 1299, 8157, 12022, 15898, 14624, 8878, 3012, 15131, 11189, 1327, 3334, 2688, 3319, 13432, 3342, 8145, 5178, 14845, 12794, 3953, 4226, 15176, 3534, 2491, 8117, 12033, 1309, 11137, 10364, 6777, 7952, 1316, 3562, 1294, 1315, 2816, 2113, 4602, 3097, 12957, 9549, 1450, 5120, 2480, 5106, 2365, 5163, 1291, 9548, 4216, 4894, 4164, 4220, 3954, 2668, 15197, 7940, 4167, 1453, 956, 1250, 1286, 483, 8360, 4168, 5160, 1296, 1698, 12097, 3705, 2698, 3090, 4232, 3085, 3493, 1348, 12807, 13436, 3335, 2810, 14964, 10049, 3133, 2264, 15350, 3490, 1247, 6930, 6737, 2388, 4169, 4877, 3590, 1471, 3164, 12941, 1318, 16256, 4590, 4589, 8678, 2997, 4615, 2401, 3589, 5121, 2664, 3078, 5748, 6027, 4883, 12043, 5139, 14731, 12784, 5049, 3351, 12031, 5848, 3135, 7564, 3550, 11874, 1339, 7955, 5819, 14961, 226, 3321, 4571, 959, 1461, 14739, 12029, 1448, 2364, 8178, 8160, 13018, 3317, 3539, 1308, 8364, 3551, 13420, 5132, 3528, 491, 11536, 10063, 15126, 4581, 4599, 10051, 9980, 3361, 5122, 3052, 6779, 1407, 3022, 3500, 3482, 1650, 9976, 10057, 6030, 9676, 3313, 4899, 14522, 4086, 4222, 2679, 12943, 3081, 1685, 12956, 3572, 2225, 6576, 2135, 4604, 11105, 15293, 3952, 1349, 8359, 10056, 3608, 1214, 5173, 3552, 4610, 10379, 1673, 3577, 4172, 3592, 3554, 2046, 10059, 844, 10053, 11057, 1312, 10856, 4203, 3350, 12384, 228, 11119, 11287, 989, 3481, 5110, 465, 274, 2366, 4893, 5620, 9087, 1302, 3546, 10046, 3951, 5152, 2116, 2846, 11183, 8131, 2481, 5128, 1240, 3368, 1441, 12040, 3611, 12793, 5123, 14301, 3075, 1351, 152, 1319, 5101, 10054, 3162, 6028, 7714, 15174, 12777, 3096, 11038, 5494, 4240, 4896, 4569, 1307, 8361, 12960, 8934, 4084, 1687, 3522, 54, 2838, 3166, 6374, 4236, 12021, 6373, 4266, 6328, 12019, 3180, 958, 3019, 6091, 3411, 2397, 190, 15006, 14962, 5125, 5102, 1465, 2812, 10293, 1314, 3158, 16094, 836, 4891, 4180, 5140, 2140, 1462, 5503, 4555, 6300, 2137, 4170, 1328, 5483, 6749, 3020, 1310, 11188, 3969, 1463, 7942, 2845, 15909, 3095, 4775, 1303, 3367, 8416, 14337, 5100, 5569, 3168, 14860, 2682, 4601, 1298, 3591, 4223, 4181, 3298, 3495, 4043, 1238, 14963, 225, 4600, 1333, 8176, 3165, 3000, 12958, 5820, 5750, 843, 5151, 1213, 4256, 6301, 10666, 4556, 3358, 11555, 1362, 3369, 2820, 11703, 2908, 4082, 7775, 4885, 3291, 3343, 12036, 3086, 10058, 8508, 10060, 980, 3093, 3443, 1452, 3708, 1104, 13218, 10361, 960, 5112, 5138, 5886, 12045, 3933, 3540, 3486, 3547, 4575, 4886, 3080, 3685, 2839, 8161, 5133, 7943, 4187, 5940, 8152, 2117, 981, 15165, 1243, 5119, 1324, 4897, 3088, 2265, 11187, 5170, 3018, 894, 3948, 1147, 3477, 12776, 3160, 2844, 4188, 5388, 5155, 2352, 6739, 6727, 16458, 7733, 7737, 6928, 6929, 6734, 8931, 1464, 6272, 7731, 6747, 12196, 6738, 11103, 9356, 7736, 11106, 6807, 6790, 6791, 1686, 3491, 3700, 10085, 3483, 8150, 78, 2847, 2483, 3544, 15012, 8121, 13430, 3498, 4083, 3610, 1454, 11069, 4892, 3884, 5565, 3410, 5698, 5134, 13219, 2115, 258, 6574, 2843, 3186, 3025, 5512, 7772, 3487, 15419, 793, 3021, 790, 3331, 372, 954, 5509, 384, 5816, 14740, 3072, 5749, 1237, 2821, 1257, 14754, 1456, 3588, 12023, 13435, 15175, 4231, 3683, 3497, 789, 3937, 9636, 10045, 3359, 8305, 2840, 3348, 3329, 3360, 15125, 1381, 1691, 5411, 3536, 5870, 3015, 5815, 3621, 3002, 74, 8362, 4190, 1275, 3561, 3689, 12028, 4200, 1671, 4257, 4173, 1295, 5871, 4558, 9985, 4730, 5758, 12942, 9989, 1297, 2383, 791, 5129, 4574, 3658, 1672, 8143, 1694, 4557, 4580, 3587, 2303, 227, 5156, 3077, 3005, 3961, 10052, 2803, 5107, 3010, 1287, 7941, 4888, 5753, 12781, 1322, 4177, 12024, 4171, 3613, 2357, 5190, 10047, 1670, 3044, 4577, 3883, 3529, 3533, 3531, 3480, 3076, 10055, 167, 2134, 9555, 3330, 12026, 4241, 15315, 5109, 4233, 9553, 1459, 543, 2683, 2380, 3959, 4183, 3479, 7485, 2814, 2663, 3614, 4592, 2084, 12959, 1148, 4603, 222, 11182, 2832, 4085, 4265, 12805, 8398, 2136, 5126, 3312, 1323, 14738, 8681, 9982, 4890, 3684, 5154, 3392, 3530, 2849, 1645, 1249, 7879, 5108, 1198, 3499, 1474, 3161, 3625, 8177, 17598, 2699, 10618, 2684, 3543, 277, 4553, 945, 4225, 1457, 4597, 10380, 9979, 3541, 7945, 3138, 3553, 10050, 3548, 1320, 955, 15199, 3029, 4185, 3609, 5191, 3333, 5821, 11104, 14371, 3089, 5817, 9987, 10367, 9981, 3612, 1326, 5520, 9099, 10062, 12096, 5508, 3178, 3356, 3023, 5135, 4570, 14844, 3779, 3092, 3187, 4192, 3016, 5162, 8307, 15124, 2999, 4554, 4617, 6298, 1350, 3518, 4562, 984, 1690, 5189, 5510, 982, 983, 4259, 1285, 5158, 4559, 4195, 3935, 3315, 4889, 10369, 4782, 12027, 5812, 4875, 4235, 3177, 5169, 3163, 3349, 9984, 4194, 1460, 1149, 3488, 4954, 4228, 15864, 4189, 3079, 3074, 896, 1678, 3492, 1146, 2808, 4175, 3682, 1469, 4560, 13431, 2842, 12962, 1341, 1668, 11184, 8159, 3485, 6376, 8129, 3167, 3400, 11185, 1682, 4230, 5944, 9544, 9552, 5754, 5942, 2482, 3489, 3405, 8116, 3537, 3882, 14637, 4884, 11116, 4876, 6730, 1695, 6495, 9551, 3053, 4453,
-					-- Added in expansion: Burning Crusade (https://www.wowhead.com/mop-classic/npcs?filter=29:39;1:2;0:0)
-					18926, 19662, 18018, 16588, 23208, 20240, 16264, 21643, 27722, 21019, 19773, 19038, 21905, 20980, 20097, 20096, 21432, 23489, 19213, 18756, 16388, 23244, 17904, 18525, 16766, 18382, 21655, 27668, 18774, 16442, 23245, 18542, 19383, 17553, 19227, 18772, 23428, 26089, 21906, 23263, 16638, 27721, 24501, 19678, 23437, 18751, 23396, 26123, 27711, 25976, 18266, 18484, 16782, 18011, 23243, 18664, 21485, 20463, 18990, 18749, 25010, 24780, 20080, 18957, 18775, 23112, 19664, 26091, 19011, 16528, 18954, 24934, 23533, 23381, 20916, 25977, 19679, 18802, 18255, 23522, 18267, 17421, 16585, 21474, 19196, 19536, 26398, 25179, 19223, 28225, 16747, 26124, 18993, 20915, 18006, 18278, 16583, 20278, 23010, 23897, 17246, 22212, 23521, 20613, 20616, 26352, 19017, 23525, 19837, 20028, 24510, 16268, 17490, 24396, 16624, 19333, 19561, 16586, 21517, 18250, 26090, 19186, 16262, 17657, 18010, 16824, 22208, 19370, 21183, 21518, 24468, 19575, 19331, 16224, 19182, 25046, 23606, 25035, 22099, 16750, 17518, 23604, 18581, 19932, 27667, 23483, 17512, 19521, 23482, 19617, 27806, 27810, 27818, 20510, 16739, 19056, 21487, 19368, 20494, 16683, 20194, 20092, 25178, 25032, 19197, 19194, 18898, 19531, 20121, 16602, 19470, 22213, 23144, 23484, 16618, 19195, 18773, 23748, 19047, 18243, 19373, 25195, 19015, 19857, 25051, 16751, 19836, 23373, 16706, 19243, 19014, 22266, 22270, 16613, 19321, 21085, 16690, 23571, 18960, 23724, 21172, 16261, 20808, 16366, 25043, 16259, 20890, 19074, 19498, 18672, 24545, 18019, 18984, 23603, 17486, 23896, 18897, 24208, 19043, 19517, 19625, 16705, 23157, 19235, 16185, 16631, 15400, 25196, 18991, 16260, 16713, 16764, 17222, 19540, 17666, 22476, 16917, 16715, 23995, 21488, 18962, 18754, 20377, 18988, 17667, 23710, 21111, 23009, 16757, 16650, 17245, 17655, 28344, 24495, 20081, 21112, 16367, 21084, 27811, 27812, 27813, 27814, 27815, 27816, 27817, 27819, 27820, 23605, 18771, 19499, 19497, 26393, 26394, 18251, 16553, 25036, 18914, 18906, 21746, 16619, 20378, 16709, 20249, 16267, 19351, 19371, 19435, 19530, 19573, 19533, 19534, 19537, 20981, 20989, 19538, 20986, 19535, 19532, 16708, 17101, 18959, 19649, 19352, 19526, 23064, 16722, 16765, 21484, 24843, 25082, 16670, 18951, 21083, 17485, 25177, 19053, 18997, 15292, 16258, 18427, 16657, 18753, 16666, 19518, 21110, 25020, 25012, 24834, 25052, 24993, 25089, 18015, 19572, 19050, 18987, 16257, 23511, 16716, 16753, 23367, 25176, 24408, 18005, 16748, 16444, 17656, 18564, 23143, 19879, 23012, 16823, 19065, 18905, 19296, 18907, 15433, 19232, 17630, 16542, 18908, 19495, 15291, 19539, 16918, 16860, 18911, 25039, 19345, 17896, 20242, 19474, 19049, 16625, 23481, 22491, 23699, 18244, 18277, 17929, 19574, 19339, 16610, 19342, 23573, 21082, 24409, 18929, 27478, 24905, 19042, 24392, 19520, 26395, 19330, 21145, 24974, 17489, 19694, 19476, 19560, 18998, 16635, 19663, 16829, 19239, 24975, 22227, 15397, 16253, 23535, 16620, 19020, 18913, 16641, 18245, 24995, 25019, 18811, 19559, 23011, 20893, 16735, 19722, 16919, 17930, 19021, 19528, 16274, 16767, 16691, 16768, 23110, 22264, 22271, 22468, 23159, 19471, 18347, 23065, 19045, 16732, 27666, 19372, 19479, 16632, 18810, 16263, 17446, 23007, 19562, 17412, 16718, 19450, 23560, 16798, 20241, 19718, 17277, 18009, 18822, 19452, 19451, 18821, 16187, 17585, 19236, 16677, 15289, 16678, 19473, 20250, 27489, 22225, 21744, 21086, 23145, 20892, 16920, 22479, 23363, 19374, 21113, 16191, 20807, 18017, 19240, 25037, 25950, 16656, 15287, 16826, 20891, 23392, 18947, 26092, 19012, 19772, 19436, 19315, 20231, 19314, 19001, 19348, 21483, 18426, 19472, 23510, 17584, 16649, 19244, 25034, 16762, 19343, 16626, 19238, 19013, 16186, 16612, 16714, 24935, 19661, 19245, 19004, 16637, 20112, 16693, 20082, 15494, 19234, 16443, 16611, 16689, 16636, 18752, 16664, 20917, 16623,
-					-- Added in expansion: Wrath of the Lich King (https://www.wowhead.com/mop-classic/npcs?filter=29:39;1:3;0:0)
-					28715, 32509, 33027, 32538, 40213, 26977, 35507, 35508, 32287, 32216, 30730, 34885, 31032, 35642, 211340, 32382, 37941, 30257, 29548, 35494, 31238, 34881, 28701, 35577, 40160, 27053, 30431, 27088, 37687, 29547, 29716, 27943, 33555, 29688, 28047, 35826, 33963, 30244, 31247, 35132, 33964, 28951, 29537, 32641, 27038, 32360, 29288, 32413, 27176, 32836, 32296, 24347, 24291, 35573, 31580, 35099, 35576, 199387, 27051, 32385, 31910, 28997, 35101, 29538, 27042, 24333, 33637, 27039, 35574, 31582, 35495, 28347, 30472, 29744, 27057, 32774, 25736, 31911, 35578, 33996, 29261, 37997, 30255, 31579, 30885, 32515, 34382, 35498, 211332, 32564, 28742, 27054, 29529, 35497, 27089, 33557, 32514, 30006, 30723, 31865, 24539, 33630, 37999, 30239, 33674, 207128, 29049, 27062, 32381, 39173, 29922, 33307, 37696, 29277, 33553, 32565, 32172, 33018, 29478, 33681, 27140, 37674, 31581, 32642, 32837, 29495, 33675, 28995, 28038, 28512, 33026, 33638, 27056, 30309, 28872, 31916, 33677, 28992, 26596, 28692, 28989, 27022, 25206, 29535, 29203, 30098, 29947, 27031, 28796, 27149, 29275, 29270, 31781, 29948, 37904, 24343, 27011, 33853, 24313, 28827, 32426, 23737, 29740, 33635, 28726, 34252, 30434, 33601, 33644, 32362, 26934, 28943, 33682, 28589, 26938, 32638, 28797, 32415, 26908, 24053, 26484, 34681, 37991, 30069, 29244, 29496, 32356, 32294, 32834, 27058, 32424, 32354, 27940, 27143, 32540, 29510, 32773, 29035, 29714, 29963, 26916, 33636, 31031, 37936, 31805, 27052, 30572, 29527, 26709, 26868, 27181, 28718, 33679, 32763, 33554, 29703, 29037, 32416, 26697, 26229, 26901, 30488, 27146, 38841, 29971, 33684, 31864, 28831, 27760, 25248, 28994, 26567, 28993, 28800, 29512, 26680, 29532, 33866, 28799, 32631, 27193, 26569, 28807, 26474, 28687, 29959, 29628, 28707, 28828, 28990, 33602, 37935, 27137, 27138, 37942, 25314, 32359, 25274, 24066, 30039, 35579, 35580, 28855, 24054, 26382, 33631, 24341, 27125, 23735, 29499, 24149, 27012, 27071, 32355, 30306, 32832, 35344, 30310, 26959, 24033, 33639, 35337, 35338, 35340, 35341, 35342, 35343, 27030, 28811, 29523, 29961, 27065, 31024, 26941, 33599, 28722, 32594, 32379, 27148, 27174, 27187, 27010, 33600, 28806, 29702, 35575, 26936, 29658, 32477, 30345, 30825, 26600, 28832, 32337, 24057, 32533, 28798, 28870, 29205, 28866, 199649, 37688, 30437, 29476, 29923, 34685, 29970, 26720, 29964, 24148, 28869, 29528, 27950, 33669, 27151, 33310, 28728, 33556, 29587, 33683, 27067, 26968, 35131, 28727, 24052, 34645, 28813, 28776, 33633, 33634, 40214, 28790, 33598, 27041, 30253, 27935, 29208, 29715, 23862, 194795, 33594, 31776, 30010, 30346, 29291, 29207, 28057, 31022, 37993, 24356, 32639, 38858, 29014, 29905, 29926, 29636, 30436, 26721, 33640, 29968, 38181, 28760, 27025, 29906, 27037, 26081, 31101, 29962, 30729, 28714, 30731, 30304, 27184, 30067, 30070, 23937, 23731, 28682, 33641, 33657, 25245, 29493, 29252, 38840, 33645, 27066, 24349, 30734, 23908, 33678, 34787, 33871, 29491, 28794, 29253, 28046, 26939, 27185, 30735, 32253, 34684, 29511, 30241, 28812, 28723, 31027, 30727, 28810, 27147, 27141, 27142, 26110, 27139, 33597, 32380, 27070, 26707, 30005, 27032, 24357, 26374, 24067, 33865, 31017, 38283, 30311, 32421, 28040, 30254, 28791, 29945, 39172, 28500, 27045, 35500, 32412, 27069, 27068, 33019, 33596, 33595, 30724, 32420, 26598, 35291, 30489, 27027, 28868, 31863, 28685, 33680, 38182, 29909, 32334, 27144, 28792, 29969, 27186, 27044, 38316, 24330, 28716, 29583, 28725, 24348, 29944, 29908, 27730, 31804, 27267, 26375, 31115, 28830, 34783, 29122, 33650, 27948, 24350, 31025, 27026, 27385, 33653, 34683, 35496, 30336, 29925, 24188, 32403, 27132, 26950, 28829, 30307, 28871, 38054, 30256, 29561, 27133, 27055, 32383, 30732, 29015, 37903, 29494, 27019, 30011, 30439, 32478, 29904, 27134, 29121, 31021, 31051, 23732, 28867, 35290, 26984, 31019, 24141, 30438, 28691, 27182, 37998, 24028, 24147, 27195, 28690, 30733, 33854, 28721, 24342, 33868, 26995, 26900, 27145, 26597, 27188, 33872, 33869, 37992, 26718, 27021, 34087, 27194, 27183, 27043, 27938, 26898, 27190, 31557, 29967, 32419, 30827, 38284, 28991, 34772, 26388, 28809, 27063, 29497, 25278, 26599, 34682, 23802, 29907, 26568, 26945, 33676,
-					-- Added in expansion: Cataclysm (https://www.wowhead.com/mop-classic/npcs?filter=29:39;1:4;0:0)
-					52809, 52027, 46602, 52036, 47328, 49701, 52358, 46572, 43645, 49884, 49406, 53881, 49387, 241467, 52037, 228668, 45286, 49893, 53882, 225965, 50484, 53436, 234135, 49525, 48617, 53214, 54402, 54401, 50483, 49703, 46556, 56335, 42028, 51502, 50146, 46595, 44245, 45417, 50305, 219980, 55072, 58153, 43565, 40572, 56041, 44346, 50304, 42497, 45298, 51988, 48531, 50324, 52033, 50134, 43418, 44235, 33980, 57983, 42953, 49386, 52914, 43563, 50480, 44252, 44246, 51503, 50488, 36365, 48060, 45489, 48235, 55305, 53757, 45408, 53728, 50307, 52830, 46718, 54232, 41493, 40226, 50314, 52818, 52497, 52028, 52822, 45497, 50433, 52420, 44299, 54659, 55278, 46742, 50309, 42676, 219977, 43972, 50129, 50669, 45553, 40589, 36915, 46555, 49754, 47761, 48858, 48555, 55684, 48510, 51496, 44083, 46358, 44325, 50482, 49788, 48064, 45148, 44236, 49723, 44196, 44417, 52268, 44972, 52031, 54658, 47337, 46995, 44178, 48861, 49409, 41135, 45498, 47856, 48125, 45491, 44027, 49733, 55285, 43424, 50092, 49917, 43997, 47383, 50382, 47267, 50477, 36432, 53528, 40832, 47864, 47166, 43568, 36378, 54654, 218747, 41618, 49433, 52542, 56925, 40815, 47937, 47721, 49702, 50323, 49763, 46659, 42709, 55729, 43964, 48735, 50456, 44177, 44190, 49394, 52092, 43493, 50306, 45551, 43694, 43154, 45558, 49579, 49751, 42332, 50308, 43547, 51512, 44785, 43771, 44186, 40474, 219981, 44286, 48607, 46512, 43495, 51501, 43439, 49707, 45149, 52655, 50045, 42910, 58155, 41053, 50386, 55264, 44280, 52549, 49737, 45086, 52032, 53702, 43768, 45566, 56069, 36375, 53415, 58154, 46994, 44382, 51504, 47942, 37500, 44114, 241468, 50460, 47343, 49756, 53409, 48096, 49410, 228374, 40467, 43021, 44341, 40967, 43408, 47858, 49714, 47719, 40898, 49789, 53641, 39144, 41623, 40968, 47104, 45490, 38978, 44381, 45451, 48057, 44047, 49577, 41890, 45008, 45297, 43708, 43619, 49599, 47717, 43548, 49594, 45789, 43739, 52536, 44192, 49689, 43887, 49800, 36427, 36466, 37762, 49876, 47167, 49605, 47545, 40826, 50457, 49918, 47340, 48058, 47153, 49592, 44283, 47334, 49877, 39884, 39878, 44348, 38714, 49575, 46966, 43988, 47165, 49581, 44001, 43436, 49506, 47756, 48573, 43980, 42966, 36464, 36465, 39063, 43140, 44312, 49785, 49435, 42488, 41274, 44376, 44125, 47106, 48868, 48577, 219976, 44386, 43034, 49920, 45496, 44307, 44385, 49601, 44181, 47532, 53756, 48551, 43998, 48887, 48055, 58036, 50458, 48580, 49805, 50462, 41490, 44334, 44279, 47148, 49695, 44030, 44918, 38561, 43630, 47059, 43899, 45294, 41128, 44183, 43951, 52535, 34624, 33231, 42622, 48552, 44115, 42335, 44123, 43149, 47938, 41341, 49704, 54655, 41275, 53421, 49408, 53760, 43774, 43709, 48574, 41892, 43877, 44191, 41435, 44022, 47338, 44034, 43957, 42876, 49547, 48056, 49887, 44277, 47939, 43705, 47757, 47139, 36717, 44330, 48067, 42909, 49578, 39032, 32979, 49401, 38873, 44354, 43979, 50165, 38847, 57262, 44194, 44182, 47758, 47288, 48885, 48860, 52421, 47712, 34601, 51709, 44179, 45361, 52820, 43880, 52637, 45093, 46702, 48216, 49802, 48856, 43554, 43633, 44006, 43606, 49430, 49688, 44270, 43699, 43946, 43945, 44276, 43624, 49498, 46642, 44391, 48599, 49686, 48215, 43550, 53075, 44780, 48093, 46996, 48884, 43380, 53782, 47164, 50070, 44340, 43748, 48553, 45094, 49549, 51142, 47368, 47863, 49787, 48608, 49554, 42853, 47934, 48356, 49403, 47149, 48095, 48886, 44268, 49803, 49397, 44324, 44377, 48228, 48251, 43646, 47530, 44040, 44310, 49885, 50375, 44297, 52584, 49766, 42911, 52641, 49705, 43711, 43411, 43379, 53780, 52278, 53410, 44019, 49519, 44219, 44267, 43956, 44788, 49919, 44379, 47897, 43617, 41286, 49729, 44237, 45289, 43564, 47105, 49404, 44333, 43405, 36779, 38783, 38853, 43558, 44193, 43637, 43949, 43750, 50126, 49600, 44337, 43710, 45567, 42875, 41891, 50381, 47347, 48587, 43384, 48857, 43555, 46269, 44349, 47764, 48236, 49768, 43955, 44313, 43551, 53076, 49603, 47854, 48581, 43953, 50071, 41054, 44975, 43494, 50069, 44311, 44779, 52658, 49434, 47144, 44187, 45552, 46182, 43948, 45484, 46271, 49775, 40914, 46359, 44397, 44344, 44343, 44300, 44304, 44294, 42967, 44303, 44302, 53991, 47142, 48122, 44285, 49765, 47363, 44383, 49752, 43419, 49726, 52643, 45293, 44301, 43766, 49767, 44339, 42878, 36430, 36467, 37761, 38511, 48054, 43994, 41508, 48853, 36695, 45565, 52588, 44321, 40843, 48123, 46594, 43152, 44970, 49395, 43625, 44007, 43151, 47547, 46184, 49596, 44195, 44398, 44384, 39033, 47345, 48238, 41452, 51495, 43772, 43773, 44336, 43882, 46708, 43425, 49888, 51648, 43155, 41674, 52644, 49593, 48098, 57922, 43770, 44005, 43019, 41903, 44287, 44583, 50172, 43485, 45563, 52034, 33381, 43381, 53781, 44322, 43615, 39031, 43410, 44305, 50094, 50524, 55339, 44296, 50248, 45500, 42626, 41491, 33265, 45290, 53040, 47367, 41675, 48090, 43982, 50459, 41622, 47286, 33209, 45546, 43634, 47860, 228379, 44347, 44335, 48258, 49595, 42972, 41676, 45843, 43139, 52093, 49755, 45549, 55266, 43776,
-					-- Added in expansion: Mists of Pandaria (https://www.wowhead.com/mop-classic/npcs?filter=29:39;1:5;0:0)
-					-- LeaPlusLC.NewPatch: None showing yet
-				}
-
-			else
-
-				npcTable = {
-
-					-- Auctioneers (https://www.wowhead.com/cata/npcs?filter=18;1;0)
-					16628, 17629, 9856, 8673, 18349, 16629, 44868, 35594, 35607, 17628, 18761, 18348, 16627, 17627, 15683, 44867, 8721, 8720, 8722, 8672, 16707, 8724, 15679, 8670, 44866, 44865, 15678, 15675, 8661, 15659, 15677, 9859, 8723, 9858, 15676, 8719, 8674, 9857, 8671, 15682, 15686, 8669, 15684, 15681,
-
-					-- Banker (https://www.wowhead.com/cata/npcs?filter=19;1;0)
-					31422, 44852, 3320, 45661, 43724, 13917, 21734, 2455, 17773, 8123, 29530, 50557, 19318, 44854, 28677, 4155, 50568, 45081, 29283, 28679, 46620, 43824, 50563, 19246, 17631, 16617, 18350, 19034, 50558, 21732, 29282, 2458, 28680, 30605, 28675, 43822, 36352, 38921, 8357, 2460, 50559, 16710, 3318, 43823, 28343, 2459, 46621, 30608, 5099, 30604, 50555, 38919, 4209, 50569, 43723, 16616, 36351, 2996, 8119, 35642, 43840, 43819, 5060, 46619, 3309, 19338, 44851, 30606, 43825, 43725, 50252, 44856, 43820, 50554, 30607, 46622, 44853, 46618, 36284, 2457, 31420, 31421, 2456, 44770, 28676, 2461, 50566, 8356, 17632, 50556, 3496, 21733, 43692, 50560, 16615, 4550, 5083, 8124, 28678, 2625, 38920, 7799, 17633, 4208, 45662, 4549,
-
-					-- Battlemaster (https://www.wowhead.com/cata/npcs?filter=20;1;0)
-					19859, 16695, 12197, 22015, 20374, 19925, 30231, 32332, 34953, 20381, 15102, 7427, 29568, 2804, 29673, 29675, 20362, 14942, 29674, 20497, 34952, 20272, 34976, 20120, 29667, 32333, 19858, 19923, 19915, 34985, 19912, 19911, 15008, 29533, 30566, 19908, 34997, 19905, 29672, 21235, 14981, 19855, 5118, 7410, 40413, 14982, 20276, 857, 12198, 29670, 15106, 35000, 15105, 35002, 34989, 30567, 29671, 2302, 20118, 19906, 20273, 34991, 15006, 18895, 19910, 20271, 10360, 34988, 32330, 20385, 29668, 3890, 34983, 22013, 20499, 347, 19907, 34987, 34999, 25991, 16696, 20386, 20119, 20269, 15007, 30610, 34998, 29669, 14990, 34973, 34955, 20274, 14991, 35007, 34978, 19909, 35001, 35008, 15103, 29676, 20384,
-
-					-- Flightmaster (https://www.wowhead.com/cata/npcs?filter=21;1;0)
-					2432, 16822, 12577, 30433, 31078, 29721, 4267, 2851, 8018, 24155, 6026, 26602, 33849, 24851, 26877, 19317, 18809, 20762, 18808, 18942, 8610, 26844, 12578, 22935, 18939, 18938, 30569, 15178, 11900, 10583, 10378, 352, 30314, 3615, 22931, 4407, 8019, 28574, 31069, 28037, 523, 13177, 931, 28195, 4314, 16227, 2858, 26845, 4312, 1387, 28196, 30870, 17555, 6726, 3838, 6706, 7823, 2299, 2409, 18807, 12617, 24366, 16192, 1572, 4319, 21766, 37888, 32571, 29762, 28197, 11899, 27344, 18931, 28615, 29950, 22216, 19583, 3305, 18785, 17554, 2941, 26847, 1571, 37915, 18953, 18930, 2389, 18937, 4321, 7824, 18789, 24061, 26848, 19581, 26853, 23736, 26876, 29951, 12616, 27046, 28674, 16587, 12596, 2835, 3310, 18791, 12740, 29480, 20515, 28624, 4551, 26850, 18940, 21107, 20234, 30269, 16189, 24795, 3841, 26879, 4317, 8609, 19558, 30869, 24032, 30271, 12636, 2861, 23859, 2859, 29757, 26852, 11138, 26566, 26851, 26560, 26881, 22455, 2995, 11139, 11901, 15177, 28618, 29750, 1573, 28623, 22485, 2226, 18788, 26878, 10897, 25288, 26880,
-
-					-- Flightmaster (non-Flightmaster NPCs with <Flight Master> in the description) (https://www.wowhead.com/cata/npcs/name-extended:%3CFlight+Master%3E?filter=21;2;0)
-					43287, 47927, 37005, 28621, 44232, 47121, 43481, 43289, 40358, 31690, 29749, 26842, 43225, 33253, 47174, 54393, 40851, 40873, 40852, 34943, 39330, 53783, 50686, 33345, 46006, 52983, 39211, 50072, 44408, 29137, 44825, 34374, 40769, 44231, 50367, 35556, 40558, 48318, 44410, 40827, 35137, 41140, 44407, 41215, 41861, 34927, 48274, 35140, 34378, 44230, 39340, 35138, 47061, 35562, 11800, 41214, 40768, 39212, 41240, 43389, 43398, 48321, 39210, 44409, 35141, 40867, 47875, 43088, 45479, 50084, 41860, 48273, 39175, 43576, 35136, 48275, 33254, 43052, 40871, 40866, 43293, 43549, 11798, 41246, 44233, 43991, 35139, 35480, 43085, 35478, 54392, 43216, 41580, 43328, 43220, 35315, 40966,
-
-					-- Stable masters (https://www.wowhead.com/cata/npcs?filter=27;1;0)
-					10060, 11117, 9982, 9988, 16185, 24350, 21336, 10047, 35291, 28057, 26721, 9979, 18984, 18244, 16656, 35290, 19018, 28790, 26597, 22468, 15722, 29959, 10056, 21517, 24974, 10051, 15131, 9989, 9981, 13617, 10053, 27010, 26044, 10048, 10061, 9986, 23392, 26377, 10057, 6749, 17485, 10049, 11069, 19476, 10063, 9987, 9976, 11105, 11119, 19368, 28047, 14741, 10085, 18250, 17896, 30008, 9983, 9985, 11104, 26944, 10059, 17666, 16094, 22469, 29906, 27068, 21518, 16665, 10050, 9980, 10062, 9977, 33854, 16764, 30039, 10046, 10054, 10058, 23733, 10045, 24905, 19019, 10052, 10055, 25037, 27183, 29658, 29740, 16586, 16824, 26504, 28690, 9984, 9978,
-
-					-- Stable masters (non-Stable master NPCs with <Stable Master> in the description) (https://www.wowhead.com/cata/npcs/name-extended:%3CStable+Master%3E?filter=27;2;0)
-					44191, 24067, 44348, 50069, 43019, 43379, 49600, 44354, 44310, 35344, 43877, 49803, 42911, 53780, 43766, 49755, 27040, 43017, 29251, 27948, 49767, 43151, 27194, 44382, 44335, 49431, 41893, 49790, 42875, 43994, 47337, 43982, 19325, 30304, 29967, 45298, 19492, 43617, 47764, 43494, 19491, 48055, 44349, 9896, 44252, 27056, 43773, 43979, 47934, 49395, 47761, 47368, 44788, 29250, 43408, 45297, 45789, 49689, 44346, 43988, 44123, 13616, 47866, 543, 44384, 28683, 28555, 43770, 43634, 45498, 24066, 29948, 27065, 48887, 44007, 27429, 44347, 43021, 44378, 25519, 44330, 48216, 49554, 48095, 49593, 41903, 49577, 42966, 43630, 49408, 24154, 27385, 27236, 9567, 27150,
-
-					-- Trainer (https://www.wowhead.com/cata/npcs?filter=28;1;0)
-					44919, 43769, 44238, 4752, 16588, 47571, 47579, 43693, 31238, 7954, 4210, 18802, 47382, 4773, 3347, 26989, 26953, 26972, 16583, 35093, 4753, 4772, 18993, 16253, 46709, 31247, 46716, 28693, 11557, 30713, 11017, 5482, 3026, 7953, 26905, 29631, 39718, 28702, 47572, 28705, 5938, 3028, 20914, 35100, 3399, 35133, 18911, 28703, 5159, 5518, 19186, 28701, 50247, 8126, 3067, 18751, 5499, 16280, 5493, 3345, 29505, 28699, 28697, 3373, 11870, 2704, 35135, 11178, 8736, 19052, 28742, 20511, 2485, 18771, 4573, 7406, 3690, 45286, 11867, 28694, 3363, 7867, 29513, 20500, 4732, 5161, 3324, 5564, 33630, 33586, 20791, 13283, 47253, 18990, 33595, 29194, 6292, 26993, 3407, 33674, 33621, 3332, 44781, 7871, 5511, 20407, 5513, 11868, 4156, 50152, 17637, 44726, 44395, 16685, 4552, 28706, 3478, 1355, 3290, 11031, 18775, 12042, 7868, 5174, 33996, 26977, 7946, 5489, 5498, 18773, 50150, 28746, 6018, 26964, 22477, 29156, 5484, 3603, 1103, 4608, 3181, 1229, 19539, 4566, 3605, 7866, 7230, 1458, 28956, 26996, 4258, 16736, 33619, 17005, 18753, 3327, 11866, 23128, 3062, 918, 8128, 18774, 1430, 7949, 56796, 1385, 17510, 911, 1317, 18804, 3354, 33613, 26975, 16761, 7870, 18777, 25099, 29196, 11177, 3965, 8306, 50567, 2627, 8144, 3357, 16273, 5994, 11865, 32474, 3594, 33616, 28698, 46675, 50160, 3355, 33638, 3034, 10089, 2390, 18991, 5491, 33587, 4214, 986, 33612, 3597, 2126, 3184, 50158, 44740, 5502, 7088, 3494, 2856, 7232, 33611, 6707, 29514, 33623, 2391, 5495, 8738, 6014, 26997, 914, 13084, 46667, 44394, 5885, 28700, 33682, 46357, 1699, 5165, 33615, 2837, 3365, 1651, 44725, 26986, 3007, 5784, 3606, 33588, 2367, 5515, 34710, 33633, 31084, 3404, 3602, 11072, 26958, 46741, 34713, 2127, 8146, 2326, 5958, 7944, 30710, 3326, 17246, 11869, 45339, 3353, 3179, 376, 16823, 11146, 4576, 26952, 2834, 1700, 6251, 26990, 26957, 4090, 16669, 29924, 2836, 8140, 26976, 26960, 33634, 33583, 17441, 18772, 28958, 4616, 331, 2327, 33618, 3033, 18018, 4568, 17222, 1232, 33631, 17245, 26992, 20406, 25277, 18749, 19187, 33580, 33610, 33594, 1346, 30706, 2879, 5492, 33637, 3175, 1292, 3185, 3352, 33591, 18776, 26998, 13417, 5505, 17110, 4160, 812, 19540, 16501, 16663, 16367, 1702, 927, 3963, 27001, 6299, 4205, 17488, 17204, 26910, 908, 19063, 5480, 15280, 3344, 988, 20124, 18747, 3600, 928, 12032, 19340, 24868, 19180, 2818, 5177, 27000, 3040, 19576, 6286, 1215, 33608, 3593, 50574, 29508, 3607, 4588, 26914, 4598, 926, 2128, 5690, 4211, 4218, 28696, 11097, 16749, 26987, 1676, 21087, 26961, 11098, 11074, 18779, 1473, 14740, 5113, 1382, 29509, 29233, 377, 5504, 3403, 26974, 3004, 3049, 33676, 3967, 16771, 4900, 11073, 16161, 23534, 3032, 3001, 16681, 2399, 36615, 4611, 6387, 30717, 26980, 17487, 18987, 1470, 4193, 5164, 1218, 11406, 36629, 19775, 3484, 1404, 36630, 50163, 33636, 16275, 44743, 16673, 29506, 5166, 11401, 375, 26969, 22225, 16676, 33677, 4212, 26907, 5143, 3408, 16658, 23734, 4594, 27023, 27029, 4087, 6291, 5114, 33639, 3523, 5149, 26909, 10930, 2129, 3601, 49997, 7312, 50174, 3046, 5127, 4204, 26982, 4254, 9465, 2124, 19185, 9584, 3154, 5497, 33614, 915, 4578, 4563, 3013, 3703, 6297, 27705, 16723, 3045, 3137, 2489, 50155, 5150, 4567, 16652, 5943, 33679, 35281, 4089, 34692, 50156, 3173, 26995, 5147, 18752, 20125, 4606, 5173, 4215, 15400, 33603, 3596, 18988, 5148, 33609, 5172, 4320, 2132, 26981, 33635, 28704, 26954, 34689, 3153, 4219, 3060, 3064, 26912, 33640, 6306, 1234, 3039, 49940, 16680, 6288, 33589, 17634, 917, 198, 12961, 26994, 3964, 3598, 3061, 5941, 35871, 3704, 5506, 12025, 944, 47247, 34711, 19184, 44723, 5146, 1386, 18748, 16633, 3549, 3030, 4213, 16647, 3011, 5171, 895, 17483, 5516, 16500, 5695, 17844, 17122, 1683, 26951, 10088, 27703, 16674, 15501, 8308, 17424, 26988, 10090, 3009, 925, 34708, 16642, 2119, 2122, 16738, 19251, 17511, 19778, 23127, 2114, 26999, 30715, 17089, 26913, 16269, 16773, 4138, 11037, 33678, 17509, 27034, 16272, 2998, 16503, 33681, 3036, 28471, 28472, 16688, 1228, 16160, 34714, 3604, 12030, 2130, 4217, 1680, 34695, 16724, 4583, 3044, 17434, 11025, 16719, 16654, 3156, 33680, 16731, 33590, 33675, 16679, 2798, 15285, 2878, 30709, 6289, 5137, 26963, 3042, 16278, 17481, 26991, 15283, 16279, 3169, 5141, 5517, 3171, 10993, 3048, 5939, 5479, 328, 16502, 3624, 1632, 34786, 16703, 3047, 2131, 4595, 18754, 26911, 5957, 5142, 1681, 7869, 6094, 4582, 19369, 4593, 3087, 17215, 1701, 2123, 7315, 461, 33683, 17105, 4584, 17482, 3059, 10086, 17983, 19252, 16653, 33641, 44380, 26955, 3599, 3555, 5153, 5145, 1901, 33581, 7948, 26903, 4092, 2492, 16659, 16755, 4564, 5884, 1226, 906, 4159, 33596, 2329, 33617, 17442, 18755, 11397, 3066, 8153, 30722, 5759, 16726, 5882, 6287, 4565, 26956, 16366, 16721, 3595, 4163, 5566, 30716, 11052, 1241, 5880, 33684, 6295, 16648, 16684, 38243, 460, 16646, 16662, 34785, 17214, 17514, 16660, 16644, 837, 17484, 16756, 8141, 16266, 3069, 3136, 5115, 16667, 23103, 17101, 16780, 3174, 4165, 26906, 5883, 5167, 35780, 16712, 5157, 5612, 19341, 3557, 47788, 17520, 16675, 16270, 17519, 27704, 35874, 16621, 8142, 26962, 15279, 5501, 3170, 17504, 3707, 3043, 17505, 47767, 3063, 29507, 30711, 4614, 4591, 15284, 38515, 7089, 16752, 16725, 16686, 987, 5116, 3328, 26915, 16276, 16277, 16729, 5117, 16763, 34712, 17480, 3155, 5496, 3401, 3157, 514, 916, 3706, 16672, 16271, 3031, 17212, 7311, 5392, 3065, 16651, 16728, 28474, 17120, 11068, 5144, 26959, 26564, 4898, 3172, 459, 16774, 4607, 19478, 1231, 16655, 17513, 3620, 44461, 1411, 4596, 4091, 4146, 3038, 17121, 16640, 16499, 3306, 7231, 7087, 29195, 38796, 913, 985, 30721, 26916, 3325, 50171, 15513, 26904, 17219, 912, 3041, 16692, 3406, 6290,
-
-					-- Vendor (https://www.wowhead.com/cata/npcs?filter=29;1;0) (split into expansion brackets)
-					-- Added in expansion: NONE (https://www.wowhead.com/cata/npcs?filter=29:39;1:1;0:0)
-					7947, 8145, 15350, 2664, 340, 5594, 4229, 8137, 14480, 4561, 2685, 15351, 3323, 12778, 14847, 3362, 12788, 12043, 12245, 3334, 5494, 2821, 5940, 66, 12246, 1301, 15174, 14846, 8125, 2663, 3546, 12944, 7564, 8139, 14921, 3954, 2803, 2810, 3027, 5817, 15419, 3482, 9499, 1148, 14481, 1448, 11557, 6779, 5611, 14753, 5188, 3335, 1286, 5565, 3556, 12919, 1261, 1257, 3960, 3489, 14637, 16787, 12022, 5193, 8158, 3356, 3561, 11187, 14754, 3366, 7952, 2832, 2806, 12793, 4877, 1465, 2699, 12785, 3029, 5162, 2848, 14624, 1318, 1326, 3685, 8157, 4879, 3364, 14322, 3367, 3497, 11874, 11189, 3369, 2672, 5483, 3351, 9179, 2679, 16376, 6367, 12795, 4883, 4730, 14450, 14844, 9636, 4240, 10667, 4305, 2626, 6746, 12781, 1351, 956, 3490, 2383, 4574, 3333, 14371, 2118, 2805, 8679, 3392, 15126, 5169, 11183, 3346, 1263, 1321, 12777, 226, 10618, 3413, 13217, 6548, 2820, 13218, 6731, 13219, 5783, 3348, 8666, 8665, 11185, 2480, 5163, 4083, 3073, 7955, 8878, 14845, 4782, 5942, 9549, 734, 3443, 4307, 4897, 3088, 8150, 11278, 4265, 6496, 15293, 16786, 9548, 4188, 7731, 1684, 5870, 3550, 12805, 2688, 10380, 5821, 4875, 3158, 7733, 4571, 10118, 3537, 3705, 11703, 3933, 5111, 6929, 7736, 3542, 4266, 1296, 5512, 4558, 8143, 3539, 13420, 1320, 4086, 12033, 1682, 1312, 989, 11188, 233, 12097, 2908, 15354, 15127, 3313, 9544, 2397, 3881, 8678, 1456, 3588, 1381, 1339, 14961, 2084, 5154, 7852, 3955, 5124, 3081, 12956, 2046, 228, 11287, 12960, 4181, 894, 6272, 3322, 5411, 11536, 1474, 14581, 5135, 4954, 16015, 8404, 3562, 12384, 12957, 6300, 2687, 3708, 372, 384, 3937, 6027, 12784, 5156, 5848, 2357, 12096, 4192, 1460, 3400, 4230, 13476, 1347, 5514, 6374, 6373, 3495, 5175, 12807, 14964, 2483, 3410, 13435, 12792, 8363, 12794, 4731, 4878, 10857, 2697, 483, 4184, 3958, 5758, 1299, 167, 3317, 3319, 2819, 14522, 8129, 13433, 2838, 6567, 5112, 3962, 5049, 8177, 3342, 2670, 4453, 5110, 2481, 8361, 4894, 4170, 4585, 6740, 6807, 12941, 12796, 4553, 12799, 4221, 12962, 1302, 5519, 14860, 3091, 8176, 3358, 8401, 13430, 1454, 8178, 3405, 777, 1307, 3180, 4223, 7775, 4885, 1289, 1464, 6741, 1325, 8305, 3134, 5757, 4890, 2482, 5128, 1441, 4164, 4220, 1304, 1303, 13418, 8118, 1313, 3161, 983, 5158, 1149, 4228, 3534, 3167, 6777, 6576, 11116, 4896, 3411, 5102, 4891, 5151, 13436, 3133, 3934, 6735, 5748, 5815, 8362, 13434, 4085, 3178, 1285, 4195, 15011, 844, 274, 11038, 1291, 3019, 1250, 2812, 3591, 4256, 3086, 15165, 2352, 3491, 1471, 3610, 4190, 1275, 791, 2381, 4577, 3312, 1308, 1198, 3935, 15176, 13431, 1214, 4191, 152, 6028, 4182, 4232, 11555, 8508, 1452, 6791, 2843, 5816, 1697, 3536, 12942, 3529, 2134, 3017, 3614, 3499, 3548, 8307, 5189, 5812, 6568, 8117, 2225, 1695, 11056, 3951, 3075, 7714, 2393, 2668, 7940, 4168, 4886, 295, 6738, 6790, 1686, 4169, 7854, 2847, 14740, 3015, 3005, 15179, 13429, 5108, 4225, 13432, 3500, 4889, 3488, 15864, 4189, 11184, 8359, 3578, 2816, 2366, 4893, 9087, 4602, 2846, 4216, 1453, 4180, 5140, 16543, 3493, 3093, 2839, 8161, 3956, 8931, 9356, 11118, 16256, 5134, 74, 12783, 1297, 1287, 7941, 1322, 12959, 8160, 8681, 8364, 1645, 945, 1457, 5178, 4899, 8116, 4876, 1316, 10856, 4203, 7978, 5101, 3096, 3522, 6091, 1328, 5160, 4775, 5569, 3168, 13216, 1348, 980, 10361, 3540, 3080, 5170, 1247, 6737, 5814, 3498, 6574, 3487, 3331, 15353, 1237, 3689, 1672, 3587, 227, 4186, 4171, 1461, 2380, 2814, 5132, 2684, 277, 4597, 3553, 3612, 14737, 9099, 1350, 4559, 4235, 3492, 1146, 4175, 3572, 4604, 3608, 5173, 1673, 4172, 3592, 4234, 11057, 8934, 4084, 12021, 15197, 958, 1669, 190, 10293, 4555, 3969, 14963, 12958, 14437, 1362, 3343, 3486, 8152, 1243, 3018, 3477, 6727, 12196, 11106, 3590, 3164, 3544, 4892, 3884, 3025, 5121, 3683, 8122, 1691, 5139, 3621, 4200, 14731, 5129, 3970, 3077, 3135, 12024, 3613, 3883, 3480, 959, 9553, 3959, 7485, 12029, 2364, 222, 3625, 3543, 4599, 15199, 4185, 3609, 2622, 6298, 3518, 1690, 9676, 3315, 3314, 896, 1685, 4884, 4610, 10379, 2113, 3350, 3481, 4981, 8131, 1240, 3368, 5123, 1319, 12019, 4587, 15909, 2682, 1298, 3003, 4043, 1238, 2698, 3090, 5750, 1692, 1104, 5138, 3316, 4575, 5133, 4187, 1147, 12776, 6928, 6734, 11103, 2388, 78, 15012, 8121, 6382, 4615, 15175, 789, 12028, 1671, 15471, 11186, 5107, 4217, 5190, 3044, 5819, 15315, 1459, 3012, 4592, 4603, 3014, 13018, 8398, 2849, 7879, 4581, 5191, 3361, 5122, 5508, 4570, 3953, 15124, 982, 10369, 3163, 3079, 1668, 5944, 5754, 3882, 829, 3952, 2116, 14301, 151, 4255, 12782, 1687, 4167, 15006, 14962, 1462, 5503, 7942, 5100, 4601, 1213, 6301, 10216, 12045, 7943, 2117, 1324, 3160, 5155, 9501, 6739, 6930, 5688, 3700, 1305, 1311, 5698, 793, 790, 954, 3072, 5749, 3359, 2840, 3360, 15125, 3002, 3159, 3658, 1694, 12031, 3533, 3531, 3321, 3330, 14739, 4233, 5126, 1323, 1249, 17598, 7945, 5520, 3023, 1650, 12027, 3177, 4226, 2808, 1341, 9552, 3409, 9551, 1349, 3552, 1315, 3577, 3554, 3611, 5120, 5570, 4569, 54, 3166, 4236, 5125, 836, 4165, 2137, 8360, 1310, 2845, 3095, 14337, 1698, 3298, 225, 1333, 3165, 3000, 843, 3085, 1273, 4082, 960, 5886, 3547, 981, 5119, 8358, 2265, 3948, 2844, 16458, 7737, 6736, 3483, 8403, 4589, 2115, 258, 2997, 3021, 5509, 2401, 3589, 3078, 4231, 4257, 5871, 4557, 15898, 2303, 3961, 2394, 3010, 4888, 3076, 9555, 5109, 2683, 3479, 2136, 14738, 3551, 3684, 3541, 3022, 3779, 3187, 3016, 2999, 4617, 7976, 4562, 5510, 4194, 3074, 1678, 1469, 4560, 12943, 2842, 3485, 1309, 10364, 6730, 6495, 3053, 2135, 1294, 7683, 465, 5620, 3097, 5152, 1450, 5106, 2365, 3162, 6328, 1314, 2140, 3020, 1463, 4600, 5820, 4556, 3291, 5103, 2264, 6747, 7744, 4590, 3186, 7772, 12023, 3329, 4173, 1295, 4580, 5753, 4177, 1670, 12026, 4241, 4183, 11182, 3528, 3532, 3530, 491, 3138, 955, 2669, 3089, 10367, 1407, 3092, 4554, 984, 4259, 3349, 4222, 3682, 8159, 6376, 11137,
-					-- Added in expansion: Burning Crusade (https://www.wowhead.com/cata/npcs?filter=29:39;1:2;0:0)
-					23381, 16585, 19213, 20097, 18960, 16826, 20096, 18015, 18484, 16588, 19296, 19663, 18011, 19038, 18957, 20028, 19373, 19837, 18802, 18756, 16583, 18525, 18005, 18993, 16253, 23489, 21643, 23396, 19662, 19227, 21183, 21905, 20980, 27668, 19383, 25976, 18911, 18382, 19186, 21655, 19331, 19074, 16264, 18751, 17584, 17904, 16782, 21906, 21485, 20240, 16631, 24934, 18771, 16657, 19321, 19536, 21432, 16528, 21474, 20241, 19538, 18997, 16635, 20916, 23604, 20981, 25032, 16262, 18664, 20613, 18990, 27667, 20249, 17657, 16624, 24545, 19343, 22099, 16638, 20242, 16762, 19474, 16625, 18775, 27722, 21484, 18773, 26124, 23007, 19575, 26092, 19004, 20616, 26352, 18907, 19539, 24409, 19196, 27721, 18898, 18753, 19559, 19528, 18810, 19236, 15287, 18774, 19065, 18245, 23373, 23571, 21744, 20890, 27711, 16664, 23245, 22476, 27811, 27820, 19533, 24501, 16753, 17656, 23143, 19495, 22491, 19574, 21082, 21145, 18243, 19372, 19479, 16263, 16718, 18821, 21019, 19348, 23896, 27815, 27812, 16708, 20080, 18010, 21483, 17518, 19932, 18822, 19661, 20278, 18991, 18267, 24495, 24975, 17512, 20510, 20989, 20986, 17585, 16224, 21113, 18947, 19773, 18266, 17486, 18255, 19194, 26089, 16388, 27478, 19857, 19473, 26393, 20378, 16683, 18951, 25177, 24935, 25977, 17246, 23521, 25178, 25010, 25082, 23367, 16823, 24995, 18006, 23606, 19017, 18427, 25179, 18772, 16860, 19342, 19722, 22208, 16613, 20807, 25046, 15494, 18018, 18581, 19235, 17222, 17245, 18914, 18749, 16268, 24780, 28225, 19049, 19047, 16620, 19011, 16690, 16705, 22212, 19521, 19540, 19617, 20081, 16367, 18251, 19678, 24834, 24993, 23511, 17630, 19330, 16274, 27666, 16187, 20917, 20377, 19573, 18959, 21083, 25052, 25176, 23428, 23699, 16610, 18998, 25950, 19012, 25035, 20463, 27814, 19499, 21487, 23064, 19197, 21110, 16602, 24396, 19050, 18987, 23144, 16829, 16747, 22227, 26123, 22225, 23208, 19472, 16637, 23010, 19679, 23243, 18542, 23483, 21488, 23009, 23263, 27816, 16553, 21746, 19351, 16722, 19053, 19572, 19232, 18908, 19694, 18913, 23011, 23159, 23560, 19718, 20250, 16261, 20891, 19772, 19238, 18752, 24208, 23157, 15400, 18988, 17667, 16757, 21084, 27817, 27810, 26394, 19435, 19518, 25012, 19470, 19879, 23012, 18905, 16918, 23748, 19239, 19015, 19020, 16641, 16706, 19021, 18347, 23065, 16632, 18278, 18009, 16677, 16191, 20808, 19315, 20231, 18426, 18672, 19244, 16626, 19245, 20112, 16623, 18897, 23244, 16713, 23710, 17655, 27819, 27806, 16739, 16709, 19371, 24510, 16765, 16670, 15292, 22213, 19223, 16444, 16618, 25039, 23481, 17929, 18929, 19042, 23535, 19836, 16768, 19014, 22266, 22270, 19471, 26091, 16732, 17446, 17412, 19450, 15289, 16920, 19374, 19240, 19436, 19314, 23533, 23510, 25034, 23603, 16750, 16689, 19625, 18754, 23482, 21111, 16650, 21112, 23605, 19497, 18906, 17553, 19056, 16619, 16267, 26398, 19352, 24843, 16257, 19333, 19561, 23484, 16542, 15291, 26090, 18277, 24392, 19520, 19560, 25195, 25019, 16751, 19664, 17930, 16767, 16691, 22264, 22271, 19370, 19562, 17277, 19452, 27489, 18954, 23724, 18017, 16366, 25043, 16259, 19001, 18019, 16649, 16612, 20082, 16443, 16636, 19043, 19517, 23522, 16917, 18962, 23525, 25036, 17421, 20092, 19537, 17101, 19531, 16258, 16666, 20121, 25020, 25089, 16716, 24408, 18564, 23437, 15433, 16766, 23573, 26395, 17489, 15397, 25051, 23112, 16919, 23110, 19045, 24468, 16798, 21085, 16678, 21086, 20892, 23363, 18926, 19498, 19013, 16714, 16442, 19234, 23897, 25196, 16260, 16715, 23995, 28344, 27818, 20494, 19530, 19534, 20194, 19535, 19532, 19649, 19526, 17490, 16748, 19195, 19345, 19339, 18811, 20893, 16735, 19243, 20915, 19451, 23145, 22479, 21172, 19182, 16186, 16693, 16611,
-					-- Added in expansion: Wrath of the Lich King (https://www.wowhead.com/cata/npcs?filter=29:39;1:3;0:0)
-					32296, 30730, 32294, 34885, 34087, 35507, 28723, 33026, 32538, 35508, 32385, 32540, 31863, 30431, 211340, 29523, 35496, 28997, 37941, 31238, 211332, 28995, 29529, 199387, 32509, 32287, 28992, 29548, 28347, 35498, 32380, 29535, 32172, 37942, 31247, 207128, 32763, 35826, 33557, 28714, 37687, 34252, 33553, 29495, 33657, 31864, 32533, 28776, 32515, 32413, 29478, 35497, 28701, 40160, 32514, 32565, 33653, 31580, 33310, 30729, 35577, 38858, 31031, 31865, 32379, 28742, 33307, 26081, 32382, 33556, 27760, 31910, 29715, 32774, 35578, 39173, 29527, 33555, 35495, 32564, 32216, 28512, 31911, 28721, 33630, 199649, 32356, 29744, 25206, 29528, 33595, 26388, 30825, 32773, 29532, 33674, 32832, 31032, 31101, 31582, 35500, 38316, 33650, 32383, 37903, 32359, 29587, 28809, 30098, 29688, 29035, 28829, 27182, 30488, 37696, 28715, 33871, 27730, 30011, 32419, 33996, 26977, 31579, 24149, 28951, 28722, 29491, 27940, 28718, 33554, 31916, 30885, 32477, 33963, 27144, 33869, 35580, 27038, 27025, 31027, 30472, 27057, 24141, 30310, 27051, 30010, 33018, 33027, 32253, 31581, 29945, 29909, 31025, 27055, 30309, 26680, 28811, 29961, 27151, 28726, 29291, 29253, 27185, 26374, 39172, 27027, 27044, 26901, 34772, 26599, 29907, 24539, 27066, 33865, 28791, 30336, 32403, 26984, 24342, 28799, 29547, 27037, 33638, 29537, 28038, 31021, 28993, 35338, 194795, 32834, 30723, 33682, 34881, 28691, 26898, 28692, 28989, 33964, 29049, 33633, 34787, 35494, 31781, 35576, 35642, 27147, 26110, 35574, 27267, 37992, 38841, 32355, 35343, 34382, 33634, 30069, 34684, 30438, 30733, 26596, 33602, 33631, 37688, 29476, 29277, 24148, 32641, 33594, 30731, 23937, 33637, 32354, 32420, 32836, 27195, 29203, 26474, 35099, 28728, 38181, 37674, 30724, 31557, 29261, 32631, 35573, 25314, 29499, 24033, 37904, 32337, 29716, 28870, 26968, 28589, 29636, 27139, 27054, 32334, 29122, 30257, 27134, 33676, 28994, 33866, 37999, 35579, 26941, 33853, 35575, 23737, 35131, 33644, 32362, 24333, 30254, 33636, 32642, 27186, 28725, 29904, 29037, 37998, 33677, 28807, 28707, 28990, 37935, 25274, 33639, 35342, 27062, 29702, 29922, 29905, 32638, 28760, 26484, 37991, 30067, 28794, 28812, 29714, 38283, 30311, 32421, 30244, 28868, 38182, 33679, 28872, 26995, 27188, 30006, 24347, 26569, 28828, 29947, 28855, 26382, 23735, 35337, 35341, 31024, 28806, 26600, 28832, 24057, 28798, 29205, 33635, 29923, 28727, 28813, 26934, 33598, 30346, 31022, 35101, 33640, 34681, 29252, 27058, 29963, 30489, 28792, 27181, 31804, 29925, 26950, 30732, 29015, 32416, 24028, 24147, 26697, 35132, 33872, 27043, 27146, 29971, 27022, 28800, 24291, 27137, 27138, 29275, 29270, 24341, 27071, 30306, 33599, 27148, 27187, 24313, 28827, 33669, 32360, 30253, 29208, 28943, 23862, 24356, 32415, 24053, 27184, 25245, 24349, 23908, 33678, 28046, 33681, 33597, 30005, 27032, 31017, 28500, 27045, 27069, 31805, 27052, 28685, 33680, 32837, 33675, 29583, 29908, 34783, 27026, 27089, 27132, 27133, 30439, 31051, 26229, 26900, 29497, 25278, 26568, 26567, 30239, 27193, 28687, 30255, 28796, 24054, 24343, 32594, 32381, 30345, 28866, 30437, 33683, 29288, 37993, 30436, 29538, 33641, 30734, 32424, 29511, 27143, 33596, 37936, 30572, 26709, 28716, 29944, 26868, 26375, 31115, 34683, 28871, 30256, 29703, 23732, 28867, 26718, 27021, 33684, 34682, 23802, 27088, 25248, 29628, 27031, 27125, 35340, 27030, 27011, 33600, 26936, 32426, 29970, 26720, 28869, 27067, 24052, 34645, 33601, 27041, 27935, 29207, 26938, 28797, 29968, 26908, 29962, 28682, 29493, 38840, 26939, 30735, 30241, 30727, 28810, 27039, 27141, 29510, 27070, 26707, 24357, 28040, 26598, 29969, 24348, 28830, 30307, 38054, 29561, 27019, 32478, 31019, 27938, 27190, 30827, 38284, 28991, 27063, 28831, 26945, 29512, 27149, 27012, 26959, 27174, 34685, 27943, 29964, 27950, 30434, 31776, 32639, 29014, 29926, 27042, 30070, 23731, 33645, 29244, 29496, 27053, 27140, 27142, 32412, 33019, 26916, 27176, 24330, 24188, 29494, 29121, 25736, 33868, 27145, 37997,
-					-- Added in expansion: Cataclysm (https://www.wowhead.com/cata/npcs?filter=29:39;1:4;0:0)
-					46718, 46602, 46572, 46555, 50488, 44246, 36375, 52037, 49877, 50307, 52809, 52027, 50483, 50309, 46556, 50304, 44245, 50305, 50323, 49737, 50308, 49701, 50477, 51512, 49893, 219976, 45286, 42853, 43694, 44918, 36779, 52278, 52031, 38853, 43558, 43645, 38511, 52032, 219980, 36430, 44235, 32979, 39033, 47764, 43436, 38561, 36717, 44125, 37500, 43768, 36695, 42953, 39032, 36427, 44181, 46512, 43949, 43439, 43485, 46708, 52641,
-
-				}
-
-			end
+			}
 
 			-- Event handler
 			gossipFrame:SetScript("OnEvent", function()
@@ -1974,146 +2038,6 @@
 				end
 				-- Process gossip
 				SkipGossip()
-			end)
-
-		end
-
-		----------------------------------------------------------------------
-		--	Disable pet automation
-		----------------------------------------------------------------------
-
-		if LeaPlusLC["NoPetAutomation"] == "On" and not LeaLockList["NoPetAutomation"] then
-
-			-- Create frame to watch for combat
-			local petCombat = CreateFrame("FRAME")
-			local petTicker
-
-			-- Function to dismiss pet
-			local function DismissPetTimerFunc()
-				if UnitAffectingCombat("player") then
-					-- Player is in combat so cancel ticker and schedule it for when combat ends
-					if petTicker then petTicker:Cancel() end
-					petCombat:RegisterEvent("PLAYER_REGEN_ENABLED")
-				else
-					-- Player is not in combat so attempt to dismiss pet
-					local summonedPet = C_PetJournal.GetSummonedPetGUID()
-					if summonedPet then
-						C_PetJournal.SummonPetByGUID(summonedPet)
-					end
-				end
-			end
-
-			hooksecurefunc(C_PetJournal, "SetPetLoadOutInfo", function()
-				-- Cancel existing ticker if one already exists
-				if petTicker then petTicker:Cancel() end
-				-- Check for combat
-				if UnitAffectingCombat("player") then
-					-- Player is in combat so schedule ticker for when combat ends
-					petCombat:RegisterEvent("PLAYER_REGEN_ENABLED")
-				else
-					-- Player is not in combat so run ticker now
-					petTicker = C_Timer.NewTicker(0.5, DismissPetTimerFunc, 15)
-				end
-			end)
-
-			-- Script for when combat ends
-			petCombat:SetScript("OnEvent", function()
-				-- Combat has ended so run ticker now
-				petTicker = C_Timer.NewTicker(0.5, DismissPetTimerFunc, 15)
-				petCombat:UnregisterEvent("PLAYER_REGEN_ENABLED")
-			end)
-
-		end
-
-		----------------------------------------------------------------------
-		--	Show pet save button
-		----------------------------------------------------------------------
-
-		if LeaPlusLC["ShowPetSaveBtn"] == "On" and not LeaLockList["ShowPetSaveBtn"] then
-
-			EventUtil.ContinueOnAddOnLoaded("Blizzard_Collections",function()
-
-				-- Create panel
-				local pFrame = CreateFrame("Frame", nil, PetJournal)
-				pFrame:ClearAllPoints()
-				pFrame:SetPoint("TOPLEFT", PetJournalLoadoutBorder, "TOPLEFT", 4, 40)
-				pFrame:SetSize(PetJournalLoadoutBorder:GetWidth() -10, 16)
-				pFrame:Hide()
-				pFrame:SetFrameLevel(5000)
-
-				-- Add background color
-				pFrame.t = pFrame:CreateTexture(nil, "BACKGROUND")
-				pFrame.t:SetAllPoints()
-				pFrame.t:SetColorTexture(0.05, 0.05, 0.05, 0.7)
-
-				-- Create editbox
-				local petEB = CreateFrame("EditBox", nil, pFrame)
-				petEB:SetAllPoints()
-				petEB:SetTextInsets(2, 2, 2, 2)
-				petEB:SetFontObject("GameFontNormal")
-				petEB:SetTextColor(1.0, 1.0, 1.0, 1)
-				petEB:SetBlinkSpeed(0)
-				petEB:SetAltArrowKeyMode(true)
-
-				-- Prevent changes
-				petEB:SetScript("OnEscapePressed", function() pFrame:Hide() end)
-				petEB:SetScript("OnEnterPressed", function() petEB:HighlightText() end)
-				petEB:SetScript("OnMouseDown", function() petEB:ClearFocus() end)
-				petEB:SetScript("OnMouseUp", function() petEB:HighlightText() end)
-
-				-- Create tooltip
-				petEB.tiptext = L["This command will assign your current pet team and selected abilities.|n|nPress CTRL/C to copy the command then paste it into a macro or chat window with CTRL/V."]
-				petEB:HookScript("OnEnter", function()
-					GameTooltip:SetOwner(petEB, "ANCHOR_TOP")
-					GameTooltip:SetText(petEB.tiptext, nil, nil, nil, nil, true)
-				end)
-				petEB:HookScript("OnLeave", GameTooltip_Hide)
-
-				-- Function to get pet data and build macro
-				local function RefreshPets()
-					-- Get pet data
-					local p1, p1a, p1b, p1c = C_PetJournal.GetPetLoadOutInfo(1)
-					local p2, p2a, p2b, p2c = C_PetJournal.GetPetLoadOutInfo(2)
-					local p3, p3a, p3b, p3c = C_PetJournal.GetPetLoadOutInfo(3)
-					if p1 and p1a and p1b and p1c and p2 and p2a and p2b and p2c and p3 and p3a and p3b and p3c then
-						-- Build macro string and show it in editbox
-						local comTeam = "/ltp team "
-						comTeam = comTeam .. p1 .. ',' .. p1a .. ',' .. p1b .. ',' .. p1c .. ","
-						comTeam = comTeam .. p2 .. ',' .. p2a .. ',' .. p2b .. ',' .. p2c .. ","
-						comTeam = comTeam .. p3 .. ',' .. p3a .. ',' .. p3b .. ',' .. p3c
-						petEB:SetText(comTeam)
-						petEB:HighlightText()
-						petEB:SetFocus()
-					end
-				end
-
-				-- Prevent changes to editbox value
-				petEB:SetScript("OnChar", RefreshPets)
-				petEB:SetScript("OnKeyUp", RefreshPets)
-
-				-- Refresh pet data when slots are changed
-				hooksecurefunc(C_PetJournal, "SetPetLoadOutInfo", RefreshPets)
-
-				-- Add macro button
-				local macroBtn = LeaPlusLC:CreateButton("PetMacroBtn", _G["PetJournalLoadoutPet1"], "", "TOPRIGHT", 0, 0, 32, 32, false, "")
-				macroBtn:SetFrameLevel(5000)
-				macroBtn:SetNormalTexture("Interface\\BUTTONS\\AdventureGuideMicrobuttonAlert")
-				macroBtn:SetScript("OnClick", function()
-					if C_PetJournal.GetPetLoadOutInfo(1) and C_PetJournal.GetPetLoadOutInfo(2) and C_PetJournal.GetPetLoadOutInfo(3) then
-						if pFrame:IsShown() then
-							-- Frame is already showing so hide it
-							pFrame:Hide()
-						else
-							-- Show macro panel
-							pFrame:Show()
-							RefreshPets()
-						end
-					else
-						LeaPlusLC:Print("You need a battle pet team.")
-					end
-				end)
-				macroBtn:HookScript("OnHide", function() pFrame:Hide() end)
-
 			end)
 
 		end
@@ -2173,44 +2097,6 @@
 			local faster = CreateFrame("Frame")
 			faster:RegisterEvent("LOOT_READY")
 			faster:SetScript("OnEvent", FastLoot)
-
-		end
-
-		----------------------------------------------------------------------
-		--	Hide event toasts
-		----------------------------------------------------------------------
-
-		if LeaPlusLC["HideEventToasts"] == "On" and not LeaLockList["HideEventToasts"] then
-
-			-- Create holder
-			local LevelUpDisplayHolder = CreateFrame("Frame", nil, UIParent)
-
-			-- Move LevelUpDisplay
-			LevelUpDisplay:ClearAllPoints()
-			if not LeaPlusLC.ElvUI then
-				LevelUpDisplay:SetPoint("TOP", LevelUpDisplayHolder)
-			end
-
-			-- Maintain position of LevelUpDisplay
-			hooksecurefunc(LevelUpDisplay, "SetPoint", function(frame, void, anchor)
-				if anchor ~= LevelUpDisplayHolder then
-					frame:ClearAllPoints()
-					if not LeaPlusLC.ElvUI then
-						frame:SetPoint("TOP", LevelUpDisplayHolder)
-					end
-				end
-			end)
-
-			-- Force zone text to show while LevelUpDisplay is showing
-			ZoneTextFrame:HookScript("OnEvent", function(self, event)
-				if LevelUpDisplay:IsShown() then
-					if event == "ZONE_CHANGED_NEW_AREA" and not ZoneTextFrame:IsShown() then
-						FadingFrame_Show(ZoneTextFrame)
-					elseif event == "ZONE_CHANGED_INDOORS" and not SubZoneTextFrame:IsShown() then
-						FadingFrame_Show(SubZoneTextFrame)
-					end
-				end
-			end)
 
 		end
 
@@ -2695,20 +2581,16 @@
 						-- Don't accept blocked quests
 						if isNpcBlocked("Accept") then return end
 						-- Accept quest
-						if LeaPlusLC.NewPatch then
+						if GetCVar("softTargetInteract") == "0" then
+							-- Soft targeting is not being used
 							AcceptQuest()
 						else
-							if GetCVar("softTargetInteract") == "0" then
-								-- Soft targeting is not being used
-								AcceptQuest()
-							else
-								-- Soft targeting is being used so an error can be shown (johanni)
-								-- Reproduce: Set softTargetInteract to something other than 0,
-								-- assign interact with target key in game settings (controls)
-								-- and press that key in front of quest giver to take quest
-								RunScript('AcceptQuest()')
-								StaticPopup_Hide("MACRO_ACTION_FORBIDDEN")
-							end
+							-- Soft targeting is being used so an error can be shown (johanni)
+							-- Reproduce: Set softTargetInteract to something other than 0,
+							-- assign interact with target key in game settings (controls)
+							-- and press that key in front of quest giver to take quest
+							RunScript('AcceptQuest()')
+							StaticPopup_Hide("MACRO_ACTION_FORBIDDEN")
 						end
 					end
 				end
@@ -3847,14 +3729,8 @@
 			cButton = CharacterFrameExpandButton
 
 			-- Create durability tables
-			local Slots, SlotsFriendly
-			if LeaPlusLC.NewPatch then
-				Slots = {"HeadSlot", "ShoulderSlot", "ChestSlot", "WristSlot", "HandsSlot", "WaistSlot", "LegsSlot", "FeetSlot", "MainHandSlot", "SecondaryHandSlot"}
-				SlotsFriendly = {INVTYPE_HEAD, INVTYPE_SHOULDER, INVTYPE_CHEST, INVTYPE_WRIST, INVTYPE_HAND, INVTYPE_WAIST, INVTYPE_LEGS, INVTYPE_FEET, INVTYPE_WEAPONMAINHAND, INVTYPE_WEAPONOFFHAND}
-			else
-				Slots = {"HeadSlot", "ShoulderSlot", "ChestSlot", "WristSlot", "HandsSlot", "WaistSlot", "LegsSlot", "FeetSlot", "MainHandSlot", "SecondaryHandSlot", "RangedSlot"}
-				SlotsFriendly = {INVTYPE_HEAD, INVTYPE_SHOULDER, INVTYPE_CHEST, INVTYPE_WRIST, INVTYPE_HAND, INVTYPE_WAIST, INVTYPE_LEGS, INVTYPE_FEET, INVTYPE_WEAPONMAINHAND, INVTYPE_WEAPONOFFHAND, INVTYPE_RANGED}
-			end
+			local Slots = {"HeadSlot", "ShoulderSlot", "ChestSlot", "WristSlot", "HandsSlot", "WaistSlot", "LegsSlot", "FeetSlot", "MainHandSlot", "SecondaryHandSlot", "RangedSlot"}
+			local SlotsFriendly = {INVTYPE_HEAD, INVTYPE_SHOULDER, INVTYPE_CHEST, INVTYPE_WRIST, INVTYPE_HAND, INVTYPE_WAIST, INVTYPE_LEGS, INVTYPE_FEET, INVTYPE_WEAPONMAINHAND, INVTYPE_WEAPONOFFHAND, INVTYPE_RANGED}
 
 			-- Show durability status in tooltip or status line (tip or status)
 			local function ShowDuraStats(where)
@@ -3940,9 +3816,8 @@
 
 			-- Hover over the durability button to show the durability tooltip
 			cButton:SetScript("OnEnter", function()
-				GameTooltip:SetOwner(cButton, "ANCHOR_RIGHT")
-				GameTooltip:SetMinimumWidth(0) -- Needed due to mage reset specialisation and choose frost
-				ShowDuraStats("tip")
+				GameTooltip:SetOwner(cButton, "ANCHOR_RIGHT");
+				ShowDuraStats("tip");
 			end)
 			cButton:SetScript("OnLeave", GameTooltip_Hide)
 
@@ -5507,9 +5382,6 @@
 				hooksecurefunc(MinimapNorthTag, "Show", function()
 					MinimapNorthTag:Hide()
 				end)
-				if LeaPlusLC.NewPatch then
-					MinimapNorthTag:Hide()
-				end
 
 				-- Tracking button
 				MiniMapTracking:SetScale(0.75)
@@ -6799,214 +6671,6 @@
 		end
 
 		----------------------------------------------------------------------
-		-- Remove transforms (no reload required)
-		----------------------------------------------------------------------
-
-		do
-
-			local transTable = {
-
-				-- Single spell IDs
-				["TransLantern"] = {44212}, -- Weighted Jack-o'-Lantern
-				["TransTurkey"] = {61781}, -- Turkey (Pilgrim's Bounty)
-
-				-- Noblegarden: Noblegarden Bunny
-				["TransNobleBunny"] = {
-					--[[Noblegarden Bunny]] 61734,
-					--[[Rabbit Costume]] 61716,
-				},
-
-				-- Hallowed Wand costumes
-				["TransHallowed"] = {
-					--[[Bat]] 24732,
-					--[[Ghost]] 24735, 24736,
-					--[[Leper Gnome]] 24712, 24713,
-					--[[Ninja]] 24710, 24711,
-					--[[Pirate]] 24708, 24709,
-					--[[Skeleton]] 24723,
-					--[[Wisp]] 24740,
-				},
-
-			}
-
-			-- Give table file level scope (its used during logout and for admin command)
-			LeaPlusLC["transTable"] = transTable
-
-			-- Create local table for storing spell IDs that need to be removed
-			local cTable = {}
-
-			-- Load saved settings or set default values
-			for k, v in pairs(transTable) do
-				if LeaPlusDB[k] and type(LeaPlusDB[k]) == "string" and LeaPlusDB[k] == "On" or LeaPlusDB[k] == "Off" then
-					LeaPlusLC[k] = LeaPlusDB[k]
-				else
-					LeaPlusLC[k] = "Off"
-					LeaPlusDB[k] = "Off"
-				end
-			end
-
-			-- Create scrolling configuration panel
-			local transPanel = LeaPlusLC:CreatePanel("Remove transforms", "transPanel", true)
-
-			-- Initialise row count
-			local row = -1
-
-			-- Add checkboxes
-			row = row + 2; LeaPlusLC:MakeTx(transPanel.scrollChild, "Events", 16,  -(row - 1) * 20 - 2)
-			row = row + 1; LeaPlusLC:MakeCB(transPanel.scrollChild, "TransHallowed", "Hallow's End: Hallowed Wand", 16,  -((row - 1) * 20) - 2, false, "If checked, the Hallowed Wand transforms will be removed when applied.")
-			row = row + 1; LeaPlusLC:MakeCB(transPanel.scrollChild, "TransLantern", "Hallow's End: Weighted Jack-o'-Lantern", 16,  -((row - 1) * 20) - 2, false, "If checked, the Weighted Jack-o'-Lantern transform will be removed when applied.")
-			row = row + 1; LeaPlusLC:MakeCB(transPanel.scrollChild, "TransNobleBunny", "Noblegarden: Noblegarden Bunny", 16,  -((row - 1) * 20) - 2, false, "If checked, the Noblegarden bunny transforms will be removed when applied.")
-			row = row + 1; LeaPlusLC:MakeCB(transPanel.scrollChild, "TransTurkey", "Pilgrim's Bounty: Turkey Shooter", 16,  -((row - 1) * 20) - 2, false, "If checked, the Turkey Shooter transform will be removed when applied.")
-
-			-- Debug
-			-- RemoveCommentToEnableDebug = true
-			if RemoveCommentToEnableDebug then
-				row = row + 2; LeaPlusLC:MakeTx(transPanel.scrollChild, "Debug", 16,  -(row - 1) * 20 - 2)
-				row = row + 1; LeaPlusLC:MakeCB(transPanel.scrollChild, "CancelDevotion", "Devotion Aura", 16, -((row - 1) * 20) - 2, false, "")
-				transTable["CancelDevotion"] = {465}
-				LeaPlusLC["CancelDevotion"] = "On"
-
-				row = row + 1; LeaPlusLC:MakeCB(transPanel.scrollChild, "CancelStealth", "Stealth", 16, -((row - 1) * 20) - 2, false, "")
-				transTable["CancelStealth"] = {1784}
-				LeaPlusLC["CancelStealth"] = "On"
-
-				row = row + 1; LeaPlusLC:MakeCB(transPanel.scrollChild, "CancelIntel", "Intellect", 16, -((row - 1) * 20) - 2, false, "")
-				transTable["CancelIntel"] = {1459}
-				LeaPlusLC["CancelIntel"] = "On"
-			end
-
-			-- Function to populate cTable with spell IDs for settings that are enabled
-			local function UpdateList()
-				for k, v in pairs(transTable) do
-					for j, spellID in pairs(v) do
-						if LeaPlusLC[k] == "On" then
-							cTable[spellID] = true
-						else
-							cTable[spellID] = nil
-						end
-					end
-				end
-			end
-
-			-- Populate cTable on startup
-			UpdateList()
-
-			-- Create frame for events
-			local spellFrame = CreateFrame("FRAME")
-
-			-- Function to cancel buffs
-			local function eventFunc()
-				for i = 1, 40 do
-					local BuffData = C_UnitAuras.GetBuffDataByIndex("player", i)
-					if BuffData then
-						local spellID = BuffData.spellId
-						if spellID and cTable[spellID] then
-							if UnitAffectingCombat("player") then
-								spellFrame:RegisterEvent("PLAYER_REGEN_ENABLED")
-							else
-								CancelUnitBuff("player", i)
-							end
-						end
-					end
-				end
-			end
-
-			-- Check for buffs
-			spellFrame:SetScript("OnEvent", function(self, event, unit, updatedAuras)
-				if event == "UNIT_AURA" then
-					if updatedAuras then
-						if updatedAuras.isFullUpdate then
-							eventFunc()
-						elseif updatedAuras.addedAuras then
-							for void, aura in ipairs(updatedAuras.addedAuras) do
-								if aura.spellId and cTable[aura.spellId] then
-									eventFunc()
-								end
-							end
-						end
-					end
-				elseif event == "PLAYER_REGEN_ENABLED" then
-
-					-- Traverse buffs (will only run spell was found in cTable previously)
-					for i = 1, 40 do
-						local BuffData = C_UnitAuras.GetBuffDataByIndex("player", i)
-						if BuffData then
-							local spellID = BuffData.spellId
-							if spellID and cTable[spellID] then
-								spellFrame:UnregisterEvent("PLAYER_REGEN_ENABLED")
-								CancelUnitBuff("player", i)
-							end
-						end
-					end
-
-				end
-			end)
-
-			-- Function to set event
-			local function SetTransformFunc()
-				if LeaPlusLC["NoTransforms"] == "On" then
-					eventFunc()
-					spellFrame:RegisterUnitEvent("UNIT_AURA", "player")
-				else
-					spellFrame:UnregisterEvent("UNIT_AURA")
-					spellFrame:UnregisterEvent("PLAYER_REGEN_ENABLED")
-				end
-			end
-
-			-- Run set event function when option is clicked and on startup
-			LeaPlusCB["NoTransforms"]:HookScript("OnClick", SetTransformFunc)
-			if LeaPlusLC["NoTransforms"] == "On" then SetTransformFunc() end
-
-			-- Set click width for checkboxes and run update when checkboxes are clicked
-			for k, v in pairs(transTable) do
-				LeaPlusCB[k]:HookScript("OnClick", function()
-					UpdateList()
-					eventFunc()
-				end)
-			end
-
-			-- Help button hidden
-			transPanel.h:Hide()
-
-			-- Back button handler
-			transPanel.b:SetScript("OnClick", function()
-				transPanel:Hide(); LeaPlusLC["PageF"]:Show(); LeaPlusLC["Page7"]:Show()
-				return
-			end)
-
-			-- Reset button handler
-			transPanel.r:SetScript("OnClick", function()
-
-				-- Reset checkboxes
-				for k, v in pairs(transTable) do
-					LeaPlusLC[k] = "Off"
-				end
-				UpdateList()
-				eventFunc()
-
-				-- Refresh panel
-				transPanel:Hide(); transPanel:Show()
-
-			end)
-
-			-- Show panal when options panel button is clicked
-			LeaPlusCB["NoTransformsBtn"]:SetScript("OnClick", function()
-				if IsShiftKeyDown() and IsControlKeyDown() then
-					-- Preset profile
-					for k, v in pairs(transTable) do
-						LeaPlusLC[k] = "On"
-					end
-					UpdateList()
-					eventFunc()
-				else
-					transPanel:Show()
-					LeaPlusLC:HideFrames()
-				end
-			end)
-
-		end
-
-		----------------------------------------------------------------------
 		-- Filter chat messages
 		----------------------------------------------------------------------
 
@@ -7606,20 +7270,12 @@
 
 				-- Show left column slot buttons
 				for i = 1, 7 do
-					if LeaPlusLC.NewPatch then
-						MakeSlotButton(i, slotTable[i], "TOPLEFT", 12, -68 + -35 * (i - 1))
-					else
-						MakeSlotButton(i, slotTable[i], "TOPLEFT", 22, -80 + -35 * (i - 1))
-					end
+					MakeSlotButton(i, slotTable[i], "TOPLEFT", 22, -80 + -35 * (i - 1))
 				end
 
 				-- Show right column slot buttons
 				for i = 8, 13 do
-					if LeaPlusLC.NewPatch then
-						MakeSlotButton(i, slotTable[i], "TOPRIGHT", -14, -68 + -35 * (i - 8))
-					else
-						MakeSlotButton(i, slotTable[i], "TOPRIGHT", -46, -80 + -35 * (i - 8))
-					end
+					MakeSlotButton(i, slotTable[i], "TOPRIGHT", -46, -80 + -35 * (i - 8))
 				end
 
 				-- Function to set item buttons
@@ -7659,12 +7315,7 @@
 			LeaPlusLC["DressupAnim"] = 0 -- Defined here since the setting is not saved
 			LeaPlusLC:MakeSL(DressUpFrame, "DressupAnim", "", 1, #animTable - 1, 1, 356, -92, "%.0f")
 			LeaPlusCB["DressupAnim"]:ClearAllPoints()
-			if LeaPlusLC.NewPatch then
-				LeaPlusCB["DressupAnim"]:SetPoint("BOTTOM", -12, 34)
-			else
-				LeaPlusCB["DressupAnim"]:SetPoint("BOTTOM", -12, 112)
-			end
-
+			LeaPlusCB["DressupAnim"]:SetPoint("BOTTOM", -12, 112)
 			LeaPlusCB["DressupAnim"]:SetWidth(226)
 			LeaPlusCB["DressupAnim"]:SetFrameLevel(5)
 			LeaPlusCB["DressupAnim"]:HookScript("OnValueChanged", function(self, setting)
@@ -7733,11 +7384,7 @@
 			-- Close
 			SetButton(DressUpFrameCancelButton, "", "Close")
 			DressUpFrameCancelButton:ClearAllPoints()
-			if LeaPlusLC.NewPatch then
-				DressUpFrameCancelButton:SetPoint("BOTTOMRIGHT", DressUpFrame, "BOTTOMRIGHT", -4, 4)
-			else
-				DressUpFrameCancelButton:SetPoint("BOTTOMRIGHT", DressUpFrame, "BOTTOMRIGHT", -40, 79)
-			end
+			DressUpFrameCancelButton:SetPoint("BOTTOMRIGHT", DressUpFrame, "BOTTOMRIGHT", -40, 80)
 
 			-- Reset
 			SetButton(DressUpFrameResetButton, "R", "Reset")
@@ -7911,11 +7558,8 @@
 				MountJournal.MountDisplay.ModelScene.RotateRightButton:Hide()
 
 				-- Hide positioning controls for pet journal
-				if LeaPlusLC.NewPatch then
-				else
-					PetJournalPetCard.modelScene.RotateLeftButton:Hide()
-					PetJournalPetCard.modelScene.RotateRightButton:Hide()
-				end
+				PetJournalPetCard.modelScene.RotateLeftButton:Hide()
+				PetJournalPetCard.modelScene.RotateRightButton:Hide()
 
 				-- Hide positioning controls for wardrobe
 				WardrobeTransmogFrameControlFrame:HookScript("OnShow", WardrobeTransmogFrameControlFrame.Hide)
@@ -8064,13 +7708,8 @@
 			end)
 
 			DressUpModelFrame:ClearAllPoints()
-			if LeaPlusLC.NewPatch then
-				DressUpModelFrame:SetPoint("TOPLEFT", DressUpFrame, 8, -64)
-				DressUpModelFrame:SetPoint("BOTTOMRIGHT", DressUpFrame, -8, 30)
-			else
-				DressUpModelFrame:SetPoint("TOPLEFT", DressUpFrame, 22, -76)
-				DressUpModelFrame:SetPoint("BOTTOMRIGHT", DressUpFrame, -46, 106)
-			end
+			DressUpModelFrame:SetPoint("TOPLEFT", DressUpFrame, 22, -76)
+			DressUpModelFrame:SetPoint("BOTTOMRIGHT", DressUpFrame, -46, 106)
 
 			-- Reset dressup frame when reset button clicked
 			DressUpFrameResetButton:HookScript("OnClick", function()
@@ -8132,36 +7771,9 @@
 
 			LeaPlusLC:MakeTx(ReleasePanel, "Settings", 16, -72)
 			LeaPlusLC:MakeCB(ReleasePanel, "AutoReleaseNoAlterac", "Exclude Alterac Valley", 16, -92, false, "If checked, you will not release automatically in Alterac Valley.")
-			LeaPlusLC:MakeCB(ReleasePanel, "AutoReleaseGilneas", "Exclude Battle for Gilneas", 16, -112, false, "If checked, you will not release automatically in Battle for Gilneas.")
-			LeaPlusLC:MakeCB(ReleasePanel, "AutoReleaseConquest", "Exclude Isle of Conquest", 16, -132, false, "If checked, you will not release automatically in Isle of Conquest.")
-			LeaPlusLC:MakeCB(ReleasePanel, "AutoReleaseSilvershard", "Exclude Silvershard Mines", 16, -152, false, "If checked, you will not release automatically in Silvershard Mines.")
-			LeaPlusLC:MakeCB(ReleasePanel, "AutoReleaseKotmogu", "Exclude Temple of Kotmogu", 16, -172, false, "If checked, you will not release automatically in Temple of Kotmogu.")
-			LeaPlusLC:MakeCB(ReleasePanel, "AutoReleaseNoWintergsp", "Exclude Wintergrasp", 16, -192, false, "If checked, you will not release automatically in Wintergrasp.")
 
 			LeaPlusLC:MakeTx(ReleasePanel, "Delay", 356, -72)
 			LeaPlusLC:MakeSL(ReleasePanel, "AutoReleaseDelay", "Drag to set the number of milliseconds before you are automatically released.|n|nYou can hold down shift as the timer is ending to cancel the automatic release.", 200, 3000, 100, 356, -92, "%.0f")
-
-			if not LeaPlusLC.NewPatch then
-				LeaPlusLC:LockItem(LeaPlusCB["AutoReleaseGilneas"], true)
-				LeaPlusLC["AutoReleaseGilneas"] = "Off"; LeaPlusDB["AutoReleaseGilneas"] = "Off"
-				LeaPlusCB["AutoReleaseGilneas"].tiptext = LeaPlusCB["AutoReleaseGilneas"].tiptext .. "|n|n|cff00AAFF" .. L["This is for Mists of Pandaria Classic."]
-
-				LeaPlusLC:LockItem(LeaPlusCB["AutoReleaseConquest"], true)
-				LeaPlusLC["AutoReleaseConquest"] = "Off"; LeaPlusDB["AutoReleaseConquest"] = "Off"
-				LeaPlusCB["AutoReleaseConquest"].tiptext = LeaPlusCB["AutoReleaseConquest"].tiptext .. "|n|n|cff00AAFF" .. L["This is for Mists of Pandaria Classic."]
-
-				LeaPlusLC:LockItem(LeaPlusCB["AutoReleaseSilvershard"], true)
-				LeaPlusLC["AutoReleaseSilvershard"] = "Off"; LeaPlusDB["AutoReleaseSilvershard"] = "Off"
-				LeaPlusCB["AutoReleaseSilvershard"].tiptext = LeaPlusCB["AutoReleaseSilvershard"].tiptext .. "|n|n|cff00AAFF" .. L["This is for Mists of Pandaria Classic."]
-
-				LeaPlusLC:LockItem(LeaPlusCB["AutoReleaseKotmogu"], true)
-				LeaPlusLC["AutoReleaseKotmogu"] = "Off"; LeaPlusDB["AutoReleaseKotmogu"] = "Off"
-				LeaPlusCB["AutoReleaseKotmogu"].tiptext = LeaPlusCB["AutoReleaseKotmogu"].tiptext .. "|n|n|cff00AAFF" .. L["This is for Mists of Pandaria Classic."]
-
-				LeaPlusLC:LockItem(LeaPlusCB["AutoReleaseNoWintergsp"], true)
-				LeaPlusLC["AutoReleaseNoWintergsp"] = "Off"; LeaPlusDB["AutoReleaseNoWintergsp"] = "Off"
-				LeaPlusCB["AutoReleaseNoWintergsp"].tiptext = LeaPlusCB["AutoReleaseNoWintergsp"].tiptext .. "|n|n|cff00AAFF" .. L["This is for Mists of Pandaria Classic."]
-			end
 
 			-- Help button hidden
 			ReleasePanel.h:Hide()
@@ -8177,11 +7789,6 @@
 
 				-- Reset checkboxes
 				LeaPlusLC["AutoReleaseNoAlterac"] = "Off"
-				LeaPlusLC["AutoReleaseGilneas"] = "Off"
-				LeaPlusLC["AutoReleaseConquest"] = "Off"
-				LeaPlusLC["AutoReleaseSilvershard"] = "Off"
-				LeaPlusLC["AutoReleaseKotmogu"] = "Off"
-				LeaPlusLC["AutoReleaseNoWintergsp"] = "Off"
 				LeaPlusLC["AutoReleaseDelay"] = 200
 
 				-- Refresh panel
@@ -8194,11 +7801,6 @@
 				if IsShiftKeyDown() and IsControlKeyDown() then
 					-- Preset profile
 					LeaPlusLC["AutoReleaseNoAlterac"] = "Off"
-					LeaPlusLC["AutoReleaseGilneas"] = "Off"
-					LeaPlusLC["AutoReleaseConquest"] = "Off"
-					LeaPlusLC["AutoReleaseSilvershard"] = "Off"
-					LeaPlusLC["AutoReleaseKotmogu"] = "Off"
-					LeaPlusLC["AutoReleaseNoWintergsp"] = "Off"
 					LeaPlusLC["AutoReleaseDelay"] = 200
 				else
 					ReleasePanel:Show()
@@ -8215,15 +7817,7 @@
 						-- Exclude specific maps
 						local mapID = C_Map.GetBestMapForUnit("player") or nil
 						if mapID then
-							if not LeaPlusLC.NewPatch and mapID == 1459 and LeaPlusLC["AutoReleaseNoAlterac"] == "On" then return end -- Alterac Valley
-							if LeaPlusLC.NewPatch then
-								if mapID == 91 and LeaPlusLC["AutoReleaseNoAlterac"] == "On" then return end -- Alterac Valley
-								if mapID == 275 and LeaPlusLC["AutoReleaseGilneas"] == "On" then return end -- Battle for Gilneas
-								if mapID == 169 and LeaPlusLC["AutoReleaseConquest"] == "On" then return end -- Isle of Conquest
-								if mapID == 423 and LeaPlusLC["AutoReleaseSilvershard"] == "On" then return end -- Silvershard Mines
-								if mapID == 417 and LeaPlusLC["AutoReleaseKotmogu"] == "On" then return end -- Temple of Kotmogu
-								if mapID == 2104 and LeaPlusLC["AutoReleaseNoWintergsp"] == "On" then return end -- Wintergrasp
-							end
+							if mapID == 1459 and LeaPlusLC["AutoReleaseNoAlterac"] == "On" then return end -- Alterac Valley
 						end
 						-- Release automatically
 						local delay = LeaPlusLC["AutoReleaseDelay"] / 1000
@@ -8805,7 +8399,7 @@
 				LeaPlusCB["ToggleQuestHeaders"]:SetWidth(headerButtonWidth)
 			end
 
-			LeaPlusCB["ToggleQuestHeaders"]:HookScript("OnMouseUp", function(self, btn)
+			LeaPlusCB["ToggleQuestHeaders"]:HookScript("OnMouseDown", function(self, btn)
 				if btn == "LeftButton" then
 					if self.collapsed then
 						self.collapsed = nil
@@ -8967,70 +8561,45 @@
 
 		if LeaPlusLC["ShowBagSearchBox"] == "On" and not LeaLockList["ShowBagSearchBox"] then
 
-			if LeaPlusLC.NewPatch then
+			-- Function to unregister search event for guild bank since it isn't used
+			EventUtil.ContinueOnAddOnLoaded("Blizzard_GuildBankUI",function()
+				for i = 1, MAX_GUILDBANK_TABS do
+					_G["GuildBankTab" .. i].Button:UnregisterEvent("INVENTORY_SEARCH_UPDATE")
+				end
+			end)
 
-				-- Create bag item search box
-				local BagItemSearchBox = CreateFrame("EditBox", nil, ContainerFrame1, "BagSearchBoxTemplate")
-				BagItemSearchBox:SetSize(110, 18)
-				BagItemSearchBox:SetMaxLetters(15)
+			-- Create bag item search box
+			local BagItemSearchBox = CreateFrame("EditBox", nil, ContainerFrame1, "BagSearchBoxTemplate")
+			BagItemSearchBox:SetSize(110, 18)
+			BagItemSearchBox:SetMaxLetters(15)
 
-				-- Attach bag search box first bag only
-				hooksecurefunc("ContainerFrame_Update", function(self)
-					if self:GetID() == 0 then
-						BagItemSearchBox:SetParent(self)
-						BagItemSearchBox:SetPoint("TOPLEFT", self, "TOPLEFT", 54, -29)
-						BagItemSearchBox.anchorBag = self
-						BagItemSearchBox:Show()
-					elseif BagItemSearchBox.anchorBag == self then
-						BagItemSearchBox:ClearAllPoints()
-						BagItemSearchBox:Hide()
-						BagItemSearchBox.anchorBag = nil
-					end
-				end)
+			-- Create bank item search box
+			local BankItemSearchBox = CreateFrame("EditBox", nil, BankFrame, "BagSearchBoxTemplate")
+			BankItemSearchBox:SetSize(120, 14)
+			BankItemSearchBox:SetMaxLetters(15)
+			BankItemSearchBox:SetPoint("TOPRIGHT", -60, -40)
 
-			else
-
-				-- Function to unregister search event for guild bank since it isn't used
-				EventUtil.ContinueOnAddOnLoaded("Blizzard_GuildBankUI",function()
-					for i = 1, MAX_GUILDBANK_TABS do
-						_G["GuildBankTab" .. i].Button:UnregisterEvent("INVENTORY_SEARCH_UPDATE")
-					end
-				end)
-
-				-- Create bag item search box
-				local BagItemSearchBox = CreateFrame("EditBox", nil, ContainerFrame1, "BagSearchBoxTemplate")
-				BagItemSearchBox:SetSize(110, 18)
-				BagItemSearchBox:SetMaxLetters(15)
-
-				-- Create bank item search box
-				local BankItemSearchBox = CreateFrame("EditBox", nil, BankFrame, "BagSearchBoxTemplate")
-				BankItemSearchBox:SetSize(120, 14)
-				BankItemSearchBox:SetMaxLetters(15)
-				BankItemSearchBox:SetPoint("TOPRIGHT", -60, -40)
-
-				-- Attach bag search box first bag only
-				hooksecurefunc("ContainerFrame_Update", function(self)
-					if self:GetID() == 0 then
-						BagItemSearchBox:SetParent(self)
-						BagItemSearchBox:SetPoint("TOPLEFT", self, "TOPLEFT", 54, -29)
-						BagItemSearchBox.anchorBag = self
-						BagItemSearchBox:Show()
-					elseif BagItemSearchBox.anchorBag == self then
-						BagItemSearchBox:ClearAllPoints()
-						BagItemSearchBox:Hide()
-						BagItemSearchBox.anchorBag = nil
-					end
-				end)
-
-			end
+			-- Attach bag search box first bag only
+			hooksecurefunc("ContainerFrame_Update", function(self)
+				if self:GetID() == 0 then
+					BagItemSearchBox:SetParent(self)
+					BagItemSearchBox:SetPoint("TOPLEFT", self, "TOPLEFT", 54, -29)
+					BagItemSearchBox.anchorBag = self
+					BagItemSearchBox:Show()
+				elseif BagItemSearchBox.anchorBag == self then
+					BagItemSearchBox:ClearAllPoints()
+					BagItemSearchBox:Hide()
+					BagItemSearchBox.anchorBag = nil
+				end
+			end)
 
 		end
 
 		----------------------------------------------------------------------
-		--	Expand vendor price
+		--	Show vendor price
 		----------------------------------------------------------------------
 
-		if LeaPlusLC["ExpandVendorPrice"] == "On" and not LeaLockList["ExpandVendorPrice"] then
+		if LeaPlusLC["ShowVendorPrice"] == "On" then
 
 			-- Function to show vendor price
 			local function ShowSellPrice(tooltip, tooltipObject)
@@ -11014,758 +10583,373 @@
 				end
 			end)
 
-			-- Add entry to chat menu to show recent chat window
-			if LeaPlusLC.NewPatch then
-				Menu.ModifyMenu("MENU_FCF_TAB", function(self, rootDescription, contextData)
-					rootDescription:CreateDivider()
-					rootDescription:CreateTitle(L["Leatrix Plus"])
-					local recentChatButton = rootDescription:CreateButton(L["Recent chat window"], function()
-						local currentChatFrame = FCF_GetCurrentChatFrame()
-						editBox:SetFont(currentChatFrame:GetFont())
-						editFrame:SetPanExtent(select(2, currentChatFrame:GetFont()))
-						ShowChatbox(currentChatFrame)
-					end)
-				end)
-			end
-
 		end
 
 		----------------------------------------------------------------------
 		-- Show cooldowns
 		----------------------------------------------------------------------
 
-		if LeaPlusLC["ShowCooldowns"] == "On" and not LeaLockList["ShowCooldowns"] then
+		if LeaPlusLC["ShowCooldowns"] == "On" then
 
-			if LeaPlusLC.NewPatch then
+			-- Create main table structure in saved variables if it doesn't exist
+			if LeaPlusDB["Cooldowns"] == nil then
+				LeaPlusDB["Cooldowns"] = {}
+			end
 
-				-- Create main table structure in saved variables if it doesn't exist
-				if LeaPlusDB["Cooldowns"] == nil then
-					LeaPlusDB["Cooldowns"] = {}
+			-- Create class tables if they don't exist
+			for index = 1, GetNumClasses() do
+				local classDisplayName, classTag, classID = GetClassInfo(index)
+				if LeaPlusDB["Cooldowns"][classTag] == nil then
+					LeaPlusDB["Cooldowns"][classTag] = {}
 				end
+			end
 
-				-- Create class tables if they don't exist
-				for index = 1, GetNumClasses() do
-					local classDisplayName, classTag, classID = GetClassInfo(index)
-					if LeaPlusDB["Cooldowns"][classTag] == nil then
-						LeaPlusDB["Cooldowns"][classTag] = {}
-					end
-				end
+			-- Get current class and spec
+			local PlayerClass = select(2, UnitClass("player"))
+			local activeSpec = GetActiveTalentGroup() or 1
 
-				-- Get current class and spec
-				local PlayerClass = select(2, UnitClass("player"))
-				local activeSpec = C_SpecializationInfo.GetSpecialization() or 5 -- 5 is no specialisation
+			-- Create local tables to store cooldown frames and editboxes
+			local icon = {} -- Used to store cooldown frames
+			local SpellEB = {} -- Used to store editbox values
+			local iCount = 5 -- Number of cooldowns
 
-				-- Create local tables to store cooldown frames and editboxes
-				local icon = {} -- Used to store cooldown frames
-				local SpellEB = {} -- Used to store editbox values
-				local iCount = 5 -- Number of cooldowns
+			-- Create cooldown frames
+			for i = 1, iCount do
 
-				-- Create cooldown frames
-				for i = 1, iCount do
+				-- Create cooldown frame
+				icon[i] = CreateFrame("Frame", nil, UIParent)
+				icon[i]:SetFrameStrata("BACKGROUND")
+				icon[i]:SetWidth(20)
+				icon[i]:SetHeight(20)
 
-					-- Create cooldown frame
-					icon[i] = CreateFrame("Frame", nil, UIParent)
-					icon[i]:SetFrameStrata("BACKGROUND")
-					icon[i]:SetWidth(20)
-					icon[i]:SetHeight(20)
+				-- Create cooldown icon
+				icon[i].c = CreateFrame("Cooldown", nil, icon[i], "CooldownFrameTemplate")
+				icon[i].c:SetAllPoints()
+				icon[i].c:SetReverse(true)
 
-					-- Create cooldown icon
-					icon[i].c = CreateFrame("Cooldown", nil, icon[i], "CooldownFrameTemplate")
-					icon[i].c:SetAllPoints()
-					icon[i].c:SetReverse(true)
+				-- Create blank texture (will be assigned a cooldown texture later)
+				icon[i].t = icon[i]:CreateTexture(nil,"BACKGROUND")
+				icon[i].t:SetAllPoints()
 
-					-- Create blank texture (will be assigned a cooldown texture later)
-					icon[i].t = icon[i]:CreateTexture(nil,"BACKGROUND")
-					icon[i].t:SetAllPoints()
+				-- Show icon above target frame and set initial scale
+				icon[i]:ClearAllPoints()
+				icon[i]:SetPoint("TOPLEFT", TargetFrame, "TOPLEFT", 6 + (22 * (i - 1)), 5)
+				icon[i]:SetScale(TargetFrame:GetScale())
 
-					-- Show icon above target frame and set initial scale
-					icon[i]:ClearAllPoints()
-					icon[i]:SetPoint("TOPLEFT", TargetFrame, "TOPLEFT", 6 + (22 * (i - 1)), 5)
-					icon[i]:SetScale(TargetFrame:GetScale())
-
-					-- Show tooltip
-					icon[i]:SetScript("OnEnter", function(self)
-						GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT", 15, -25)
-						GameTooltip:SetText(GetSpellInfo(LeaPlusCB["Spell" .. i]:GetText()))
-					end)
-
-					-- Hide tooltip
-					icon[i]:SetScript("OnLeave", GameTooltip_Hide)
-
-				end
-
-				-- Change cooldown icon scale when player frame scale changes
-				PlayerFrame:HookScript("OnSizeChanged", function()
-					if LeaPlusLC["CooldownsOnPlayer"] == "On" then
-						for i = 1, iCount do
-							icon[i]:SetScale(PlayerFrame:GetScale())
-						end
-					end
+				-- Show tooltip
+				icon[i]:SetScript("OnEnter", function(self)
+					GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT", 15, -25)
+					GameTooltip:SetText(GetSpellInfo(LeaPlusCB["Spell" .. i]:GetText()))
 				end)
 
-				-- Change cooldown icon scale when target frame scale changes
-				TargetFrame:HookScript("OnSizeChanged", function()
-					if LeaPlusLC["CooldownsOnPlayer"] == "Off" then
-						for i = 1, iCount do
-							icon[i]:SetScale(TargetFrame:GetScale())
-						end
-					end
-				end)
-
-				-- Function to show cooldown textures in the cooldown frames (run when icons are loaded or changed)
-				local function ShowIcon(i, id, owner)
-
-					local void
-
-					-- Get spell information
-					local spell, void, path = GetSpellInfo(id)
-					if spell and path then
-
-						-- Set icon texture to the spell texture
-						icon[i].t:SetTexture(path)
-
-						-- Set top level and raise frame strata (ensures tooltips show properly)
-						icon[i]:SetToplevel(true)
-						icon[i]:SetFrameStrata("LOW")
-
-						-- Handle events
-						icon[i]:RegisterUnitEvent("UNIT_AURA", owner)
-						icon[i]:RegisterUnitEvent("UNIT_PET", "player")
-						icon[i]:SetScript("OnEvent", function(self, event, arg1)
-
-							-- If pet was dismissed (or otherwise disappears such as when flying), hide pet cooldowns
-							if event == "UNIT_PET" then
-								if not UnitExists("pet") then
-									if LeaPlusDB["Cooldowns"][PlayerClass]["S" .. activeSpec .. "R" .. i .. "Pet"] then
-										icon[i]:Hide()
-									end
-								end
-
-							-- Ensure cooldown belongs to the owner we are watching (player or pet)
-							elseif arg1 == owner then
-
-								-- Hide the cooldown frame (required for cooldowns to disappear after the duration)
-								icon[i]:Hide()
-
-								-- If buff matches cooldown we want, start the cooldown
-								for q = 1, 40 do
-									local void, void, void, void, length, expire, void, void, void, spellID = UnitBuff(owner, q)
-									if spellID and id == spellID then
-										icon[i]:Show()
-										local start = expire - length
-										CooldownFrame_Set(icon[i].c, start, length, 1)
-									end
-								end
-
-							end
-						end)
-
-					else
-
-						-- Spell does not exist so stop watching it
-						icon[i]:SetScript("OnEvent", nil)
-						icon[i]:Hide()
-
-					end
-
-				end
-
-				-- Create configuration panel
-				local CooldownPanel = LeaPlusLC:CreatePanel("Show cooldowns", "CooldownPanel")
-
-				-- Function to refresh the editbox tooltip with the spell name
-				local function RefSpellTip(self,elapsed)
-					local spellinfo, void, icon = GetSpellInfo(self:GetText())
-					if spellinfo and spellinfo ~= "" and icon and icon ~= "" then
-						GameTooltip:SetOwner(self, "ANCHOR_NONE")
-						GameTooltip:ClearAllPoints()
-						GameTooltip:SetPoint("RIGHT", self, "LEFT", -10, 0)
-						GameTooltip:SetText("|T" .. icon .. ":0|t " .. spellinfo, nil, nil, nil, nil, true)
-					else
-						GameTooltip:Hide()
-					end
-				end
-
-				-- Function to create spell ID editboxes and pet checkboxes
-				local function MakeSpellEB(num, x, y, tab, shifttab)
-
-					-- Create editbox for spell ID
-					SpellEB[num] = LeaPlusLC:CreateEditBox("Spell" .. num, CooldownPanel, 70, 6, "TOPLEFT", x, y - 20, "Spell" .. tab, "Spell" .. shifttab)
-					SpellEB[num]:SetNumeric(true)
-
-					-- Set initial value (for current spec)
-					SpellEB[num]:SetText(LeaPlusDB["Cooldowns"][PlayerClass]["S" .. activeSpec .. "R" .. num .. "Idn"] or "")
-
-					-- Refresh tooltip when mouse is hovering over the editbox
-					SpellEB[num]:SetScript("OnEnter", function()
-						SpellEB[num]:SetScript("OnUpdate", RefSpellTip)
-					end)
-					SpellEB[num]:SetScript("OnLeave", function()
-						SpellEB[num]:SetScript("OnUpdate", nil)
-						GameTooltip:Hide()
-					end)
-
-					-- Create checkbox for pet cooldown
-					LeaPlusLC:MakeCB(CooldownPanel, "Spell" .. num .."Pet", "", 462, y - 20, false, "")
-					LeaPlusCB["Spell" .. num .."Pet"]:SetHitRectInsets(0, 0, 0, 0)
-
-				end
-
-				-- Add titles
-				LeaPlusLC:MakeTx(CooldownPanel, "Spell ID", 384, -92)
-				LeaPlusLC:MakeTx(CooldownPanel, "Pet", 462, -92)
-
-				-- Add editboxes and checkboxes
-				MakeSpellEB(1, 386, -92, "2", "5")
-				MakeSpellEB(2, 386, -122, "3", "1")
-				MakeSpellEB(3, 386, -152, "4", "2")
-				MakeSpellEB(4, 386, -182, "5", "3")
-				MakeSpellEB(5, 386, -212, "1", "4")
-
-				-- Add checkboxes
-				LeaPlusLC:MakeTx(CooldownPanel, "Settings", 16, -72)
-				LeaPlusLC:MakeCB(CooldownPanel, "ShowCooldownID", "Show the spell ID in buff icon tooltips", 16, -92, false, "If checked, spell IDs will be shown in buff icon tooltips located in the buff frame and under the target frame.");
-				LeaPlusLC:MakeCB(CooldownPanel, "NoCooldownDuration", "Hide cooldown duration numbers (if enabled)", 16, -112, false, "If checked, cooldown duration numbers will not be shown over the cooldowns.|n|nIf unchecked, cooldown duration numbers will be shown over the cooldowns if they are enabled in the game options panel ('ActionBars' menu).")
-				LeaPlusLC:MakeCB(CooldownPanel, "CooldownsOnPlayer", "Show cooldowns above the player frame", 16, -132, false, "If checked, cooldown icons will be shown above the player frame instead of the target frame.|n|nIf unchecked, cooldown icons will be shown above the target frame.")
-
-				-- Function to save the panel control settings and refresh the cooldown icons
-				local function SavePanelControls()
-					for i = 1, iCount do
-
-						-- Refresh the cooldown texture
-						icon[i].c:SetCooldown(0,0)
-
-						-- Show icons above target or player frame
-						icon[i]:ClearAllPoints()
-						if LeaPlusLC["CooldownsOnPlayer"] == "On" then
-							icon[i]:SetPoint("TOPLEFT", PlayerFrame, "TOPLEFT", 116 + (22 * (i - 1)), 5)
-							icon[i]:SetScale(PlayerFrame:GetScale())
-						else
-							icon[i]:SetPoint("TOPLEFT", TargetFrame, "TOPLEFT", 6 + (22 * (i - 1)), 5)
-							icon[i]:SetScale(TargetFrame:GetScale())
-						end
-
-						-- Save control states to globals
-						LeaPlusDB["Cooldowns"][PlayerClass]["S" .. activeSpec .. "R" .. i .. "Idn"] = SpellEB[i]:GetText()
-						LeaPlusDB["Cooldowns"][PlayerClass]["S" .. activeSpec .. "R" .. i .. "Pet"] = LeaPlusCB["Spell" .. i .."Pet"]:GetChecked()
-
-						-- Set cooldowns
-						if LeaPlusCB["Spell" .. i .."Pet"]:GetChecked() then
-							ShowIcon(i, tonumber(SpellEB[i]:GetText()), "pet")
-						else
-							ShowIcon(i, tonumber(SpellEB[i]:GetText()), "player")
-						end
-
-						-- Show or hide cooldown duration
-						if LeaPlusLC["NoCooldownDuration"] == "On" then
-							icon[i].c:SetHideCountdownNumbers(true)
-						else
-							icon[i].c:SetHideCountdownNumbers(false)
-						end
-
-						-- Show or hide cooldown icons depending on current buffs
-						local newowner
-						local newspell = tonumber(SpellEB[i]:GetText())
-
-						if newspell then
-							if LeaPlusDB["Cooldowns"][PlayerClass]["S" .. activeSpec .. "R" .. i .. "Pet"] then
-								newowner = "pet"
-							else
-								newowner = "player"
-							end
-							-- Hide cooldown icon
-							icon[i]:Hide()
-
-							-- If buff matches spell we want, show cooldown icon
-							for q = 1, 40 do
-								local void, void, void, void, length, expire, void, void, void, spellID = UnitBuff(newowner, q)
-								if spellID and newspell == spellID then
-									icon[i]:Show()
-									-- Set the cooldown to the buff cooldown
-									CooldownFrame_Set(icon[i].c, expire - length, length, 1)
-								end
-							end
-						end
-
-					end
-
-				end
-
-				-- Update cooldown icons when checkboxes are clicked
-				LeaPlusCB["NoCooldownDuration"]:HookScript("OnClick", SavePanelControls)
-				LeaPlusCB["CooldownsOnPlayer"]:HookScript("OnClick", SavePanelControls)
-
-				-- Help button hidden
-				CooldownPanel.h:Hide()
-
-				-- Back button handler
-				CooldownPanel.b:SetScript("OnClick", function()
-					CooldownPanel:Hide(); LeaPlusLC["PageF"]:Show(); LeaPlusLC["Page5"]:Show()
-					return
-				end)
-
-				-- Reset button handler
-				CooldownPanel.r:SetScript("OnClick", function()
-					-- Reset the checkboxes
-					LeaPlusLC["ShowCooldownID"] = "On"
-					LeaPlusLC["NoCooldownDuration"] = "On"
-					LeaPlusLC["CooldownsOnPlayer"] = "Off"
-					for i = 1, iCount do
-						-- Reset the panel controls
-						SpellEB[i]:SetText("");
-						LeaPlusDB["Cooldowns"][PlayerClass]["S" .. activeSpec .. "R" .. i .. "Pet"] = false
-						-- Hide cooldowns and clear scripts
-						icon[i]:Hide()
-						icon[i]:SetScript("OnEvent", nil)
-					end
-					CooldownPanel:Hide(); CooldownPanel:Show()
-				end)
-
-				-- Save settings when changed
-				for i = 1, iCount do
-					-- Set initial checkbox states
-					LeaPlusCB["Spell" .. i .."Pet"]:SetChecked(LeaPlusDB["Cooldowns"][PlayerClass]["S" .. activeSpec .. "R" .. i .. "Pet"])
-					-- Set checkbox states when shown
-					LeaPlusCB["Spell" .. i .."Pet"]:SetScript("OnShow", function()
-						LeaPlusCB["Spell" .. i .."Pet"]:SetChecked(LeaPlusDB["Cooldowns"][PlayerClass]["S" .. activeSpec .. "R" .. i .. "Pet"])
-					end)
-					-- Set states when changed
-					SpellEB[i]:SetScript("OnTextChanged", SavePanelControls)
-					LeaPlusCB["Spell" .. i .."Pet"]:SetScript("OnClick", SavePanelControls)
-				end
-
-				-- Show cooldowns on startup
-				SavePanelControls()
-
-				-- Show panel when configuration button is clicked
-				LeaPlusCB["CooldownsButton"]:SetScript("OnClick", function()
-					if IsShiftKeyDown() and IsControlKeyDown() then
-						-- No preset profile
-					else
-						-- Show panel
-						CooldownPanel:Show()
-						LeaPlusLC:HideFrames()
-					end
-				end)
-
-				-- Create spec tag banner fontstring
-				local specTagSpecID = C_SpecializationInfo.GetSpecialization() or 5 -- 5 is no specialisation
-				local specTagBanner = CooldownPanel:CreateFontString(nil, 'ARTWORK', 'GameFontNormal')
-				specTagBanner:SetPoint("TOPLEFT", 384, -72)
-
-				local void, specTagText = C_SpecializationInfo.GetSpecializationInfo(specTagSpecID)
-				if not specTagText or specTagText == "" then specTagText = L["None"] end -- No specialisation
-				specTagBanner:SetText(specTagText)
-
-				-- Add help button
-				LeaPlusLC:CreateHelpButton("ShowCooldownsHelpButton", CooldownPanel, specTagBanner, "Enter the spell IDs for the cooldown icons that you want to see.|n|nIf a cooldown icon normally appears under the pet frame, check the pet checkbox.|n|nCooldown icons are saved to your class and specialisation.")
-
-				-- Set controls when spec changes
-				local swapFrame = CreateFrame("FRAME")
-				swapFrame:RegisterEvent("PLAYER_SPECIALIZATION_CHANGED")
-				swapFrame:SetScript("OnEvent", function()
-					-- Store new spec
-					activeSpec = C_SpecializationInfo.GetSpecialization() or 5 -- 5 is no specialisation
-					-- Update controls for new spec
-					for i = 1, iCount do
-						SpellEB[i]:SetText(LeaPlusDB["Cooldowns"][PlayerClass]["S" .. activeSpec .. "R" .. i .. "Idn"] or "")
-						LeaPlusCB["Spell" .. i .. "Pet"]:SetChecked(LeaPlusDB["Cooldowns"][PlayerClass]["S" .. activeSpec .. "R" .. i .. "Pet"] or false)
-					end
-					-- Update spec tag banner with new spec
-					local void, specTagText = C_SpecializationInfo.GetSpecializationInfo(activeSpec)
-					if not specTagText or specTagText == "" then specTagText = L["None"] end -- No specialisation
-					specTagBanner:SetText(specTagText)
-					-- Refresh configuration panel
-					if CooldownPanel:IsShown() then
-						CooldownPanel:Hide(); CooldownPanel:Show()
-					end
-					-- Save settings
-					SavePanelControls()
-				end)
-
-				-- Function to show spell ID in tooltips
-				local function CooldownIDFunc(unit, target, index, auratype)
-					if LeaPlusLC["ShowCooldownID"] == "On" and auratype ~= "HARMFUL" then
-						local AuraData = C_UnitAuras.GetAuraDataByIndex(target, index)
-						if AuraData then
-							local spellid = AuraData.spellId
-							if spellid then
-								GameTooltip:AddLine(L["Spell ID"] .. ": " .. spellid)
-								GameTooltip:Show()
-							end
-						end
-					end
-				end
-
-				-- Add spell ID to tooltip when buff frame buffs are hovered
-				hooksecurefunc(GameTooltip, 'SetUnitAura', CooldownIDFunc)
-
-				-- Add spell ID to tooltip when target frame buffs are hovered
-				hooksecurefunc(GameTooltip, 'SetUnitBuff', CooldownIDFunc)
-
-			else
-
-				-- Create main table structure in saved variables if it doesn't exist
-				if LeaPlusDB["Cooldowns"] == nil then
-					LeaPlusDB["Cooldowns"] = {}
-				end
-
-				-- Create class tables if they don't exist
-				for index = 1, GetNumClasses() do
-					local classDisplayName, classTag, classID = GetClassInfo(index)
-					if LeaPlusDB["Cooldowns"][classTag] == nil then
-						LeaPlusDB["Cooldowns"][classTag] = {}
-					end
-				end
-
-				-- Get current class and spec
-				local PlayerClass = select(2, UnitClass("player"))
-				local activeSpec = GetActiveTalentGroup() or 1
-
-				-- Create local tables to store cooldown frames and editboxes
-				local icon = {} -- Used to store cooldown frames
-				local SpellEB = {} -- Used to store editbox values
-				local iCount = 5 -- Number of cooldowns
-
-				-- Create cooldown frames
-				for i = 1, iCount do
-
-					-- Create cooldown frame
-					icon[i] = CreateFrame("Frame", nil, UIParent)
-					icon[i]:SetFrameStrata("BACKGROUND")
-					icon[i]:SetWidth(20)
-					icon[i]:SetHeight(20)
-
-					-- Create cooldown icon
-					icon[i].c = CreateFrame("Cooldown", nil, icon[i], "CooldownFrameTemplate")
-					icon[i].c:SetAllPoints()
-					icon[i].c:SetReverse(true)
-
-					-- Create blank texture (will be assigned a cooldown texture later)
-					icon[i].t = icon[i]:CreateTexture(nil,"BACKGROUND")
-					icon[i].t:SetAllPoints()
-
-					-- Show icon above target frame and set initial scale
-					icon[i]:ClearAllPoints()
-					icon[i]:SetPoint("TOPLEFT", TargetFrame, "TOPLEFT", 6 + (22 * (i - 1)), 5)
-					icon[i]:SetScale(TargetFrame:GetScale())
-
-					-- Show tooltip
-					icon[i]:SetScript("OnEnter", function(self)
-						GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT", 15, -25)
-						GameTooltip:SetText(GetSpellInfo(LeaPlusCB["Spell" .. i]:GetText()))
-					end)
-
-					-- Hide tooltip
-					icon[i]:SetScript("OnLeave", GameTooltip_Hide)
-
-				end
-
-				-- Change cooldown icon scale when player frame scale changes
-				PlayerFrame:HookScript("OnSizeChanged", function()
-					if LeaPlusLC["CooldownsOnPlayer"] == "On" then
-						for i = 1, iCount do
-							icon[i]:SetScale(PlayerFrame:GetScale())
-						end
-					end
-				end)
-
-				-- Change cooldown icon scale when target frame scale changes
-				TargetFrame:HookScript("OnSizeChanged", function()
-					if LeaPlusLC["CooldownsOnPlayer"] == "Off" then
-						for i = 1, iCount do
-							icon[i]:SetScale(TargetFrame:GetScale())
-						end
-					end
-				end)
-
-				-- Function to show cooldown textures in the cooldown frames (run when icons are loaded or changed)
-				local function ShowIcon(i, id, owner)
-
-					local void
-
-					-- Get spell information
-					local spell, void, path = GetSpellInfo(id)
-					if spell and path then
-
-						-- Set icon texture to the spell texture
-						icon[i].t:SetTexture(path)
-
-						-- Set top level and raise frame strata (ensures tooltips show properly)
-						icon[i]:SetToplevel(true)
-						icon[i]:SetFrameStrata("LOW")
-
-						-- Handle events
-						icon[i]:RegisterUnitEvent("UNIT_AURA", owner)
-						icon[i]:RegisterUnitEvent("UNIT_PET", "player")
-						icon[i]:SetScript("OnEvent", function(self, event, arg1)
-
-							-- If pet was dismissed (or otherwise disappears such as when flying), hide pet cooldowns
-							if event == "UNIT_PET" then
-								if not UnitExists("pet") then
-									if LeaPlusDB["Cooldowns"][PlayerClass]["S" .. activeSpec .. "R" .. i .. "Pet"] then
-										icon[i]:Hide()
-									end
-								end
-
-							-- Ensure cooldown belongs to the owner we are watching (player or pet)
-							elseif arg1 == owner then
-
-								-- Hide the cooldown frame (required for cooldowns to disappear after the duration)
-								icon[i]:Hide()
-
-								-- If buff matches cooldown we want, start the cooldown
-								for q = 1, 40 do
-									local void, void, void, void, length, expire, void, void, void, spellID = UnitBuff(owner, q)
-									if spellID and id == spellID then
-										icon[i]:Show()
-										local start = expire - length
-										CooldownFrame_Set(icon[i].c, start, length, 1)
-									end
-								end
-
-							end
-						end)
-
-					else
-
-						-- Spell does not exist so stop watching it
-						icon[i]:SetScript("OnEvent", nil)
-						icon[i]:Hide()
-
-					end
-
-				end
-
-				-- Create configuration panel
-				local CooldownPanel = LeaPlusLC:CreatePanel("Show cooldowns", "CooldownPanel")
-
-				-- Function to refresh the editbox tooltip with the spell name
-				local function RefSpellTip(self,elapsed)
-					local spellinfo, void, icon = GetSpellInfo(self:GetText())
-					if spellinfo and spellinfo ~= "" and icon and icon ~= "" then
-						GameTooltip:SetOwner(self, "ANCHOR_NONE")
-						GameTooltip:ClearAllPoints()
-						GameTooltip:SetPoint("RIGHT", self, "LEFT", -10, 0)
-						GameTooltip:SetText("|T" .. icon .. ":0|t " .. spellinfo, nil, nil, nil, nil, true)
-					else
-						GameTooltip:Hide()
-					end
-				end
-
-				-- Function to create spell ID editboxes and pet checkboxes
-				local function MakeSpellEB(num, x, y, tab, shifttab)
-
-					-- Create editbox for spell ID
-					SpellEB[num] = LeaPlusLC:CreateEditBox("Spell" .. num, CooldownPanel, 70, 6, "TOPLEFT", x, y - 20, "Spell" .. tab, "Spell" .. shifttab)
-					SpellEB[num]:SetNumeric(true)
-
-					-- Set initial value (for current spec)
-					SpellEB[num]:SetText(LeaPlusDB["Cooldowns"][PlayerClass]["S" .. activeSpec .. "R" .. num .. "Idn"] or "")
-
-					-- Refresh tooltip when mouse is hovering over the editbox
-					SpellEB[num]:SetScript("OnEnter", function()
-						SpellEB[num]:SetScript("OnUpdate", RefSpellTip)
-					end)
-					SpellEB[num]:SetScript("OnLeave", function()
-						SpellEB[num]:SetScript("OnUpdate", nil)
-						GameTooltip:Hide()
-					end)
-
-					-- Create checkbox for pet cooldown
-					LeaPlusLC:MakeCB(CooldownPanel, "Spell" .. num .."Pet", "", 462, y - 20, false, "")
-					LeaPlusCB["Spell" .. num .."Pet"]:SetHitRectInsets(0, 0, 0, 0)
-
-				end
-
-				-- Add titles
-				LeaPlusLC:MakeTx(CooldownPanel, "Spell ID", 384, -92)
-				LeaPlusLC:MakeTx(CooldownPanel, "Pet", 462, -92)
-
-				-- Add editboxes and checkboxes
-				MakeSpellEB(1, 386, -92, "2", "5")
-				MakeSpellEB(2, 386, -122, "3", "1")
-				MakeSpellEB(3, 386, -152, "4", "2")
-				MakeSpellEB(4, 386, -182, "5", "3")
-				MakeSpellEB(5, 386, -212, "1", "4")
-
-				-- Add checkboxes
-				LeaPlusLC:MakeTx(CooldownPanel, "Settings", 16, -72)
-				LeaPlusLC:MakeCB(CooldownPanel, "ShowCooldownID", "Show the spell ID in buff icon tooltips", 16, -92, false, "If checked, spell IDs will be shown in buff icon tooltips located in the buff frame and under the target frame.");
-				LeaPlusLC:MakeCB(CooldownPanel, "NoCooldownDuration", "Hide cooldown duration numbers (if enabled)", 16, -112, false, "If checked, cooldown duration numbers will not be shown over the cooldowns.|n|nIf unchecked, cooldown duration numbers will be shown over the cooldowns if they are enabled in the game options panel ('ActionBars' menu).")
-				LeaPlusLC:MakeCB(CooldownPanel, "CooldownsOnPlayer", "Show cooldowns above the player frame", 16, -132, false, "If checked, cooldown icons will be shown above the player frame instead of the target frame.|n|nIf unchecked, cooldown icons will be shown above the target frame.")
-
-				-- Function to save the panel control settings and refresh the cooldown icons
-				local function SavePanelControls()
-					for i = 1, iCount do
-
-						-- Refresh the cooldown texture
-						icon[i].c:SetCooldown(0,0)
-
-						-- Show icons above target or player frame
-						icon[i]:ClearAllPoints()
-						if LeaPlusLC["CooldownsOnPlayer"] == "On" then
-							icon[i]:SetPoint("TOPLEFT", PlayerFrame, "TOPLEFT", 116 + (22 * (i - 1)), 5)
-							icon[i]:SetScale(PlayerFrame:GetScale())
-						else
-							icon[i]:SetPoint("TOPLEFT", TargetFrame, "TOPLEFT", 6 + (22 * (i - 1)), 5)
-							icon[i]:SetScale(TargetFrame:GetScale())
-						end
-
-						-- Save control states to globals
-						LeaPlusDB["Cooldowns"][PlayerClass]["S" .. activeSpec .. "R" .. i .. "Idn"] = SpellEB[i]:GetText()
-						LeaPlusDB["Cooldowns"][PlayerClass]["S" .. activeSpec .. "R" .. i .. "Pet"] = LeaPlusCB["Spell" .. i .."Pet"]:GetChecked()
-
-						-- Set cooldowns
-						if LeaPlusCB["Spell" .. i .."Pet"]:GetChecked() then
-							ShowIcon(i, tonumber(SpellEB[i]:GetText()), "pet")
-						else
-							ShowIcon(i, tonumber(SpellEB[i]:GetText()), "player")
-						end
-
-						-- Show or hide cooldown duration
-						if LeaPlusLC["NoCooldownDuration"] == "On" then
-							icon[i].c:SetHideCountdownNumbers(true)
-						else
-							icon[i].c:SetHideCountdownNumbers(false)
-						end
-
-						-- Show or hide cooldown icons depending on current buffs
-						local newowner
-						local newspell = tonumber(SpellEB[i]:GetText())
-
-						if newspell then
-							if LeaPlusDB["Cooldowns"][PlayerClass]["S" .. activeSpec .. "R" .. i .. "Pet"] then
-								newowner = "pet"
-							else
-								newowner = "player"
-							end
-							-- Hide cooldown icon
-							icon[i]:Hide()
-
-							-- If buff matches spell we want, show cooldown icon
-							for q = 1, 40 do
-								local void, void, void, void, length, expire, void, void, void, spellID = UnitBuff(newowner, q)
-								if spellID and newspell == spellID then
-									icon[i]:Show()
-									-- Set the cooldown to the buff cooldown
-									CooldownFrame_Set(icon[i].c, expire - length, length, 1)
-								end
-							end
-						end
-
-					end
-
-				end
-
-				-- Update cooldown icons when checkboxes are clicked
-				LeaPlusCB["NoCooldownDuration"]:HookScript("OnClick", SavePanelControls)
-				LeaPlusCB["CooldownsOnPlayer"]:HookScript("OnClick", SavePanelControls)
-
-				-- Help button hidden
-				CooldownPanel.h:Hide()
-
-				-- Back button handler
-				CooldownPanel.b:SetScript("OnClick", function()
-					CooldownPanel:Hide(); LeaPlusLC["PageF"]:Show(); LeaPlusLC["Page5"]:Show()
-					return
-				end)
-
-				-- Reset button handler
-				CooldownPanel.r:SetScript("OnClick", function()
-					-- Reset the checkboxes
-					LeaPlusLC["ShowCooldownID"] = "On"
-					LeaPlusLC["NoCooldownDuration"] = "On"
-					LeaPlusLC["CooldownsOnPlayer"] = "Off"
-					for i = 1, iCount do
-						-- Reset the panel controls
-						SpellEB[i]:SetText("");
-						LeaPlusDB["Cooldowns"][PlayerClass]["S" .. activeSpec .. "R" .. i .. "Pet"] = false
-						-- Hide cooldowns and clear scripts
-						icon[i]:Hide()
-						icon[i]:SetScript("OnEvent", nil)
-					end
-					CooldownPanel:Hide(); CooldownPanel:Show()
-				end)
-
-				-- Save settings when changed
-				for i = 1, iCount do
-					-- Set initial checkbox states
-					LeaPlusCB["Spell" .. i .."Pet"]:SetChecked(LeaPlusDB["Cooldowns"][PlayerClass]["S" .. activeSpec .. "R" .. i .. "Pet"])
-					-- Set checkbox states when shown
-					LeaPlusCB["Spell" .. i .."Pet"]:SetScript("OnShow", function()
-						LeaPlusCB["Spell" .. i .."Pet"]:SetChecked(LeaPlusDB["Cooldowns"][PlayerClass]["S" .. activeSpec .. "R" .. i .. "Pet"])
-					end)
-					-- Set states when changed
-					SpellEB[i]:SetScript("OnTextChanged", SavePanelControls)
-					LeaPlusCB["Spell" .. i .."Pet"]:SetScript("OnClick", SavePanelControls)
-				end
-
-				-- Show cooldowns on startup
-				SavePanelControls()
-
-				-- Show panel when configuration button is clicked
-				LeaPlusCB["CooldownsButton"]:SetScript("OnClick", function()
-					if IsShiftKeyDown() and IsControlKeyDown() then
-						-- No preset profile
-					else
-						-- Show panel
-						CooldownPanel:Show()
-						LeaPlusLC:HideFrames()
-					end
-				end)
-
-				-- Create spec tag banner fontstring
-				local specTagSpecID = GetActiveTalentGroup()
-				local specTagBanner = CooldownPanel:CreateFontString(nil, 'ARTWORK', 'GameFontNormal')
-				specTagBanner:SetPoint("TOPLEFT", 384, -72)
-				if specTagSpecID == 1 then specTagBanner:SetText(L["Primary Talents"]) else specTagBanner:SetText(L["Secondary Talents"]) end
-
-				-- Add help button
-				LeaPlusLC:CreateHelpButton("ShowCooldownsHelpButton", CooldownPanel, specTagBanner, "Enter the spell IDs for the cooldown icons that you want to see.|n|nIf a cooldown icon normally appears under the pet frame, check the pet checkbox.|n|nCooldown icons are saved to your class and specialisation.")
-
-				-- Set controls when spec changes
-				local swapFrame = CreateFrame("FRAME")
-				swapFrame:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
-				swapFrame:SetScript("OnEvent", function()
-					-- Store new spec
-					activeSpec = GetActiveTalentGroup()
-					-- Update controls for new spec
-					for i = 1, iCount do
-						SpellEB[i]:SetText(LeaPlusDB["Cooldowns"][PlayerClass]["S" .. activeSpec .. "R" .. i .. "Idn"] or "")
-						LeaPlusCB["Spell" .. i .. "Pet"]:SetChecked(LeaPlusDB["Cooldowns"][PlayerClass]["S" .. activeSpec .. "R" .. i .. "Pet"] or false)
-					end
-					-- Update spec tag banner with new spec
-					if activeSpec == 1 then specTagBanner:SetText(L["Primary Talents"]) else specTagBanner:SetText(L["Secondary Talents"]) end
-					-- Refresh configuration panel
-					if CooldownPanel:IsShown() then
-						CooldownPanel:Hide(); CooldownPanel:Show()
-					end
-					-- Save settings
-					SavePanelControls()
-				end)
-
-				-- Function to show spell ID in tooltips
-				local function CooldownIDFunc(unit, target, index, auratype)
-					if LeaPlusLC["ShowCooldownID"] == "On" and auratype ~= "HARMFUL" then
-						local AuraData = C_UnitAuras.GetAuraDataByIndex(target, index)
-						if AuraData then
-							local spellid = AuraData.spellId
-							if spellid then
-								GameTooltip:AddLine(L["Spell ID"] .. ": " .. spellid)
-								GameTooltip:Show()
-							end
-						end
-					end
-				end
-
-				-- Add spell ID to tooltip when buff frame buffs are hovered
-				hooksecurefunc(GameTooltip, 'SetUnitAura', CooldownIDFunc)
-
-				-- Add spell ID to tooltip when target frame buffs are hovered
-				hooksecurefunc(GameTooltip, 'SetUnitBuff', CooldownIDFunc)
+				-- Hide tooltip
+				icon[i]:SetScript("OnLeave", GameTooltip_Hide)
 
 			end
+
+			-- Change cooldown icon scale when player frame scale changes
+			PlayerFrame:HookScript("OnSizeChanged", function()
+				if LeaPlusLC["CooldownsOnPlayer"] == "On" then
+					for i = 1, iCount do
+						icon[i]:SetScale(PlayerFrame:GetScale())
+					end
+				end
+			end)
+
+			-- Change cooldown icon scale when target frame scale changes
+			TargetFrame:HookScript("OnSizeChanged", function()
+				if LeaPlusLC["CooldownsOnPlayer"] == "Off" then
+					for i = 1, iCount do
+						icon[i]:SetScale(TargetFrame:GetScale())
+					end
+				end
+			end)
+
+			-- Function to show cooldown textures in the cooldown frames (run when icons are loaded or changed)
+			local function ShowIcon(i, id, owner)
+
+				local void
+
+				-- Get spell information
+				local spell, void, path = GetSpellInfo(id)
+				if spell and path then
+
+					-- Set icon texture to the spell texture
+					icon[i].t:SetTexture(path)
+
+					-- Set top level and raise frame strata (ensures tooltips show properly)
+					icon[i]:SetToplevel(true)
+					icon[i]:SetFrameStrata("LOW")
+
+					-- Handle events
+					icon[i]:RegisterUnitEvent("UNIT_AURA", owner)
+					icon[i]:RegisterUnitEvent("UNIT_PET", "player")
+					icon[i]:SetScript("OnEvent", function(self, event, arg1)
+
+						-- If pet was dismissed (or otherwise disappears such as when flying), hide pet cooldowns
+						if event == "UNIT_PET" then
+							if not UnitExists("pet") then
+								if LeaPlusDB["Cooldowns"][PlayerClass]["S" .. activeSpec .. "R" .. i .. "Pet"] then
+									icon[i]:Hide()
+								end
+							end
+
+						-- Ensure cooldown belongs to the owner we are watching (player or pet)
+						elseif arg1 == owner then
+
+							-- Hide the cooldown frame (required for cooldowns to disappear after the duration)
+							icon[i]:Hide()
+
+							-- If buff matches cooldown we want, start the cooldown
+							for q = 1, 40 do
+								local void, void, void, void, length, expire, void, void, void, spellID = UnitBuff(owner, q)
+								if spellID and id == spellID then
+									icon[i]:Show()
+									local start = expire - length
+									CooldownFrame_Set(icon[i].c, start, length, 1)
+								end
+							end
+
+						end
+					end)
+
+				else
+
+					-- Spell does not exist so stop watching it
+					icon[i]:SetScript("OnEvent", nil)
+					icon[i]:Hide()
+
+				end
+
+			end
+
+			-- Create configuration panel
+			local CooldownPanel = LeaPlusLC:CreatePanel("Show cooldowns", "CooldownPanel")
+
+			-- Function to refresh the editbox tooltip with the spell name
+			local function RefSpellTip(self,elapsed)
+				local spellinfo, void, icon = GetSpellInfo(self:GetText())
+				if spellinfo and spellinfo ~= "" and icon and icon ~= "" then
+					GameTooltip:SetOwner(self, "ANCHOR_NONE")
+					GameTooltip:ClearAllPoints()
+					GameTooltip:SetPoint("RIGHT", self, "LEFT", -10, 0)
+					GameTooltip:SetText("|T" .. icon .. ":0|t " .. spellinfo, nil, nil, nil, nil, true)
+				else
+					GameTooltip:Hide()
+				end
+			end
+
+			-- Function to create spell ID editboxes and pet checkboxes
+			local function MakeSpellEB(num, x, y, tab, shifttab)
+
+				-- Create editbox for spell ID
+                SpellEB[num] = LeaPlusLC:CreateEditBox("Spell" .. num, CooldownPanel, 70, 6, "TOPLEFT", x, y - 20, "Spell" .. tab, "Spell" .. shifttab)
+				SpellEB[num]:SetNumeric(true)
+
+				-- Set initial value (for current spec)
+				SpellEB[num]:SetText(LeaPlusDB["Cooldowns"][PlayerClass]["S" .. activeSpec .. "R" .. num .. "Idn"] or "")
+
+				-- Refresh tooltip when mouse is hovering over the editbox
+				SpellEB[num]:SetScript("OnEnter", function()
+					SpellEB[num]:SetScript("OnUpdate", RefSpellTip)
+				end)
+				SpellEB[num]:SetScript("OnLeave", function()
+					SpellEB[num]:SetScript("OnUpdate", nil)
+					GameTooltip:Hide()
+				end)
+
+				-- Create checkbox for pet cooldown
+				LeaPlusLC:MakeCB(CooldownPanel, "Spell" .. num .."Pet", "", 462, y - 20, false, "")
+				LeaPlusCB["Spell" .. num .."Pet"]:SetHitRectInsets(0, 0, 0, 0)
+
+			end
+
+			-- Add titles
+			LeaPlusLC:MakeTx(CooldownPanel, "Spell ID", 384, -92)
+			LeaPlusLC:MakeTx(CooldownPanel, "Pet", 462, -92)
+
+			-- Add editboxes and checkboxes
+			MakeSpellEB(1, 386, -92, "2", "5")
+			MakeSpellEB(2, 386, -122, "3", "1")
+			MakeSpellEB(3, 386, -152, "4", "2")
+			MakeSpellEB(4, 386, -182, "5", "3")
+			MakeSpellEB(5, 386, -212, "1", "4")
+
+			-- Add checkboxes
+			LeaPlusLC:MakeTx(CooldownPanel, "Settings", 16, -72)
+			LeaPlusLC:MakeCB(CooldownPanel, "ShowCooldownID", "Show the spell ID in buff icon tooltips", 16, -92, false, "If checked, spell IDs will be shown in buff icon tooltips located in the buff frame and under the target frame.");
+			LeaPlusLC:MakeCB(CooldownPanel, "NoCooldownDuration", "Hide cooldown duration numbers (if enabled)", 16, -112, false, "If checked, cooldown duration numbers will not be shown over the cooldowns.|n|nIf unchecked, cooldown duration numbers will be shown over the cooldowns if they are enabled in the game options panel ('ActionBars' menu).")
+			LeaPlusLC:MakeCB(CooldownPanel, "CooldownsOnPlayer", "Show cooldowns above the player frame", 16, -132, false, "If checked, cooldown icons will be shown above the player frame instead of the target frame.|n|nIf unchecked, cooldown icons will be shown above the target frame.")
+
+			-- Function to save the panel control settings and refresh the cooldown icons
+			local function SavePanelControls()
+				for i = 1, iCount do
+
+					-- Refresh the cooldown texture
+					icon[i].c:SetCooldown(0,0)
+
+					-- Show icons above target or player frame
+					icon[i]:ClearAllPoints()
+					if LeaPlusLC["CooldownsOnPlayer"] == "On" then
+						icon[i]:SetPoint("TOPLEFT", PlayerFrame, "TOPLEFT", 116 + (22 * (i - 1)), 5)
+						icon[i]:SetScale(PlayerFrame:GetScale())
+					else
+						icon[i]:SetPoint("TOPLEFT", TargetFrame, "TOPLEFT", 6 + (22 * (i - 1)), 5)
+						icon[i]:SetScale(TargetFrame:GetScale())
+					end
+
+					-- Save control states to globals
+					LeaPlusDB["Cooldowns"][PlayerClass]["S" .. activeSpec .. "R" .. i .. "Idn"] = SpellEB[i]:GetText()
+					LeaPlusDB["Cooldowns"][PlayerClass]["S" .. activeSpec .. "R" .. i .. "Pet"] = LeaPlusCB["Spell" .. i .."Pet"]:GetChecked()
+
+					-- Set cooldowns
+					if LeaPlusCB["Spell" .. i .."Pet"]:GetChecked() then
+						ShowIcon(i, tonumber(SpellEB[i]:GetText()), "pet")
+					else
+						ShowIcon(i, tonumber(SpellEB[i]:GetText()), "player")
+					end
+
+					-- Show or hide cooldown duration
+					if LeaPlusLC["NoCooldownDuration"] == "On" then
+						icon[i].c:SetHideCountdownNumbers(true)
+					else
+						icon[i].c:SetHideCountdownNumbers(false)
+					end
+
+					-- Show or hide cooldown icons depending on current buffs
+					local newowner
+					local newspell = tonumber(SpellEB[i]:GetText())
+
+					if newspell then
+						if LeaPlusDB["Cooldowns"][PlayerClass]["S" .. activeSpec .. "R" .. i .. "Pet"] then
+							newowner = "pet"
+						else
+							newowner = "player"
+						end
+						-- Hide cooldown icon
+						icon[i]:Hide()
+
+						-- If buff matches spell we want, show cooldown icon
+						for q = 1, 40 do
+							local void, void, void, void, length, expire, void, void, void, spellID = UnitBuff(newowner, q)
+							if spellID and newspell == spellID then
+								icon[i]:Show()
+								-- Set the cooldown to the buff cooldown
+								CooldownFrame_Set(icon[i].c, expire - length, length, 1)
+							end
+						end
+					end
+
+				end
+
+			end
+
+			-- Update cooldown icons when checkboxes are clicked
+			LeaPlusCB["NoCooldownDuration"]:HookScript("OnClick", SavePanelControls)
+			LeaPlusCB["CooldownsOnPlayer"]:HookScript("OnClick", SavePanelControls)
+
+			-- Help button hidden
+			CooldownPanel.h:Hide()
+
+			-- Back button handler
+			CooldownPanel.b:SetScript("OnClick", function()
+				CooldownPanel:Hide(); LeaPlusLC["PageF"]:Show(); LeaPlusLC["Page5"]:Show()
+				return
+			end)
+
+			-- Reset button handler
+			CooldownPanel.r:SetScript("OnClick", function()
+				-- Reset the checkboxes
+				LeaPlusLC["ShowCooldownID"] = "On"
+				LeaPlusLC["NoCooldownDuration"] = "On"
+				LeaPlusLC["CooldownsOnPlayer"] = "Off"
+				for i = 1, iCount do
+					-- Reset the panel controls
+					SpellEB[i]:SetText("");
+					LeaPlusDB["Cooldowns"][PlayerClass]["S" .. activeSpec .. "R" .. i .. "Pet"] = false
+					-- Hide cooldowns and clear scripts
+					icon[i]:Hide()
+					icon[i]:SetScript("OnEvent", nil)
+				end
+				CooldownPanel:Hide(); CooldownPanel:Show()
+			end)
+
+			-- Save settings when changed
+			for i = 1, iCount do
+				-- Set initial checkbox states
+				LeaPlusCB["Spell" .. i .."Pet"]:SetChecked(LeaPlusDB["Cooldowns"][PlayerClass]["S" .. activeSpec .. "R" .. i .. "Pet"])
+				-- Set checkbox states when shown
+				LeaPlusCB["Spell" .. i .."Pet"]:SetScript("OnShow", function()
+					LeaPlusCB["Spell" .. i .."Pet"]:SetChecked(LeaPlusDB["Cooldowns"][PlayerClass]["S" .. activeSpec .. "R" .. i .. "Pet"])
+				end)
+				-- Set states when changed
+				SpellEB[i]:SetScript("OnTextChanged", SavePanelControls)
+				LeaPlusCB["Spell" .. i .."Pet"]:SetScript("OnClick", SavePanelControls)
+			end
+
+			-- Show cooldowns on startup
+			SavePanelControls()
+
+			-- Show panel when configuration button is clicked
+			LeaPlusCB["CooldownsButton"]:SetScript("OnClick", function()
+				if IsShiftKeyDown() and IsControlKeyDown() then
+					-- No preset profile
+				else
+					-- Show panel
+					CooldownPanel:Show()
+					LeaPlusLC:HideFrames()
+				end
+			end)
+
+			-- Create spec tag banner fontstring
+			local specTagSpecID = GetActiveTalentGroup()
+			local specTagBanner = CooldownPanel:CreateFontString(nil, 'ARTWORK', 'GameFontNormal')
+			specTagBanner:SetPoint("TOPLEFT", 384, -72)
+			if specTagSpecID == 1 then specTagBanner:SetText(L["Primary Talents"]) else specTagBanner:SetText(L["Secondary Talents"]) end
+
+			-- Add help button
+			LeaPlusLC:CreateHelpButton("ShowCooldownsHelpButton", CooldownPanel, specTagBanner, "Enter the spell IDs for the cooldown icons that you want to see.|n|nIf a cooldown icon normally appears under the pet frame, check the pet checkbox.|n|nCooldown icons are saved to your class and specialisation.")
+
+            -- Set controls when spec changes
+            local swapFrame = CreateFrame("FRAME")
+            swapFrame:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
+            swapFrame:SetScript("OnEvent", function()
+				-- Store new spec
+				activeSpec = GetActiveTalentGroup()
+				-- Update controls for new spec
+				for i = 1, iCount do
+					SpellEB[i]:SetText(LeaPlusDB["Cooldowns"][PlayerClass]["S" .. activeSpec .. "R" .. i .. "Idn"] or "")
+					LeaPlusCB["Spell" .. i .. "Pet"]:SetChecked(LeaPlusDB["Cooldowns"][PlayerClass]["S" .. activeSpec .. "R" .. i .. "Pet"] or false)
+				end
+				-- Update spec tag banner with new spec
+				if activeSpec == 1 then specTagBanner:SetText(L["Primary Talents"]) else specTagBanner:SetText(L["Secondary Talents"]) end
+				-- Refresh configuration panel
+				if CooldownPanel:IsShown() then
+					CooldownPanel:Hide(); CooldownPanel:Show()
+				end
+				-- Save settings
+				SavePanelControls()
+            end)
+
+			-- Function to show spell ID in tooltips
+			local function CooldownIDFunc(unit, target, index, auratype)
+				if LeaPlusLC["ShowCooldownID"] == "On" and auratype ~= "HARMFUL" then
+					local AuraData = C_UnitAuras.GetAuraDataByIndex(target, index)
+					if AuraData then
+						local spellid = AuraData.spellId
+						if spellid then
+							GameTooltip:AddLine(L["Spell ID"] .. ": " .. spellid)
+							GameTooltip:Show()
+						end
+					end
+				end
+			end
+
+			-- Add spell ID to tooltip when buff frame buffs are hovered
+			hooksecurefunc(GameTooltip, 'SetUnitAura', CooldownIDFunc)
+
+			-- Add spell ID to tooltip when target frame buffs are hovered
+			hooksecurefunc(GameTooltip, 'SetUnitBuff', CooldownIDFunc)
 
 		end
 
@@ -12658,125 +11842,54 @@
 		-- Manage emotes
 		if LeaPlusLC["NoRestedEmotes"] == "On" then
 
-			if LeaPlusLC.NewPatch then
+			-- Zone table 		English					, French					, German					, Italian						, Russian					, S Chinese	, Spanish					, T Chinese	,
+			local zonetable = {	"The Grim Guzzler"		, "Le Sinistre écluseur"	, "Zum Grimmigen Säufer"	, "Torvo Beone"					, "Трактир Угрюмый обжора"	, "黑铁酒吧"	, "Tragapenas"				, "黑鐵酒吧"	,}
 
-				-- Zone table 		English					, French					, German					, Italian						, Russian					, S Chinese	, Spanish					, T Chinese	,
-				local zonetable = {	"The Halfhill Market"	, "Marché de Micolline"		, "Der Halbhügelmarkt"		, "Il Mercato di Mezzocolle"	, "Рынок Полугорья"			, "半山市集"	, "El Mercado del Alcor"	, "半丘市集"	,
-									"The Grim Guzzler"		, "Le Sinistre écluseur"	, "Zum Grimmigen Säufer"	, "Torvo Beone"					, "Трактир Угрюмый обжора"	, "黑铁酒吧"	, "Tragapenas"				, "黑鐵酒吧"	,
-									"The Summer Terrace"	, "La terrasse Estivale"	, "Die Sommerterrasse"		, "Terrazza Estiva"				, "Летняя терраса"			, "夏之台"	, "El Bancal del Verano"	, "夏日露臺"	,
-									"The Golden Terrace"	, "La Terrasse Dorée"		, "Die Goldene Terrasse"	, "La Terrazza Dorata"			, "Золотая терраса"			, "金色平台"	, "La Terraza Dorada"		, "金色平台"	,
-				}
+			-- Function to set rested state
+			local function UpdateEmoteSound()
 
-				-- Function to set rested state
-				local function UpdateEmoteSound()
+				-- Find character's current zone
+				local szone = GetSubZoneText() or "None"
 
-					-- Find character's current zone
-					local szone = GetSubZoneText() or "None"
+				-- Find out if emote sounds are disabled or enabled
+				local emoset = GetCVar("Sound_EnableEmoteSounds")
 
-					-- Find out if emote sounds are disabled or enabled
-					local emoset = GetCVar("Sound_EnableEmoteSounds")
-
-					if IsResting() then
-						-- Character is resting so silence emotes
-						if emoset ~= "0" then
-							SetCVar("Sound_EnableEmoteSounds", "0")
-						end
-						return
-					end
-
-					-- Traverse zone table and silence emotes if character is in a designated zone
-					for k, v in next, zonetable do
-						if szone == zonetable[k] then
-							if emoset ~= "0" then
-								SetCVar("Sound_EnableEmoteSounds", "0")
-							end
-							return
-						end
-					end
-
-					-- Silence emotes if character is in a pet battle
-					if C_PetBattles.IsInBattle() then
-						if emoset ~= "0" then
-							SetCVar("Sound_EnableEmoteSounds", "0")
-						end
-						return
-					end
-
-					-- If the above didn't return, emote sounds should be enabled
-					if emoset ~= "1" then
-						SetCVar("Sound_EnableEmoteSounds", "1")
+				if IsResting() then
+					-- Character is resting so silence emotes
+					if emoset ~= "0" then
+						SetCVar("Sound_EnableEmoteSounds", "0")
 					end
 					return
-
 				end
 
-				-- Set emote sound when pet battles start and end
-				hooksecurefunc("PetBattleFrame_Display", UpdateEmoteSound)
-				hooksecurefunc("PetBattleFrame_Remove",	UpdateEmoteSound)
-
-				-- Set emote sound when rest state or zone changes
-				local RestEvent = CreateFrame("FRAME")
-				RestEvent:RegisterEvent("PLAYER_UPDATE_RESTING")
-				RestEvent:RegisterEvent("ZONE_CHANGED_NEW_AREA")
-				RestEvent:RegisterEvent("ZONE_CHANGED")
-				RestEvent:RegisterEvent("ZONE_CHANGED_INDOORS")
-				RestEvent:SetScript("OnEvent", UpdateEmoteSound)
-
-				-- Set sound setting at startup
-				UpdateEmoteSound()
-
-			else
-
-				-- Zone table 		English					, French					, German					, Italian						, Russian					, S Chinese	, Spanish					, T Chinese	,
-				local zonetable = {	"The Grim Guzzler"		, "Le Sinistre écluseur"	, "Zum Grimmigen Säufer"	, "Torvo Beone"					, "Трактир Угрюмый обжора"	, "黑铁酒吧"	, "Tragapenas"				, "黑鐵酒吧"	,}
-
-				-- Function to set rested state
-				local function UpdateEmoteSound()
-
-					-- Find character's current zone
-					local szone = GetSubZoneText() or "None"
-
-					-- Find out if emote sounds are disabled or enabled
-					local emoset = GetCVar("Sound_EnableEmoteSounds")
-
-					if IsResting() then
-						-- Character is resting so silence emotes
+				-- Traverse zone table and silence emotes if character is in a designated zone
+				for k, v in next, zonetable do
+					if szone == zonetable[k] then
 						if emoset ~= "0" then
 							SetCVar("Sound_EnableEmoteSounds", "0")
 						end
 						return
 					end
-
-					-- Traverse zone table and silence emotes if character is in a designated zone
-					for k, v in next, zonetable do
-						if szone == zonetable[k] then
-							if emoset ~= "0" then
-								SetCVar("Sound_EnableEmoteSounds", "0")
-							end
-							return
-						end
-					end
-
-					-- If the above didn't return, emote sounds should be enabled
-					if emoset ~= "1" then
-						SetCVar("Sound_EnableEmoteSounds", "1")
-					end
-					return
-
 				end
 
-				-- Set emote sound when rest state or zone changes
-				local RestEvent = CreateFrame("FRAME")
-				RestEvent:RegisterEvent("PLAYER_UPDATE_RESTING")
-				RestEvent:RegisterEvent("ZONE_CHANGED_NEW_AREA")
-				RestEvent:RegisterEvent("ZONE_CHANGED")
-				RestEvent:RegisterEvent("ZONE_CHANGED_INDOORS")
-				RestEvent:SetScript("OnEvent", UpdateEmoteSound)
-
-				-- Set sound setting at startup
-				UpdateEmoteSound()
+				-- If the above didn't return, emote sounds should be enabled
+				if emoset ~= "1" then
+					SetCVar("Sound_EnableEmoteSounds", "1")
+				end
+				return
 
 			end
+
+			-- Set emote sound when rest state or zone changes
+			local RestEvent = CreateFrame("FRAME")
+			RestEvent:RegisterEvent("PLAYER_UPDATE_RESTING")
+            RestEvent:RegisterEvent("ZONE_CHANGED_NEW_AREA")
+			RestEvent:RegisterEvent("ZONE_CHANGED")
+			RestEvent:RegisterEvent("ZONE_CHANGED_INDOORS")
+			RestEvent:SetScript("OnEvent", UpdateEmoteSound)
+
+			-- Set sound setting at startup
+			UpdateEmoteSound()
 
 		end
 
@@ -13069,27 +12182,39 @@
 				-- Play tracks
 				if musicHandle then StopSound(musicHandle) end
 				local file, soundID, trackTime
-				if playlist[tracknumber]:match("([^,]+)%#([^,]+)%#([^,]+)") then
-					-- Music file with track time
-					file, soundID, trackTime = playlist[tracknumber]:match("([^,]+)%#([^,]+)%#([^,]+)")
-					willPlay, musicHandle = PlaySoundFile(soundID, "Master", false, true)
-				else
-					-- Sound kit without track time
-					file, soundID = playlist[tracknumber]:match("([^,]+)%#([^,]+)")
-					willPlay, musicHandle = PlaySound(soundID, "Master", false, true)
+				if strfind(playlist[tracknumber], "#") then
+					if strfind(playlist[tracknumber], ".mp3") then
+						-- Music file with track time
+						file, trackTime = playlist[tracknumber]:match("([^,]+)%#([^,]+)")
+						local cleanFile = file:gsub("(|C%a%a%a%a%a%a%a%a)[^|]*(|r)", "") -- Remove color tags
+						if strfind(file, "cinematics/") then
+							cleanFile = "interface/" .. cleanFile
+						elseif strfind(file, "cinematicvoices/") or strfind(file, "ambience/") or strfind(file, "spells/") then
+							cleanFile = "sound/" .. cleanFile
+						else
+							cleanFile = "sound/music/" .. cleanFile
+						end
+						willPlay, musicHandle = PlaySoundFile(cleanFile, "Master", false, true)
+					else
+						-- Sound kit without track time
+						file, soundID = playlist[tracknumber]:match("([^,]+)%#([^,]+)")
+						willPlay, musicHandle = PlaySound(soundID, "Master", false, true)
+					end
 				end
 				-- Cancel existing music timer for a sound file
 				if LeaPlusLC.TrackTimer then LeaPlusLC.TrackTimer:Cancel() end
-				if playlist[tracknumber]:match("([^,]+)%#([^,]+)%#([^,]+)") then
-					-- Track is a sound file with track time so create track timer
-					LeaPlusLC.TrackTimer = C_Timer.NewTimer(trackTime + 1, function()
-						if musicHandle then StopSound(musicHandle) end
-						if tracknumber == #playlist then
-							-- Playlist is at the end, restart from first track
-							tracknumber = 1
-						end
-						PlayTrack()
-					end)
+				if strfind(playlist[tracknumber], "#") then
+					if strfind(playlist[tracknumber], ".mp3") then
+						-- Track is a sound file with track time so create track timer
+						LeaPlusLC.TrackTimer = C_Timer.NewTimer(trackTime + 1, function()
+							if musicHandle then StopSound(musicHandle) end
+							if tracknumber == #playlist then
+								-- Playlist is at the end, restart from first track
+								tracknumber = 1
+							end
+							PlayTrack()
+						end)
+					end
 				end
 				-- Store its handle for later use
 				LastMusicHandle = musicHandle
@@ -13100,18 +12225,7 @@
 					local button = scrollFrame.buttons[index]
 					local item = button:GetText()
 					if item then
-						if item:match("([^,]+)%#([^,]+)%#([^,]+)") then
-							-- Music file with track time
-							local item, void, void = item:match("([^,]+)%#([^,]+)%#([^,]+)")
-							if item then
-								if item == file and LastFolder == TempFolder then
-									button.s:Show()
-								else
-									button.s:Hide()
-								end
-							end
-						else
-							-- Sound kit without track time
+						if strfind(item, "#") then
 							local item, void = item:match("([^,]+)%#([^,]+)")
 							if item then
 								if item == file and LastFolder == TempFolder then
@@ -13652,23 +12766,6 @@
 
 				UpdateVars("MuteStriders", "MuteMechSteps")					-- 2.5.108 (1st June 2022)
 				UpdateVars("MinimapMod", "MinimapModder")					-- 2.5.120 (24th August 2022)
-				UpdateVars("ShowVendorPrice", "ExpandVendorPrice")			-- 4.0.67 (5th May 2025)
-
-				-- Mute game sounds split with Mute mount sounds
-				if LeaPlusDB["MuteGameSounds"] == "On" and not LeaPlusDB["MuteMountSounds"] then
-					if LeaPlusDB["MuteBikes"] == "On"
-					or LeaPlusDB["MuteBrooms"] == "On"
-					or LeaPlusDB["MuteGyrocopters"] == "On"
-					or LeaPlusDB["MuteHorsesteps"] == "On"
-					or LeaPlusDB["MuteMechSteps"] == "On"
-					or LeaPlusDB["MuteStriders"] == "On"
-					or LeaPlusDB["MuteNetherdrakes"] == "On"
-					or LeaPlusDB["MuteTravelers"] == "On"
-					then
-						LeaPlusLC["MuteMountSounds"] = "On"
-						LeaPlusDB["MuteMountSounds"] = "On"
-					end
-				end
 
 				-- Automation
 				LeaPlusLC:LoadVarChk("AutomateQuests", "Off")				-- Automate quests
@@ -13682,11 +12779,6 @@
 				LeaPlusLC:LoadVarChk("AutoResNoCombat", "On")				-- Accept resurrection exclude combat
 				LeaPlusLC:LoadVarChk("AutoReleasePvP", "Off")				-- Release in PvP
 				LeaPlusLC:LoadVarChk("AutoReleaseNoAlterac", "Off")			-- Release in PvP Exclude Alterac Valley
-				LeaPlusLC:LoadVarChk("AutoReleaseGilneas", "Off")			-- Release in PvP Exclude Battle for Gilneas
-				LeaPlusLC:LoadVarChk("AutoReleaseConquest", "Off")			-- Release in PvP Exclude Isle of Conquest
-				LeaPlusLC:LoadVarChk("AutoReleaseSilvershard", "Off")		-- Release in PvP Exclude Silvershard Mines
-				LeaPlusLC:LoadVarChk("AutoReleaseKotmogu", "Off")			-- Release in PvP Exclude Temple of Kotmogu
-				LeaPlusLC:LoadVarChk("AutoReleaseNoWintergsp", "Off")		-- Release in PvP Exclude Wintergrasp
 				LeaPlusLC:LoadVarNum("AutoReleaseDelay", 200, 200, 3000)	-- Release in PvP Delay
 
 				LeaPlusLC:LoadVarChk("AutoSellJunk", "Off")					-- Sell junk automatically
@@ -13698,7 +12790,6 @@
 
 				-- Social
 				LeaPlusLC:LoadVarChk("NoDuelRequests", "Off")				-- Block duels
-				LeaPlusLC:LoadVarChk("NoPetDuels", "Off")					-- Block pet battle duels
 				LeaPlusLC:LoadVarChk("NoPartyInvites", "Off")				-- Block party invites
 				LeaPlusLC:LoadVarChk("NoRequestedInvites", "Off")			-- Block requested invites
 				LeaPlusLC:LoadVarChk("NoFriendRequests", "Off")				-- Block friend requests
@@ -13815,7 +12906,6 @@
 				LeaPlusLC:LoadVarChk("NoCooldownDuration", "On")			-- Hide cooldown duration
 				LeaPlusLC:LoadVarChk("CooldownsOnPlayer", "Off")			-- Anchor to player
 				LeaPlusLC:LoadVarChk("DurabilityStatus", "On")				-- Show durability status
-				LeaPlusLC:LoadVarChk("ShowPetSaveBtn", "Off")				-- Show pet save button
 				LeaPlusLC:LoadVarChk("ShowVanityControls", "Off")			-- Show vanity controls
 				LeaPlusLC:LoadVarChk("VanityAltLayout", "Off")				-- Vanity alternative layout
 				LeaPlusLC:LoadVarChk("ShowBagSearchBox", "Off")				-- Show bag search box
@@ -13883,7 +12973,6 @@
 
 				LeaPlusLC:LoadVarChk("NoAlerts", "Off")						-- Hide alerts
 				LeaPlusLC:LoadVarChk("NoGryphons", "Off")					-- Hide gryphons
-				LeaPlusLC:LoadVarChk("HideEventToasts", "Off")				-- Hide event toasts
 				LeaPlusLC:LoadVarChk("NoClassBar", "Off")					-- Hide stance bar
 
 				-- System
@@ -13896,12 +12985,10 @@
 				LeaPlusLC:LoadVarChk("NoRestedEmotes", "Off")				-- Silence rested emotes
 				LeaPlusLC:LoadVarChk("KeepAudioSynced", "Off")				-- Keep audio synced
 				LeaPlusLC:LoadVarChk("MuteGameSounds", "Off")				-- Mute game sounds
-				LeaPlusLC:LoadVarChk("MuteMountSounds", "Off")				-- Mute mount sounds
 				LeaPlusLC:LoadVarChk("MuteCustomSounds", "Off")				-- Mute custom sounds
 				LeaPlusLC:LoadVarStr("MuteCustomList", "")					-- Mute custom sounds list
 
 				LeaPlusLC:LoadVarChk("NoBagAutomation", "Off")				-- Disable bag automation
-				LeaPlusLC:LoadVarChk("NoPetAutomation", "Off")				-- Disable pet automation
 				LeaPlusLC:LoadVarChk("CharAddonList", "Off")				-- Show character addons
 				LeaPlusLC:LoadVarChk("NoConfirmLoot", "Off")				-- Disable loot warnings
 				LeaPlusLC:LoadVarChk("FasterLooting", "Off")				-- Faster auto loot
@@ -13911,10 +12998,9 @@
 				LeaPlusLC:LoadVarChk("DismountNoMoving", "On")				-- Dismount on moving
 				LeaPlusLC:LoadVarChk("DismountNoTaxi", "On")				-- Dismount on flight map open
 				LeaPlusLC:LoadVarChk("DismountShowFormBtn", "On")			-- Dismount cancel form button
-				LeaPlusLC:LoadVarChk("ExpandVendorPrice", "Off")			-- Expand vendor price
+				LeaPlusLC:LoadVarChk("ShowVendorPrice", "Off")				-- Show vendor price
 				LeaPlusLC:LoadVarChk("CombatPlates", "Off")					-- Combat plates
 				LeaPlusLC:LoadVarChk("EasyItemDestroy", "Off")				-- Easy item destroy
-				LeaPlusLC:LoadVarChk("NoTransforms", "Off")					-- Remove transforms
 
 				-- Settings
 				LeaPlusLC:LoadVarChk("ShowMinimapIcon", "On")				-- Show minimap button
@@ -13948,14 +13034,6 @@
 							temp[1]:SetHighlightTexture(0)
 							temp[1]:SetScript("OnEnter", nil)
 						end
-					end
-
-					if not LeaPlusLC.NewPatch then
-						Lock("NoPetDuels", L["This is for Mists of Pandaria Classic"]) -- Block pet battle duels
-						Lock("NoPetAutomation", L["This is for Mists of Pandaria Classic"]) -- Disable pet automation
-						Lock("ShowPetSaveBtn", L["This is for Mists of Pandaria Classic"]) -- Show pet save button
-						Lock("HideEventToasts", L["This is for Mists of Pandaria Classic"]) -- Hide event toasts
-						Lock("NoTransforms", L["This is for Mists of Pandaria Classic"]) -- Remove transforms
 					end
 
 					-- Disable items that conflict with Easy Frames
@@ -14112,11 +13190,6 @@
 			LeaPlusDB["AutoResNoCombat"] 		= LeaPlusLC["AutoResNoCombat"]
 			LeaPlusDB["AutoReleasePvP"] 		= LeaPlusLC["AutoReleasePvP"]
 			LeaPlusDB["AutoReleaseNoAlterac"] 	= LeaPlusLC["AutoReleaseNoAlterac"]
-			LeaPlusDB["AutoReleaseGilneas"] 	= LeaPlusLC["AutoReleaseGilneas"]
-			LeaPlusDB["AutoReleaseConquest"] 	= LeaPlusLC["AutoReleaseConquest"]
-			LeaPlusDB["AutoReleaseSilvershard"] = LeaPlusLC["AutoReleaseSilvershard"]
-			LeaPlusDB["AutoReleaseKotmogu"] 	= LeaPlusLC["AutoReleaseKotmogu"]
-			LeaPlusDB["AutoReleaseNoWintergsp"] = LeaPlusLC["AutoReleaseNoWintergsp"]
 			LeaPlusDB["AutoReleaseDelay"] 		= LeaPlusLC["AutoReleaseDelay"]
 
 			LeaPlusDB["AutoSellJunk"] 			= LeaPlusLC["AutoSellJunk"]
@@ -14128,7 +13201,6 @@
 
 			-- Social
 			LeaPlusDB["NoDuelRequests"] 		= LeaPlusLC["NoDuelRequests"]
-			LeaPlusDB["NoPetDuels"] 			= LeaPlusLC["NoPetDuels"]
 			LeaPlusDB["NoPartyInvites"]			= LeaPlusLC["NoPartyInvites"]
 			LeaPlusDB["NoRequestedInvites"]		= LeaPlusLC["NoRequestedInvites"]
 			LeaPlusDB["NoFriendRequests"]		= LeaPlusLC["NoFriendRequests"]
@@ -14248,7 +13320,6 @@
 			LeaPlusDB["NoCooldownDuration"]		= LeaPlusLC["NoCooldownDuration"]
 			LeaPlusDB["CooldownsOnPlayer"]		= LeaPlusLC["CooldownsOnPlayer"]
 			LeaPlusDB["DurabilityStatus"]		= LeaPlusLC["DurabilityStatus"]
-			LeaPlusDB["ShowPetSaveBtn"]			= LeaPlusLC["ShowPetSaveBtn"]
 			LeaPlusDB["ShowVanityControls"]		= LeaPlusLC["ShowVanityControls"]
 			LeaPlusDB["VanityAltLayout"]		= LeaPlusLC["VanityAltLayout"]
 			LeaPlusDB["ShowBagSearchBox"]		= LeaPlusLC["ShowBagSearchBox"]
@@ -14316,7 +13387,6 @@
 
 			LeaPlusDB["NoAlerts"]				= LeaPlusLC["NoAlerts"]
 			LeaPlusDB["NoGryphons"]				= LeaPlusLC["NoGryphons"]
-			LeaPlusDB["HideEventToasts"]		= LeaPlusLC["HideEventToasts"]
 			LeaPlusDB["NoClassBar"]				= LeaPlusLC["NoClassBar"]
 
 			-- System
@@ -14329,12 +13399,10 @@
 			LeaPlusDB["NoRestedEmotes"]			= LeaPlusLC["NoRestedEmotes"]
 			LeaPlusDB["KeepAudioSynced"]		= LeaPlusLC["KeepAudioSynced"]
 			LeaPlusDB["MuteGameSounds"]			= LeaPlusLC["MuteGameSounds"]
-			LeaPlusDB["MuteMountSounds"]		= LeaPlusLC["MuteMountSounds"]
 			LeaPlusDB["MuteCustomSounds"]		= LeaPlusLC["MuteCustomSounds"]
 			LeaPlusDB["MuteCustomList"]			= LeaPlusLC["MuteCustomList"]
 
 			LeaPlusDB["NoBagAutomation"]		= LeaPlusLC["NoBagAutomation"]
-			LeaPlusDB["NoPetAutomation"]		= LeaPlusLC["NoPetAutomation"]
 			LeaPlusDB["CharAddonList"]			= LeaPlusLC["CharAddonList"]
 			LeaPlusDB["NoConfirmLoot"] 			= LeaPlusLC["NoConfirmLoot"]
 			LeaPlusDB["FasterLooting"] 			= LeaPlusLC["FasterLooting"]
@@ -14344,10 +13412,9 @@
 			LeaPlusDB["DismountNoMoving"] 		= LeaPlusLC["DismountNoMoving"]
 			LeaPlusDB["DismountNoTaxi"] 		= LeaPlusLC["DismountNoTaxi"]
 			LeaPlusDB["DismountShowFormBtn"] 	= LeaPlusLC["DismountShowFormBtn"]
-			LeaPlusDB["ExpandVendorPrice"] 		= LeaPlusLC["ExpandVendorPrice"]
+			LeaPlusDB["ShowVendorPrice"] 		= LeaPlusLC["ShowVendorPrice"]
 			LeaPlusDB["CombatPlates"]			= LeaPlusLC["CombatPlates"]
 			LeaPlusDB["EasyItemDestroy"]		= LeaPlusLC["EasyItemDestroy"]
-			LeaPlusDB["NoTransforms"] 			= LeaPlusLC["NoTransforms"]
 
 			-- Settings
 			LeaPlusDB["ShowMinimapIcon"] 		= LeaPlusLC["ShowMinimapIcon"]
@@ -14365,16 +13432,6 @@
 
 			-- Mute game sounds (LeaPlusLC["MuteGameSounds"])
 			for k, v in pairs(LeaPlusLC["muteTable"]) do
-				LeaPlusDB[k] = LeaPlusLC[k]
-			end
-
-			-- Mute mount sounds (LeaPlusLC["MuteMountSounds"])
-			for k, v in pairs(LeaPlusLC["mountTable"]) do
-				LeaPlusDB[k] = LeaPlusLC[k]
-			end
-
-			-- Remove transforms (LeaPlusLC["NoTransforms"])
-			for k, v in pairs(LeaPlusLC["transTable"]) do
 				LeaPlusDB[k] = LeaPlusLC[k]
 			end
 
@@ -14418,14 +13475,6 @@
 
 			-- Mute game sounds (LeaPlusLC["MuteGameSounds"])
 			for k, v in pairs(LeaPlusLC["muteTable"]) do
-				for i, e in pairs(v) do
-					local file, soundID = e:match("([^,]+)%#([^,]+)")
-					UnmuteSoundFile(soundID)
-				end
-			end
-
-			-- Mute mount sounds (LeaPlusLC["MuteMountSounds"])
-			for k, v in pairs(LeaPlusLC["mountTable"]) do
 				for i, e in pairs(v) do
 					local file, soundID = e:match("([^,]+)%#([^,]+)")
 					UnmuteSoundFile(soundID)
@@ -15126,32 +14175,17 @@
 				-- Show web link
 				if not LeaPlusLC.WowheadLock then
 					-- Set Wowhead link prefix
-					if LeaPlusLC.NewPatch then
-							if GameLocale == "deDE" then LeaPlusLC.WowheadLock = "wowhead.com/mop-classic/de"
-						elseif GameLocale == "esMX" then LeaPlusLC.WowheadLock = "wowhead.com/mop-classic/mx"
-						elseif GameLocale == "esES" then LeaPlusLC.WowheadLock = "wowhead.com/mop-classic/es"
-						elseif GameLocale == "frFR" then LeaPlusLC.WowheadLock = "wowhead.com/mop-classic/fr"
-						elseif GameLocale == "itIT" then LeaPlusLC.WowheadLock = "wowhead.com/mop-classic/it"
-						elseif GameLocale == "ptBR" then LeaPlusLC.WowheadLock = "wowhead.com/mop-classic/pt"
-						elseif GameLocale == "ruRU" then LeaPlusLC.WowheadLock = "wowhead.com/mop-classic/ru"
-						elseif GameLocale == "koKR" then LeaPlusLC.WowheadLock = "wowhead.com/mop-classic/ko"
-						elseif GameLocale == "zhCN" then LeaPlusLC.WowheadLock = "wowhead.com/mop-classic/cn"
-						elseif GameLocale == "zhTW" then LeaPlusLC.WowheadLock = "wowhead.com/mop-classic/tw"
-						else							 LeaPlusLC.WowheadLock = "wowhead.com/mop-classic"
-						end
-					else
-							if GameLocale == "deDE" then LeaPlusLC.WowheadLock = "wowhead.com/cata/de"
-						elseif GameLocale == "esMX" then LeaPlusLC.WowheadLock = "wowhead.com/cata/mx"
-						elseif GameLocale == "esES" then LeaPlusLC.WowheadLock = "wowhead.com/cata/es"
-						elseif GameLocale == "frFR" then LeaPlusLC.WowheadLock = "wowhead.com/cata/fr"
-						elseif GameLocale == "itIT" then LeaPlusLC.WowheadLock = "wowhead.com/cata/it"
-						elseif GameLocale == "ptBR" then LeaPlusLC.WowheadLock = "wowhead.com/cata/pt"
-						elseif GameLocale == "ruRU" then LeaPlusLC.WowheadLock = "wowhead.com/cata/ru"
-						elseif GameLocale == "koKR" then LeaPlusLC.WowheadLock = "wowhead.com/cata/ko"
-						elseif GameLocale == "zhCN" then LeaPlusLC.WowheadLock = "wowhead.com/cata/cn"
-						elseif GameLocale == "zhTW" then LeaPlusLC.WowheadLock = "wowhead.com/cata/tw"
-						else							 LeaPlusLC.WowheadLock = "wowhead.com/cata"
-						end
+						if GameLocale == "deDE" then LeaPlusLC.WowheadLock = "wowhead.com/cata/de"
+					elseif GameLocale == "esMX" then LeaPlusLC.WowheadLock = "wowhead.com/cata/mx"
+					elseif GameLocale == "esES" then LeaPlusLC.WowheadLock = "wowhead.com/cata/es"
+					elseif GameLocale == "frFR" then LeaPlusLC.WowheadLock = "wowhead.com/cata/fr"
+					elseif GameLocale == "itIT" then LeaPlusLC.WowheadLock = "wowhead.com/cata/it"
+					elseif GameLocale == "ptBR" then LeaPlusLC.WowheadLock = "wowhead.com/cata/pt"
+					elseif GameLocale == "ruRU" then LeaPlusLC.WowheadLock = "wowhead.com/cata/ru"
+					elseif GameLocale == "koKR" then LeaPlusLC.WowheadLock = "wowhead.com/cata/ko"
+					elseif GameLocale == "zhCN" then LeaPlusLC.WowheadLock = "wowhead.com/cata/cn"
+					elseif GameLocale == "zhTW" then LeaPlusLC.WowheadLock = "wowhead.com/cata/tw"
+					else							 LeaPlusLC.WowheadLock = "wowhead.com/cata"
 					end
 				end
 				-- Store frame under mouse
@@ -15614,7 +14648,7 @@
 								for k, v in pairs(b.tracks) do
 									-- Check for bad sound IDs
 									if not strfind(v, "|c") then
-										if not v:match("([^,]+)%#([^,]+)%#([^,]+)") then
+										if not strfind(v, ".mp3") then
 											local temFile, temSoundID = v:match("([^,]+)%#([^,]+)")
 											if temSoundID then
 												local temPlay, temHandle = PlaySound(temSoundID, "Master", false, true)
@@ -16249,24 +15283,6 @@
 					end
 				end
 				return
-			elseif str == "taintmap" then
-				-- TaintMap
-				if LeaPlusLC.TaintMap then
-					LeaPlusLC.TaintMap:Cancel()
-					LeaPlusLC.TaintMap = nil
-					LeaPlusLC:Print("TaintMap stopped.")
-					return
-				end
-				LeaPlusLC.TaintMap = C_Timer.NewTicker(1, function()
-					for k,v in pairs(WorldMapFrame) do
-						local ok, who = issecurevariable(WorldMapFrame, k)
-						if not ok then
-							print("Tainted:", k, "by", who or "unknown")
-						end
-					end
-				end)
-				LeaPlusLC:Print("TaintMap started.")
-				return
 			elseif str == "admin" then
 				-- Preset profile (used for testing)
 				LpEvt:UnregisterAllEvents()						-- Prevent changes
@@ -16288,7 +15304,6 @@
 
 				-- Social
 				LeaPlusDB["NoDuelRequests"] = "On"				-- Block duels
-				LeaPlusDB["NoPetDuels"] = "On"					-- Block pet battle duels
 				LeaPlusDB["NoPartyInvites"] = "Off"				-- Block party invites
 				LeaPlusDB["NoRequestedInvites"] = "Off"			-- Block requested invites
 				LeaPlusDB["NoFriendRequests"] = "Off"			-- Block friend requests
@@ -16385,7 +15400,6 @@
 				LeaPlusDB["AhExtras"] = "On"					-- Show auction controls
 				LeaPlusDB["ShowCooldowns"] = "On"				-- Show cooldowns
 				LeaPlusDB["DurabilityStatus"] = "On"			-- Show durability status
-				LeaPlusDB["ShowPetSaveBtn"] = "On"				-- Show pet save button
 				LeaPlusDB["ShowVanityControls"] = "On"			-- Show vanity controls
 				LeaPlusDB["ShowBagSearchBox"] = "On"			-- Show bag search box
 				LeaPlusDB["ShowRaidToggle"] = "On"				-- Show raid button
@@ -16460,7 +15474,6 @@
 
 				LeaPlusDB["NoAlerts"] = "On"					-- Hide alerts
 				LeaPlusDB["NoGryphons"] = "On"					-- Hide gryphons
-				LeaPlusDB["HideEventToasts"] = "On"				-- Hide event toasts
 				LeaPlusDB["NoClassBar"] = "On"					-- Hide stance bar
 
 				-- System
@@ -16472,21 +15485,18 @@
 				LeaPlusDB["NoRestedEmotes"] = "On"				-- Silence rested emotes
 				LeaPlusDB["KeepAudioSynced"] = "On"				-- Keep audio synced
 				LeaPlusDB["MuteGameSounds"] = "On"				-- Mute game sounds
-				LeaPlusDB["MuteMountSounds"] = "On"				-- Mute mount sounds
 				LeaPlusDB["MuteCustomSounds"] = "On"			-- Mute custom sounds
 				LeaPlusDB["MuteCustomList"] = ""				-- Mute custom sounds list
 
 				LeaPlusDB["NoBagAutomation"] = "On"				-- Disable bag automation
-				LeaPlusDB["NoPetAutomation"] = "On"				-- Disable pet automation
 				LeaPlusDB["CharAddonList"] = "On"				-- Show character addons
 				LeaPlusDB["NoConfirmLoot"] = "On"				-- Disable loot warnings
 				LeaPlusDB["FasterLooting"] = "On"				-- Faster auto loot
 				LeaPlusDB["FasterMovieSkip"] = "On"				-- Faster movie skip
 				LeaPlusDB["StandAndDismount"] = "On"			-- Dismount me
-				LeaPlusDB["ExpandVendorPrice"] = "On"			-- Expand vendor price
+				LeaPlusDB["ShowVendorPrice"] = "On"				-- Show vendor price
 				LeaPlusDB["CombatPlates"] = "On"				-- Combat plates
 				LeaPlusDB["EasyItemDestroy"] = "On"				-- Easy item destroy
-				LeaPlusDB["NoTransforms"] = "On"				-- Remove transforms
 
 				-- Function to assign cooldowns
 				local function setIcon(pclass, pspec, sp1, pt1, sp2, pt2, sp3, pt3, sp4, pt4, sp5, pt5)
@@ -16531,16 +15541,6 @@
 					LeaPlusDB[k] = "On"
 				end
 				LeaPlusDB["MuteReady"] = "Off"	-- Mute ready check
-
-				-- Mute mount sounds (LeaPlusLC["MuteMountSounds"])
-				for k, v in pairs(LeaPlusLC["mountTable"]) do
-					LeaPlusDB[k] = "On"
-				end
-
-				-- Remove transforms (LeaPlusLC["NoTransforms"])
-				for k, v in pairs(LeaPlusLC["transTable"]) do
-					LeaPlusDB[k] = "On"
-				end
 
 				-- Set chat font sizes
 				RunScript('for i = 1, 50 do if _G["ChatFrame" .. i] then FCF_SetChatWindowFontSize(self, _G["ChatFrame" .. i], 20) end end')
@@ -16726,11 +15726,10 @@
 
 	LeaPlusLC:MakeTx(LeaPlusLC[pg], "Blocks"					, 	146, -72);
 	LeaPlusLC:MakeCB(LeaPlusLC[pg], "NoDuelRequests"			, 	"Block duels"					,	146, -92, 	false,	"If checked, duel requests will be blocked unless the player requesting the duel is a friend.")
-	LeaPlusLC:MakeCB(LeaPlusLC[pg], "NoPetDuels"				, 	"Block pet battle duels"		,	146, -112, 	false,	"If checked, pet battle duel requests will be blocked unless the player requesting the duel is a friend.")
-	LeaPlusLC:MakeCB(LeaPlusLC[pg], "NoPartyInvites"			, 	"Block party invites"			, 	146, -132, 	false,	"If checked, party invitations will be blocked unless the player inviting you is a friend.")
-	LeaPlusLC:MakeCB(LeaPlusLC[pg], "NoRequestedInvites"		, 	"Block requested invites"		, 	146, -152, 	false,	"If checked, requests to invite a player to your group will be declined unless the player requesting to join is a friend.")
-	LeaPlusLC:MakeCB(LeaPlusLC[pg], "NoFriendRequests"			, 	"Block friend requests"			, 	146, -172, 	false,	"If checked, BattleTag and Real ID friend requests will be automatically declined.|n|nEnabling this option will automatically decline any pending requests.")
-	LeaPlusLC:MakeCB(LeaPlusLC[pg], "NoSharedQuests"			, 	"Block shared quests"			, 	146, -192, 	false,	"If checked, shared quests will be declined unless the player sharing the quest is a friend.")
+	LeaPlusLC:MakeCB(LeaPlusLC[pg], "NoPartyInvites"			, 	"Block party invites"			, 	146, -112, 	false,	"If checked, party invitations will be blocked unless the player inviting you is a friend.")
+	LeaPlusLC:MakeCB(LeaPlusLC[pg], "NoRequestedInvites"		, 	"Block requested invites"		, 	146, -132, 	false,	"If checked, requests to invite a player to your group will be declined unless the player requesting to join is a friend.")
+	LeaPlusLC:MakeCB(LeaPlusLC[pg], "NoFriendRequests"			, 	"Block friend requests"			, 	146, -152, 	false,	"If checked, BattleTag and Real ID friend requests will be automatically declined.|n|nEnabling this option will automatically decline any pending requests.")
+	LeaPlusLC:MakeCB(LeaPlusLC[pg], "NoSharedQuests"			, 	"Block shared quests"			, 	146, -172, 	false,	"If checked, shared quests will be declined unless the player sharing the quest is a friend.")
 
 	LeaPlusLC:MakeTx(LeaPlusLC[pg], "Groups"					, 	340, -72);
 	LeaPlusLC:MakeCB(LeaPlusLC[pg], "AcceptPartyFriends"		, 	"Party from friends"			, 	340, -92, 	false,	"If checked, party invitations from friends will be automatically accepted unless you are queued for a battleground.")
@@ -16812,22 +15811,13 @@
 	LeaPlusLC:MakeCB(LeaPlusLC[pg], "EnhanceTrainers"			, 	"Enhance trainers"				,	146, -192, 	true,	"If checked, the skill trainer frame will be larger and feature a train all skills button.")
 	LeaPlusLC:MakeCB(LeaPlusLC[pg], "EnhanceFlightMap"			, 	"Enhance flight map"			,	146, -212, 	true,	"If checked, you will be able to customise the flight map.")
 
-	LeaPlusLC:MakeTx(LeaPlusLC[pg], "Extras"					, 	146, -252);
-	LeaPlusLC:MakeCB(LeaPlusLC[pg], "ShowVolume"				, 	"Show volume slider"			, 	146, -272, 	true,	"If checked, a master volume slider will be shown in the character frame.")
-
 	LeaPlusLC:MakeTx(LeaPlusLC[pg], "Extras"					, 	340, -72);
-	LeaPlusLC:MakeCB(LeaPlusLC[pg], "AhExtras"					, 	"Show auction controls"			, 	340, -92, 	true,	"If checked, additional functionality will be added to the auction house.|n|nBuyout only - create buyout auctions without filling in the starting price.|n|nGold only - set the copper and silver prices at 99 to speed up new auctions.|n|nFind item - search the auction house for the item you are selling.|n|nIn addition, the auction duration setting will be saved account-wide.")
-	LeaPlusLC:MakeCB(LeaPlusLC[pg], "ShowCooldowns"				, 	"Show cooldowns"				, 	340, -112, 	true,	"If checked, you will be able to place up to five beneficial cooldown icons above the target frame.")
-	LeaPlusLC:MakeCB(LeaPlusLC[pg], "DurabilityStatus"			, 	"Show durability status"		, 	340, -132, 	true,	"If checked, a button will be added to the character frame which will show your equipped item durability when you hover the pointer over it.|n|nIn addition, an overall percentage will be shown in the chat frame when you die.")
-	LeaPlusLC:MakeCB(LeaPlusLC[pg], "ShowPetSaveBtn"			, 	"Show pet save button"			, 	340, -152, 	true,	"If checked, you will be able to save your current battle pet team (including abilities) to a single command.|n|nA button will be added to the Pet Journal.  Clicking the button will toggle showing the assignment command for your current team.  Pressing CTRL/C will copy the command to memory.|n|nYou can then paste the command (with CTRL/V) into the chat window or a macro to instantly assign your team.")
+	LeaPlusLC:MakeCB(LeaPlusLC[pg], "ShowVolume"				, 	"Show volume slider"			, 	340, -92, 	true,	"If checked, a master volume slider will be shown in the character frame.")
+	LeaPlusLC:MakeCB(LeaPlusLC[pg], "AhExtras"					, 	"Show auction controls"			, 	340, -112, 	true,	"If checked, additional functionality will be added to the auction house.|n|nBuyout only - create buyout auctions without filling in the starting price.|n|nGold only - set the copper and silver prices at 99 to speed up new auctions.|n|nFind item - search the auction house for the item you are selling.|n|nIn addition, the auction duration setting will be saved account-wide.")
+	LeaPlusLC:MakeCB(LeaPlusLC[pg], "ShowCooldowns"				, 	"Show cooldowns"				, 	340, -132, 	true,	"If checked, you will be able to place up to five beneficial cooldown icons above the target frame.")
+	LeaPlusLC:MakeCB(LeaPlusLC[pg], "DurabilityStatus"			, 	"Show durability status"		, 	340, -152, 	true,	"If checked, a button will be added to the character frame which will show your equipped item durability when you hover the pointer over it.|n|nIn addition, an overall percentage will be shown in the chat frame when you die.")
 	LeaPlusLC:MakeCB(LeaPlusLC[pg], "ShowVanityControls"		, 	"Show vanity controls"			, 	340, -172, 	true,	"If checked, helm and cloak toggle checkboxes will be shown in the character frame.|n|nYou can hold shift and right-click the checkboxes to switch layouts.")
-
-	if LeaPlusLC.NewPatch then
-		LeaPlusLC:MakeCB(LeaPlusLC[pg], "ShowBagSearchBox"		, 	"Show bag search box"			, 	340, -192, 	true,	"If checked, a bag search box will be shown in the backpack frame.")
-	else
-		LeaPlusLC:MakeCB(LeaPlusLC[pg], "ShowBagSearchBox"		, 	"Show bag search box"			, 	340, -192, 	true,	"If checked, a bag search box will be shown in the backpack frame and the bank frame.")
-	end
-
+	LeaPlusLC:MakeCB(LeaPlusLC[pg], "ShowBagSearchBox"			, 	"Show bag search box"			, 	340, -192, 	true,	"If checked, a bag search box will be shown in the backpack frame and the bank frame.")
 	LeaPlusLC:MakeCB(LeaPlusLC[pg], "ShowRaidToggle"			, 	"Show raid button"				,	340, -212, 	true,	"If checked, the button to toggle the raid container frame will be shown just above the raid management frame (left side of the screen) instead of in the raid management frame itself.|n|nThis allows you to toggle the raid container frame without needing to open the raid management frame.")
 	LeaPlusLC:MakeCB(LeaPlusLC[pg], "ShowBorders"				,	"Show borders"					,	340, -232, 	true,	"If checked, you will be able to show customisable borders around the edges of the screen.|n|nThe borders are placed on top of the game world but under the UI so you can place UI elements over them.")
 	LeaPlusLC:MakeCB(LeaPlusLC[pg], "ShowPlayerChain"			, 	"Show player chain"				,	340, -252, 	true,	"If checked, you will be able to show a rare, elite or rare elite chain around the player frame.")
@@ -16864,8 +15854,7 @@
 	LeaPlusLC:MakeTx(LeaPlusLC[pg], "Visibility"				, 	340, -72);
 	LeaPlusLC:MakeCB(LeaPlusLC[pg], "NoAlerts"					,	"Hide alerts"					, 	340, -92, 	true,	"If checked, alert frames will not be shown.|n|nWhen you earn an achievement, a message will be shown in chat instead.")
 	LeaPlusLC:MakeCB(LeaPlusLC[pg], "NoGryphons"				,	"Hide gryphons"					, 	340, -112, 	true,	"If checked, the main bar gryphons will not be shown.")
-	LeaPlusLC:MakeCB(LeaPlusLC[pg], "HideEventToasts"			, 	"Hide event toasts"				, 	340, -132, 	true,	"If checked, event toasts will not be shown.|n|nEvent toasts are used for encounter objectives, level-ups, pet battle rewards, etc.")
-	LeaPlusLC:MakeCB(LeaPlusLC[pg], "NoClassBar"				,	"Hide stance bar"				, 	340, -152, 	true,	"If checked, the stance bar will not be shown.")
+	LeaPlusLC:MakeCB(LeaPlusLC[pg], "NoClassBar"				,	"Hide stance bar"				, 	340, -132, 	true,	"If checked, the stance bar will not be shown.")
 
 	LeaPlusLC:CfgBtn("MoveFramesButton", LeaPlusCB["FrmEnabled"])
 	LeaPlusLC:CfgBtn("ManageBuffsButton", LeaPlusCB["ManageBuffs"])
@@ -16890,28 +15879,23 @@
 	LeaPlusLC:MakeCB(LeaPlusLC[pg], "NoRestedEmotes"			, 	"Silence rested emotes"			,	146, -172, 	true,	"If checked, emote sounds will be silenced while your character is resting or at the Grim Guzzler.|n|nEmote sounds will be enabled at all other times.")
 	LeaPlusLC:MakeCB(LeaPlusLC[pg], "KeepAudioSynced"			, 	"Keep audio synced"				,	146, -192, 	true,	"If checked, when you change the audio output device in your operating system, the game audio output device will change automatically as long as a cinematic is not playing at the time.|n|nFor this to work, the game audio output device will be set to system default.")
 	LeaPlusLC:MakeCB(LeaPlusLC[pg], "MuteGameSounds"			, 	"Mute game sounds"				,	146, -212, 	false,	"If checked, you will be able to mute a selection of game sounds.")
-	LeaPlusLC:MakeCB(LeaPlusLC[pg], "MuteMountSounds"			, 	"Mute mount sounds"				,	146, -232, 	false,	"If checked, you will be able to mute a selection of mount sounds.")
-	LeaPlusLC:MakeCB(LeaPlusLC[pg], "MuteCustomSounds"			, 	"Mute custom sounds"			,	146, -252, 	false,	"If checked, you will be able to mute your own choice of sounds.")
+	LeaPlusLC:MakeCB(LeaPlusLC[pg], "MuteCustomSounds"			, 	"Mute custom sounds"			,	146, -232, 	false,	"If checked, you will be able to mute your own choice of sounds.")
 
 	LeaPlusLC:MakeTx(LeaPlusLC[pg], "Game Options"				, 	340, -72);
 	LeaPlusLC:MakeCB(LeaPlusLC[pg], "NoBagAutomation"			, 	"Disable bag automation"		, 	340, -92, 	true,	"If checked, your bags will not be opened or closed automatically when you interact with a merchant or bank.")
-	LeaPlusLC:MakeCB(LeaPlusLC[pg], "NoPetAutomation"			, 	"Disable pet automation"		, 	340, -112, 	true, 	"If checked, battle pets which are automatically summoned will be dismissed within a few seconds.|n|nThis includes dragging a pet onto the first team slot in the pet journal and entering a battle pet team save command.|n|nNote that pets which are automatically summoned during combat will be dismissed when combat ends.")
-	LeaPlusLC:MakeCB(LeaPlusLC[pg], "CharAddonList"				, 	"Show character addons"			, 	340, -132, 	true,	"If checked, the addon list (accessible from the game menu) will show character based addons by default.")
-	LeaPlusLC:MakeCB(LeaPlusLC[pg], "NoConfirmLoot"				, 	"Disable loot warnings"			,	340, -152, 	false,	"If checked, confirmations will no longer appear when you choose a loot roll option or attempt to sell or mail a tradable item.")
-	LeaPlusLC:MakeCB(LeaPlusLC[pg], "FasterLooting"				, 	"Faster auto loot"				,	340, -172, 	true,	"If checked, the amount of time it takes to auto loot creatures will be significantly reduced.")
-	LeaPlusLC:MakeCB(LeaPlusLC[pg], "FasterMovieSkip"			, 	"Faster movie skip"				,	340, -192, 	true,	"If checked, you will be able to cancel cinematics without being prompted for confirmation.")
-	LeaPlusLC:MakeCB(LeaPlusLC[pg], "StandAndDismount"			, 	"Dismount me"					,	340, -212, 	true,	"If checked, you will be able to set some additional rules for when your character is automatically dismounted.")
-	LeaPlusLC:MakeCB(LeaPlusLC[pg], "ExpandVendorPrice"			, 	"Expand vendor price"			,	340, -232, 	true,	"If checked, the vendor price will be shown in item tooltips that the default UI does not cover.|n|nThis includes quest reward tooltips, equipped gear tooltips and tooltips for items linked in chat.")
-	LeaPlusLC:MakeCB(LeaPlusLC[pg], "CombatPlates"				, 	"Combat plates"					,	340, -252, 	true,	"If checked, enemy nameplates will be shown during combat and hidden when combat ends.")
-	LeaPlusLC:MakeCB(LeaPlusLC[pg], "EasyItemDestroy"			, 	"Easy item destroy"				,	340, -272, 	true,	"If checked, you will no longer need to type delete when destroying a superior quality item.|n|nIn addition, item links will be shown in all item destroy confirmation windows.")
-	LeaPlusLC:MakeCB(LeaPlusLC[pg], "NoTransforms"				, 	"Remove transforms"				, 	340, -292, 	false, 	"If checked, you will be able to have certain transforms removed automatically when they are applied to your character.|n|nYou can choose the transforms in the configuration panel.|n|nExamples include Weighted Jack-o'-Lantern and Hallowed Wand.|n|nTransforms applied during combat will be removed when combat ends.")
+	LeaPlusLC:MakeCB(LeaPlusLC[pg], "CharAddonList"				, 	"Show character addons"			, 	340, -112, 	true,	"If checked, the addon list (accessible from the game menu) will show character based addons by default.")
+	LeaPlusLC:MakeCB(LeaPlusLC[pg], "NoConfirmLoot"				, 	"Disable loot warnings"			,	340, -132, 	false,	"If checked, confirmations will no longer appear when you choose a loot roll option or attempt to sell or mail a tradable item.")
+	LeaPlusLC:MakeCB(LeaPlusLC[pg], "FasterLooting"				, 	"Faster auto loot"				,	340, -152, 	true,	"If checked, the amount of time it takes to auto loot creatures will be significantly reduced.")
+	LeaPlusLC:MakeCB(LeaPlusLC[pg], "FasterMovieSkip"			, 	"Faster movie skip"				,	340, -172, 	true,	"If checked, you will be able to cancel cinematics without being prompted for confirmation.")
+	LeaPlusLC:MakeCB(LeaPlusLC[pg], "StandAndDismount"			, 	"Dismount me"					,	340, -192, 	true,	"If checked, you will be able to set some additional rules for when your character is automatically dismounted.")
+	LeaPlusLC:MakeCB(LeaPlusLC[pg], "ShowVendorPrice"			, 	"Show vendor price"				,	340, -212, 	true,	"If checked, the vendor price will be shown in item tooltips.")
+	LeaPlusLC:MakeCB(LeaPlusLC[pg], "CombatPlates"				, 	"Combat plates"					,	340, -232, 	true,	"If checked, enemy nameplates will be shown during combat and hidden when combat ends.")
+	LeaPlusLC:MakeCB(LeaPlusLC[pg], "EasyItemDestroy"			, 	"Easy item destroy"				,	340, -252, 	true,	"If checked, you will no longer need to type delete when destroying a superior quality item.|n|nIn addition, item links will be shown in all item destroy confirmation windows.")
 
 	LeaPlusLC:CfgBtn("SetWeatherDensityBtn", LeaPlusCB["SetWeatherDensity"])
 	LeaPlusLC:CfgBtn("MuteGameSoundsBtn", LeaPlusCB["MuteGameSounds"])
-	LeaPlusLC:CfgBtn("MuteMountSoundsBtn", LeaPlusCB["MuteMountSounds"])
 	LeaPlusLC:CfgBtn("MuteCustomSoundsBtn", LeaPlusCB["MuteCustomSounds"])
 	LeaPlusLC:CfgBtn("DismountBtn", LeaPlusCB["StandAndDismount"])
-	LeaPlusLC:CfgBtn("NoTransformsBtn", LeaPlusCB["NoTransforms"])
 
 ----------------------------------------------------------------------
 -- 	LC8: Settings
