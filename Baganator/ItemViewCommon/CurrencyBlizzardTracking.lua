@@ -1,5 +1,4 @@
----@class addonTableBaganator
-local addonTable = select(2, ...)
+local _, addonTable = ...
 
 local isSyncing = false
 local function ApplyBlizzard()
@@ -101,10 +100,10 @@ function addonTable.ItemViewCommon.SetCurrencyTrackedBlizzard(toTrackCurrencyID,
     local index = 0
     while index < GetCurrencyListSize() do
       index = index + 1
-      local _, isHeader, isHeaderExpanded = GetCurrencyListInfo(index)
+      local name, isHeader, isHeaderExpanded, _, _, quantity = GetCurrencyListInfo(index)
       if isHeader then
         if not isHeaderExpanded then
-          ExpandCurrencyList(index, 1)
+          table.insert(toCollapse, index)
         end
       else
         local link = C_CurrencyInfo.GetCurrencyListLink(index)
