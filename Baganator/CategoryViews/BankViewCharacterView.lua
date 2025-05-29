@@ -1,5 +1,4 @@
----@class addonTableBaganator
-local addonTable = select(2, ...)
+local _, addonTable = ...
 BaganatorCategoryViewBankViewCharacterViewMixin = CreateFromMixins(BaganatorItemViewCommonBankViewCharacterViewMixin)
 
 function BaganatorCategoryViewBankViewCharacterViewMixin:OnLoad()
