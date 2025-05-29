@@ -270,10 +270,6 @@ SAO.BucketManager = {
     end,
 
     getOrCreateBucket = function(self, name, spellID)
-        if type(spellID) ~= 'number' then
-            SAO:Warn(Module, "Creating a bucket for spellID "..tostring(spellID).." which is of type "..type(spellID).." instead of number")
-        end
-
         local bucket = SAO.RegisteredBucketsBySpellID[spellID];
         local created = false;
 
@@ -286,10 +282,6 @@ SAO.BucketManager = {
             if SAO.IsEra() and not SAO:IsFakeSpell(spellID) then
                 local spellName = GetSpellInfo(spellID);
                 if spellName then
-                    local conflictingBucket = SAO.RegisteredBucketsBySpellID[spellName];
-                    if conflictingBucket then
-                        SAO:Debug(Module, "Registering spells with different spell IDs ("..conflictingBucket.name.." uses spell ID "..conflictingBucket.spellID.." vs. "..bucket.name.." uses spell ID "..bucket.spellID..") but sharing the same spell name '"..spellName.."', this might cause issues");
-                    end
                     SAO.RegisteredBucketsBySpellID[spellName] = bucket; -- Share pointer
                 else
                     SAO:Debug(Module, "Registering bucket with unknown spell "..tostring(spellID));
@@ -328,9 +320,6 @@ function SAO:GetBucketByName(name)
 end
 
 function SAO:GetBucketBySpellID(spellID)
-    if type(spellID) ~= 'number' then
-        SAO:Warn(Module, "Asking a bucket with spell ID "..tostring(spellID).." which is of type "..type(spellID).." instead of type number");
-    end
     return self.RegisteredBucketsBySpellID[spellID];
 end
 
@@ -347,16 +336,6 @@ function SAO:GetBucketBySpellIDOrSpellName(spellID, fallbackSpellName)
     end
 end
 
-function SAO:ForEachBucket(bucketFunc)
-    for key, bucket in pairs(self.RegisteredBucketsBySpellID) do
-        -- Original buckets are indexed by their spell IDs, which are numbers, unlike spell name indexes which are strings
-        -- There is no point in parsing buckets indexed by a spell name, such buckets are already indexed somewhere else by their spell ID
-        if type(key) == 'number' then
-            bucketFunc(bucket);
-        end
-    end
-end
-
 -- Perform a manual check on all buckets
 -- If 'trigger' is set, only to buckets requiring this trigger are visited, and they check only this trigger
 function SAO:CheckManuallyAllBuckets(trigger)
@@ -366,11 +345,11 @@ function SAO:CheckManuallyAllBuckets(trigger)
             bucket.trigger:manualCheck(trigger);
         end
     else
-        SAO:ForEachBucket(function(bucket)
+        for _, bucket in pairs(self.RegisteredBucketsBySpellID) do
             if bucket.trigger.required ~= 0 then
                 bucket.trigger:manualCheckAll();
             end
-        end);
+        end
     end
 end
 
@@ -409,14 +388,14 @@ function SpellActivationOverlay_DumpBuckets(spellID, devDump)
     end
 
     local nbBuckets = 0;
-    SAO:ForEachBucket(function(bucket)
+    for _, _ in pairs(SAO.RegisteredBucketsBySpellID) do
         nbBuckets = nbBuckets + 1;
-    end);
+    end
     SAO:Info(Module, "Listing buckets ("..nbBuckets.." item"..(nbBuckets == 1 and "" or "s")..")");
 
-    SAO:ForEachBucket(function(bucket)
+    for _, bucket in pairs(SAO.RegisteredBucketsBySpellID) do
         dumpOneBucket(bucket, devDump)
-    end);
+    end
 end
 
 -- Perform a manual check on all buckets
@@ -431,13 +410,13 @@ function SpellActivationOverlay_CheckBuckets(spellID)
         end
     else
         local nbBuckets = 0;
-        SAO:ForEachBucket(function(bucket)
+        for _, _ in pairs(SAO.RegisteredBucketsBySpellID) do
             nbBuckets = nbBuckets + 1;
-        end);
+        end
         SAO:Info(Module, "Checking all buckets ("..nbBuckets.." item"..(nbBuckets == 1 and "" or "s")..")");
 
-        SAO:ForEachBucket(function(bucket)
+        for _, bucket in pairs(SAO.RegisteredBucketsBySpellID) do
             bucket.trigger:manualCheckAll();
-        end);
+        end
     end
 end
