@@ -1321,9 +1321,7 @@ function NRC:updateRaidCooldowns()
 					lineSubFrame.fs:SetText(name);
 					local endTime = charData.endTime or 0;
 					if (endTime < lowestCD) then
-						if (spellData.spellName == "Reincarnation" or not isDead[guid]) then
-							lowestCD = endTime;
-						end
+						lowestCD = endTime;
 					end
 					local timeLeft = endTime - GetServerTime();
 					if (isDead[guid] and showDead and spellData.spellName ~= "Reincarnation") then
