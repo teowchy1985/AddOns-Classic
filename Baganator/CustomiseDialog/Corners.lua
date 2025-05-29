@@ -1,5 +1,4 @@
----@class addonTableBaganator
-local addonTable = select(2, ...)
+local _, addonTable = ...
 
 local arrayName = "icon_%s_corner_array"
 
@@ -109,13 +108,13 @@ function addonTable.CustomiseDialog.GetCornersEditor(parent)
     draggable.value = value
   end
 
-  dropDown:SetText(addonTable.Locales.ADD_ITEM)
+  dropDown:SetText(BAGANATOR_L_ADD_ITEM)
 
   hooksecurefunc(dropDown, "OnEntryClicked", function(_, option)
     Pickup(option.value)
   end)
   draggable:SetScript("OnHide", function()
-    dropDown:SetText(addonTable.Locales.ADD_ITEM)
+    dropDown:SetText(BAGANATOR_L_ADD_ITEM)
   end)
   dropDown:SetPoint("TOPLEFT", 320, 40)
   dropDown:SetPoint("TOPRIGHT")
