@@ -1,5 +1,4 @@
----@class addonTableBaganator
-local addonTable = select(2, ...)
+local _, addonTable = ...
 local IT = Enum.PlayerInteractionType
 
 local event_drivers = {
