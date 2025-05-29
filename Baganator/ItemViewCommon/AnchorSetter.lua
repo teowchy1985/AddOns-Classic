@@ -1,5 +1,4 @@
----@class addonTableBaganator
-local addonTable = select(2, ...)
+local _, addonTable = ...
 function addonTable.ItemViewCommon.GetAnchorSetter(parent, setting)
   local holder = CreateFrame("Frame", nil, parent)
   holder:SetAllPoints()
