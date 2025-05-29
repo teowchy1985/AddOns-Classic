@@ -15,8 +15,6 @@ local TrackerBaseFrame = QuestieLoader:ImportModule("TrackerBaseFrame")
 local QuestieValidateGameCache = QuestieLoader:ImportModule("QuestieValidateGameCache")
 ---@type QuestieInit
 local QuestieInit = QuestieLoader:ImportModule("QuestieInit")
----@type Expansions
-local Expansions = QuestieLoader:ImportModule("Expansions")
 
 ---Called on ADDON_LOADED - Saved Variables are loaded at this point
 function Questie:OnInitialize()
@@ -34,7 +32,7 @@ function Questie:OnInitialize()
 end
 
 function Questie:OnEnable()
-    if Expansions.Current >= Expansions.Wotlk then
+    if Questie.IsWotlk or Questie.IsCata then
         -- Called when the addon is enabled
         if (Questie.db.profile.trackerEnabled and not Questie.db.profile.showBlizzardQuestTimer) then
             WatchFrame:Hide()
@@ -43,7 +41,7 @@ function Questie:OnEnable()
 end
 
 function Questie:OnDisable()
-    if Expansions.Current >= Expansions.Wotlk then
+    if Questie.IsWotlk or Questie.IsCata then
         -- Called when the addon is disabled
         WatchFrame:Show()
     end
