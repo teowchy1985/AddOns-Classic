@@ -699,7 +699,7 @@ function QuestieQuestFixes:Load()
             [questKeys.startedBy] = {nil,{21015,21016},nil}, -- #1574
         },
         [1270] = {
-            [questKeys.triggerEnd] = {"Help Stinky find Bogbean Leaves", {[zoneIDs.DUSTWALLOW_MARSH]={{48.87,24.58}}}},
+            [questKeys.triggerEnd] = {"Help Stinky find Bogbean Leaves", {[zoneIDs.DUSTWALLOW_MARSH]={{48,24}}}},
         },
         [1271] = {
             [questKeys.preQuestGroup] = {1222,1204},
@@ -2363,9 +2363,6 @@ function QuestieQuestFixes:Load()
         [6762] = {
             [questKeys.preQuestSingle] = {1015,1019,1047,6761},
         },
-        [6804] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_INTERACT, l10n("Use the Aspect of Neptulon."), 0, {{"monster", 8519},{"monster", 8520},{"monster", 8521},{"monster", 8522}}}},
-        },
         [6861] = {
             [questKeys.objectivesText] = {},
         },
@@ -2629,9 +2626,6 @@ function QuestieQuestFixes:Load()
             [questKeys.nextQuestInChain] = 7637,
             [questKeys.exclusiveTo] = {7638},
             [questKeys.zoneOrSort] = -141,
-        },
-        [7736] = {
-            [questKeys.objectivesText] = {},
         },
         [7782] = { -- The Lord of Blackrock
             [questKeys.startedBy] = {{1748}},
