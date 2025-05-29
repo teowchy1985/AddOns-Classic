@@ -1,5 +1,4 @@
----@class addonTableBaganator
-local addonTable = select(2, ...)
+local _, addonTable = ...
 BaganatorCustomiseDialogCategoriesSectionEditorMixin = {}
 
 function BaganatorCustomiseDialogCategoriesSectionEditorMixin:OnLoad()
@@ -92,7 +91,7 @@ function BaganatorCustomiseDialogCategoriesSectionEditorMixin:OnLoad()
     self.SectionColorSwatch.pendingColor = nil
     if value == "" then
       self.currentSection = "-1"
-      self.SectionName:SetText(addonTable.Locales.NEW_SECTION)
+      self.SectionName:SetText(BAGANATOR_L_NEW_SECTION)
 
       self.SectionColorSwatch.currentColor = CreateColor(1, 1, 1)
       self.SectionColorSwatch:SetColorRGB(self.SectionColorSwatch.currentColor:GetRGBA())
@@ -101,7 +100,7 @@ function BaganatorCustomiseDialogCategoriesSectionEditorMixin:OnLoad()
     else
       self.currentSection = value
       local sectionDetails = addonTable.Config.Get(addonTable.Config.Options.CATEGORY_SECTIONS)[value]
-      self.SectionName:SetText(addonTable.Locales["SECTION_" .. sectionDetails.name] or sectionDetails.name)
+      self.SectionName:SetText(_G["BAGANATOR_L_SECTION_" .. sectionDetails.name] or sectionDetails.name)
 
       if sectionDetails.color then
         self.SectionColorSwatch.currentColor = CreateColorFromRGBAHexString(sectionDetails.color .. "ff")
