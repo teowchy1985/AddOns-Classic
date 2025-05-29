@@ -1,5 +1,4 @@
----@class addonTableBaganator
-local addonTable = select(2, ...)
+local _, addonTable = ...
 local function MigrateFormat()
   if addonTable.Config.Get(addonTable.Config.Options.CATEGORY_MIGRATION) == 0 then
     local customCategories = addonTable.Config.Get(addonTable.Config.Options.CUSTOM_CATEGORIES)
@@ -24,7 +23,7 @@ local function MigrateFormat()
   end
   if addonTable.Config.Get(addonTable.Config.Options.CATEGORY_MIGRATION) == 2 then
     local categoryMods = addonTable.Config.Get(addonTable.Config.Options.CATEGORY_MODIFICATIONS)
-    for _, mods in pairs(categoryMods) do
+    for key, mods in pairs(categoryMods) do
       local oldAddedItems = mods.addedItems
       if oldAddedItems ~= nil then
         mods.addedItems = {}
@@ -220,12 +219,18 @@ local function SetupAddRemoveItems()
   end)
 end
 
-function addonTable.CategoryViews.SetupData()
+function addonTable.CategoryViews.Initialize()
   MigrateFormat()
 
   SetupCategories()
-end
 
-function addonTable.CategoryViews.Initialize()
+  addonTable.CallbackRegistry:RegisterCallback("ResetCategoryOrder", function()
+    -- Avoid the settings changed event firing
+    table.wipe(addonTable.Config.Get(addonTable.Config.Options.AUTOMATIC_CATEGORIES_ADDED))
+    table.wipe(addonTable.Config.Get(addonTable.Config.Options.CATEGORY_DISPLAY_ORDER))
+
+    SetupCategories()
+  end)
+
   SetupAddRemoveItems()
 end
