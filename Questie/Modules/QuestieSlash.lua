@@ -159,20 +159,13 @@ function QuestieSlash.HandleCommands(input)
     end
 
     if mainCommand == "version" then
-        -- By checking each object in Questie
-        -- We can find out which version is currently running.
         local gameType = ""
-        do
-            for k, v in pairs(Questie) do
-                if type(k) == "string" then
-                    if k:sub(1, 2) == "Is" and type(v) == "boolean" then
-                        if v then
-                            gameType = gameType .. k:sub(3) .. "-"
-                        end
-                    end
-                end
-            end
-            gameType = gameType:sub(1, -2) -- remove last dash
+        if Questie.IsWotlk then
+            gameType = "Wrath"
+        elseif Questie.IsSoD then -- seasonal checks must be made before non-seasonal for that client, since IsEra resolves true in SoD
+            gameType = "SoD"
+        elseif Questie.IsEra then
+            gameType = "Era"
         end
 
         Questie:Print("Questie " .. QuestieLib:GetAddonVersionString() .. ", Client " .. GetBuildInfo() .. " " .. gameType .. ", Locale " .. GetLocale())
