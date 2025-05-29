@@ -29,13 +29,7 @@ function module:OnInitialize()
 	compat_disabled = C_AddOns.IsAddOnLoaded("MinimapRangeExtender") or (LE_EXPANSION_LEVEL_CURRENT < (LE_EXPANSION_MISTS_OF_PANDARIA or 999))
 	self.compat_disabled = compat_disabled
 
-	self.pool = CreateFramePool("FRAME", Minimap, "SilverDragonVignetteStretchPinTemplate", function(_, icon)
-		-- this behavior is copied from HandyNotes, on the assumption that it knows what it's doing for minimap icons
-		local frameLevel = Minimap:GetFrameLevel() + 5
-		local frameStrata = Minimap:GetFrameStrata()
-		icon:SetFrameStrata(frameStrata)
-		icon:SetFrameLevel(frameLevel)
-	end)
+	self.pool = CreateFramePool("FRAME", Minimap, "SilverDragonVignetteStretchPinTemplate")
 
 	self:RegisterConfig()
 end
@@ -50,7 +44,7 @@ function module:OnEnable()
 end
 
 function module:GetVignetteID(vignetteGUID, vignetteInfo)
-	return vignetteInfo and vignetteInfo.vignetteID or tonumber((select(6, strsplit('-', vignetteGUID))))
+    return vignetteInfo and vignetteInfo.vignetteID or tonumber((select(6, strsplit('-', vignetteGUID))))
 end
 
 local vignetteIcons = {
@@ -71,10 +65,8 @@ function module:VIGNETTE_MINIMAP_UPDATED(event, instanceid, onMinimap, ...)
 
 	if onMinimap then
 		icon.texture:Hide()
-		icon:EnableMouse(false)
 	else
 		icon.texture:Show()
-		icon:EnableMouse(true)
 	end
 end
 function module:VIGNETTES_UPDATED()
@@ -86,7 +78,6 @@ function module:VIGNETTES_UPDATED()
 			HBDPins:RemoveMinimapIcon(self, icon)
 			icon:Hide()
 			icon.info = nil
-			icon.instanceid = nil
 			vignetteIcons[instanceid] = nil
 			self.pool:Release(icon)
 		end
@@ -132,17 +123,15 @@ function module:UpdateVignetteOnMinimap(instanceid)
 		icon.texture:SetDesaturated(true)
 		vignetteIcons[instanceid] = icon
 		HBDPins:AddMinimapIconMap(self, icon, uiMapID, x, y, false, true)
-		icon.instanceid = instanceid
+		-- icon.instanceid = instanceid
 		icon.info = vignetteInfo
 		icon.coord = core:GetCoord(x, y)
 	end
 
 	if vignetteInfo and vignetteInfo.onMinimap then
 		icon.texture:Hide()
-		icon:EnableMouse(false)
 	else
 		icon.texture:Show()
-		icon:EnableMouse(true)
 	end
 
 	self:UpdateEdge(icon)
@@ -203,7 +192,6 @@ function SilverDragonVignetteStretchPinMixin:OnMouseEnter()
 			GameTooltip:AddDoubleLine(LOCATION_COLON, self.coord)
 		end
 	end
-	GameTooltip:AddDoubleLine(" ", "RangeExtender", 1, 1, 1, 1, 0.5, 0.5)
 	GameTooltip:Show()
 end
 function SilverDragonVignetteStretchPinMixin:OnMouseLeave()
