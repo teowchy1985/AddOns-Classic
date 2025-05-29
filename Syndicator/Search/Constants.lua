@@ -160,24 +160,24 @@ for _, typeDetails in ipairs(classDetails) do
 end
 
 Syndicator.Search.Constants.KeywordGroupOrder = {
-  Syndicator.Locales.GROUP_ITEM_TYPE,
-  Syndicator.Locales.GROUP_ITEM_DETAIL,
-  Syndicator.Locales.GROUP_BINDING_TYPE,
-  Syndicator.Locales.GROUP_QUALITY,
+  SYNDICATOR_L_GROUP_ITEM_TYPE,
+  SYNDICATOR_L_GROUP_ITEM_DETAIL,
+  SYNDICATOR_L_GROUP_BINDING_TYPE,
+  SYNDICATOR_L_GROUP_QUALITY,
 
-  Syndicator.Locales.GROUP_SLOT,
-  Syndicator.Locales.GROUP_WEAPON_TYPE,
-  Syndicator.Locales.GROUP_ARMOR_TYPE,
-  Syndicator.Locales.GROUP_STAT,
-  Syndicator.Locales.GROUP_SOCKET,
+  SYNDICATOR_L_GROUP_SLOT,
+  SYNDICATOR_L_GROUP_WEAPON_TYPE,
+  SYNDICATOR_L_GROUP_ARMOR_TYPE,
+  SYNDICATOR_L_GROUP_STAT,
+  SYNDICATOR_L_GROUP_SOCKET,
 
-  Syndicator.Locales.GROUP_TRADE_GOODS,
-  Syndicator.Locales.GROUP_RECIPE,
-  Syndicator.Locales.GROUP_GLYPH,
-  Syndicator.Locales.GROUP_CONSUMABLE,
+  SYNDICATOR_L_GROUP_TRADE_GOODS,
+  SYNDICATOR_L_GROUP_RECIPE,
+  SYNDICATOR_L_GROUP_GLYPH,
+  SYNDICATOR_L_GROUP_CONSUMABLE,
 
-  Syndicator.Locales.GROUP_EXPANSION,
-  Syndicator.Locales.GROUP_BATTLE_PET,
+  SYNDICATOR_L_GROUP_EXPANSION,
+  SYNDICATOR_L_GROUP_BATTLE_PET,
 }
 
 -- Special case for era because Blizzard doesn't tag the consumables or trade
@@ -371,13 +371,9 @@ if Syndicator.Constants.IsEra then
         7077, 7079, 7972, 7075, 7081
       },
       [12] = { -- Enchanting
-        16203, 14344, 11176, 11177, 20725, 16204, 11137, 11083, 16202, 10940,
-        10998, 11178, 11175, 11174, 10938, 11082, 10939, 14343, 774, 11135,
-        11139, 11134, 10978, 11084, 11138
+        16206, 16203, 6338, 14344, 16204, 11128, 16202, 6217, 16207, 10938,
+        10940, 11144, 10939, 14343, 11145, 11130, 6339, 6218, 6374, 6216
       },
-    },
-    [13] = {
-      [0] = { 232077 }, -- Wand of Making
     }
   }
 
