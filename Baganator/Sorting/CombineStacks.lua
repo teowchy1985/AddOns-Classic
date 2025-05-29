@@ -1,5 +1,4 @@
----@class addonTableBaganator
-local addonTable = select(2, ...)
+local _, addonTable = ...
 local itemIDToStackSize = {}
 
 local function DoMovement(stacks)
@@ -76,7 +75,7 @@ local function GetBagStacks(bags, bagIDs, callback)
           waiting = waiting + 1
           itemIDToStackSize[item.itemID] = -1
           addonTable.Utilities.LoadItemData(item.itemID, function()
-            itemIDToStackSize[item.itemID] = select(8, C_Item.GetItemInfo(item.itemID)) or 1
+            itemIDToStackSize[item.itemID] = select(8, C_Item.GetItemInfo(item.itemID))
             waiting = waiting - 1
             if waiting == 0 and loopComplete then
               callback(stacks)
