@@ -487,11 +487,7 @@ function DUIDialogOptionButtonMixin:SetQuestTypeText(questInfo)
     end
 end
 
-function DUIDialogOptionButtonMixin:SetQuestVisual(questInfo, rebuildQuestInfo)
-    if rebuildQuestInfo then
-        API.BuildQuestInfo(questInfo);
-    end
-
+function DUIDialogOptionButtonMixin:SetQuestVisual(questInfo)
     self.Icon:SetTexture(GetQuestIcon(questInfo));  --We fill in the QuestInfo through this API
 
     if questInfo.isComplete or (not questInfo.isOnQuest) then
@@ -650,8 +646,6 @@ function DUIDialogOptionButtonMixin:SetButtonAlreadyOnQuest()
     self.showIcon = true;
     self.Icon:SetTexture(nil);
     self:SetButtonText(L["Quest Accepted"], true);
-
-    addon.DialogueUI:ClearButtonHighlight(self);
 end
 
 function DUIDialogOptionButtonMixin:SetButtonCloseAutoAcceptQuest()
