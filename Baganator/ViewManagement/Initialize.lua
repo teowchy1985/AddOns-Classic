@@ -1,7 +1,4 @@
----@class addonTableBaganator
-local addonTable = select(2, ...)
-
-local currentFrameGroup
+local _, addonTable = ...
 
 local function GetViewType(view)
   if view == "bag" then
@@ -65,7 +62,7 @@ local function SetupBackpackHooks()
     UpdateBackpackButtons()
   end
 
-  addonTable.CallbackRegistry:RegisterCallback("BagShow",  function(_, characterName, _)
+  addonTable.CallbackRegistry:RegisterCallback("BagShow",  function(_, characterName, isLive)
     characterName = characterName or Syndicator.API.GetCurrentCharacter()
     if not characterName then
       return
@@ -144,9 +141,9 @@ local function SetupBackpackView(frameGroup)
   backpackView = allBackpackViews[GetViewType("bag")]
 
   local function SetPositions()
-    for _, view in pairs(allBackpackViews) do
-      view:ClearAllPoints()
-      view:SetPoint(unpack(addonTable.Config.Get(addonTable.Config.Options.MAIN_VIEW_POSITION)))
+    for _, backpackView in pairs(allBackpackViews) do
+      backpackView:ClearAllPoints()
+      backpackView:SetPoint(unpack(addonTable.Config.Get(addonTable.Config.Options.MAIN_VIEW_POSITION)))
     end
   end
 
@@ -160,11 +157,11 @@ local function SetupBackpackView(frameGroup)
     ResetPositions()
   end
 
-  for _, view in pairs(allBackpackViews) do
-    RegisterForScaling(view)
-    table.insert(UISpecialFrames, view:GetName())
+  for _, backpackView in pairs(allBackpackViews) do
+    RegisterForScaling(backpackView)
+    table.insert(UISpecialFrames, backpackView:GetName())
 
-    view:HookScript("OnHide", function()
+    backpackView:HookScript("OnHide", function()
       UpdateBackpackButtons()
     end)
   end
@@ -194,9 +191,7 @@ local function SetupBackpackView(frameGroup)
       backpackView = allBackpackViews[GetViewType("bag")]
       addonTable.CallbackRegistry:TriggerEvent("BackpackFrameChanged", backpackView)
     else
-      for _, oldView in pairs(allBackpackViews) do
-        oldView:Hide()
-      end
+      allBackpackViews[GetViewType("bag")]:Hide()
     end
   end)
 
@@ -224,15 +219,15 @@ local function SetupBankView(frameGroup)
     "BANKFRAME_CLOSED",
   })
 
-  for _, view in pairs(allBankViews) do
-    RegisterForScaling(view)
-    table.insert(UISpecialFrames, view:GetName())
+  for _, bankView in pairs(allBankViews) do
+    RegisterForScaling(bankView)
+    table.insert(UISpecialFrames, bankView:GetName())
   end
 
   local function SetPositions()
-    for _, view in pairs(allBankViews) do
-      view:ClearAllPoints()
-      view:SetPoint(unpack(addonTable.Config.Get(addonTable.Config.Options.BANK_ONLY_VIEW_POSITION)))
+    for key, bankView in pairs(allBankViews) do
+      bankView:ClearAllPoints()
+      bankView:SetPoint(unpack(addonTable.Config.Get(addonTable.Config.Options.BANK_ONLY_VIEW_POSITION)))
     end
   end
 
@@ -296,7 +291,7 @@ local function SetupBankView(frameGroup)
     end
   end)
 
-  addonTable.CallbackRegistry:RegisterCallback("BankHide", function(_, _)
+  addonTable.CallbackRegistry:RegisterCallback("BankHide", function(_, characterName)
     if frameGroup ~= currentFrameGroup then
       return
     end
@@ -306,15 +301,13 @@ local function SetupBankView(frameGroup)
 
   addonTable.CallbackRegistry:RegisterCallback("SettingChanged", function(_, settingName)
     if settingName == addonTable.Config.Options.BANK_VIEW_TYPE then
-      for _, oldView in pairs(allBankViews) do
-        oldView:Hide()
-        FrameUtil.UnregisterFrameForEvents(oldView, {
-          "BANKFRAME_OPENED",
-          "BANKFRAME_CLOSED",
-        })
-      end
+      bankView:Hide()
+      FrameUtil.UnregisterFrameForEvents(bankView, {
+        "BANKFRAME_OPENED",
+        "BANKFRAME_CLOSED",
+      })
+      bankView = allBankViews[GetViewType("bank")] or bankView
       if frameGroup == currentFrameGroup then
-        bankView = allBankViews[GetViewType("bank")] or bankView
         FrameUtil.RegisterFrameForEvents(bankView, {
           "BANKFRAME_OPENED",
           "BANKFRAME_CLOSED",
@@ -333,13 +326,12 @@ local function SetupBankView(frameGroup)
         "BANKFRAME_CLOSED",
       })
     else
-      for _, oldView in pairs(allBankViews) do
-        oldView:Hide()
-        FrameUtil.UnregisterFrameForEvents(oldView, {
-          "BANKFRAME_OPENED",
-          "BANKFRAME_CLOSED",
-        })
-      end
+      local oldView = allBankViews[GetViewType("bank")]
+      oldView:Hide()
+      FrameUtil.UnregisterFrameForEvents(oldView, {
+        "BANKFRAME_OPENED",
+        "BANKFRAME_CLOSED",
+      })
     end
   end)
 end
@@ -378,7 +370,7 @@ local function SetupGuildView(frameGroup)
       return
     end
 
-    guildName = guildName or Syndicator.API.GetCurrentGuild()
+    local guildName = guildName or Syndicator.API.GetCurrentGuild()
     guildView:SetShown(guildName ~= guildView.lastGuild or not guildView:IsShown())
     guildView:UpdateForGuild(guildName, Syndicator.API.GetCurrentGuild() == guildName and C_PlayerInteractionManager.IsInteractingWithNpcOfType(Enum.PlayerInteractionType.GuildBanker))
   end)
@@ -399,7 +391,7 @@ local function SetupGuildView(frameGroup)
     )
   end)
 
-  addonTable.CallbackRegistry:RegisterCallback("GuildHide",  function()
+  addonTable.CallbackRegistry:RegisterCallback("GuildHide",  function(_, ...)
     guildView:Hide()
   end)
 
