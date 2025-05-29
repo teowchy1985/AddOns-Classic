@@ -1,5 +1,4 @@
----@class addonTableBaganator
-local addonTable = select(2, ...)
+local _, addonTable = ...
 local sounds = {
   567422, -- SOUNDKIT.IG_CHARACTER_INFO_TAB
   567507, -- SOUNDKIT.IG_CHARACTER_INFO_OPEN
@@ -43,7 +42,7 @@ function BaganatorCurrencyPanelMixin:OnLoad()
 
   self:SetSize(350, 500)
 
-  self:SetTitle(addonTable.Locales.CURRENCIES)
+  self:SetTitle(BAGANATOR_L_CURRENCIES)
 
   self:RegisterEvent("CURSOR_CHANGED")
 
@@ -86,7 +85,7 @@ function BaganatorCurrencyPanelMixin:OnLoad()
     self.warbandOnlyButton:GetNormalTexture():SetDesaturated(true)
     self.warbandOnlyButton:GetNormalTexture():SetDesaturation(0.5)
     GameTooltip:SetOwner(self.warbandOnlyButton, "ANCHOR_LEFT")
-    GameTooltip:SetText(addonTable.Locales.SHOW_TRANSFERABLE_ONLY)
+    GameTooltip:SetText(BAGANATOR_L_SHOW_TRANSFERABLE_ONLY)
     GameTooltip:Show()
   end)
   self.warbandOnlyButton:SetScript("OnLeave", function()
@@ -228,12 +227,12 @@ function BaganatorCurrencyPanelMixin:UpdateCurrencies()
         end
       end
     end
-    table.insert(currencyByHeaderDisplay, {header = addonTable.Locales.TRACKED, items = items})
+    table.insert(currencyByHeaderDisplay, {header = BAGANATOR_L_TRACKED, items = items})
 
     if isLive then
       table.insert(currencyByHeaderDisplay[#currencyByHeaderDisplay].items, {
         type = "text",
-        name = LIGHTGRAY_FONT_COLOR:WrapTextInColorCode(addonTable.Locales.ACTION_TO_TRACK_TEXT),
+        name = LIGHTGRAY_FONT_COLOR:WrapTextInColorCode(BAGANATOR_L_ACTION_TO_TRACK_TEXT),
         disabled = true,
       })
     end
@@ -386,9 +385,9 @@ function BaganatorCurrencyPanelMixin:SetupRow(row, details)
             GameTooltip:AddLine(LINK_FONT_COLOR:WrapTextInColorCode(self.categories[details.currencyID]))
           end
           if details.isLive then
-            GameTooltip:AddLine(GREEN_FONT_COLOR:WrapTextInColorCode(addonTable.Locales.SHIFT_CLICK_TO_TRACK_UNTRACK))
+            GameTooltip:AddLine(GREEN_FONT_COLOR:WrapTextInColorCode(BAGANATOR_L_SHIFT_CLICK_TO_TRACK_UNTRACK))
             if details.isWarbandTransfer and not InCombatLockdown() then
-              GameTooltip:AddLine(GREEN_FONT_COLOR:WrapTextInColorCode(addonTable.Locales.CTRL_CLICK_TO_TRANSFER))
+              GameTooltip:AddLine(GREEN_FONT_COLOR:WrapTextInColorCode(BAGANATOR_L_CTRL_CLICK_TO_TRANSFER))
             end
           end
           GameTooltip:Show()
@@ -418,7 +417,7 @@ function BaganatorCurrencyPanelMixin:SetupRow(row, details)
         Syndicator.Tooltips.AddCurrencyLines(GameTooltip, details.currencyID)
         GameTooltip_AddBlankLineToTooltip(GameTooltip)
         GameTooltip:AddLine(LINK_FONT_COLOR:WrapTextInColorCode(self.categories[details.currencyID]))
-        GameTooltip:AddLine(GREEN_FONT_COLOR:WrapTextInColorCode(addonTable.Locales.SHIFT_CLICK_TO_TRACK_UNTRACK))
+        GameTooltip:AddLine(GREEN_FONT_COLOR:WrapTextInColorCode(BAGANATOR_L_SHIFT_CLICK_TO_TRACK_UNTRACK))
         GameTooltip:Show()
       end)
       row:SetScript("OnClick", function()
