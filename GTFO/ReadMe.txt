@@ -2258,7 +2258,3 @@ Change Log:
 
 5.17.1
 * Fixed LUA crash issues
-
-5.17.2
-* Added TWW spells for The Rookery
-* Added BFA Spells for Horrific Visions
