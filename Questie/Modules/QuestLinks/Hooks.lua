@@ -5,8 +5,7 @@ local Hooks = QuestieLoader:CreateModule("Hooks")
 
 ---@type QuestieTracker
 local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
----@type Expansions
-local Expansions = QuestieLoader:ImportModule("Expansions")
+
 
 function Hooks:HookQuestLogTitle()
     Questie:Debug(Questie.DEBUG_DEVELOP, "[Hooks] Hooking Quest Log Title")
@@ -20,7 +19,7 @@ function Hooks:HookQuestLogTitle()
         end
 
         local questLogLineIndex
-        if Expansions.Current >= Expansions.Wotlk then
+        if Questie.IsWotlk or Questie.IsCata then
             -- With Wotlk the offset is no longer required cause the API already hands the correct index
             questLogLineIndex = self:GetID()
         else
