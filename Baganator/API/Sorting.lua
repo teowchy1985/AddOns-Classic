@@ -1,7 +1,6 @@
----@class addonTableBaganator
-local addonTable = select(2, ...)
+local _, addonTable = ...
 if addonTable.Constants.IsRetail then
-  Baganator.API.RegisterContainerSort(addonTable.Locales.BLIZZARD, "blizzard", function(isReverse, containerType)
+  Baganator.API.RegisterContainerSort(BAGANATOR_L_BLIZZARD, "blizzard", function(isReverse, containerType)
     C_Container.SetSortBagsRightToLeft(not isReverse)
     if containerType == Baganator.API.Constants.ContainerType.Backpack then
       C_Container.SortBags()
@@ -17,7 +16,7 @@ if addonTable.Constants.IsRetail then
 end
 
 addonTable.Utilities.OnAddonLoaded("SortBags", function()
-  Baganator.API.RegisterContainerSort(addonTable.Locales.SORTBAGS, "SortBags", function(isReverse, containerType)
+  Baganator.API.RegisterContainerSort(BAGANATOR_L_SORTBAGS, "SortBags", function(isReverse, containerType)
     SetSortBagsRightToLeft(not isReverse)
     if containerType == Baganator.API.Constants.ContainerType.Backpack then
       SortBags()
@@ -31,9 +30,7 @@ addonTable.Utilities.OnAddonLoaded("tdPack2", function()
   local addon = LibStub('AceAddon-3.0'):GetAddon("tdPack2")
   local bagButton = CreateFrame("Button", nil, UIParent)
   local bankButton = CreateFrame("Button", nil, UIParent)
-  ---@diagnostic disable-next-line: undefined-field
   addon:SetupButton(bagButton, false)
-  ---@diagnostic disable-next-line: undefined-field
   addon:SetupButton(bankButton, true)
   Baganator.API.RegisterContainerSort("tdPack2", "tdpack2", function(isReverse, containerType)
     local button = isReverse and "RightButton" or "LeftButton"
