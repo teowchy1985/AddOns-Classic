@@ -1,5 +1,4 @@
----@class addonTableBaganator
-local addonTable = select(2, ...)
+local _, addonTable = ...
 local GW
 
 local function ConvertTags(tags)
@@ -68,7 +67,7 @@ local function SkinContainerFrame(frame, topButtons, topRightButtons)
   local buttonHeight = topButtons[1]:GetHeight()
   local lastButtonsEnd = 0
 
-  for index, _ in ipairs(topButtons) do
+  for index, button in ipairs(topButtons) do
     local button = topButtons[index]
     button:ClearAllPoints()
     button:SetPoint("TOPLEFT", buttonOffsetX, buttonOffsetY)
@@ -80,22 +79,22 @@ local function SkinContainerFrame(frame, topButtons, topRightButtons)
     if not frame:IsVisible() then
       return
     end
-    local buttonOffsetYForRight = buttonOffsetY - 40
+    local buttonOffsetY = buttonOffsetY - 40
     if not topButtons[1]:IsVisible() then
-      buttonOffsetYForRight = originalOffsetY
+      buttonOffsetY = originalOffsetY
     end
     for index = #topRightButtons, 1, -1 do
       local button = topRightButtons[index]
       if button:IsShown() then
         button:ClearAllPoints()
-        button:SetPoint("TOPLEFT", buttonOffsetX, buttonOffsetYForRight)
-        buttonOffsetYForRight = buttonOffsetYForRight - buttonHeight - 5
+        button:SetPoint("TOPLEFT", buttonOffsetX, buttonOffsetY)
+        buttonOffsetY = buttonOffsetY - buttonHeight - 5
       end
     end
-    lastButtonsEnd = math.abs(buttonOffsetYForRight)
+    lastButtonsEnd = math.abs(buttonOffsetY)
   end
 
-  hooksecurefunc(frame, "SetSize", function(_, _, height)
+  hooksecurefunc(frame, "SetSize", function(_, width, height)
     local missingHeight = lastButtonsEnd - frame:GetHeight()
     if missingHeight > 0 then
       frame:SetHeight(height + missingHeight)
@@ -181,7 +180,7 @@ local skinners = {
     end
     -- Show white border if none is shown, like default GW2
     if Baganator.Constants.IsClassic and frame.SetItemDetails then
-      hooksecurefunc(frame, "SetItemDetails", function(_, details)
+      hooksecurefunc(frame, "SetItemDetails", function(self, details)
         if details.itemID and not frame.IconBorder:IsShown() then
           frame.IconBorder:Show()
         end
@@ -298,7 +297,7 @@ local skinners = {
       end
     end
   end,
-  SideTabButton = function(_)
+  SideTabButton = function(frame)
     --Not available in GW2
   end,
   TrimScrollBar = function(frame)
@@ -344,7 +343,7 @@ local skinners = {
     btn:GetFontString():SetTextColor(1, 1, 1)
     btn.arrow:SetDesaturated(true)
   end,
-  CornerWidget = function(frame)
+  CornerWidget = function(frame, tags)
     if frame:IsObjectType("FontString") then
       frame:SetFont(UNIT_NAME_FONT, 12, "THINOUTLINED")
     end
@@ -435,5 +434,5 @@ local function LoadSkin()
 end
 
 if addonTable.Skins.IsAddOnLoading("GW2_UI") then
-  addonTable.Skins.RegisterSkin(addonTable.Locales.GW2_UI, "gw2_ui", LoadSkin, SkinFrame, SetConstants, {}, true)
+  addonTable.Skins.RegisterSkin(BAGANATOR_L_GW2_UI, "gw2_ui", LoadSkin, SkinFrame, SetConstants, {}, true)
 end
