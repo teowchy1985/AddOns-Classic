@@ -7,8 +7,7 @@ local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker") -- TODO: Rem
 local TrackerFadeTicker = QuestieLoader:ImportModule("TrackerFadeTicker")
 ---@type QuestieCombatQueue
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
----@type Expansions
-local Expansions = QuestieLoader:ImportModule("Expansions")
+
 
 ---@param index number
 ---@param parent LineFrame
@@ -72,7 +71,7 @@ function ExpandQuestButton.New(index, parent)
         end)
     end)
 
-    if Expansions.Current >= Expansions.Wotlk then
+    if Questie.IsWotlk or Questie.IsCata then
         parent:HookScript("OnUpdate", parent.OnUpdate)
     end
 
