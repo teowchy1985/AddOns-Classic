@@ -29,8 +29,6 @@ local QuestieLink = QuestieLoader:ImportModule("QuestieLink")
 local DistanceUtils = QuestieLoader:ImportModule("DistanceUtils")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
----@type Expansions
-local Expansions = QuestieLoader:ImportModule("Expansions")
 
 local LSM30 = LibStub("LibSharedMedia-3.0")
 local LibDropDown = LibStub:GetLibrary("LibUIDropDownMenuQuestie-4.0")
@@ -99,7 +97,7 @@ function TrackerLine.New(index, parent, previousLine, OnEnter, OnLeave, OnQuestA
     end
 
     function line:OnUpdate(elapsed)
-        if Expansions.Current >= Expansions.Wotlk then
+        if Questie.IsWotlk or Questie.IsCata then
             timeElapsed = timeElapsed + elapsed
 
             if timeElapsed > 1 and self.trackTimedQuest and self.label.activeTimer then
