@@ -326,14 +326,6 @@ NWB.options = {
 			get = "getBigWigsSupport",
 			set = "setBigWigsSupport",
 		},
-		resetFrames = {
-			type = "execute",
-			name = L["resetFramesTitle"],
-			desc = L["resetFramesDesc"],
-			func = "resetFrames",
-			order = 139,
-			width = 1,
-		},
 		logonHeader = {
 			type = "header",
 			name = NWB.prefixColor .. L["logonHeaderDesc"],
@@ -985,29 +977,6 @@ NWB.options = {
 			order = 326,
 			get = "getSoundsDisableInBattlegrounds",
 			set = "setSoundsDisableInBattlegrounds",
-			width = 2,
-		},
-		soundsFirstYellRend = {
-			type = "select",
-			name = L["soundsFirstYellRendTitle"],
-			desc = L["soundsFirstYellRendDesc"],
-			values = function()
-				return NWB:getSounds();
-			end,
-			order = 327,
-			get = "getsoundsFirstYellRend",
-			set = "setsoundsFirstYellRend",
-		},
-		soundsFirstYellOny = {
-			type = "select",
-			name = L["soundsFirstYellOnyTitle"],
-			desc = L["soundsFirstYellOnyDesc"],
-			values = function()
-				return NWB:getSounds();
-			end,
-			order = 328,
-			get = "getsoundsFirstYellOny",
-			set = "setsoundsFirstYellOny",
 		},
 		soundsFirstYell = {
 			type = "select",
@@ -1016,7 +985,7 @@ NWB.options = {
 			values = function()
 				return NWB:getSounds();
 			end,
-			order = 329,
+			order = 327,
 			get = "getSoundsFirstYell",
 			set = "setSoundsFirstYell",
 		},
@@ -1027,7 +996,7 @@ NWB.options = {
 			values = function()
 				return NWB:getSounds();
 			end,
-			order = 230,
+			order = 228,
 			get = "getSoundsOneMinute",
 			set = "setSoundsOneMinute",
 		},
@@ -1038,7 +1007,7 @@ NWB.options = {
 			values = function()
 				return NWB:getSounds("rend");
 			end,
-			order = 331,
+			order = 329,
 			get = "getSoundsRendDrop",
 			set = "setSoundsRendDrop",
 		},
@@ -1049,7 +1018,7 @@ NWB.options = {
 			values = function()
 				return NWB:getSounds("ony");
 			end,
-			order = 332,
+			order = 330,
 			get = "getSoundsOnyDrop",
 			set = "setSoundsOnyDrop",
 		},
@@ -1060,7 +1029,7 @@ NWB.options = {
 			values = function()
 				return NWB:getSounds("nef");
 			end,
-			order = 333,
+			order = 331,
 			get = "getSoundsNefDrop",
 			set = "setSoundsNefDrop",
 		},
@@ -1071,7 +1040,7 @@ NWB.options = {
 			values = function()
 				return NWB:getSounds("zan");
 			end,
-			order = 334,
+			order = 332,
 			get = "getSoundsZanDrop",
 			set = "setSoundsZanDrop",
 		},
@@ -1082,7 +1051,7 @@ NWB.options = {
 			values = function()
 				return NWB:getSounds("npcKilled");
 			end,
-			order = 335,
+			order = 333,
 			get = "getSoundsNpcKilled",
 			set = "setSoundsNpcKilled",
 		},
@@ -1093,7 +1062,7 @@ NWB.options = {
 			values = function()
 				return NWB:getSounds("npcWalking");
 			end,
-			order = 336,
+			order = 334,
 			get = "getSoundsNpcWalking",
 			set = "setSoundsNpcWalking",
 		},
@@ -1141,30 +1110,6 @@ NWB.options = {
 			order = 365,
 			get = "getFlashOnlyInCity",
 			set = "setFlashOnlyInCity",
-		},
-		flashDisableRend = {
-			type = "toggle",
-			name = L["flashDisableRendTitle"],
-			desc = L["flashDisableRendDesc"],
-			order = 366,
-			get = "getFlashDisableRend",
-			set = "setFlashDisableRend",
-		},
-		flashDisableOny = {
-			type = "toggle",
-			name = L["flashDisableOnyTitle"],
-			desc = L["flashDisableOnyDesc"],
-			order = 367,
-			get = "getFlashDisableOny",
-			set = "setFlashDisableOny",
-		},
-		flashDisableZan = {
-			type = "toggle",
-			name = L["flashDisableZanTitle"],
-			desc = L["flashDisableZanDesc"],
-			order = 368,
-			get = "getFlashDisableZan",
-			set = "setFlashDisableZan",
 		},
 		dispelsHeader = {
 			type = "header",
@@ -1286,7 +1231,7 @@ NWB.options = {
 			type = "description",
 			name = "|cFF9CD6DE".. L["trimDataText2Desc"],
 			fontSize = "medium",
-			order = 435,
+			order = 434,
 		},
 		trimDataCharInput = {
 			type = "input",
@@ -1294,7 +1239,7 @@ NWB.options = {
 			desc = L["trimDataCharInputDesc"],
 			get = "getTrimDataCharInput",
 			set = "setTrimDataCharInput",
-			order = 436,
+			order = 435,
 			--width = 1.7,
 			confirm = function(self, input)
 				return string.format(L["trimDataCharInputConfirm"], "|cFFFFFF00" .. input .. "|r");
@@ -1928,8 +1873,6 @@ NWB.optionDefaults = {
 		soundsDisableInInstances = true,
 		soundsDisableInBattlegrounds = false,
 		soundsFirstYell = "NWB - Electronic",
-		soundsFirstYellRend = "NWB - Electronic",
-		soundsFirstYellOny = "NWB - Electronic",
 		soundsOneMinute = "None",
 		soundsRendDrop = "NWB - Zelda",
 		soundsOnyDrop = "NWB - Zelda",
@@ -1946,9 +1889,6 @@ NWB.optionDefaults = {
 		flashFirstYellZan = true,
 		flashNpcKilled = true,
 		flashOnlyInCity = true,
-		flashDisableRend = false,
-		flashDisableOny = false,
-		flashDisableZan = false,
 		dispelsMine = true,
 		dispelsMineWBOnly = true,
 		dispelsAll = false,
@@ -1966,7 +1906,6 @@ NWB.optionDefaults = {
 		timerLogShowOny = true,
 		timerLogShowNef = true,
 		timerLogMergeLayers = true,
-		timerLogHandInOnly = true,
 		copyFormatDiscord = false,
 		trimDataBelowLevel = 1,
 		showUnbuffedAlts = false,
@@ -2241,7 +2180,7 @@ local function loadNewVersionFrame(version, notes, title, icon, x, y)
 		frame.title2:SetFontObject(Game15Font);
 		frame.title2:SetPoint("TOP", 0, -24);
 		frame.fs = frame:CreateFontString("$parentFS", "ARTWORK");
-		frame.fs:SetFontObject(Game13Font);
+		frame.fs:SetFontObject(Game12Font);
 		frame.fs:SetPoint("TOPLEFT", 15, -52);
 		frame.fs:SetPoint("TOPRIGHT", -15, -52);
 		frame.fs:SetJustifyH("LEFT");
@@ -2299,47 +2238,24 @@ end
 
 function NWB:checkNewVersion()
 	--NWB.db.global.versions = {};
-	local newVersionNotes = 3.06;
+	local newVersionNotes = 3.04;
 	if (NWB.version and NWB.version == newVersionNotes) then
 		if (not NWB.db.global.versions[NWB.version]) then
-			--if (NWB.isClassic) then
+			if (NWB.isClassic) then
 				--if (NWB:GetCurrentRegion() == 1 and not string.match(NWB.realm, "(AU)")) then
 					local notes = {
-						"Rend timers displayed anywhere on the addon will now check the \"Rend Log\" data first to try and adjust the timer based on if someone with this addon installed has handed in the last rend buff (to try combat the broken rend timers but this only works if the person handing in the buff has this addon installed).",
-						"Rend guild chat msgs are disabled on all realms with more than 1 layer due to the above mentioned rend timer layer issues, there's no point sending wrong timer msgs and if you want to view them they're still displayed on the addon in the regular places.",
-						"Added seperate sound/flash options for when a buff is about to drop so rend/nef/zand can now play different sounds or be muted.",
-						"Fixed a bug that prevented the guild layers list from populating properly, it should show more guildies now.",
-						"Fixed DMF cooldown timer on Hardcore realms resetting while offline 8h when it doesn't actually reset in that game version.",
-						"Added button in config to reset all windows back to middle of the screen.",
-						"Change some text displayed to match the fact Nef has no cooldown anymore.",
-						"Disabled tol barad guild msgs for Cata in prep for MoP.",
-						"Guild master settings to mute all guild msgs now also check guild info text (was previously only the GM's public note), info for this setting is on the curse page.",
-						"Reminder: Nef has no cooldown since it was broken a while back in all versions of the game, this is why no nef timers are set in this addon atm.",
-						"I've also just made a post on the classicwow subreddit with a detailed technical explanation why rend timers are currently broken and how Blizzard could maybe help fix it, should be easy enough to find there if you want a read.",
+						"Added new feature to display how long a layer has been alive (how long ago it spawned), it's displayed beside the zone id on minimap button tooltip and left click minimap button frame. This will take a couple of days to work properly once more people update the addon.",
+						"Fixed new SoD chronoboon IDs related to the alts buffs frame.",
 					};
 					loadNewVersionFrame(NWB.version, notes, "Nova World Buffs", "Interface\\Icons\\inv_misc_head_dragon_01", -50, 350);
 				--end
-			--end
+			end
 			--Wipe old data.
 			NWB.db.global.versions = {};
 			--Set this version has been loaded before.
 			NWB.db.global.versions[NWB.version] = GetServerTime();
 		end
 	end
-end
-
-function NWB:resetFrames()
-	NWBlayerFrame:ClearAllPoints();
-	NWBlayerFrame:SetPoint("CENTER", UIParent, 0, 100);
-	NWBbuffListFrame:ClearAllPoints();
-	NWBbuffListFrame:SetPoint("CENTER", UIParent, 20, 120);
-	NWBLFrame:ClearAllPoints();
-	NWBLFrame:SetPoint("CENTER", UIParent, 0, 100);
-	NWBTimerLogFrame:ClearAllPoints();
-	NWBTimerLogFrame:SetPoint("CENTER", UIParent, 0, 100);
-	NWBLayerMapFrame:ClearAllPoints();
-	NWBLayerMapFrame:SetPoint("CENTER", UIParent, 0, 100);
-	NWB:print("Resetting frame positions.");
 end
 
 --Print timers to chat window at logon time.
@@ -2542,33 +2458,6 @@ end
 
 function NWB:getFlashOnlyInCity(info)
 	return self.db.global.flashOnlyInCity;
-end
-
---Flash disable rend.
-function NWB:setFlashDisableRend(info, value)
-	self.db.global.flashDisableRend = value;
-end
-
-function NWB:getFlashDisableRend(info)
-	return self.db.global.flashDisableRend;
-end
-
---Flash disable ony.
-function NWB:setFlashDisableOny(info, value)
-	self.db.global.flashDisableOny = value;
-end
-
-function NWB:getFlashDisableOny(info)
-	return self.db.global.flashDisableOny;
-end
-
---Flash disable zan.
-function NWB:setFlashDisableZan(info, value)
-	self.db.global.flashDisableZan = value;
-end
-
-function NWB:getFlashDisableZan(info)
-	return self.db.global.flashDisableZan;
 end
 
 --Minimap button
@@ -3313,28 +3202,6 @@ end
 
 function NWB:getSoundsFirstYell(info)
 	return self.db.global.soundsFirstYell;
-end
-
---First yell sound rend.
-function NWB:setsoundsFirstYellRend(info, value)
-	self.db.global.soundsFirstYellRend = value;
-	local soundFile = NWB.LSM:Fetch("sound", value);
-	PlaySoundFile(soundFile, "Master");
-end
-
-function NWB:getsoundsFirstYellRend(info)
-	return self.db.global.soundsFirstYellRend;
-end
-
---First yell sound ony/nef.
-function NWB:setsoundsFirstYellOny(info, value)
-	self.db.global.soundsFirstYellOny = value;
-	local soundFile = NWB.LSM:Fetch("sound", value);
-	PlaySoundFile(soundFile, "Master");
-end
-
-function NWB:getsoundsFirstYellOny(info)
-	return self.db.global.soundsFirstYellOny;
 end
 
 --One minute warning sound.
