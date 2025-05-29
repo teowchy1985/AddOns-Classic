@@ -1,5 +1,4 @@
----@class addonTableBaganator
-local addonTable = select(2, ...)
+local _, addonTable = ...
 -- Check the sort priority (so special bags get filled up first) and
 -- corresponding bag contents checks (e.g. reagents only) if any
 function addonTable.Sorting.GetBagUsageChecks(bagIDs)
