@@ -1,5 +1,4 @@
----@class addonTableBaganator
-local addonTable = select(2, ...)
+local _, addonTable = ...
 function addonTable.ItemViewCommon.Initialize()
   addonTable.ItemButtonUtil.UpdateSettings()
 
