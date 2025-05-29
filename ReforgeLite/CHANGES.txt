@@ -1,50 +1,90 @@
-tag 6b8a572490e28d6a7a7cf3e674028e71f27e2446 v1.9.11
+tag d3ff666959527c3d650728d3ce2da37596d45dbd v1.9.10
 Author:	skyler-code <skylerh15@github.com>
-Date:	Sun Apr 6 02:17:23 2025 -0500
+Date:	Tue Feb 18 14:05:00 2025 -0600
 
-commit 943f8138b9416fc5480f9a253ca87e7974aad02e
+commit 1a36ad93cb89cb6cadf2b296880a8adb63237dbb
 Author: skyler-code <skylerh15@github.com>
-Date:   Sun Apr 6 02:16:24 2025 -0500
+Date:   Tue Feb 18 14:01:50 2025 -0600
 
-    Spec Profiles
+    hide when entering combat
 
-commit 8c1bbc678687a7078552fb07919fb22ad8a6b6e8
+commit dead0604da72d3529e14e7773e5e4de2b42341dd
 Author: skyler-code <skylerh15@github.com>
-Date:   Thu Mar 6 01:43:13 2025 -0600
+Date:   Tue Feb 18 13:30:14 2025 -0600
 
-    rsham breakpoints
+    corrected arcane haste needed
 
-commit 24cc430c3a23e9e0d315e9c6c8a51052c09b7d64
+commit bee39da1d38210cde5a3eaf9078a277503666c69
 Author: skyler-code <skylerh15@github.com>
-Date:   Sun Mar 2 14:51:37 2025 -0600
+Date:   Tue Feb 18 13:19:32 2025 -0600
 
-    Revert "moved spiritBonus to addonTable"
+    color item borders based on quality
+
+commit 4f4c008387fc9a4dc47f8d44690936033fa8e10c
+Author: skyler-code <skylerh15@github.com>
+Date:   Tue Feb 18 12:22:07 2025 -0600
+
+    hunter haste cap support
+
+commit b85911018cd7d65d9a9496addc031c26ae820456
+Author: skyler-code <skylerh15@github.com>
+Date:   Tue Feb 18 11:28:53 2025 -0600
+
+    swapped lock tip and itemlevel
+
+commit c6f9f970e9f68d9d4a5d1deb8743aac0da6ebd5b
+Author: skyler-code <skylerh15@github.com>
+Date:   Tue Feb 18 11:23:20 2025 -0600
+
+    default highlight
+
+commit ba761d9737ab3c442ac25dd58f9fbd72d5c73579
+Author: skyler-code <skylerh15@github.com>
+Date:   Tue Feb 18 11:14:29 2025 -0600
+
+    Resize buffs dropdown btn
+
+commit 566e64745d384f011ddd5088eed6603bd42b5950
+Author: skyler-code <skylerh15@github.com>
+Date:   Tue Feb 18 11:00:49 2025 -0600
+
+    update udk weights with gurth
+
+commit 3b36849a480c0db3f45f3281829a987e39a6f269
+Author: skyler-code <skylerh15@github.com>
+Date:   Tue Feb 18 11:00:18 2025 -0600
+
+    toc bump
+
+commit 17123db987a7691a66fff9ecbed17fc82bbad648
+Author: skyler-code <skylerh15@github.com>
+Date:   Sun Jan 26 03:54:59 2025 -0600
+
+    Beginning to utilize DropdownButton api
+
+commit e88d00ef34c9e7919ceb37faf6c0d4b13f4931e4
+Author: skyler-code <skylerh15@github.com>
+Date:   Thu Jan 23 20:51:47 2025 -0600
+
+    fresh cap frames when adjusting buff
+
+commit 8c4b9f8746bfb3fd0cf8377878c7fe2e2b8c5a79
+Author: skyler-code <skylerh15@github.com>
+Date:   Thu Jan 23 17:57:31 2025 -0600
+
+    moved dark intent to buffs dropdown
+
+commit b2221f388bcbdd0df983f260e8b54670fdeb4465
+Author: skyler-code <skylerh15@github.com>
+Date:   Thu Jan 23 17:20:14 2025 -0600
+
+    small cleanup
+
+commit 2d8b7479e9b83985fdd5f1f060c351d4a417103a
+Author: skyler-code <skylerh15@github.com>
+Date:   Tue Nov 26 12:30:16 2024 -0600
+
+    Adjusted Unholy Stat Weights
     
-    This reverts commit 033174ff916f02b2d5933c1fc41bb845d0bfe705.
-
-commit ab5f004c970e41ddee2b19b717bbfd0f222835e6
-Author: skyler-code <skylerh15@github.com>
-Date:   Sun Mar 2 13:57:49 2025 -0600
-
-    Revert "moved wowsims import button"
-    
-    This reverts commit 6a9a065723d44cab500a7f780f10bb1a6f881b0b.
-
-commit 033174ff916f02b2d5933c1fc41bb845d0bfe705
-Author: skyler-code <skylerh15@github.com>
-Date:   Sat Mar 1 16:51:34 2025 -0600
-
-    moved spiritBonus to addonTable
-
-commit 9cd4b35099e58854d31d6bfecb0aaaf6f8b9a4bb
-Author: skyler-code <skylerh15@github.com>
-Date:   Sat Mar 1 16:44:44 2025 -0600
-
-    cleanup
-
-commit 6a9a065723d44cab500a7f780f10bb1a6f881b0b
-Author: skyler-code <skylerh15@github.com>
-Date:   Fri Feb 28 16:24:32 2025 -0600
-
-    moved wowsims import button
+    Crit was undervalued
 
