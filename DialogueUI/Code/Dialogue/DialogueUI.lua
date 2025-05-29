@@ -1929,11 +1929,9 @@ function DUIDialogBaseMixin:UpdateGossipQuests()
 
         tsort(activeQuests, SortFunc_PrioritizeCompleteQuest);
 
-        local rebuildQuestInfo = true;
-
         for i, activeQuestButton in ipairs(self.activeQuestButtons) do
             if activeQuests[i] and (activeQuestButton.questID == activeQuests[i].questID) then
-                activeQuestButton:SetQuestVisual(activeQuests[i], rebuildQuestInfo);
+                activeQuestButton:SetQuestVisual(activeQuests[i]);
             end
         end
     end
@@ -2415,12 +2413,6 @@ function DUIDialogBaseMixin:HighlightButton(optionButton)
         self.GamePadFocusIndicator:Show();
     else
         self.GamePadFocusIndicator:Hide();
-    end
-end
-
-function DUIDialogBaseMixin:ClearButtonHighlight(optionButton)
-    if self.highlightedButton == optionButton then
-        self:HighlightButton(nil);
     end
 end
 
@@ -3238,8 +3230,8 @@ end
 do  --Vignette
     SharedVignette:SetFrameStrata("BACKGROUND");
     SharedVignette:SetFixedFrameStrata(true);
-    SharedVignette:SetPoint("TOPLEFT", WorldFrame, "TOPLEFT", -1, 1);
-    SharedVignette:SetPoint("BOTTOMRIGHT", WorldFrame, "BOTTOMRIGHT", 1, -1);
+    SharedVignette:SetPoint("TOPLEFT", UIParent, "TOPLEFT", -1, 1);
+    SharedVignette:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", 1, -1);
     SharedVignette:Hide();
     SharedVignette:SetAlpha(0);
 
