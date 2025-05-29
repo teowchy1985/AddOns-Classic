@@ -1,7 +1,6 @@
----@class addonTableBaganator
-local addonTable = select(2, ...)
+local _, addonTable = ...
 
-local E
+local E, L, V, P, G
 local S
 local B
 local LSM
@@ -15,9 +14,9 @@ local function ConvertTags(tags)
 end
 
 local icons = {}
-local scaleMonitor = CreateFrame("Frame")
-scaleMonitor:RegisterEvent("UI_SCALE_CHANGED")
-scaleMonitor:SetScript("OnEvent", function()
+local frame = CreateFrame("Frame")
+frame:RegisterEvent("UI_SCALE_CHANGED")
+frame:SetScript("OnEvent", function()
   C_Timer.After(0, function()
     for _, frame in ipairs(icons) do
       local c1, c2, c3 = frame.backdrop:GetBackdropBorderColor()
@@ -122,28 +121,6 @@ local skinners = {
   TrimScrollBar = function(frame)
     S:HandleTrimScrollBar(frame)
   end,
-  ScrollButton = function(button, tags)
-    button:ClearNormalTexture()
-    local tex = button:CreateTexture(nil, "ARTWORK")
-    tex:SetTexture(E.Media.Textures.ArrowUp)
-    tex:SetSize(16, 16)
-    button:SetSize(16, 16)
-    button:SetAlpha(1)
-    if tags.left then
-      tex:SetPoint("RIGHT")
-      tex:SetRotation(math.pi/2)
-    elseif tags.right then
-      tex:SetPoint("LEFT")
-      tex:SetRotation(-math.pi/2)
-    end
-    button.__texture = tex
-    button:SetScript("OnEnter", function()
-      tex:SetVertexColor(unpack(E.media.rgbvaluecolor))
-    end)
-    button:SetScript("OnLeave", function()
-      tex:SetVertexColor(1, 1, 1)
-    end)
-  end,
   CheckBox = function(frame)
     S:HandleCheckBox(frame)
   end,
@@ -157,7 +134,7 @@ local skinners = {
       S:HandleInsetFrame(frame)
     end
   end,
-  CornerWidget = function(frame)
+  CornerWidget = function(frame, tags)
     if frame:IsObjectType("FontString") and addonTable.Config.Get("skins.elvui.use_bag_font") then
       frame:FontTemplate(LSM:Fetch('font', E.db.bags.countFont), 14, E.db.bags.countFontOutline)
     end
@@ -190,7 +167,7 @@ local function SetConstants()
 end
 
 local function LoadSkin()
-  E = unpack(ElvUI)
+  E, L, V, P, G = unpack(ElvUI)
   S = E:GetModule("Skins")
   B = E:GetModule('Bags')
   LSM = E.Libs.LSM
@@ -211,12 +188,12 @@ local function LoadSkin()
 end
 
 if addonTable.Skins.IsAddOnLoading("ElvUI") then
-  addonTable.Skins.RegisterSkin(addonTable.Locales.ELVUI, "elvui", LoadSkin, SkinFrame, SetConstants, {
+  addonTable.Skins.RegisterSkin(BAGANATOR_L_ELVUI, "elvui", LoadSkin, SkinFrame, SetConstants, {
     {
       type = "checkbox",
-      text = addonTable.Locales.USE_EXPRESSWAY_FONT_ON_ITEMS,
+      text = BAGANATOR_L_USE_EXPRESSWAY_FONT_ON_ITEMS,
       option = "use_bag_font",
-      rightText = addonTable.Locales.RELOAD_REQUIRED,
+      rightText = BAGANATOR_L_RELOAD_REQUIRED,
       default = false,
     },
   }, true)
