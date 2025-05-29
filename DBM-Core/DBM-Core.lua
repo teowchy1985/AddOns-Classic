@@ -76,17 +76,17 @@ end
 ---@class DBM
 local DBM = private:GetPrototype("DBM")
 _G.DBM = DBM
-DBM.Revision = parseCurseDate("20250520034044")
+DBM.Revision = parseCurseDate("20250422171739")
 DBM.TaintedByTests = false -- Tests may mess with some internal state, you probably don't want to rely on DBM for an important boss fight after running it in test mode
 
-local fakeBWVersion, fakeBWHash = 386, "0d07b1a"--386.0
+local fakeBWVersion, fakeBWHash = 381, "a9af3b7"--381.2
 local PForceDisable
 -- The string that is shown as version
-DBM.DisplayVersion = "11.1.19"--Core version
+DBM.DisplayVersion = "11.1.17"--Core version
 DBM.classicSubVersion = 0
 DBM.dungeonSubVersion = 0
-DBM.ReleaseRevision = releaseDate(2025, 5, 19) -- the date of the latest stable version that is available, optionally pass hours, minutes, and seconds for multiple releases in one day
-PForceDisable = 18--When this is incremented, trigger force disable regardless of major patch
+DBM.ReleaseRevision = releaseDate(2025, 4, 22) -- the date of the latest stable version that is available, optionally pass hours, minutes, and seconds for multiple releases in one day
+PForceDisable = 17--When this is incremented, trigger force disable regardless of major patch
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
 -- support for github downloads, which doesn't support curse keyword expansion
@@ -400,9 +400,6 @@ DBM.DefaultOptions = {
 	SilentMode = false,
 	NoCombatScanningFeatures = false,
 	ZoneCombatSyncing = false,--HIDDEN power user feature to improve zone scanning accuracy in niche cases
-	EnableTooltip = not private.isRetail,
-	EnableTooltipInCombat = true,
-	EnableTooltipHeader = true,
 }
 
 ---@type DBMMod[]
@@ -1066,7 +1063,15 @@ do
 				local frame = frames[uId]
 				if not frame then
 					frame = CreateFrame("Frame")
-					frame:SetScript("OnEvent", handleEvent)
+					if uId == "mouseover" then
+						-- work-around for mouse-over events (broken!)
+						frame:SetScript("OnEvent", function(self, event, _, ...)
+							-- we registered mouseover events, so we only want mouseover events, thanks.
+							handleEvent(self, event, "mouseover", ...)
+						end)
+					else
+						frame:SetScript("OnEvent", handleEvent)
+					end
 					frames[uId] = frame
 				end
 				registeredUnitEventIds[event .. uId] = (registeredUnitEventIds[event .. uId] or 0) + 1
@@ -1227,10 +1232,9 @@ do
 					local arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8
 					event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8 = strsplit(" ", event)
 					if not arg1 and event:sub(-11) ~= "_UNFILTERED" then -- no arguments given, support for legacy mods
-						if private.isClassic then
-							eventWithArgs = event .. " target mouseover targettarget mouseovertarget nameplate1 nameplate2 nameplate3 nameplate4"
-						else
-							eventWithArgs = event .. " target focus boss1 boss2 boss3 boss4 boss5"
+						eventWithArgs = event .. " target"
+						if not private.isClassic then
+							eventWithArgs = eventWithArgs .. " focus boss1 boss2 boss3 boss4 boss5"
 						end
 						event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8 = strsplit(" ", eventWithArgs)
 					end
@@ -1442,8 +1446,15 @@ do
 			args.destRaidFlags = destRaidFlags
 			if eventSub6 == "SPELL_" then
 				args.spellId, args.spellName = extraArg1, extraArg2
-				if event == "SPELL_AURA_APPLIED" or event == "SPELL_AURA_REFRESH" or event == "SPELL_AURA_REMOVED" or event == "SPELL_AURA_APPLIED_DOSE" or event == "SPELL_AURA_REMOVED_DOSE" then
-					args.amount = extraArg5 or 1
+				if event == "SPELL_AURA_APPLIED" or event == "SPELL_AURA_REFRESH" or event == "SPELL_AURA_REMOVED" then
+					args.amount = extraArg5
+					if not args.sourceName then
+						args.sourceName = args.destName
+						args.sourceGUID = args.destGUID
+						args.sourceFlags = args.destFlags
+					end
+				elseif event == "SPELL_AURA_APPLIED_DOSE" or event == "SPELL_AURA_REMOVED_DOSE" then
+					args.amount = extraArg5
 					if not args.sourceName then
 						args.sourceName = args.destName
 						args.sourceGUID = args.destGUID
@@ -1882,19 +1893,14 @@ do
 					"GOSSIP_SHOW",
 					"PLAYER_MAP_CHANGED"
 				)
-			elseif private.isClassic then
+			elseif private.isBCC or private.isClassic then
 				self:RegisterEvents(
-					"UNIT_HEALTH_FREQUENT mouseover target player targettarget",--Still exists in classic and non frequent is slow and less reliable
-					"CHARACTER_POINTS_CHANGED"
-				)
-			elseif private.isBCC then
-				self:RegisterEvents(
-					"UNIT_HEALTH_FREQUENT mouseover target focus player targettarget",--Still exists in classic and non frequent is slow and less reliable
+					"UNIT_HEALTH_FREQUENT mouseover target focus player",--Still exists in classic and non frequent is slow and less reliable
 					"CHARACTER_POINTS_CHANGED"
 				)
 			else -- Wrath and Cata
 				self:RegisterEvents(
-					"UNIT_HEALTH_FREQUENT mouseover target focus player targettarget",--Still exists in classic and non frequent is slow and less reliable
+					"UNIT_HEALTH_FREQUENT mouseover target focus player",--Still exists in classic and non frequent is slow and less reliable
 					"CHARACTER_POINTS_CHANGED",
 					"PLAYER_TALENT_UPDATE"
 				)
@@ -2985,10 +2991,6 @@ function DBM:GetUnitCreatureId(uId)
 	return self:GetCIDFromGUID(UnitGUID(uId))
 end
 
-function DBM:GetModByCreatureId(cId)
-	return bossIds[cId]
-end
-
 --Creature/Vehicle/Pet
 ----<type>:<subtype>:<realmID>:<mapID>:<serverID>:<dbID>:<creationbits>
 --Player/Item
@@ -3828,20 +3830,22 @@ do
 		--If they've disabled reminders, don't nag
 		if _G["BigWigs"] or not self.Options.ShowReminders then return end
 		if not self:IsTrivial() or difficulties:IsSeasonalDungeon(LastInstanceMapID) then
-			local checkedDungeon = private.isRetail and "DBM-Party-WarWithin" or private.isMop and "DBM-Party-MoP" or private.isCata and "DBM-Party-Cataclysm" or private.isWrath and "DBM-Party-WotLK" or private.isBCC and "DBM-Party-BC" or "DBM-Party-Vanilla"
+			local checkedDungeon = private.isRetail and "DBM-Party-WarWithin" or private.isCata and "DBM-Party-Cataclysm" or private.isWrath and "DBM-Party-WotLK" or private.isBCC and "DBM-Party-BC" or "DBM-Party-Vanilla"
 			--Dungeon Handling
 			if (difficulties:InstanceType(LastInstanceMapID) == 2) or (difficulties:InstanceType(LastInstanceMapID) == 4) then--Dungeon or Delve
+				--if not C_AddOns.DoesAddOnExist(checkedDungeon) and not dungeonShown then
+				--	AddMsg(self, L.MOD_AVAILABLE:format("DBM Dungeon mods"), nil, private.isRetail or private.isCata)
+				--	dungeonShown = true
+				--end
 				--Show popup for season of discovery and hardcore, both of whic have higher difficulty (or higher risk in terms of hardcore) dungeons
 				if self:IsSeasonal("SeasonOfDiscovery") or self:IsSeasonal("FreshHardcore") or self:IsSeasonal("Hardcore") then
 					self:AnnoyingPopupCheckZone(LastInstanceMapID, "Vanilla")
 				--Also show popup on retail seasonal dungeons since those are ones being run for M0 and M+
 				elseif private.isRetail and difficulties:IsSeasonalDungeon(LastInstanceMapID) then--M+ Dungeons Only
 					self:AnnoyingPopupCheckZone(LastInstanceMapID, "Retail")
-				elseif private.isMop then--Mop dungeons only
-					self:AnnoyingPopupCheckZone(LastInstanceMapID, "MoP")
 				else--Show a general message not a popup (Basically tbc, wrath, cata dungeons
 					if not C_AddOns.DoesAddOnExist(checkedDungeon) and not dungeonShown then
-						AddMsg(self, L.MOD_AVAILABLE:format("DBM Dungeons, Delves, & Events mods"), nil, private.isRetail or private.isCata or private.isMop)
+						AddMsg(self, L.MOD_AVAILABLE:format("DBM Dungeons, Delves, & Events mods"), nil, private.isRetail or private.isCata)
 						dungeonShown = true
 					end
 				end
@@ -3866,7 +3870,7 @@ do
 				if not C_AddOns.DoesAddOnExist("DBM-Raids-WoTLK") then
 					AddMsg(self, L.MOD_AVAILABLE:format("DBM Wrath of the Lich King mods"), nil, private.isWrath)--Play sound only in wrath
 				end
-				--Show extra annoying popup in current content if it's classic
+				--Show extra annoying popup in current content that's non trivial in classic Wrath or ICC timewalking raid on retail
 				if private.isWrath or LastInstanceMapID == 631 then
 					self:AnnoyingPopupCheckZone(LastInstanceMapID, "WoTLK") -- Show extra annoying popup in current content that's non trivial in classic
 				end
@@ -3875,19 +3879,17 @@ do
 				if not C_AddOns.DoesAddOnExist("DBM-Raids-Cata") then
 					AddMsg(self, L.MOD_AVAILABLE:format("DBM Cataclysm mods"), nil, private.isCata)--Play sound only in cata
 				end
-				--Show extra annoying popup in current content if it's classic
+				--Show extra annoying popup in current content that's non trivial in classic Cata or Firelands timewalking raid on retail
 				if private.isCata or LastInstanceMapID == 720 then
 					self:AnnoyingPopupCheckZone(LastInstanceMapID, "Cata") -- Show extra annoying popup in current content that's non trivial in classic
 				end
 			--MoP raid Handling
-			elseif mopZones[LastInstanceMapID] then
-				if not C_AddOns.DoesAddOnExist("DBM-Raids-MoP") then
-					AddMsg(self, L.MOD_AVAILABLE:format("DBM Mists of Pandaria mods"))
-				end
-				--Show extra annoying popup in current content if it's classic
-				if private.isMop or LastInstanceMapID == 0 then
-					self:AnnoyingPopupCheckZone(LastInstanceMapID, "MoP")
-				end
+			elseif mopZones[LastInstanceMapID] and not C_AddOns.DoesAddOnExist("DBM-Raids-MoP") then
+				AddMsg(self, L.MOD_AVAILABLE:format("DBM Mists of Pandaria mods"))
+				--PLACEHOLDER for MOP Classic or MOP timewalking raid, whichever happens first
+				--if private.isMoP or LastInstanceMapID == 0 then
+				--	self:AnnoyingPopupCheckZone(LastInstanceMapID, "MoP")
+				--end
 			--WoD raid Handling
 			elseif wodZones[LastInstanceMapID] and not C_AddOns.DoesAddOnExist("DBM-Raids-WoD") then
 				AddMsg(self, L.MOD_AVAILABLE:format("DBM Warlords of Draenor mods"))
@@ -4215,7 +4217,7 @@ function DBM:LoadMod(mod, force, enableTestSupport)
 		self:SetCurrentSpecInfo()
 	end
 	difficulties:RefreshCache()
-	if private.isRetail or private.isMop then
+	if private.isRetail then
 		EJ_SetDifficulty(difficulties.difficultyIndex)--Work around blizzard crash bug where other mods (like Boss) screw with Ej difficulty value, which makes EJ_GetSectionInfo crash the game when called with invalid difficulty index set.
 	end
 	self:Debug("LoadAddOn should have fired for " .. mod.name, 2)
@@ -5718,6 +5720,50 @@ do
 		end
 	end
 
+	local statVarTable = {
+		--Current
+		["event5"] = "normal",
+		["event20"] = "lfr25",
+		["event40"] = "lfr25",
+		["quest"] = "follower",--For now, unless a conflict arises
+		["follower"] = "follower",
+		["story"] = "story",
+		["normal5"] = "normal",
+		["heroic5"] = "heroic",
+		["challenge5"] = "challenge",
+		["lfr"] = "lfr25",
+		["normal"] = "normal",
+		["heroic"] = "heroic",
+		["mythic"] = "mythic",
+		["mythic5"] = "mythic",
+		["worldboss"] = "normal",
+		["timewalker"] = "timewalker",
+		["progressivechallenges"] = "normal",
+		["delves"] = "normal",
+		--BFA
+		["normalwarfront"] = "normal",
+		["heroicwarfront"] = "heroic",
+		["normalisland"] = "normal",
+		["heroicisland"] = "heroic",
+		["mythicisland"] = "mythic",
+		["teamingisland"] = "mythic",--Blizz uses mythic as fallback, so I will too
+		--Shadowlands
+		["couragescenario"] = "normal",--Map PoA scenaris to different stats for each difficulty
+		["loyaltyscenario"] = "heroic",
+		["wisdomscenario"] = "mythic",
+		["humilityscenario"] = "challenge",
+		--Legacy
+		["lfr25"] = "lfr25",
+		["normal10"] = "normal",
+		["normal20"] = "normal",
+		["normal25"] = "normal25",--Legacy raids that have two normal difficulties still (10/25)
+		["normal40"] = "normal",
+		["heroic10"] = "heroic",
+		["heroic25"] = "heroic25",--Legacy raids that have two heroic difficulties still (10/25)
+		["normalscenario"] = "normal",
+		["heroicscenario"] = "heroic",
+	}
+
 	---@param mod DBMMod
 	---@param delay number
 	---@param event string?
@@ -5892,20 +5938,20 @@ do
 			if event ~= "TIMER_RECOVERY" then
 				--add pull count
 				if mod.stats and not mod.noStatistics then
-					if not mod.stats[difficulties.statVarTable[difficulties.savedDifficulty] .. "Pulls"] then mod.stats[difficulties.statVarTable[difficulties.savedDifficulty] .. "Pulls"] = 0 end
-					mod.stats[difficulties.statVarTable[difficulties.savedDifficulty] .. "Pulls"] = mod.stats[difficulties.statVarTable[difficulties.savedDifficulty] .. "Pulls"] + 1
+					if not mod.stats[statVarTable[difficulties.savedDifficulty] .. "Pulls"] then mod.stats[statVarTable[difficulties.savedDifficulty] .. "Pulls"] = 0 end
+					mod.stats[statVarTable[difficulties.savedDifficulty] .. "Pulls"] = mod.stats[statVarTable[difficulties.savedDifficulty] .. "Pulls"] + 1
 				end
 				--show speed timer
 				if self.Options.AlwaysShowSpeedKillTimer2 and mod.stats and not mod.ignoreBestkill and not mod.noStatistics then
 					local bestTime
 					if difficulties.difficultyIndex == 8 or difficulties.difficultyIndex == 208 or difficulties.difficultyIndex == 226 then--Mythic+/Challenge Mode, Delves, and sod Molten Core
-						local bestRank = mod.stats[difficulties.statVarTable[difficulties.savedDifficulty] .. "BestRank"] or 0
+						local bestRank = mod.stats[statVarTable[difficulties.savedDifficulty] .. "BestRank"] or 0
 						if bestRank == difficulties.difficultyModifier then
 							--Don't show speed kill timer if not our highest rank. DBM only stores highest rank
-							bestTime = mod.stats[difficulties.statVarTable[difficulties.savedDifficulty] .. "BestTime"]
+							bestTime = mod.stats[statVarTable[difficulties.savedDifficulty] .. "BestTime"]
 						end
 					else
-						bestTime = mod.stats[difficulties.statVarTable[difficulties.savedDifficulty] .. "BestTime"]
+						bestTime = mod.stats[statVarTable[difficulties.savedDifficulty] .. "BestTime"]
 					end
 					if bestTime and bestTime > 0 then
 						local speedTimer = mod:NewTimer(bestTime, L.SPEED_KILL_TIMER_TEXT, private.isRetail and "237538" or "136106", nil, false)
@@ -6037,7 +6083,7 @@ do
 					for _, v in ipairs(combatInfo[LastInstanceMapID]) do
 						if v.mod.Options.Enabled and not v.mod.disableHealthCombat and v.type:find("combat") and (v.multiMobPullDetection and checkEntry(v.multiMobPullDetection, cId) or v.mob == cId) and not (#inCombat > 0 and v.noMultiBoss) then
 							if v.mod.noFriendlyEngagement and UnitIsFriend("player", uId) then return end
-							-- Delay set, > 97% = 0.5 (consider as normal pulling), max delay limited to 20s.
+							-- Delay set, > 97% = 0.5 (consider as normal pulling), max dealy limited to 20s.
 							self:StartCombat(v.mod, health > 97 and 0.5 or mmin(GetTime() - lastCombatStarted, 20), "UNIT_HEALTH", nil, health)
 						end
 					end
@@ -6136,11 +6182,11 @@ do
 					local bossesKilled = mod.numBoss - mod.vb.bossLeft
 					wipeHP = wipeHP .. " (" .. BOSSES_KILLED:format(bossesKilled, mod.numBoss) .. ")"
 				end
-				local totalPulls = mod.stats[difficulties.statVarTable[usedDifficulty] .. "Pulls"]
-				local totalKills = mod.stats[difficulties.statVarTable[usedDifficulty] .. "Kills"]
+				local totalPulls = mod.stats[statVarTable[usedDifficulty] .. "Pulls"]
+				local totalKills = mod.stats[statVarTable[usedDifficulty] .. "Kills"]
 				if thisTime < 30 then -- Normally, one attempt will last at least 30 sec.
 					totalPulls = totalPulls - 1
-					mod.stats[difficulties.statVarTable[usedDifficulty] .. "Pulls"] = totalPulls
+					mod.stats[statVarTable[usedDifficulty] .. "Pulls"] = totalPulls
 					if self.Options.ShowDefeatMessage then
 						if scenario then
 							self:AddMsg(L.SCENARIO_ENDED_AT:format(usedDifficultyText .. name, stringUtils.strFromTime(thisTime)))
@@ -6202,33 +6248,33 @@ do
 			elseif not wipe and mod.stats and not mod.noStatistics then
 				mod.lastKillTime = GetTime()
 				local thisTime = GetTime() - (mod.combatInfo.pull or 0)
-				local lastTime = mod.stats[difficulties.statVarTable[usedDifficulty] .. "LastTime"]
-				local bestTime = mod.stats[difficulties.statVarTable[usedDifficulty] .. "BestTime"]
-				if not mod.stats[difficulties.statVarTable[usedDifficulty] .. "Kills"] or mod.stats[difficulties.statVarTable[usedDifficulty] .. "Kills"] < 0 then mod.stats[difficulties.statVarTable[usedDifficulty] .. "Kills"] = 0 end
+				local lastTime = mod.stats[statVarTable[usedDifficulty] .. "LastTime"]
+				local bestTime = mod.stats[statVarTable[usedDifficulty] .. "BestTime"]
+				if not mod.stats[statVarTable[usedDifficulty] .. "Kills"] or mod.stats[statVarTable[usedDifficulty] .. "Kills"] < 0 then mod.stats[statVarTable[usedDifficulty] .. "Kills"] = 0 end
 				--Fix logical error i've seen where for some reason we have more kills then pulls for boss as seen by - stats for wipe messages.
-				mod.stats[difficulties.statVarTable[usedDifficulty] .. "Kills"] = mod.stats[difficulties.statVarTable[usedDifficulty] .. "Kills"] + 1
-				if mod.stats[difficulties.statVarTable[usedDifficulty] .. "Kills"] > mod.stats[difficulties.statVarTable[usedDifficulty] .. "Pulls"] then mod.stats[difficulties.statVarTable[usedDifficulty] .. "Kills"] = mod.stats[difficulties.statVarTable[usedDifficulty] .. "Pulls"] end
+				mod.stats[statVarTable[usedDifficulty] .. "Kills"] = mod.stats[statVarTable[usedDifficulty] .. "Kills"] + 1
+				if mod.stats[statVarTable[usedDifficulty] .. "Kills"] > mod.stats[statVarTable[usedDifficulty] .. "Pulls"] then mod.stats[statVarTable[usedDifficulty] .. "Kills"] = mod.stats[statVarTable[usedDifficulty] .. "Pulls"] end
 				if not mod.ignoreBestkill and mod.combatInfo.pull then
-					mod.stats[difficulties.statVarTable[usedDifficulty] .. "LastTime"] = thisTime
+					mod.stats[statVarTable[usedDifficulty] .. "LastTime"] = thisTime
 					--Just to prevent pre mature end combat calls from broken mods from saving bad time stats.
 					if bestTime and bestTime > 0 and bestTime < 1.5 then
-						mod.stats[difficulties.statVarTable[usedDifficulty] .. "BestTime"] = thisTime
+						mod.stats[statVarTable[usedDifficulty] .. "BestTime"] = thisTime
 					else
 						if usedDifficultyIndex == 8 or usedDifficultyIndex == 208 or usedDifficultyIndex == 226 then--Mythic+/Challenge Mode, Delves, and sod Molten Core
-							if mod.stats[difficulties.statVarTable[usedDifficulty] .. "BestRank"] > usedDifficultyModifier then--Don't save time stats at all
+							if mod.stats[statVarTable[usedDifficulty] .. "BestRank"] > usedDifficultyModifier then--Don't save time stats at all
 								--DO nothing
-							elseif mod.stats[difficulties.statVarTable[usedDifficulty] .. "BestRank"] < usedDifficultyModifier then--Update best time and best rank, even if best time is lower (for a lower rank)
-								mod.stats[difficulties.statVarTable[usedDifficulty] .. "BestRank"] = usedDifficultyModifier--Update best rank
-								mod.stats[difficulties.statVarTable[usedDifficulty] .. "BestTime"] = thisTime--Write this time no matter what.
+							elseif mod.stats[statVarTable[usedDifficulty] .. "BestRank"] < usedDifficultyModifier then--Update best time and best rank, even if best time is lower (for a lower rank)
+								mod.stats[statVarTable[usedDifficulty] .. "BestRank"] = usedDifficultyModifier--Update best rank
+								mod.stats[statVarTable[usedDifficulty] .. "BestTime"] = thisTime--Write this time no matter what.
 							else--Best rank must match current rank, so update time normally
-								mod.stats[difficulties.statVarTable[usedDifficulty] .. "BestTime"] = mmin(bestTime or mhuge, thisTime)
+								mod.stats[statVarTable[usedDifficulty] .. "BestTime"] = mmin(bestTime or mhuge, thisTime)
 							end
 						else
-							mod.stats[difficulties.statVarTable[usedDifficulty] .. "BestTime"] = mmin(bestTime or mhuge, thisTime)
+							mod.stats[statVarTable[usedDifficulty] .. "BestTime"] = mmin(bestTime or mhuge, thisTime)
 						end
 					end
 				end
-				local totalKills = mod.stats[difficulties.statVarTable[usedDifficulty] .. "Kills"]
+				local totalKills = mod.stats[statVarTable[usedDifficulty] .. "Kills"]
 				if self.Options.ShowDefeatMessage then
 					local msg
 					local thisTimeString = thisTime and stringUtils.strFromTime(thisTime)
@@ -6496,15 +6542,6 @@ do
 			currentSpecGroup = GetSpecialization()
 			if currentSpecGroup and GetSpecializationInfo(currentSpecGroup) then
 				currentSpecID, currentSpecName = GetSpecializationInfo(currentSpecGroup)
-				currentSpecID = tonumber(currentSpecID)
-			else
-				currentSpecID, currentSpecName = fallbackClassToRole[playerClass], playerClass--give temp first spec id for non-specialization char. no one should use dbm with no specialization, below level 10, should not need dbm.
-			end
-			DBM:Debug("Current specID set to: "..currentSpecID, 2)
-		elseif private.isMop then
-			currentSpecGroup = C_SpecializationInfo.GetSpecialization()
-			if currentSpecGroup and C_SpecializationInfo.GetSpecializationInfo(currentSpecGroup) then
-				currentSpecID, currentSpecName = C_SpecializationInfo.GetSpecializationInfo(currentSpecGroup)
 				currentSpecID = tonumber(currentSpecID)
 			else
 				currentSpecID, currentSpecName = fallbackClassToRole[playerClass], playerClass--give temp first spec id for non-specialization char. no one should use dbm with no specialization, below level 10, should not need dbm.
@@ -7706,12 +7743,6 @@ end
 bossModPrototype.IsCata = DBM.IsCata
 
 ---@param self DBMModOrDBM
-function DBM:IsMop()
-	return private.isMop
-end
-bossModPrototype.IsMop = DBM.IsMop
-
----@param self DBMModOrDBM
 function DBM:IsPostCata()
 	return private.isCata or private.isRetail
 end
@@ -8350,7 +8381,6 @@ end
 ---|8: Player icon using tank > non tank with alphabetical sorting on multiple melee
 ---|9: Player icon using tank > non tank with raid roster index sorting on multiple melee
 ---|10: Player icon using melee > ranged > healer
----|11: Player icon using tank > dps > healer
 ---@param default SpecFlags|boolean?
 ---@param iconType iconTypes|number?
 ---@param iconsUsed table? table defining used icons such as {1, 2, 3}
@@ -8396,8 +8426,6 @@ function bossModPrototype:AddSetIconOption(name, spellId, default, iconType, ico
 		self.localization.options[name] = spellId and L.AUTO_ICONS_OPTION_TARGETS_TANK_R:format(spellId) or self.localization.options[name]
 	elseif iconType == 10 then
 		self.localization.options[name] = spellId and L.AUTO_ICONS_OPTION_TARGETS_MRH:format(spellId) or self.localization.options[name]
-	elseif iconType == 11 then
-		self.localization.options[name] = spellId and L.AUTO_ICONS_OPTION_TARGETS_TOH:format(spellId) or self.localization.options[name]
 	else--Type 0 (Generic for targets)
 		self.localization.options[name] = spellId and L.AUTO_ICONS_OPTION_TARGETS:format(spellId) or self.localization.options[name]
 	end
@@ -8550,7 +8578,7 @@ function bossModPrototype:AddGossipOption(default, gossipType, optionVersion)
 	if type(default) == "string" then
 		default = self:GetRoleFlagValue(default)
 	end
-	self.Options["AutoGossip" .. gossipType .. oVersion] = (default == nil) or default
+	self.Options["AutoGossipAction" .. gossipType .. oVersion] = (default == nil) or default
 	if gossipType == "Action" then
 		self.localization.options["AutoGossip" .. gossipType .. oVersion] = L.AUTO_GOSSIP_PERFORM_ACTION
 	elseif gossipType == "Encounter" then
@@ -8930,15 +8958,14 @@ function bossModPrototype:SetCreatureID(...)
 				self.numBoss = 1
 			end
 		end
-	else
-		self.numBoss = 1
-	end
-	for i = 1, select("#", ...) do
-		local cId = select(i, ...)
-		if bossIds[cId] then
-			DBM:Debug("Duplicate mods for cId " .. cId .. ": " .. self.id .. ", " .. bossIds[cId].id)
+		for i = 1, select("#", ...) do
+			local cId = select(i, ...)
+			bossIds[cId] = true
 		end
-		bossIds[cId] = self
+	else
+		local cId = ...
+		bossIds[cId] = true
+		self.numBoss = 1
 	end
 end
 
@@ -9181,7 +9208,7 @@ function bossModPrototype:ReceiveSync(event, sender, revision, ...)
 	end
 end
 
----@param revision number|string Either a number in the format "202101010000" (year, month, day, hour, minute) or string "20250520033823" to be auto set by packager
+---@param revision number|string Either a number in the format "202101010000" (year, month, day, hour, minute) or string "20250422171739" to be auto set by packager
 function bossModPrototype:SetRevision(revision)
 	revision = parseCurseDate(revision or "")
 	if not revision or type(revision) == "string" then
