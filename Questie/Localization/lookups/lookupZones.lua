@@ -1,9 +1,5 @@
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
----@type Expansions
-local Expansions = QuestieLoader:ImportModule("Expansions")
-
--- IMPORTANT: This file is only used for Pre-MoP content.
 
 -- This file contains all zones which are used in Era, TBC and WotLK.
 -- For Cata this file is used as base and updated with the corrections found in `Questie\Localization\lookups\Cata\lookupZones.lua`
@@ -16,12 +12,11 @@ l10n.continentLookup = {
     [4] = "Northrend",
     [5] = "Cataclysm",
     [6] = "The Maelstrom",
-    [7] = "Pandaria",
-    [8] = "Dungeons",
-    [9] = "Battlegrounds",
-    [10] = "Class",
-    [11] = "Professions",
-    [12] = "Events",
+    [7] = "Dungeons",
+    [8] = "Battlegrounds",
+    [9] = "Class",
+    [10] = "Professions",
+    [11] = "Events",
 }
 
 -- Table was generated with the ExternalScripts(DONOTINCLUDEINRELEASE)/getAreaRelations.py script
@@ -2672,9 +2667,6 @@ l10n.zoneLookup = {
     [757]={
         [5600]="Baradin Hold",
     },
-    [870] = {
-        [5736] = "The Wandering Isle",
-    },
     [930]={
         [5783]="Alcaz Island",
     },
@@ -2772,7 +2764,7 @@ l10n.zoneLookup = {
 }
 
 local maelstromZones = {}
-if Expansions.Current >= Expansions.Cata then
+if Questie.IsCata then
     for id, name in pairs(l10n.zoneLookup[646]) do -- Deepholm
         maelstromZones[id] = name
     end
@@ -2794,8 +2786,7 @@ l10n.zoneCategoryLookup = {
         [5733] = "Molten Front",
     },
     [6] = maelstromZones,
-    [7] = {}, -- Empty because this file is only for Pre-MoP
-    [8] = {
+    [7] = {
         [206] = "Utgarde Keep",
         [209] = "Shadowfang Keep",
         [491] = "Razorfen Kraul",
@@ -2881,7 +2872,7 @@ l10n.zoneCategoryLookup = {
         [5844] = "Hour of Twilight",
         [5892] = "Dragon Soul",
     },
-    [9] = {
+    [8] = {
         [-25] = "Battlegrounds",
         [2597] = "Alterac Valley",
         [3277] = "Warsong Gulch",
@@ -2895,7 +2886,7 @@ l10n.zoneCategoryLookup = {
         [14287] = "Dragonblight",
         [14288] = "Battle for Wintergrasp",
     },
-    [10] = {
+    [9] = {
         [-61] = "Warlock",
         [-81] = "Warrior",
         [-82] = "Shaman",
@@ -2907,7 +2898,7 @@ l10n.zoneCategoryLookup = {
         [-263] = "Druid",
         [-372] = "Death Knight",
     },
-    [11] = {
+    [10] = {
         [-24] = "Herbalism",
         [-101] = "Fishing",
         [-121] = "Blacksmithing",
@@ -2923,7 +2914,7 @@ l10n.zoneCategoryLookup = {
         [-667] = "Mining", -- Dummy ID
         [-668] = "Enchanting", -- Dummy ID
     },
-    [12] = {
+    [11] = {
         [-1] = "Epic",
         [-22] = "Seasonal",
         [-41] = "Day of the Dead",
