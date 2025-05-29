@@ -9,9 +9,8 @@ local QuestieLink = QuestieLoader:ImportModule("QuestieLink")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-local GetItemInfo = C_Item.GetItemInfo or GetItemInfo
-
 local itemCache = {} -- cache data since this happens on item looted it could happen a lot with auto loot
+
 local alreadySentBandaid = {} -- TODO: rewrite the entire thing its a lost cause
 
 local _GetAnnounceMarker
