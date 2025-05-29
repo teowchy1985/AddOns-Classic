@@ -1674,20 +1674,6 @@ NRC.trackedConsumes = {
 		itemID = 4390,
 		quality = 1,
 	},
-	[29432] = {
-		name = "Frozen Rune",
-		icon = 134422,
-		desc = "Absorbs 1500 to 2500 fire damage.",
-		itemID = 22682,
-		quality = 3,
-	},
-	[1220538] = { --SoD.
-		name = "Frozen Rune",
-		icon = 134422,
-		desc = "Absorbs 3500 to 4500 fire damage.",
-		itemID = 236656,
-		quality = 3,
-	},
 };
 
 NRC.protectionPotions = {
@@ -1995,7 +1981,6 @@ NRC.ignoredLoot = {
 	[236397] = true; --Remants of Valor.
 	[22484] = true; --Necrotic rune.
 	[226404] = true; --Tarnished Undermine Real.
-	[242465] = true; --Jostled Chalice Fragment.
 };
 
 NRC.distractingShot = {
@@ -3580,7 +3565,6 @@ if (NRC.isSOD) then
 	NRC.instanceTextures[2789] = {"The Tainted Scar", "", 64119, 1134508, 1396592, 136361, 0, 9};
 	NRC.instanceTextures[2804] = {"The Crystal Vale", "", 342914, 342914, 1396592, 136361, 0, 9};
 	NRC.instanceTextures[2875] = {"Karazhan Crypts", "", 1396458, 1396503, 1396584, 136343, 0, 1}; --Use kara artwork.
-	NRC.instanceTextures[2856] = {"Scarlet Enclave", "", 608175, 608253, 608214, 136354, 435}; --Use SM artwork.
 	
 	--Add hunter kings buff to paladin table.
 	NRC.pal[409583] = {
