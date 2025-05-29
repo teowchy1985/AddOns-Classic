@@ -5,7 +5,7 @@ local L		= mod:GetLocalizedStrings()
 
 mod.statTypes = "normal,heroic,mythic"
 
-mod:SetRevision("20250521200942")
+mod:SetRevision("20250430215146")
 
 mod:SetZone(2856)
 mod:SetEncounterID(3189)
@@ -80,10 +80,6 @@ local castNpDevotedOffering		= mod:NewCastNPTimer(castTime(1229114), 1229114)
 local specWarnJudge	= mod:NewSpecialWarningInterrupt(1234347, nil, nil, nil, 1, 2)
 local castNpJudge	= mod:NewCastNPTimer(castTime(1234347), 1234347)
 
--- Ghosts in last phase, they just follow a player around, no good detection except when they hit players
-local warnGhost			= mod:NewTargetNoFilterAnnounce(1222773) -- Generic "Ghost" spell with no further description or tooltip
-local specWarnGhostYou	= mod:NewSpecialWarningMove(1222773, nil, nil, nil, 1, 2)
-
 local berserkTimer = mod:NewBerserkTimer(360)
 
 mod:NewGtfo{spell = 1230809, spellDamage = false, spellPeriodicDamage = false}
@@ -91,20 +87,13 @@ mod:NewGtfo{spell = 1229397, spellDamage = false, spellPeriodicDamage = false}
 
 local p2WarnShown = false
 local p4WarnShown = false
-local berserkTimerStarted = false
-
 function mod:OnCombatStart(delay)
 	p2WarnShown = false
 	p4WarnShown = false
-	berserkTimerStarted = false
 	timerFlare:Start()
 	self:SetStage(1)
 	-- timerWakeP1:Start() -- TODO: inaccurate on pull
 	timerExecutionSentence:Start("v32-48") -- terribly inaccurate, but it's either ~29-32 seconds or 40-48, never anything in between
-end
-
-function mod:OnCombatEnd()
-	self:UnregisterShortTermEvents()
 end
 
 function mod:SPELL_CAST_START(args)
@@ -152,24 +141,19 @@ function mod:SPELL_CAST_START(args)
 		timerWake2:Start()
 	elseif args:IsSpell(1230271) then
 		timerDyingLightCast:Start(20, 3)
-		warnPhase3:Show()
-		timerFlare:Stop()
-		timerWake1:Stop()
+		warnPhase3:Schedule(20)
+		timerExecutionSentence:Schedule(20)
 		self:SetStage(3)
-		-- The phase actually only starts once you "engage" him again outside which is a bit annoying to detect
-		self:RegisterShortTermEvents("SWING_DAMAGE", "SWING_MISSED")
 	elseif args:IsSpell(1231027) then
 		warnPhase4:Show()
 		self:SetStage(4)
-		timerWake2:Stop()
-		timerQuietus:Stop()
-		timerExecutionSentence:Stop()
 	end
 end
 
 function mod:SPELL_CAST_SUCCESS(args)
 	if args:IsSpell(1230137, 1230125) then
 		if self:AntiSpam(10, "Phase2") then
+			berserkTimer:Start()
 			warnPhase2:Show()
 			self:SetStage(2)
 			timerExecutionSentence:Stop()
@@ -178,23 +162,6 @@ function mod:SPELL_CAST_SUCCESS(args)
 		end
 	end
 end
-
-function mod:SWING_DAMAGE(srcGuid, _, _, _, dstGuid, dstName)
-	local cid = DBM:GetCIDFromGUID(srcGuid)
-	if cid == 241006 and not berserkTimerStarted and not berserkTimer.bar:IsStarted() then -- Check both the timer and variable to handle reload/timer recovery during P3+
-		berserkTimer:Start()
-		berserkTimerStarted = true
-	elseif cid == 242557 or cid == 242564 then
-		if self:AntiSpam(10, "Ghost", dstName) then
-			warnGhost:Show(dstName)
-		end
-		if dstGuid == UnitGUID("player") and self:AntiSpam(5, "GhostYou") then
-			specWarnGhostYou:Show()
-			specWarnGhostYou:Play("runaway")
-		end
-	end
-end
-mod.SWING_MISSED = mod.SWING_DAMAGE
 
 function mod:SPELL_AURA_APPLIED(args)
 	if args:IsSpell(1229272) and DBM:GetCIDFromGUID(args.sourceGUID) == 241006 then
