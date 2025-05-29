@@ -15,7 +15,6 @@ MinArch.defaults = {
 		}
 	},
 	profile = {
-        expansion = nil,
 		settingsVersion = 0,
 		disableSound = false,
 		startHidden = false,
