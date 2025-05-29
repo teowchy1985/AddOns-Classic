@@ -1,6 +1,6 @@
 # Baganator
 
-## [693](https://github.com/Baganator/Baganator/tree/693) (2025-05-28)
-[Full Changelog](https://github.com/Baganator/Baganator/compare/692...693) 
+## [682](https://github.com/Baganator/Baganator/tree/682) (2025-04-28)
+[Full Changelog](https://github.com/Baganator/Baganator/compare/681...682) 
 
-- Ungroup stacks when socketing a gem  
+- Classic MoP: Tag for MoP support  
