@@ -1,5 +1,4 @@
----@class addonTableBaganator
-local addonTable = select(2, ...)
+local _, addonTable = ...
 function addonTable.Transfers.AddToTrade(toMove)
   if #toMove == 0 then
     return
@@ -27,7 +26,7 @@ function addonTable.Transfers.AddToTrade(toMove)
   end
 
   if not moveAttempted then
-    UIErrorsFrame:AddMessage(addonTable.Locales.CANNOT_ADD_ANY_MORE_ITEMS_TO_THIS_TRADE, 1.0, 0.1, 0.1, 1.0)
+    UIErrorsFrame:AddMessage(BAGANATOR_L_CANNOT_ADD_ANY_MORE_ITEMS_TO_THIS_TRADE, 1.0, 0.1, 0.1, 1.0)
   end
 
   if missing then
