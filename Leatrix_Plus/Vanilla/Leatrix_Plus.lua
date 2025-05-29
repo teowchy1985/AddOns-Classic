@@ -1,5 +1,5 @@
 ﻿----------------------------------------------------------------------
--- 	Leatrix Plus 1.15.89 (14th May 2025)
+-- 	Leatrix Plus 1.15.85 (23rd April 2025)
 ----------------------------------------------------------------------
 
 --	01:Functions 02:Locks   03:Restart 40:Player   45:Rest
@@ -19,7 +19,7 @@
 	local void
 
 	-- Version
-	LeaPlusLC["AddonVer"] = "1.15.89"
+	LeaPlusLC["AddonVer"] = "1.15.85"
 
 	-- Get locale table
 	local void, Leatrix_Plus = ...
@@ -3283,7 +3283,6 @@
 			-- Hover over the durability button to show the durability tooltip
 			cButton:SetScript("OnEnter", function()
 				GameTooltip:SetOwner(cButton, "ANCHOR_RIGHT");
-				GameTooltip:SetMinimumWidth(0) -- Needed due to MoP mage reset specialisation and choose frost
 				ShowDuraStats("tip");
 			end)
 			cButton:SetScript("OnLeave", GameTooltip_Hide)
@@ -15238,24 +15237,6 @@
 			elseif str == "tags" then
 				-- Print open menu tags (such as dropdown menus)
 				Menu.PrintOpenMenuTags()
-				return
-			elseif str == "taintmap" then
-				-- TaintMap
-				if LeaPlusLC.TaintMap then
-					LeaPlusLC.TaintMap:Cancel()
-					LeaPlusLC.TaintMap = nil
-					LeaPlusLC:Print("TaintMap stopped.")
-					return
-				end
-				LeaPlusLC.TaintMap = C_Timer.NewTicker(1, function()
-					for k,v in pairs(WorldMapFrame) do
-						local ok, who = issecurevariable(WorldMapFrame, k)
-						if not ok then
-							print("Tainted:", k, "by", who or "unknown")
-						end
-					end
-				end)
-				LeaPlusLC:Print("TaintMap started.")
 				return
 			elseif str == "admin" then
 				-- Preset profile (used for testing)
