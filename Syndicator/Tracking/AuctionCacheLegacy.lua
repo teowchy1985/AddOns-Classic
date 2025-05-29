@@ -1,16 +1,20 @@
-SyndicatorAuctionCacheLegacyMixin = {}
+if not Syndicator.Constants.IsLegacyAH then
+  return
+end
+
+SyndicatorAuctionCacheMixin = {}
 
 local AUCTIONS_UPDATED_EVENTS = {
   "AUCTION_OWNED_LIST_UPDATE",
   "PLAYER_INTERACTION_MANAGER_FRAME_SHOW",
 }
 
-function SyndicatorAuctionCacheLegacyMixin:OnLoad()
+function SyndicatorAuctionCacheMixin:OnLoad()
   FrameUtil.RegisterFrameForEvents(self, AUCTIONS_UPDATED_EVENTS)
   self.currentCharacter = Syndicator.Utilities.GetCharacterFullName()
 end
 
-function SyndicatorAuctionCacheLegacyMixin:AddAuction(auctionInfo, itemLink)
+function SyndicatorAuctionCacheMixin:AddAuction(auctionInfo, itemLink)
   table.insert(
     SYNDICATOR_DATA.Characters[self.currentCharacter].auctions,
     {
@@ -25,7 +29,7 @@ function SyndicatorAuctionCacheLegacyMixin:AddAuction(auctionInfo, itemLink)
   Syndicator.CallbackRegistry:TriggerEvent("AuctionsCacheUpdate", self.currentCharacter)
 end
 
-function SyndicatorAuctionCacheLegacyMixin:OnEvent(eventName, ...)
+function SyndicatorAuctionCacheMixin:OnEvent(eventName, ...)
   if eventName == "PLAYER_INTERACTION_MANAGER_FRAME_SHOW" then
     local interactType = ...
     if interactType == Enum.PlayerInteractionType.Auctioneer then
