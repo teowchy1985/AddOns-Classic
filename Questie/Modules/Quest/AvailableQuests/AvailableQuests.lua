@@ -315,8 +315,7 @@ _DrawAvailableQuest = function(questId)
     end, 0)
 end
 
--- TODO: RawObject|RawNPC is not 100% correct, as it is the result from GetNPC and GetObject
----@param starter RawObject|RawNPC Either an object or an NPC from QuestieDB.
+---@param starter table Either an object or an NPC from QuestieDB.
 ---@param quest Quest A Quest from QuestieDB.
 ---@param tooltipKey string The tooltip key. For objects it's "o_<ID>", for NPCs it's "m_<ID>", for items it's "im_<ID>" or "io_<ID".
 ---@param limit number The number of icons left to draw before the limit set in AvailableQuests.DrawAvailableQuest is reached. Zero means no limit.
@@ -327,8 +326,7 @@ _AddStarter = function(starter, quest, tooltipKey, limit)
     end
 
     -- Need to know when this quest starts from an item, so we save it later
-    ---@type string|nil
-    local starterType
+    local starterType = nil
 
     if tooltipKey == "m_"..starter.id then
         -- filter hostile starters
