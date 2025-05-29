@@ -2,7 +2,7 @@ if Syndicator.Constants.IsLegacyAH then
   return
 end
 
-SyndicatorAuctionCacheModernMixin = {}
+SyndicatorAuctionCacheMixin = {}
 
 local AUCTIONS_UPDATED_EVENTS = {
   "PLAYER_INTERACTION_MANAGER_FRAME_SHOW",
@@ -68,7 +68,7 @@ local durationToTime = {
   [3] = 48 * 60 * 60,
 }
 
-function SyndicatorAuctionCacheModernMixin:OnLoad()
+function SyndicatorAuctionCacheMixin:OnLoad()
   FrameUtil.RegisterFrameForEvents(self, AUCTIONS_UPDATED_EVENTS)
   self.currentCharacter = Syndicator.Utilities.GetCharacterFullName()
 
@@ -90,7 +90,7 @@ function SyndicatorAuctionCacheModernMixin:OnLoad()
   end)
 
   hooksecurefunc(C_AuctionHouse, "PlaceBid", function(auctionID)
-    local auctionInfo = C_AuctionHouse.GetAuctionInfoByID(auctionID) --[[@as table]]
+    local auctionInfo = C_AuctionHouse.GetAuctionInfoByID(auctionID)
 
     if auctionInfo == nil then -- Already sold
       return
@@ -104,7 +104,7 @@ function SyndicatorAuctionCacheModernMixin:OnLoad()
     -- Ensure we have a perfect item link
     if not C_Item.IsItemDataCachedByID(auctionInfo.itemKey.itemID) then
       Syndicator.Utilities.LoadItemData(auctionInfo.itemKey.itemID, function()
-        auctionInfo = C_AuctionHouse.GetAuctionInfoByID(auctionID) --[[@as table]]
+        local auctionInfo = C_AuctionHouse.GetAuctionInfoByID(auctionID)
         if not auctionInfo then
           if self.purchasedItem.auctionInfo.itemLink then
             self.purchasedItem.auctionInfo.itemLink = select(2, C_Item.GetItemInfo(self.purchasedItem.auctionInfo.itemLink))
@@ -128,7 +128,7 @@ local function ConvertAuctionInfoToItem(auctionInfo, itemCount)
   local itemInfo = {C_Item.GetItemInfo(auctionInfo.itemLink or auctionInfo.itemKey.itemID)}
   local itemLink = auctionInfo.itemLink or itemInfo[2]
   local iconTexture = itemInfo[10]
-  local quality = itemInfo[3]
+  local quality = itemInfo[3] 
 
   if auctionInfo.itemKey.itemID == Syndicator.Constants.BattlePetCageID then
     local speciesIDText, qualityText = itemLink:match("battlepet:(%d+):%d+:(%d+)")
@@ -146,13 +146,13 @@ local function ConvertAuctionInfoToItem(auctionInfo, itemCount)
   }
 end
 
-function SyndicatorAuctionCacheModernMixin:AddToMail(item)
+function SyndicatorAuctionCacheMixin:AddToMail(item)
   item.expirationTime = time() + Syndicator.Constants.MailExpiryDuration
   table.insert(SYNDICATOR_DATA.Characters[self.currentCharacter].mail, item)
   Syndicator.CallbackRegistry:TriggerEvent("MailCacheUpdate", self.currentCharacter)
 end
 
-function SyndicatorAuctionCacheModernMixin:AddAuction(auctionInfo, itemCount)
+function SyndicatorAuctionCacheMixin:AddAuction(auctionInfo, itemCount)
   local item = ConvertAuctionInfoToItem(auctionInfo, itemCount)
   item.expirationTime = auctionInfo.timeLeftSeconds and (time() + auctionInfo.timeLeftSeconds) or nil
   item.auctionID = auctionInfo.auctionID
@@ -163,7 +163,7 @@ function SyndicatorAuctionCacheModernMixin:AddAuction(auctionInfo, itemCount)
   Syndicator.CallbackRegistry:TriggerEvent("AuctionsCacheUpdate", self.currentCharacter)
 end
 
-function SyndicatorAuctionCacheModernMixin:RemoveAuctionByID(auctionID, addToMail)
+function SyndicatorAuctionCacheMixin:RemoveAuctionByID(auctionID, addToMail)
   for index, item in ipairs(SYNDICATOR_DATA.Characters[self.currentCharacter].auctions) do
     if item.auctionID == auctionID then
       table.remove(SYNDICATOR_DATA.Characters[self.currentCharacter].auctions, index)
@@ -177,7 +177,7 @@ function SyndicatorAuctionCacheModernMixin:RemoveAuctionByID(auctionID, addToMai
   end
 end
 
-function SyndicatorAuctionCacheModernMixin:OnEvent(eventName, ...)
+function SyndicatorAuctionCacheMixin:OnEvent(eventName, ...)
   if eventName == "PLAYER_INTERACTION_MANAGER_FRAME_SHOW" then
     local interactType = ...
     if interactType == Enum.PlayerInteractionType.Auctioneer then
@@ -197,13 +197,13 @@ function SyndicatorAuctionCacheModernMixin:OnEvent(eventName, ...)
     -- the complete list
     SYNDICATOR_DATA.Characters[self.currentCharacter].auctions = {}
     for index = 1, C_AuctionHouse.GetNumOwnedAuctions() do
-      local auctionInfo = C_AuctionHouse.GetOwnedAuctionInfo(index) --[[@as OwnedAuctionInfo]]
+      local auctionInfo = C_AuctionHouse.GetOwnedAuctionInfo(index)
       if auctionInfo.status == Enum.AuctionStatus.Active then
         if C_Item.IsItemDataCachedByID(auctionInfo.itemKey.itemID) then
           self:AddAuction(auctionInfo, auctionInfo.quantity)
         else
           Syndicator.Utilities.LoadItemData(auctionInfo.itemKey.itemID, function()
-            auctionInfo = C_AuctionHouse.GetOwnedAuctionInfo(index) --[[@as OwnedAuctionInfo]]
+            local auctionInfo = C_AuctionHouse.GetOwnedAuctionInfo(index)
             if not auctionInfo then
               return
             end
@@ -234,7 +234,7 @@ function SyndicatorAuctionCacheModernMixin:OnEvent(eventName, ...)
     self:RemoveAuctionByID(auctionID, true)
 
   elseif eventName == "AUCTION_HOUSE_SHOW_FORMATTED_NOTIFICATION" then
-    local notification, _, auctionID = ...
+    local notification, text, auctionID = ...
     if notification == Enum.AuctionHouseNotification.AuctionSold or notification == Enum.AuctionHouseNotification.AuctionExpired then
       self:RemoveAuctionByID(auctionID, notification ~= Enum.AuctionHouseNotification.AuctionSold)
     end
@@ -249,7 +249,7 @@ function SyndicatorAuctionCacheModernMixin:OnEvent(eventName, ...)
   end
 end
 
-function SyndicatorAuctionCacheModernMixin:ProcessItemPurchase(auctionID)
+function SyndicatorAuctionCacheMixin:ProcessItemPurchase(auctionID)
   if not self.purchasedItem or not self.purchasedItem.auctionInfo or self.purchasedItem.auctionInfo.auctionID ~= auctionID then
     return
   end
@@ -271,7 +271,7 @@ function SyndicatorAuctionCacheModernMixin:ProcessItemPurchase(auctionID)
   self.purchasedItem = nil
 end
 
-function SyndicatorAuctionCacheModernMixin:ProcessCommodityPurchase()
+function SyndicatorAuctionCacheMixin:ProcessCommodityPurchase()
   if not self.purchasedCommodity and not self.purchasedCommodity.itemID then
     return
   end
@@ -304,7 +304,7 @@ function SyndicatorAuctionCacheModernMixin:ProcessCommodityPurchase()
   self.purchasedCommodity = nil
 end
 
-function SyndicatorAuctionCacheModernMixin:ProcessAuctionCreated(auctionID)
+function SyndicatorAuctionCacheMixin:ProcessAuctionCreated(auctionID)
   if self.postedCommodity then
     local itemCount = self.postedCommodity.itemCount
     local itemID = self.postedCommodity.itemID
@@ -350,7 +350,7 @@ function SyndicatorAuctionCacheModernMixin:ProcessAuctionCreated(auctionID)
   end
 end
 
-function SyndicatorAuctionCacheModernMixin:ClearAuctionPending()
+function SyndicatorAuctionCacheMixin:ClearAuctionPending()
   self.postedCommodity = nil
   self.lastPostedItem = nil
 end
