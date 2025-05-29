@@ -1,5 +1,4 @@
----@class addonTableBaganator
-local addonTable = select(2, ...)
+local _, addonTable = ...
 BaganatorCheckBoxMixin = {}
 function BaganatorCheckBoxMixin:OnLoad()
   if DoesTemplateExist("SettingsCheckBoxTemplate") then
@@ -100,7 +99,7 @@ function addonTable.CustomiseDialog.GetDraggable(callback, movedCallback)
     frame:Hide()
   end)
   frame:Hide()
-  frame.KeepMoving = function()
+  frame.KeepMoving = function(self)
     local uiScale = UIParent:GetEffectiveScale()
     local x, y = GetCursorPosition()
     frame:SetPoint("CENTER", UIParent, "BOTTOMLEFT", x / uiScale, y / uiScale)
@@ -126,7 +125,7 @@ function addonTable.CustomiseDialog.GetContainerForDragAndDrop(parent, callback)
       frame.initialized = true
       frame:SetNormalFontObject(GameFontHighlight)
       frame:SetHighlightAtlas("auctionhouse-ui-row-highlight")
-      frame:SetScript("OnClick", function(self)
+      frame:SetScript("OnClick", function(self, button)
         callback(self.value, self:GetText(), self.indexValue)
       end)
       frame.number = frame:CreateFontString(nil, "ARTWORK", "NumberFontNormal")
@@ -148,7 +147,7 @@ function addonTable.CustomiseDialog.GetContainerForDragAndDrop(parent, callback)
 end
 
 function addonTable.CustomiseDialog.GetMouseOverInContainer(c)
-  for _, f in c.ScrollBox:EnumerateFrames() do
+  for index, f in c.ScrollBox:EnumerateFrames() do
     if f:IsMouseOver() then
       return f, f:IsMouseOver(0, f:GetHeight()/2), f.indexValue
     end
@@ -159,7 +158,7 @@ BaganatorCustomSliderMixin = {}
 
 function BaganatorCustomSliderMixin:Init(details)
   Mixin(self, details)
-  self.callback = self.callback or function(_) end
+  self.callback = self.callback or function() end
 
   self.Slider:SetMinMaxValues(self.min, self.max)
   self.Label:SetText(self.text)
@@ -211,7 +210,7 @@ function addonTable.CustomiseDialog.GetDropdown(parent)
     end)
   end
   dropdown.disableSelectionText = true
-  dropdown.OnEntryClicked = function(_, _) end
+  dropdown.OnEntryClicked = function() end
   addonTable.Skins.AddFrame("Dropdown", dropdown)
   return dropdown
 end
@@ -241,11 +240,10 @@ function addonTable.CustomiseDialog.GetBasicDropdown(parent)
       addonTable.Config.Set(option.option, value)
     end, unpack(entries))
   end
-  frame.SetValue = function(_, _)
+  frame.SetValue = function(_, value)
     dropdown:GenerateMenu()
     -- don't need to do anything as dropdown's onshow handles this
   end
-  frame.Label = label
   frame.DropDown = dropdown
   frame:SetHeight(40)
   addonTable.Skins.AddFrame("Dropdown", frame.DropDown)
