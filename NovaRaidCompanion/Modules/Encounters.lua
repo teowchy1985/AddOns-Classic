@@ -964,12 +964,11 @@ function NRC:getMetaGem()
 					local tooltipScanner = NRC:getTooltipScanner();
 					tooltipScanner:SetHyperlink(gemLink);
 					local gemEffect;
-					for line = 2, 5 do
+					for line = 2, 4 do
 						local lineText = _G[tooltipScanner:GetName() .. "TextLeft".. line] and _G[tooltipScanner:GetName() .. "TextLeft".. line]:GetText();
 						if (lineText and lineText ~= ITEM_BIND_ON_PICKUP and lineText ~= ITEM_UNIQUE_EQUIPPABLE
 								 and lineText ~= ITEM_QUALITY2_DESC and lineText ~= ITEM_QUALITY3_DESC and lineText ~= ITEM_QUALITY4_DESC
-								 and not strfind(lineText, string.gsub(ITEM_RACES_ALLOWED, "%%s", ""))
-								 and (not SOCKETING_ITEM_MIN_LEVEL_I or not strfind(lineText, string.gsub(SOCKETING_ITEM_MIN_LEVEL_I, "%%s", "")))) then
+								 and not strfind(lineText, string.gsub(ITEM_RACES_ALLOWED, "%%s", ""))) then
 							gemEffect = lineText;
 							break;
 						end
@@ -983,7 +982,7 @@ function NRC:getMetaGem()
 								--Very rare no text but it does happen, just act like it was active.
 								return "", "", 0, true
 							end --ITEM_REQ_SKILL = Requires %s (hopefully works in all languages?).
-							--Spoiler alert, it didn't work for all languages. --Benötigt %1$s
+							--Spoiler alert, it didn't work for all laguages. --Benötigt %1$s
 							--Easier just to match the first word "Requires" than deal with the different captures in other languages I think.
 							--And oh boy we can't even match the first word becaus lua won't match accented letters as a word, so match to first space instead.
 							--I suck at string matching and languages are hard ok.
